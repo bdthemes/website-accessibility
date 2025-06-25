@@ -1,0 +1,91 @@
+.wap-widget-features {
+  background: #f5f7fa;
+  border-radius: 18px;
+  box-shadow: none;
+  border: none;
+  padding: 24px;
+  max-width: 1000px;
+  margin-left: auto;
+  margin-right: auto;
+  margin-bottom: 32px;
+  .ant-card-body {
+    padding: 0;
+  }
+
+  &__row {
+    padding: 0 0 24px 0;
+    border-bottom: 2px solid #e5e8ef;
+    align-items: center;
+  }
+
+  &__badge {
+    margin-right: 12px;
+    font-size: 22px;
+    font-weight: 700;
+    color: #1a4cd8;
+    vertical-align: middle;
+  }
+
+  &__label {
+    font-size: 20px;
+    font-weight: 600;
+    color: #222;
+    vertical-align: middle;
+  }
+
+  &__grid {
+    min-height: 100px;
+  }
+
+  &__feature-btn {
+    background: #fff;
+    border-radius: 16px;
+    box-shadow: 0 2px 8px rgba(30, 42, 80, 0.04);
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    min-height: 120px;
+    height: 100%;
+    cursor: pointer;
+    transition: box-shadow 0.2s;
+    border: 2px solid transparent;
+    font-size: 18px;
+    font-weight: 600;
+    color: #111;
+    text-align: center;
+    &:hover {
+      box-shadow: 0 4px 16px rgba(30, 42, 80, 0.10);
+      border-color: #1a4cd8;
+    }
+  }
+
+  &__feature-icon {
+    display: block;
+    margin-bottom: 12px;
+    svg {
+      display: block;
+      margin: 0 auto;
+      width: 36px;
+      height: 36px;
+    }
+  }
+}
+
+// Responsive grid
+@media (max-width: 991px) {
+  .wap-widget-features__grid .ant-col {
+    flex: 0 0 50%;
+    max-width: 50%;
+  }
+}
+@media (max-width: 575px) {
+  .wap-widget-features__grid .ant-col {
+    flex: 0 0 100%;
+    max-width: 100%;
+  }
+  .wap-widget-features {
+    padding-left: 12px;
+    padding-right: 12px;
+  }
+} 

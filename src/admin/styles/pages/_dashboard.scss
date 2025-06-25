@@ -1,0 +1,74 @@
+@use 'sass:map';
+@use '../variables' as vars;
+@use '../mixins' as mix;
+
+.wap-dashboard {
+  padding: 24px;
+  background: #f5f6fa;
+  min-height: 100vh;
+
+  // Welcome section
+  .wap-welcome-card {
+    background: linear-gradient(135deg, #1677ff 0%, #135e96 100%);
+    color: #fff;
+    border: none;
+    border-radius: 12px;
+    margin-bottom: 32px;
+
+    .ant-card-body {
+      color: #fff;
+      text-align: center;
+      padding: 48px;
+    }
+    .ant-btn {
+      font-weight: 600;
+      margin-top: 32px;
+    }
+  }
+
+  // Statistics section
+  .statistics-grid {
+    margin-bottom: 32px;
+    .ant-col {
+      height: 100%;
+    }
+    .ant-card {
+      height: 100%;
+      display: flex;
+      flex-direction: column;
+      justify-content: stretch;
+      border-radius: 12px;
+      .ant-card-body {
+        display: flex;
+        flex-direction: column;
+        flex: 1;
+      }
+    }
+  }
+
+  // Quick actions
+  .quick-actions {
+    .ant-card {
+      margin-bottom: 0;
+    }
+    .ant-btn {
+      width: 100%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+    .quick-action-btn-wrapper {
+      display: grid;
+      place-items: center;
+      width: 100%;
+    }
+  }
+
+  // WordPress icon adjustments
+  .dashicon {
+    inline-size: 1.5rem;
+    block-size: 1.5rem;
+    font-size: 1.5rem;
+    vertical-align: middle;
+  }
+} 

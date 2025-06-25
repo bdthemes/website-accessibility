@@ -1,0 +1,29 @@
+{
+    "name": "bdthemes/website-accessibility",
+    "description": "Website Accessibility Pro is a WordPress plugin that enhances website accessibility and ensures WCAG compliance.",
+    "keywords": [
+        "wordpress",
+        "plugin",
+        "website-accessibility",
+        "accessibility",
+        "wcag",
+        "ada-compliance",
+        "screen-reader",
+        "keyboard-navigation",
+        "aria-labels"
+    ],
+    "type": "wordpress-plugin",
+    "license": "GPL-2.0-or-later",
+    "autoload": {
+        "psr-4": {
+            "WebsiteAccessibilityPro\\": "includes/"
+        }
+    },
+    "authors": [
+        {
+            "name": "bdthemes"
+        }
+    ],
+    "minimum-stability": "dev",
+    "require": {}
+}

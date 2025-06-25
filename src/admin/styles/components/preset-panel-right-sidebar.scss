@@ -1,0 +1,28 @@
+.wap-panel-right-sidebar {
+  width: 220px;
+  background: #fff;
+  border-left: 1px solid #e5e7eb;
+  height: 100%;
+  padding: 24px;
+
+  &__control {
+    margin-bottom: 16px;
+    label {
+      display: block;
+      margin-bottom: 4px;
+    }
+    .wap-panel-right-sidebar__color-input {
+      width: 48px;
+      height: 32px;
+      padding: 0;
+      border: none;
+      background: none;
+    }
+    .wap-panel-right-sidebar__margin-left {
+      margin-left: 12px;
+    }
+    .wap-panel-right-sidebar__full-width {
+      width: 100%;
+    }
+  }
+} 

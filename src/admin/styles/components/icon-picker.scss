@@ -1,0 +1,10 @@
+.wap-icon-picker-item {
+    gap: 0.5em;
+    align-items: center;
+    display: flex;
+
+    >svg {
+        width: 1em;
+        height: 1em;
+    }
+}

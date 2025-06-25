@@ -1,0 +1,32 @@
+@use 'sass:map';
+@use 'variables' as vars;
+@use 'mixins' as mix;
+@use 'components/preset-button-style';
+@use 'components/post-table';
+@use 'components/preset-get-started';
+@use 'components/control-wrapper';
+@use 'components/widget-features';
+@use 'components/panel-header';
+
+// Pages
+@use 'pages/dashboard';
+@use 'pages/presets';
+@use 'pages/profiles';
+@use 'pages/create-preset';
+@use 'pages/create-profiles';
+
+@use 'components/preset-panel-left-sidebar';
+@use 'components/preset-panel-right-sidebar';
+@use 'components/preset-panel-customization';
+@use 'components/preset-quick-edit';
+@use 'components/icon-picker';
+@use 'components/language-selector';
+@use 'components/accessibility-profiles';
+
+// Global admin styles
+.wap-admin {
+  .wrap {
+    margin: 0;
+    padding-top: map.get(vars.$spacing, 'lg');
+  }
+} 

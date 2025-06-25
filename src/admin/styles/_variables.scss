@@ -1,0 +1,75 @@
+// CSS Custom Properties (for runtime flexibility)
+:root {
+  --wap-primary: #2271b1;
+  --wap-primary-dark: #135e96;
+  --wap-text: #1d2327;
+  --wap-text-light: #666;
+  --wap-white: #fff;
+  
+  // Spacing
+  --wap-spacing-xs: 0.25rem;  // 4px
+  --wap-spacing-sm: 0.5rem;   // 8px
+  --wap-spacing-md: 1rem;     // 16px
+  --wap-spacing-lg: 1.5rem;   // 24px
+  --wap-spacing-xl: 2rem;     // 32px
+  
+  // Border radius
+  --wap-radius-sm: 0.25rem;   // 4px
+  --wap-radius-md: 0.5rem;    // 8px
+  
+  // Shadows
+  --wap-shadow-sm: 0 2px 4px rgb(0 0 0 / 0.1);
+  --wap-shadow-md: 0 4px 8px rgb(0 0 0 / 0.1);
+}
+
+// SCSS Variables (for compile-time use)
+$primary: var(--wap-primary);
+$primary-dark: var(--wap-primary-dark);
+$text: var(--wap-text);
+$text-light: var(--wap-text-light);
+$white: var(--wap-white);
+
+// Spacing
+$spacing: (
+  'xs': var(--wap-spacing-xs),
+  'sm': var(--wap-spacing-sm),
+  'md': var(--wap-spacing-md),
+  'lg': var(--wap-spacing-lg),
+  'xl': var(--wap-spacing-xl)
+);
+
+// Breakpoints (using modern viewport units)
+$breakpoints: (
+  'sm': 36em,    // 576px
+  'md': 48em,    // 768px
+  'lg': 62em,    // 992px
+  'xl': 75em     // 1200px
+);
+
+// Border radius
+$radius: (
+  'sm': var(--wap-radius-sm),
+  'md': var(--wap-radius-md)
+);
+
+// Shadows
+$shadows: (
+  'sm': var(--wap-shadow-sm),
+  'md': var(--wap-shadow-md)
+);
+
+// Z-index layers
+$z-layers: (
+  'modal': 1000,
+  'overlay': 900,
+  'dropdown': 800,
+  'header': 700,
+  'footer': 600
+);
+
+// Transitions
+$transitions: (
+  'fast': 150ms ease,
+  'normal': 250ms ease,
+  'slow': 350ms ease
+); 

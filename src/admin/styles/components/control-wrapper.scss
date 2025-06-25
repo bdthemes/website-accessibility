@@ -1,0 +1,14 @@
+.wap-control-wrapper {
+    &:not(:last-child) {
+        margin-bottom: 16px;
+    }
+
+    h5.ant-typography {
+        margin-top: 0;
+        font-weight: 500;
+    }
+
+    .ant-select {
+        width: 100%;
+    }
+}

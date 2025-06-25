@@ -1,0 +1,31 @@
+.wap-panel-customization {
+  display: flex;
+  flex-direction: row;
+
+  &__left {
+    flex: 0.3;
+  }
+
+  &__center-row {
+    min-height: 600px;
+    display: flex;
+    justify-content: center;
+    flex: 1;
+  }
+
+  &__side-spacer {
+    width: 60px;
+    background: transparent;
+  }
+
+  &__panel {
+    width: var(--panel-width, 600px);
+    background: var(--panel-background, #f7f9fa);
+    border: var(--panel-border, 1px solid #e5e7eb);
+    border-radius: var(--panel-border-radius, 16px);
+    box-shadow: var(--panel-box-shadow, 0 4px 24px rgba(0,0,0,0.08));
+    overflow: hidden;
+    font-family: inherit;
+    padding: var(--panel-padding);
+  }
+} 

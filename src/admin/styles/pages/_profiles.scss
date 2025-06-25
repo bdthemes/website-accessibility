@@ -1,0 +1,56 @@
+@use 'sass:map';
+@use '../variables' as vars;
+@use '../mixins' as mix;
+
+.wap-profiles {
+  @include mix.container;
+  background: #f5f6fa;
+  min-height: 100vh;
+  padding: 32px;
+
+  > .ant-card {
+    margin: 0 auto;
+    border-radius: 12px;
+  }
+
+  // Profile grid
+  .profile-grid {
+    @include mix.grid(3);
+    margin-block-end: map.get(vars.$spacing, 'xl');
+
+    @include mix.respond-to('md') {
+      @include mix.grid(2);
+    }
+
+    @include mix.respond-to('sm') {
+      @include mix.grid(1);
+    }
+
+    .ant-card {
+      @include mix.card;
+      @include mix.focus-ring;
+
+      .ant-card-meta-title {
+        color: vars.$text;
+        font-weight: 500;
+      }
+
+      .ant-card-meta-description {
+        color: vars.$text-light;
+      }
+    }
+  }
+
+  // Profile form
+  .profile-form {
+    @include mix.card;
+
+    .ant-form-item {
+      margin-block-end: map.get(vars.$spacing, 'lg');
+    }
+
+    .ant-upload-list {
+      margin-block-start: map.get(vars.$spacing, 'md');
+    }
+  }
+} 

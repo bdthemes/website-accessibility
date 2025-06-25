@@ -1,0 +1,142 @@
+import { Card, Button, Row, Col, Typography, Dropdown } from 'antd';
+import { PlusOutlined } from '@ant-design/icons';
+import { __ } from '@wordpress/i18n';
+import PostTable from '../components/post-table';
+import { useHistory } from '../router';
+import { useSelect, useDispatch } from '@wordpress/data';
+import { STORE_NAME } from '../store';
+
+const { Title } = Typography;
+
+const Profiles = () => {
+  const history = useHistory();
+  const profiles = useSelect((select) => select(STORE_NAME).getProfiles());
+  const { deleteProfile } = useDispatch(STORE_NAME);
+
+  const handleCreateProfile = () => {
+    history.push({
+      page: 'website-accessibilityfiles-create'
+    });
+  };
+
+  const handleRowAction = async (action, record) => {
+    switch (action) {
+      case 'edit':
+        history.push({
+          page: 'website-accessibilityfiles-edit',
+          id: record?.id,
+        });
+        break;
+      case 'trash':
+        try {
+          await deleteProfile(record.id);
+        } catch (error) {
+          console.error('Failed to delete profile:', error);
+        }
+        break;
+      default:
+        break;
+    }
+  };
+
+  const handleBulkAction = async (action, selectedIds) => {
+    switch (action) {
+      case 'trash':
+        try {
+          for (const id of selectedIds) {
+            await deleteProfile(id);
+          }
+        } catch (error) {
+          console.error('Failed to delete profiles:', error);
+        }
+        break;
+      default:
+        break;
+    }
+  };
+
+  // Transform profiles data for the table
+  const tableData = profiles?.map(profile => ({
+    id: profile.id,
+    name: profile.title?.rendered || profile.title || 'Untitled Profile',
+    created: profile.date ? new Date(profile.date).toLocaleDateString() : 'N/A',
+  })) || [];
+
+  const columns = [
+    { 
+      title: __('Name', 'website-accessibility'), 
+      dataIndex: 'name', 
+      key: 'name',
+      render: (text, record) => (
+        <div>
+          <div style={{ fontWeight: 500 }}>{text}</div>
+          {record.description && (
+            <div style={{ fontSize: '12px', color: '#666', marginTop: '4px' }}>
+              {record.description.replace(/<[^>]*>/g, '').substring(0, 100)}
+              {record.description.length > 100 ? '...' : ''}
+            </div>
+          )}
+        </div>
+      )
+    },
+    { 
+      title: __('Created', 'website-accessibility'), 
+      dataIndex: 'created', 
+      key: 'created'
+    },
+    {
+      title: __('Actions', 'website-accessibility'),
+      key: 'actions',
+      render: (_, record) => (
+        <Dropdown
+          menu={{
+            items: [
+              { key: 'edit', label: 'Edit', onClick: () => handleRowAction('edit', record) },
+              { key: 'trash', label: 'Trash', onClick: () => handleRowAction('trash', record) },
+            ]
+          }}
+          trigger={['click']}
+        >
+          <Button icon={<span className="dashicons dashicons-ellipsis" />} />
+        </Dropdown>
+      ),
+    }
+  ];
+
+  return (
+    <div className="wap-profiles">
+      <Card
+        title={
+          <Row align="middle" justify="space-between">
+            <Col>
+              <Title level={4}>
+                {__('User Accessibility Profiles', 'website-accessibility')}
+              </Title>
+            </Col>
+            <Col>
+              <Button 
+                type="primary" 
+                icon={<PlusOutlined />}
+                onClick={handleCreateProfile}
+              >
+                {__('Add New Profile', 'website-accessibility')}
+              </Button>
+            </Col>
+          </Row>
+        }
+      >
+        <div>
+          <PostTable 
+            columns={columns} 
+            data={tableData} 
+            onRowAction={handleRowAction}
+            onBulkAction={handleBulkAction}
+            loading={!profiles}
+          />
+        </div>
+      </Card>
+    </div>
+  );
+};
+
+export default Profiles; 
