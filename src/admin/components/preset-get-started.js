@@ -24,7 +24,7 @@ const GetStartedPreset = () => {
                     value={presetsFormData?.preset?.condition} 
                 />
             </ControlWrapper>
-            <ControlWrapper label={__('Active', 'website-accessibility')} required>
+            <ControlWrapper label={__('Active', 'website-accessibility')}>
                 <Switch 
                     checked={presetsFormData?.preset?.active} 
                     onChange={(value) => setPresetsFormData({ ...presetsFormData, preset: { ...presetsFormData.preset, active: value } })} 

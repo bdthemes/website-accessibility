@@ -10,7 +10,7 @@ import clsx from 'clsx';
 
 const ContentTab = ({ button, handleButtonChange }) => (
     <>
-        <ControlWrapper label={__('Button Text', 'website-accessibility')} required>
+        <ControlWrapper label={__('Button Text', 'website-accessibility')}>
             <Input 
                 value={button.text || ''}
                 onChange={(e) => handleButtonChange('text', e.target.value)}
