@@ -1,16 +1,12 @@
 .wap-panel-customization {
   display: flex;
   flex-direction: row;
-
-  &__left {
-    flex: 0.3;
-  }
-
   &__center-row {
     min-height: 600px;
     display: flex;
     justify-content: center;
     flex: 1;
+    padding: 20px 0;
   }
 
   &__side-spacer {
@@ -27,5 +23,6 @@
     overflow: hidden;
     font-family: inherit;
     padding: var(--panel-padding);
+    margin: auto;
   }
 } 

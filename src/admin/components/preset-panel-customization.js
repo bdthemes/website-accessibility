@@ -5,7 +5,7 @@ import PreviewContent from "./preview-content";
 
 const PanelCustomizationPreset = () => {
     return (
-        <Card>
+        <Card className="wap-panel-customization-card">
             <div className="wap-panel-customization">
                 <div className="wap-panel-customization__left">
                     <PresetPanelLeftSidebar />
@@ -17,7 +17,7 @@ const PanelCustomizationPreset = () => {
                     </div>
                     <div className="wap-panel-customization__side-spacer" />
                 </div>
-                <div className="wap-panel-customization__left">
+                <div className="wap-panel-customization__right">
                     <PresetPanelRightSidebar />
                 </div>
             </div>

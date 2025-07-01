@@ -1,4 +1,4 @@
-import { Card, Button, Row, Col, Typography, Tag } from 'antd';
+import { Card, Button, Row, Col, Typography, Tag, Space } from 'antd';
 import { PlusOutlined } from '@ant-design/icons';
 import { __ } from '@wordpress/i18n';
 import PostTable from '../components/post-table';
@@ -85,61 +85,57 @@ const Presets = () => {
 
   return (
     <div className="wap-presets">
-      <Card
-        title={
-          <Row align="middle" justify="space-between">
-            <Col>
-              <Title level={4}>
+        <Card className='wap-header-card'>
+              <Title level={2} className='wap-header-card-title'>
                 {__('Accessibility Presets', 'website-accessibility')}
               </Title>
-            </Col>
-            <Col>
-              <Button type="primary" icon={<PlusOutlined />} onClick={() => navigate('website-accessibility-presets-create')}>
-                {__('Add New Preset', 'website-accessibility')}
+              <Button type="primary" onClick={() => navigate('website-accessibility-presets-create')}>
+                <Space>
+                  <span className="dashicons dashicons-plus-alt2"/>
+                  {__('Add New Preset', 'website-accessibility')}
+                </Space>
+                  
               </Button>
-            </Col>
-          </Row>
-        }
-        style={{ padding: 0 }}
-      >
-        <div>
-          <PostTable
-            columns={columns}
-            data={data}
-            onSearch={(value) => {
-              setPresetFilters({
-                search: value,
-              });
-            }}
-            loading={isResolving || isDeleting}
-            onRowAction={(action, record) => {
-              switch(action){
-                case 'quick_edit':
-                  handleQuickEdit(record);
-                  break;
-                case 'trash':
-                  deletePreset(record.id);
-                  break;
-                case 'edit':
-                  handleEdit(record);
-                  break;
-                case 'view':
-                  handlePreview(record);
-                  break;
-              }
-            }}
-            onBulkAction={(action, selectedRowKeys) => {
-              switch(action){
-                case 'trash':
-                  selectedRowKeys.forEach((id) => {
-                    deletePreset(id);
-                  });
-                  break;
-              }
-            }}
-          />
-        </div>
-      </Card>
+        </Card>
+        <Card>
+          <div>
+            <PostTable
+              columns={columns}
+              data={data}
+              onSearch={(value) => {
+                setPresetFilters({
+                  search: value,
+                });
+              }}
+              loading={isResolving || isDeleting}
+              onRowAction={(action, record) => {
+                switch(action){
+                  case 'quick_edit':
+                    handleQuickEdit(record);
+                    break;
+                  case 'trash':
+                    deletePreset(record.id);
+                    break;
+                  case 'edit':
+                    handleEdit(record);
+                    break;
+                  case 'view':
+                    handlePreview(record);
+                    break;
+                }
+              }}
+              onBulkAction={(action, selectedRowKeys) => {
+                switch(action){
+                  case 'trash':
+                    selectedRowKeys.forEach((id) => {
+                      deletePreset(id);
+                    });
+                    break;
+                }
+              }}
+            />
+          </div>
+        </Card>
 
       <PresetQuickEdit
         visible={drawerVisible}

@@ -69,23 +69,26 @@ const EditProfile = () => {
 
     return (
         <div className="wap-edit-profile">
-            <Card>
-                <div style={{ marginBottom: 24 }}>
-                    <Button
-                        icon={<ArrowLeftOutlined />}
-                        onClick={handleBack}
-                        style={{ marginBottom: 16 }}
-                    >
-                        {__('Back to Profiles', 'website-accessibility')}
-                    </Button>
+                <Card className='wap-header-card'>
+                    <div className='wap-header-card-content'>
+                        <Title level={2} className='wap-header-card-title'>
+                            {__('Edit Profile', 'website-accessibility')}
+                        </Title>
+                        <Text type="secondary" className='wap-header-card-description'>
+                            {__('Update the details of this accessibility profile.', 'website-accessibility')}
+                        </Text>
+                    </div>
 
-                    <Title level={2}>
-                        {__('Edit Profile', 'website-accessibility')}
-                    </Title>
-                    <Text type="secondary">
-                        {__('Update the details of this accessibility profile.', 'website-accessibility')}
-                    </Text>
-                </div>
+                    <Button
+                        type="primary"
+                        onClick={handleBack}
+                    >
+                        <Space>
+                            <span className="dashicons dashicons-arrow-left-alt"/>
+                            {__('Back to Profiles', 'website-accessibility')}
+                        </Space>
+                    </Button>
+                </Card>
 
                 <ProfileForm
                     formData={profilesFormData}
@@ -95,19 +98,23 @@ const EditProfile = () => {
                 <div style={{ marginTop: 24, textAlign: 'right' }}>
                     <Space>
                         <Button onClick={handleBack}>
-                            {__('Cancel', 'website-accessibility')}
+                            <Space>
+                                <span className='dashicons dashicons-dismiss' />
+                                {__('Cancel', 'website-accessibility')}
+                            </Space>
                         </Button>
                         <Button
                             type="primary"
-                            icon={<SaveOutlined />}
                             onClick={handleUpdate}
                             disabled={!profilesFormData?.name?.trim()}
                         >
-                            {__('Update Profile', 'website-accessibility')}
+                            <Space>
+                                {__('Update Profile', 'website-accessibility')}
+                                <span className='dashicons dashicons-arrow-right-alt' />
+                            </Space>
                         </Button>
                     </Space>
                 </div>
-            </Card>
         </div>
     );
 };

@@ -269,7 +269,7 @@ const ProfileForm = ({ formData, onFormChange }) => {
     return (
         <Row gutter={[24, 24]}>
             <Col xs={24} lg={8}>
-                <Card title={__('Profile Information', 'website-accessibility')}>
+                <Card className='wap-profile-form-left-card' title={__('Profile Information', 'website-accessibility')}>
                     <Space direction="vertical" style={{ width: '100%' }} size="large">
                         <ControlWrapper
                             label={__('Profile Name', 'website-accessibility')}

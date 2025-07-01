@@ -3,16 +3,6 @@
 @use '../mixins' as mix;
 
 .wap-profiles {
-  @include mix.container;
-  background: #f5f6fa;
-  min-height: 100vh;
-  padding: 32px;
-
-  > .ant-card {
-    margin: 0 auto;
-    border-radius: 12px;
-  }
-
   // Profile grid
   .profile-grid {
     @include mix.grid(3);
@@ -53,4 +43,10 @@
       margin-block-start: map.get(vars.$spacing, 'md');
     }
   }
+
+
 } 
+
+.wap-profile-form-left-card {
+  height: 100%;
+}

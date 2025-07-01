@@ -3,7 +3,8 @@ import {
   Card,
   Button,
   Steps,
-  Space
+  Space,
+  Typography,
 } from 'antd';
 import { SaveOutlined, ArrowLeftOutlined } from '@ant-design/icons';
 import { __ } from '@wordpress/i18n';
@@ -19,6 +20,7 @@ const EditPreset = () => {
   const location = useLocation();
   const id = location?.params?.id;
   const page = location?.params?.page;
+  const { Title } = Typography;
   
   const handleBack = () => {
     history.push({ page: 'website-accessibility-presets' });
@@ -78,34 +80,42 @@ const EditPreset = () => {
 
   return (
     <div className="wap-preset-editor">
-      <Card>
-        <div style={{ marginBottom: 24 }}>
+      <Card className='wap-header-card'>
+
+          <Title level={2} className='wap-header-card-title'>
+            {__('Edit Preset', 'website-accessibility')}
+          </Title>
           <Button
-            icon={<ArrowLeftOutlined />}
+            type="primary"
             onClick={handleBack}
-            style={{ marginBottom: 16 }}
           >
-            {__('Back to Presets', 'website-accessibility')}
+            <Space>
+              <span className='dashicons dashicons-arrow-left-alt' />
+              {__('Back to Presets', 'website-accessibility')}
+            </Space>
           </Button>
-        </div>
-        <Steps
+
+      </Card>
+
+      <Steps
           current={current}
           size="small"
           className="wap-preset-steps"
+          style={{ padding: '24px 0', marginBottom: 24 }}
           items={steps.map((step) => ({ title: step.title }))}
         />
-      </Card>
 
-      <Card className="wap-preset-form-card">
         <StepContent />
-      </Card>
 
-      <Card className="wap-preset-form-actions-card">
+      <Card className="wap-preset-form-actions-card" style={{ marginTop: 24 }}>
         <div className="wap-preset-form-actions">
           <Space>
             {current > 0 && (
               <Button onClick={prev} htmlType='button'>
-                {__('Previous', 'website-accessibility')}
+                <Space>
+                  <span className='dashicons dashicons-arrow-left-alt' />
+                  {__('Previous', 'website-accessibility')}
+                </Space>
               </Button>
             )}
             {current < steps.length - 1 && (
@@ -115,7 +125,10 @@ const EditPreset = () => {
                 htmlType='button' 
                 disabled={current === 0 && !presetsFormData?.title}
               >
-                {__('Next', 'website-accessibility')}
+                <Space>
+                  {__('Next', 'website-accessibility')}
+                  <span className='dashicons dashicons-arrow-right-alt' />
+                </Space>
               </Button>
             )}
             {current === steps.length - 1 && (
@@ -123,7 +136,10 @@ const EditPreset = () => {
                 type="primary" 
                 onClick={handleSave}
               >
-                {__('Update Preset', 'website-accessibility')}
+                <Space>
+                  {__('Update Preset', 'website-accessibility')}
+                  <span className='dashicons dashicons-arrow-right-alt' />
+                </Space>
               </Button>
             )}
           </Space>

@@ -33,23 +33,26 @@ const CreateProfiles = () => {
 
     return (
         <div className="wap-create-profiles">
-            <Card>
-                <div style={{ marginBottom: 24 }}>
+
+                 <Card className='wap-header-card'>
+                    <div className='wap-header-card-content'>
+                        <Title level={2} className='wap-header-card-title'>
+                            {__('Create New Profile', 'website-accessibility')}
+                        </Title>
+                        <Text type="secondary" className='wap-header-card-description'>
+                            {__('Create a custom accessibility profile with specific settings for different user needs.', 'website-accessibility')}
+                        </Text>
+                    </div>
                     <Button 
-                        icon={<ArrowLeftOutlined />} 
+                        type="primary"
                         onClick={handleBack}
-                        style={{ marginBottom: 16 }}
                     >
-                        {__('Back to Profiles', 'website-accessibility')}
+                        <Space>
+                            <span className='dashicons dashicons-arrow-left-alt' />
+                            {__('Back to Profiles', 'website-accessibility')}
+                        </Space>
                     </Button>
-                    
-                    <Title level={2}>
-                        {__('Create New Profile', 'website-accessibility')}
-                    </Title>
-                    <Text type="secondary">
-                        {__('Create a custom accessibility profile with specific settings for different user needs.', 'website-accessibility')}
-                    </Text>
-                </div>
+                </Card>
 
                 <ProfileForm 
                     formData={profilesFormData}
@@ -59,19 +62,23 @@ const CreateProfiles = () => {
                 <div style={{ marginTop: 24, textAlign: 'right' }}>
                     <Space>
                         <Button onClick={handleBack}>
-                            {__('Cancel', 'website-accessibility')}
+                            <Space>
+                                <span className='dashicons dashicons-dismiss' />
+                                {__('Cancel', 'website-accessibility')}
+                            </Space>
                         </Button>
                         <Button 
                             type="primary" 
-                            icon={<SaveOutlined />}
                             onClick={handleSave}
                             disabled={!profilesFormData.name?.trim()}
                         >
-                            {__('Create Profile', 'website-accessibility')}
+                            <Space> 
+                                {__('Create Profile', 'website-accessibility')}
+                                <span className='dashicons dashicons-arrow-right-alt' />
+                            </Space>
                         </Button>
                     </Space>
                 </div>
-            </Card>
         </div>
     );
 };
