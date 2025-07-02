@@ -10,12 +10,17 @@ const PanelCustomizationPreset = () => {
                 <div className="wap-panel-customization__left">
                     <PresetPanelLeftSidebar />
                 </div>
-                <div className="wap-panel-customization__center-row">
-                    <div className="wap-panel-customization__side-spacer" />
-                    <div className="wap-panel-customization__center">
+                <div className="wap-panel-customization__center-row" style={{ position: 'relative' }}>
+                    <div className="wap-button-style-preset__preview-wrapper-bg">
+                        <span></span>
+                        <span></span>
+                        <span></span>
+                    </div>
+                    {/* <div className="wap-panel-customization__side-spacer" /> */}
+                    <div className="wap-panel-customization__center" style={{ marginTop: '40px' }}>
                         <PreviewContent />
                     </div>
-                    <div className="wap-panel-customization__side-spacer" />
+                    {/* <div className="wap-panel-customization__side-spacer" /> */}
                 </div>
                 <div className="wap-panel-customization__right">
                     <PresetPanelRightSidebar />

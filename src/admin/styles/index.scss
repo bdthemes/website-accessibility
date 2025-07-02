@@ -38,6 +38,7 @@
   max-width: 1200px;
   margin: auto;
   border-radius: 6px;
+  position: relative;
     // ant primary button
     .ant-btn {
       font-weight: 600;
@@ -92,6 +93,16 @@
         color: #dee5ee;
         display: block;
       }
+
+      .ant-btn {
+        background: rgba(255, 255, 255, 0.11);
+        backdrop-filter: blur(10px);
+        border: 1px solid rgba(255, 255, 255, 0.11);
+          &:hover {
+            background: rgba(255, 255, 255, 0.188);
+            border: 1px solid rgba(255, 255, 255, 0.11);
+          }
+      }
     }
 
     .wap-section-title {
@@ -114,6 +125,18 @@
         min-height: unset;
         border: 0;
       }
+      .ant-input-affix-wrapper {
+        padding: 8px 12px;
+        input {
+          border: 0 !important;
+          &:focus,
+          &:hover {
+            border: 0 !important;
+            box-shadow: none !important;
+          }
+        }
+  
+      }
     }
 
     .wap-preset-form-actions-card {
@@ -121,6 +144,8 @@
         background: #f7f9fa;
       }
     }
+
+
 }
 
 .ant-drawer,
@@ -160,3 +185,40 @@
     height: 40px;
   } 
 }
+
+
+// browser preview styles
+
+.wap-button-style-preset__preview-wrapper-bg {
+  position: absolute;
+  top: 0;
+  right: 0;
+  left: 0;
+  background: #e6f4ff;
+  height: 44px;
+  display: flex;
+  align-items: center;
+  gap: 5px;
+  padding: 0 20px;
+  border-top-left-radius: 10px;
+  border-top-right-radius: 10px;
+}
+
+.wap-button-style-preset__preview-wrapper-bg {
+  span {
+    width: 12px;
+    height: 12px;
+    display: block;
+    border-radius: 50%;
+
+    &:nth-child(1) {
+      background: #ff5f57;
+    }
+    &:nth-child(2) {
+      background: #febc2e;
+    }
+    &:nth-child(3) {
+      background: #28c840;
+    }
+  }
+} 

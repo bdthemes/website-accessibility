@@ -109,6 +109,11 @@ const ButtonStylePreset = () => {
                     <Tabs defaultActiveKey="content" items={tabItems} />
                 </div>
                 <div className="wap-button-style-preset__center">
+                    <div className="wap-button-style-preset__preview-wrapper-bg">
+                        <span></span>
+                        <span></span>
+                        <span></span>
+                    </div>
                     <div 
                         className="wap-button-style-preset__preview-wrapper"
                         style={{

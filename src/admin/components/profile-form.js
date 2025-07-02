@@ -268,7 +268,7 @@ const ProfileForm = ({ formData, onFormChange }) => {
     
     return (
         <Row gutter={[24, 24]}>
-            <Col xs={24} lg={8}>
+            <Col xs={24} lg={6}>
                 <Card className='wap-profile-form-left-card' title={__('Profile Information', 'website-accessibility')}>
                     <Space direction="vertical" style={{ width: '100%' }} size="large">
                         <ControlWrapper
@@ -315,7 +315,7 @@ const ProfileForm = ({ formData, onFormChange }) => {
                 </Card>
             </Col>
 
-            <Col xs={24} lg={16}>
+            <Col xs={24} lg={18}>
                 <Card title={__('Accessibility Features', 'website-accessibility')}>
                     <Row gutter={[16, 16]}>
                         {widgetFeatures.map(feature => (

@@ -63,8 +63,9 @@ const CreatePreset = () => {
         />
 
         <StepContent />
-      <Card className="wap-preset-form-actions-card" style={{ marginTop: 24 }}>
-        <div className="wap-preset-form-actions">
+        
+      {/* <Card className="wap-preset-form-actions-card" style={{ marginTop: 24 }}> */}
+        <div className="wap-preset-form-actions" style={{ marginTop: 24 }}>
           <Space>
             {current > 0 && (
               <Button onClick={prev} htmlType='button'>
@@ -102,7 +103,7 @@ const CreatePreset = () => {
             )}
           </Space>
         </div>
-      </Card>
+      {/* </Card> */}
     </div>
   );
 };

@@ -28,24 +28,10 @@
   }
 
   &__badge {
-    display: inline-flex;
-    align-items: center;
-    justify-content: center;
-    width: 32px;
-    height: 32px;
-    border-radius: 50%;
-    background: #f3f6fd;
     color: #1a4cd8;
     font-weight: 700;
     font-size: 16px;
-    margin-right: 12px;
-    border: 2px solid #f3f6fd;
     transition: all 0.2s;
-    &--active {
-      background: #1a4cd8;
-      color: #fff;
-      border: 2px solid #1a4cd8;
-    }
   }
 
   &__panel {
@@ -56,11 +42,19 @@
 
   &__search {
     margin-bottom: 10px;
-    border-radius: 24px;
+    border-radius: 6px;
     border: 1px solid #e5e7eb;
-    padding: 6px 16px;
-    font-size: 15px;
+    padding: 0px 16px;
+    font-size: 14px;
     background: #f8fafc;
+    input {
+      border: 0 !important;
+      box-shadow: none !important;
+      &:focus {
+        box-shadow: none !important;
+        border: 0 !important;
+      }
+    }
   }
 
   &__list-wrapper {
@@ -70,10 +64,11 @@
   }
 
   &__item {
+    gap: 10px;
     cursor: pointer;
     background: transparent;
     border-radius: 8px;
-    padding: 2px 8px;
+    padding: 5px 10px !important;
     margin-bottom: 2px;
     display: flex;
     align-items: center;
@@ -86,7 +81,7 @@
 
   &__item-label {
     font-weight: 400;
-    font-size: 15px;
+    font-size: 14px;
     color: #222;
     flex: 1;
   }
@@ -97,7 +92,7 @@
 
   &__check {
     color: #1a4cd8;
-    font-size: 18px;
+    font-size: 14px ;
     margin-left: 4px;
   }
 } 

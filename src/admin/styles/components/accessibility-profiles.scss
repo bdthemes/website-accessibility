@@ -14,7 +14,7 @@
             padding: 0;
         }
         .ant-collapse-header {
-            padding: 12px 16px !important;
+            padding: 12px 24px !important;
         }
     }
 
@@ -61,11 +61,11 @@
 
     &__item {
         background: #fff;
-        border-radius: 8px;
-        padding: 16px;
+        border-radius: 6px;
+        padding: 10px;
         display: flex;
         align-items: center;
-        gap: 12px;
+        gap: 10px;
         cursor: pointer;
         transition: all 0.2s;
         border: 1px solid #e5e7eb;
@@ -89,7 +89,7 @@
     }
 
     &__item-label {
-        font-size: 15px;
+        font-size: 14px;
         color: #222;
         font-weight: 500;
     }

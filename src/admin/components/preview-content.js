@@ -21,13 +21,11 @@ const PreviewContent = () => {
 
     return (
         <>
-        
-            <Card className="wap-header-card">
-                <Title level={2} className='wap-header-card-title'>
-                    {__('Preview', 'website-accessibility')}
-                </Title>
-            </Card>
-
+            <div className="wap-button-style-preset__preview-wrapper-bg ">
+                <span></span>
+                <span></span>
+                <span></span>
+            </div>
             <div 
                 className="wap-panel-customization__panel"
                 style={{
@@ -37,6 +35,7 @@ const PreviewContent = () => {
                     '--panel-padding': panel?.wrapper?.padding,
                     '--panel-border-radius': panel?.wrapper?.borderRadius,
                     '--panel-box-shadow': panel?.wrapper?.boxShadow,
+                    marginTop: '40px'
                 }}
             >
                 {
