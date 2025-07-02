@@ -43,10 +43,13 @@ const Dashboard = () => {
             icon: <span className="dashicons dashicons-universal-access"/>,
             action: (
                 <Button
-                    type="primary" 
+                    size="small"
                     onClick={() => navigateTo('website-accessibility-presets')}
                 >
-                    {__('View All', 'website-accessibility')}
+                    <Space>
+                        <span className="dashicons dashicons-visibility"/>
+                        {__('View All', 'website-accessibility')}
+                    </Space>
                 </Button>
             ),
         },
@@ -57,10 +60,13 @@ const Dashboard = () => {
             icon: <span className="dashicons dashicons-admin-users"/>,
             action: (
                 <Button 
-                    type="primary" 
+                    size="small"
                     onClick={() => navigateTo('website-accessibilityfiles')}
                 >
-                    {__('View All', 'website-accessibility')}
+                    <Space>
+                        <span className="dashicons dashicons-visibility"/>
+                        {__('View All', 'website-accessibility')}
+                    </Space>
                 </Button>
             ),
         },
@@ -77,44 +83,53 @@ const Dashboard = () => {
     return (
         <div className="wap-dashboard">
             <Card
-                className="wap-welcome-card"
+                className="wap-welcome-card wap-header-card"
             >
-                <Title level={2}>
-                    {__('Welcome to Website Accessibility Pro', 'website-accessibility')}
-                </Title>
-                <Text>
-                    {__('Make your website accessible to everyone with our comprehensive accessibility tools.', 'website-accessibility')}
-                </Text>
+                <div className="wap-welcome-card-content">
+                    <Title level={2} className='wap-header-card-title'>
+                        {__('Welcome to Website Accessibility Pro', 'website-accessibility')}
+                    </Title>
+                    <Text className='wap-header-card-description'>
+                        {__('Make your website accessible to everyone with our comprehensive accessibility tools.', 'website-accessibility')}
+                    </Text>
+                </div>
                 <div>
                     <Button
                         type="primary"
                         size="large"
                         onClick={() => navigateTo('website-accessibility-presets-create')}
                     >
-                        {__('Create New Preset', 'website-accessibility')}
+                        <Space>
+                            <span className="dashicons dashicons-plus-alt2"/>
+                            {__('Create New Preset', 'website-accessibility')}
+                        </Space>
                     </Button>
                 </div>
             </Card>
 
-            <Row gutter={[24, 24]} align="stretch" className="statistics-grid">
+            <Row gutter={[24, 24]} align="stretch" className="statistics-grid wap-statistics-grid">
                 {stats.map((stat, idx) => (
                     <Col xs={24} md={8} key={stat.title}>
                         <Card>
-                            <Space align="center" size="large">
+                            <div className="stat-icon-wrapper">
                                 {stat.icon}
-                                <Title level={5}>{stat.title}</Title>
-                            </Space>
-                            <div>{stat.value}</div>
-                            <div>{stat.action} {stat.extra}</div>
-                            <Text>{stat.description}</Text>
+                                <div className="stat-content">
+                                    <Title className="stat-title" level={4}>{stat.title}</Title>
+                                    <Title className="stat-value" level={4}>{stat.value}</Title>
+                                </div>
+                            </div>
+                            <div className="stat-content-footer">
+                                <Text className="stat-description">{stat.description}</Text>
+                                <div>{stat.action} {stat.extra}</div>
+                            </div>
                         </Card>
                     </Col>
                 ))}
             </Row>
 
             {/* Quick Actions */}
-            <Card className="quick-actions">
-                <Title level={5}>
+            {/* <Card className="quick-actions"> */}
+                <Title level={4} className='wap-section-title'>
                     {__('Quick Actions', 'website-accessibility')}
                 </Title>
                 <Row gutter={[16, 16]} justify="center">
@@ -149,7 +164,7 @@ const Dashboard = () => {
                         </div>
                     </Col>
                 </Row>
-            </Card>
+            {/* </Card> */}
         </div>
     );
 };

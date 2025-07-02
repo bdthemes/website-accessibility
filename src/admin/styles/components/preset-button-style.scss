@@ -1,3 +1,7 @@
+.wap-button-style-preset-card > .ant-card-body {
+  padding: 0;
+}
+
 .wap-button-style-preset {
   display: flex;
   flex-direction: row;
@@ -5,7 +9,7 @@
   &__left {
     width: 250px;
     border-right: 1px solid #eee;
-    padding: 16px;
+    padding: 20px;
   }
 
   &__center {
@@ -79,7 +83,7 @@
   &__right {
     width: 200px;
     border-left: 1px solid #eee;
-    padding: 16px;
+    padding: 20px;
 
     .ant-input-number-group-addon {
       padding: 0 8px;
@@ -87,3 +91,4 @@
     }
   }
 } 
+

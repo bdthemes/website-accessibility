@@ -1,8 +1,15 @@
-.wap-panel-left-sidebar {
+.wap-panel-customization__left {
   background: #fff;
-  border-right: 1px solid #e5e7eb;
-  height: 100%;
+  border-right: 1px solid #eeeff0;
+  padding: 20px;
+  width: 250px;
+  box-sizing: border-box;
+}
 
+.wap-panel-left-sidebar {
+  .ant-card-body {
+    padding: 12px
+  }
   &__row {
     display: flex;
     align-items: center;
@@ -12,7 +19,7 @@
     font-weight: 400;
     font-size: 18px;
     border-radius: 0;
-    margin-bottom: 2px;
+    margin-bottom: 10px;
 
     &:hover {
       background: #f7f9fa;
@@ -49,3 +56,16 @@
     cursor: pointer;
   }
 } 
+
+.wap-panel-customization__right {
+    border-right: 0;
+    border-left: 1px solid #eeeff0;
+    padding: 20px;
+    width: 250px;
+}
+
+.wap-panel-customization-card {
+  > .ant-card-body {
+    padding: 0;
+  }
+}

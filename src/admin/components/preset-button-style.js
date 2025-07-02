@@ -103,12 +103,17 @@ const ButtonStylePreset = () => {
     ];
 
     return (
-        <Card style={{ margin: '0 auto', minHeight: 400 }}>
+        <Card className="wap-button-style-preset-card" style={{ margin: '0 auto',  }}>
             <div className="wap-button-style-preset">
                 <div className="wap-button-style-preset__left">
                     <Tabs defaultActiveKey="content" items={tabItems} />
                 </div>
                 <div className="wap-button-style-preset__center">
+                    <div className="wap-button-style-preset__preview-wrapper-bg">
+                        <span></span>
+                        <span></span>
+                        <span></span>
+                    </div>
                     <div 
                         className="wap-button-style-preset__preview-wrapper"
                         style={{

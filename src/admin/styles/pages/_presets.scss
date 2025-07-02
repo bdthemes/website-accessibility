@@ -3,15 +3,6 @@
 @use '../mixins' as mix;
 
 .wap-presets {
-  @include mix.container;
-  background: #f5f6fa;
-  min-height: 100vh;
-  padding: 32px;
-
-  > .ant-card {
-    margin: 0 auto;
-    border-radius: 12px;
-  }
 
   // Preset list
   .preset-list {
@@ -27,7 +18,6 @@
 
   // Preset form
   .preset-form {
-    @include mix.card;
 
     .ant-form-item {
       margin-block-end: map.get(vars.$spacing, 'lg');

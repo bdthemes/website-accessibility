@@ -3,7 +3,9 @@ import {
   Card,
   Button,
   Steps,
-  Space
+  Space,
+  Typography,
+
 } from 'antd';
 import { ArrowLeftOutlined } from '@ant-design/icons';
 import { __ } from '@wordpress/i18n';
@@ -17,6 +19,7 @@ const CreatePreset = () => {
   const { presetsFormData } = useSelect((select) => select(STORE_NAME).getPresetsFormData());
   const { setPresetsFormData, createPreset } = useDispatch(STORE_NAME);
   const history = useHistory();
+  const { Title } = Typography;
 
   const handleBack = () => {
     history.push({ page: 'website-accessibility-presets' });
@@ -36,38 +39,48 @@ const CreatePreset = () => {
 
   return (
     <div className="wap-preset-editor">
-      <Card>
-        <div style={{ marginBottom: 24 }}>
-          <Button
-            icon={<ArrowLeftOutlined />}
-            onClick={handleBack}
-            style={{ marginBottom: 16 }}
-          >
-            {__('Back to Presets', 'website-accessibility')}
-          </Button>
-        </div>
-        <Steps
+      <Card className='wap-header-card'>
+        <Title level={2} className='wap-header-card-title'>
+          {__('Create New Preset', 'website-accessibility')}
+        </Title>
+        <Button
+          type="primary"
+          onClick={handleBack}
+        >
+          <Space>
+             <span className='dashicons dashicons-arrow-left-alt' />
+             {__('Back to Presets', 'website-accessibility')}
+          </Space>
+        </Button>
+      </Card>
+
+      <Steps
           current={current}
           size="small"
           className="wap-preset-steps"
+          style={{ padding: '24px 0', marginBottom: 24 }}
           items={steps.map((step) => ({ title: step.title }))}
         />
-      </Card>
 
-      <Card className="wap-preset-form-card">
         <StepContent />
-      </Card>
-      <Card className="wap-preset-form-actions-card">
-        <div className="wap-preset-form-actions">
+        
+      {/* <Card className="wap-preset-form-actions-card" style={{ marginTop: 24 }}> */}
+        <div className="wap-preset-form-actions" style={{ marginTop: 24 }}>
           <Space>
             {current > 0 && (
               <Button onClick={prev} htmlType='button'>
-                {__('Previous', 'website-accessibility')}
+                <Space>
+                  <span className='dashicons dashicons-arrow-left-alt' />
+                  {__('Previous', 'website-accessibility')}
+                </Space>
               </Button>
             )}
             {current < steps.length - 1 && (
               <Button type="primary" onClick={next} htmlType='button' disabled={current === 0 && !presetsFormData?.title}>
-                {__('Next', 'website-accessibility')}
+                <Space>
+                  {__('Next', 'website-accessibility')}
+                  <span className='dashicons dashicons-arrow-right-alt' />
+                </Space>
               </Button>
             )}
             {current === steps.length - 1 && (
@@ -82,12 +95,15 @@ const CreatePreset = () => {
                   setPresetsFormData(DEFAULT_STATE?.presetsFormData);
                 }}
               >
-                {__('Save Preset', 'website-accessibility')}
+                <Space>
+                  {__('Save Preset', 'website-accessibility')}
+                  <span className='dashicons dashicons-arrow-right-alt' />
+                </Space>
               </Button>
             )}
           </Space>
         </div>
-      </Card>
+      {/* </Card> */}
     </div>
   );
 };

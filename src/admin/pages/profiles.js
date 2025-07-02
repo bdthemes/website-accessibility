@@ -1,4 +1,4 @@
-import { Card, Button, Row, Col, Typography, Dropdown } from 'antd';
+import { Card, Button, Row, Col, Typography, Dropdown , Space} from 'antd';
 import { PlusOutlined } from '@ant-design/icons';
 import { __ } from '@wordpress/i18n';
 import PostTable from '../components/post-table';
@@ -105,26 +105,21 @@ const Profiles = () => {
 
   return (
     <div className="wap-profiles">
-      <Card
-        title={
-          <Row align="middle" justify="space-between">
-            <Col>
-              <Title level={4}>
-                {__('User Accessibility Profiles', 'website-accessibility')}
-              </Title>
-            </Col>
-            <Col>
-              <Button 
+      <Card className='wap-header-card'>
+          <Title level={2} className='wap-header-card-title'>
+            {__('User Accessibility Profiles', 'website-accessibility')}
+          </Title>
+          <Button 
                 type="primary" 
-                icon={<PlusOutlined />}
                 onClick={handleCreateProfile}
               >
-                {__('Add New Profile', 'website-accessibility')}
+                <Space>
+                  <span className="dashicons dashicons-plus-alt2"/>
+                  {__('Add New Profile', 'website-accessibility')}
+                </Space>
               </Button>
-            </Col>
-          </Row>
-        }
-      >
+      </Card>
+      <Card >
         <div>
           <PostTable 
             columns={columns} 
