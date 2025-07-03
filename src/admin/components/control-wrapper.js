@@ -1,6 +1,6 @@
 import { Typography, Flex, Tooltip } from "antd";
 
-const ControlWrapper = ({ children, label, required, tooltip, noLabel = false }) => {
+const ControlWrapper = ({ children, label, required, tooltip, noLabel = false, description = '' }) => {
     return (
         <div className="wap-control-wrapper">
             <Flex align="baseline" gap={2}>
@@ -11,6 +11,7 @@ const ControlWrapper = ({ children, label, required, tooltip, noLabel = false })
             </Flex>
             {tooltip && <Tooltip title={tooltip}></Tooltip>}
             {children}
+            {description && <Typography.Text type="secondary">{description}</Typography.Text>}
         </div>
     );
 };

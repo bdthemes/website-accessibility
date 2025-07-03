@@ -52,7 +52,7 @@ class Enqueue {
             wp_enqueue_style(
                 'website-accessibility-admin',
                 WAP_URL . 'build/admin/index.css',
-                [],
+                ['wp-components'],
                 $admin_assets['version']
             );
         }

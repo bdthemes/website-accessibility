@@ -13,6 +13,8 @@ import { STORE_NAME } from "../store";
 import HeaderSettings from "../settings/header-settings";
 import ProfilesSettings from "../settings/profiles-settings";
 import FeatureSettings from "../settings/feature-settings";
+import LanguageSelectorSettings from "../settings/language-selector-settings";
+import FooterSettings from "../settings/footer-settings";
 
 const PresetPanelLeftSidebar = () => {
   const [drawerVisible, setDrawerVisible] = useState(false);
@@ -70,11 +72,11 @@ const PresetPanelLeftSidebar = () => {
           // Keep first and last items in place
           const fixedFirst = items[0];
           const fixedLast = items[items.length - 1];
-        
+
           const middleItems = newItems.filter(
             (item) => item.id !== fixedFirst.id && item.id !== fixedLast.id
           );
-        
+
           setPresetsFormData({
             ...presetsFormData,
             panel: {
@@ -135,23 +137,36 @@ const PresetPanelLeftSidebar = () => {
         onClose={handleDrawerClose}
         open={drawerVisible}
         width={400}
+        mask={false}
         rootStyle={{ top: 30, left: 160 }}
       >
         {selectedItem?.slug === 'header' && (
-          <HeaderSettings 
-            item={selectedItem} 
+          <HeaderSettings
+            item={selectedItem}
+          />
+        )}
+        {selectedItem?.slug === 'language' && (
+          <LanguageSelectorSettings
+            item={selectedItem}
           />
         )}
         {selectedItem?.slug === 'profiles' && (
           <ProfilesSettings
-            item={selectedItem} 
+            item={selectedItem}
           />
         )}
         {selectedItem?.slug === 'features' && (
           <FeatureSettings
-            item={selectedItem} 
+            item={selectedItem}
           />
         )}
+
+        {selectedItem?.slug === 'footer' && (
+          <FooterSettings
+            item={selectedItem}
+          />
+        )}
+
       </Drawer>
     </div>
   );

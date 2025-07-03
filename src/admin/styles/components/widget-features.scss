@@ -1,21 +1,19 @@
 .wap-widget-features {
-  background: #f5f7fa;
-  border-radius: 18px;
+  background: var(--wap-features-background-color, #f5f7fa);
+  border-radius: var(--wap-features-border-radius, 18px);
   box-shadow: none;
   border: none;
   padding: 0 24px;
   max-width: 1000px;
-  margin-left: auto;
-  margin-right: auto;
-  margin-bottom: 32px;
+  
   .ant-card-body {
     padding: 0;
   }
   &__badge {
-    margin-right: 12px;
-    font-size: 22px;
+    margin-right: var(--wap-features-header-space-between-icon-and-title, 12px);
+    font-size: var(--wap-features-header-icon-size, 22px);
     font-weight: 700;
-    color: #1a4cd8;
+    color: var(--wap-features-header-icon-color, #1a4cd8);
     vertical-align: middle;
   }
 
@@ -28,6 +26,10 @@
 
   &__grid {
     min-height: 100px;
+    padding: var(--wap-features-items-padding, 0);
+    margin: var(--wap-features-items-margin, 0);
+    border: var(--wap-features-items-border, none);
+    border-radius: var(--wap-features-items-border-radius, 0);
   }
 
   &__feature-btn {
@@ -46,6 +48,8 @@
     font-weight: 600;
     color: #111;
     text-align: center;
+    gap: var(--wap-features-items-space-between-icon-and-label, 12px);
+    
     &:hover {
       box-shadow: 0 4px 16px rgba(30, 42, 80, 0.10);
       border-color: #1a4cd8;

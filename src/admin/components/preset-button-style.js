@@ -116,20 +116,20 @@ const ButtonStylePreset = () => {
                     </div>
                     <div 
                         className="wap-button-style-preset__preview-wrapper"
-                        style={{
-                            '--button-color': button.color || '#fff',
-                            '--button-bg': button.bgColor || '#1677ff',
-                            '--button-padding': button.padding || '20px',
-                            '--button-radius': button.borderRadius || '6px',
-                            '--button-offset-x': button.offsetX ? `${button.offsetX}px` : '20px',
-                            '--button-offset-y': button.offsetY ? `${button.offsetY}px` : '20px',
-                        }}
                     >
                         <PreviewButton
                             type="default"
                             text={button.text || __('Click Me', 'website-accessibility')}
                             icon={button.showIcon ? <Icon name={button.icon} /> : null}
                             className={clsx('wap-button-style-preset__preview-btn', position)}
+                            style={{
+                                '--button-color': button.color || '#fff',
+                                '--button-bg': button.bgColor || '#1677ff',
+                                '--button-padding': button.padding || '20px',
+                                '--button-radius': button.borderRadius || '6px',
+                                '--button-offset-x': button.offsetX ? `${button.offsetX}px` : '20px',
+                                '--button-offset-y': button.offsetY ? `${button.offsetY}px` : '20px',
+                            }}
                         />
                     </div>
                 </div>

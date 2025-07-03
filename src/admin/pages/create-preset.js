@@ -5,9 +5,7 @@ import {
   Steps,
   Space,
   Typography,
-
 } from 'antd';
-import { ArrowLeftOutlined } from '@ant-design/icons';
 import { __ } from '@wordpress/i18n';
 import { steps } from '../utils';
 import { useDispatch, useSelect } from "@wordpress/data";

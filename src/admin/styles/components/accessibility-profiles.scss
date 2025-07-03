@@ -1,6 +1,13 @@
 .wap-accessibility-profiles {
     margin-bottom: 8px;
     background: transparent;
+    
+    // General styling with CSS variables
+    background-color: var(--wap-profiles-background-color, transparent);
+    padding: var(--wap-profiles-padding, 0);
+    margin: var(--wap-profiles-margin, 0 0 8px 0);
+    border: var(--wap-profiles-border, none);
+    border-radius: var(--wap-profiles-border-radius, 0);
 
     &__collapse {
         background: transparent;
@@ -21,7 +28,13 @@
     &__header {
         display: flex;
         align-items: center;
-        gap: 12px;
+        gap: var(--wap-profiles-header-space-between-avatar-and-name, 12px);
+        
+        // Header wrapper styling
+        padding: var(--wap-profiles-header-padding, 12px 16px);
+        margin: var(--wap-profiles-header-margin, 0);
+        border: var(--wap-profiles-header-border, none);
+        border-radius: var(--wap-profiles-header-border-radius, 0);
     }
 
     &__header-icon {
@@ -29,13 +42,19 @@
         align-items: center;
         justify-content: center;
         color: #1a4cd8;
+        
+        // Header avatar styling
+        width: var(--wap-profiles-header-avatar-size, 20px);
+        height: var(--wap-profiles-header-avatar-size, 20px);
+        border: var(--wap-profiles-header-avatar-border, none);
+        border-radius: var(--wap-profiles-header-avatar-border-radius, 0);
     }
 
     &__header-label {
         flex: 1;
-        font-weight: 600;
-        font-size: 16px;
-        color: #222;
+        font-weight: var(--wap-profiles-header-title-font-weight, 600);
+        font-size: var(--wap-profiles-header-title-font-size, 16px);
+        color: var(--wap-profiles-header-title-text-color, #222);
     }
 
     &__info-icon {
@@ -53,10 +72,17 @@
         border: none !important;
         background: transparent !important;
         padding: 0 !important;
+
+        .ant-collapse-header {
+            align-items: center !important;
+        }
     }
 
     &__grid {
-        padding: 8px;
+        padding: var(--wap-profiles-body-padding, 8px);
+        margin: var(--wap-profiles-body-margin, 0);
+        border: var(--wap-profiles-body-border, none);
+        border-radius: var(--wap-profiles-body-border-radius, 0);
     }
 
     &__item {
@@ -65,7 +91,7 @@
         padding: 10px;
         display: flex;
         align-items: center;
-        gap: 10px;
+        gap: var(--wap-profiles-body-space-between-avatar-and-name, 10px);
         cursor: pointer;
         transition: all 0.2s;
         border: 1px solid #e5e7eb;
@@ -77,8 +103,8 @@
     }
 
     &__item-icon {
-        width: 32px;
-        height: 32px;
+        width: var(--wap-profiles-body-avatar-size, 32px);
+        height: var(--wap-profiles-body-avatar-size, 32px);
         background: #f3f6fd;
         border-radius: 50%;
         display: flex;
@@ -86,11 +112,15 @@
         justify-content: center;
         font-size: 20px;
         color: #1a4cd8;
+        
+        // Body avatar styling
+        border: var(--wap-profiles-body-avatar-border, none);
+        border-radius: var(--wap-profiles-body-avatar-border-radius, 50%);
     }
 
     &__item-label {
-        font-size: 14px;
-        color: #222;
-        font-weight: 500;
+        font-size: var(--wap-profiles-body-font-size, 14px);
+        color: var(--wap-profiles-body-text-color, #222);
+        font-weight: var(--wap-profiles-body-font-weight, 500);
     }
 } 

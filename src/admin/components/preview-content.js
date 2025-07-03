@@ -3,29 +3,18 @@ import LanguageSelector from "./language-selector";
 import AccessibilityProfiles from "./accessibility-profiles";
 import WidgetFeatures from "./widget-features";
 import PanelFooter from "./panel-footer";
-import { useSelect } from "@wordpress/data";
-import { STORE_NAME } from "../store";
-import { Card, Typography } from "antd";
-import { __ } from "@wordpress/i18n";
+import { cloneElement } from "@wordpress/element";
 
-const PreviewContent = () => {
-    const { presetsFormData } = useSelect((select) => select(STORE_NAME).getPresetsFormData());
-    const panel = presetsFormData?.panel || {};
-    const { Title } = Typography;
+const PreviewContent = ({ panel, allProfiles }) => {
 
     const itemComponents = {
         language: <LanguageSelector value={panel} />,
-        profiles: <AccessibilityProfiles value={panel} />,
+        profiles: <AccessibilityProfiles value={panel} allProfiles={allProfiles} />,
         features: <WidgetFeatures value={panel} />,
     }
 
     return (
         <>
-            <div className="wap-button-style-preset__preview-wrapper-bg ">
-                <span></span>
-                <span></span>
-                <span></span>
-            </div>
             <div 
                 className="wap-panel-customization__panel"
                 style={{
@@ -47,7 +36,7 @@ const PreviewContent = () => {
                     {
                         panel?.items?.map((item) => {
                             if (itemComponents[item.slug] && item.active) {
-                                return itemComponents[item.slug];
+                                return cloneElement(itemComponents[item.slug], { key: item.slug });
                             }
                             return null;
                         })

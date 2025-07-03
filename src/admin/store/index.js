@@ -2,6 +2,7 @@ import { createReduxStore, createRegistrySelector } from '@wordpress/data';
 export const STORE_NAME = 'wap/admin-store';
 import { store as coreStore } from '@wordpress/core-data';
 import { defaultProfiles } from '../utils';
+import { __ } from '@wordpress/i18n';
 
 export const generateUniqueTitle = (base) => {
     const timestamp = Date.now(); // milliseconds since epoch
@@ -38,10 +39,6 @@ export const DEFAULT_STATE = {
                         borderRadius: '6px',
                         boxShadow: '0 4px 24px rgba(0,0,0,0.08)',
                         padding: '10px 20px',
-                        color: '#ffffff',
-                        fontSize: '14px',
-                        fontWeight: '600',
-                        textDecoration: 'none',
                     }
                 },
                 {
@@ -101,7 +98,7 @@ export const DEFAULT_STATE = {
             ]
         },
         button: {
-            text: 'Click Me',
+            text: __('Accessibility Menu', 'website-accessibility'),
             showIcon: true,
             icon: 'accessibility1',
             color: '#ffffff',

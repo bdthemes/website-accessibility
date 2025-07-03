@@ -1,6 +1,12 @@
 .wap-language-selector {
-  margin-bottom: 8px;
-  background: transparent;
+  margin: var(--wap-margin, 0px);
+  background: var(--wap-bg-color, transparent);
+  color: var(--wap-text-color, #000000);
+  border-radius: var(--wap-border-radius, 4px);
+  font-size: var(--wap-font-size, 14px);
+  font-weight: var(--wap-font-weight, normal);
+  padding: var(--wap-padding, 8px);
+  border: var(--wap-border, none);
 
   &__collapse {
     background: transparent;
@@ -18,13 +24,17 @@
   &__header {
     display: flex;
     align-items: center;
-    gap: 12px;
+    padding: var(--wap-header-padding, 8px 0);
+    margin: var(--wap-header-margin, 0);
+    border: var(--wap-header-border, none);
+    border-radius: var(--wap-header-border-radius, 0);
+    gap: var(--wap-header-space-between-title-and-badge, 12px);
   }
 
   &__header-label {
-    font-weight: 600;
-    font-size: 16px;
-    color: #222;
+    font-weight: var(--wap-header-title-font-weight, 600);
+    font-size: var(--wap-header-title-font-size, 16px);
+    color: var(--wap-header-title-text-color, #222);
   }
 
   &__badge {
@@ -38,6 +48,9 @@
     border: none !important;
     background: transparent !important;
     padding: 0 !important;
+    .ant-collapse-header{
+      align-items: center !important;
+    }
   }
 
   &__search {
@@ -61,6 +74,10 @@
     max-height: 220px;
     overflow-y: auto;
     padding-right: 2px;
+    padding: var(--wap-body-padding, 0);
+    margin: var(--wap-body-margin, 0);
+    border: var(--wap-body-border, none);
+    border-radius: var(--wap-body-border-radius, 0);
   }
 
   &__item {
@@ -74,6 +91,8 @@
     align-items: center;
     min-height: 44px;
     transition: background 0.2s;
+    gap: var(--wap-body-space-between-item-and-badge, 12px);
+    
     &--active {
       background: #f0f5ff;
     }
@@ -94,5 +113,42 @@
     color: #1a4cd8;
     font-size: 14px ;
     margin-left: 4px;
+  }
+
+  // List layout specific styles
+  &--list {
+    .wap-language-selector__selected {
+      padding: var(--wap-header-padding, 8px);
+      margin: var(--wap-header-margin, 0 0 8px 0);
+      border: var(--wap-header-border, none);
+      border-radius: var(--wap-header-border-radius, 0);
+      border-bottom: 1px solid #f0f0f0;
+      font-weight: bold;
+      display: flex;
+      align-items: center;
+      gap: var(--wap-header-space-between-title-and-badge, 12px);
+    }
+
+    .wap-language-selector__search {
+      margin: var(--wap-search-bar-margin, 0 0 8px 0);
+    }
+
+    .wap-language-selector__item {
+      cursor: pointer;
+      padding: 8px;
+      border-radius: 4px;
+      border: none;
+      
+      &:hover {
+        background: #f5f5f5;
+      }
+    }
+  }
+
+  // Collapse layout specific styles
+  &--collapse {
+    .wap-language-selector__header {
+      padding: var(--wap-header-padding, 8px 0);
+    }
   }
 } 

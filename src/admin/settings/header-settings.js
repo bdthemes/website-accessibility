@@ -3,6 +3,7 @@ import { __ } from '@wordpress/i18n';
 import ControlWrapper from '../components/control-wrapper';
 import { useSelect, useDispatch } from '@wordpress/data';
 import { STORE_NAME } from '../store';
+import ColorPicker from '../controls/color-picker';
 
 const { Panel } = Collapse;
 
@@ -72,11 +73,9 @@ const StyleTab = ({ presetsFormData, setPresetsFormData }) => {
         <Collapse accordion>
             <Panel header={__('Header', 'website-accessibility')} key="1">
                 <ControlWrapper label={__('Background', 'website-accessibility')}>
-                    <Input 
-                        type="color" 
-                        className="wap-panel-right-sidebar__color-input"
-                        value={attributes.background}
-                        onChange={e => updateAttr({ background: e.target.value })}
+                    <ColorPicker 
+                        value={attributes.background} 
+                        onChange={value => updateAttr({ background: value })}
                     />
                 </ControlWrapper>
 
@@ -125,7 +124,7 @@ const StyleTab = ({ presetsFormData, setPresetsFormData }) => {
                     <Input 
                         value={attributes.fontSize}
                         onChange={e => updateAttr({ fontSize: e.target.value })}
-                        placeholder="14px" 
+                        placeholder="18px" 
                     />
                 </ControlWrapper>
 
@@ -196,7 +195,7 @@ const StyleTab = ({ presetsFormData, setPresetsFormData }) => {
                     <Input 
                         value={attributes.closeButtonBorderRadius}
                         onChange={e => updateAttr({ closeButtonBorderRadius: e.target.value })}
-                        placeholder="50%" 
+                        placeholder="6px" 
                     />
                 </ControlWrapper>
 

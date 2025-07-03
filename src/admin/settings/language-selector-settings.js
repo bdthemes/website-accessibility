@@ -1,59 +1,18 @@
-import { useMemo } from '@wordpress/element';
-import { Tabs, Select, Collapse, Avatar, Space, Radio, Input, Switch } from 'antd';
-import { UserOutlined } from '@ant-design/icons';
+import { Tabs, Select, Collapse, Radio, Input, Switch } from 'antd';
 import { useSelect, useDispatch } from '@wordpress/data';
 import { STORE_NAME } from '../store';
 import ControlWrapper from '../components/control-wrapper';
 import { __ } from '@wordpress/i18n';
 
-const ProfilesSettings = () => {
-    const profilesRaw = useSelect((select) => {
-        const { getProfiles } = select(STORE_NAME);
-        return getProfiles(true);
-    }, []);
-    const profiles = useMemo(() => (
-        profilesRaw && profilesRaw.length > 0
-            ? profilesRaw.map(profile => {
-                const { raw } = profile?.content || {};
-                const content = raw ? JSON.parse(raw) : {};
-
-                // Handle different icon formats
-                let iconElement = null;
-                if (profile?.icon) {
-                    iconElement = profile.icon;
-                } else if (content?.icon) {
-                    // If content.icon is a string, render it as HTML
-                    if (typeof content.icon === 'string' && content.icon.trim()) {
-                        iconElement = (
-                            <span
-                                dangerouslySetInnerHTML={{ __html: content.icon }}
-                                style={{
-                                    display: 'inline-flex',
-                                    width: '20px',
-                                    height: '20px'
-                                }}
-                            />
-                        );
-                    }
-                }
-
-                return {
-                    id: profile?.id,
-                    name: profile?.title?.rendered,
-                    icon: iconElement
-                }
-            })
-            : []
-    ), [profilesRaw]);
-
+const LanguageSelectorSettings = () => {
     const { presetsFormData } = useSelect((select) => select(STORE_NAME).getPresetsFormData());
     const { setPresetsFormData } = useDispatch(STORE_NAME);
-    const profileItem = presetsFormData.panel.items.find(item => item.slug === 'profiles');
-    const attributes = profileItem?.attributes || {};
+    const languageItem = presetsFormData.panel.items.find(item => item.slug === 'language');
+    const attributes = languageItem?.attributes || {};
 
     const updateAttr = (updates) => {
         const updatedItems = presetsFormData.panel.items.map((item) =>
-            item.slug === 'profiles'
+            item.slug === 'language'
                 ? { ...item, attributes: { ...attributes, ...updates } }
                 : item
         );
@@ -67,16 +26,6 @@ const ProfilesSettings = () => {
         });
     };
 
-    const profileOptions = profiles.map(profile => ({
-        label: (
-            <Space>
-                <Avatar icon={profile.icon || <UserOutlined />} size="small" />
-                {profile.name}
-            </Space>
-        ),
-        value: profile.id,
-    }));
-
     const tabItems = [
         {
             key: 'content',
@@ -86,22 +35,6 @@ const ProfilesSettings = () => {
                     <Collapse>
                         <Collapse.Panel header={__('General', 'website-accessibility')} key="1">
                             <ControlWrapper
-                                label={__('Profiles', 'website-accessibility')}
-                            >
-                                <Select
-                                    mode="multiple"
-                                    allowClear
-                                    showSearch
-                                    placeholder="Select profiles"
-                                    options={profileOptions}
-                                    value={attributes.profiles}
-                                    onChange={(value) => updateAttr({ profiles: value })}
-                                    style={{ width: '100%' }}
-                                    optionFilterProp="label"
-                                />
-                            </ControlWrapper>
-
-                            <ControlWrapper
                                 label={__('Layout', 'website-accessibility')}
                             >
                                 <Radio.Group
@@ -109,43 +42,32 @@ const ProfilesSettings = () => {
                                     onChange={(e) => updateAttr({ layout: e.target.value })}
                                 >
                                     <Radio value="collapse">{__('With Collapse', 'website-accessibility')}</Radio>
-                                    <Radio value="simple">{__('Simple List', 'website-accessibility')}</Radio>
+                                    <Radio value="list">{__('Simple List', 'website-accessibility')}</Radio>
                                 </Radio.Group>
-                            </ControlWrapper>
-
-                            <ControlWrapper
-                                label={__('Title', 'website-accessibility')}
-                            >
-                                <Input
-                                    placeholder={__('Accessibility Profiles', 'website-accessibility')}
-                                    value={attributes?.collapseTitle || ''}
-                                    onChange={(e) => updateAttr({ collapseTitle: e.target.value })}
-                                    style={{ width: '100%' }}
-                                />
                             </ControlWrapper>
                         </Collapse.Panel>
                         <Collapse.Panel header={__('Header', 'website-accessibility')} key="2">
                             <ControlWrapper
-                                label={__('Hide Avatar', 'website-accessibility')}
+                                label={__('Hide Flag', 'website-accessibility')}
                             >
-                                <Switch checked={attributes.hideHeaderAvatar} onChange={(checked) => updateAttr({ hideHeaderAvatar: checked })} />
+                                <Switch checked={attributes.hideHeaderFlag} onChange={(checked) => updateAttr({ hideHeaderFlag: checked })} />
                             </ControlWrapper>
                             <ControlWrapper
-                                label={__('Hide Profile Name', 'website-accessibility')}
+                                label={__('Hide Language Code badge', 'website-accessibility')}
                             >
-                                <Switch checked={attributes.hideHeaderProfileName} onChange={(checked) => updateAttr({ hideHeaderProfileName: checked })} />
+                                <Switch checked={attributes.hideHeaderLanguageCode} onChange={(checked) => updateAttr({ hideHeaderLanguageCode: checked })} />
                             </ControlWrapper>
                         </Collapse.Panel>
                         <Collapse.Panel header={__('Body', 'website-accessibility')} key="3">
                             <ControlWrapper
-                                label={__('Hide Avatar', 'website-accessibility')}
+                                label={__('Hide Flag', 'website-accessibility')}
                             >
-                                <Switch checked={attributes.hideBodyAvatar} onChange={(checked) => updateAttr({ hideBodyAvatar: checked })} />
+                                <Switch checked={attributes.hideBodyFlag} onChange={(checked) => updateAttr({ hideBodyFlag: checked })} />
                             </ControlWrapper>
                             <ControlWrapper
-                                label={__('Hide Profile Name', 'website-accessibility')}
+                                label={__('Hide Language Code badge', 'website-accessibility')}
                             >
-                                <Switch checked={attributes.hideBodyProfileName} onChange={(checked) => updateAttr({ hideBodyProfileName: checked })} />
+                                <Switch checked={attributes.hideBodyLanguageCode} onChange={(checked) => updateAttr({ hideBodyLanguageCode: checked })} />
                             </ControlWrapper>
                         </Collapse.Panel>
                     </Collapse>
@@ -261,13 +183,13 @@ const ProfilesSettings = () => {
                                                 />
                                             </ControlWrapper>
                                             <ControlWrapper
-                                                label={__('Space between avatar and name', 'website-accessibility')}
+                                                label={__('Space between title and badge', 'website-accessibility')}
                                             >
                                                 <Input
                                                     type="number"
-                                                    placeholder="12"
-                                                    value={attributes?.headerSpaceBetweenAvatarAndName || ''}
-                                                    onChange={(e) => updateAttr({ headerSpaceBetweenAvatarAndName: e.target.value })}
+                                                    placeholder="16"
+                                                    value={attributes?.headerSpaceBetweenTitleAndBadge || ''}
+                                                    onChange={(e) => updateAttr({ headerSpaceBetweenTitleAndBadge: e.target.value })}
                                                     addonAfter="px"
                                                 />
                                             </ControlWrapper>
@@ -318,19 +240,62 @@ const ProfilesSettings = () => {
                                     )
                                 },
                                 {
-                                    key: 'avatar',
-                                    label: __('Avatar', 'website-accessibility'),
+                                    key: 'badge',
+                                    label: __('Badge', 'website-accessibility'),
                                     children: (
                                         <>
+                                            <ControlWrapper
+                                                label={__('Background Color', 'website-accessibility')}
+                                            >
+                                                <Input
+                                                    type="color"
+                                                    value={attributes?.headerBadgeBackgroundColor || ''}
+                                                    onChange={(e) => updateAttr({ headerBadgeBackgroundColor: e.target.value })}
+                                                />
+                                            </ControlWrapper>
+                                            <ControlWrapper
+                                                label={__('Text Color', 'website-accessibility')}
+                                            >
+                                                <Input
+                                                    type="color"
+                                                    value={attributes?.headerBadgeTextColor || ''}
+                                                    onChange={(e) => updateAttr({ headerBadgeTextColor: e.target.value })}
+                                                />
+                                            </ControlWrapper>
                                             <ControlWrapper
                                                 label={__('Size', 'website-accessibility')}
                                             >
                                                 <Input
                                                     type="number"
-                                                    placeholder="32"
-                                                    value={attributes?.headerAvatarSize || ''}
-                                                    onChange={(e) => updateAttr({ headerAvatarSize: e.target.value })}
+                                                    placeholder="16"
+                                                    value={attributes?.headerBadgeSize || ''}
+                                                    onChange={(e) => updateAttr({ headerBadgeSize: e.target.value })}
                                                     addonAfter="px"
+                                                />
+                                            </ControlWrapper>
+                                            <ControlWrapper
+                                                label={__('Font Size', 'website-accessibility')}
+                                            >
+                                                <Input
+                                                    type="number"
+                                                    placeholder="16"
+                                                    value={attributes?.headerBadgeFontSize || ''}
+                                                    onChange={(e) => updateAttr({ headerBadgeFontSize: e.target.value })}
+                                                    addonAfter="px"
+                                                />
+                                            </ControlWrapper>
+                                            <ControlWrapper
+                                                label={__('Font Weight', 'website-accessibility')}
+                                            >
+                                                <Select
+                                                    value={attributes?.headerBadgeFontWeight || 'normal'}
+                                                    onChange={(value) => updateAttr({ headerBadgeFontWeight: value })}
+                                                    options={[
+                                                        { label: __('Normal', 'website-accessibility'), value: 'normal' },
+                                                        { label: __('Bold', 'website-accessibility'), value: 'bold' },
+                                                        { label: __('Light', 'website-accessibility'), value: '300' },
+                                                        { label: __('Medium', 'website-accessibility'), value: '500' }
+                                                    ]}
                                                 />
                                             </ControlWrapper>
                                             <ControlWrapper
@@ -338,9 +303,9 @@ const ProfilesSettings = () => {
                                                 description={__('Enter border in the format "width style color"', 'website-accessibility')}
                                             >
                                                 <Input
-                                                    value={attributes?.headerAvatarBorder || ''}
-                                                    onChange={(e) => updateAttr({ headerAvatarBorder: e.target.value })}
-                                                    placeholder="2px solid #000"
+                                                    value={attributes?.headerBadgeBorder || ''}
+                                                    onChange={(e) => updateAttr({ headerBadgeBorder: e.target.value })}
+                                                    placeholder="1px solid #000"
                                                 />
                                             </ControlWrapper>
 
@@ -349,8 +314,8 @@ const ProfilesSettings = () => {
                                                 description={__('Enter border radius in the format "top right bottom left"', 'website-accessibility')}
                                             >
                                                 <Input
-                                                    value={attributes?.headerAvatarBorderRadius || ''}
-                                                    onChange={(e) => updateAttr({ headerAvatarBorderRadius: e.target.value })}
+                                                    value={attributes?.headerBadgeBorderRadius || ''}
+                                                    onChange={(e) => updateAttr({ headerBadgeBorderRadius: e.target.value })}
                                                     placeholder="50%"
                                                 />
                                             </ControlWrapper>
@@ -360,7 +325,104 @@ const ProfilesSettings = () => {
                             ]}
                         />
                     </Collapse.Panel>
-                    <Collapse.Panel header={__('Body', 'website-accessibility')} key="3">
+
+                    <Collapse.Panel header={__('Search Bar', 'website-accessibility')} key="3">
+                        <ControlWrapper
+                            label={__('Background Color', 'website-accessibility')}
+                        >
+                            <Input
+                                type="color"
+                                value={attributes?.searchBarBackgroundColor || ''}
+                                onChange={(e) => updateAttr({ searchBarBackgroundColor: e.target.value })}
+                            />
+                        </ControlWrapper>
+                        <ControlWrapper
+                            label={__('Text Color', 'website-accessibility')}
+                        >
+                            <Input
+                                type="color"
+                                value={attributes?.searchBarTextColor || ''}
+                                onChange={(e) => updateAttr({ searchBarTextColor: e.target.value })}
+                            />
+                        </ControlWrapper>
+                        <ControlWrapper
+                            label={__('Padding', 'website-accessibility')}
+                            description={__('Enter padding in the format "top right bottom left"', 'website-accessibility')}
+                        >
+                            <Input
+                                value={attributes?.searchBarPadding || ''}
+                                onChange={(e) => updateAttr({ searchBarPadding: e.target.value })}
+                                placeholder="8px 16px"
+                            />
+                        </ControlWrapper>
+                        <ControlWrapper
+                            label={__('Margin', 'website-accessibility')}
+                            description={__('Enter margin in the format "top right bottom left"', 'website-accessibility')}
+                        >
+                            <Input
+                                value={attributes?.searchBarMargin || ''}
+                                onChange={(e) => updateAttr({ searchBarMargin: e.target.value })}
+                                placeholder="8px 16px"
+                            />
+                        </ControlWrapper>
+                        <ControlWrapper
+                            label={__('Border', 'website-accessibility')}
+                            description={__('Enter border in the format "width style color"', 'website-accessibility')}
+                        >
+                            <Input
+                                value={attributes?.searchBarBorder || ''}
+                                onChange={(e) => updateAttr({ searchBarBorder: e.target.value })}
+                                placeholder="1px solid #000"
+                            />
+                        </ControlWrapper>
+
+                        <ControlWrapper
+                            label={__('Border Radius', 'website-accessibility')}
+                            description={__('Enter border radius in the format "top right bottom left"', 'website-accessibility')}
+                        >
+                            <Input
+                                value={attributes?.searchBarBorderRadius || ''}
+                                onChange={(e) => updateAttr({ searchBarBorderRadius: e.target.value })}
+                                placeholder="8px"
+                            />
+                        </ControlWrapper>
+                        <ControlWrapper
+                            label={__('Box Shadow', 'website-accessibility')}
+                            description={__('Enter box shadow in the format "x y blur spread color"', 'website-accessibility')}
+                        >
+                            <Input
+                                value={attributes?.searchBarBoxShadow || ''}
+                                onChange={(e) => updateAttr({ searchBarBoxShadow: e.target.value })}
+                                placeholder="0 0 10px 0 rgba(0, 0, 0, 0.1)"
+                            />
+                        </ControlWrapper>
+                        <ControlWrapper
+                            label={__('Font Size', 'website-accessibility')}
+                        >
+                            <Input
+                                type="number"
+                                placeholder="16"
+                                value={attributes?.searchBarFontSize || ''}
+                                onChange={(e) => updateAttr({ searchBarFontSize: e.target.value })}
+                                addonAfter="px"
+                            />
+                        </ControlWrapper>
+                        <ControlWrapper
+                            label={__('Font Weight', 'website-accessibility')}
+                        >
+                            <Select
+                                value={attributes?.searchBarFontWeight || 'normal'}
+                                onChange={(value) => updateAttr({ searchBarFontWeight: value })}
+                                options={[
+                                    { label: __('Normal', 'website-accessibility'), value: 'normal' },
+                                    { label: __('Bold', 'website-accessibility'), value: 'bold' },
+                                    { label: __('Light', 'website-accessibility'), value: '300' },
+                                    { label: __('Medium', 'website-accessibility'), value: '500' }
+                                ]}
+                            />
+                        </ControlWrapper>
+                    </Collapse.Panel>
+                    <Collapse.Panel header={__('Body', 'website-accessibility')} key="4">
                         <Tabs
                             items={[
                                 {
@@ -409,13 +471,13 @@ const ProfilesSettings = () => {
                                                 />
                                             </ControlWrapper>
                                             <ControlWrapper
-                                                label={__('Space between avatar and name', 'website-accessibility')}
+                                                label={__('Space between item and badge', 'website-accessibility')}
                                             >
                                                 <Input
                                                     type="number"
-                                                    placeholder="12"
-                                                    value={attributes?.bodySpaceBetweenAvatarAndName || ''}
-                                                    onChange={(e) => updateAttr({ bodySpaceBetweenAvatarAndName: e.target.value })}
+                                                    placeholder="16"
+                                                    value={attributes?.bodySpaceBetweenItemAndBadge || ''}
+                                                    onChange={(e) => updateAttr({ bodySpaceBetweenItemAndBadge: e.target.value })}
                                                     addonAfter="px"
                                                 />
                                             </ControlWrapper>
@@ -465,39 +527,80 @@ const ProfilesSettings = () => {
                                     )
                                 },
                                 {
-                                    key: 'item-avatar',
-                                    label: __('Item Avatar', 'website-accessibility'),
+                                    key: 'item-badge',
+                                    label: __('Item Badge', 'website-accessibility'),
                                     children: (
                                         <>
+                                            <ControlWrapper
+                                                label={__('Background Color', 'website-accessibility')}
+                                            >
+                                                <Input
+                                                    type="color"
+                                                    value={attributes?.bodyBadgeBackgroundColor || '#000000'}
+                                                    onChange={(e) => updateAttr({ bodyBadgeBackgroundColor: e.target.value })}
+                                                />
+                                            </ControlWrapper>
+                                            <ControlWrapper
+                                                label={__('Text Color', 'website-accessibility')}
+                                            >
+                                                <Input
+                                                    type="color"
+                                                    value={attributes?.bodyBadgeTextColor || '#000000'}
+                                                    onChange={(e) => updateAttr({ bodyBadgeTextColor: e.target.value })}
+                                                />
+                                            </ControlWrapper>
+                                            <ControlWrapper
+                                                label={__('Font Size', 'website-accessibility')}
+                                            >
+                                                <Input
+                                                    type="number"
+                                                    placeholder="16"
+                                                    value={attributes?.bodyBadgeFontSize || ''}
+                                                    onChange={(e) => updateAttr({ bodyBadgeFontSize: e.target.value })}
+                                                    addonAfter="px"
+                                                />
+                                            </ControlWrapper>
+                                            <ControlWrapper
+                                                label={__('Font Weight', 'website-accessibility')}
+                                            >
+                                                <Select
+                                                    value={attributes?.bodyBadgeFontWeight || 'normal'}
+                                                    onChange={(value) => updateAttr({ bodyBadgeFontWeight: value })}
+                                                    options={[
+                                                        { label: __('Normal', 'website-accessibility'), value: 'normal' },
+                                                        { label: __('Bold', 'website-accessibility'), value: 'bold' },
+                                                        { label: __('Light', 'website-accessibility'), value: '300' },
+                                                        { label: __('Medium', 'website-accessibility'), value: '500' }
+                                                    ]}
+                                                />
+                                            </ControlWrapper>
+                                            <ControlWrapper
+                                                label={__('Border', 'website-accessibility')}
+                                            >
+                                                <Input
+                                                    value={attributes?.bodyBadgeBorder || ''}
+                                                    onChange={(e) => updateAttr({ bodyBadgeBorder: e.target.value })}
+                                                    placeholder="1px solid #000"
+                                                />
+                                            </ControlWrapper>
+                                            <ControlWrapper
+                                                label={__('Border Radius', 'website-accessibility')}
+                                            >
+                                                <Input
+                                                    value={attributes?.bodyBadgeBorderRadius || ''}
+                                                    onChange={(e) => updateAttr({ bodyBadgeBorderRadius: e.target.value })}
+                                                    placeholder="50%"
+                                                />
+                                            </ControlWrapper>
                                             <ControlWrapper
                                                 label={__('Size', 'website-accessibility')}
                                             >
                                                 <Input
                                                     type="number"
-                                                    placeholder="32"
-                                                    value={attributes?.bodyAvatarSize || ''}
-                                                    onChange={(e) => updateAttr({ bodyAvatarSize: e.target.value })}
+                                                    placeholder="16"
+                                                    value={attributes?.bodyBadgeSize || ''}
+                                                    onChange={(e) => updateAttr({ bodyBadgeSize: e.target.value })}
                                                     addonAfter="px"
-                                                />
-                                            </ControlWrapper>
-                                            <ControlWrapper
-                                                label={__('Border', 'website-accessibility')}
-                                                description={__('Enter border in the format "width style color"', 'website-accessibility')}
-                                            >
-                                                <Input
-                                                    value={attributes?.bodyAvatarBorder || ''}
-                                                    onChange={(e) => updateAttr({ bodyAvatarBorder: e.target.value })}
-                                                    placeholder="2px solid #000"
-                                                />
-                                            </ControlWrapper>
-                                            <ControlWrapper
-                                                label={__('Border Radius', 'website-accessibility')}
-                                                description={__('Enter border radius in the format "top right bottom left"', 'website-accessibility')}
-                                            >
-                                                <Input
-                                                    value={attributes?.bodyAvatarBorderRadius || ''}
-                                                    onChange={(e) => updateAttr({ bodyAvatarBorderRadius: e.target.value })}
-                                                    placeholder="50%"
                                                 />
                                             </ControlWrapper>
                                         </>
@@ -516,4 +619,4 @@ const ProfilesSettings = () => {
     );
 };
 
-export default ProfilesSettings;
+export default LanguageSelectorSettings;
