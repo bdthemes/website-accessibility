@@ -14,6 +14,7 @@
 @use 'pages/profiles';
 @use 'pages/create-preset';
 @use 'pages/create-profiles';
+@use 'pages/preview-preset';
 
 @use 'components/preset-panel-left-sidebar';
 @use 'components/preset-panel-right-sidebar';
@@ -22,6 +23,7 @@
 @use 'components/icon-picker';
 @use 'components/language-selector';
 @use 'components/accessibility-profiles';
+
 
 // Global admin styles
 .wap-admin {

@@ -61,9 +61,10 @@ const PreviewPreset = () => {
         <Drawer
           open={isOpen}
           onClose={() => setIsOpen(false)}
-          width={600}
+          width={'auto'}
+          className="wap-preset__preview-drawer"
         >
-          <PreviewContent panel={panel} allProfiles={allProfiles} />
+          <PreviewContent panel={panel} allProfiles={allProfiles} setIsOpen={setIsOpen} />
         </Drawer>
       </div>
     </>

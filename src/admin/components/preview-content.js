@@ -5,7 +5,7 @@ import WidgetFeatures from "./widget-features";
 import PanelFooter from "./panel-footer";
 import { cloneElement } from "@wordpress/element";
 
-const PreviewContent = ({ panel, allProfiles }) => {
+const PreviewContent = ({ panel, allProfiles, setIsOpen = () => {} }) => {
 
     const itemComponents = {
         language: <LanguageSelector value={panel} />,
@@ -29,7 +29,7 @@ const PreviewContent = ({ panel, allProfiles }) => {
             >
                 {
                     panel?.items?.find((item) => item.slug === 'header')?.active && (
-                        <PanelHeader value={panel} />
+                        <PanelHeader value={panel} setIsOpen={setIsOpen} />
                     )
                 }
                 <div className="wap-panel-customization__info">

@@ -1,4 +1,4 @@
-const PanelHeader = ({ value }) => {
+const PanelHeader = ({ value, setIsOpen = () => {} }) => {
     // Find the header item from value.items
     const headerItem = value?.items?.find(item => item.slug === 'header') || {};
     const attributes = headerItem.attributes || {};
@@ -34,7 +34,7 @@ const PanelHeader = ({ value }) => {
                 {attributes.text || 'Accessibility Menu (CTRL+U)'}
             </span>
             {attributes.showClose !== false && (
-                <span className="wap-panel-customization__header-close">
+                <span className="wap-panel-customization__header-close" onClick={() => setIsOpen(false)}>
                     <svg width="16" height="16" viewBox="0 0 16 16" fill="none" xmlns="http://www.w3.org/2000/svg">
                         <path d="M4 4L12 12M12 4L4 12" stroke="currentColor" strokeWidth="2" strokeLinecap="round" />
                     </svg>
