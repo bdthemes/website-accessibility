@@ -9,19 +9,11 @@ const PanelFooter = ({ value }) => {
 
   // Reset Button
   const showResetBtn = attributes.showResetBtn !== false;
-  const resetBtnText = attributes.resetBtnText || 'Reset All Accessibility Settings';
-  const resetBtnBg = attributes.resetBtnBg || '#0073ea';
-  const resetBtnColor = attributes.resetBtnColor || '#fff';
-  const resetBtnRadius = attributes.resetBtnRadius || 16;
+  const resetBtnText = attributes.resetBtnText || 'Reset All';
 
   // Save Button
   const showSaveBtn = attributes.showSaveBtn !== false;
   const saveBtnText = attributes.saveBtnText || 'Save Preference';
-  const saveBtnBg = attributes.saveBtnBg || '#fff';
-  const saveBtnColor = attributes.saveBtnColor || '#111';
-  const saveBtnRadius = attributes.saveBtnRadius || 50;
-  const saveBtnIconColor = attributes.saveBtnIconColor || '#0073ea';
-  const saveBtnArrowColor = attributes.saveBtnArrowColor || '#888';
 
   // Footer Links
   const showStatement = attributes.showStatement !== false;
@@ -33,55 +25,30 @@ const PanelFooter = ({ value }) => {
 
   return (
     <div className="wap-panel-customization__footer">
-      <Row gutter={[0, 16]} justify="center">
+      <div className="wap-panel-customization__footer-buttons">
         {showResetBtn && (
-          <Col span={24}>
             <Button
-              type="primary"
+              type="primary" danger
               icon={<ReloadOutlined />}
               size="large"
               block
-              style={{
-                fontWeight: 600,
-                fontSize: 20,
-                borderRadius: resetBtnRadius,
-                background: resetBtnBg,
-                color: resetBtnColor,
-                border: 'none',
-              }}
             >
               {resetBtnText}
             </Button>
-          </Col>
         )}
         {showSaveBtn && (
-          <Col span={24}>
             <Button
-              type="default"
-              icon={<SaveOutlined style={{ color: saveBtnIconColor }} />}
+              type="primary"
               size="large"
               block
-              style={{
-                fontWeight: 600,
-                fontSize: 18,
-                borderRadius: saveBtnRadius,
-                background: saveBtnBg,
-                color: saveBtnColor,
-                display: 'flex',
-                alignItems: 'center',
-                justifyContent: 'space-between',
-                border: 'none',
-              }}
             >
-              <Space style={{ width: '100%', justifyContent: 'space-between', display: 'flex', alignItems: 'center' }}>
+              
                 <span>{saveBtnText}</span>
-                <ArrowRightOutlined style={{ color: saveBtnArrowColor, fontSize: 18 }} />
-              </Space>
+                <ArrowRightOutlined />
             </Button>
-          </Col>
         )}
-      </Row>
-      <div style={{ marginTop: 24, textAlign: 'center' }}>
+      </div>
+      <div style={{ marginTop: 15, textAlign: 'center' }}>
         {showStatement && (
           <span
             className="wap-panel-customization__footer-link"

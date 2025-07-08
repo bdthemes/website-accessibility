@@ -5,8 +5,8 @@
   border-radius: var(--wap-border-radius, 4px);
   font-size: var(--wap-font-size, 14px);
   font-weight: var(--wap-font-weight, normal);
-  padding: var(--wap-padding, 8px);
-  border: var(--wap-border, none);
+  // padding: var(--wap-padding, 8px);
+  // border: var(--wap-border, none);
 
   &__collapse {
     background: transparent;
@@ -24,10 +24,10 @@
   &__header {
     display: flex;
     align-items: center;
-    padding: var(--wap-header-padding, 8px 0);
+    // padding: 12px 24px !important;
     margin: var(--wap-header-margin, 0);
     border: var(--wap-header-border, none);
-    border-radius: var(--wap-header-border-radius, 0);
+    // border-radius: var(--wap-header-border-radius, 0);
     gap: var(--wap-header-space-between-title-and-badge, 12px);
   }
 
@@ -50,6 +50,7 @@
     padding: 0 !important;
     .ant-collapse-header{
       align-items: center !important;
+      padding: 12px 24px !important;
     }
   }
 
@@ -147,8 +148,8 @@
 
   // Collapse layout specific styles
   &--collapse {
-    .wap-language-selector__header {
-      padding: var(--wap-header-padding, 8px 0);
-    }
+    // .wap-language-selector__header {
+    //   padding: var(--wap-header-padding, 8px 0);
+    // }
   }
 } 

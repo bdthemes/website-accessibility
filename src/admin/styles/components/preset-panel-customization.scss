@@ -17,7 +17,7 @@
   &__panel {
     width: var(--panel-width, 600px);
     background: var(--panel-background, #f7f9fa);
-    border: var(--panel-border, 1px solid #e5e7eb);
+    // border: var(--panel-border, 1px solid #e5e7eb);
     border-radius: 6px;
     box-shadow: var(--panel-box-shadow, 0 4px 24px rgba(0,0,0,0.08));
     overflow: hidden;
@@ -30,7 +30,7 @@
 
 .wap-panel-customization__panel {
   .ant-collapse-header  {
-    padding: 12px 24px !important;
+    padding: 0 !important;
   }
   
   .ant-collapse-content-box {
@@ -43,13 +43,15 @@
   }
   
   .wap-panel-customization__footer {
+      margin-top: 24px;
       padding: 20px 24px;
       background: #fff;
-      font-size: 13px;
-      display: flex;
-      align-items: center;
-      gap: 6px;
-      justify-content: space-between;
+      &-buttons {
+        display: flex;
+        gap: 10px;
+        align-items: center;
+        flex-direction: row;
+      }
   }
   
   .wap-panel-customization__footer-brand {

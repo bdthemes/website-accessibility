@@ -21,7 +21,7 @@
             padding: 0;
         }
         .ant-collapse-header {
-            padding: 12px 24px !important;
+            padding: 0 !important;
         }
     }
 
@@ -31,10 +31,9 @@
         gap: var(--wap-profiles-header-space-between-avatar-and-name, 12px);
         
         // Header wrapper styling
-        padding: var(--wap-profiles-header-padding, 12px 16px);
+       
         margin: var(--wap-profiles-header-margin, 0);
         border: var(--wap-profiles-header-border, none);
-        border-radius: var(--wap-profiles-header-border-radius, 0);
     }
 
     &__header-icon {
@@ -75,11 +74,12 @@
 
         .ant-collapse-header {
             align-items: center !important;
+            padding: 12px 24px !important;
         }
     }
 
     &__grid {
-        padding: var(--wap-profiles-body-padding, 8px);
+        // padding: var(--wap-profiles-body-padding, 8px);
         margin: var(--wap-profiles-body-margin, 0);
         border: var(--wap-profiles-body-border, none);
         border-radius: var(--wap-profiles-body-border-radius, 0);
