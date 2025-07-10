@@ -8,3 +8,17 @@
 .wap-panel-left-sidebar-open{
     overflow-y: unset !important;
 }
+
+.wap-control-wrapper {
+    .ant-input,
+    .ant-select-selector {
+        min-height: 40px;
+        border: 1px solid #e6e6e6;
+        border-radius: 6px;
+        &:focus,
+        &:hover {
+            border-color: #007bff;
+            box-shadow: 0 0 0 1px #007bff;
+        }
+    }
+} 

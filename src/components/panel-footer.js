@@ -11,19 +11,11 @@ const PanelFooter = ({ value, onChange, accessibilityContext }) => {
 
   // Reset Button
   const showResetBtn = attributes.showResetBtn !== false;
-  const resetBtnText = attributes.resetBtnText || 'Reset All Accessibility Settings';
-  const resetBtnBg = attributes.resetBtnBg || '#0073ea';
-  const resetBtnColor = attributes.resetBtnColor || '#fff';
-  const resetBtnRadius = attributes.resetBtnRadius || 16;
+  const resetBtnText = attributes.resetBtnText || 'Reset All';
 
   // Save Button
   const showSaveBtn = attributes.showSaveBtn !== false;
   const saveBtnText = attributes.saveBtnText || 'Save Preference';
-  const saveBtnBg = attributes.saveBtnBg || '#fff';
-  const saveBtnColor = attributes.saveBtnColor || '#111';
-  const saveBtnRadius = attributes.saveBtnRadius || 50;
-  const saveBtnIconColor = attributes.saveBtnIconColor || '#0073ea';
-  const saveBtnArrowColor = attributes.saveBtnArrowColor || '#888';
 
   // Footer Links
   const showStatement = attributes.showStatement !== false;
@@ -66,64 +58,33 @@ const PanelFooter = ({ value, onChange, accessibilityContext }) => {
   return (
     <footer className="wap-panel-footer">
       <div className="wap-panel-footer__actions">
-        <Row gutter={[0, 12]} justify="center">
           {showResetBtn && (
-            <Col span={24}>
               <Button
                 type="primary"
                 icon={<ReloadOutlined />}
                 size="large"
                 block
                 className="wap-panel-footer__reset-btn"
-                style={{
-                  fontWeight: 600,
-                  fontSize: 16,
-                  borderRadius: resetBtnRadius,
-                  background: resetBtnBg,
-                  color: resetBtnColor,
-                  border: 'none',
-                  height: 56,
-                  boxShadow: '0 4px 12px rgba(0, 115, 234, 0.3)',
-                  transition: 'all 0.3s ease',
-                }}
+               
                 onClick={handleReset}
               >
                 {resetBtnText}
               </Button>
-            </Col>
           )}
           {showSaveBtn && (
-            <Col span={24}>
               <Button
                 type="default"
-                icon={<SaveOutlined style={{ color: saveBtnIconColor }} />}
                 size="large"
                 block
                 className="wap-panel-footer__save-btn"
-                style={{
-                  fontWeight: 600,
-                  fontSize: 16,
-                  borderRadius: saveBtnRadius,
-                  background: saveBtnBg,
-                  color: saveBtnColor,
-                  display: 'flex',
-                  alignItems: 'center',
-                  justifyContent: 'space-between',
-                  border: '2px solid #f0f0f0',
-                  height: 56,
-                  boxShadow: '0 2px 8px rgba(0, 0, 0, 0.08)',
-                  transition: 'all 0.3s ease',
-                }}
                 onClick={handleSave}
               >
-                <Space style={{ width: '100%', justifyContent: 'space-between', display: 'flex', alignItems: 'center' }}>
+                <Space>
                   <span>{saveBtnText}</span>
-                  <ArrowRightOutlined style={{ color: saveBtnArrowColor, fontSize: 16 }} />
+                  <ArrowRightOutlined />
                 </Space>
               </Button>
-            </Col>
           )}
-        </Row>
       </div>
       
       <div className="wap-panel-footer__links">

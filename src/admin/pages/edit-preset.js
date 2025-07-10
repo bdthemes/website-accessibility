@@ -87,6 +87,7 @@ const EditPreset = () => {
           <Button
             type="primary"
             onClick={handleBack}
+            size='large'
           >
             <Space>
               <span className='dashicons dashicons-arrow-left-alt' />
@@ -110,7 +111,7 @@ const EditPreset = () => {
         <div className="wap-preset-form-actions" style={{ marginTop: 24 }}>
           <Space>
             {current > 0 && (
-              <Button onClick={prev} htmlType='button'>
+              <Button onClick={prev} htmlType='button' size='large'>
                 <Space>
                   <span className='dashicons dashicons-arrow-left-alt' />
                   {__('Previous', 'website-accessibility')}
@@ -119,6 +120,7 @@ const EditPreset = () => {
             )}
             {current < steps.length - 1 && (
               <Button 
+                size='large'
                 type="primary" 
                 onClick={next} 
                 htmlType='button' 
@@ -134,6 +136,7 @@ const EditPreset = () => {
               <Button 
                 type="primary" 
                 onClick={handleSave}
+                size='large'
               >
                 <Space>
                   {__('Update Preset', 'website-accessibility')}

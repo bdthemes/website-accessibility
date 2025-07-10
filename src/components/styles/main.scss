@@ -90,3 +90,17 @@
         overflow: hidden !important;
     }
 }
+
+.wap-panel-customization {
+    .wap-panel-footer {
+        background: #fff;
+        padding: 24px;
+
+        .wap-panel-footer__actions {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            margin-bottom: 20px;
+        }
+    }
+}

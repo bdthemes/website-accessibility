@@ -89,7 +89,7 @@ const Presets = () => {
               <Title level={2} className='wap-header-card-title'>
                 {__('Accessibility Presets', 'website-accessibility')}
               </Title>
-              <Button type="primary" onClick={() => navigate('website-accessibility-presets-create')}>
+              <Button type="primary" size='large' onClick={() => navigate('website-accessibility-presets-create')}>
                 <Space>
                   <span className="dashicons dashicons-plus-alt2"/>
                   {__('Add New Preset', 'website-accessibility')}

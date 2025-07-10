@@ -44,6 +44,7 @@ const CreatePreset = () => {
         <Button
           type="primary"
           onClick={handleBack}
+          size='large'
         >
           <Space>
              <span className='dashicons dashicons-arrow-left-alt' />
@@ -66,7 +67,7 @@ const CreatePreset = () => {
         <div className="wap-preset-form-actions" style={{ marginTop: 24 }}>
           <Space>
             {current > 0 && (
-              <Button onClick={prev} htmlType='button'>
+              <Button onClick={prev} size='large' htmlType='button'>
                 <Space>
                   <span className='dashicons dashicons-arrow-left-alt' />
                   {__('Previous', 'website-accessibility')}
@@ -74,7 +75,7 @@ const CreatePreset = () => {
               </Button>
             )}
             {current < steps.length - 1 && (
-              <Button type="primary" onClick={next} htmlType='button' disabled={current === 0 && !presetsFormData?.title}>
+              <Button type="primary" onClick={next} size='large' htmlType='button' disabled={current === 0 && !presetsFormData?.title}>
                 <Space>
                   {__('Next', 'website-accessibility')}
                   <span className='dashicons dashicons-arrow-right-alt' />
@@ -85,6 +86,7 @@ const CreatePreset = () => {
               <Button 
                 type="primary" 
                 htmlType="submit"
+                size='large'
                 onClick={() => {
                   createPreset(presetsFormData);
                   history.push({
