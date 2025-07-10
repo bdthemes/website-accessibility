@@ -1,12 +1,12 @@
 import { useLocation } from '../router';
 import { useMemo, useEffect } from '@wordpress/element';
 import Dashboard from './dashboard';
-import Presets from './presets';
-import Profiles from './profiles';
 import clsx from 'clsx';
 import CreatePreset from './create-preset';
+import Presets from './presets';
 import EditPreset from './edit-preset';
 import PreviewPreset from './preview-preset';
+import Profiles from './profiles';
 import CreateProfiles from './create-profiles';
 import EditProfile from './edit-profile';
 
@@ -16,20 +16,21 @@ const Pages = () => {
 
     const RouteElement = useMemo(() => {
         switch (page) {
-            case 'website-accessibility-presets':
-                return <Presets />;
+
             case 'website-accessibilityfiles':
                 return <Profiles />;
-            case 'website-accessibility-presets-create':
-                return <CreatePreset />;
-            case 'website-accessibility-presets-edit':
-                return <EditPreset />;
-            case 'website-accessibility-presets-preview':
-                return <PreviewPreset />;
-            case 'website-accessibilityfiles-create':
-                return <CreateProfiles />;
             case 'website-accessibilityfiles-edit':
                 return <EditProfile />;
+            case 'website-accessibilityfiles-create':
+                return <CreateProfiles />;
+            case 'website-accessibility-presets-preview':
+                return <PreviewPreset />;
+            case 'website-accessibility-presets-edit':
+                return <EditPreset />;
+            case 'website-accessibility-presets':
+                return <Presets />;
+            case 'website-accessibility-presets-create':
+                return <CreatePreset />;
             default:
                 return <Dashboard />;
         }
@@ -54,8 +55,8 @@ const Pages = () => {
     }, [page]);
 
     return (
-        <div className="website-accessibility-app">
-            <div className={clsx('website-accessibility-page', { [page]: page })}>
+        <div className="wap-admin-pages">
+            <div className={clsx('wap-admin-page', { [page]: page })}>
                 {RouteElement}
             </div>
         </div>

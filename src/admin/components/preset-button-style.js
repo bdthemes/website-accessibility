@@ -1,10 +1,8 @@
-import { Card, Input, Select, Switch, Tabs, Button } from "antd";
+import { Card, Input, Select, Switch, Tabs } from "antd";
 import { __ } from "@wordpress/i18n";
 import { useSelect, useDispatch } from "@wordpress/data";
 import { STORE_NAME } from "../store";
 import IconPicker from "./icon-picker";
-import Icon from "./icon";
-import PreviewButton from './preview-button';
 import ControlWrapper from "./control-wrapper";
 import clsx from 'clsx';
 
@@ -73,6 +71,7 @@ const StyleTab = ({ button, handleButtonChange }) => (
 );
 
 const ButtonStylePreset = () => {
+    const { PreviewButton, Icon } = window?.wapComponents;
     const { presetsFormData } = useSelect((select) => select(STORE_NAME).getPresetsFormData());
     const { setPresetsFormData } = useDispatch(STORE_NAME);
 
@@ -109,11 +108,6 @@ const ButtonStylePreset = () => {
                     <Tabs defaultActiveKey="content" items={tabItems} />
                 </div>
                 <div className="wap-button-style-preset__center">
-                    <div className="wap-button-style-preset__preview-wrapper-bg">
-                        <span></span>
-                        <span></span>
-                        <span></span>
-                    </div>
                     <div 
                         className="wap-button-style-preset__preview-wrapper"
                     >
@@ -123,12 +117,12 @@ const ButtonStylePreset = () => {
                             icon={button.showIcon ? <Icon name={button.icon} /> : null}
                             className={clsx('wap-button-style-preset__preview-btn', position)}
                             style={{
-                                '--button-color': button.color || '#fff',
-                                '--button-bg': button.bgColor || '#1677ff',
-                                '--button-padding': button.padding || '20px',
-                                '--button-radius': button.borderRadius || '6px',
-                                '--button-offset-x': button.offsetX ? `${button.offsetX}px` : '20px',
-                                '--button-offset-y': button.offsetY ? `${button.offsetY}px` : '20px',
+                                '--button-color': button.color,
+                                '--button-bg': button.bgColor,
+                                '--button-padding': button.padding,
+                                '--button-radius': button.borderRadius,
+                                '--button-offset-x': button.offsetX ? `${button.offsetX}px` : '0',
+                                '--button-offset-y': button.offsetY ? `${button.offsetY}px` : '0',
                             }}
                         />
                     </div>

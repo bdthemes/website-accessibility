@@ -1,0 +1,12 @@
+@forward './preset-button-style';
+@forward './icon-picker';
+@forward './preset-panel-customization';
+@forward './post-table';
+
+.ant-select-dropdown{
+    svg {
+        width: 1em;
+        height: 1em;
+        fill: currentColor;
+    }
+}

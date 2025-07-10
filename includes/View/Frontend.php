@@ -1,0 +1,92 @@
+<?php
+
+namespace WebsiteAccessibilityPro\View;
+
+use WebsiteAccessibilityPro\Core\Utils;
+
+class Frontend
+{
+    use \WebsiteAccessibilityPro\Traits\Singleton;
+
+    public function __construct()
+    {
+        add_action('wp_enqueue_scripts', [$this, 'enqueue_frontend_scripts']);
+        add_action('wp_enqueue_scripts', [$this, 'enqueue_components_scripts'], 1);
+        add_action('admin_enqueue_scripts', [$this, 'enqueue_components_scripts'], 1);
+        add_action('wp_footer', [$this, 'render_preset_root']);
+    }
+
+    public function enqueue_components_scripts()
+    {
+        $components_assets = WAP_BUILD_DIR . 'components/index.asset.php';
+        if (file_exists($components_assets)) {
+            $components_assets = require $components_assets;
+            wp_enqueue_script(
+                'wap-accessibility-components',
+                WAP_URL . 'build/components/index.js',
+                $components_assets['dependencies'],
+                $components_assets['version'],
+                true
+            );
+            wp_enqueue_style(
+                'wap-accessibility-components',
+                WAP_URL . 'build/components/index.css',
+                [],
+                $components_assets['version']
+            );
+        }
+    }
+
+    public function enqueue_frontend_scripts()
+    {
+        $frontend_assets = WAP_BUILD_DIR . 'frontend/frontend.asset.php';
+        $presets = get_posts([
+            'post_type' => 'wap_preset',
+            'posts_per_page' => -1,
+        ]);
+        $profiles = get_posts([
+            'post_type' => 'wap_profile',
+            'posts_per_page' => -1,
+        ]);
+
+        $presets_data = array_map(function ($preset) {
+            $data = Utils::get_preset_data($preset);
+            if (!empty($data['preset']['active'])) {
+                return $data;
+            }
+            return null;
+        }, $presets);
+
+        $page_type = Utils::get_page_type();
+
+        if (file_exists($frontend_assets)) {
+            $frontend_assets = require $frontend_assets;
+            wp_enqueue_script(
+                'wap-accessibility-frontend',
+                WAP_URL . 'build/frontend/frontend.js',
+                $frontend_assets['dependencies'],
+                $frontend_assets['version'],
+                true
+            );
+            wp_enqueue_style(
+                'wap-accessibility-frontend',
+                WAP_URL . 'build/frontend/frontend.css',
+                [],
+                $frontend_assets['version']
+            );
+            wp_localize_script('wap-accessibility-frontend', 'websiteAccessibility', [
+                'presets' => $presets_data,
+                'profiles' => $profiles,
+                'pageType' => $page_type,
+            ]);
+        }
+    }
+    public function render_preset_root()
+    {
+        if (!wp_script_is('wap-accessibility-frontend')) {
+            return;
+        }
+
+        echo '<div id="website-accessibility-app"></div>';
+    }
+}

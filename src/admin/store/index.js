@@ -1,7 +1,7 @@
 import { createReduxStore, createRegistrySelector } from '@wordpress/data';
 export const STORE_NAME = 'wap/admin-store';
 import { store as coreStore } from '@wordpress/core-data';
-import { defaultProfiles } from '../utils';
+import { defaultProfiles } from '../../utils';
 import { __ } from '@wordpress/i18n';
 
 export const generateUniqueTitle = (base) => {
@@ -103,8 +103,6 @@ export const DEFAULT_STATE = {
             icon: 'accessibility1',
             color: '#ffffff',
             bgColor: '#1677ff',
-            padding: '20px',
-            borderRadius: '6px',
             position: 'bottom-right',
         },
     },
@@ -169,8 +167,51 @@ const store = createReduxStore(STORE_NAME, {
         },
         createPreset: (presetFormData) => {
             return async ({ dispatch, registry }) => {
-                const { saveEntityRecord } = registry.dispatch('core');
-                const preset = await saveEntityRecord('postType', 'wap_preset', {
+                const { editEntityRecord, saveEditedEntityRecord, saveEntityRecord } = registry.dispatch('core');
+                const { getEntityRecords } = registry.select(coreStore);
+        
+                // Step 1: Fetch all existing presets
+                const prevPresets = getEntityRecords('postType', 'wap_preset', {
+                    per_page: -1,
+                });
+        
+                // Step 2: If new preset is active, deactivate others of same type
+                if (presetFormData?.preset?.active) {
+                    const sameTypePresets = prevPresets?.filter(preset => {
+                        let presetData = {};
+                        try {
+                            presetData = JSON.parse(preset?.content?.raw);
+                        } catch (error) {
+                            console.error(error);
+                        }
+        
+                        const isSameType = presetData?.preset?.condition === presetFormData?.preset?.condition;
+                        const isActive = presetData?.preset?.active;
+        
+                        return isSameType && isActive;
+                    });
+        
+                    for (const oldPreset of sameTypePresets) {
+                        let oldContent = {};
+                        try {
+                            oldContent = JSON.parse(oldPreset.content.raw);
+                        } catch (error) {
+                            console.error(error);
+                        }
+        
+                        // Deactivate it
+                        oldContent.preset.active = false;
+        
+                        editEntityRecord('postType', 'wap_preset', oldPreset.id, {
+                            content: JSON.stringify(oldContent),
+                        });
+        
+                        await saveEditedEntityRecord('postType', 'wap_preset', oldPreset.id);
+                    }
+                }
+        
+                // Step 3: Save new preset
+                const newPreset = await saveEntityRecord('postType', 'wap_preset', {
                     title: presetFormData.title,
                     status: 'publish',
                     content: JSON.stringify({
@@ -179,10 +220,10 @@ const store = createReduxStore(STORE_NAME, {
                         button: presetFormData.button,
                     }),
                 });
-
-                await dispatch({ type: 'CREATE_PRESET', preset });
+        
+                await dispatch({ type: 'CREATE_PRESET', preset: newPreset });
             };
-        },
+        },        
         updatePreset: (id, presetFormData) => {
             return async ({ dispatch, registry }) => {
                 const { editEntityRecord } = registry.dispatch('core');
@@ -192,11 +233,74 @@ const store = createReduxStore(STORE_NAME, {
         },
         saveEditedPreset: (id) => {
             return async ({ dispatch, registry }) => {
-                const { saveEditedEntityRecord } = registry.dispatch('core');
-                const preset = await saveEditedEntityRecord('postType', 'wap_preset', id);
-                await dispatch({ type: 'SAVE_EDITED_PRESET', preset });
+                const { select, dispatch: coreDispatch } = registry;
+                const { getEditedEntityRecord, getEntityRecords } = select('core');
+                const { editEntityRecord, saveEditedEntityRecord } = coreDispatch('core');
+        
+                // Step 1: Get the edited version of the preset (unsaved)
+                const currentPreset = getEditedEntityRecord('postType', 'wap_preset', id);
+                
+                if (!currentPreset) return;
+        
+                let currentContent = {};
+                try {
+                    currentContent = JSON.parse(currentPreset.content?.raw || currentPreset.content);
+                } catch (error) {
+                    console.error('Failed to parse current preset content', error);
+                }
+        
+                const isActive = currentContent?.preset?.active;
+                const currentCondition = currentContent?.preset?.condition;
+        
+                // Step 2: If this edited preset is active, deactivate others with the same condition
+                if (isActive && currentCondition) {
+                    const allPresets = getEntityRecords('postType', 'wap_preset', {
+                        per_page: -1,
+                    });
+        
+                    const sameTypePresets = allPresets?.filter(preset => {
+                        if (preset.id === id) return false; // Skip current
+        
+                        let content = {};
+                        try {
+                            content = JSON.parse(preset.content?.raw || preset.content);
+                        } catch (error) {
+                            console.error('Failed to parse other preset content', error);
+                        }
+        
+                        const sameType = content?.preset?.condition === currentCondition;
+                        const isActive = content?.preset?.active === true;
+        
+                        return sameType && isActive;
+                    });
+        
+                    for (const preset of sameTypePresets) {
+                        let content = {};
+                        try {
+                            content = JSON.parse(preset.content?.raw || preset.content);
+                        } catch (error) {
+                            console.error('Failed to parse same-type preset', error);
+                        }
+        
+                        // Deactivate it
+                        content.preset.active = false;
+        
+                        editEntityRecord('postType', 'wap_preset', preset.id, {
+                            content: JSON.stringify(content),
+                        });
+        
+                        await saveEditedEntityRecord('postType', 'wap_preset', preset.id);
+                    }
+                }
+        
+                // Step 3: Save the current edited preset
+                const savedPreset = await saveEditedEntityRecord('postType', 'wap_preset', id);
+        
+                // Step 4: Dispatch custom action if needed
+                await dispatch({ type: 'SAVE_EDITED_PRESET', preset: savedPreset });
             };
         },
+        
         setPresetFilters: (filters = {}) => {
             return { type: 'SET_PRESET_FILTERS', presetFilters: filters };
         },

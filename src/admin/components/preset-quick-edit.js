@@ -1,10 +1,10 @@
 import { Drawer, Input, Switch, Button, Space, message, Select } from 'antd';
 import { __ } from '@wordpress/i18n';
-import { useEffect, useState } from '@wordpress/element';
-import { locationOptions } from '../utils';
+import { useEffect } from '@wordpress/element';
 import { useSelect, useDispatch } from '@wordpress/data';
 import { DEFAULT_STATE, STORE_NAME } from '../store';
 import ControlWrapper from './control-wrapper';
+import { locationOptions } from '../../utils';
 
 const PresetQuickEdit = ({
   visible,

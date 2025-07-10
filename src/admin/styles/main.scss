@@ -1,0 +1,10 @@
+@forward './components/compoents';
+@forward './pages/pages';
+
+#website-accessibility-admin{
+    padding: 80px 0;
+}
+
+.wap-panel-left-sidebar-open{
+    overflow-y: unset !important;
+}

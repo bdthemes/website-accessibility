@@ -1,0 +1,19 @@
+import View from "./view";
+import 'antd/dist/reset.css';
+import "./styles/main.scss";
+import { createRoot } from "@wordpress/element";
+import { AccessibilityProvider } from "./context";
+
+window.addEventListener( "load", () => {
+    const rootElement = document.getElementById( "website-accessibility-app" );
+    if ( ! rootElement ) {
+        return;
+    }
+
+    const root = createRoot( rootElement );
+    root.render( 
+        <AccessibilityProvider>
+            <View />
+        </AccessibilityProvider>
+    );
+});

@@ -6,9 +6,8 @@ import {
   Space,
   Typography,
 } from 'antd';
-import { SaveOutlined, ArrowLeftOutlined } from '@ant-design/icons';
 import { __ } from '@wordpress/i18n';
-import { steps } from '../utils';
+import { steps } from '../../utils';
 import { useDispatch, useSelect } from "@wordpress/data";
 import { STORE_NAME } from "../store";
 import { useHistory, useLocation } from '../router';

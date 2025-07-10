@@ -1,0 +1,22 @@
+.wap-post-table__searchbar {
+    margin-bottom: 16px;
+    .ant-input {
+        min-height: unset !important;
+        border: 0 !important;
+    }
+
+    .ant-input-affix-wrapper {
+        padding: 8px 12px;
+
+        input {
+            border: 0 !important;
+
+            &:focus,
+            &:hover {
+                border: 0 !important;
+                box-shadow: none !important;
+            }
+        }
+
+    }
+}

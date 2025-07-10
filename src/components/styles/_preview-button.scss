@@ -1,0 +1,68 @@
+.wap-admin,
+.wap-frontend {
+    .wap-button-style-preset__preview-btn {
+        display: inline-flex;
+        align-items: center;
+        gap: 8px;
+        border: none;
+        cursor: pointer;
+        z-index: 999;
+
+        color: var(--button-color, #fff);
+        background-color: var(--button-bg, #1677ff);
+        padding: var(--button-padding, 20px 16px);
+        border-radius: var(--button-radius, 6px);
+
+        &.bottom-right {
+            bottom: var(--button-offset-y, 0);
+            right: var(--button-offset-x, 0);
+        }
+
+        &.bottom-left {
+            bottom: var(--button-offset-y, 0);
+            left: var(--button-offset-x, 0);
+        }
+
+        &.top-right {
+            top: var(--button-offset-y, 0);
+            right: var(--button-offset-x, 0);
+        }
+
+        &.top-left {
+            top: var(--button-offset-y, 0);
+            left: var(--button-offset-x, 0);
+        }
+
+        &:hover {
+            opacity: 0.9;
+            transform: translateY(-1px);
+        }
+
+        &:active {
+            transform: translateY(0);
+        }
+
+        svg {
+            width: 1em;
+            height: 1em;
+            fill: currentColor;
+            color: inherit;
+
+            path {
+                fill: currentColor;
+            }
+        }
+    }
+}
+
+.wap-admin {
+    .wap-button-style-preset__preview-btn {
+        position: absolute;
+    }
+}
+
+.wap-frontend {
+    .wap-button-style-preset__preview-btn {
+        position: fixed;
+    }
+}

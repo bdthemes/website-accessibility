@@ -7,7 +7,7 @@ import {
   Typography,
 } from 'antd';
 import { __ } from '@wordpress/i18n';
-import { steps } from '../utils';
+import { steps } from '../../utils';
 import { useDispatch, useSelect } from "@wordpress/data";
 import { DEFAULT_STATE, STORE_NAME } from "../store";
 import { useHistory } from '../router';

@@ -1,0 +1,304 @@
+// Panel Footer Styles
+.wap-panel-footer {
+  background: linear-gradient(135deg, #f8fafc 0%, #f1f5f9 100%);
+  border-top: 1px solid #e2e8f0;
+  padding: 24px 20px;
+  border-radius: 0 0 16px 16px;
+  position: relative;
+  overflow: hidden;
+
+  // Subtle background pattern
+  &::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background-image: 
+      radial-gradient(circle at 20% 80%, rgba(0, 115, 234, 0.03) 0%, transparent 50%),
+      radial-gradient(circle at 80% 20%, rgba(26, 76, 216, 0.03) 0%, transparent 50%);
+    pointer-events: none;
+  }
+
+  // Actions Section
+  &__actions {
+    position: relative;
+    z-index: 1;
+    margin-bottom: 20px;
+
+    .ant-row {
+      margin: 0 !important;
+    }
+
+    .ant-col {
+      padding: 0 !important;
+    }
+  }
+
+  // Reset Button
+  &__reset-btn {
+    position: relative;
+    overflow: hidden;
+    font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+    letter-spacing: -0.01em;
+
+    &::before {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: -100%;
+      width: 100%;
+      height: 100%;
+      background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.2), transparent);
+      transition: left 0.6s ease;
+    }
+
+    &:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 8px 20px rgba(0, 115, 234, 0.4) !important;
+
+      &::before {
+        left: 100%;
+      }
+    }
+
+    &:active {
+      transform: translateY(0);
+      box-shadow: 0 4px 12px rgba(0, 115, 234, 0.3) !important;
+    }
+
+    .anticon {
+      font-size: 18px;
+      margin-right: 8px;
+    }
+  }
+
+  // Save Button
+  &__save-btn {
+    position: relative;
+    overflow: hidden;
+    font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+    letter-spacing: -0.01em;
+    background: #ffffff !important;
+
+    &::before {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: 0;
+      right: 0;
+      bottom: 0;
+      background: linear-gradient(135deg, #f8fafc 0%, #ffffff 100%);
+      border-radius: inherit;
+      z-index: -1;
+    }
+
+    &:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 8px 20px rgba(0, 0, 0, 0.12) !important;
+      border-color: #d1d5db !important;
+
+      .anticon {
+        transform: translateX(4px);
+      }
+    }
+
+    &:active {
+      transform: translateY(0);
+      box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08) !important;
+    }
+
+    .anticon {
+      transition: transform 0.3s ease;
+    }
+
+    .ant-space {
+      width: 100%;
+    }
+  }
+
+  // Links Section
+  &__links {
+    position: relative;
+    z-index: 1;
+    text-align: center;
+    padding-top: 16px;
+    border-top: 1px solid rgba(226, 232, 240, 0.6);
+  }
+
+  // Statement Link
+  &__statement-link {
+    display: inline-block;
+    font-size: 14px;
+    font-weight: 500;
+    text-decoration: none;
+    padding: 8px 16px;
+    border-radius: 20px;
+    transition: all 0.3s ease;
+    margin-bottom: 12px;
+    position: relative;
+    overflow: hidden;
+
+    &::before {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: 0;
+      right: 0;
+      bottom: 0;
+      background: currentColor;
+      opacity: 0;
+      border-radius: inherit;
+      transition: opacity 0.3s ease;
+    }
+
+    &:hover {
+      transform: translateY(-1px);
+      box-shadow: 0 4px 12px rgba(0, 115, 234, 0.15);
+
+      &::before {
+        opacity: 0.08;
+      }
+    }
+
+    &:active {
+      transform: translateY(0);
+    }
+  }
+
+  // Branding Section
+  &__branding {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    padding: 8px 12px;
+    border-radius: 12px;
+    background: rgba(255, 255, 255, 0.6);
+    backdrop-filter: blur(10px);
+    border: 1px solid rgba(226, 232, 240, 0.8);
+    transition: all 0.3s ease;
+    font-size: 12px;
+    font-weight: 500;
+
+    &:hover {
+      transform: translateY(-1px);
+      box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
+      background: rgba(255, 255, 255, 0.8);
+    }
+  }
+
+  // Brand Logo
+  &__brand-logo {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 20px;
+    height: 20px;
+    border-radius: 4px;
+    overflow: hidden;
+    flex-shrink: 0;
+
+    svg {
+      width: 100%;
+      height: 100%;
+    }
+  }
+
+  // Brand Text
+  &__brand-text {
+    font-size: 12px;
+    font-weight: 500;
+    line-height: 1.2;
+    white-space: nowrap;
+  }
+
+  // Responsive Design
+  @media (max-width: 480px) {
+    padding: 20px 16px;
+
+    &__reset-btn,
+    &__save-btn {
+      font-size: 14px !important;
+      height: 48px !important;
+    }
+
+    &__statement-link {
+      font-size: 13px;
+      padding: 6px 12px;
+    }
+
+    &__branding {
+      font-size: 11px;
+      padding: 6px 10px;
+    }
+
+    &__brand-text {
+      font-size: 11px;
+    }
+  }
+
+  // Dark mode support (if needed)
+  @media (prefers-color-scheme: dark) {
+    background: linear-gradient(135deg, #1e293b 0%, #334155 100%);
+    border-top-color: #475569;
+
+    &::before {
+      background-image: 
+        radial-gradient(circle at 20% 80%, rgba(0, 115, 234, 0.1) 0%, transparent 50%),
+        radial-gradient(circle at 80% 20%, rgba(26, 76, 216, 0.1) 0%, transparent 50%);
+    }
+
+    &__save-btn {
+      background: #334155 !important;
+      border-color: #475569 !important;
+      color: #f1f5f9 !important;
+
+      &::before {
+        background: linear-gradient(135deg, #334155 0%, #475569 100%);
+      }
+    }
+
+    &__links {
+      border-top-color: rgba(71, 85, 105, 0.6);
+    }
+
+    &__branding {
+      background: rgba(51, 65, 85, 0.6);
+      border-color: rgba(71, 85, 105, 0.8);
+
+      &:hover {
+        background: rgba(51, 65, 85, 0.8);
+      }
+    }
+  }
+
+  // Focus states for accessibility
+  &__reset-btn:focus,
+  &__save-btn:focus,
+  &__statement-link:focus {
+    outline: 2px solid #0073ea;
+    outline-offset: 2px;
+  }
+
+  // Loading states
+  &__reset-btn.ant-btn-loading,
+  &__save-btn.ant-btn-loading {
+    pointer-events: none;
+    opacity: 0.7;
+  }
+
+  // Animation for initial load
+  @keyframes slideUpFade {
+    from {
+      opacity: 0;
+      transform: translateY(20px);
+    }
+    to {
+      opacity: 1;
+      transform: translateY(0);
+    }
+  }
+
+  animation: slideUpFade 0.6s ease-out;
+}

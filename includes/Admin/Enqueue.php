@@ -32,12 +32,8 @@ class Enqueue {
      * @param string $hook_suffix The current admin page.
      */
     public function enqueue_scripts($hook_suffix) {
-        // Only load on our plugin pages
-        // if (!$this->is_plugin_page($hook_suffix)) {
-        //     return;
-        // }
-
-        $admin_assets = WAP_BUILD_DIR . '/admin/index.asset.php';
+        
+        $admin_assets = WAP_BUILD_DIR . 'admin/index.asset.php';
         if (file_exists($admin_assets)) {
             $admin_assets = require $admin_assets;
 

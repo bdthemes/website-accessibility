@@ -117,6 +117,9 @@ final class WebsiteAccessibilityPro
 
 		// Initialize admin assets
 		\WebsiteAccessibilityPro\Admin\Enqueue::get_instance();
+
+		// Initialize frontend assets
+		\WebsiteAccessibilityPro\View\Frontend::get_instance();
 	}
 
 	/**

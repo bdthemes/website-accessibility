@@ -64,6 +64,14 @@ const PresetPanelLeftSidebar = () => {
     };
   }, []);
 
+  useEffect(() => {
+    if (drawerVisible) {
+      document.body.classList.add('wap-panel-left-sidebar-open');
+    } else {
+      document.body.classList.remove('wap-panel-left-sidebar-open');
+    }
+  }, [drawerVisible]);
+
   return (
     <div className="wap-panel-left-sidebar">
       <ReactSortable
@@ -137,8 +145,8 @@ const PresetPanelLeftSidebar = () => {
         onClose={handleDrawerClose}
         open={drawerVisible}
         width={400}
-        mask={false}
         rootStyle={{ top: 30, left: 160 }}
+        rootClassName="wap-panel-left-sidebar__drawer"
       >
         {selectedItem?.slug === 'header' && (
           <HeaderSettings

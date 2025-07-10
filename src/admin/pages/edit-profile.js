@@ -65,8 +65,6 @@ const EditProfile = () => {
 
     if (!profile) return null;
 
-    console.log(profilesFormData);
-
     return (
         <div className="wap-edit-profile">
                 <Card className='wap-header-card'>

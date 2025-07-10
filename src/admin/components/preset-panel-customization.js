@@ -1,7 +1,7 @@
 import { Card } from "antd";
 import PresetPanelLeftSidebar from "./preset-panel-left-sidebar";
 import PresetPanelRightSidebar from "./preset-panel-right-sidebar";
-import PreviewContent from "./preview-content";
+import PreviewContent from "../../components/preview-content";
 import { useSelect } from "@wordpress/data";
 import { STORE_NAME } from "../store";
 

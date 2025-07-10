@@ -1,34 +1,31 @@
-import PreviewContent from "../components/preview-content";
 import { useSelect } from "@wordpress/data";
 import { STORE_NAME } from "../store";
 import { useLocation } from "../router";
-import PreviewButton from "../components/preview-button";
 import clsx from "clsx";
-import Icon from "../components/icon";
-import { useState } from '@wordpress/element';
+import { useState, useMemo } from '@wordpress/element';
 import { Drawer } from 'antd';
 
 const PreviewPreset = () => {
+  const { Icon, PreviewButton, PreviewContent } = window?.wapComponents;
   const location = useLocation();
   const id = location?.params?.id;
   const [isOpen, setIsOpen] = useState(false);
-  const { panel, button } = useSelect((select) => {
-    const { getPreset } = select(STORE_NAME);
-    const preset = getPreset(id);
-    const content = preset?.content || {};
-    try {
-      const parsedContent = JSON.parse(content);
-      return {
-        panel: parsedContent?.panel || {},
-        button: parsedContent?.button || {},
-      };
-    } catch (error) {
-      return {
-        panel: {},
-        button: {},
-      };
-    }
+  const preset = useSelect((select) => {
+    return select(STORE_NAME).getPreset(id);
   }, [id]);
+
+  const parsedContent = useMemo(() => {
+    try {
+      return preset?.content ? JSON.parse(preset.content) : null;
+    } catch (e) {
+      console.error("Failed to parse preset content:", e);
+      return null;
+    }
+  }, [preset?.content]);
+
+  const panel = parsedContent?.panel ?? null;
+  const button = parsedContent?.button ?? null;
+
   const allProfiles = useSelect((select) => {
     const { getProfiles } = select(STORE_NAME);
     const profiles = getProfiles(true);
@@ -37,11 +34,6 @@ const PreviewPreset = () => {
 
   return (
     <>
-      <div className="wap-button-style-preset__preview-wrapper-bg ">
-        <span></span>
-        <span></span>
-        <span></span>
-      </div>
       <div className="wap-panel-customization__panel-wrapper">
         <PreviewButton
           type="default"
@@ -63,6 +55,7 @@ const PreviewPreset = () => {
           onClose={() => setIsOpen(false)}
           width={'auto'}
           className="wap-preset__preview-drawer"
+          rootClassName="wap-preset__preview-drawer-root"
         >
           <PreviewContent panel={panel} allProfiles={allProfiles} setIsOpen={setIsOpen} />
         </Drawer>

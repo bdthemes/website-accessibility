@@ -3,7 +3,7 @@
  */
 import { createRoot } from '@wordpress/element';
 import { RouterProvider } from './router';
-import "./styles/index.scss";
+import "./styles/main.scss";
 import Pages from './pages';
 import { register } from '@wordpress/data';
 import store from './store';
@@ -12,7 +12,7 @@ register(store);
 /**
  * Initialize the app
  */
-const App = () => {
+const Admin = () => {
     return (
         <RouterProvider>
             <Pages />
@@ -21,7 +21,7 @@ const App = () => {
 };
 
 // Initialize only on our plugin's admin pages
-const appContainer = document.getElementById('website-accessibility-app');
+const appContainer = document.getElementById('website-accessibility-admin');
 if (appContainer) {
-    createRoot(appContainer).render(<App />);
+    createRoot(appContainer).render(<Admin />);
 }

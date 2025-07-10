@@ -1,7 +1,7 @@
 import { Select } from "antd";
 import { __ } from "@wordpress/i18n";
-import * as icons from "../assets/icons";
-import Icon from "./icon";
+import * as icons from "../../assets/icons";
+import Icon from "../../components/icon";
 
 const IconPicker = (props) => {
     const options = Object.entries(icons).map(([key, value]) => ({

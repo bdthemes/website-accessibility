@@ -111,7 +111,7 @@ class Menu {
 
     public function render_menu_page() {
         echo '<div class="wrap">';
-        echo '<div id="website-accessibility-app"></div>';
+        echo '<div id="website-accessibility-admin"></div>';
         echo '</div>';
     }
 } 

@@ -1,0 +1,69 @@
+.wap-header-card {
+    background: linear-gradient(135deg, #1677ff 0%, #135e96 100%);
+    border-radius: 6px;
+    margin-bottom: 32px;
+
+    .ant-card-body {
+        padding: 30px;
+        display: flex;
+        align-items: center;
+        gap: 20px;
+        justify-content: space-between;
+        flex-wrap: wrap;
+
+        &:before,
+        &:after {
+            display: none;
+        }
+    }
+
+    .wap-header-card-title {
+        margin: 0;
+        color: #fff;
+    }
+
+    .wap-header-card-description {
+        margin: 10px 0 0;
+        color: #dee5ee;
+        display: block;
+    }
+
+    .ant-btn {
+        background: rgba(255, 255, 255, 0.11);
+        backdrop-filter: blur(10px);
+        border: 1px solid rgba(255, 255, 255, 0.11);
+
+        &:hover {
+            background: rgba(255, 255, 255, 0.188);
+            border: 1px solid rgba(255, 255, 255, 0.11);
+        }
+    }
+}
+
+.wap-preset-editor {
+  .wap-preset-steps, .wap-get-started-preset-card {
+    max-width: 50%;
+    margin: 0 auto;
+  }
+  .wap-preset-form-card {
+    margin: 16px 0;
+  }
+  .wap-preset-form-actions {
+    text-align: right;
+  }
+}
+
+.wap-control-wrapper {
+    &:not(:last-child) {
+        margin-bottom: 16px;
+    }
+
+    h5.ant-typography {
+        margin-top: 0;
+        font-weight: 500;
+    }
+
+    .ant-select {
+        width: 100%;
+    }
+}

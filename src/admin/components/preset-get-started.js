@@ -1,9 +1,9 @@
 import { Card, Input, Select, Switch } from "antd";
 import { __ } from "@wordpress/i18n";
-import { locationOptions } from "../utils";
 import { useSelect, useDispatch } from "@wordpress/data";
 import { STORE_NAME } from "../store";
 import ControlWrapper from "./control-wrapper";
+import { locationOptions } from "../../utils";
 
 const GetStartedPreset = () => {
     const { presetsFormData } = useSelect((select) => select(STORE_NAME).getPresetsFormData());

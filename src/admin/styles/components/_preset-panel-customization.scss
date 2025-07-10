@@ -1,0 +1,97 @@
+.wap-panel-customization {
+    display: flex;
+    flex-direction: row;
+
+    &__center-row {
+        min-height: 600px;
+        display: flex;
+        justify-content: center;
+        flex: 1;
+        padding: 20px 0;
+    }
+
+    &__side-spacer {
+        width: 60px;
+        background: transparent;
+    }
+
+}
+
+.wap-panel-customization__left {
+    background: #fff;
+    border-right: 1px solid #eeeff0;
+    padding: 20px;
+    width: 250px;
+    box-sizing: border-box;
+}
+
+.wap-panel-left-sidebar {
+    .ant-card-body {
+        padding: 12px
+    }
+
+    &__row {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        background: #fff;
+        color: #222;
+        font-weight: 400;
+        font-size: 18px;
+        border-radius: 0;
+        margin-bottom: 10px;
+
+        &:hover {
+            background: #f7f9fa;
+        }
+    }
+
+    &__drag-handle {
+        font-size: 16px;
+        color: #999;
+        margin-right: 8px;
+        cursor: grab;
+
+        &:active {
+            cursor: grabbing;
+        }
+    }
+
+    &__ghost {
+        opacity: 0.5;
+        background: #f0f2f5;
+    }
+
+    .ant-card-body {
+        width: 100%;
+    }
+
+    &__actions {
+        display: flex;
+        gap: 8px;
+    }
+
+    &__icon-action {
+        font-size: 18px;
+        cursor: pointer;
+    }
+}
+
+.wap-panel-customization__right {
+    border-right: 0;
+    border-left: 1px solid #eeeff0;
+    padding: 20px;
+    width: 250px;
+}
+
+.wap-panel-customization-card {
+    >.ant-card-body {
+        padding: 0;
+    }
+}
+
+.wap-panel-left-sidebar__drawer{
+    .ant-drawer-mask{
+        background: transparent !important;
+    }
+}

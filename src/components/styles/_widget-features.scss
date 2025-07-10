@@ -1,0 +1,218 @@
+.wap-widget-features {
+    background: #f5f7fa;
+    border-radius: 18px;
+    box-shadow: none;
+    border: none;
+    padding: 0 24px;
+    max-width: 1000px;
+    margin-left: auto;
+    margin-right: auto;
+    margin-bottom: 32px;
+
+    .ant-card-body {
+        padding: 0;
+    }
+
+    &__row {
+        margin-bottom: 24px;
+
+        .ant-switch {
+            border: none;
+            color: unset;
+            padding: unset;
+            border-radius: 100px;
+
+            .ant-switch-inner {
+                background-color: #ddd;
+            }
+
+            &.ant-switch-checked {
+                .ant-switch-inner {
+                    background-color: #1a4cd8;
+                }
+            }
+        }
+    }
+
+    &__badge {
+        margin-right: 12px;
+        font-size: 22px;
+        font-weight: 700;
+        color: #1a4cd8;
+        vertical-align: middle;
+    }
+
+    &__label {
+        font-size: 16px;
+        font-weight: 600;
+        color: #222;
+        vertical-align: middle;
+    }
+
+    &__grid {
+        min-height: 100px;
+    }
+
+    &__feature-btn {
+        background: #ffffff;
+        border-radius: 6px;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;
+        min-height: 90px;
+        height: 100%;
+        cursor: pointer;
+        transition: all 0.2s ease;
+        border: 1px solid rgba(236, 232, 232, 0.8509803922);
+        font-size: 13px;
+        font-weight: 600;
+        color: #111;
+        text-align: center;
+        position: relative;
+
+        &:hover {
+            box-shadow: 0 4px 16px rgba(30, 42, 80, 0.10);
+            border-color: #1a4cd8;
+        }
+
+        &--active {
+            background: #1a4cd8;
+            color: #ffffff;
+            border-color: #1a4cd8;
+            box-shadow: 0 4px 16px rgba(26, 76, 216, 0.25);
+
+            &:hover {
+                background: #0f3bb3;
+                box-shadow: 0 6px 20px rgba(26, 76, 216, 0.35);
+            }
+
+            .wap-widget-features__feature-icon svg {
+                filter: brightness(0) invert(1);
+            }
+        }
+    }
+
+    &__feature-icon {
+        display: block;
+        margin-bottom: 10px;
+
+        svg {
+            display: block;
+            margin: 0 auto;
+            width: 26px;
+            height: 26px;
+            transition: filter 0.2s ease;
+        }
+    }
+
+    // Top indicator - shows check mark when active
+    &-top-indicator {
+        position: absolute;
+        top: -8px;
+        right: -8px;
+        width: 24px;
+        height: 24px;
+        border-radius: 50%;
+        background: #e5e7eb;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        transition: all 0.2s ease;
+        z-index: 2;
+
+        svg {
+            width: 16px;
+            height: 16px;
+            color: #ffffff;
+        }
+
+        &--active {
+            background: #10b981;
+            box-shadow: 0 2px 8px rgba(16, 185, 129, 0.3);
+        }
+    }
+
+    // Bottom indicator - shows current step
+    &-bottom-indicator {
+        position: absolute;
+        bottom: -8px;
+        left: 50%;
+        transform: translateX(-50%);
+        background: #f3f4f6;
+        border: 1px solid #d1d5db;
+        border-radius: 12px;
+        padding: 4px 8px;
+        font-size: 10px;
+        font-weight: 500;
+        color: #6b7280;
+        white-space: nowrap;
+        transition: all 0.2s ease;
+        z-index: 2;
+        opacity: 0;
+        visibility: hidden;
+
+        &--active {
+            opacity: 1;
+            visibility: visible;
+            background: #1a4cd8;
+            color: #ffffff;
+            border-color: #1a4cd8;
+            box-shadow: 0 2px 8px rgba(26, 76, 216, 0.2);
+        }
+
+        &__text {
+            display: flex;
+            align-items: center;
+            gap: 4px;
+        }
+
+        &__step {
+            font-size: 9px;
+            opacity: 0.8;
+        }
+    }
+}
+
+// Responsive grid
+@media (max-width: 991px) {
+    .wap-widget-features__grid .ant-col {
+        flex: 0 0 50%;
+        max-width: 50%;
+    }
+}
+
+@media (max-width: 575px) {
+    .wap-widget-features__grid .ant-col {
+        flex: 0 0 100%;
+        max-width: 100%;
+    }
+
+    .wap-widget-features {
+        padding-left: 12px;
+        padding-right: 12px;
+    }
+
+    // Adjust indicators for mobile
+    .wap-widget-features-top-indicator {
+        top: -6px;
+        right: -6px;
+        width: 20px;
+        height: 20px;
+
+        svg {
+            width: 14px;
+            height: 14px;
+        }
+    }
+
+    .wap-widget-features-bottom-indicator {
+        bottom: -6px;
+        padding: 3px 6px;
+        font-size: 9px;
+
+        &__step {
+            font-size: 8px;
+        }
+    }
+}
