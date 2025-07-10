@@ -35,3 +35,9 @@
         }
     }
 }
+
+.wap-button-style-preset-card {
+    > .ant-card-body {
+        padding: 0;
+    }
+}

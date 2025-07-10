@@ -80,6 +80,7 @@ const EditProfile = () => {
                     <Button
                         type="primary"
                         onClick={handleBack}
+                        size='large'
                     >
                         <Space>
                             <span className="dashicons dashicons-arrow-left-alt"/>
@@ -95,7 +96,7 @@ const EditProfile = () => {
 
                 <div style={{ marginTop: 24, textAlign: 'right' }}>
                     <Space>
-                        <Button onClick={handleBack}>
+                        <Button onClick={handleBack} size='large'>
                             <Space>
                                 <span className='dashicons dashicons-dismiss' />
                                 {__('Cancel', 'website-accessibility')}
@@ -105,6 +106,7 @@ const EditProfile = () => {
                             type="primary"
                             onClick={handleUpdate}
                             disabled={!profilesFormData?.name?.trim()}
+                            size='large'
                         >
                             <Space>
                                 {__('Update Profile', 'website-accessibility')}

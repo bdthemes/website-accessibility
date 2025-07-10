@@ -112,6 +112,7 @@ const Profiles = () => {
           <Button 
                 type="primary" 
                 onClick={handleCreateProfile}
+                size='large'
               >
                 <Space>
                   <span className="dashicons dashicons-plus-alt2"/>
