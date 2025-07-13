@@ -14,23 +14,23 @@
         border-radius: var(--button-radius, 6px);
 
         &.bottom-right {
-            bottom: var(--button-offset-y, 0);
-            right: var(--button-offset-x, 0);
+            bottom: 30px;
+            right: 30px;
         }
 
         &.bottom-left {
-            bottom: var(--button-offset-y, 0);
-            left: var(--button-offset-x, 0);
+            bottom: 30px;
+            left: 30px;
         }
 
         &.top-right {
-            top: var(--button-offset-y, 0);
-            right: var(--button-offset-x, 0);
+            top: calc(30px + 44px);
+            right: 30px;
         }
 
         &.top-left {
-            top: var(--button-offset-y, 0);
-            left: var(--button-offset-x, 0);
+            top: calc(30px + 44px);
+            left: 30px;
         }
 
         &:hover {

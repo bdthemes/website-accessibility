@@ -20,11 +20,11 @@ const PanelCustomizationPreset = () => {
                     <PresetPanelLeftSidebar />
                 </div>
                 <div className="wap-panel-customization__center-row" style={{ position: 'relative' }}>
-                    <div className="wap-button-style-preset__preview-wrapper-bg">
-                        <span></span>
-                        <span></span>
-                        <span></span>
-                    </div>
+                <div className="wap-os-style-wrapper">
+        <span className="wap-os-style"></span>
+        <span className="wap-os-style"></span>
+        <span className="wap-os-style"></span>
+      </div>
                     <div className="wap-panel-customization__center" style={{ marginTop: '40px' }}>
                         <PreviewContent panel={panel} allProfiles={allProfiles} />
                     </div>
