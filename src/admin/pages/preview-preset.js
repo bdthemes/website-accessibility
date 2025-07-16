@@ -34,6 +34,11 @@ const PreviewPreset = () => {
 
   return (
     <>
+      <div className="wap-os-style-wrapper">
+        <span className="wap-os-style"></span>
+        <span className="wap-os-style"></span>
+        <span className="wap-os-style"></span>
+      </div>
       <div className="wap-panel-customization__panel-wrapper">
         <PreviewButton
           type="default"

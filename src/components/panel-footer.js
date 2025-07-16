@@ -23,7 +23,6 @@ const PanelFooter = ({ value, onChange, accessibilityContext }) => {
   const showBranding = attributes.showBranding !== false;
   const brandingText = attributes.brandingText || 'Proudly Powered by Website Accessibility Pro';
   const linkColor = attributes.linkColor || '#0073ea';
-  const brandingColor = attributes.brandingColor || '#1a4cd8';
 
   // Handle reset action
   const handleReset = () => {
@@ -99,13 +98,7 @@ const PanelFooter = ({ value, onChange, accessibilityContext }) => {
         )}
         {showBranding && (
           <div className="wap-panel-footer__branding">
-            <div className="wap-panel-footer__brand-logo">
-              <svg width="20" height="20" viewBox="0 0 24 24" fill="none">
-                <rect width="24" height="24" rx="6" fill={brandingColor} />
-                <text x="12" y="17" textAnchor="middle" fontSize="12" fill="#fff" fontWeight="bold">U</text>
-              </svg>
-            </div>
-            <span className="wap-panel-footer__brand-text" style={{ color: brandingColor }}>
+            <span className="wap-panel-footer__brand-text">
               {brandingText}
             </span>
           </div>
