@@ -3,9 +3,9 @@
  * Admin Menu Handler
  */
 
-namespace WebsiteAccessibilityPro\Admin;
+namespace WebsiteAccessibility\Admin;
 
-use WebsiteAccessibilityPro\Traits\Singleton;
+use WebsiteAccessibility\Traits\Singleton;
 
 if (!defined('ABSPATH')) {
     exit;

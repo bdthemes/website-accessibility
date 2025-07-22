@@ -1,24 +1,31 @@
 {
 	"name": "website-accessibility",
-	"version": "0.1.0",
+	"version": "1.0.0",
 	"description": "Example block scaffolded with Create Block tool.",
 	"author": "The WordPress Contributors",
 	"license": "GPL-2.0-or-later",
 	"main": "build/index.js",
+	"files": [
+		"build",
+		"includes",
+		"languages",
+		"vendor",
+		"composer.json",
+		"*.php"
+	],
 	"scripts": {
+		"start": "wp-scripts start",
 		"build": "wp-scripts build",
-		"format": "wp-scripts format",
-		"lint:css": "wp-scripts lint-style",
-		"lint:js": "wp-scripts lint-js",
 		"packages-update": "wp-scripts packages-update",
+		"make-pot": "wp i18n make-pot . languages/website-accessibility.pot --exclude=node_modules,build,vendor",
 		"plugin-zip": "wp-scripts plugin-zip",
-		"start": "wp-scripts start"
+		"publish": "npm run build && npm run make-pot && npm run plugin-zip"
 	},
 	"devDependencies": {
-		"@wordpress/scripts": "^30.16.0"
+		"@wordpress/scripts": "^30.19.0"
 	},
 	"dependencies": {
-		"@wordpress/icons": "^10.23.0",
+		"@wordpress/icons": "^10.26.0",
 		"antd": "^5.25.2",
 		"clsx": "^2.1.1",
 		"history": "^5.3.0",

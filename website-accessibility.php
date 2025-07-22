@@ -1,7 +1,7 @@
 <?php
 
 /**
- * Plugin Name:       Website Accessibility Pro
+ * Plugin Name:       Website Accessibility
  * Description:       A comprehensive WordPress plugin to enhance website accessibility and ensure WCAG compliance.
  * Requires at least: 6.1
  * Requires PHP:      7.4
@@ -11,12 +11,11 @@
  * License:           GPL-2.0-or-later
  * License URI:       https://www.gnu.org/licenses/gpl-2.0.html
  * Text Domain:       website-accessibility
- * Domain Path:       /languages
  * 
  * @package           Website Accessibility Pro
  */
 
-use WebsiteAccessibilityPro\Traits\Singleton;
+use WebsiteAccessibility\Traits\Singleton;
 
 // Exit if accessed directly.
 if (! defined('ABSPATH')) exit;
@@ -32,7 +31,7 @@ if (file_exists($autoload_file)) {
  * Main Website Accessibility Pro Class.
  * Implements the singleton pattern to ensure only one instance is running.
  */
-final class WebsiteAccessibilityPro
+final class WebsiteAccessibility
 {
 	use Singleton;
 
@@ -109,17 +108,17 @@ final class WebsiteAccessibilityPro
 		add_filter('body_class', fn($classes) => array_merge($classes, ['wap', 'wap-frontend']));
 
 		// Register post types
-		\WebsiteAccessibilityPro\Core\AccessibilityPreset::get_instance();
-		\WebsiteAccessibilityPro\Core\PresetProfile::get_instance();
+		\WebsiteAccessibility\Core\AccessibilityPreset::get_instance();
+		\WebsiteAccessibility\Core\PresetProfile::get_instance();
 
 		// Register admin menu
-		\WebsiteAccessibilityPro\Admin\Menu::get_instance();
+		\WebsiteAccessibility\Admin\Menu::get_instance();
 
 		// Initialize admin assets
-		\WebsiteAccessibilityPro\Admin\Enqueue::get_instance();
+		\WebsiteAccessibility\Admin\Enqueue::get_instance();
 
 		// Initialize frontend assets
-		\WebsiteAccessibilityPro\View\Frontend::get_instance();
+		\WebsiteAccessibility\View\Frontend::get_instance();
 	}
 
 	/**
@@ -137,11 +136,11 @@ final class WebsiteAccessibilityPro
 /**
  * Kickstart the Website Accessibility Pro plugin.
  *
- * @return WebsiteAccessibilityPro
+ * @return WebsiteAccessibility
  */
 function website_accessibility_pro()
 {
-	return WebsiteAccessibilityPro::get_instance();
+	return WebsiteAccessibility::get_instance();
 }
 
 // Initialize the plugin

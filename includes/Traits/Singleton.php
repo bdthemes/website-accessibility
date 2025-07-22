@@ -6,7 +6,7 @@
  * @subpackage Website Accessibility Pro/includes/Traits
  */
 
-namespace WebsiteAccessibilityPro\Traits;
+namespace WebsiteAccessibility\Traits;
 
 if (!defined('ABSPATH')) {
     exit; // Exit if accessed directly.

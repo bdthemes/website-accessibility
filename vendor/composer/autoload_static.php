@@ -9,12 +9,12 @@ class ComposerStaticInitcdd1d7ba98a05cbefe17d0fbe567e4b4
     public static $prefixLengthsPsr4 = array (
         'W' => 
         array (
-            'WebsiteAccessibilityPro\\' => 24,
+            'WebsiteAccessibility\\' => 21,
         ),
     );
 
     public static $prefixDirsPsr4 = array (
-        'WebsiteAccessibilityPro\\' => 
+        'WebsiteAccessibility\\' => 
         array (
             0 => __DIR__ . '/../..' . '/includes',
         ),

@@ -2,12 +2,12 @@
 /**
  * Handle admin assets enqueuing
  *
- * @package WebsiteAccessibilityPro
+ * @package WebsiteAccessibility
  */
 
-namespace WebsiteAccessibilityPro\Admin;
+namespace WebsiteAccessibility\Admin;
 
-use WebsiteAccessibilityPro\Traits\Singleton;
+use WebsiteAccessibility\Traits\Singleton;
 
 if (!defined('ABSPATH')) {
     exit; // Exit if accessed directly

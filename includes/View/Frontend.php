@@ -1,12 +1,12 @@
 <?php
 
-namespace WebsiteAccessibilityPro\View;
+namespace WebsiteAccessibility\View;
 
-use WebsiteAccessibilityPro\Core\Utils;
+use WebsiteAccessibility\Core\Utils;
 
 class Frontend
 {
-    use \WebsiteAccessibilityPro\Traits\Singleton;
+    use \WebsiteAccessibility\Traits\Singleton;
 
     public function __construct()
     {

@@ -3,9 +3,9 @@
  * Register Preset Profile Post Type
  */
 
-namespace WebsiteAccessibilityPro\Core;
+namespace WebsiteAccessibility\Core;
 
-use WebsiteAccessibilityPro\Traits\Singleton;
+use WebsiteAccessibility\Traits\Singleton;
 
 if (!defined('ABSPATH')) {
     exit;

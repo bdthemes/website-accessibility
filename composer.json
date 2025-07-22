@@ -16,14 +16,23 @@
     "license": "GPL-2.0-or-later",
     "autoload": {
         "psr-4": {
-            "WebsiteAccessibilityPro\\": "includes/"
+            "WebsiteAccessibility\\": "includes/"
         }
     },
     "authors": [
         {
-            "name": "bdthemes"
+            "name": "BDThemes",
+            "email": "support@bdthemes.com",
+            "homepage": "https://bdthemes.com"
         }
     ],
-    "minimum-stability": "dev",
-    "require": {}
+    "homepage": "https://bdthemes.com/products/website-accessibility",
+    "support": {
+        "email": "support@bdthemes.com",
+        "issues": "https://wordpress.org/support/plugin/website-accessibility/"
+    },
+    "require": {
+        "php": ">=7.4"
+    },
+    "minimum-stability": "dev"
 }

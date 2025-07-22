@@ -1,0 +1,36 @@
+<?xml version="1.0"?>
+<ruleset name="WP Plugin Submission Rules">
+  <description>Essential coding standards for WordPress.org plugin approval</description>
+
+  <!-- ✅ Include only the specific rules you care about -->
+  <rule ref="WordPress.Security.EscapeOutput"/>
+  <rule ref="WordPress.Security.ValidatedSanitizedInput"/>
+  <rule ref="Generic.PHP.DisallowShortOpenTag"/>
+
+  <!-- ❌ Exclude irrelevant rules (not needed for wp.org or conflict with modern code) -->
+  <exclude name="WordPress.Files.FileName"/>
+  <exclude name="PEAR.Files.IncludingFile"/>
+  <exclude name="Generic.Files.LineLength"/>
+  <exclude name="Generic.WhiteSpace.ScopeIndent"/>
+  <exclude name="WordPress.Arrays.ArrayDeclaration"/>
+  <exclude name="Generic.Functions.CallTimePassByReference"/>
+  <exclude name="Generic.Commenting.DocComment"/>
+  <exclude name="Squiz.Commenting.FunctionComment"/>
+  <exclude name="PEAR.Functions.ValidDefaultValue"/>
+  <exclude name="Squiz.WhiteSpace.SuperfluousWhitespace"/>
+  <exclude name="Squiz.WhiteSpace.ControlStructureSpacing"/>
+  <exclude name="Generic.Formatting.MultipleStatementAlignment"/>
+  <exclude name="PEAR.Functions.FunctionCallSignature"/>
+  <exclude name="WordPress.WhiteSpace.PrecisionAlignment"/>
+  <exclude name="WordPress.WhiteSpace.ControlStructureSpacing"/>
+  <exclude name="WordPress.WhiteSpace.OperatorSpacing"/>
+  <exclude name="WordPress.WhiteSpace.CastStructureSpacing"/>
+
+  <!-- 🔍 Files to scan -->
+  <file>includes</file>
+  <file>website-accessibility.php</file>
+
+  <!-- ⚙️ Encoding & indentation -->
+  <arg name="encoding" value="utf-8"/>
+  <arg name="tab-width" value="4"/>
+</ruleset>

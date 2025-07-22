@@ -1,6 +1,6 @@
 <?php
 
-namespace WebsiteAccessibilityPro\Core;
+namespace WebsiteAccessibility\Core;
 
 class Utils {
     public static function get_preset_data($preset) {

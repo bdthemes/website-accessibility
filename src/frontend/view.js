@@ -11,7 +11,13 @@ const View = () => {
     const [isOpen, setIsOpen] = useState(false);
     
     const currentPreset = useMemo(() => {
-        return presets.find((preset) => preset.preset.condition === pageType);
+        const currentPreset = presets.find((preset) => preset.preset.condition === pageType && preset.preset.active);
+        const entireSitePreset = presets.find((preset) => preset.preset.condition === 'entire_site' && preset.preset.active);
+        if (!currentPreset && entireSitePreset) {
+            return entireSitePreset
+        }
+
+        return currentPreset || null;
     }, [presets, pageType]);
 
     const allProfiles = useMemo(() => {
