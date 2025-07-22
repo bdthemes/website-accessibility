@@ -127,8 +127,9 @@ export const defaultProfiles = [
 export const features = [
     {
         key: 'contrast',
-        label: 'Contrast +',
+        label: __('Contrast +', 'website-accessibility'),
         styleMethod: 'inline',
+        description: __('Enable contrast mode to improve readability.', 'website-accessibility'),
         icon: (
             <svg width="24" height="24" viewBox="0 0 24 24" fill="none">
                 <circle cx="12" cy="12" r="10" stroke="#1a4cd8" strokeWidth="2" />
@@ -137,8 +138,22 @@ export const features = [
         ),
         attributes: [
             {
-                name: 'Dark',
+                name: __('Invert', 'website-accessibility'),
+                value: 'invert',
+                description: __('Invert color contrast mode activated. Activate again to enable dark contrast.', 'website-accessibility'),
+                css: [
+                    {
+                        selector: 'html',
+                        properties: {
+                            filter: 'invert(1) hue-rotate(180deg)'
+                        }
+                    }
+                ]
+            },
+            {
+                name: __('Dark', 'website-accessibility'),
                 value: 'dark',
+                description: __('Dark contrast mode activated. Activate again to enable light contrast.', 'website-accessibility'),
                 css: [
                     {
                         selector: 'body, main, section, article, nav, aside',
@@ -170,8 +185,9 @@ export const features = [
                 ]
             },
             {
-                name: 'Light',
+                name: __('Light', 'website-accessibility'),
                 value: 'light',
+                description: __('Light contrast mode activated. Activate to reset these to original state.', 'website-accessibility'),
                 css: [
                     {
                         selector: 'body, main, section, article, nav, aside, .wp-block, .site, .content, .container',
@@ -201,25 +217,14 @@ export const features = [
                         }
                     }
                 ]
-            },
-            {
-                name: 'Invert',
-                value: 'invert',
-                css: [
-                    {
-                        selector: 'html',
-                        properties: {
-                            filter: 'invert(1) hue-rotate(180deg)'
-                        }
-                    }
-                ]
             }
         ]
     },
     {
         key: 'screenReader',
-        label: 'Screen Reader',
+        label: __('Screen Reader', 'website-accessibility'),
         styleMethod: 'styleTag',
+        description: __('Enable screen reader to read the content out loud.', 'website-accessibility'),
         icon: (
             <svg width="24" height="24" viewBox="0 0 24 24" fill="none">
                 <circle cx="12" cy="12" r="10" stroke="#1a4cd8" strokeWidth="2" />
@@ -229,26 +234,36 @@ export const features = [
         ),
         attributes: [
             {
-                name: 'Normal',
+                name: __('Normal', 'website-accessibility'),
                 value: 'normal',
+                rate: 1,
+                pitch: 1,
+                lang: 'en-US',
                 css: []
             },
             {
-                name: 'Fast',
-                value: 'fast',
-                css: []
-            },
-            {
-                name: 'Slow',
+                name: __('Slow', 'website-accessibility'),
                 value: 'slow',
+                rate: 0.7,
+                pitch: 1,
+                lang: 'en-US',
+                css: []
+            },
+            {
+                name: __('Fast', 'website-accessibility'),
+                value: 'fast',
+                rate: 1.5,
+                pitch: 1,
+                lang: 'en-US',
                 css: []
             }
         ]
     },
     {
         key: 'smartContrast',
-        label: 'Smart Contrast',
+        label: __('Smart Contrast', 'website-accessibility'),
         styleMethod: 'rootClass',
+        description: __('Enable smart contrast mode to automatically adjust contrast based on the user\'s preference.', 'website-accessibility'),
         icon: (
             <svg width="24" height="24" viewBox="0 0 24 24" fill="none">
                 <rect x="4" y="4" width="16" height="16" rx="8" stroke="#1a4cd8" strokeWidth="2" />
@@ -257,12 +272,12 @@ export const features = [
         ),
         attributes: [
             {
-                name: 'Enable',
+                name: __('Enable', 'website-accessibility'),
                 value: 'enable',
                 css: []
             },
             {
-                name: 'Disable',
+                name: __('Disable', 'website-accessibility'),
                 value: 'disable',
                 css: []
             }
@@ -270,8 +285,9 @@ export const features = [
     },
     {
         key: 'highlightLinks',
-        label: 'Highlight Links',
+        label: __('Highlight Links', 'website-accessibility'),
         styleMethod: 'inline',
+        description: __('Enable highlight links to make links more visible.', 'website-accessibility'),
         icon: (
             <svg width="24" height="24" viewBox="0 0 24 24" fill="none">
                 <rect x="4" y="11" width="16" height="2" fill="#1a4cd8" />
@@ -280,7 +296,7 @@ export const features = [
         ),
         attributes: [
             {
-                name: 'Enable',
+                name: __('Enable', 'website-accessibility'),
                 value: 'enable',
                 css: [
                     {
@@ -294,7 +310,7 @@ export const features = [
                 ]
             },
             {
-                name: 'Disable',
+                name: __('Disable', 'website-accessibility'),
                 value: 'disable',
                 css: []
             }
@@ -302,8 +318,9 @@ export const features = [
     },
     {
         key: 'biggerText',
-        label: 'Bigger Text',
+        label: __('Bigger Text', 'website-accessibility'),
         styleMethod: 'styleTag',
+        description: __('Enable bigger text to make the text larger.', 'website-accessibility'),
         icon: (
             <svg width="24" height="24" viewBox="0 0 24 24" fill="none">
                 <text x="12" y="18" textAnchor="middle" fontSize="16" fill="#1a4cd8" fontWeight="bold">A</text>
@@ -311,7 +328,7 @@ export const features = [
         ),
         attributes: [
             {
-                name: 'Medium',
+                name: __('Medium', 'website-accessibility'),
                 value: 'medium',
                 css: [
                     {
@@ -341,7 +358,7 @@ export const features = [
                 ]
             },
             {
-                name: 'Large',
+                name: __('Large', 'website-accessibility'),
                 value: 'large',
                 css: [
                     {
@@ -371,7 +388,7 @@ export const features = [
                 ]
             },
             {
-                name: 'Extra Large',
+                name: __('Extra Large', 'website-accessibility'),
                 value: 'extra-large',
                 css: [
                     {
@@ -401,7 +418,7 @@ export const features = [
                 ]
             },
             {
-                name: 'Huge',
+                name: __('Huge', 'website-accessibility'),
                 value: 'huge',
                 css: [
                     {
@@ -434,8 +451,9 @@ export const features = [
     },
     {
         key: 'textSpacing',
-        label: 'Text Spacing',
+        label: __('Text Spacing', 'website-accessibility'),
         styleMethod: 'styleTag',
+        description: __('Enable text spacing to increase the space between lines.', 'website-accessibility'),
         icon: (
             <svg width="24" height="24" viewBox="0 0 24 24" fill="none">
                 <rect x="4" y="8" width="16" height="2" fill="#1a4cd8" />
@@ -444,7 +462,7 @@ export const features = [
         ),
         attributes: [
             {
-                name: 'Medium',
+                name: __('Medium', 'website-accessibility'),
                 value: 'medium',
                 css: [
                     {
@@ -457,7 +475,7 @@ export const features = [
                 ]
             },
             {
-                name: 'Large',
+                name: __('Large', 'website-accessibility'),
                 value: 'large',
                 css: [
                     {
@@ -470,7 +488,7 @@ export const features = [
                 ]
             },
             {
-                name: 'Extra Large',
+                name: __('Extra Large', 'website-accessibility'),
                 value: 'extra-large',
                 css: [
                     {
@@ -486,8 +504,9 @@ export const features = [
     },
     {
         key: 'pauseAnimations',
-        label: 'Pause Animations',
+        label: __('Pause Animations', 'website-accessibility'),
         styleMethod: 'styleTag',
+        description: __('Enable pause animations to pause all animations on the page.', 'website-accessibility'),
         icon: (
             <svg width="24" height="24" viewBox="0 0 24 24" fill="none">
                 <rect x="6" y="4" width="4" height="16" rx="2" fill="#1a4cd8" />
@@ -496,7 +515,7 @@ export const features = [
         ),
         attributes: [
             {
-                name: 'Enable',
+                name: __('Enable', 'website-accessibility'),
                 value: 'enable',
                 css: [
                     {
@@ -509,7 +528,7 @@ export const features = [
                 ]
             },
             {
-                name: 'Disable',
+                name: __('Disable', 'website-accessibility'),
                 value: 'disable',
                 css: []
             }
@@ -517,8 +536,9 @@ export const features = [
     },
     {
         key: 'hideImages',
-        label: 'Hide Images',
+        label: __('Hide Images', 'website-accessibility'),
         styleMethod: 'inline',
+        description: __('Enable hide images to hide all images on the page.', 'website-accessibility'),
         icon: (
             <svg width="24" height="24" viewBox="0 0 24 24" fill="none">
                 <rect x="4" y="4" width="16" height="16" rx="4" stroke="#1a4cd8" strokeWidth="2" />
@@ -527,7 +547,7 @@ export const features = [
         ),
         attributes: [
             {
-                name: 'Enable',
+                name: __('Enable', 'website-accessibility'),
                 value: 'enable',
                 css: [
                     {
@@ -539,7 +559,7 @@ export const features = [
                 ]
             },
             {
-                name: 'Disable',
+                name: __('Disable', 'website-accessibility'),
                 value: 'disable',
                 css: []
             }
@@ -547,8 +567,9 @@ export const features = [
     },
     {
         key: 'dyslexiaFriendly',
-        label: 'Dyslexia Friendly',
+        label: __('Dyslexia Friendly', 'website-accessibility'),
         styleMethod: 'styleTag',
+        description: __('Enable dyslexia friendly to make the text more readable for dyslexia.', 'website-accessibility'),
         icon: (
             <svg width="24" height="24" viewBox="0 0 24 24" fill="none">
                 <text x="12" y="18" textAnchor="middle" fontSize="16" fill="#1a4cd8" fontWeight="bold">Df</text>
@@ -556,7 +577,7 @@ export const features = [
         ),
         attributes: [
             {
-                name: 'Dyslexia',
+                name: __('Dyslexia', 'website-accessibility'),
                 value: 'dyslexia',
                 css: [
                     {
@@ -570,7 +591,7 @@ export const features = [
                 ]
             },
             {
-                name: 'Legible',
+                name: __('Legible', 'website-accessibility'),
                 value: 'legible',
                 css: [
                     {
@@ -587,8 +608,9 @@ export const features = [
     },
     {
         key: 'cursor',
-        label: 'Cursor',
+        label: __('Cursor', 'website-accessibility'),
         styleMethod: 'styleTag',
+        description: __('Enable cursor to show a cursor on the screen.', 'website-accessibility'),
         icon: (
             <svg width="24" height="24" viewBox="0 0 24 24" fill="none">
                 <polygon points="4,4 20,12 13,13 12,20" stroke="#1a4cd8" strokeWidth="2" fill="none" />
@@ -596,7 +618,7 @@ export const features = [
         ),
         attributes: [
             {
-                name: 'Mask',
+                name: __('Mask', 'website-accessibility'),
                 value: 'mask',
                 css: [
                     {
@@ -608,7 +630,7 @@ export const features = [
                 ]
             },
             {
-                name: 'Guideline',
+                name: __('Guideline', 'website-accessibility'),
                 value: 'guideline',
                 css: [
                     {
@@ -623,8 +645,9 @@ export const features = [
     },
     {
         key: 'tooltips',
-        label: 'Tooltips',
+        label: __('Tooltips', 'website-accessibility'),
         styleMethod: 'rootClass',
+        description: __('Enable tooltips to show tooltips on the screen.', 'website-accessibility'),
         icon: (
             <svg width="24" height="24" viewBox="0 0 24 24" fill="none">
                 <circle cx="12" cy="12" r="10" stroke="#1a4cd8" strokeWidth="2" />
@@ -633,12 +656,12 @@ export const features = [
         ),
         attributes: [
             {
-                name: 'Enable',
+                name: __('Enable', 'website-accessibility'),
                 value: 'enable',
                 css: []
             },
             {
-                name: 'Disable',
+                name: __('Disable', 'website-accessibility'),
                 value: 'disable',
                 css: []
             }
@@ -646,8 +669,9 @@ export const features = [
     },
     {
         key: 'lineHeight',
-        label: 'Line Height',
+        label: __('Line Height', 'website-accessibility'),
         styleMethod: 'styleTag',
+        description: __('Enable line height to increase the space between lines.', 'website-accessibility'),
         icon: (
             <svg width="24" height="24" viewBox="0 0 24 24" fill="none">
                 <rect x="4" y="4" width="16" height="16" rx="4" stroke="#1a4cd8" strokeWidth="2" />
@@ -655,7 +679,7 @@ export const features = [
         ),
         attributes: [
             {
-                name: 'Medium',
+                name: __('Medium', 'website-accessibility'),
                 value: 'medium',
                 css: [
                     {
@@ -667,7 +691,7 @@ export const features = [
                 ]
             },
             {
-                name: 'Large',
+                name: __('Large', 'website-accessibility'),
                 value: 'large',
                 css: [
                     {
@@ -679,7 +703,7 @@ export const features = [
                 ]
             },
             {
-                name: 'Extra Large',
+                name: __('Extra Large', 'website-accessibility'),
                 value: 'extra-large',
                 css: [
                     {
@@ -694,8 +718,9 @@ export const features = [
     },
     {
         key: 'textAlign',
-        label: 'Text Alignment',
+        label: __('Text Alignment', 'website-accessibility'),
         styleMethod: 'styleTag',
+        description: __('Enable text alignment to align the text to the left, center, right, or justify.', 'website-accessibility'),
         icon: (
             <svg width="24" height="24" viewBox="0 0 24 24" fill="none">
                 <rect x="4" y="4" width="16" height="16" rx="4" stroke="#1a4cd8" strokeWidth="2" />
@@ -703,7 +728,7 @@ export const features = [
         ),
         attributes: [
             {
-                name: 'Left',
+                name: __('Left', 'website-accessibility'),
                 value: 'left',
                 css: [
                     {
@@ -715,7 +740,7 @@ export const features = [
                 ]
             },
             {
-                name: 'Center',
+                name: __('Center', 'website-accessibility'),
                 value: 'center',
                 css: [
                     {
@@ -727,7 +752,7 @@ export const features = [
                 ]
             },
             {
-                name: 'Right',
+                name: __('Right', 'website-accessibility'),
                 value: 'right',
                 css: [
                     {
@@ -739,7 +764,7 @@ export const features = [
                 ]
             },
             {
-                name: 'Justify',
+                name: __('Justify', 'website-accessibility'),
                 value: 'justify',
                 css: [
                     {
@@ -754,8 +779,9 @@ export const features = [
     },
     {
         key: 'saturation',
-        label: 'Saturation',
+        label: __('Saturation', 'website-accessibility'),
         styleMethod: 'inline',
+        description: __('Enable saturation to adjust the saturation of the images and videos.', 'website-accessibility'),
         icon: (
             <svg width="24" height="24" viewBox="0 0 24 24" fill="none">
                 <rect x="4" y="4" width="16" height="16" rx="4" stroke="#1a4cd8" strokeWidth="2" />
@@ -763,7 +789,7 @@ export const features = [
         ),
         attributes: [
             {
-                name: 'Low',
+                name: __('Low', 'website-accessibility'),
                 value: 'low',
                 css: [
                     {
@@ -775,7 +801,7 @@ export const features = [
                 ]
             },
             {
-                name: 'High',
+                name: __('High', 'website-accessibility'),
                 value: 'high',
                 css: [
                     {
@@ -787,7 +813,7 @@ export const features = [
                 ]
             },
             {
-                name: 'Desaturate',
+                name: __('Desaturate', 'website-accessibility'),
                 value: 'desaturate',
                 css: [
                     {
@@ -802,8 +828,9 @@ export const features = [
     },
     {
         key: 'dictionary',
-        label: 'Dictionary',
+        label: __('Dictionary', 'website-accessibility'),
         styleMethod: 'rootClass',
+        description: __('Enable dictionary to show the definition of the word when the user hovers over it.', 'website-accessibility'),
         icon: (
             <svg width="24" height="24" viewBox="0 0 24 24" fill="none">
                 <rect x="4" y="4" width="16" height="16" rx="4" stroke="#1a4cd8" strokeWidth="2" />
@@ -811,12 +838,12 @@ export const features = [
         ),
         attributes: [
             {
-                name: 'Enable',
+                name: __('Enable', 'website-accessibility'),
                 value: 'enable',
                 css: []
             },
             {
-                name: 'Disable',
+                name: __('Disable', 'website-accessibility'),
                 value: 'disable',
                 css: []
             }

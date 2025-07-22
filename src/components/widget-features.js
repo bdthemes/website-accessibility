@@ -1,98 +1,80 @@
 import { Card, Row, Col, Switch } from 'antd';
-import { useState } from '@wordpress/element';
 import { features } from '../utils';
 import clsx from 'clsx';
 
-const WidgetFeatures = ({ value, onChange, accessibilityContext }) => {
+const WidgetFeatures = ({ value, accessibilityContext, accessibilityDispatch }) => {
     const { items } = value;
     const featureItem = items.find(item => item.slug === 'features');
     const attributes = featureItem?.attributes || {};
-    
+
     // Check if we're in frontend context
-    const isFrontend = !!accessibilityContext;
-    const { settings, updateSetting } = accessibilityContext || {};
-    
-    
-    // Use context settings in frontend, widget value settings in editor
-    const currentSettings = isFrontend ? settings : (value?.settings || {});
-    const [isOverSized, setIsOverSized] = useState(false);
+    const isFrontend = !!accessibilityContext && !!accessibilityDispatch;
+    const { currentSettings, isOverSized } = accessibilityContext || {};
 
     // Calculate column span based on items per row
     const itemsPerRow = parseInt(attributes?.itemsPerRow) || 3;
     const colSpan = 24 / itemsPerRow;
-
     // Handle feature click
     const handleFeatureClick = (feature) => {
-        const currentValue = currentSettings[feature.key];
-        const currentIndex = feature.attributes.findIndex(attr => attr.value === currentValue);
-        
-        let newValue = null;
-        
-        // Check if this is enable/disable feature
-        const isEnableDisable = feature.attributes.length === 2 && 
-            feature.attributes.every(attr => ['enable', 'disable'].includes(attr.value));
-        
-        if (isEnableDisable) {
-            // Enable/Disable logic: simple toggle
-            if (currentIndex === -1) {
-                newValue = 'enable'; // Activate
-            } else {
-                newValue = null; // Deactivate
-            }
-        } else {
-            // Multiple options logic: cycle through
-            if (currentIndex === -1) {
-                newValue = feature.attributes[0].value; // First option
-            } else if (currentIndex < feature.attributes.length - 1) {
-                newValue = feature.attributes[currentIndex + 1].value; // Next option
-            } else {
-                newValue = null; // Deactivate
-            }
+        if (!isFrontend) return;
+
+        const allAttributes = feature.attributes || [];
+        const key = feature?.key;
+
+        const prevState = currentSettings[key] || {};
+        const prevStep = prevState?.currentStep || 0;
+
+        // For toggle-like features (enable/disable)
+        if (allAttributes.length === 2 && allAttributes[0]?.value === 'enable') {
+            const nextStep = prevStep === 1 ? 0 : 1;
+
+            accessibilityDispatch({
+                type: 'SET_CURRENT_SETTINGS',
+                payload: {
+                    ...currentSettings,
+                    [key]: {
+                        currentStep: nextStep,
+                        currentAttribute: null,
+                        isMultiStep: false,
+                    },
+                },
+            });
+            return;
         }
-        
-        if (isFrontend && updateSetting) {
-            updateSetting(feature.key, newValue);
-        } else if (onChange) {
-            const newSettings = { ...currentSettings, [feature.key]: newValue };
-            onChange(newSettings);
-        }
+
+        // For multi-step attributes
+        const nextStep = prevStep >= allAttributes.length ? 0 : prevStep + 1;
+
+        accessibilityDispatch({
+            type: 'SET_CURRENT_SETTINGS',
+            payload: {
+                ...currentSettings,
+                [key]: {
+                    currentStep: nextStep,
+                    currentAttribute: nextStep === 0 ? null : allAttributes[nextStep - 1],
+                    isMultiStep: allAttributes.length > 1,
+                },
+            },
+        });
     };
-
-
 
     // Handle oversized toggle
     const handleOversizedToggle = (checked) => {
-        setIsOverSized(checked);
-        if (isFrontend && updateSetting) {
-            updateSetting('oversized', checked);
-        } else if (onChange) {
-            onChange({ ...currentSettings, oversized: checked });
-        }
+        if (!isFrontend) return;
+
+        accessibilityDispatch({
+            type: 'SET_OVERSIZED',
+            payload: checked,
+        });
     };
 
-    // Get feature status
-    const getFeatureStatus = (feature) => {
-        const currentValue = currentSettings[feature.key];
-        const currentIndex = feature.attributes.findIndex(attr => attr.value === currentValue);
-        const isActive = currentIndex >= 0;
-        const currentAttribute = isActive ? feature.attributes[currentIndex] : null;
-        
-        // Only show steps if there are more than 2 options (not just enable/disable)
-        const showSteps = feature.attributes.length > 2;
-        
-        return {
-            isActive,
-            currentAttribute,
-            currentStep: currentIndex + 1,
-            totalSteps: feature.attributes.length,
-            showSteps
-        };
-    };
-    
     return (
         <Card className="wap-widget-features">
             {!attributes?.hideOversizedWidget && (
-                <Row align="middle" className="wap-widget-features__row wap-widget-features__row--oversized">
+                <Row
+                    align="middle"
+                    className="wap-widget-features__row wap-widget-features__row--oversized"
+                >
                     <Col span={18}>
                         {!attributes?.hideHeaderIcon && (
                             <span className="wap-widget-features__badge">XL</span>
@@ -104,57 +86,83 @@ const WidgetFeatures = ({ value, onChange, accessibilityContext }) => {
                         )}
                     </Col>
                     <Col span={6} style={{ textAlign: 'right' }}>
-                        <Switch 
-                            checked={isOverSized} 
-                            onChange={handleOversizedToggle} 
+                        <Switch
+                            checked={isOverSized}
+                            onChange={handleOversizedToggle}
                         />
                     </Col>
                 </Row>
             )}
-            
+
             <Row gutter={[16, 16]} className="wap-widget-features__grid">
-                {features.map((feature, idx) => {
-                    const { isActive, currentAttribute, currentStep, totalSteps, showSteps } = getFeatureStatus(feature);
+                {features.map((feature) => {
+                    const key = feature.key;
+                    const setting = currentSettings?.[key] || {};
+                    const currentStep = setting.currentStep || 0;
+                    const currentAttribute = setting.currentAttribute;
+                    const allAttributes = feature.attributes || [];
+
+                    const isActive = currentStep > 0;
+                    const showSteps = allAttributes.length > 1;
+                    const totalSteps = allAttributes.length;
                     
                     return (
-                        <Col 
+                        <Col
+                            key={key}
                             className={clsx(
-                                { [`wap-feature-${feature.key}`]: !!feature.key },
+                                `wap-feature-${key}`,
                                 { 'wap-feature--active': isActive }
-                            )} 
-                            xs={24} 
-                            sm={12} 
-                            md={colSpan} 
-                            lg={colSpan} 
-                            xl={colSpan} 
-                            key={feature.key}
+                            )}
+                            xs={24}
+                            sm={12}
+                            md={colSpan}
+                            lg={colSpan}
+                            xl={colSpan}
                         >
-                            {/* Top indicator - only show when active */}
+                            {/* Top active checkmark */}
                             {isActive && (
                                 <span className="wap-widget-features-top-indicator wap-widget-features-top-indicator--active">
                                     <svg width="16" height="16" viewBox="0 0 24 24" fill="none">
-                                        <path d="M9 16.17L4.83 12l-1.42 1.41L9 19 21 7l-1.41-1.41z" fill="currentColor"/>
+                                        <path
+                                            d="M9 16.17L4.83 12l-1.42 1.41L9 19 21 7l-1.41-1.41z"
+                                            fill="currentColor"
+                                        />
                                     </svg>
                                 </span>
                             )}
-                            
-                            <div 
-                                className={`wap-widget-features__feature-btn ${isActive ? 'wap-widget-features__feature-btn--active' : ''}`}
+
+                            {/* Feature button */}
+                            <div
+                                className={clsx(
+                                    'wap-widget-features__feature-btn',
+                                    { 'wap-widget-features__feature-btn--active': isActive }
+                                )}
                                 onClick={() => handleFeatureClick(feature)}
                                 style={{ cursor: 'pointer' }}
+                                aria-label={currentAttribute?.description || feature?.description}
+                                role="button"
+                                tabIndex={0}
+                                onKeyDown={(e) => {
+                                    if (e.key === 'Enter' || e.key === ' ') {
+                                        handleFeatureClick(feature);
+                                    }
+                                }}
                             >
                                 {!attributes?.hideItemIcons && (
-                                    <span className="wap-widget-features__feature-icon">{feature.icon}</span>
+                                    <span className="wap-widget-features__feature-icon">
+                                        {feature.icon}
+                                    </span>
                                 )}
-                                {!attributes?.hideItemLabels && feature.label}
+                                {!attributes?.hideItemLabels && (
+                                    <span className="wap-widget-features__feature-label">
+                                        {feature.label}
+                                    </span>
+                                )}
                             </div>
-                            
-                            {/* Bottom indicator - only show for multi-step features */}
+
+                            {/* Bottom step indicator */}
                             {showSteps && isActive && currentAttribute && (
-                                <span className={clsx(
-                                    "wap-widget-features-bottom-indicator",
-                                    { "wap-widget-features-bottom-indicator--active": isActive }
-                                )}>
+                                <span className="wap-widget-features-bottom-indicator wap-widget-features-bottom-indicator--active">
                                     <span className="wap-widget-features-bottom-indicator__text">
                                         {currentAttribute.name}
                                         <span className="wap-widget-features-bottom-indicator__step">
@@ -168,6 +176,7 @@ const WidgetFeatures = ({ value, onChange, accessibilityContext }) => {
                 })}
             </Row>
         </Card>
+
     );
 };
 

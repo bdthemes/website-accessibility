@@ -188,44 +188,6 @@
   box-shadow: 0 0 0 3px rgba(0, 115, 234, 0.5) !important;
 }
 
-// Active states for components
-.wap-accessibility-profiles__item--active {
-  background-color: #e6f7ff !important;
-  border-color: #1890ff !important;
-  color: #1890ff !important;
-  
-  .wap-accessibility-profiles__item-icon {
-    color: #1890ff !important;
-  }
-  
-  .wap-accessibility-profiles__item-label {
-    color: #1890ff !important;
-    font-weight: 600;
-  }
-}
-
-.wap-widget-features__feature-btn--active {
-  background-color: #e6f7ff !important;
-  border-color: #1890ff !important;
-  color: #1890ff !important;
-  
-  .wap-widget-features__feature-icon {
-    color: #1890ff !important;
-  }
-}
-
-.wap-feature--active {
-  .wap-widget-features__feature-btn {
-    background-color: #e6f7ff !important;
-    border-color: #1890ff !important;
-    color: #1890ff !important;
-    
-    .wap-widget-features__feature-icon {
-      color: #1890ff !important;
-    }
-  }
-}
-
 // Language selector active states
 .wap-language-selector__item--active {
   background-color: #e6f7ff !important;

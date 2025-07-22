@@ -2,7 +2,7 @@ import View from "./view";
 import 'antd/dist/reset.css';
 import "./styles/main.scss";
 import { createRoot } from "@wordpress/element";
-import { AccessibilityProvider } from "./context";
+import AccessibilityContextProvider from "./context/provider";
 
 window.addEventListener( "load", () => {
     const rootElement = document.getElementById( "website-accessibility-app" );
@@ -12,8 +12,8 @@ window.addEventListener( "load", () => {
 
     const root = createRoot( rootElement );
     root.render( 
-        <AccessibilityProvider>
+        <AccessibilityContextProvider>
             <View />
-        </AccessibilityProvider>
+        </AccessibilityContextProvider>
     );
 });

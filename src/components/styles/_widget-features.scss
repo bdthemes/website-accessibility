@@ -75,22 +75,6 @@
             box-shadow: 0 4px 16px rgba(30, 42, 80, 0.10);
             border-color: #1a4cd8;
         }
-
-        &--active {
-            background: #1a4cd8;
-            color: #ffffff;
-            border-color: #1a4cd8;
-            box-shadow: 0 4px 16px rgba(26, 76, 216, 0.25);
-
-            &:hover {
-                background: #0f3bb3;
-                box-shadow: 0 6px 20px rgba(26, 76, 216, 0.35);
-            }
-
-            .wap-widget-features__feature-icon svg {
-                filter: brightness(0) invert(1);
-            }
-        }
     }
 
     &__feature-icon {

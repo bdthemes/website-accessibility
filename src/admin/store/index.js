@@ -226,6 +226,10 @@ const store = createReduxStore(STORE_NAME, {
         },        
         updatePreset: (id, presetFormData) => {
             return async ({ dispatch, registry }) => {
+                if (!id || !presetFormData?.title) {
+                    return;
+                }
+                
                 const { editEntityRecord } = registry.dispatch('core');
                 const preset = await editEntityRecord('postType', 'wap_preset', id, presetFormData);
                 await dispatch({ type: 'UPDATE_PRESET', preset });
@@ -234,12 +238,11 @@ const store = createReduxStore(STORE_NAME, {
         saveEditedPreset: (id) => {
             return async ({ dispatch, registry }) => {
                 const { select, dispatch: coreDispatch } = registry;
-                const { getEditedEntityRecord, getEntityRecords } = select('core');
+                const { getEditedEntityRecord, getEntityRecords, getEntityRecord } = select('core');
                 const { editEntityRecord, saveEditedEntityRecord } = coreDispatch('core');
         
                 // Step 1: Get the edited version of the preset (unsaved)
                 const currentPreset = getEditedEntityRecord('postType', 'wap_preset', id);
-                
                 if (!currentPreset) return;
         
                 let currentContent = {};
@@ -251,9 +254,30 @@ const store = createReduxStore(STORE_NAME, {
         
                 const isActive = currentContent?.preset?.active;
                 const currentCondition = currentContent?.preset?.condition;
+
+                // Step 1.5: Get the original (saved) version of the preset
+                const originalPreset = getEntityRecord('postType', 'wap_preset', id);
+                let originalContent = {};
+                try {
+                    originalContent = JSON.parse(originalPreset?.content?.raw || originalPreset?.content);
+                } catch (error) {
+                    // It's ok if not found (new preset), just fallback to empty
+                }
+                const wasActive = originalContent?.preset?.active;
+                const wasCondition = originalContent?.preset?.condition;
+
+                // Only deactivate others if:
+                // - The preset is now active, and
+                // - It was previously inactive, or the condition changed
+                const shouldDeactivateOthers = (
+                    isActive &&
+                    (
+                        wasActive !== true ||
+                        wasCondition !== currentCondition
+                    )
+                );
         
-                // Step 2: If this edited preset is active, deactivate others with the same condition
-                if (isActive && currentCondition) {
+                if (shouldDeactivateOthers && currentCondition) {
                     const allPresets = getEntityRecords('postType', 'wap_preset', {
                         per_page: -1,
                     });

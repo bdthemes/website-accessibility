@@ -1,13 +1,12 @@
-import { Button, Row, Col, Space } from 'antd';
-import { ReloadOutlined, SaveOutlined, ArrowRightOutlined } from '@ant-design/icons';
+import { Button, Space } from 'antd';
+import { ReloadOutlined, ArrowRightOutlined } from '@ant-design/icons';
 
-const PanelFooter = ({ value, onChange, accessibilityContext }) => {
+const PanelFooter = ({ value, accessibilityContext, accessibilityDispatch }) => {
   const footerItem = value?.items?.find(item => item.slug === 'footer');
   const attributes = footerItem?.attributes || {};
 
   // Check if we're in frontend context
-  const isFrontend = !!accessibilityContext;
-  const { resetAll, savePreferences } = accessibilityContext || {};
+  const isFrontend = !!accessibilityContext && !!accessibilityDispatch;
 
   // Reset Button
   const showResetBtn = attributes.showResetBtn !== false;
@@ -26,32 +25,16 @@ const PanelFooter = ({ value, onChange, accessibilityContext }) => {
 
   // Handle reset action
   const handleReset = () => {
-    if (isFrontend && resetAll) {
-      // In frontend: use context reset
-      resetAll();
-      console.log('Reset all settings in frontend');
-    } else if (onChange) {
-      // In editor: call onChange with reset action
-      onChange({ action: 'reset' });
-      console.log('Reset action triggered in editor');
-    }
+    if (!isFrontend) return;
+
+    accessibilityDispatch({
+      type: 'RESET_ACCESSIBILITY',
+    });
   };
 
   // Handle save action
   const handleSave = () => {
-    if (isFrontend && savePreferences) {
-      // In frontend: use context save
-      const success = savePreferences();
-      if (success) {
-        console.log('Saved preferences in frontend');
-      } else {
-        console.error('Failed to save preferences in frontend');
-      }
-    } else if (onChange) {
-      // In editor: call onChange with save action
-      onChange({ action: 'save' });
-      console.log('Save action triggered in editor');
-    }
+    if (!isFrontend) return;
   };
 
   return (

@@ -1,29 +1,13 @@
 import { useState, useMemo, useEffect } from "@wordpress/element";
 import clsx from "clsx";
 import { Drawer } from "antd";
-import { useAccessibility, useAccessibilityActions } from "./context";
 import { defaultProfiles } from "../utils";
+import useFrontendAccessibility from "./context/useAccessibility";
 
 const View = () => {
     const { PreviewButton, PreviewContent, Icon } = window?.wapComponents;
     const { presets, profiles, pageType } = window?.websiteAccessibility;
-    
-    // Access accessibility context
-    const { 
-        currentProfile, 
-        settings, 
-        isLoading, 
-        isInitialized,
-        savedPreferences 
-    } = useAccessibility();
-    
-    const { 
-        setProfile, 
-        updateSetting, 
-        resetAll, 
-        savePreferences 
-    } = useAccessibilityActions();
-
+    const { dispatch, ...state } = useFrontendAccessibility();
     const [isOpen, setIsOpen] = useState(false);
     
     const currentPreset = useMemo(() => {
@@ -37,48 +21,26 @@ const View = () => {
         ];
     }, [profiles]);
 
-    // Apply saved preferences on mount
     useEffect(() => {
-        if (isInitialized && savedPreferences) {
+        if (currentPreset?.id) {
+            const currentLocalItem = localStorage.getItem(`${state?.localStorageKey}-${currentPreset?.id}`);
+            if (currentLocalItem) {
+                const initialLocalPreferences = JSON.parse(currentLocalItem);
+                dispatch({
+                    type: 'SET_CURRENT_PROFILE',
+                    payload: initialLocalPreferences.profile || null,
+                });
+                dispatch({
+                    type: 'SET_CURRENT_SETTINGS',
+                    payload: initialLocalPreferences.settings || {},
+                });
+                dispatch({
+                    type: 'SET_OVERSIZED',  
+                    payload: initialLocalPreferences.oversized || false,
+                });
+            }
         }
-    }, [isInitialized, savedPreferences]);
-
-    // Handle profile selection
-    const handleProfileSelect = (profile) => {
-        setProfile(profile);
-    };
-
-    // Handle setting updates
-    const handleSettingUpdate = (key, value) => {
-        updateSetting(key, value);
-    };
-
-    // Handle reset
-    const handleReset = () => {
-        resetAll();
-    };
-
-    // Handle save preferences
-    const handleSavePreferences = () => {
-        const success = savePreferences();
-        if (success) {
-            setIsOpen(false);
-        } else {
-            console.error('Failed to save accessibility preferences');
-        }
-    };
-
-    // Create accessibility context object for components
-    const accessibilityContext = {
-        currentProfile,
-        settings,
-        isLoading,
-        isInitialized,
-        setProfile: handleProfileSelect,
-        updateSetting: handleSettingUpdate,
-        resetAll: handleReset,
-        savePreferences: handleSavePreferences
-    };
+    }, [currentPreset]);
 
     if (!currentPreset) {
         return null;
@@ -112,7 +74,8 @@ const View = () => {
                     panel={currentPreset?.panel} 
                     allProfiles={allProfiles} 
                     setIsOpen={setIsOpen}
-                    accessibilityContext={accessibilityContext}
+                    accessibilityContext={state}
+                    accessibilityDispatch={dispatch}
                 />
             </Drawer>
         </div>

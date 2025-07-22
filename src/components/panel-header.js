@@ -1,4 +1,5 @@
 const PanelHeader = ({ value, setIsOpen = () => {} }) => {
+    
     // Find the header item from value.items
     const headerItem = value?.items?.find(item => item.slug === 'header') || {};
     const attributes = headerItem.attributes || {};

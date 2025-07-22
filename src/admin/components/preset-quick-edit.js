@@ -27,12 +27,14 @@ const PresetQuickEdit = ({
     if (preset && visible) {
       const presetData = JSON.parse(preset?.content);
       const initialData = {
-        title: preset?.title,
-        ...presetData
+        ...presetData,
+        title: preset?.title
       };
+      
       setPresetsFormData(initialData);
     }
   }, [preset, visible, setPresetsFormData]);
+  
 
   // Clear state when drawer closes
   useEffect(() => {
@@ -98,6 +100,10 @@ const PresetQuickEdit = ({
       }
     });
   };
+
+  if (!preset) {
+    return null;
+  }
 
   const handleClose = () => {
     clearState();

@@ -1,6 +1,6 @@
 import { Collapse, Input, List, Switch } from 'antd';
 import { CheckOutlined } from '@ant-design/icons';
-import { useState, useEffect } from 'react';
+import { useState } from 'react';
 import translateLanguages from '../assets/language.json'; // <- Import JSON
 
 const LangBadge = ({ code, active, isHeader = false }) => {
@@ -39,14 +39,12 @@ const LanguageSelector = ({ value, onChange, accessibilityContext }) => {
     if (isFrontend && updateSetting) {
       // In frontend: update context
       updateSetting('language', languageCode);
-      console.log('Updated language in frontend:', languageCode);
     } else {
       // In editor: update local state and call onChange
       setLocalSelected(languageCode);
       if (onChange) {
         onChange({ language: languageCode });
       }
-      console.log('Updated language in editor:', languageCode);
     }
   };
 
