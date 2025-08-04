@@ -13,6 +13,10 @@ import {
     ADHDIcon
 } from './assets/profiles-icons';
 
+export const isScreenReaderActive = (setttings) => {
+    return setttings?.screenReader?.currentStep > 0;
+}
+
 export const locationOptions = [
     {
         label: __('Entire Site', 'website-accessibility'),
@@ -52,84 +56,147 @@ export const steps = [
 export const defaultProfiles = [
     {
         id: 'motor',
-        title: {
-            rendered: 'Motor Impaired',
-            raw: 'Motor Impaired'
-        },
+        title: { rendered: 'Motor Impaired', raw: 'Motor Impaired' },
         slug: 'motor',
-        icon: <MotorIcon />
+        icon: <MotorIcon />,
+        features: {
+            highlightLinks: 'enable',
+            biggerText: 'medium',
+            cursor: 'mask',
+            pauseAnimations: 'enable',
+            tooltips: 'enable',
+            textAlign: 'left',
+            smartContrast: 'enable',
+            textSpacing: 'medium',
+            lineHeight: 'medium'
+        }
     },
     {
         id: 'blind',
-        title: {
-            rendered: 'Blind',
-            raw: 'Blind'
-        },
+        title: { rendered: 'Blind', raw: 'Blind' },
         slug: 'blind',
-        icon: <BlindIcon />
+        icon: <BlindIcon />,
+        features: {
+            screenReader: 'normal',
+            biggerText: 'large',
+            contrast: 'invert',
+            smartContrast: 'enable',
+            tooltips: 'disable',
+            highlightLinks: 'disable',
+            pauseAnimations: 'enable',
+            textSpacing: 'large',
+            lineHeight: 'large',
+            textAlign: 'left'
+        }
     },
     {
         id: 'color-blind',
-        title: {
-            rendered: 'Color Blind',
-            raw: 'Color Blind'
-        },
+        title: { rendered: 'Color Blind', raw: 'Color Blind' },
         slug: 'color-blind',
-        icon: <ColorBlindIcon />
+        icon: <ColorBlindIcon />,
+        features: {
+            contrast: 'dark',
+            smartContrast: 'enable',
+            saturation: 'desaturate',
+            highlightLinks: 'enable',
+            dictionary: 'enable',
+            textAlign: 'left'
+        }
     },
     {
         id: 'dyslexia',
-        title: {
-            rendered: 'Dyslexia',
-            raw: 'Dyslexia'
-        },
+        title: { rendered: 'Dyslexia', raw: 'Dyslexia' },
         slug: 'dyslexia',
-        icon: <DyslexiaIcon />
+        icon: <DyslexiaIcon />,
+        features: {
+            dyslexiaFriendly: 'dyslexia',
+            biggerText: 'large',
+            lineHeight: 'large',
+            textSpacing: 'large',
+            highlightLinks: 'enable',
+            dictionary: 'enable',
+            tooltips: 'enable',
+            textAlign: 'left'
+        }
     },
     {
         id: 'low-vision',
-        title: {
-            rendered: 'Low vision',
-            raw: 'Low vision'
-        },
+        title: { rendered: 'Low vision', raw: 'Low vision' },
         slug: 'low-vision',
-        icon: <LowVisionIcon />
+        icon: <LowVisionIcon />,
+        features: {
+            contrast: 'light',
+            biggerText: 'huge',
+            lineHeight: 'extra-large',
+            textSpacing: 'extra-large',
+            highlightLinks: 'enable',
+            saturation: 'high',
+            tooltips: 'enable',
+            dictionary: 'enable',
+            pauseAnimations: 'enable',
+            textAlign: 'left'
+        }
     },
     {
         id: 'cognitive',
-        title: {
-            rendered: 'Cognitive & Learning',
-            raw: 'Cognitive & Learning'
-        },
+        title: { rendered: 'Cognitive & Learning', raw: 'Cognitive & Learning' },
         slug: 'cognitive',
-        icon: <CognitiveIcon />
+        icon: <CognitiveIcon />,
+        features: {
+            screenReader: 'slow',
+            contrast: 'light',
+            biggerText: 'large',
+            lineHeight: 'large',
+            textSpacing: 'large',
+            tooltips: 'enable',
+            dictionary: 'enable',
+            pauseAnimations: 'enable',
+            textAlign: 'left'
+        }
     },
     {
         id: 'seizure',
-        title: {
-            rendered: 'Seizure & Epileptic',
-            raw: 'Seizure & Epileptic'
-        },
+        title: { rendered: 'Seizure & Epileptic', raw: 'Seizure & Epileptic' },
         slug: 'seizure',
-        icon: <SeizureIcon />
+        icon: <SeizureIcon />,
+        features: {
+            contrast: 'light',
+            pauseAnimations: 'enable',
+            hideImages: 'enable',
+            saturation: 'desaturate',
+            screenReader: 'disable',
+            highlightLinks: 'disable',
+            tooltips: 'disable',
+            dictionary: 'disable',
+            textAlign: 'left'
+        }
     },
     {
         id: 'adhd',
-        title: {
-            rendered: 'ADHD',
-            raw: 'ADHD'
-        },
+        title: { rendered: 'ADHD', raw: 'ADHD' },
         slug: 'adhd',
-        icon: <ADHDIcon />
+        icon: <ADHDIcon />,
+        features: {
+            pauseAnimations: 'enable',
+            contrast: 'light',
+            biggerText: 'large',
+            lineHeight: 'large',
+            textSpacing: 'large',
+            screenReader: 'slow',
+            dictionary: 'enable',
+            tooltips: 'enable',
+            textAlign: 'left'
+        }
     }
 ];
+
 
 export const features = [
     {
         key: 'contrast',
         label: __('Contrast +', 'website-accessibility'),
         styleMethod: 'inline',
-        description: __('Enable contrast mode to improve readability.', 'website-accessibility'),
+        disableAnnouncement: __('The contrast setting has been disabled.', 'website-accessibility'),
         icon: (
             <svg width="24" height="24" viewBox="0 0 24 24" fill="none">
                 <circle cx="12" cy="12" r="10" stroke="#1a4cd8" strokeWidth="2" />
@@ -140,12 +207,18 @@ export const features = [
             {
                 name: __('Invert', 'website-accessibility'),
                 value: 'invert',
-                description: __('Invert color contrast mode activated. Activate again to enable dark contrast.', 'website-accessibility'),
+                enableAnnouncement: __('Enable Contrast Mode, set to Invert.', 'website-accessibility'),
                 css: [
                     {
                         selector: 'html',
                         properties: {
-                            filter: 'invert(1) hue-rotate(180deg)'
+                            filter: 'invert(1)'
+                        }
+                    },
+                    {
+                        selector: '.wap-preset__preview-drawer ',
+                        properties: {
+                            filter: 'invert(1)'
                         }
                     }
                 ]
@@ -153,7 +226,7 @@ export const features = [
             {
                 name: __('Dark', 'website-accessibility'),
                 value: 'dark',
-                description: __('Dark contrast mode activated. Activate again to enable light contrast.', 'website-accessibility'),
+                enableAnnouncement: __('Contrast Mode, set to Dark.', 'website-accessibility'),
                 css: [
                     {
                         selector: 'body, main, section, article, nav, aside',
@@ -187,7 +260,7 @@ export const features = [
             {
                 name: __('Light', 'website-accessibility'),
                 value: 'light',
-                description: __('Light contrast mode activated. Activate to reset these to original state.', 'website-accessibility'),
+                enableAnnouncement: __('Contrast Mode, set to Light.', 'website-accessibility'),
                 css: [
                     {
                         selector: 'body, main, section, article, nav, aside, .wp-block, .site, .content, .container',
@@ -224,7 +297,7 @@ export const features = [
         key: 'screenReader',
         label: __('Screen Reader', 'website-accessibility'),
         styleMethod: 'styleTag',
-        description: __('Enable screen reader to read the content out loud.', 'website-accessibility'),
+        disableAnnouncement: __('The screen reader setting has been disabled.', 'website-accessibility'),
         icon: (
             <svg width="24" height="24" viewBox="0 0 24 24" fill="none">
                 <circle cx="12" cy="12" r="10" stroke="#1a4cd8" strokeWidth="2" />
@@ -239,23 +312,29 @@ export const features = [
                 rate: 1,
                 pitch: 1,
                 lang: 'en-US',
-                css: []
+                voiceURI: 'Google US English', // optional
+                css: [],
+                enableAnnouncement: __('Enable Screen Reader, set to Normal.', 'website-accessibility')
             },
             {
                 name: __('Slow', 'website-accessibility'),
                 value: 'slow',
-                rate: 0.7,
+                rate: 0.8,
                 pitch: 1,
                 lang: 'en-US',
-                css: []
+                voiceURI: 'Google US English', // optional
+                css: [],
+                enableAnnouncement: __('Screen Reader, set to Slow.', 'website-accessibility')
             },
             {
                 name: __('Fast', 'website-accessibility'),
                 value: 'fast',
-                rate: 1.5,
+                rate: 1.2,
                 pitch: 1,
                 lang: 'en-US',
-                css: []
+                voiceURI: 'Google US English', // optional
+                css: [],
+                enableAnnouncement: __('Screen Reader, set to Fast', 'website-accessibility')
             }
         ]
     },
@@ -263,7 +342,7 @@ export const features = [
         key: 'smartContrast',
         label: __('Smart Contrast', 'website-accessibility'),
         styleMethod: 'rootClass',
-        description: __('Enable smart contrast mode to automatically adjust contrast based on the user\'s preference.', 'website-accessibility'),
+        disableAnnouncement: __('The smart contrast setting has been disabled.', 'website-accessibility'),
         icon: (
             <svg width="24" height="24" viewBox="0 0 24 24" fill="none">
                 <rect x="4" y="4" width="16" height="16" rx="8" stroke="#1a4cd8" strokeWidth="2" />
@@ -274,7 +353,8 @@ export const features = [
             {
                 name: __('Enable', 'website-accessibility'),
                 value: 'enable',
-                css: []
+                css: [],
+                enableAnnouncement: __('Smart Contrast Mode Enable.', 'website-accessibility')
             },
             {
                 name: __('Disable', 'website-accessibility'),
@@ -287,7 +367,7 @@ export const features = [
         key: 'highlightLinks',
         label: __('Highlight Links', 'website-accessibility'),
         styleMethod: 'inline',
-        description: __('Enable highlight links to make links more visible.', 'website-accessibility'),
+        disableAnnouncement: __('The highlight links setting has been disabled.', 'website-accessibility'),
         icon: (
             <svg width="24" height="24" viewBox="0 0 24 24" fill="none">
                 <rect x="4" y="11" width="16" height="2" fill="#1a4cd8" />
@@ -307,7 +387,8 @@ export const features = [
                             textDecoration: 'underline'
                         }
                     }
-                ]
+                ],
+                enableAnnouncement: __('Highlight Links Enable.', 'website-accessibility')
             },
             {
                 name: __('Disable', 'website-accessibility'),
@@ -320,7 +401,7 @@ export const features = [
         key: 'biggerText',
         label: __('Bigger Text', 'website-accessibility'),
         styleMethod: 'styleTag',
-        description: __('Enable bigger text to make the text larger.', 'website-accessibility'),
+        disableAnnouncement: __('The bigger text setting has been disabled.', 'website-accessibility'),
         icon: (
             <svg width="24" height="24" viewBox="0 0 24 24" fill="none">
                 <text x="12" y="18" textAnchor="middle" fontSize="16" fill="#1a4cd8" fontWeight="bold">A</text>
@@ -355,7 +436,8 @@ export const features = [
                             fontSize: '28px'
                         }
                     }
-                ]
+                ],
+                enableAnnouncement: __('Bigger Text, set to Medium.', 'website-accessibility')
             },
             {
                 name: __('Large', 'website-accessibility'),
@@ -385,7 +467,8 @@ export const features = [
                             fontSize: '32px'
                         }
                     }
-                ]
+                ],
+                enableAnnouncement: __('Bigger Text, set to Large.', 'website-accessibility')
             },
             {
                 name: __('Extra Large', 'website-accessibility'),
@@ -415,7 +498,8 @@ export const features = [
                             fontSize: '36px'
                         }
                     }
-                ]
+                ],
+                enableAnnouncement: __('Bigger Text, set to Extra Large.', 'website-accessibility')
             },
             {
                 name: __('Huge', 'website-accessibility'),
@@ -445,7 +529,8 @@ export const features = [
                             fontSize: '40px'
                         }
                     }
-                ]
+                ],
+                enableAnnouncement: __('Bigger Text, set to Huge.', 'website-accessibility')
             }
         ]
     },
@@ -453,7 +538,7 @@ export const features = [
         key: 'textSpacing',
         label: __('Text Spacing', 'website-accessibility'),
         styleMethod: 'styleTag',
-        description: __('Enable text spacing to increase the space between lines.', 'website-accessibility'),
+        disableAnnouncement: __('The text spacing setting has been disabled.', 'website-accessibility'),
         icon: (
             <svg width="24" height="24" viewBox="0 0 24 24" fill="none">
                 <rect x="4" y="8" width="16" height="2" fill="#1a4cd8" />
@@ -472,7 +557,8 @@ export const features = [
                             wordSpacing: '2px'
                         }
                     }
-                ]
+                ],
+                enableAnnouncement: __('Text Spacing, set to Medium.', 'website-accessibility')
             },
             {
                 name: __('Large', 'website-accessibility'),
@@ -485,7 +571,8 @@ export const features = [
                             wordSpacing: '4px'
                         }
                     }
-                ]
+                ],
+                enableAnnouncement: __('Text Spacing, set to Large.', 'website-accessibility')
             },
             {
                 name: __('Extra Large', 'website-accessibility'),
@@ -498,7 +585,8 @@ export const features = [
                             wordSpacing: '8px'
                         }
                     }
-                ]
+                ],
+                enableAnnouncement: __('Text Spacing, set to Extra Large.', 'website-accessibility')
             }
         ]
     },
@@ -506,7 +594,7 @@ export const features = [
         key: 'pauseAnimations',
         label: __('Pause Animations', 'website-accessibility'),
         styleMethod: 'styleTag',
-        description: __('Enable pause animations to pause all animations on the page.', 'website-accessibility'),
+        disableAnnouncement: __('The pause animations setting has been disabled.', 'website-accessibility'),
         icon: (
             <svg width="24" height="24" viewBox="0 0 24 24" fill="none">
                 <rect x="6" y="4" width="4" height="16" rx="2" fill="#1a4cd8" />
@@ -525,7 +613,8 @@ export const features = [
                             transition: 'none'
                         }
                     }
-                ]
+                ],
+                enableAnnouncement: __('Pause Animations Enable.', 'website-accessibility')
             },
             {
                 name: __('Disable', 'website-accessibility'),
@@ -538,7 +627,7 @@ export const features = [
         key: 'hideImages',
         label: __('Hide Images', 'website-accessibility'),
         styleMethod: 'inline',
-        description: __('Enable hide images to hide all images on the page.', 'website-accessibility'),
+        disableAnnouncement: __('The hide images setting has been disabled.', 'website-accessibility'),
         icon: (
             <svg width="24" height="24" viewBox="0 0 24 24" fill="none">
                 <rect x="4" y="4" width="16" height="16" rx="4" stroke="#1a4cd8" strokeWidth="2" />
@@ -556,7 +645,8 @@ export const features = [
                             display: 'none'
                         }
                     }
-                ]
+                ],
+                enableAnnouncement: __('Hide Images Enable.', 'website-accessibility')
             },
             {
                 name: __('Disable', 'website-accessibility'),
@@ -569,7 +659,7 @@ export const features = [
         key: 'dyslexiaFriendly',
         label: __('Dyslexia Friendly', 'website-accessibility'),
         styleMethod: 'styleTag',
-        description: __('Enable dyslexia friendly to make the text more readable for dyslexia.', 'website-accessibility'),
+        disableAnnouncement: __('The dyslexia friendly setting has been disabled.', 'website-accessibility'),
         icon: (
             <svg width="24" height="24" viewBox="0 0 24 24" fill="none">
                 <text x="12" y="18" textAnchor="middle" fontSize="16" fill="#1a4cd8" fontWeight="bold">Df</text>
@@ -577,8 +667,8 @@ export const features = [
         ),
         attributes: [
             {
-                name: __('Dyslexia', 'website-accessibility'),
-                value: 'dyslexia',
+                name: __('Enable', 'website-accessibility'),
+                value: 'enable',
                 css: [
                     {
                         selector: 'body, p, div, span, li, td, th, h1, h2, h3, h4, h5, h6',
@@ -588,21 +678,13 @@ export const features = [
                             letterSpacing: '1px'
                         }
                     }
-                ]
+                ],
+                enableAnnouncement: __('Dyslexia Friendly Enable.', 'website-accessibility')
             },
             {
-                name: __('Legible', 'website-accessibility'),
-                value: 'legible',
-                css: [
-                    {
-                        selector: 'body, p, div, span, li, td, th, h1, h2, h3, h4, h5, h6',
-                        properties: {
-                            fontFamily: 'Arial, sans-serif',
-                            lineHeight: '1.6',
-                            letterSpacing: '0.5px'
-                        }
-                    }
-                ]
+                name: __('Disable', 'website-accessibility'),
+                value: 'disable',
+                css: []
             }
         ]
     },
@@ -610,7 +692,7 @@ export const features = [
         key: 'cursor',
         label: __('Cursor', 'website-accessibility'),
         styleMethod: 'styleTag',
-        description: __('Enable cursor to show a cursor on the screen.', 'website-accessibility'),
+        disableAnnouncement: __('The cursor setting has been disabled.', 'website-accessibility'),
         icon: (
             <svg width="24" height="24" viewBox="0 0 24 24" fill="none">
                 <polygon points="4,4 20,12 13,13 12,20" stroke="#1a4cd8" strokeWidth="2" fill="none" />
@@ -627,7 +709,8 @@ export const features = [
                             cursor: 'url("data:image/svg+xml;utf8,<svg xmlns=\'http://www.w3.org/2000/svg\' width=\'32\' height=\'32\' viewBox=\'0 0 32 32\'><circle cx=\'16\' cy=\'16\' r=\'12\' fill=\'%23000\' stroke=\'%23fff\' stroke-width=\'2\'/></svg>") 16 16, auto'
                         }
                     }
-                ]
+                ],
+                enableAnnouncement: __('Cursor Mask Enable.', 'website-accessibility')
             },
             {
                 name: __('Guideline', 'website-accessibility'),
@@ -639,7 +722,8 @@ export const features = [
                             cursor: 'crosshair'
                         }
                     }
-                ]
+                ],
+                enableAnnouncement: __('Cursor Guideline Enable.', 'website-accessibility')
             }
         ]
     },
@@ -647,7 +731,7 @@ export const features = [
         key: 'tooltips',
         label: __('Tooltips', 'website-accessibility'),
         styleMethod: 'rootClass',
-        description: __('Enable tooltips to show tooltips on the screen.', 'website-accessibility'),
+        disableAnnouncement: __('The tooltips setting has been disabled.', 'website-accessibility'),
         icon: (
             <svg width="24" height="24" viewBox="0 0 24 24" fill="none">
                 <circle cx="12" cy="12" r="10" stroke="#1a4cd8" strokeWidth="2" />
@@ -658,7 +742,8 @@ export const features = [
             {
                 name: __('Enable', 'website-accessibility'),
                 value: 'enable',
-                css: []
+                css: [],
+                enableAnnouncement: __('Tooltips Enable.', 'website-accessibility')
             },
             {
                 name: __('Disable', 'website-accessibility'),
@@ -671,7 +756,7 @@ export const features = [
         key: 'lineHeight',
         label: __('Line Height', 'website-accessibility'),
         styleMethod: 'styleTag',
-        description: __('Enable line height to increase the space between lines.', 'website-accessibility'),
+        disableAnnouncement: __('The line height setting has been disabled.', 'website-accessibility'),
         icon: (
             <svg width="24" height="24" viewBox="0 0 24 24" fill="none">
                 <rect x="4" y="4" width="16" height="16" rx="4" stroke="#1a4cd8" strokeWidth="2" />
@@ -688,7 +773,8 @@ export const features = [
                             lineHeight: '1.6'
                         }
                     }
-                ]
+                ],
+                enableAnnouncement: __('Line Height, set to Medium.', 'website-accessibility')
             },
             {
                 name: __('Large', 'website-accessibility'),
@@ -700,7 +786,8 @@ export const features = [
                             lineHeight: '1.8'
                         }
                     }
-                ]
+                ],
+                enableAnnouncement: __('Line Height, set to Large.', 'website-accessibility')
             },
             {
                 name: __('Extra Large', 'website-accessibility'),
@@ -712,7 +799,8 @@ export const features = [
                             lineHeight: '2.2'
                         }
                     }
-                ]
+                ],
+                enableAnnouncement: __('Line Height, set to Extra Large.', 'website-accessibility')
             }
         ]
     },
@@ -720,7 +808,7 @@ export const features = [
         key: 'textAlign',
         label: __('Text Alignment', 'website-accessibility'),
         styleMethod: 'styleTag',
-        description: __('Enable text alignment to align the text to the left, center, right, or justify.', 'website-accessibility'),
+        disableAnnouncement: __('The text alignment setting has been disabled.', 'website-accessibility'),
         icon: (
             <svg width="24" height="24" viewBox="0 0 24 24" fill="none">
                 <rect x="4" y="4" width="16" height="16" rx="4" stroke="#1a4cd8" strokeWidth="2" />
@@ -737,7 +825,8 @@ export const features = [
                             textAlign: 'left'
                         }
                     }
-                ]
+                ],
+                enableAnnouncement: __('Text Alignment, set to Left.', 'website-accessibility')
             },
             {
                 name: __('Center', 'website-accessibility'),
@@ -749,7 +838,8 @@ export const features = [
                             textAlign: 'center'
                         }
                     }
-                ]
+                ],
+                enableAnnouncement: __('Text Alignment, set to Center.', 'website-accessibility')
             },
             {
                 name: __('Right', 'website-accessibility'),
@@ -761,7 +851,8 @@ export const features = [
                             textAlign: 'right'
                         }
                     }
-                ]
+                ],
+                enableAnnouncement: __('Text Alignment, set to Right.', 'website-accessibility')
             },
             {
                 name: __('Justify', 'website-accessibility'),
@@ -773,7 +864,8 @@ export const features = [
                             textAlign: 'justify'
                         }
                     }
-                ]
+                ],
+                enableAnnouncement: __('Text Alignment, set to Justify.', 'website-accessibility')
             }
         ]
     },
@@ -781,7 +873,7 @@ export const features = [
         key: 'saturation',
         label: __('Saturation', 'website-accessibility'),
         styleMethod: 'inline',
-        description: __('Enable saturation to adjust the saturation of the images and videos.', 'website-accessibility'),
+        disableAnnouncement: __('The saturation setting has been disabled.', 'website-accessibility'),
         icon: (
             <svg width="24" height="24" viewBox="0 0 24 24" fill="none">
                 <rect x="4" y="4" width="16" height="16" rx="4" stroke="#1a4cd8" strokeWidth="2" />
@@ -798,7 +890,8 @@ export const features = [
                             filter: 'saturate(0.5)'
                         }
                     }
-                ]
+                ],
+                enableAnnouncement: __('Saturation, set to Low.', 'website-accessibility')
             },
             {
                 name: __('High', 'website-accessibility'),
@@ -810,7 +903,8 @@ export const features = [
                             filter: 'saturate(1.5)'
                         }
                     }
-                ]
+                ],
+                enableAnnouncement: __('Saturation, set to High.', 'website-accessibility')
             },
             {
                 name: __('Desaturate', 'website-accessibility'),
@@ -822,7 +916,8 @@ export const features = [
                             filter: 'saturate(0)'
                         }
                     }
-                ]
+                ],
+                enableAnnouncement: __('Saturation, set to Desaturate.', 'website-accessibility')
             }
         ]
     },
@@ -830,7 +925,7 @@ export const features = [
         key: 'dictionary',
         label: __('Dictionary', 'website-accessibility'),
         styleMethod: 'rootClass',
-        description: __('Enable dictionary to show the definition of the word when the user hovers over it.', 'website-accessibility'),
+        disableAnnouncement: __('The dictionary setting has been disabled.', 'website-accessibility'),
         icon: (
             <svg width="24" height="24" viewBox="0 0 24 24" fill="none">
                 <rect x="4" y="4" width="16" height="16" rx="4" stroke="#1a4cd8" strokeWidth="2" />
@@ -840,12 +935,14 @@ export const features = [
             {
                 name: __('Enable', 'website-accessibility'),
                 value: 'enable',
-                css: []
+                css: [],
+                enableAnnouncement: __('Dictionary Enable.', 'website-accessibility')
             },
             {
                 name: __('Disable', 'website-accessibility'),
                 value: 'disable',
-                css: []
+                css: [],
+                enableAnnouncement: __('Dictionary Disable.', 'website-accessibility')
             }
         ]
     }

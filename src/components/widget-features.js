@@ -1,6 +1,7 @@
 import { Card, Row, Col, Switch } from 'antd';
-import { features } from '../utils';
+import { features, isScreenReaderActive } from '../utils';
 import clsx from 'clsx';
+import screenReader from '../screen-reader';
 
 const WidgetFeatures = ({ value, accessibilityContext, accessibilityDispatch }) => {
     const { items } = value;
@@ -24,9 +25,15 @@ const WidgetFeatures = ({ value, accessibilityContext, accessibilityDispatch }) 
         const prevState = currentSettings[key] || {};
         const prevStep = prevState?.currentStep || 0;
 
+        accessibilityDispatch({
+            type: 'SET_CURRENT_PROFILE',
+            payload: null, // Reset current profile on feature click
+        });
+
         // For toggle-like features (enable/disable)
         if (allAttributes.length === 2 && allAttributes[0]?.value === 'enable') {
             const nextStep = prevStep === 1 ? 0 : 1;
+            const currentAttribute = allAttributes[nextStep - 1] || null;
 
             accessibilityDispatch({
                 type: 'SET_CURRENT_SETTINGS',
@@ -34,11 +41,22 @@ const WidgetFeatures = ({ value, accessibilityContext, accessibilityDispatch }) 
                     ...currentSettings,
                     [key]: {
                         currentStep: nextStep,
-                        currentAttribute: null,
+                        currentAttribute,
                         isMultiStep: false,
                     },
                 },
             });
+
+            if (isScreenReaderActive(currentSettings)) {
+                const enableAnnouncement = currentAttribute?.enableAnnouncement;
+                const disableAnnouncement = feature?.disableAnnouncement;
+                if (currentAttribute) {
+                    screenReader().speak(enableAnnouncement);
+                } else {
+                    screenReader().speak(disableAnnouncement);
+                }
+            }
+
             return;
         }
 
@@ -56,6 +74,33 @@ const WidgetFeatures = ({ value, accessibilityContext, accessibilityDispatch }) 
                 },
             },
         });
+
+        if (isScreenReaderActive(currentSettings)) {
+            const enableAnnouncement = allAttributes[nextStep - 1]?.enableAnnouncement;
+            const disableAnnouncement = feature?.disableAnnouncement;
+            if (allAttributes[nextStep - 1]) {
+                if(key === 'screenReader'){
+                    screenReader().screenReaderConfig = {
+                        rate: allAttributes[nextStep - 1]?.rate || 1,
+                        pitch: allAttributes[nextStep - 1]?.pitch || 1,
+                        lang: allAttributes[nextStep - 1]?.lang || 'en-US',
+                        voiceURI: allAttributes[nextStep - 1]?.voiceURI || null,
+                    }
+                }
+                screenReader().speak(enableAnnouncement);
+            } else {
+                screenReader().speak(disableAnnouncement);
+            }
+        } else if (key === 'screenReader') {
+            const enableAnnouncement = allAttributes[0]?.enableAnnouncement;
+            screenReader().screenReaderConfig = {
+                rate: allAttributes[0]?.rate || 1,
+                pitch: allAttributes[0]?.pitch || 1,
+                lang: allAttributes[0]?.lang || 'en-US',
+                voiceURI: allAttributes[0]?.voiceURI || null,
+            }
+            screenReader().speak(enableAnnouncement);
+        }
     };
 
     // Handle oversized toggle
@@ -101,11 +146,10 @@ const WidgetFeatures = ({ value, accessibilityContext, accessibilityDispatch }) 
                     const currentStep = setting.currentStep || 0;
                     const currentAttribute = setting.currentAttribute;
                     const allAttributes = feature.attributes || [];
-
                     const isActive = currentStep > 0;
-                    const showSteps = allAttributes.length > 1;
+                    const showSteps = currentStep > 0 && allAttributes[0]?.value !== 'enable';
                     const totalSteps = allAttributes.length;
-                    
+
                     return (
                         <Col
                             key={key}

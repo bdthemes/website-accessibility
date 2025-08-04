@@ -1,9 +1,70 @@
 export const initialState = {
     currentProfile: null,
-    currentSettings: {},
+    currentSettings: {
+        contrast: {
+            currentStep: 0,
+            currentAttribute: null,
+            isMultiStep: true
+        },
+        highlightLinks: {
+            currentStep: 0,
+            currentAttribute: null,
+            isMultiStep: false
+        },
+        smartContrast: {
+            currentStep: 0,
+            currentAttribute: null,
+            isMultiStep: false
+        },
+        screenReader: {
+            currentStep: 0,
+            currentAttribute: null,
+            isMultiStep: true
+        },
+        tooltips: {
+            currentStep: 0,
+            currentAttribute: null,
+            isMultiStep: false
+        },
+        textSpacing: {
+            currentStep: 0,
+            currentAttribute: null,
+            isMultiStep: true
+        },
+        biggerText: {
+            currentStep: 0,
+            currentAttribute: null,
+            isMultiStep: true
+        },
+        pauseAnimations: {
+            currentStep: 0,
+            currentAttribute: null,
+            isMultiStep: false
+        },
+        hideImages: {
+            currentStep: 0,
+            currentAttribute: null,
+            isMultiStep: false
+        },
+        dyslexiaFont: {
+            currentStep: 0,
+            currentAttribute: null,
+            isMultiStep: true
+        },
+        cursor: {
+            currentStep: 0,
+            currentAttribute: null,
+            isMultiStep: true // if there are multiple cursor types
+        },
+        dictionary: {
+            currentStep: 0,
+            currentAttribute: null,
+            isMultiStep: false
+        }
+    },
     isLoading: false,
     isOverSized: false,
-    localStorageKey: 'websiteAccessibilityLocalPreferences',
+    localStorageKeyPrefix: 'websiteAccessibilityLocalPreferences',
 };
 
 export const accessibilityReducer = (state, action) => {
@@ -30,7 +91,7 @@ export const accessibilityReducer = (state, action) => {
             };
         case 'RESET_ACCESSIBILITY':
             return {
-                ...initialState, 
+                ...initialState,
             };
         default:
             return state;

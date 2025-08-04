@@ -14,7 +14,7 @@
 }
 
 .wap-panel-customization__panel {
-    width: var(--panel-width, 600px);
+    width: min(100%, var(--panel-width, 600px));
     background: var(--panel-background, #f7f9fa);
     border: var(--panel-border, none);
     border-radius: 6px;
@@ -22,7 +22,6 @@
     overflow: hidden;
     font-family: inherit;
     padding: var(--panel-padding);
-    margin: auto;
 
     .ant-collapse-header {
         padding: 12px 24px !important;

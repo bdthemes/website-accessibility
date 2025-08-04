@@ -1,89 +1,90 @@
-import { features } from "./utils";
+import screenReader from "./screen-reader";
+import smartContrast from "./smart-contrast";
 
 class AccessibilityManager {
+    static instance = null;
     constructor() {
+        if (AccessibilityManager.instance) return AccessibilityManager.instance;
         this.props = {}; // { contrast: [ { element, property, originalValue } ] }
         this.previousFeatureValues = {}; // Track previous values
+
+        AccessibilityManager.instance = this;
     }
 
-    init(key, value) {
-        const feature = features.find(f => f.key === key);
-        if (!feature) return;
+    static getInstance() {
+        if (!AccessibilityManager.instance) {
+            AccessibilityManager.instance = new AccessibilityManager();
+        }
+        return AccessibilityManager.instance;
+    }
 
-        const prevValue = this.previousFeatureValues[key];
+    init(settings) {
+        if (!settings || Object.keys(settings).length === 0) return;
 
-        // Skip if same value is already active
-        if (prevValue === value) return;
+        for (const key in settings) {
+            const setting = settings[key];
+            const attributes = setting.currentAttribute || {};
 
-        // Remove previous feature if exists
-        this.removeFeature(key);
+            // If the feature is not enabled, remove it
+            if (!setting.currentStep) {
+                this.removeFeature(key);
+                continue;
+            }
 
-        this.previousFeatureValues[key] = value; // Store latest value
+            // If the feature is already applied, remove it
+            if (this.previousFeatureValues[key]) {
+                this.removeFeature(key);
+            }
 
-        switch (key) {
-            case 'contrast':
-                this.applyContrast(feature, value);
-                break;
-            case 'highlightLinks':
-                this.applyHighlightLinks(feature, value);
-                break;
-            case 'biggerText':
-                this.applyBiggerText(feature, value);
-                break;
-            case 'textSpacing':
-                this.applyTextSpacing(feature, value);
-                break;
-            case 'pauseAnimations':
-                this.applyPauseAnimations(feature, value);
-                break;
-            case 'hideImages':
-                this.applyHideImages(feature, value);
-                break;
-            case 'dyslexiaFriendly':
-                this.applyDyslexiaFriendly(feature, value);
-                break;
-            case 'cursor':
-                this.applyCursor(feature, value);
-                break;
-            case 'lineHeight':
-                this.applyLineHeight(feature, value);
-                break;
-            case 'textAlign':
-                this.applyTextAlign(feature, value);
-                break;
-            case 'saturation':
-                this.applySaturation(feature, value);
-                break;
+            // Store the previous value for comparison
+            if (!this.previousFeatureValues[key]) {
+                this.previousFeatureValues[key] = setting.currentAttribute?.value || null;
+            }
+
+            this.props[key] = [];
+
+            switch (key) {
+                case 'contrast':
+                    this.applyContrast(key, attributes);
+                    break;
+                case 'screenReader':
+                    this.applyScreenReader(key, attributes);
+                    break;
+                case 'smartContrast':
+                    this.applySmartContrast(key, attributes);
+                    break;
+                case 'highlightLinks':
+                case 'biggerText':
+                case 'textSpacing':
+                case 'pauseAnimations':
+                case 'hideImages':
+                case 'dyslexiaFriendly':
+                case 'cursor':
+                case 'lineHeight':
+                case 'textAlign':
+                case 'saturation':
+                    this.applyCSSFeature(key, attributes);
+                    break;
+            }
+
         }
     }
 
     // Helper method to check if element is inside preview drawer
     isInsidePreviewDrawer(element) {
-        return element.closest('.wap-preset__preview-drawer') !== null;
+        const wrapper = document.querySelector('.wap-preset__preview-drawer');
+        if (!wrapper) return false;
+        return wrapper.contains(element);
     }
 
-    applyContrast(feature, value) {
-        const attr = feature.attributes.find(attr => attr.value === value);
-        if (!attr) return;
+    applyContrast(key, attribute) {
+        if (!attribute) return;
 
-        this.props['contrast'] = [];
-
-        if (value === 'invert') {
-            const html = document.querySelector('html');
-            this.props['contrast'].push({
-                element: html,
-                property: 'filter',
-                originalValue: html.style.filter || ''
-            });
-            html.style.filter = 'invert(1)';
-            return;
-        }
-
-        attr.css.forEach(css => {
+        attribute.css.forEach(css => {
             const elements = document.querySelectorAll(css.selector);
             elements.forEach(element => {
                 // Skip if element is inside preview drawer
-                if (this.isInsidePreviewDrawer(element)) {
+                if (this.isInsidePreviewDrawer(element) && attribute?.value !== 'invert') {
                     return;
                 }
 
@@ -111,63 +112,41 @@ class AccessibilityManager {
         delete this.props['contrast'];
     }
 
-    // Highlight Links
-    applyHighlightLinks(feature, value) {
-        const attr = feature.attributes.find(attr => attr.value === value);
-        if (!attr) return;
-
-        this.props['highlightLinks'] = [];
-
-        if (value === 'enable') {
-            attr.css.forEach(css => {
-                const elements = document.querySelectorAll(css.selector);
-                elements.forEach(element => {
-                    // Skip if element is inside preview drawer
-                    if (this.isInsidePreviewDrawer(element)) {
-                        return;
-                    }
-
-                    for (const property in css.properties) {
-                        this.props['highlightLinks'].push({
-                            element,
-                            property,
-                            originalValue: element.style[property] || ''
-                        });
-                        element.style[property] = css.properties[property];
-                    }
-                });
-            });
-        }
+    applyScreenReader(key, attribute) {
+        if (!attribute) return;
+        screenReader().apply(key, attribute);
     }
 
-    removeHighlightLinks() {
-        const highlightProps = this.props['highlightLinks'];
-        if (!highlightProps) return;
 
-        highlightProps.forEach(item => {
-            item.element.style[item.property] = item.originalValue;
-        });
-
-        delete this.props['highlightLinks'];
+    removeScreenReader() {
+        screenReader().destroy();
+        delete this.props['screenReader'];
     }
 
-    // Bigger Text
-    applyBiggerText(feature, value) {
-        const attr = feature.attributes.find(attr => attr.value === value);
-        if (!attr) return;
+    applySmartContrast(key, attribute) {
+        if (!attribute) return;
+        smartContrast().apply();
+    }
 
-        this.props['biggerText'] = [];
+    removeSmartContrast() {
+        smartContrast().remove();
+        delete this.props['smartContrast'];
+    }
+
+    applyCSSFeature(key, attr) {
+        if (!attr?.css || attr?.css?.length == 0) return;
+        const previewButton = document.querySelector('.wap-preset__preview-button');
 
         attr.css.forEach(css => {
             const elements = document.querySelectorAll(css.selector);
             elements.forEach(element => {
                 // Skip if element is inside preview drawer
-                if (this.isInsidePreviewDrawer(element)) {
+                if (this.isInsidePreviewDrawer(element) || element === previewButton || previewButton?.contains(element)) {
                     return;
                 }
 
                 for (const property in css.properties) {
-                    this.props['biggerText'].push({
+                    this.props[key].push({
                         element,
                         property,
                         originalValue: element.style[property] || ''
@@ -178,360 +157,40 @@ class AccessibilityManager {
         });
     }
 
-    removeBiggerText() {
-        const biggerTextProps = this.props['biggerText'];
-        if (!biggerTextProps) return;
-
-        biggerTextProps.forEach(item => {
-            item.element.style[item.property] = item.originalValue;
-        });
-
-        delete this.props['biggerText'];
-    }
-
-    // Text Spacing
-    applyTextSpacing(feature, value) {
-        const attr = feature.attributes.find(attr => attr.value === value);
-        if (!attr) return;
-
-        this.props['textSpacing'] = [];
-
-        attr.css.forEach(css => {
-            const elements = document.querySelectorAll(css.selector);
-            elements.forEach(element => {
-                // Skip if element is inside preview drawer
-                if (this.isInsidePreviewDrawer(element)) {
-                    return;
-                }
-
-                for (const property in css.properties) {
-                    this.props['textSpacing'].push({
-                        element,
-                        property,
-                        originalValue: element.style[property] || ''
-                    });
-                    element.style[property] = css.properties[property];
-                }
-            });
-        });
-    }
-
-    removeTextSpacing() {
-        const textSpacingProps = this.props['textSpacing'];
-        if (!textSpacingProps) return;
-
-        textSpacingProps.forEach(item => {
-            item.element.style[item.property] = item.originalValue;
-        });
-
-        delete this.props['textSpacing'];
-    }
-
-    // Pause Animations
-    applyPauseAnimations(feature, value) {
-        const attr = feature.attributes.find(attr => attr.value === value);
-        if (!attr) return;
-
-        this.props['pauseAnimations'] = [];
-
-        if (value === 'enable') {
-            attr.css.forEach(css => {
-                const elements = document.querySelectorAll(css.selector);
-                elements.forEach(element => {
-                    // Skip if element is inside preview drawer
-                    if (this.isInsidePreviewDrawer(element)) {
-                        return;
-                    }
-
-                    for (const property in css.properties) {
-                        this.props['pauseAnimations'].push({
-                            element,
-                            property,
-                            originalValue: element.style[property] || ''
-                        });
-                        element.style[property] = css.properties[property];
-                    }
-                });
-            });
-        }
-    }
-
-    removePauseAnimations() {
-        const pauseAnimationsProps = this.props['pauseAnimations'];
-        if (!pauseAnimationsProps) return;
-
-        pauseAnimationsProps.forEach(item => {
-            item.element.style[item.property] = item.originalValue;
-        });
-
-        delete this.props['pauseAnimations'];
-    }
-
-    // Hide Images
-    applyHideImages(feature, value) {
-        const attr = feature.attributes.find(attr => attr.value === value);
-        if (!attr) return;
-
-        this.props['hideImages'] = [];
-
-        if (value === 'enable') {
-            attr.css.forEach(css => {
-                const elements = document.querySelectorAll(css.selector);
-                elements.forEach(element => {
-                    // Skip if element is inside preview drawer
-                    if (this.isInsidePreviewDrawer(element)) {
-                        return;
-                    }
-
-                    for (const property in css.properties) {
-                        this.props['hideImages'].push({
-                            element,
-                            property,
-                            originalValue: element.style[property] || ''
-                        });
-                        element.style[property] = css.properties[property];
-                    }
-                });
-            });
-        }
-    }
-
-    removeHideImages() {
-        const hideImagesProps = this.props['hideImages'];
-        if (!hideImagesProps) return;
-
-        hideImagesProps.forEach(item => {
-            item.element.style[item.property] = item.originalValue;
-        });
-
-        delete this.props['hideImages'];
-    }
-
-    // Dyslexia Friendly
-    applyDyslexiaFriendly(feature, value) {
-        const attr = feature.attributes.find(attr => attr.value === value);
-        if (!attr) return;
-
-        this.props['dyslexiaFriendly'] = [];
-
-        attr.css.forEach(css => {
-            const elements = document.querySelectorAll(css.selector);
-            elements.forEach(element => {
-                // Skip if element is inside preview drawer
-                if (this.isInsidePreviewDrawer(element)) {
-                    return;
-                }
-
-                for (const property in css.properties) {
-                    this.props['dyslexiaFriendly'].push({
-                        element,
-                        property,
-                        originalValue: element.style[property] || ''
-                    });
-                    element.style[property] = css.properties[property];
-                }
-            });
-        });
-    }
-
-    removeDyslexiaFriendly() {
-        const dyslexiaFriendlyProps = this.props['dyslexiaFriendly'];
-        if (!dyslexiaFriendlyProps) return;
-
-        dyslexiaFriendlyProps.forEach(item => {
-            item.element.style[item.property] = item.originalValue;
-        });
-
-        delete this.props['dyslexiaFriendly'];
-    }
-
-    // Cursor
-    applyCursor(feature, value) {
-        const attr = feature.attributes.find(attr => attr.value === value);
-        if (!attr) return;
-
-        this.props['cursor'] = [];
-
-        attr.css.forEach(css => {
-            const elements = document.querySelectorAll(css.selector);
-            elements.forEach(element => {
-                // Skip if element is inside preview drawer
-                if (this.isInsidePreviewDrawer(element)) {
-                    return;
-                }
-
-                for (const property in css.properties) {
-                    this.props['cursor'].push({
-                        element,
-                        property,
-                        originalValue: element.style[property] || ''
-                    });
-                    element.style[property] = css.properties[property];
-                }
-            });
-        });
-    }
-
-    removeCursor() {
-        const cursorProps = this.props['cursor'];
-        if (!cursorProps) return;
-
-        cursorProps.forEach(item => {
-            item.element.style[item.property] = item.originalValue;
-        });
-
-        delete this.props['cursor'];
-    }
-
-    // Line Height
-    applyLineHeight(feature, value) {
-        const attr = feature.attributes.find(attr => attr.value === value);
-        if (!attr) return;
-
-        this.props['lineHeight'] = [];
-
-        attr.css.forEach(css => {
-            const elements = document.querySelectorAll(css.selector);
-            elements.forEach(element => {
-                // Skip if element is inside preview drawer
-                if (this.isInsidePreviewDrawer(element)) {
-                    return;
-                }
-
-                for (const property in css.properties) {
-                    this.props['lineHeight'].push({
-                        element,
-                        property,
-                        originalValue: element.style[property] || ''
-                    });
-                    element.style[property] = css.properties[property];
-                }
-            });
-        });
-    }
-
-    removeLineHeight() {
-        const lineHeightProps = this.props['lineHeight'];
-        if (!lineHeightProps) return;
-
-        lineHeightProps.forEach(item => {
-            item.element.style[item.property] = item.originalValue;
-        });
-
-        delete this.props['lineHeight'];
-    }
-
-    // Text Alignment
-    applyTextAlign(feature, value) {
-        const attr = feature.attributes.find(attr => attr.value === value);
-        if (!attr) return;
-
-        this.props['textAlign'] = [];
-
-        attr.css.forEach(css => {
-            const elements = document.querySelectorAll(css.selector);
-            elements.forEach(element => {
-                // Skip if element is inside preview drawer
-                if (this.isInsidePreviewDrawer(element)) {
-                    return;
-                }
-
-                for (const property in css.properties) {
-                    this.props['textAlign'].push({
-                        element,
-                        property,
-                        originalValue: element.style[property] || ''
-                    });
-                    element.style[property] = css.properties[property];
-                }
-            });
-        });
-    }
-
-    removeTextAlign() {
-        const textAlignProps = this.props['textAlign'];
-        if (!textAlignProps) return;
-
-        textAlignProps.forEach(item => {
-            item.element.style[item.property] = item.originalValue;
-        });
-
-        delete this.props['textAlign'];
-    }
-
-    // Saturation
-    applySaturation(feature, value) {
-        const attr = feature.attributes.find(attr => attr.value === value);
-        if (!attr) return;
-
-        this.props['saturation'] = [];
-
-        attr.css.forEach(css => {
-            const elements = document.querySelectorAll(css.selector);
-            elements.forEach(element => {
-                // Skip if element is inside preview drawer
-                if (this.isInsidePreviewDrawer(element)) {
-                    return;
-                }
-
-                for (const property in css.properties) {
-                    this.props['saturation'].push({
-                        element,
-                        property,
-                        originalValue: element.style[property] || ''
-                    });
-                    element.style[property] = css.properties[property];
-                }
-            });
-        });
-    }
-
-    removeSaturation() {
-        const saturationProps = this.props['saturation'];
+    removeCSSFeature(key) {
+        const saturationProps = this.props[key];
         if (!saturationProps) return;
 
         saturationProps.forEach(item => {
             item.element.style[item.property] = item.originalValue;
         });
 
-        delete this.props['saturation'];
+        delete this.props[key];
     }
+
 
     removeFeature(key) {
         if (key === 'contrast') {
             this.removeContrast();
+        } else if (key === 'screenReader') {
+            screenReader().destroy();
+        } else if (key === 'smartContrast') {
+            smartContrast().remove();
+        }else if (
+            key === 'highlightLinks' ||
+            key === 'biggerText' ||
+            key === 'textSpacing' ||
+            key === 'pauseAnimations' ||
+            key === 'hideImages' ||
+            key === 'dyslexiaFriendly' ||
+            key === 'cursor' ||
+            key === 'lineHeight' ||
+            key === 'textAlign' ||
+            key === 'saturation'
+        ) {
+            this.removeCSSFeature(key);
         }
-        if (key === 'highlightLinks') {
-            this.removeHighlightLinks();
-        }
-        if (key === 'biggerText') {
-            this.removeBiggerText();
-        }
-        if (key === 'textSpacing') {
-            this.removeTextSpacing();
-        }
-        if (key === 'pauseAnimations') {
-            this.removePauseAnimations();
-        }
-        if (key === 'hideImages') {
-            this.removeHideImages();
-        }
-        if (key === 'dyslexiaFriendly') {
-            this.removeDyslexiaFriendly();
-        }
-        if (key === 'cursor') {
-            this.removeCursor();
-        }
-        if (key === 'lineHeight') {
-            this.removeLineHeight();
-        }
-        if (key === 'textAlign') {
-            this.removeTextAlign();
-        }
-        if (key === 'saturation') {
-            this.removeSaturation();
-        }
-        
+
         // Remove from previous values
         delete this.previousFeatureValues[key];
     }
@@ -541,7 +200,7 @@ class AccessibilityManager {
         Object.keys(this.previousFeatureValues).forEach(key => {
             this.removeFeature(key);
         });
-        
+
         // Clear all stored data
         this.props = {};
         this.previousFeatureValues = {};
@@ -552,4 +211,5 @@ class AccessibilityManager {
     }
 }
 
-export default AccessibilityManager;
+const accessibilityManager = () => AccessibilityManager.getInstance();
+export default accessibilityManager;

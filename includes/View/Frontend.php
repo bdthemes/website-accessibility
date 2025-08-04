@@ -78,6 +78,8 @@ class Frontend
                 'presets' => $presets_data,
                 'profiles' => $profiles,
                 'pageType' => $page_type,
+                'currentPreset' => Utils::get_current_preset($presets_data, $page_type),
+                'currentPresetId' => !empty(Utils::get_current_preset($presets_data, $page_type)['ID']) ? Utils::get_current_preset($presets_data, $page_type)['ID'] : null,
             ]);
         }
     }

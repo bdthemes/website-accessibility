@@ -11,6 +11,10 @@
   }
 }
 
+.wap-frontend {
+  overflow-y: auto !important;
+}
+
 // Button styles
 .wap-button-style-preset__preview-btn {
   position: fixed;
@@ -201,31 +205,6 @@
   .wap-language-selector__badge {
     background-color: #1890ff !important;
     color: white !important;
-  }
-}
-
-// Responsive design
-@media (max-width: 768px) {
-  .wap-button-style-preset__preview-btn {
-    min-width: 100px;
-    padding: 10px 16px;
-    font-size: 13px;
-    
-    &.top-left,
-    &.top-right,
-    &.bottom-left,
-    &.bottom-right {
-      top: 10px;
-      left: 10px;
-      right: 10px;
-      bottom: 10px;
-    }
-  }
-  
-  .wap-preset__preview-drawer {
-    .ant-drawer-content {
-      border-radius: 16px 16px 0 0;
-    }
   }
 }
 

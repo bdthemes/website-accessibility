@@ -1,6 +1,6 @@
 import { cloneElement } from "@wordpress/element";
 
-const PreviewContent = ({ panel, allProfiles, setIsOpen = () => {}, accessibilityContext, accessibilityDispatch }) => {
+const PreviewContent = ({ panel, allProfiles, setIsOpen = () => {}, accessibilityContext, accessibilityDispatch, manager }) => {
     const { LanguageSelector, AccessibilityProfiles, WidgetFeatures, PanelHeader, PanelFooter } = window?.wapComponents;
     
     // Create components with accessibility context
@@ -19,6 +19,7 @@ const PreviewContent = ({ panel, allProfiles, setIsOpen = () => {}, accessibilit
             value={panel} 
             accessibilityContext={accessibilityContext}
             accessibilityDispatch={accessibilityDispatch}
+            manager={manager}
         />,
     }
 

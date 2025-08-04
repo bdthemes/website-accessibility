@@ -58,7 +58,7 @@ const PreviewPreset = () => {
         <Drawer
           open={isOpen}
           onClose={() => setIsOpen(false)}
-          width={'auto'}
+          width={Number(panel?.wrapper?.width || 400)}
           className="wap-preset__preview-drawer"
           rootClassName="wap-preset__preview-drawer-root"
         >

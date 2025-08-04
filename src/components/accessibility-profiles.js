@@ -2,6 +2,8 @@ import { Collapse, Row, Col } from 'antd';
 import { InfoCircleOutlined, CheckCircleFilled } from '@ant-design/icons';
 import { useMemo } from '@wordpress/element';
 import clsx from 'clsx';
+import { features } from '../utils';
+
 
 /* -------------------- 🔹 ProfileItem Component -------------------- */
 const ProfileItem = ({ profile, isActive, handleClick, attributes }) => {
@@ -81,7 +83,7 @@ const AccessibilityProfiles = ({
     const collapseTitle = attributes.collapseTitle || 'Accessibility Profiles';
 
     const isFrontend = !!accessibilityContext && !!accessibilityDispatch;
-    const { currentProfile } = accessibilityContext || {};
+    const { currentProfile, currentSettings } = accessibilityContext || {};
 
     const processedProfiles = useMemo(() => {
         if (!allProfiles || allProfiles.length === 0) return [];
@@ -116,7 +118,7 @@ const AccessibilityProfiles = ({
                 id: profile?.id || profile?.ID,
                 name: profile?.title?.rendered || profile?.title || profile?.post_title,
                 icon: iconElement,
-                settings: content?.settings || profile?.settings || {}
+                settings: content?.features || profile?.features || {}
             };
         });
     }, [allProfiles]);
@@ -127,12 +129,44 @@ const AccessibilityProfiles = ({
 
     const handleProfileClick = (profile) => {
         if (!isFrontend) return;
+
+        const profileSettings = profile.settings || {};
+        let updatedSettings = {};
+        for (const key in profileSettings) {
+            const setting = profileSettings[key];
+            const feature = features.find(f => f.key === key);
+            if (feature) {
+                const currentIndex = feature.attributes.findIndex(attr => attr.value == setting);
+                const isMultiStep = feature.attributes.length !== 2 && feature.attributes[0]?.value !== 'enable';
+                const currentAttribute = isMultiStep ? feature.attributes[currentIndex] : null;
+                updatedSettings[key] = {
+                    currentStep: isMultiStep ? currentIndex + 1 : 1,
+                    currentAttribute,
+                    isMultiStep
+                };
+            }
+        }
+
+        accessibilityDispatch({
+            type: 'RESET_ACCESSIBILITY',
+        });
+
         accessibilityDispatch({
             type: 'SET_CURRENT_PROFILE',
             payload: currentProfile?.id === profile.id ? null : profile,
         });
-    };
 
+        if (currentProfile?.id !== profile.id) {
+            accessibilityDispatch({
+                type: 'SET_CURRENT_SETTINGS',
+                payload: updatedSettings,
+            });
+        } else {
+            accessibilityDispatch({
+                type: 'RESET_ACCESSIBILITY',
+            });
+        }
+    };
     const collapseItems = useMemo(() => [
         {
             key: '1',
