@@ -9,7 +9,6 @@ const PanelFooter = ({ value, accessibilityContext, accessibilityDispatch }) => 
   const isFrontend = !!accessibilityContext && !!accessibilityDispatch;
 
   // Reset Button
-  const showResetBtn = attributes.showResetBtn !== false;
   const resetBtnText = attributes.resetBtnText || 'Reset All';
 
   // Save Button
@@ -22,6 +21,17 @@ const PanelFooter = ({ value, accessibilityContext, accessibilityDispatch }) => 
   const showBranding = attributes.showBranding !== false;
   const brandingText = attributes.brandingText || 'Proudly Powered by Website Accessibility Pro';
   const linkColor = attributes.linkColor || '#0073ea';
+
+  const footerStyle = {
+    '--wap-footer-general-bg': attributes.generalBg,
+    '--wap-footer-general-padding': attributes.generalPadding,
+    '--wap-footer-general-radius': attributes.generalRadius,
+    '--wap-footer-reset-btn-bg': attributes.resetBtnBg,
+    '--wap-footer-reset-btn-color': attributes.resetBtnColor,
+    '--wap-footer-reset-btn-radius': attributes.resetBtnRadius,
+    '--wap-footer-link-color': attributes.linkColor,
+    '--wap-footer-branding-color': attributes.brandingColor,
+  };
 
   // Handle reset action
   const handleReset = () => {
@@ -38,22 +48,20 @@ const PanelFooter = ({ value, accessibilityContext, accessibilityDispatch }) => 
   };
 
   return (
-    <footer className="wap-panel-footer">
+    <footer className="wap-panel-footer" style={footerStyle}>
       <div className="wap-panel-footer__actions">
-          {showResetBtn && (
-              <Button
-                type="primary"
-                icon={<ReloadOutlined />}
-                size="large"
-                block
-                className="wap-panel-footer__reset-btn"
-               
-                onClick={handleReset}
-              >
-                {resetBtnText}
-              </Button>
-          )}
-          {showSaveBtn && (
+        <Button
+          type="primary"
+          icon={<ReloadOutlined />}
+          size="large"
+          block
+          className="wap-panel-footer__reset-btn"
+
+          onClick={handleReset}
+        >
+          {resetBtnText}
+        </Button>
+        {/* {showSaveBtn && (
               <Button
                 type="default"
                 size="large"
@@ -66,9 +74,9 @@ const PanelFooter = ({ value, accessibilityContext, accessibilityDispatch }) => 
                   <ArrowRightOutlined />
                 </Space>
               </Button>
-          )}
+          )} */}
       </div>
-      
+
       <div className="wap-panel-footer__links">
         {showStatement && (
           <a

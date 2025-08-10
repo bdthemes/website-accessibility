@@ -2,7 +2,8 @@ import { Collapse, Row, Col } from 'antd';
 import { InfoCircleOutlined, CheckCircleFilled } from '@ant-design/icons';
 import { useMemo } from '@wordpress/element';
 import clsx from 'clsx';
-import { features } from '../utils';
+import { features, isScreenReaderActive } from '../utils';
+import screenReader from '../screen-reader';
 
 
 /* -------------------- 🔹 ProfileItem Component -------------------- */
@@ -84,6 +85,7 @@ const AccessibilityProfiles = ({
 
     const isFrontend = !!accessibilityContext && !!accessibilityDispatch;
     const { currentProfile, currentSettings } = accessibilityContext || {};
+    const reader = isScreenReaderActive(currentSettings) ? screenReader() : null;
 
     const processedProfiles = useMemo(() => {
         if (!allProfiles || allProfiles.length === 0) return [];
@@ -138,7 +140,7 @@ const AccessibilityProfiles = ({
             if (feature) {
                 const currentIndex = feature.attributes.findIndex(attr => attr.value == setting);
                 const isMultiStep = feature.attributes.length !== 2 && feature.attributes[0]?.value !== 'enable';
-                const currentAttribute = isMultiStep ? feature.attributes[currentIndex] : null;
+                const currentAttribute = isMultiStep ? feature.attributes[currentIndex] : feature.attributes[0];
                 updatedSettings[key] = {
                     currentStep: isMultiStep ? currentIndex + 1 : 1,
                     currentAttribute,
@@ -157,11 +159,13 @@ const AccessibilityProfiles = ({
         });
 
         if (currentProfile?.id !== profile.id) {
+            reader?.speak(`Switched to ${profile.name} accessibility profile.`);
             accessibilityDispatch({
                 type: 'SET_CURRENT_SETTINGS',
                 payload: updatedSettings,
             });
         } else {
+            reader?.speak(`Accessibility profile reset.`);
             accessibilityDispatch({
                 type: 'RESET_ACCESSIBILITY',
             });

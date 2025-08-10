@@ -14,7 +14,7 @@ const WidgetFeatures = ({ value, accessibilityContext, accessibilityDispatch }) 
 
     // Calculate column span based on items per row
     const itemsPerRow = parseInt(attributes?.itemsPerRow) || 3;
-    const colSpan = 24 / itemsPerRow;
+    const colSpan = isOverSized ? 12 : 24 / itemsPerRow;
     // Handle feature click
     const handleFeatureClick = (feature) => {
         if (!isFrontend) return;

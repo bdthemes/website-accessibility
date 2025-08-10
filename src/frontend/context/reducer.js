@@ -1,3 +1,5 @@
+import { getSiteLanguage } from "../../utils";
+
 export const initialState = {
     currentProfile: null,
     currentSettings: {
@@ -46,7 +48,7 @@ export const initialState = {
             currentAttribute: null,
             isMultiStep: false
         },
-        dyslexiaFont: {
+        dyslexiaFriendly: {
             currentStep: 0,
             currentAttribute: null,
             isMultiStep: true
@@ -56,15 +58,19 @@ export const initialState = {
             currentAttribute: null,
             isMultiStep: true // if there are multiple cursor types
         },
-        dictionary: {
+        saturation: {
             currentStep: 0,
             currentAttribute: null,
-            isMultiStep: false
-        }
+            isMultiStep: true
+        },
     },
     isLoading: false,
     isOverSized: false,
     localStorageKeyPrefix: 'websiteAccessibilityLocalPreferences',
+    enableTranslations: false,
+    selectedLanguage: null,
+    languageSearchInput: '',
+    siteLanguage: getSiteLanguage(),
 };
 
 export const accessibilityReducer = (state, action) => {
@@ -92,6 +98,21 @@ export const accessibilityReducer = (state, action) => {
         case 'RESET_ACCESSIBILITY':
             return {
                 ...initialState,
+            };
+        case 'SET_ENABLE_TRANSLATIONS':
+            return {
+                ...state,
+                enableTranslations: action.payload,
+            };
+        case 'SET_SELECTED_LANGUAGE':
+            return {
+                ...state,
+                selectedLanguage: action.payload,
+            };
+        case 'SET_LANGUAGE_SEARCH_INPUT':
+            return {
+                ...state,
+                languageSearchInput: action.payload,
             };
         default:
             return state;

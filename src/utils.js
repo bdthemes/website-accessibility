@@ -17,6 +17,33 @@ export const isScreenReaderActive = (setttings) => {
     return setttings?.screenReader?.currentStep > 0;
 }
 
+export const getSiteLanguage = () => {
+    const siteLanguage = window?.websiteAccessibility?.siteLanguage || 'en-US';
+    return siteLanguage.split('-')[0];
+}
+
+export function clickRestoreButtonInTranslateIframe() {
+    for (const key in frames) {
+        try {
+            const frameDoc = frames[key]?.document;
+            if (
+                frameDoc &&
+                !frameDoc.querySelector('body')?.classList.contains('wap-frontend')
+            ) {
+                const restoreBtn = frameDoc.querySelector('button[id$=".restore"]');
+                if (restoreBtn) {
+                    restoreBtn.click();
+                    return true; // success
+                }
+            }
+        } catch (e) {
+            // Ignore cross-origin frames
+        }
+    }
+    return false; // not found
+}
+
+
 export const locationOptions = [
     {
         label: __('Entire Site', 'website-accessibility'),
@@ -700,29 +727,28 @@ export const features = [
         ),
         attributes: [
             {
-                name: __('Mask', 'website-accessibility'),
-                value: 'mask',
+                name: __('Big Cursor', 'website-accessibility'),
+                value: 'big-cursor',
                 css: [
                     {
-                        selector: '*',
+                        selector: 'body, a, button, input, select, textarea, div',
                         properties: {
-                            cursor: 'url("data:image/svg+xml;utf8,<svg xmlns=\'http://www.w3.org/2000/svg\' width=\'32\' height=\'32\' viewBox=\'0 0 32 32\'><circle cx=\'16\' cy=\'16\' r=\'12\' fill=\'%23000\' stroke=\'%23fff\' stroke-width=\'2\'/></svg>") 16 16, auto'
+                            cursor: 'url("data:image/svg+xml;utf8,<svg xmlns=\'http://www.w3.org/2000/svg\' width=\'64\' height=\'64\' viewBox=\'0 0 64 64\'><path d=\'M2 2 L50 30 L32 34 L30 62 Z\' fill=\'white\' stroke=\'black\' stroke-width=\'3\'/></svg>") 2 2, auto'
                         }
                     }
                 ],
+                enableAnnouncement: __('Big Cursor Enable.', 'website-accessibility')
+            },
+            {
+                name: __('Mask', 'website-accessibility'),
+                value: 'mask',
+                css: [],
                 enableAnnouncement: __('Cursor Mask Enable.', 'website-accessibility')
             },
             {
                 name: __('Guideline', 'website-accessibility'),
                 value: 'guideline',
-                css: [
-                    {
-                        selector: '*',
-                        properties: {
-                            cursor: 'crosshair'
-                        }
-                    }
-                ],
+                css: [],
                 enableAnnouncement: __('Cursor Guideline Enable.', 'website-accessibility')
             }
         ]

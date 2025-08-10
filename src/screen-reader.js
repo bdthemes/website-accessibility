@@ -114,15 +114,11 @@ class ScreenReader {
             this.currentHighlightedElement = null;
             this.previousStyle = null;
         };
-        console.log(utterance);
-        
         window.speechSynthesis.speak(utterance);
     }
 
     speakSequentially(entries) {
         if (!Array.isArray(entries) || entries.length === 0) return;
-        console.log(entries);
-
         window.speechSynthesis.cancel();
 
         let index = 0;
@@ -156,8 +152,6 @@ class ScreenReader {
             }
 
             utterance.onstart = () => {
-                console.log(`[ScreenReader] Speaking (${index + 1}/${entries.length}):`, fullText);
-
                 // Remove previous highlight
                 if (this.currentHighlightedElement && this.previousStyle) {
                     Object.assign(this.currentHighlightedElement.style, this.previousStyle);

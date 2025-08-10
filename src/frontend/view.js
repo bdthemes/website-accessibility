@@ -18,25 +18,34 @@ const View = () => {
             ...profiles || [],
         ];
     }, [profiles]);
-    
+
 
     useEffect(() => {
         if (currentPresetId) {
             const currentLocalItem = localStorage.getItem(`${state?.localStorageKeyPrefix}-${currentPresetId}`);
-            
+
             if (currentLocalItem) {
                 const initialLocalPreferences = JSON.parse(currentLocalItem);
                 dispatch({
                     type: 'SET_CURRENT_PROFILE',
-                    payload: initialLocalPreferences.profile || null,
+                    payload: initialLocalPreferences?.profile || null,
                 });
                 dispatch({
                     type: 'SET_CURRENT_SETTINGS',
-                    payload: initialLocalPreferences.settings || {},
+                    payload: initialLocalPreferences?.settings || {},
                 });
                 dispatch({
-                    type: 'SET_OVERSIZED',  
-                    payload: initialLocalPreferences.oversized || false,
+                    type: 'SET_OVERSIZED',
+                    payload: initialLocalPreferences?.oversized || false,
+                });
+
+                dispatch({
+                    type: 'SET_ENABLE_TRANSLATIONS',
+                    payload: initialLocalPreferences?.enableTranslations || false,
+                });
+                dispatch({
+                    type: 'SET_SELECTED_LANGUAGE',
+                    payload: initialLocalPreferences?.selectedLanguage || null,
                 });
             }
         }
@@ -44,11 +53,14 @@ const View = () => {
 
     useEffect(() => {
         if (!currentPresetId) return;
-        const { currentProfile, currentSettings, isOverSized } = state;
+        const { currentProfile, currentSettings, isOverSized, enableTranslations, selectedLanguage } = state;
+
         const localPreferences = {
             profile: currentProfile,
             settings: currentSettings,
             oversized: isOverSized,
+            enableTranslations: enableTranslations,
+            selectedLanguage: enableTranslations ? selectedLanguage : null
         };
         localStorage.setItem(`${state.localStorageKeyPrefix}-${currentPresetId}`, JSON.stringify(localPreferences));
     }, [state, currentPresetId]);
@@ -70,10 +82,10 @@ const View = () => {
     if (!currentPreset) {
         return null;
     }
-    
+
     return (
         <div className="wap-accessibility-view">
-            <PreviewButton 
+            <PreviewButton
                 type="default"
                 text={currentPreset?.button?.text}
                 icon={currentPreset?.button?.showIcon ? <Icon name={currentPreset?.button?.icon} /> : null}
@@ -98,9 +110,9 @@ const View = () => {
                 rootClassName="wap-preset__preview-drawer-root"
                 width={Number(currentPreset?.panel?.wrapper?.width) || 400}
             >
-                <PreviewContent 
-                    panel={currentPreset?.panel} 
-                    allProfiles={allProfiles} 
+                <PreviewContent
+                    panel={currentPreset?.panel}
+                    allProfiles={allProfiles}
                     setIsOpen={setIsOpen}
                     accessibilityContext={state}
                     accessibilityDispatch={dispatch}
