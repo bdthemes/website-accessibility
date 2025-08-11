@@ -1,5 +1,5 @@
 import { Collapse, Row, Col } from 'antd';
-import { InfoCircleOutlined, CheckCircleFilled } from '@ant-design/icons';
+import { InfoCircleOutlined, CheckCircleFilled, UserOutlined } from '@ant-design/icons';
 import { useMemo } from '@wordpress/element';
 import clsx from 'clsx';
 import { features, isScreenReaderActive } from '../utils';
@@ -114,6 +114,8 @@ const AccessibilityProfiles = ({
                         }}
                     />
                 );
+            }else {
+                iconElement = <UserOutlined />;
             }
 
             return {

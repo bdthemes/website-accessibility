@@ -1,9 +1,8 @@
 import { useEffect } from '@wordpress/element';
-import { Card, Button, Typography, Space, message, Spin } from 'antd';
-import { SaveOutlined, ArrowLeftOutlined } from '@ant-design/icons';
+import { Card, Button, Typography, Space, message } from 'antd';
 import { __ } from '@wordpress/i18n';
 import { useDispatch, useSelect } from '@wordpress/data';
-import { DEFAULT_STATE, STORE_NAME } from '../store';
+import { STORE_NAME } from '../store';
 import { useHistory, useLocation } from '../router';
 import ProfileForm from '../components/profile-form';
 

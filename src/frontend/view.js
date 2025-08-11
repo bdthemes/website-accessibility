@@ -70,6 +70,21 @@ const View = () => {
     }, [state]);
 
     useEffect(() => {
+        window.addEventListener('keydown', (e) => {
+            // ESC closes the menu if it's open
+            if (e.key === 'Escape' && isOpen) {
+                setIsOpen(false);
+            }
+
+            // Ctrl + U opens the menu if it's closed
+            if (e.ctrlKey && (e.key === 'u' || e.key === 'U')) {
+                e.preventDefault(); // prevent browser "view source" shortcut
+                setIsOpen(true);
+            }
+        });
+    }, []);
+
+    useEffect(() => {
         const currentSettings = state?.currentSettings;
         if (!currentSettings?.screenReader?.currentStep) return;
         if (isOpen) {

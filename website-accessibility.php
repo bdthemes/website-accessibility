@@ -88,7 +88,128 @@ final class WebsiteAccessibility
 		if (! get_option('wap_installed_time')) {
 			add_option('wap_installed_time', time());
 		}
+
+		// Check if there is any published preset
+		$existing_presets = get_posts([
+			'post_type'      => 'wap_preset',
+			'post_status'    => 'publish',
+			'posts_per_page' => 1,
+			'fields'         => 'ids',
+			'no_found_rows'  => true, // improves performance
+		]);
+
+		if (empty($existing_presets)) {
+			// Create a default preset
+			wp_insert_post([
+				'post_title'   => 'Accessibility Preset',
+				'post_content' => json_encode([
+					'preset' => [
+						'active'    => true,
+						'condition' => 'entire_site',
+					],
+					'panel' => [
+						'wrapper' => [
+							'width' => '500',
+						],
+						'items' => [
+							[
+								'id'          => 'header',
+								'title'       => 'Header',
+								'slug'        => 'header',
+								'active'      => true,
+								'disableDrag' => true,
+								'attributes'  => [
+									'text'         => 'Accessibility Menu (CTRL+U)',
+									'showClose'    => true,
+									'background'   => '#2e6cf6',
+									'border'       => '1px solid #2e6cf6',
+									'borderRadius' => '6px',
+									'boxShadow'    => '0 4px 24px rgba(0,0,0,0.08)',
+									'padding'      => '10px 20px',
+								],
+								'chosen'   => false,
+								'selected' => false,
+							],
+							[
+								'id'      => 'language',
+								'title'   => 'Language',
+								'slug'    => 'language',
+								'active'  => true,
+								'close'   => true,
+								'attributes' => [
+									'text'        => 'Language',
+									'showClose'   => true,
+									'flipContent' => false,
+									'background'  => '#ffffff',
+									'border'      => '1px solid #e0e0e0',
+								],
+								'chosen'   => false,
+								'selected' => false,
+							],
+							[
+								'id'      => 'profiles',
+								'title'   => 'Profiles',
+								'slug'    => 'profiles',
+								'active'  => true,
+								'attributes' => [
+									'profiles' => [
+										'motor',
+										'blind',
+										'color-blind',
+										'dyslexia',
+										'low-vision',
+										'cognitive',
+										'seizure',
+										'adhd',
+									],
+								],
+								'chosen'   => false,
+								'selected' => false,
+							],
+							[
+								'id'      => 'features',
+								'title'   => 'Features',
+								'slug'    => 'features',
+								'active'  => true,
+								'close'   => true,
+								'attributes' => [
+									'text'        => 'Features',
+									'showClose'   => true,
+									'flipContent' => false,
+									'background'  => '#ffffff',
+									'border'      => '1px solid #e0e0e0',
+								],
+								'chosen'   => false,
+								'selected' => false,
+							],
+							[
+								'id'          => 'footer',
+								'title'       => 'Footer',
+								'slug'        => 'footer',
+								'active'      => true,
+								'close'       => true,
+								'disableDrag' => true,
+								'chosen'      => false,
+								'selected'    => false,
+							],
+						],
+					],
+					'button' => [
+						'text'     => 'Accessibility Menu',
+						'showIcon' => true,
+						'icon'     => 'accessibility1',
+						'color'    => '#ffffff',
+						'bgColor'  => '#1677ff',
+						'position' => 'bottom-right',
+					],
+				]),
+				'post_status'  => 'publish',
+				'post_author'  => get_current_user_id(),
+				'post_type'    => 'wap_preset',
+			]);
+		}
 	}
+
 
 	/**
 	 * Fires once all plugins have been loaded.
@@ -103,7 +224,7 @@ final class WebsiteAccessibility
 
 		// Add a custom class to the admin body tag.
 		add_filter('admin_body_class', fn($classes) => $classes . ' wap-admin');
-		
+
 		// Add custom classes to the front-end body tag.
 		add_filter('body_class', fn($classes) => array_merge($classes, ['wap', 'wap-frontend']));
 

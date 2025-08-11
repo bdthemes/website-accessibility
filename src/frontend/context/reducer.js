@@ -63,6 +63,16 @@ export const initialState = {
             currentAttribute: null,
             isMultiStep: true
         },
+        textAlign: {
+            currentStep: 0,
+            currentAttribute: null,
+            isMultiStep: true
+        },
+        lineHeight: {
+            currentStep: 0,
+            currentAttribute: null,
+            isMultiStep: true
+        }
     },
     isLoading: false,
     isOverSized: false,

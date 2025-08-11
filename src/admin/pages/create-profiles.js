@@ -20,9 +20,21 @@ const CreateProfiles = () => {
         });
     };
 
+    const purifyFormData = (data) => {
+        let purifiedData = {};
+        for (const key in data  ) {
+            const value = data[key];
+            if (typeof(value) === 'string' && value.length > 0) {
+                purifiedData[key] = value;
+            }
+        }
+        
+        return purifiedData;
+    }
+
     const handleSave = async () => {
         try {
-            await createProfile(profilesFormData);
+            await createProfile(purifyFormData(profilesFormData));
             history.push({
                 page: 'website-accessibilityfiles'
             });

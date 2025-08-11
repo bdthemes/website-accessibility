@@ -11,24 +11,24 @@ const widgetFeatures = [
         key: 'contrast',
         label: 'Contrast +',
         icon: (
-            <svg width="24" height="24" viewBox="0 0 24 24" fill="none">
+            <svg width="24" height="24" viewBox="0 0 24 24" fill="">
                 <circle cx="12" cy="12" r="10" stroke="#1a4cd8" strokeWidth="2" />
                 <path d="M12 2v20" stroke="#1a4cd8" strokeWidth="2" />
             </svg>
         ),
         control: 'select',
         options: [
-            { value: 'none', label: 'None' },
+            { value: '', label: 'None' },
+            { value: 'invert', label: 'Invert' },
             { value: 'dark', label: 'Dark' },
             { value: 'light', label: 'Light' },
-            { value: 'invert', label: 'Invert' }
         ],
     },
     {
         key: 'screenReader',
         label: 'Screen Reader',
         icon: (
-            <svg width="24" height="24" viewBox="0 0 24 24" fill="none">
+            <svg width="24" height="24" viewBox="0 0 24 24" fill="">
                 <circle cx="12" cy="12" r="10" stroke="#1a4cd8" strokeWidth="2" />
                 <path d="M8 12h8" stroke="#1a4cd8" strokeWidth="2" />
                 <path d="M12 8v8" stroke="#1a4cd8" strokeWidth="2" />
@@ -36,17 +36,17 @@ const widgetFeatures = [
         ),
         control: 'select',
         options: [
-            { value: 'none', label: 'None' },
+            { value: '', label: 'None' },
             { value: 'normal', label: 'Normal' },
-            { value: 'fast', label: 'Fast' },
             { value: 'slow', label: 'Slow' },
+            { value: 'fast', label: 'Fast' },
         ],
     },
     {
         key: 'smartContrast',
         label: 'Smart Contrast',
         icon: (
-            <svg width="24" height="24" viewBox="0 0 24 24" fill="none">
+            <svg width="24" height="24" viewBox="0 0 24 24" fill="">
                 <rect x="4" y="4" width="16" height="16" rx="8" stroke="#1a4cd8" strokeWidth="2" />
                 <path d="M4 12h16" stroke="#1a4cd8" strokeWidth="2" />
             </svg>
@@ -57,7 +57,7 @@ const widgetFeatures = [
         key: 'highlightLinks',
         label: 'Highlight Links',
         icon: (
-            <svg width="24" height="24" viewBox="0 0 24 24" fill="none">
+            <svg width="24" height="24" viewBox="0 0 24 24" fill="">
                 <rect x="4" y="11" width="16" height="2" fill="#1a4cd8" />
                 <rect x="4" y="17" width="16" height="2" fill="#1a4cd8" />
             </svg>
@@ -68,13 +68,13 @@ const widgetFeatures = [
         key: 'biggerText',
         label: 'Bigger Text',
         icon: (
-            <svg width="24" height="24" viewBox="0 0 24 24" fill="none">
+            <svg width="24" height="24" viewBox="0 0 24 24" fill="">
                 <text x="12" y="18" textAnchor="middle" fontSize="16" fill="#1a4cd8" fontWeight="bold">A</text>
             </svg>
         ),
         control: 'select',
         options: [
-            { value: 'none', label: 'None' },
+            { value: '', label: 'None' },
             { value: 'medium', label: 'Medium' },
             { value: 'large', label: 'Large' },
             { value: 'extra-large', label: 'Extra Large' },
@@ -85,14 +85,14 @@ const widgetFeatures = [
         key: 'textSpacing',
         label: 'Text Spacing',
         icon: (
-            <svg width="24" height="24" viewBox="0 0 24 24" fill="none">
+            <svg width="24" height="24" viewBox="0 0 24 24" fill="">
                 <rect x="4" y="8" width="16" height="2" fill="#1a4cd8" />
                 <rect x="4" y="14" width="16" height="2" fill="#1a4cd8" />
             </svg>
         ),
         control: 'select',
         options: [
-            { value: 'none', label: 'None' },
+            { value: '', label: 'None' },
             { value: 'medium', label: 'Medium' },
             { value: 'large', label: 'Large' },
             { value: 'extra-large', label: 'Extra Large' },
@@ -102,7 +102,7 @@ const widgetFeatures = [
         key: 'pauseAnimations',
         label: 'Pause Animations',
         icon: (
-            <svg width="24" height="24" viewBox="0 0 24 24" fill="none">
+            <svg width="24" height="24" viewBox="0 0 24 24" fill="">
                 <rect x="6" y="4" width="4" height="16" rx="2" fill="#1a4cd8" />
                 <rect x="14" y="4" width="4" height="16" rx="2" fill="#1a4cd8" />
             </svg>
@@ -113,7 +113,7 @@ const widgetFeatures = [
         key: 'hideImages',
         label: 'Hide Images',
         icon: (
-            <svg width="24" height="24" viewBox="0 0 24 24" fill="none">
+            <svg width="24" height="24" viewBox="0 0 24 24" fill="">
                 <rect x="4" y="4" width="16" height="16" rx="4" stroke="#1a4cd8" strokeWidth="2" />
                 <path d="M4 4l16 16" stroke="#1a4cd8" strokeWidth="2" />
             </svg>
@@ -124,28 +124,24 @@ const widgetFeatures = [
         key: 'dyslexiaFriendly',
         label: 'Dyslexia Friendly',
         icon: (
-            <svg width="24" height="24" viewBox="0 0 24 24" fill="none">
+            <svg width="24" height="24" viewBox="0 0 24 24" fill="">
                 <text x="12" y="18" textAnchor="middle" fontSize="16" fill="#1a4cd8" fontWeight="bold">Df</text>
             </svg>
         ),
-        control: 'select',
-        options: [
-            { value: 'none', label: 'None' },
-            { value: 'dyslexia', label: 'Dyslexia' },
-            { value: 'legible', label: 'Legible' },
-        ],
+        control: 'switch',
     },
     {
         key: 'cursor',
         label: 'Cursor',
         icon: (
-            <svg width="24" height="24" viewBox="0 0 24 24" fill="none">
-                <polygon points="4,4 20,12 13,13 12,20" stroke="#1a4cd8" strokeWidth="2" fill="none" />
+            <svg width="24" height="24" viewBox="0 0 24 24" fill="">
+                <polygon points="4,4 20,12 13,13 12,20" stroke="#1a4cd8" strokeWidth="2" fill="" />
             </svg>
         ),
         control: 'select',
         options: [
-            { value: 'none', label: 'None' },
+            { value: '', label: 'None' },
+            { value: 'big-cursor', label: 'Big Cursor' },
             { value: 'mask', label: 'Mask' },
             { value: 'guideline', label: 'Guideline' },
         ],
@@ -154,7 +150,7 @@ const widgetFeatures = [
         key: 'tooltips',
         label: 'Tooltips',
         icon: (
-            <svg width="24" height="24" viewBox="0 0 24 24" fill="none">
+            <svg width="24" height="24" viewBox="0 0 24 24" fill="">
                 <circle cx="12" cy="12" r="10" stroke="#1a4cd8" strokeWidth="2" />
                 <text x="12" y="16" textAnchor="middle" fontSize="14" fill="#1a4cd8">i</text>
             </svg>
@@ -165,13 +161,13 @@ const widgetFeatures = [
         key: 'lineHeight',
         label: 'Line Height',
         icon: (
-            <svg width="24" height="24" viewBox="0 0 24 24" fill="none">
+            <svg width="24" height="24" viewBox="0 0 24 24" fill="">
                 <rect x="4" y="4" width="16" height="16" rx="4" stroke="#1a4cd8" strokeWidth="2" />
             </svg>
         ),
         control: 'select',
         options: [
-            { value: 'none', label: 'None' },
+            { value: '', label: 'None' },
             { value: 'medium', label: 'Medium' },
             { value: 'large', label: 'Large' },
             { value: 'extra-large', label: 'Extra Large' },
@@ -181,13 +177,13 @@ const widgetFeatures = [
         key: 'textAlign',
         label: 'Text Alignment',
         icon: (
-            <svg width="24" height="24" viewBox="0 0 24 24" fill="none">
+            <svg width="24" height="24" viewBox="0 0 24 24" fill="">
                 <rect x="4" y="4" width="16" height="16" rx="4" stroke="#1a4cd8" strokeWidth="2" />
             </svg>
         ),
         control: 'select',
         options: [
-            { value: 'none', label: 'None' },
+            { value: '', label: 'None' },
             { value: 'left', label: 'Left' },
             { value: 'center', label: 'Center' },
             { value: 'right', label: 'Right' },
@@ -198,13 +194,13 @@ const widgetFeatures = [
         key: 'saturation',
         label: 'Saturation',
         icon: (
-            <svg width="24" height="24" viewBox="0 0 24 24" fill="none">
+            <svg width="24" height="24" viewBox="0 0 24 24" fill="">
                 <rect x="4" y="4" width="16" height="16" rx="4" stroke="#1a4cd8" strokeWidth="2" />
             </svg>
         ),
         control: 'select',
         options: [
-            { value: 'none', label: 'None' },
+            { value: '', label: 'None' },
             { value: 'low', label: 'Low' },
             { value: 'high', label: 'High' },
             { value: 'desaturate', label: 'Desaturate' },
@@ -214,7 +210,7 @@ const widgetFeatures = [
         key: 'dictionary',
         label: 'Dictionary',
         icon: (
-            <svg width="24" height="24" viewBox="0 0 24 24" fill="none">
+            <svg width="24" height="24" viewBox="0 0 24 24" fill="">
                 <rect x="4" y="4" width="16" height="16" rx="4" stroke="#1a4cd8" strokeWidth="2" />
             </svg>
         ),
@@ -243,22 +239,27 @@ const ProfileForm = ({ formData, onFormChange }) => {
 
     const renderFeatureControl = (feature) => {
         const value = formData?.features?.[feature.key];
-
+    
         switch (feature.control) {
             case 'select':
                 return (
                     <Select
-                        value={value}
+                        key={feature.key}
+                        value={value || ''}
                         onChange={(val) => handleFeatureChange(feature.key, val)}
-                        options={feature.options}
+                        options={feature?.options}
                         style={{ width: '100%' }}
                     />
                 );
             case 'switch':
                 return (
                     <Switch
-                        checked={value}
-                        onChange={(checked) => handleFeatureChange(feature.key, checked)}
+                        key={feature.key}
+                        checked={value == 'enable' || false}
+                        onChange={(checked) => {
+                            let newValue = checked ? 'enable' : 'disable';
+                            handleFeatureChange(feature.key, newValue);
+                        }}
                     />
                 );
             default:
