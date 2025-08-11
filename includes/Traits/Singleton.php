@@ -6,7 +6,7 @@
  * @subpackage Website Accessibility Pro/includes/Traits
  */
 
-namespace WebsiteAccessibility\Traits;
+namespace bdthemes\websiteaccessibility\Traits;
 
 if (!defined('ABSPATH')) {
     exit; // Exit if accessed directly.

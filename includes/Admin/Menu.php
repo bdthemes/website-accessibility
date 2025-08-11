@@ -3,9 +3,9 @@
  * Admin Menu Handler
  */
 
-namespace WebsiteAccessibility\Admin;
+namespace bdthemes\websiteaccessibility\Admin;
 
-use WebsiteAccessibility\Traits\Singleton;
+use bdthemes\websiteaccessibility\Traits\Singleton;
 
 if (!defined('ABSPATH')) {
     exit;

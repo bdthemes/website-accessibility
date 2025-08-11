@@ -9,7 +9,7 @@ msgstr ""
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"POT-Creation-Date: 2025-07-22T08:34:38+00:00\n"
+"POT-Creation-Date: 2025-08-11T07:16:59+00:00\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "X-Generator: WP-CLI 2.11.0\n"
 "X-Domain: website-accessibility\n"
@@ -83,13 +83,13 @@ msgstr ""
 
 #: includes/Admin/Menu.php:91
 #: includes/Admin/Menu.php:92
-#: src/admin/pages/create-profiles.js:76
+#: src/admin/pages/create-profiles.js:88
 msgid "Create Profile"
 msgstr ""
 
 #: includes/Admin/Menu.php:100
 #: includes/Admin/Menu.php:101
-#: src/admin/pages/edit-profile.js:73
+#: src/admin/pages/edit-profile.js:72
 msgid "Edit Profile"
 msgstr ""
 
@@ -119,29 +119,29 @@ msgid "Select Icon"
 msgstr ""
 
 #: src/admin/components/preset-button-style.js:39
-#: src/admin/settings/footer-settings.js:93
-#: src/admin/settings/footer-settings.js:104
+#: src/admin/settings/footer-settings.js:105
 #: src/admin/settings/header-settings.js:114
 msgid "Text Color"
 msgstr ""
 
 #: src/admin/components/preset-button-style.js:47
 #: src/admin/components/preset-panel-right-sidebar.js:38
-#: src/admin/settings/footer-settings.js:90
-#: src/admin/settings/footer-settings.js:101
+#: src/admin/settings/footer-settings.js:87
+#: src/admin/settings/footer-settings.js:102
 msgid "Background Color"
 msgstr ""
 
 #: src/admin/components/preset-button-style.js:55
 #: src/admin/components/preset-panel-right-sidebar.js:56
+#: src/admin/settings/footer-settings.js:90
 #: src/admin/settings/header-settings.js:106
 msgid "Padding"
 msgstr ""
 
 #: src/admin/components/preset-button-style.js:63
 #: src/admin/components/preset-panel-right-sidebar.js:65
-#: src/admin/settings/footer-settings.js:96
-#: src/admin/settings/footer-settings.js:107
+#: src/admin/settings/footer-settings.js:97
+#: src/admin/settings/footer-settings.js:108
 #: src/admin/settings/header-settings.js:90
 #: src/admin/settings/header-settings.js:194
 msgid "Border Radius"
@@ -154,7 +154,7 @@ msgid "Content"
 msgstr ""
 
 #: src/admin/components/preset-button-style.js:99
-#: src/admin/settings/footer-settings.js:86
+#: src/admin/settings/footer-settings.js:83
 #: src/admin/settings/header-settings.js:234
 msgid "Style"
 msgstr ""
@@ -231,8 +231,8 @@ msgid "Quick Edit Preset"
 msgstr ""
 
 #: src/admin/components/preset-quick-edit.js:123
-#: src/admin/pages/create-profiles.js:67
-#: src/admin/pages/edit-profile.js:102
+#: src/admin/pages/create-profiles.js:79
+#: src/admin/pages/edit-profile.js:101
 msgid "Cancel"
 msgstr ""
 
@@ -252,43 +252,43 @@ msgstr ""
 msgid "Select condition"
 msgstr ""
 
-#: src/admin/components/profile-form.js:272
+#: src/admin/components/profile-form.js:273
 msgid "Profile Information"
 msgstr ""
 
-#: src/admin/components/profile-form.js:275
+#: src/admin/components/profile-form.js:276
 msgid "Profile Name"
 msgstr ""
 
-#: src/admin/components/profile-form.js:281
+#: src/admin/components/profile-form.js:282
 msgid "Enter profile name"
 msgstr ""
 
-#: src/admin/components/profile-form.js:286
+#: src/admin/components/profile-form.js:287
 msgid "Description"
 msgstr ""
 
-#: src/admin/components/profile-form.js:291
+#: src/admin/components/profile-form.js:292
 msgid "Enter profile description"
 msgstr ""
 
-#: src/admin/components/profile-form.js:296
+#: src/admin/components/profile-form.js:297
 msgid "Profile Icon (SVG)"
 msgstr ""
 
-#: src/admin/components/profile-form.js:297
+#: src/admin/components/profile-form.js:298
 msgid "Paste your SVG markup here. Optional."
 msgstr ""
 
-#: src/admin/components/profile-form.js:302
+#: src/admin/components/profile-form.js:303
 msgid "Paste SVG markup here"
 msgstr ""
 
-#: src/admin/components/profile-form.js:307
+#: src/admin/components/profile-form.js:308
 msgid "Preview:"
 msgstr ""
 
-#: src/admin/components/profile-form.js:319
+#: src/admin/components/profile-form.js:320
 msgid "Accessibility Features"
 msgstr ""
 
@@ -316,16 +316,16 @@ msgstr ""
 msgid "Save Preset"
 msgstr ""
 
-#: src/admin/pages/create-profiles.js:40
+#: src/admin/pages/create-profiles.js:52
 msgid "Create New Profile"
 msgstr ""
 
-#: src/admin/pages/create-profiles.js:43
+#: src/admin/pages/create-profiles.js:55
 msgid "Create a custom accessibility profile with specific settings for different user needs."
 msgstr ""
 
-#: src/admin/pages/create-profiles.js:52
-#: src/admin/pages/edit-profile.js:87
+#: src/admin/pages/create-profiles.js:64
+#: src/admin/pages/edit-profile.js:86
 msgid "Back to Profiles"
 msgstr ""
 
@@ -382,15 +382,15 @@ msgstr ""
 msgid "Update Preset"
 msgstr ""
 
-#: src/admin/pages/edit-profile.js:55
+#: src/admin/pages/edit-profile.js:54
 msgid "Profile updated successfully!"
 msgstr ""
 
-#: src/admin/pages/edit-profile.js:76
+#: src/admin/pages/edit-profile.js:75
 msgid "Update the details of this accessibility profile."
 msgstr ""
 
-#: src/admin/pages/edit-profile.js:112
+#: src/admin/pages/edit-profile.js:111
 msgid "Update Profile"
 msgstr ""
 
@@ -425,6 +425,7 @@ msgid "Add New Profile"
 msgstr ""
 
 #: src/admin/settings/feature-settings.js:32
+#: src/admin/settings/footer-settings.js:86
 #: src/admin/settings/language-selector-settings.js:31
 msgid "General"
 msgstr ""
@@ -469,81 +470,52 @@ msgid "Hide Item Labels"
 msgstr ""
 
 #: src/admin/settings/footer-settings.js:35
-#: src/admin/settings/footer-settings.js:89
+#: src/admin/settings/footer-settings.js:101
 msgid "Reset Button"
 msgstr ""
 
 #: src/admin/settings/footer-settings.js:36
-msgid "Show Reset Button"
-msgstr ""
-
-#: src/admin/settings/footer-settings.js:39
 msgid "Reset Button Text"
 msgstr ""
 
-#: src/admin/settings/footer-settings.js:43
-msgid "Reset All Accessibility Settings"
+#: src/admin/settings/footer-settings.js:40
+msgid "Reset All"
 msgstr ""
 
-#: src/admin/settings/footer-settings.js:47
-#: src/admin/settings/footer-settings.js:100
-msgid "Save Button"
-msgstr ""
-
-#: src/admin/settings/footer-settings.js:48
-msgid "Show Save Button"
-msgstr ""
-
-#: src/admin/settings/footer-settings.js:51
-msgid "Save Button Text"
-msgstr ""
-
-#: src/admin/settings/footer-settings.js:55
-msgid "Save Preference"
-msgstr ""
-
-#: src/admin/settings/footer-settings.js:59
-#: src/admin/settings/footer-settings.js:117
+#: src/admin/settings/footer-settings.js:56
+#: src/admin/settings/footer-settings.js:123
 msgid "Footer Links"
 msgstr ""
 
-#: src/admin/settings/footer-settings.js:60
+#: src/admin/settings/footer-settings.js:57
 msgid "Show Accessibility Statement"
 msgstr ""
 
-#: src/admin/settings/footer-settings.js:63
+#: src/admin/settings/footer-settings.js:60
 msgid "Accessibility Statement Text"
 msgstr ""
 
-#: src/admin/settings/footer-settings.js:67
+#: src/admin/settings/footer-settings.js:64
 msgid "Accessibility Statement"
 msgstr ""
 
-#: src/admin/settings/footer-settings.js:70
+#: src/admin/settings/footer-settings.js:67
 msgid "Show Branding"
 msgstr ""
 
-#: src/admin/settings/footer-settings.js:73
+#: src/admin/settings/footer-settings.js:70
 msgid "Branding Text"
 msgstr ""
 
-#: src/admin/settings/footer-settings.js:77
+#: src/admin/settings/footer-settings.js:74
 msgid "Proudly Powered by Website Accessibility Pro"
 msgstr ""
 
-#: src/admin/settings/footer-settings.js:110
-msgid "Icon Color"
-msgstr ""
-
-#: src/admin/settings/footer-settings.js:113
-msgid "Arrow Color"
-msgstr ""
-
-#: src/admin/settings/footer-settings.js:118
+#: src/admin/settings/footer-settings.js:124
 msgid "Link Color"
 msgstr ""
 
-#: src/admin/settings/footer-settings.js:121
+#: src/admin/settings/footer-settings.js:127
 msgid "Branding Color"
 msgstr ""
 
@@ -593,7 +565,7 @@ msgid "Top"
 msgstr ""
 
 #: src/admin/settings/header-settings.js:210
-#: src/utils.js:755
+#: src/utils.js:871
 msgid "Right"
 msgstr ""
 
@@ -635,277 +607,437 @@ msgid "Accessibility Profiles"
 msgstr ""
 
 #: src/admin/store/index.js:101
+#: src/frontend/view.js:118
 msgid "Accessibility Menu"
 msgstr ""
 
-#: src/utils.js:18
+#: src/components/language-selector.js:75
+msgid "Translation enabled"
+msgstr ""
+
+#: src/components/language-selector.js:76
+msgid "Translation disabled"
+msgstr ""
+
+#: src/components/language-selector.js:85
+msgid "Translation reset to site default"
+msgstr ""
+
+#: src/components/language-selector.js:90
+msgid "Translation language changed to"
+msgstr ""
+
+#: src/components/language-selector.js:109
+#: src/components/language-selector.js:110
+msgid "Search language"
+msgstr ""
+
+#: src/components/language-selector.js:240
+msgid "Translation"
+msgstr ""
+
+#: src/components/language-selector.js:246
+msgid "Enable translations"
+msgstr ""
+
+#: src/frontend/view.js:91
+msgid "Accessibility Menu Open"
+msgstr ""
+
+#: src/frontend/view.js:93
+msgid "Accessibility Menu Close"
+msgstr ""
+
+#: src/utils.js:49
 msgid "Entire Site"
 msgstr ""
 
-#: src/utils.js:20
+#: src/utils.js:51
 msgid "Apply to all pages of your website"
 msgstr ""
 
-#: src/utils.js:23
+#: src/utils.js:54
 msgid "Singular"
 msgstr ""
 
-#: src/utils.js:25
+#: src/utils.js:56
 msgid "Apply to individual posts and pages"
 msgstr ""
 
-#: src/utils.js:28
+#: src/utils.js:59
 msgid "Archive"
 msgstr ""
 
-#: src/utils.js:30
+#: src/utils.js:61
 msgid "Apply to archive pages and listings"
 msgstr ""
 
-#: src/utils.js:36
+#: src/utils.js:67
 msgid "Get Started"
 msgstr ""
 
-#: src/utils.js:41
+#: src/utils.js:72
 msgid "Button Style"
 msgstr ""
 
-#: src/utils.js:46
+#: src/utils.js:77
 msgid "Panel Customization"
 msgstr ""
 
-#: src/utils.js:130
+#: src/utils.js:224
 msgid "Contrast +"
 msgstr ""
 
-#: src/utils.js:132
-msgid "Enable contrast mode to improve readability."
+#: src/utils.js:226
+msgid "The contrast setting has been disabled."
 msgstr ""
 
-#: src/utils.js:141
+#: src/utils.js:235
 msgid "Invert"
 msgstr ""
 
-#: src/utils.js:143
-msgid "Invert color contrast mode activated. Activate again to enable dark contrast."
+#: src/utils.js:237
+msgid "Enable Contrast Mode, set to Invert."
 msgstr ""
 
-#: src/utils.js:154
+#: src/utils.js:254
 msgid "Dark"
 msgstr ""
 
-#: src/utils.js:156
-msgid "Dark contrast mode activated. Activate again to enable light contrast."
-msgstr ""
-
-#: src/utils.js:188
-msgid "Light"
-msgstr ""
-
-#: src/utils.js:190
-msgid "Light contrast mode activated. Activate to reset these to original state."
-msgstr ""
-
-#: src/utils.js:225
-msgid "Screen Reader"
-msgstr ""
-
-#: src/utils.js:227
-msgid "Enable screen reader to read the content out loud."
-msgstr ""
-
-#: src/utils.js:237
-msgid "Normal"
-msgstr ""
-
-#: src/utils.js:245
-msgid "Slow"
-msgstr ""
-
-#: src/utils.js:253
-msgid "Fast"
-msgstr ""
-
-#: src/utils.js:264
-msgid "Smart Contrast"
-msgstr ""
-
-#: src/utils.js:266
-msgid "Enable smart contrast mode to automatically adjust contrast based on the user's preference."
-msgstr ""
-
-#: src/utils.js:275
-#: src/utils.js:299
-#: src/utils.js:518
-#: src/utils.js:550
-#: src/utils.js:659
-#: src/utils.js:841
-msgid "Enable"
-msgstr ""
-
-#: src/utils.js:280
-#: src/utils.js:313
-#: src/utils.js:531
-#: src/utils.js:562
-#: src/utils.js:664
-#: src/utils.js:846
-msgid "Disable"
+#: src/utils.js:256
+msgid "Contrast Mode, set to Dark."
 msgstr ""
 
 #: src/utils.js:288
-msgid "Highlight Links"
+msgid "Light"
 msgstr ""
 
 #: src/utils.js:290
-msgid "Enable highlight links to make links more visible."
+msgid "Contrast Mode, set to Light."
 msgstr ""
 
-#: src/utils.js:321
+#: src/utils.js:325
+msgid "Screen Reader"
+msgstr ""
+
+#: src/utils.js:327
+msgid "The screen reader setting has been disabled."
+msgstr ""
+
+#: src/utils.js:337
+msgid "Normal"
+msgstr ""
+
+#: src/utils.js:344
+msgid "Enable Screen Reader, set to Normal."
+msgstr ""
+
+#: src/utils.js:347
+msgid "Slow"
+msgstr ""
+
+#: src/utils.js:354
+msgid "Screen Reader, set to Slow."
+msgstr ""
+
+#: src/utils.js:357
+msgid "Fast"
+msgstr ""
+
+#: src/utils.js:364
+msgid "Screen Reader, set to Fast"
+msgstr ""
+
+#: src/utils.js:370
+msgid "Smart Contrast"
+msgstr ""
+
+#: src/utils.js:372
+msgid "The smart contrast setting has been disabled."
+msgstr ""
+
+#: src/utils.js:381
+#: src/utils.js:406
+#: src/utils.js:633
+#: src/utils.js:666
+#: src/utils.js:697
+#: src/utils.js:769
+#: src/utils.js:962
+msgid "Enable"
+msgstr ""
+
+#: src/utils.js:384
+msgid "Smart Contrast Mode Enable."
+msgstr ""
+
+#: src/utils.js:387
+#: src/utils.js:421
+#: src/utils.js:647
+#: src/utils.js:679
+#: src/utils.js:712
+#: src/utils.js:775
+#: src/utils.js:968
+msgid "Disable"
+msgstr ""
+
+#: src/utils.js:395
+msgid "Highlight Links"
+msgstr ""
+
+#: src/utils.js:397
+msgid "The highlight links setting has been disabled."
+msgstr ""
+
+#: src/utils.js:418
+msgid "Highlight Links Enable."
+msgstr ""
+
+#: src/utils.js:429
 msgid "Bigger Text"
 msgstr ""
 
-#: src/utils.js:323
-msgid "Enable bigger text to make the text larger."
+#: src/utils.js:431
+msgid "The bigger text setting has been disabled."
 msgstr ""
 
-#: src/utils.js:331
-#: src/utils.js:465
-#: src/utils.js:682
+#: src/utils.js:439
+#: src/utils.js:577
+#: src/utils.js:793
 msgid "Medium"
 msgstr ""
 
-#: src/utils.js:361
-#: src/utils.js:478
-#: src/utils.js:694
+#: src/utils.js:467
+msgid "Bigger Text, set to Medium."
+msgstr ""
+
+#: src/utils.js:470
+#: src/utils.js:591
+#: src/utils.js:806
 msgid "Large"
 msgstr ""
 
-#: src/utils.js:391
-#: src/utils.js:491
-#: src/utils.js:706
+#: src/utils.js:498
+msgid "Bigger Text, set to Large."
+msgstr ""
+
+#: src/utils.js:501
+#: src/utils.js:605
+#: src/utils.js:819
 msgid "Extra Large"
 msgstr ""
 
-#: src/utils.js:421
+#: src/utils.js:529
+msgid "Bigger Text, set to Extra Large."
+msgstr ""
+
+#: src/utils.js:532
 msgid "Huge"
 msgstr ""
 
-#: src/utils.js:454
+#: src/utils.js:560
+msgid "Bigger Text, set to Huge."
+msgstr ""
+
+#: src/utils.js:566
 msgid "Text Spacing"
 msgstr ""
 
-#: src/utils.js:456
-msgid "Enable text spacing to increase the space between lines."
+#: src/utils.js:568
+msgid "The text spacing setting has been disabled."
 msgstr ""
 
-#: src/utils.js:507
+#: src/utils.js:588
+msgid "Text Spacing, set to Medium."
+msgstr ""
+
+#: src/utils.js:602
+msgid "Text Spacing, set to Large."
+msgstr ""
+
+#: src/utils.js:616
+msgid "Text Spacing, set to Extra Large."
+msgstr ""
+
+#: src/utils.js:622
 msgid "Pause Animations"
 msgstr ""
 
-#: src/utils.js:509
-msgid "Enable pause animations to pause all animations on the page."
+#: src/utils.js:624
+msgid "The pause animations setting has been disabled."
 msgstr ""
 
-#: src/utils.js:539
+#: src/utils.js:644
+msgid "Pause Animations Enable."
+msgstr ""
+
+#: src/utils.js:655
 msgid "Hide Images"
 msgstr ""
 
-#: src/utils.js:541
-msgid "Enable hide images to hide all images on the page."
+#: src/utils.js:657
+msgid "The hide images setting has been disabled."
 msgstr ""
 
-#: src/utils.js:570
+#: src/utils.js:676
+msgid "Hide Images Enable."
+msgstr ""
+
+#: src/utils.js:687
 msgid "Dyslexia Friendly"
 msgstr ""
 
-#: src/utils.js:572
-msgid "Enable dyslexia friendly to make the text more readable for dyslexia."
+#: src/utils.js:689
+msgid "The dyslexia friendly setting has been disabled."
 msgstr ""
 
-#: src/utils.js:580
-msgid "Dyslexia"
+#: src/utils.js:709
+msgid "Dyslexia Friendly Enable."
 msgstr ""
 
-#: src/utils.js:594
-msgid "Legible"
-msgstr ""
-
-#: src/utils.js:611
+#: src/utils.js:720
 msgid "Cursor"
 msgstr ""
 
-#: src/utils.js:613
-msgid "Enable cursor to show a cursor on the screen."
+#: src/utils.js:722
+msgid "The cursor setting has been disabled."
 msgstr ""
 
-#: src/utils.js:621
-msgid "Mask"
+#: src/utils.js:730
+msgid "Big Cursor"
 msgstr ""
 
-#: src/utils.js:633
-msgid "Guideline"
-msgstr ""
-
-#: src/utils.js:648
-msgid "Tooltips"
-msgstr ""
-
-#: src/utils.js:650
-msgid "Enable tooltips to show tooltips on the screen."
-msgstr ""
-
-#: src/utils.js:672
-msgid "Line Height"
-msgstr ""
-
-#: src/utils.js:674
-msgid "Enable line height to increase the space between lines."
-msgstr ""
-
-#: src/utils.js:721
-msgid "Text Alignment"
-msgstr ""
-
-#: src/utils.js:723
-msgid "Enable text alignment to align the text to the left, center, right, or justify."
-msgstr ""
-
-#: src/utils.js:731
-msgid "Left"
+#: src/utils.js:740
+msgid "Big Cursor Enable."
 msgstr ""
 
 #: src/utils.js:743
-msgid "Center"
+msgid "Mask"
 msgstr ""
 
-#: src/utils.js:767
-msgid "Justify"
+#: src/utils.js:746
+msgid "Cursor Mask Enable."
 msgstr ""
 
-#: src/utils.js:782
-msgid "Saturation"
+#: src/utils.js:749
+msgid "Guideline"
 msgstr ""
 
-#: src/utils.js:784
-msgid "Enable saturation to adjust the saturation of the images and videos."
+#: src/utils.js:752
+msgid "Cursor Guideline Enable."
 msgstr ""
 
-#: src/utils.js:792
-msgid "Low"
+#: src/utils.js:758
+msgid "Tooltips"
 msgstr ""
 
-#: src/utils.js:804
-msgid "High"
+#: src/utils.js:760
+msgid "The tooltips setting has been disabled."
+msgstr ""
+
+#: src/utils.js:772
+msgid "Tooltips Enable."
+msgstr ""
+
+#: src/utils.js:783
+msgid "Line Height"
+msgstr ""
+
+#: src/utils.js:785
+msgid "The line height setting has been disabled."
+msgstr ""
+
+#: src/utils.js:803
+msgid "Line Height, set to Medium."
 msgstr ""
 
 #: src/utils.js:816
+msgid "Line Height, set to Large."
+msgstr ""
+
+#: src/utils.js:829
+msgid "Line Height, set to Extra Large."
+msgstr ""
+
+#: src/utils.js:835
+msgid "Text Alignment"
+msgstr ""
+
+#: src/utils.js:837
+msgid "The text alignment setting has been disabled."
+msgstr ""
+
+#: src/utils.js:845
+msgid "Left"
+msgstr ""
+
+#: src/utils.js:855
+msgid "Text Alignment, set to Left."
+msgstr ""
+
+#: src/utils.js:858
+msgid "Center"
+msgstr ""
+
+#: src/utils.js:868
+msgid "Text Alignment, set to Center."
+msgstr ""
+
+#: src/utils.js:881
+msgid "Text Alignment, set to Right."
+msgstr ""
+
+#: src/utils.js:884
+msgid "Justify"
+msgstr ""
+
+#: src/utils.js:894
+msgid "Text Alignment, set to Justify."
+msgstr ""
+
+#: src/utils.js:900
+msgid "Saturation"
+msgstr ""
+
+#: src/utils.js:902
+msgid "The saturation setting has been disabled."
+msgstr ""
+
+#: src/utils.js:910
+msgid "Low"
+msgstr ""
+
+#: src/utils.js:920
+msgid "Saturation, set to Low."
+msgstr ""
+
+#: src/utils.js:923
+msgid "High"
+msgstr ""
+
+#: src/utils.js:933
+msgid "Saturation, set to High."
+msgstr ""
+
+#: src/utils.js:936
 msgid "Desaturate"
 msgstr ""
 
-#: src/utils.js:831
+#: src/utils.js:946
+msgid "Saturation, set to Desaturate."
+msgstr ""
+
+#: src/utils.js:952
 msgid "Dictionary"
 msgstr ""
 
-#: src/utils.js:833
-msgid "Enable dictionary to show the definition of the word when the user hovers over it."
+#: src/utils.js:954
+msgid "The dictionary setting has been disabled."
+msgstr ""
+
+#: src/utils.js:965
+msgid "Dictionary Enable."
+msgstr ""
+
+#: src/utils.js:971
+msgid "Dictionary Disable."
 msgstr ""

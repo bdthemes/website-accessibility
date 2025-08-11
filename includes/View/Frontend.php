@@ -1,12 +1,12 @@
 <?php
 
-namespace WebsiteAccessibility\View;
+namespace bdthemes\websiteaccessibility\View;
 
-use WebsiteAccessibility\Core\Utils;
+use bdthemes\websiteaccessibility\Core\Utils;
 
 class Frontend
 {
-    use \WebsiteAccessibility\Traits\Singleton;
+    use \bdthemes\websiteaccessibility\Traits\Singleton;
 
     public function __construct()
     {

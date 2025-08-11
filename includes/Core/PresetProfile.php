@@ -3,9 +3,9 @@
  * Register Preset Profile Post Type
  */
 
-namespace WebsiteAccessibility\Core;
+namespace bdthemes\websiteaccessibility\Core;
 
-use WebsiteAccessibility\Traits\Singleton;
+use bdthemes\websiteaccessibility\Traits\Singleton;
 
 if (!defined('ABSPATH')) {
     exit;

@@ -1,6 +1,6 @@
 <?php
 
-namespace WebsiteAccessibility\Core;
+namespace bdthemes\websiteaccessibility\Core;
 
 class Utils
 {

@@ -15,7 +15,7 @@
  * @package           Website Accessibility Pro
  */
 
-use WebsiteAccessibility\Traits\Singleton;
+use bdthemes\websiteaccessibility\Traits\Singleton;
 
 // Exit if accessed directly.
 if (! defined('ABSPATH')) exit;
@@ -229,17 +229,17 @@ final class WebsiteAccessibility
 		add_filter('body_class', fn($classes) => array_merge($classes, ['wap', 'wap-frontend']));
 
 		// Register post types
-		\WebsiteAccessibility\Core\AccessibilityPreset::get_instance();
-		\WebsiteAccessibility\Core\PresetProfile::get_instance();
+		\bdthemes\websiteaccessibility\Core\AccessibilityPreset::get_instance();
+		\bdthemes\websiteaccessibility\Core\PresetProfile::get_instance();
 
 		// Register admin menu
-		\WebsiteAccessibility\Admin\Menu::get_instance();
+		\bdthemes\websiteaccessibility\Admin\Menu::get_instance();
 
 		// Initialize admin assets
-		\WebsiteAccessibility\Admin\Enqueue::get_instance();
+		\bdthemes\websiteaccessibility\Admin\Enqueue::get_instance();
 
 		// Initialize frontend assets
-		\WebsiteAccessibility\View\Frontend::get_instance();
+		\bdthemes\websiteaccessibility\View\Frontend::get_instance();
 	}
 
 	/**
