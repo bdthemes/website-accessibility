@@ -219,9 +219,6 @@ final class WebsiteAccessibility
 	 */
 	public function plugins_loaded()
 	{
-		// init plugin
-		add_action('init', array($this, 'init'));
-
 		// Add a custom class to the admin body tag.
 		add_filter('admin_body_class', fn($classes) => $classes . ' wap-admin');
 
@@ -240,17 +237,6 @@ final class WebsiteAccessibility
 
 		// Initialize frontend assets
 		\bdthemes\websiteaccessibility\View\Frontend::get_instance();
-	}
-
-	/**
-	 * Initialize the plugin.
-	 *
-	 * @return void
-	 */
-	public function init()
-	{
-		// Load plugin text domain
-		load_plugin_textdomain('website-accessibility', false, dirname(plugin_basename(__FILE__)) . '/languages');
 	}
 }
 

@@ -78,7 +78,8 @@ class Frontend
                 'gt-element',
                 '//translate.google.com/translate_a/element.js?cb=wapGoogleTranslateInit',
                 [],
-                null
+                WAP_VERSION,
+                false
             );
             wp_localize_script('wap-accessibility-frontend', 'websiteAccessibility', [
                 'presets' => $presets_data,
@@ -90,16 +91,17 @@ class Frontend
                 'isUserLoggedIn' => is_user_logged_in(),
             ]);
 
-            ?>
+        ?>
             <script type="text/javascript">
                 function wapGoogleTranslateInit() {
-                    new window.google.translate.TranslateElement(
-                        {pageLanguage: '<?php echo get_bloginfo('language'); ?>'},
+                    new window.google.translate.TranslateElement({
+                            pageLanguage: "<?php echo esc_js(get_bloginfo('language')); ?>"
+                        },
                         'wap-google-translate-container'
                     );
                 }
             </script>
-            <?php
+        <?php
         }
     }
     public function render_preset_root()
