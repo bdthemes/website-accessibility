@@ -259,10 +259,10 @@ final class WebsiteAccessibility
  *
  * @return WebsiteAccessibility
  */
-function website_accessibility_pro()
+function website_accessibility()
 {
 	return WebsiteAccessibility::get_instance();
 }
 
 // Initialize the plugin
-website_accessibility_pro();
+website_accessibility();
