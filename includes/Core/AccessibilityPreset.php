@@ -19,7 +19,7 @@ class AccessibilityPreset {
     }
 
     public function register_post_type() {
-        register_post_type('wap_preset', [
+        register_post_type('websac_preset', [
             'labels' => [
                 'name' => __('Presets', 'website-accessibility'),
                 'singular_name' => __('Preset', 'website-accessibility'),

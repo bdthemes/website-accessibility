@@ -171,7 +171,7 @@ const store = createReduxStore(STORE_NAME, {
                 const { getEntityRecords } = registry.select(coreStore);
         
                 // Step 1: Fetch all existing presets
-                const prevPresets = getEntityRecords('postType', 'wap_preset', {
+                const prevPresets = getEntityRecords('postType', 'websac_preset', {
                     per_page: -1,
                 });
         
@@ -202,16 +202,16 @@ const store = createReduxStore(STORE_NAME, {
                         // Deactivate it
                         oldContent.preset.active = false;
         
-                        editEntityRecord('postType', 'wap_preset', oldPreset.id, {
+                        editEntityRecord('postType', 'websac_preset', oldPreset.id, {
                             content: JSON.stringify(oldContent),
                         });
         
-                        await saveEditedEntityRecord('postType', 'wap_preset', oldPreset.id);
+                        await saveEditedEntityRecord('postType', 'websac_preset', oldPreset.id);
                     }
                 }
         
                 // Step 3: Save new preset
-                const newPreset = await saveEntityRecord('postType', 'wap_preset', {
+                const newPreset = await saveEntityRecord('postType', 'websac_preset', {
                     title: presetFormData.title,
                     status: 'publish',
                     content: JSON.stringify({
@@ -231,7 +231,7 @@ const store = createReduxStore(STORE_NAME, {
                 }
                 
                 const { editEntityRecord } = registry.dispatch('core');
-                const preset = await editEntityRecord('postType', 'wap_preset', id, presetFormData);
+                const preset = await editEntityRecord('postType', 'websac_preset', id, presetFormData);
                 await dispatch({ type: 'UPDATE_PRESET', preset });
             };
         },
@@ -242,7 +242,7 @@ const store = createReduxStore(STORE_NAME, {
                 const { editEntityRecord, saveEditedEntityRecord } = coreDispatch('core');
         
                 // Step 1: Get the edited version of the preset (unsaved)
-                const currentPreset = getEditedEntityRecord('postType', 'wap_preset', id);
+                const currentPreset = getEditedEntityRecord('postType', 'websac_preset', id);
                 if (!currentPreset) return;
         
                 let currentContent = {};
@@ -256,7 +256,7 @@ const store = createReduxStore(STORE_NAME, {
                 const currentCondition = currentContent?.preset?.condition;
 
                 // Step 1.5: Get the original (saved) version of the preset
-                const originalPreset = getEntityRecord('postType', 'wap_preset', id);
+                const originalPreset = getEntityRecord('postType', 'websac_preset', id);
                 let originalContent = {};
                 try {
                     originalContent = JSON.parse(originalPreset?.content?.raw || originalPreset?.content);
@@ -278,7 +278,7 @@ const store = createReduxStore(STORE_NAME, {
                 );
         
                 if (shouldDeactivateOthers && currentCondition) {
-                    const allPresets = getEntityRecords('postType', 'wap_preset', {
+                    const allPresets = getEntityRecords('postType', 'websac_preset', {
                         per_page: -1,
                     });
         
@@ -309,16 +309,16 @@ const store = createReduxStore(STORE_NAME, {
                         // Deactivate it
                         content.preset.active = false;
         
-                        editEntityRecord('postType', 'wap_preset', preset.id, {
+                        editEntityRecord('postType', 'websac_preset', preset.id, {
                             content: JSON.stringify(content),
                         });
         
-                        await saveEditedEntityRecord('postType', 'wap_preset', preset.id);
+                        await saveEditedEntityRecord('postType', 'websac_preset', preset.id);
                     }
                 }
         
                 // Step 3: Save the current edited preset
-                const savedPreset = await saveEditedEntityRecord('postType', 'wap_preset', id);
+                const savedPreset = await saveEditedEntityRecord('postType', 'websac_preset', id);
         
                 // Step 4: Dispatch custom action if needed
                 await dispatch({ type: 'SAVE_EDITED_PRESET', preset: savedPreset });
@@ -331,14 +331,14 @@ const store = createReduxStore(STORE_NAME, {
         deletePreset: (id) => {
             return async ({ dispatch, registry }) => {
                 const { deleteEntityRecord } = registry.dispatch('core');
-                const preset = await deleteEntityRecord('postType', 'wap_preset', id, { force: true });
+                const preset = await deleteEntityRecord('postType', 'websac_preset', id, { force: true });
                 await dispatch({ type: 'DELETE_PRESET', preset });
             };
         },
         createProfile: (profileFormData) => {
             return async ({ dispatch, registry }) => {
                 const { saveEntityRecord } = registry.dispatch('core');
-                const profile = await saveEntityRecord('postType', 'wap_profile', {
+                const profile = await saveEntityRecord('postType', 'websac_profile', {
                     title: profileFormData?.name,
                     status: 'publish',
                     content: JSON.stringify({
@@ -354,7 +354,7 @@ const store = createReduxStore(STORE_NAME, {
         updateProfile: (id, profileFormData) => {
             return async ({ dispatch, registry }) => {
                 const { editEntityRecord } = registry.dispatch('core');
-                const profile = await editEntityRecord('postType', 'wap_profile', id, {
+                const profile = await editEntityRecord('postType', 'websac_profile', id, {
                     title: profileFormData.name,
                     content: JSON.stringify({
                         description: profileFormData.description,
@@ -368,14 +368,14 @@ const store = createReduxStore(STORE_NAME, {
         saveEditedProfile: (id) => {
             return async ({ dispatch, registry }) => {
                 const { saveEditedEntityRecord } = registry.dispatch('core');
-                const profile = await saveEditedEntityRecord('postType', 'wap_profile', id);
+                const profile = await saveEditedEntityRecord('postType', 'websac_profile', id);
                 await dispatch({ type: 'SAVE_EDITED_PROFILE', profile });
             };
         },
         deleteProfile: (id) => {
             return async ({ dispatch, registry }) => {
                 const { deleteEntityRecord } = registry.dispatch('core');
-                const profile = await deleteEntityRecord('postType', 'wap_profile', id, { force: true });
+                const profile = await deleteEntityRecord('postType', 'websac_profile', id, { force: true });
                 await dispatch({ type: 'DELETE_PROFILE', profile });
             };
         },
@@ -384,7 +384,7 @@ const store = createReduxStore(STORE_NAME, {
         getPresets: createRegistrySelector(
             (select) => (state, args = {}) => {
                 const { getEntityRecords } = select(coreStore);
-                const presets = getEntityRecords('postType', 'wap_preset', {
+                const presets = getEntityRecords('postType', 'websac_preset', {
                     ...args,
                     per_page: -1,
                 });
@@ -394,14 +394,14 @@ const store = createReduxStore(STORE_NAME, {
         getPreset: createRegistrySelector(
             (select) => (state, id) => {
                 const { getEditedEntityRecord } = select(coreStore);
-                const preset = getEditedEntityRecord('postType', 'wap_preset', id);
+                const preset = getEditedEntityRecord('postType', 'websac_preset', id);
                 return preset;
             }
         ),
         getProfiles: createRegistrySelector(
             (select) => (state, withDefault = false) => {
                 const { getEntityRecords } = select(coreStore);
-                const profiles = getEntityRecords('postType', 'wap_profile');
+                const profiles = getEntityRecords('postType', 'websac_profile');
                 if (withDefault && profiles) {
                     return [...defaultProfiles, ...profiles];
                 }
@@ -411,7 +411,7 @@ const store = createReduxStore(STORE_NAME, {
         getProfile: createRegistrySelector(
             (select) => (state, id) => {
                 const { getEditedEntityRecord } = select(coreStore);
-                const profile = getEditedEntityRecord('postType', 'wap_profile', id);
+                const profile = getEditedEntityRecord('postType', 'websac_profile', id);
                 return profile;
             }
         ),

@@ -1,86 +1,92 @@
 === Website Accessibility ===
-Contributors:      bdthemes
-Tags:              accessibility, a11y, compliance, toolbar, frontend
-Requires at least: 6.1
-Tested up to:      6.8
-Requires PHP:      7.4
-Stable tag:        1.0.0
-License:           GPL-2.0-or-later
-License URI:       https://www.gnu.org/licenses/gpl-2.0.html
+Contributors:      bdthemes  
+Tags:              accessibility, a11y, compliance, toolbar, frontend  
+Requires at least: 6.1  
+Tested up to:      6.8  
+Requires PHP:      7.4  
+Stable tag:        1.0.0  
+License:           GPL-2.0-or-later  
+License URI:       https://www.gnu.org/licenses/gpl-2.0.html  
 
 Improve your website's accessibility and compliance with a fully customizable accessibility toolbar, preset conditions, and user profiles.
 
 == Description ==
 
-**Website Accessibility** is a modern and flexible accessibility plugin that helps you meet WCAG, ADA, and other accessibility standards effortlessly.
+**Website Accessibility** is a modern, flexible WordPress plugin that helps your website meet WCAG, ADA, and other accessibility standards effortlessly.
 
-This plugin allows users to create multiple accessibility presets and assign them conditionally to different areas of your site: Entire Site, Singular (single posts/pages), or Archives (category, tag, archive pages).
+Create multiple accessibility presets and assign them conditionally to different areas of your site—Entire Site, Singular (posts/pages), or Archives (categories, tags). The plugin includes a built-in mini editor to customize the accessibility toolbar layout and controls, giving users an intuitive experience tailored to different needs.
 
-Key features include a customizable mini editor for the accessibility panel layout and full control for creating and managing custom user profiles.
-
-The plugin works independently of any page builder like Gutenberg, Elementor, or others, making it compatible with all themes and setups.
+It works independently of any page builder like Gutenberg or Elementor, ensuring compatibility with all WordPress themes.
 
 ### 🔧 Key Features
 
-- Create multiple accessibility presets with conditional display on Entire Site, Singular, or Archives
-- Customizable mini editor for configuring the accessibility toolbar panel layout and controls
-- Create and manage custom accessibility profiles for users with different needs (vision impairment, ADHD, dyslexia, etc.)
-- Lightweight, performant, and easy to use
-- Fully theme-agnostic — works with any WordPress theme without relying on page builders
+- Create multiple accessibility presets with conditional assignment (Entire Site, Singular, Archives)
+- Customize the toolbar layout using a built-in mini editor
+- Create and manage user-specific accessibility profiles (vision impairment, ADHD, dyslexia, etc.)
+- Lightweight, fast, and user-friendly
+- Compatible with all themes and page builders
+- Includes screen reader, contrast tools, animation controls, dictionary tooltips, Google Translate integration, and more
 
-Whether for client sites or your own, Website Accessibility provides a powerful, flexible solution to deliver an inclusive web experience.
+Whether you’re building inclusive websites for clients or your own brand, Website Accessibility gives you the tools to make a real impact.
 
 == Installation ==
 
-1. Upload the plugin files to the `/wp-content/plugins/website-accessibility` directory, or install via the WordPress plugin repository.
-2. Activate the plugin through the "Plugins" screen in WordPress.
-3. Create accessibility presets and profiles in the plugin settings.
-4. Assign presets conditionally to Entire Site, Singular, or Archives.
-5. Customize the toolbar panel using the mini editor as needed.
+1. Upload the plugin to `/wp-content/plugins/website-accessibility` or install it via the WordPress plugin directory.
+2. Activate the plugin via the “Plugins” screen in WordPress.
+3. Configure accessibility presets and profiles from the plugin settings.
+4. Assign presets conditionally to Entire Site, Singular, or Archive pages.
+5. Use the mini editor to customize the toolbar layout.
 
 == Frequently Asked Questions ==
 
-= Can I create multiple accessibility presets? =
+= Can I create multiple accessibility presets? =  
+Yes. You can create as many presets as you like and assign them conditionally to different parts of your website.
 
-Yes. You can create multiple presets and assign them conditionally across different site areas.
+= Does the plugin require Gutenberg or a page builder? =  
+No. The plugin is completely standalone and works with any theme or builder.
 
-= Does the plugin depend on Gutenberg or any page builder? =
+= Can I create different accessibility profiles for different user types? =  
+Yes. You can build and assign custom profiles to suit a variety of accessibility needs.
 
-No. The plugin works independently of any page builder and is compatible with all themes.
-
-= Can I create custom accessibility profiles? =
-
-Yes. You can create and manage custom profiles tailored to different accessibility needs.
-
-= What conditions are available to show presets? =
-
-You can assign presets to Entire Site, Singular (single posts/pages), or Archives (categories, tags, etc.).
+= Where can I apply presets conditionally? =  
+You can assign presets to Entire Site, Singular (posts or pages), or Archives (category, tag, or other archive templates).
 
 == Screenshots ==
 
-1. Accessibility toolbar on frontend with customizable layout.
-2. Preset management screen with conditional assignment.
-3. Mini editor interface for toolbar customization.
-4. Custom profile creation and management interface.
+1. Accessibility toolbar on the frontend with customizable layout  
+2. Preset management screen with conditional assignments  
+3. Mini editor interface for toolbar customization  
+4. Custom profile creation and management interface  
 
 == Libraries and Credits ==
 
-This plugin uses the following open-source libraries and tools. We are grateful to their developers for their contributions:
+This plugin uses the following open-source libraries and third-party tools. We are thankful to their developers and communities:
 
-- **[React](https://reactjs.org/)** – A JavaScript library for building user interfaces (MIT License)
-- **[Ant Design (antd)](https://ant.design/)** – A modern React UI library used for components (MIT License)
-- **[clsx](https://github.com/lukeed/clsx)** – A utility for constructing className strings conditionally (MIT License)
-- **[history](https://github.com/remix-run/history)** – A JavaScript library for managing session history (MIT License)
-- **[SortableJS](https://sortablejs.github.io/Sortable/)** – A lightweight, touch-friendly drag-and-drop library (MIT License)
-- **[React SortableJS](https://github.com/SortableJS/react-sortablejs)** – React bindings for SortableJS (MIT License)
-- **[@wordpress/scripts](https://developer.wordpress.org/block-editor/reference-guides/packages/packages-scripts/)** – Official build setup for modern WordPress plugin/block development (GPL-2.0-or-later)
-- **[@wordpress/icons](https://developer.wordpress.org/block-editor/reference-guides/packages/packages-icons/)** – WordPress icon package used in block UI (GPL-2.0-or-later)
+**JavaScript Libraries:**
+
+- [React](https://reactjs.org/) – A JavaScript library for building user interfaces (MIT License)  
+- [Ant Design (antd)](https://ant.design/) – A modern React UI framework used for plugin interfaces (MIT License)  
+- [clsx](https://github.com/lukeed/clsx) – A utility for constructing conditional className strings (MIT License)  
+- [history](https://github.com/remix-run/history) – JavaScript library for managing session history (MIT License)  
+- [SortableJS](https://sortablejs.github.io/Sortable/) – Touch-friendly drag-and-drop sorting library (MIT License)  
+- [React SortableJS](https://github.com/SortableJS/react-sortablejs) – React bindings for SortableJS (MIT License)  
+
+**WordPress Packages:**
+
+- [@wordpress/scripts](https://developer.wordpress.org/block-editor/reference-guides/packages/packages-scripts/) – Official WordPress build toolchain (GPL-2.0-or-later)  
+- [@wordpress/icons](https://developer.wordpress.org/block-editor/reference-guides/packages/packages-icons/) – WordPress icon set used in admin UI (GPL-2.0-or-later)  
+
+**Third-Party Services:**
+
+- [Google Translate (element.js)](https://translate.google.com/) – Used for frontend language translation (Terms of Service apply)  
+- [Free Dictionary API](https://dictionaryapi.dev/) – Used for displaying word definitions and pronunciation in dictionary tooltips (MIT License)
 
 == Changelog ==
 
 = 1.0.0 =
-* Initial release
-* Multiple presets with conditional display (Entire Site, Singular, Archives)
-* Customizable mini editor for toolbar panel layout
-* Custom accessibility profiles
-* Theme-agnostic and independent of page builders
+* Initial release  
+* Multiple presets with conditional display (Entire Site, Singular, Archives)  
+* Customizable mini editor for toolbar layout  
+* Custom accessibility profiles  
+* Theme-independent and compatible with all builders  
+

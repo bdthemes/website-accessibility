@@ -18,19 +18,19 @@ class Frontend
 
     public function enqueue_components_scripts()
     {
-        $components_assets = WAP_BUILD_DIR . 'components/index.asset.php';
+        $components_assets = WEBSAC_BUILD_DIR . 'components/index.asset.php';
         if (file_exists($components_assets)) {
             $components_assets = require $components_assets;
             wp_enqueue_script(
                 'wap-accessibility-components',
-                WAP_URL . 'build/components/index.js',
+                WEBSAC_URL . 'build/components/index.js',
                 $components_assets['dependencies'],
                 $components_assets['version'],
                 true
             );
             wp_enqueue_style(
                 'wap-accessibility-components',
-                WAP_URL . 'build/components/index.css',
+                WEBSAC_URL . 'build/components/index.css',
                 [],
                 $components_assets['version']
             );
@@ -39,13 +39,13 @@ class Frontend
 
     public function enqueue_frontend_scripts()
     {
-        $frontend_assets = WAP_BUILD_DIR . 'frontend/frontend.asset.php';
+        $frontend_assets = WEBSAC_BUILD_DIR . 'frontend/frontend.asset.php';
         $presets = get_posts([
-            'post_type' => 'wap_preset',
+            'post_type' => 'websac_preset',
             'posts_per_page' => -1,
         ]);
         $profiles = get_posts([
-            'post_type' => 'wap_profile',
+            'post_type' => 'websac_profile',
             'posts_per_page' => -1,
         ]);
 
@@ -63,23 +63,16 @@ class Frontend
             $frontend_assets = require $frontend_assets;
             wp_enqueue_script(
                 'wap-accessibility-frontend',
-                WAP_URL . 'build/frontend/frontend.js',
+                WEBSAC_URL . 'build/frontend/frontend.js',
                 $frontend_assets['dependencies'],
                 $frontend_assets['version'],
                 true
             );
             wp_enqueue_style(
                 'wap-accessibility-frontend',
-                WAP_URL . 'build/frontend/frontend.css',
+                WEBSAC_URL . 'build/frontend/frontend.css',
                 [],
                 $frontend_assets['version']
-            );
-            wp_enqueue_script(
-                'gt-element',
-                '//translate.google.com/translate_a/element.js?cb=wapGoogleTranslateInit',
-                [],
-                WAP_VERSION,
-                false
             );
             wp_localize_script('wap-accessibility-frontend', 'websiteAccessibility', [
                 'presets' => $presets_data,
@@ -91,17 +84,21 @@ class Frontend
                 'isUserLoggedIn' => is_user_logged_in(),
             ]);
 
-        ?>
-            <script type="text/javascript">
-                function wapGoogleTranslateInit() {
-                    new window.google.translate.TranslateElement({
-                            pageLanguage: "<?php echo esc_js(get_bloginfo('language')); ?>"
-                        },
-                        'wap-google-translate-container'
-                    );
-                }
-            </script>
-        <?php
+            wp_enqueue_script(
+                'gt-element',
+                '//translate.google.com/translate_a/element.js?cb=wapGoogleTranslateInit',
+                [],
+                WEBSAC_VERSION,
+                false // Must load in header so inline script is printed before this
+            );
+
+            $inline_function = 'function wapGoogleTranslateInit() {
+                new window.google.translate.TranslateElement({
+                    pageLanguage: "' . esc_js(get_bloginfo('language')) . '"
+                }, "wap-google-translate-container");
+            };';
+
+            wp_add_inline_script('gt-element', $inline_function);
         }
     }
     public function render_preset_root()

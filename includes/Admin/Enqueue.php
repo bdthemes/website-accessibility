@@ -33,13 +33,13 @@ class Enqueue {
      */
     public function enqueue_scripts($hook_suffix) {
         
-        $admin_assets = WAP_BUILD_DIR . 'admin/index.asset.php';
+        $admin_assets = WEBSAC_BUILD_DIR . 'admin/index.asset.php';
         if (file_exists($admin_assets)) {
             $admin_assets = require $admin_assets;
 
             wp_enqueue_script(
                 'website-accessibility-admin',
-                WAP_URL . 'build/admin/index.js',
+                WEBSAC_URL . 'build/admin/index.js',
                 $admin_assets['dependencies'],
                 $admin_assets['version'],
                 true
@@ -47,7 +47,7 @@ class Enqueue {
 
             wp_enqueue_style(
                 'website-accessibility-admin',
-                WAP_URL . 'build/admin/index.css',
+                WEBSAC_URL . 'build/admin/index.css',
                 ['wp-components'],
                 $admin_assets['version']
             );

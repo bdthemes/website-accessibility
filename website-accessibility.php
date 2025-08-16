@@ -65,12 +65,12 @@ final class WebsiteAccessibility
 	 */
 	public function define_constants()
 	{
-		define('WAP_VERSION', self::VERSION);
-		define('WAP_NAME', 'Website Accessibility Pro');
-		define('WAP_URL', trailingslashit(plugin_dir_url(__FILE__)));
-		define('WAP_DIR', trailingslashit(plugin_dir_path(__FILE__)));
-		define('WAP_INCLUDES_DIR', WAP_DIR . 'includes/');
-		define('WAP_BUILD_DIR', WAP_DIR . 'build/');
+		define('WEBSAC_VERSION', self::VERSION);
+		define('WEBSAC_NAME', 'Website Accessibility Pro');
+		define('WEBSAC_URL', trailingslashit(plugin_dir_url(__FILE__)));
+		define('WEBSAC_DIR', trailingslashit(plugin_dir_path(__FILE__)));
+		define('WEBSAC_INCLUDES_DIR', WEBSAC_DIR . 'includes/');
+		define('WEBSAC_BUILD_DIR', WEBSAC_DIR . 'build/');
 	}
 
 	/**
@@ -82,16 +82,16 @@ final class WebsiteAccessibility
 	public function activated_plugin()
 	{
 		// Update plugin version in the options table.
-		update_option('wap_version', WAP_VERSION);
+		update_option('websac_version', WEBSAC_VERSION);
 
 		// Set installed time if it doesn't exist.
-		if (! get_option('wap_installed_time')) {
-			add_option('wap_installed_time', time());
+		if (! get_option('websac_installed_time')) {
+			add_option('websac_installed_time', time());
 		}
 
 		// Check if there is any published preset
 		$existing_presets = get_posts([
-			'post_type'      => 'wap_preset',
+			'post_type'      => 'websac_preset',
 			'post_status'    => 'publish',
 			'posts_per_page' => 1,
 			'fields'         => 'ids',
@@ -205,7 +205,7 @@ final class WebsiteAccessibility
 				]),
 				'post_status'  => 'publish',
 				'post_author'  => get_current_user_id(),
-				'post_type'    => 'wap_preset',
+				'post_type'    => 'websac_preset',
 			]);
 		}
 	}

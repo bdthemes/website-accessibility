@@ -19,7 +19,7 @@ class PresetProfile {
     }
 
     public function register_post_type() {
-        register_post_type('wap_profile', [
+        register_post_type('websac_profile', [
             'labels' => [
                 'name' => __('Profiles', 'website-accessibility'),
                 'singular_name' => __('Profile', 'website-accessibility'),

@@ -33,11 +33,11 @@ const Presets = () => {
   const filters = useMemo(() => rawFilters, [JSON.stringify(rawFilters)]);
   
   const isResolving = useSelect((select) => {
-    return select('core').isResolving('getEntityRecords', ['postType', 'wap_preset', filters || {}]);
+    return select('core').isResolving('getEntityRecords', ['postType', 'websac_preset', filters || {}]);
   }, [filters]);
 
   const isDeleting = useSelect((select) => {
-    return select('core').isResolving('deleteEntityRecord', ['postType', 'wap_preset', filters || {}]);
+    return select('core').isResolving('deleteEntityRecord', ['postType', 'websac_preset', filters || {}]);
   }, [filters]);
 
   const navigate = (path) => {
