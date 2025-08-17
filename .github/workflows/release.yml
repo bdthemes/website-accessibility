@@ -1,0 +1,46 @@
+name: Publish Release
+
+on:
+  push:
+    tags:
+      - '*'
+
+permissions:
+  contents: write
+
+jobs:
+  release-free:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v3
+
+      - name: Install dependencies
+        run: npm install
+
+      - name: Set up PHP
+        uses: shivammathur/setup-php@v2
+        with:
+          php-version: '8.0' # Specify the required PHP version
+          extensions: mbstring, curl, zip # Add necessary PHP extensions
+          tools: wp-cli # Install WP-CLI
+
+      - name: Verify WP-CLI installation
+        run: wp --info
+
+      - name: Composer install
+        run: composer install
+
+      - name: Build
+        run: npm run publish
+
+      - name: Create Release
+        uses: ncipollo/release-action@v1.14.0
+        with:
+            artifacts: './website-accessibility.zip'
+            token: ${{ secrets.TOKEN }}
+            removeArtifacts: true
+            allowUpdates: true
+            makeLatest: true
+            tag: ${{ github.ref_name }}
