@@ -14,23 +14,13 @@
         border-radius: var(--button-radius, 6px);
 
         &.bottom-right {
-            bottom: 30px;
-            right: 30px;
+            bottom: var(--button-offset-y, 30px);
+            right: var(--button-offset-x, 30px);
         }
 
         &.bottom-left {
-            bottom: 30px;
-            left: 30px;
-        }
-
-        &.top-right {
-            top: calc(30px + 44px);
-            right: 30px;
-        }
-
-        &.top-left {
-            top: calc(30px + 44px);
-            left: 30px;
+            bottom: var(--button-offset-y, 30px);
+            left: var(--button-offset-x, 30px);
         }
 
         &:hover {
@@ -58,11 +48,31 @@
 .wap-admin {
     .wap-button-style-preset__preview-btn {
         position: absolute;
+
+        &.top-right {
+            top: calc(var(--button-offset-y, 30px) + 44px);
+            right: var(--button-offset-x, 30px);
+        }
+
+        &.top-left {
+            top: calc(var(--button-offset-y, 30px) + 44px);
+            left: var(--button-offset-x, 30px);
+        }
     }
 }
 
 .wap-frontend {
     .wap-button-style-preset__preview-btn {
         position: fixed;
+
+        &.top-right {
+            top: var(--button-offset-y, 30px);
+            right: var(--button-offset-x, 30px);
+        }
+
+        &.top-left {
+            top: var(--button-offset-y, 30px);
+            left: var(--button-offset-x, 30px);
+        }
     }
 }

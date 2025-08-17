@@ -118,6 +118,7 @@ const PresetQuickEdit = ({
       onClose={handleClose}
       open={visible}
       width={400}
+      rootClassName="wap-panel-quick-edit-drawer"
       extra={
         <Space>
           <Button onClick={handleClose}>{__('Cancel', 'website-accessibility')}</Button>

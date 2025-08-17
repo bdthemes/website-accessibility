@@ -16,8 +16,12 @@ class Frontend
         add_action('wp_footer', [$this, 'render_preset_root']);
     }
 
-    public function enqueue_components_scripts()
+    public function enqueue_components_scripts($hook)
     {
+        if (!str_contains($hook, 'accessibility') && is_admin()) {
+            return;
+        }
+
         $components_assets = WEBSAC_BUILD_DIR . 'components/index.asset.php';
         if (file_exists($components_assets)) {
             $components_assets = require $components_assets;

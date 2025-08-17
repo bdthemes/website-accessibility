@@ -50,8 +50,8 @@ const PreviewPreset = () => {
             '--button-bg': button?.bgColor,
             '--button-padding': button?.padding,
             '--button-radius': button?.borderRadius,
-            '--button-offset-x': button?.offsetX,
-            '--button-offset-y': button?.offsetY,
+            '--button-offset-x': button?.offsetX ? `${button?.offsetX}px` : '',
+            '--button-offset-y': button?.offsetY ? `${button?.offsetY}px` : '',
           }}
           onClick={() => setIsOpen(true)}
         />

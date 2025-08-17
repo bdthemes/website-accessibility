@@ -8,6 +8,7 @@ import screenReader from '../screen-reader';
 
 /* -------------------- 🔹 ProfileItem Component -------------------- */
 const ProfileItem = ({ profile, isActive, handleClick, attributes }) => {
+    const profileIcon = profile.icon || <UserOutlined />;
     return (
         <div
             className={clsx(
@@ -19,7 +20,7 @@ const ProfileItem = ({ profile, isActive, handleClick, attributes }) => {
         >
             {!attributes?.hideBodyAvatar && (
                 <span className="wap-accessibility-profiles__item-icon">
-                    {profile.icon}
+                    {profileIcon}
                 </span>
             )}
             {!attributes?.hideBodyProfileName && (
@@ -115,7 +116,7 @@ const AccessibilityProfiles = ({
                     />
                 );
             }else {
-                iconElement = <UserOutlined />;
+                iconElement = null;
             }
 
             return {
