@@ -105,20 +105,22 @@ const LanguageSelector = ({ value, accessibilityContext, accessibilityDispatch }
   );
 
   const searchInput = (
-    <Input
-      aria-label={__('Search language', 'website-accessibility')}
-      placeholder={__('Search language', 'website-accessibility')}
-      value={languageSearchInput}
-      onChange={e => {
-        if (!isFrontend) return;
-        accessibilityDispatch({
-          type: 'SET_LANGUAGE_SEARCH_INPUT',
-          payload: e.target.value,
-        });
-      }}
-      className="wap-language-selector__search"
-      allowClear
-    />
+    <div className="wap-language-selector__search-wrapper">
+      <Input
+        aria-label={__('Search language', 'website-accessibility')}
+        placeholder={__('Search language', 'website-accessibility')}
+        value={languageSearchInput}
+        onChange={e => {
+          if (!isFrontend) return;
+          accessibilityDispatch({
+            type: 'SET_LANGUAGE_SEARCH_INPUT',
+            payload: e.target.value,
+          });
+        }}
+        className="wap-language-selector__search"
+        allowClear
+      />
+    </div>
   );
 
   if (layout === 'list') {
