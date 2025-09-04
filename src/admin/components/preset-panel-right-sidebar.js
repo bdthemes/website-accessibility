@@ -31,7 +31,7 @@ const PresetPanelRightSidebar = () => {
 				<InputNumber
 					min={200}
 					max={1000}
-					value={wrapper.width || 400}
+					value={wrapper.width || 420}
 					onChange={(value) => handleWrapperChange("width", value)}
 					className="wap-panel-right-sidebar__full-width"
 				/>

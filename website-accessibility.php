@@ -56,6 +56,9 @@ final class WebsiteAccessibility
 
 		// Initialize plugin hooks.
 		add_action('plugins_loaded', array($this, 'plugins_loaded'));
+
+		// Handle activation redirect
+		add_action('admin_init', array($this, 'maybe_redirect_to_settings'));
 	}
 
 	/**
@@ -208,6 +211,9 @@ final class WebsiteAccessibility
 				'post_type'    => 'websac_preset',
 			]);
 		}
+
+		// Set redirect flag to trigger on next admin page load
+    	add_option('websac_do_activation_redirect', true);
 	}
 
 
@@ -225,18 +231,45 @@ final class WebsiteAccessibility
 		// Add custom classes to the front-end body tag.
 		add_filter('body_class', fn($classes) => array_merge($classes, ['wap', 'wap-frontend']));
 
+		do_action('websac_plugins_loaded');
+		
 		// Register post types
 		\bdthemes\websiteaccessibility\Core\AccessibilityPreset::get_instance();
 		\bdthemes\websiteaccessibility\Core\PresetProfile::get_instance();
-
+		
 		// Register admin menu
 		\bdthemes\websiteaccessibility\Admin\Menu::get_instance();
-
+		
 		// Initialize admin assets
 		\bdthemes\websiteaccessibility\Admin\Enqueue::get_instance();
-
+		
 		// Initialize frontend assets
 		\bdthemes\websiteaccessibility\View\Frontend::get_instance();
+	}
+
+	/**
+	 * Redirect to plugin settings page on first activation.
+	 *
+	 * @return void
+	 */
+	public function maybe_redirect_to_settings()
+	{
+		// Only run in wp-admin and for users who can manage options
+		if (! is_admin() || ! current_user_can('manage_options')) {
+			return;
+		}
+
+		// Check if the redirect flag is set
+		if (get_option('websac_do_activation_redirect', false)) {
+			// Delete the flag so it only runs once
+			delete_option('websac_do_activation_redirect');
+
+			// Prevent redirect on multisite bulk activation
+			if (! isset($_GET['activate-multi'])) {
+				wp_safe_redirect(admin_url('admin.php?page=website-accessibility'));
+				exit;
+			}
+		}
 	}
 }
 

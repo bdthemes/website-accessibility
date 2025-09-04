@@ -1,15 +1,15 @@
 import { cloneElement } from "@wordpress/element";
 
 const PreviewContent = ({ panel, allProfiles, setIsOpen = () => {}, accessibilityContext, accessibilityDispatch }) => {
-    const { LanguageSelector, AccessibilityProfiles, WidgetFeatures, PanelHeader, PanelFooter } = window?.wapComponents;
-    
+    const { LanguageSelector = () => null, AccessibilityProfiles, WidgetFeatures, PanelHeader, PanelFooter } = window?.wapComponents;
+    const isProActive = window?.websacPro?.isProActive || false;
     // Create components with accessibility context
     const itemComponents = {
         language: <LanguageSelector 
             value={panel} 
             accessibilityContext={accessibilityContext}
             accessibilityDispatch={accessibilityDispatch}
-        />,
+        /> || null,
         profiles: <AccessibilityProfiles 
             value={panel} 
             allProfiles={allProfiles} 
@@ -48,12 +48,20 @@ const PreviewContent = ({ panel, allProfiles, setIsOpen = () => {}, accessibilit
                 <div className="wap-panel-customization__info">
                     {
                         panel?.items?.map((item) => {
-                            if (itemComponents[item.slug] && item.active) {
-                                return cloneElement(itemComponents[item.slug], { key: item.slug });
-                            }
-                            return null;
+                            const Component = itemComponents?.[item?.slug];
+                            
+                            if (!Component) return null;
+
+                            // Must be active
+                            if (!item.active) return null;
+
+                            // If item is pro, also check isProActive
+                            if (item?.isPro && !isProActive) return null;
+
+                            return cloneElement(Component, { key: item.slug });
                         })
                     }
+
                 </div>
                 {
                     panel?.items?.find((item) => item.slug === 'footer')?.active && (

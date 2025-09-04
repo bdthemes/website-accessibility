@@ -4,7 +4,7 @@ import {
   EyeInvisibleOutlined,
   MenuOutlined,
 } from "@ant-design/icons";
-import { Card, Row, Col, Drawer } from "antd";
+import { Card, Row, Col, Drawer, Badge } from "antd";
 import { ReactSortable } from "react-sortablejs";
 import { useState, useRef, useEffect } from "@wordpress/element";
 import { __ } from "@wordpress/i18n";
@@ -19,12 +19,13 @@ import FooterSettings from "../settings/footer-settings";
 const PresetPanelLeftSidebar = () => {
   const [drawerVisible, setDrawerVisible] = useState(false);
   const [selectedItem, setSelectedItem] = useState(null);
+  const isProActive = window?.websacPro?.isProActive || false;
   const timerRef = useRef(null);
 
   const { presetsFormData } = useSelect((select) => select(STORE_NAME).getPresetsFormData());
   const { setPresetsFormData } = useDispatch(STORE_NAME);
 
-  const items = presetsFormData?.panel?.items || [];
+  let items = presetsFormData?.panel?.items || [];
 
   const handleVisibilityToggle = (slug) => {
     const updatedItems = items.map((item) =>
@@ -97,46 +98,60 @@ const PresetPanelLeftSidebar = () => {
         animation={150}
         ghostClass="wap-panel-left-sidebar__ghost"
       >
-        {items.map((item) => (
-          <Card key={item.id} className="wap-panel-left-sidebar__row">
-            <Row justify="space-between" align="middle">
-              <Col>
-                {
-                  !item?.disableDrag && (
-                    <MenuOutlined className="wap-panel-left-sidebar__drag-handle" />
-                  )
-                }
-                <span>{item.title}</span>
-              </Col>
-              <Col className="wap-panel-left-sidebar__actions">
-                <EditOutlined
-                  className="wap-panel-left-sidebar__icon-action"
-                  onClick={(e) => {
-                    e.stopPropagation();
-                    handleEditClick(item);
-                  }}
-                />
-                {item.active ? (
-                  <EyeOutlined
-                    className="wap-panel-left-sidebar__icon-action"
-                    onClick={(e) => {
-                      e.stopPropagation();
-                      handleVisibilityToggle(item.slug);
-                    }}
-                  />
-                ) : (
-                  <EyeInvisibleOutlined
-                    className="wap-panel-left-sidebar__icon-action"
-                    onClick={(e) => {
-                      e.stopPropagation();
-                      handleVisibilityToggle(item.slug);
-                    }}
-                  />
-                )}
-              </Col>
-            </Row>
-          </Card>
-        ))}
+        {items.map((item) => {
+          return (
+            <Card key={item.id} className="wap-panel-left-sidebar__row">
+              <Row justify="space-between" align="middle">
+                <Col>
+                  {
+                    !item?.disableDrag && (
+                      <MenuOutlined className="wap-panel-left-sidebar__drag-handle" />
+                    )
+                  }
+                  <span>{item.title}</span>
+                </Col>
+                <Col className="wap-panel-left-sidebar__actions">
+                  {(!item?.isPro || isProActive) && (
+                    <EditOutlined
+                      className="wap-panel-left-sidebar__icon-action"
+                      onClick={(e) => {
+                        e.stopPropagation();
+                        handleEditClick(item);
+                      }}
+                    />
+                  )}
+                  {item?.isPro && !isProActive ? (
+                    <Badge
+                      count="Pro"
+                      style={{
+                        backgroundColor: '#f5222d',
+                        fontSize: '12px',
+                        padding: '0 6px',
+                      }}
+                    />
+                  ) : item.active ? (
+                    <EyeOutlined
+                      className="wap-panel-left-sidebar__icon-action"
+                      onClick={(e) => {
+                        e.stopPropagation();
+                        handleVisibilityToggle(item.slug);
+                      }}
+                    />
+                  ) : (
+                    <EyeInvisibleOutlined
+                      className="wap-panel-left-sidebar__icon-action"
+                      onClick={(e) => {
+                        e.stopPropagation();
+                        handleVisibilityToggle(item.slug);
+                      }}
+                    />
+                  )}
+
+                </Col>
+              </Row>
+            </Card>
+          )
+        })}
       </ReactSortable>
 
       <Drawer
@@ -153,7 +168,7 @@ const PresetPanelLeftSidebar = () => {
             item={selectedItem}
           />
         )}
-        {selectedItem?.slug === 'language' && (
+        {selectedItem?.slug === 'language' && isProActive && (
           <LanguageSelectorSettings
             item={selectedItem}
           />

@@ -1,7 +1,5 @@
 import { Card, Row, Col, Switch } from "antd";
-import { features, isScreenReaderActive } from "../utils";
 import clsx from "clsx";
-import screenReader from "../screen-reader";
 
 const WidgetFeatures = ({
 	value,
@@ -11,18 +9,19 @@ const WidgetFeatures = ({
 	const { items } = value;
 	const featureItem = items.find((item) => item.slug === "features");
 	const attributes = featureItem?.attributes || {};
+	const features = window.wapHelpers?.features || [];
 
 	// Check if we're in frontend context
 	const isFrontend = !!accessibilityContext && !!accessibilityDispatch;
 	const { currentSettings, isOverSized } = accessibilityContext || {};
 
 	// Calculate column span based on items per row
-	const itemsPerRow = parseInt(attributes?.itemsPerRow) || 3;
-	const colSpan = isOverSized ? 12 : 24 / itemsPerRow;
+	const itemsPerRow = parseInt(attributes?.itemsPerRow) || 2;
+	const colSpan = isOverSized ? (24 / ((itemsPerRow - 1) ? (itemsPerRow - 1) : 1)) : 24 / itemsPerRow;
 	// Handle feature click
 	const handleFeatureClick = (feature) => {
 		if (!isFrontend) return;
-
+		const { isScreenReaderActive = (() => false), screenReader = () => null } = window?.wapHelpers;
 		const allAttributes = feature.attributes || [];
 		const key = feature?.key;
 
@@ -55,9 +54,9 @@ const WidgetFeatures = ({
 				const enableAnnouncement = currentAttribute?.enableAnnouncement;
 				const disableAnnouncement = feature?.disableAnnouncement;
 				if (currentAttribute) {
-					screenReader().speak(enableAnnouncement);
+					screenReader()?.speak(enableAnnouncement);
 				} else {
-					screenReader().speak(disableAnnouncement);
+					screenReader()?.speak(disableAnnouncement);
 				}
 			}
 
@@ -92,9 +91,9 @@ const WidgetFeatures = ({
 						voiceURI: allAttributes[nextStep - 1]?.voiceURI || null,
 					};
 				}
-				screenReader().speak(enableAnnouncement);
+				screenReader()?.speak(enableAnnouncement);
 			} else {
-				screenReader().speak(disableAnnouncement);
+				screenReader()?.speak(disableAnnouncement);
 			}
 		} else if (key === "screenReader") {
 			const enableAnnouncement = allAttributes[0]?.enableAnnouncement;
@@ -104,7 +103,7 @@ const WidgetFeatures = ({
 				lang: allAttributes[0]?.lang || "en-US",
 				voiceURI: allAttributes[0]?.voiceURI || null,
 			};
-			screenReader().speak(enableAnnouncement);
+			screenReader()?.speak(enableAnnouncement);
 		}
 	};
 

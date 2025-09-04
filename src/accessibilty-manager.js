@@ -1,7 +1,5 @@
 import dictionary from "./dictionary";
-import screenReader from "./screen-reader";
-import smartContrast from "./smart-contrast";
-
+const { screenReader = () => null, smartContrast = () => null } = window.wapHelpers;
 class AccessibilityManager {
     static instance = null;
     constructor() {
@@ -84,23 +82,25 @@ class AccessibilityManager {
     }
 
     applyScreenReader(key, attribute) {
-        if (!attribute) return;
-        screenReader().apply(key, attribute);
+        if (!attribute || !screenReader) return;
+        screenReader()?.apply(key, attribute);
     }
 
 
     removeScreenReader() {
-        screenReader().destroy();
+        if(screenReader){
+            screenReader()?.destroy();
+        }
         delete this.props['screenReader'];
     }
 
     applySmartContrast(key, attribute) {
-        if (!attribute) return;
-        smartContrast().apply();
+        if (!attribute || !smartContrast) return;
+        smartContrast()?.apply();
     }
 
     removeSmartContrast() {
-        smartContrast().remove();
+        smartContrast()?.remove();
         delete this.props['smartContrast'];
     }
 
@@ -460,9 +460,9 @@ class AccessibilityManager {
     removeFeature(key) {
         // Remove the feature
         if (key === 'screenReader') {
-            screenReader().destroy();
+            screenReader ? screenReader()?.destroy() : null;
         } else if (key === 'smartContrast') {
-            smartContrast().remove();
+            smartContrast()?.remove();
         } else if (key === 'cursor') {
             this.removeCursor();
         } else if (key === 'tooltips') {

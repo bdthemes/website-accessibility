@@ -1,14 +1,15 @@
-import { Card, Button, Row, Col, Typography, Dropdown , Space} from 'antd';
-import { PlusOutlined } from '@ant-design/icons';
+import { Card, Button, Typography, Dropdown , Space} from 'antd';
 import { __ } from '@wordpress/i18n';
 import PostTable from '../components/post-table';
 import { useHistory } from '../router';
 import { useSelect, useDispatch } from '@wordpress/data';
 import { STORE_NAME } from '../store';
+import ProfilesFallback from '../components/profiles-fallback';
 
 const { Title } = Typography;
 
 const Profiles = () => {
+  const isProActive = window?.websacPro?.isProActive || false;
   const history = useHistory();
   const profiles = useSelect((select) => select(STORE_NAME).getProfiles());
   const { deleteProfile } = useDispatch(STORE_NAME);
@@ -102,6 +103,12 @@ const Profiles = () => {
       ),
     }
   ];
+
+  if (!isProActive) {
+    return (
+      <ProfilesFallback />
+    )
+  }
 
   return (
     <div className="wap-profiles">

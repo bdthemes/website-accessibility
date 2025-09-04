@@ -1,4 +1,5 @@
 <?php
+
 /**
  * Admin Menu Handler
  */
@@ -11,14 +12,17 @@ if (!defined('ABSPATH')) {
     exit;
 }
 
-class Menu {
+class Menu
+{
     use Singleton;
 
-    private function __construct() {
+    private function __construct()
+    {
         add_action('admin_menu', [$this, 'register_menu']);
     }
 
-    public function register_menu() {
+    public function register_menu()
+    {
         // Add main menu
         add_menu_page(
             __('Website Accessibility', 'website-accessibility'),
@@ -53,7 +57,7 @@ class Menu {
         add_submenu_page(
             'website-accessibility',
             __('Preset Profiles', 'website-accessibility'),
-            __('Profiles', 'website-accessibility'),
+            __('Custom Profiles', 'website-accessibility'),
             'manage_options',
             'website-accessibilityfiles',
             [$this, 'render_menu_page']
@@ -62,7 +66,7 @@ class Menu {
         add_submenu_page(
             'website-accessibility-presets-create', // parent slug
             __('Create Preset', 'website-accessibility'),             // page title
-            __('Create Preset', 'website-accessibility'), 
+            __('Create Preset', 'website-accessibility'),
             'manage_options',            // capability
             'website-accessibility-presets-create', // menu slug
             [$this, 'render_menu_page']
@@ -86,32 +90,18 @@ class Menu {
             [$this, 'render_menu_page']
         );
 
-        add_submenu_page(
-            'website-accessibilityfiles-create',
-            __('Create Profile', 'website-accessibility'),
-            __('Create Profile', 'website-accessibility'),
-            'manage_options',
-            'website-accessibilityfiles-create',
-            [$this, 'render_menu_page']
-        );
+        do_action('websac_pro_admin_menu');
 
-        add_submenu_page(
-            'website-accessibilityfiles-edit',
-            __('Edit Profile', 'website-accessibility'),
-            __('Edit Profile', 'website-accessibility'),
-            'manage_options',
-            'website-accessibilityfiles-edit',
-            [$this, 'render_menu_page']
-        );
 
         // Remove the default post type submenus
         remove_submenu_page('website-accessibility', 'edit.php?post_type=accessibility_preset');
         remove_submenu_page('website-accessibility', 'edit.php?post_type=preset_profile');
     }
 
-    public function render_menu_page() {
+    public function render_menu_page()
+    {
         echo '<div class="wrap">';
         echo '<div id="website-accessibility-admin"></div>';
         echo '</div>';
     }
-} 
+}

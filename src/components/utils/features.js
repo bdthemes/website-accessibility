@@ -1,0 +1,760 @@
+import { __ } from "@wordpress/i18n";
+const features = [
+    {
+        key: "contrast",
+        label: __("Contrast +", "website-accessibility"),
+        styleMethod: "inline",
+        disableAnnouncement: __(
+            "The contrast setting has been disabled.",
+            "website-accessibility",
+        ),
+        icon: (
+            <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+            <path d="M12.5146 2.0127C17.7982 2.28056 22 6.64993 22 12C22 17.5227 17.5227 22 12 22C11.1371 22 10.2997 21.891 9.50098 21.6855C8.06296 21.3156 6.74996 20.6339 5.63867 19.7168C5.51529 19.615 5.39468 19.5099 5.27637 19.4023C5.03947 19.187 4.81295 18.9605 4.59766 18.7236C2.98364 16.9478 2 14.5887 2 12C2 11.8274 2.00405 11.6558 2.0127 11.4854C2.02998 11.1443 2.06462 10.8078 2.11523 10.4766C2.1658 10.1458 2.23231 9.82026 2.31445 9.50098C2.60219 8.38228 3.07885 7.33942 3.70801 6.4082C3.88763 6.14237 4.07953 5.88546 4.2832 5.63867C4.69075 5.14483 5.14483 4.69075 5.63867 4.2832C5.88546 4.07953 6.14237 3.88763 6.4082 3.70801C7.33942 3.07885 8.38228 2.60219 9.50098 2.31445C9.82026 2.23231 10.1458 2.1658 10.4766 2.11523C10.8078 2.06462 11.1443 2.02998 11.4854 2.0127C11.6558 2.00405 11.8274 2 12 2L12.5146 2.0127ZM12 3.75098C11.849 3.75098 11.6989 3.75468 11.5498 3.7627L11.9736 20.248C11.9824 20.2481 11.9912 20.249 12 20.249C16.5558 20.2489 20.2489 16.5558 20.249 12C20.2489 7.44416 16.5558 3.75106 12 3.75098Z" fill="#161616"/>
+            </svg>
+        ),
+        attributes: [
+            {
+                name: __("Invert", "website-accessibility"),
+                value: "invert",
+                enableAnnouncement: __(
+                    "Enable Contrast Mode, set to Invert.",
+                    "website-accessibility",
+                ),
+                css: [
+                    {
+                        selector: "html",
+                        properties: {
+                            filter: "invert(1)",
+                        },
+                    },
+                    {
+                        selector: ".wap-preset__preview-drawer ",
+                        properties: {
+                            filter: "invert(1)",
+                        },
+                    },
+                ],
+            },
+            {
+                name: __("Dark", "website-accessibility"),
+                value: "dark",
+                enableAnnouncement: __(
+                    "Contrast Mode, set to Dark.",
+                    "website-accessibility",
+                ),
+                css: [
+                    {
+                        selector: "body, main, section, article, nav, aside",
+                        properties: {
+                            background: "#111",
+                            color: "#e0e0e0",
+                        },
+                    },
+                    {
+                        selector: "h1, h2, h3, h4, h5, h6",
+                        properties: {
+                            color: "#fff",
+                        },
+                    },
+                    {
+                        selector: "a",
+                        properties: {
+                            color: "#4fd1c5",
+                        },
+                    },
+                    {
+                        selector: "input, textarea, select, button",
+                        properties: {
+                            background: "#222",
+                            color: "#e0e0e0",
+                            borderColor: "#444",
+                        },
+                    },
+                ],
+            },
+            {
+                name: __("Light", "website-accessibility"),
+                value: "light",
+                enableAnnouncement: __(
+                    "Contrast Mode, set to Light.",
+                    "website-accessibility",
+                ),
+                css: [
+                    {
+                        selector:
+                            "body, main, section, article, nav, aside, .wp-block, .site, .content, .container",
+                        properties: {
+                            background: "#fff",
+                            color: "#222",
+                        },
+                    },
+                    {
+                        selector: "h1, h2, h3, h4, h5, h6",
+                        properties: {
+                            color: "#111",
+                        },
+                    },
+                    {
+                        selector: "a",
+                        properties: {
+                            color: "#1a4cd8",
+                        },
+                    },
+                    {
+                        selector: "input, textarea, select, button",
+                        properties: {
+                            background: "#f5f7fa",
+                            color: "#222",
+                            borderColor: "#ccc",
+                        },
+                    },
+                ],
+            },
+        ],
+    },
+    {
+        key: "highlightLinks",
+        label: __("Highlight Links", "website-accessibility"),
+        styleMethod: "inline",
+        disableAnnouncement: __(
+            "The highlight links setting has been disabled.",
+            "website-accessibility",
+        ),
+        icon: (
+            <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+            <path d="M10.333 7.25C10.7472 7.25 11.083 7.58579 11.083 8C11.083 8.41421 10.7472 8.75 10.333 8.75H5.12793C3.84668 8.75012 2.75 9.84864 2.75 11.2773V12.8711C2.75 14.3003 3.8472 15.3983 5.12793 15.3984H10.333C10.7472 15.3984 11.083 15.7342 11.083 16.1484C11.0829 16.5625 10.7471 16.8984 10.333 16.8984H5.12793C2.95404 16.8983 1.25 15.0625 1.25 12.8711V11.2773C1.25 9.08694 2.95308 7.25012 5.12793 7.25H10.333ZM18.8721 7.25C21.046 7.25012 22.75 9.08597 22.75 11.2773V12.8711C22.75 15.0615 21.0469 16.8983 18.8721 16.8984H13.667C13.2529 16.8984 12.9171 16.5625 12.917 16.1484C12.917 15.7342 13.2528 15.3984 13.667 15.3984H18.8721C20.1533 15.3983 21.25 14.2998 21.25 12.8711V11.2773C21.25 9.84814 20.1528 8.75013 18.8721 8.75H13.667C13.2528 8.75 12.917 8.41421 12.917 8C12.917 7.58579 13.2528 7.25 13.667 7.25H18.8721ZM15.8887 11.3242C16.3029 11.3242 16.6387 11.66 16.6387 12.0742C16.6386 12.4884 16.3028 12.8242 15.8887 12.8242H8.11133C7.69716 12.8242 7.36141 12.4884 7.36133 12.0742C7.36133 11.66 7.69711 11.3242 8.11133 11.3242H15.8887Z" fill="black"/>
+            </svg>
+        ),
+        attributes: [
+            {
+                name: __("Enable", "website-accessibility"),
+                value: "enable",
+                css: [
+                    {
+                        selector: "a",
+                        properties: {
+                            backgroundColor: "#ffff00",
+                            color: "#000",
+                            textDecoration: "underline",
+                        },
+                    },
+                ],
+                enableAnnouncement: __(
+                    "Highlight Links Enable.",
+                    "website-accessibility",
+                ),
+            },
+            {
+                name: __("Disable", "website-accessibility"),
+                value: "disable",
+                css: [],
+            },
+        ],
+    },
+    {
+        key: "biggerText",
+        label: __("Bigger Text", "website-accessibility"),
+        styleMethod: "styleTag",
+        disableAnnouncement: __(
+            "The bigger text setting has been disabled.",
+            "website-accessibility",
+        ),
+        icon: (
+            <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+            <path d="M9.75 9C10.1642 9 10.5 9.33579 10.5 9.75V11.5488C10.4999 11.9629 10.1641 12.2988 9.75 12.2988C9.33586 12.2988 9.00013 11.9629 9 11.5488V10.5H7V18H7.75C8.16421 18 8.5 18.3358 8.5 18.75C8.4999 19.1641 8.16415 19.5 7.75 19.5H4.75C4.33585 19.5 4.0001 19.1641 4 18.75C4 18.3358 4.33579 18 4.75 18H5.5V10.5H3.5V11.5498C3.49982 11.9639 3.1641 12.2998 2.75 12.2998C2.3359 12.2998 2.00018 11.9639 2 11.5498V9.75C2 9.33579 2.33579 9 2.75 9H9.75ZM21.8271 5.00391C22.2051 5.04254 22.5 5.36184 22.5 5.75V8.35059C22.4997 8.76452 22.164 9.10059 21.75 9.10059C21.336 9.10059 21.0003 8.76452 21 8.35059V6.5H17.5V18H19.75C20.1642 18 20.5 18.3358 20.5 18.75C20.4999 19.1641 20.1642 19.5 19.75 19.5H14.75C14.3358 19.5 14.0001 19.1641 14 18.75C14 18.3358 14.3358 18 14.75 18H16V6.5H12.5V8.35059C12.4997 8.76452 12.164 9.10059 11.75 9.10059C11.336 9.10059 11.0003 8.76452 11 8.35059V5.75C11 5.33579 11.3358 5 11.75 5H21.75L21.8271 5.00391Z" fill="#161616"/>
+            </svg>
+        ),
+        attributes: [
+            {
+                name: __("Medium", "website-accessibility"),
+                value: "medium",
+                css: [
+                    {
+                        selector: "body, p, div, span, li, td, th",
+                        properties: {
+                            fontSize: "18px",
+                        },
+                    },
+                    {
+                        selector: "h1",
+                        properties: {
+                            fontSize: "36px",
+                        },
+                    },
+                    {
+                        selector: "h2",
+                        properties: {
+                            fontSize: "32px",
+                        },
+                    },
+                    {
+                        selector: "h3",
+                        properties: {
+                            fontSize: "28px",
+                        },
+                    },
+                ],
+                enableAnnouncement: __(
+                    "Bigger Text, set to Medium.",
+                    "website-accessibility",
+                ),
+            },
+            {
+                name: __("Large", "website-accessibility"),
+                value: "large",
+                css: [
+                    {
+                        selector: "body, p, div, span, li, td, th",
+                        properties: {
+                            fontSize: "20px",
+                        },
+                    },
+                    {
+                        selector: "h1",
+                        properties: {
+                            fontSize: "40px",
+                        },
+                    },
+                    {
+                        selector: "h2",
+                        properties: {
+                            fontSize: "36px",
+                        },
+                    },
+                    {
+                        selector: "h3",
+                        properties: {
+                            fontSize: "32px",
+                        },
+                    },
+                ],
+                enableAnnouncement: __(
+                    "Bigger Text, set to Large.",
+                    "website-accessibility",
+                ),
+            },
+            {
+                name: __("Extra Large", "website-accessibility"),
+                value: "extra-large",
+                css: [
+                    {
+                        selector: "body, p, div, span, li, td, th",
+                        properties: {
+                            fontSize: "22px",
+                        },
+                    },
+                    {
+                        selector: "h1",
+                        properties: {
+                            fontSize: "44px",
+                        },
+                    },
+                    {
+                        selector: "h2",
+                        properties: {
+                            fontSize: "40px",
+                        },
+                    },
+                    {
+                        selector: "h3",
+                        properties: {
+                            fontSize: "36px",
+                        },
+                    },
+                ],
+                enableAnnouncement: __(
+                    "Bigger Text, set to Extra Large.",
+                    "website-accessibility",
+                ),
+            },
+            {
+                name: __("Huge", "website-accessibility"),
+                value: "huge",
+                css: [
+                    {
+                        selector: "body, p, div, span, li, td, th",
+                        properties: {
+                            fontSize: "24px",
+                        },
+                    },
+                    {
+                        selector: "h1",
+                        properties: {
+                            fontSize: "48px",
+                        },
+                    },
+                    {
+                        selector: "h2",
+                        properties: {
+                            fontSize: "44px",
+                        },
+                    },
+                    {
+                        selector: "h3",
+                        properties: {
+                            fontSize: "40px",
+                        },
+                    },
+                ],
+                enableAnnouncement: __(
+                    "Bigger Text, set to Huge.",
+                    "website-accessibility",
+                ),
+            },
+        ],
+    },
+    {
+        key: "textSpacing",
+        label: __("Text Spacing", "website-accessibility"),
+        styleMethod: "styleTag",
+        disableAnnouncement: __(
+            "The text spacing setting has been disabled.",
+            "website-accessibility",
+        ),
+        icon: (
+            <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+            <path d="M5.93301 8.18301C6.17708 7.93898 6.57273 7.93901 6.8168 8.18301C7.06066 8.4271 7.06078 8.82278 6.8168 9.0668L4.13223 11.7504H5.35196C5.69696 11.7505 5.97675 12.0294 5.97696 12.3744C5.97696 12.7196 5.69709 12.9993 5.35196 12.9994H4.13321L6.8168 15.683C7.0605 15.927 7.06044 16.3228 6.8168 16.5668C6.57275 16.8105 6.17701 16.8106 5.93301 16.5668L2.18301 12.8168C1.93901 12.5727 1.93898 12.1771 2.18301 11.933L5.93301 8.18301ZM17.183 8.18301C17.4271 7.93903 17.8227 7.93903 18.0668 8.18301L21.8168 11.933C22.0609 12.1771 22.0608 12.5727 21.8168 12.8168L18.0668 16.5668C17.8228 16.8106 17.4271 16.8105 17.183 16.5668C16.9394 16.3228 16.9394 15.927 17.183 15.683L19.8666 12.9994H18.6479C18.3027 12.9994 18.0229 12.7196 18.0229 12.3744C18.0231 12.0294 18.3028 11.7504 18.6479 11.7504H19.8676L17.183 9.0668C16.9391 8.82279 16.9392 8.42708 17.183 8.18301ZM13.477 11.7504C13.822 11.7504 14.1018 12.0294 14.102 12.3744C14.102 12.7196 13.8221 12.9994 13.477 12.9994H10.5229C10.1778 12.9993 9.89786 12.7195 9.89786 12.3744C9.89807 12.0295 10.1779 11.7505 10.5229 11.7504H13.477Z" fill="black"/>
+            </svg>
+        ),
+        attributes: [
+            {
+                name: __("Medium", "website-accessibility"),
+                value: "medium",
+                css: [
+                    {
+                        selector: "body, p, div, span, li, td, th, h1, h2, h3, h4, h5, h6",
+                        properties: {
+                            letterSpacing: "0.5px",
+                            wordSpacing: "2px",
+                        },
+                    },
+                ],
+                enableAnnouncement: __(
+                    "Text Spacing, set to Medium.",
+                    "website-accessibility",
+                ),
+            },
+            {
+                name: __("Large", "website-accessibility"),
+                value: "large",
+                css: [
+                    {
+                        selector: "body, p, div, span, li, td, th, h1, h2, h3, h4, h5, h6",
+                        properties: {
+                            letterSpacing: "1px",
+                            wordSpacing: "4px",
+                        },
+                    },
+                ],
+                enableAnnouncement: __(
+                    "Text Spacing, set to Large.",
+                    "website-accessibility",
+                ),
+            },
+            {
+                name: __("Extra Large", "website-accessibility"),
+                value: "extra-large",
+                css: [
+                    {
+                        selector: "body, p, div, span, li, td, th, h1, h2, h3, h4, h5, h6",
+                        properties: {
+                            letterSpacing: "2px",
+                            wordSpacing: "8px",
+                        },
+                    },
+                ],
+                enableAnnouncement: __(
+                    "Text Spacing, set to Extra Large.",
+                    "website-accessibility",
+                ),
+            },
+        ],
+    },
+    {
+        key: "pauseAnimations",
+        label: __("Pause Animations", "website-accessibility"),
+        styleMethod: "styleTag",
+        disableAnnouncement: __(
+            "The pause animations setting has been disabled.",
+            "website-accessibility",
+        ),
+        icon: (
+
+            <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+            <path d="M12 18.6025C12.3653 18.6025 12.6611 18.8983 12.6611 19.2637V21.3389C12.6611 21.7042 12.3653 22 12 22C11.6347 22 11.3389 21.7042 11.3389 21.3389V19.2637C11.3389 18.8983 11.6347 18.6025 12 18.6025ZM8.6123 18.459C8.75207 18.1218 9.13823 17.9622 9.47559 18.1016C9.81313 18.2412 9.97457 18.6282 9.83496 18.9658L9.04102 20.8828C8.90128 21.2202 8.51425 21.3808 8.17676 21.2412C7.8396 21.1014 7.67995 20.7143 7.81934 20.377L8.6123 18.459ZM14.5303 18.0986C14.8677 17.959 15.2547 18.1186 15.3945 18.4561L16.1885 20.374C16.328 20.7113 16.1681 21.0974 15.8311 21.2373C15.4935 21.3772 15.1057 21.2174 14.9658 20.8799L14.1719 18.9619C14.0323 18.6245 14.1929 18.2384 14.5303 18.0986ZM6.39648 16.6689C6.65484 16.4107 7.07376 16.4107 7.33203 16.6689C7.59017 16.9273 7.59036 17.3463 7.33203 17.6045L5.86426 19.0713C5.60587 19.3292 5.18688 19.3295 4.92871 19.0713C4.67056 18.813 4.67064 18.394 4.92871 18.1357L6.39648 16.6689ZM16.6689 16.6689C16.9273 16.4106 17.3462 16.4106 17.6045 16.6689L19.0713 18.1357C19.3293 18.3941 19.3295 18.8131 19.0713 19.0713C18.8131 19.3295 18.3941 19.3293 18.1357 19.0713L16.6689 17.6045C16.4106 17.3462 16.4106 16.9273 16.6689 16.6689ZM5.03809 14.1719C5.3755 14.0323 5.76157 14.1929 5.90137 14.5303C6.04104 14.8677 5.88137 15.2547 5.54395 15.3945L3.62598 16.1885C3.28871 16.328 2.90264 16.1681 2.7627 15.8311C2.62284 15.4935 2.78261 15.1057 3.12012 14.9658L5.03809 14.1719ZM18.1006 14.5244C18.2402 14.1869 18.6273 14.0254 18.9648 14.165L20.8818 14.959C21.2193 15.0987 21.3798 15.4857 21.2402 15.8232C21.1004 16.1604 20.7134 16.3202 20.376 16.1807L18.458 15.3877C18.121 15.2479 17.9613 14.8617 18.1006 14.5244ZM10.5215 8.88672C10.7649 8.88679 10.9628 9.08467 10.9629 9.32812V14.6719C10.9628 14.7888 10.9157 14.9007 10.833 14.9834C10.7503 15.0661 10.6385 15.1132 10.5215 15.1133H9.82422C9.76631 15.1133 9.70877 15.1013 9.65527 15.0791C9.60186 15.0569 9.55356 15.0243 9.5127 14.9834C9.47187 14.9425 9.43908 14.8942 9.41699 14.8408C9.39493 14.7873 9.38371 14.7297 9.38379 14.6719V9.32812C9.3839 9.08463 9.5807 8.88672 9.82422 8.88672H10.5215ZM14.1758 8.88672C14.4201 8.88672 14.6171 9.08463 14.6172 9.32812V14.6719C14.6171 14.7887 14.5708 14.9007 14.4883 14.9834C14.4055 15.0662 14.2928 15.1133 14.1758 15.1133H13.4785C13.3617 15.113 13.2495 15.0661 13.167 14.9834C13.0845 14.9007 13.0381 14.7887 13.0381 14.6719V9.32812C13.0382 9.08467 13.2358 8.88679 13.4785 8.88672H14.1758ZM4.73633 11.3389C5.10166 11.3389 5.39746 11.6347 5.39746 12C5.39746 12.3653 5.10166 12.6611 4.73633 12.6611H2.66113C2.29583 12.6611 2 12.3653 2 12C2 11.6347 2.29583 11.3389 2.66113 11.3389H4.73633ZM21.3389 11.3389C21.7042 11.3389 22 11.6347 22 12C22 12.3653 21.7042 12.6611 21.3389 12.6611H19.2637C18.8983 12.6611 18.6025 12.3653 18.6025 12C18.6025 11.6347 18.8983 11.3389 19.2637 11.3389H21.3389ZM2.75879 8.17676C2.89857 7.8396 3.28568 7.67995 3.62305 7.81934L5.54102 8.6123C5.87816 8.75207 6.03777 9.13823 5.89844 9.47559C5.75879 9.81313 5.37176 9.97457 5.03418 9.83496L3.11719 9.04102C2.77981 8.90128 2.61922 8.51425 2.75879 8.17676ZM20.373 7.81152C20.7104 7.67188 21.0974 7.83173 21.2373 8.16895C21.3771 8.50639 21.2163 8.8943 20.8789 9.03418L18.9619 9.82812C18.6245 9.96768 18.2385 9.80706 18.0986 9.46973C17.959 9.13232 18.1187 8.74532 18.4561 8.60547L20.373 7.81152ZM4.92871 4.92871C5.18702 4.67082 5.60603 4.67062 5.86426 4.92871L7.33105 6.39551C7.58941 6.65377 7.5893 7.07267 7.33105 7.33105C7.07278 7.58933 6.65387 7.58928 6.39551 7.33105L4.92871 5.86426C4.67032 5.60599 4.67045 5.18711 4.92871 4.92871ZM18.1357 4.92871C18.3941 4.67069 18.8131 4.67048 19.0713 4.92871C19.3295 5.18694 19.3293 5.6059 19.0713 5.86426L17.6045 7.33105C17.3462 7.58939 16.9273 7.58939 16.6689 7.33105C16.4106 7.07272 16.4106 6.65384 16.6689 6.39551L18.1357 4.92871ZM8.16895 2.7627C8.50639 2.62293 8.8943 2.78367 9.03418 3.12109L9.82812 5.03809C9.96768 5.37546 9.80706 5.76153 9.46973 5.90137C9.13232 6.04102 8.74532 5.88132 8.60547 5.54395L7.81152 3.62695C7.67188 3.28962 7.83173 2.90264 8.16895 2.7627ZM14.959 3.11816C15.0987 2.78072 15.4857 2.62018 15.8232 2.75977C16.1604 2.89959 16.3202 3.28664 16.1807 3.62402L15.3877 5.54199C15.2479 5.879 14.8617 6.03867 14.5244 5.89941C14.1869 5.75976 14.0254 5.37273 14.165 5.03516L14.959 3.11816ZM12 2C12.3653 2 12.6611 2.29583 12.6611 2.66113V4.73633C12.6611 5.10166 12.3653 5.39746 12 5.39746C11.6347 5.39746 11.3389 5.10166 11.3389 4.73633V2.66113C11.3389 2.29583 11.6347 2 12 2Z" fill="black"/>
+            </svg>
+
+        ),
+        attributes: [
+            {
+                name: __("Enable", "website-accessibility"),
+                value: "enable",
+                css: [
+                    {
+                        selector: "*",
+                        properties: {
+                            animation: "none",
+                            transition: "none",
+                        },
+                    },
+                ],
+                enableAnnouncement: __(
+                    "Pause Animations Enable.",
+                    "website-accessibility",
+                ),
+            },
+            {
+                name: __("Disable", "website-accessibility"),
+                value: "disable",
+                css: [],
+            },
+        ],
+    },
+    {
+        key: "hideImages",
+        label: __("Hide Images", "website-accessibility"),
+        styleMethod: "inline",
+        disableAnnouncement: __(
+            "The hide images setting has been disabled.",
+            "website-accessibility",
+        ),
+        icon: (
+
+            <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+            <path fillRule="evenodd" clipRule="evenodd" d="M14.564 3.50012C14.564 3.85062 14.6712 4.20062 14.8856 4.50061L4.56409 4.50011C3.71435 4.50011 3.02563 5.17161 3.02563 6.0001V12.7926L7.27843 8.64658C7.47894 8.45108 7.80304 8.45108 8.00355 8.64658L14.3076 14.7925L17.5348 11.6466C17.7353 11.4511 18.0594 11.4511 18.2599 11.6466L19.9486 13.293V9.47458L20.2178 9.73758C20.4368 9.95057 20.6973 10.0971 20.9742 10.1776V17.5C20.9742 18.881 19.826 20 18.4102 20H4.56409C3.1482 20 2 18.881 2 17.5V6.0001C2 4.61911 3.1482 3.50012 4.56409 3.50012H14.564ZM7.64099 9.70708L3.02563 14.2065V17.5C3.02563 18.299 3.66614 18.9515 4.47383 18.9975L4.56409 19H17.1717L7.64099 9.70708ZM17.8973 12.7071L15.0333 15.5L18.6096 18.9875C19.3358 18.896 19.903 18.3105 19.946 17.5885L19.9486 17.5V14.707L17.8973 12.7071ZM16.7214 3.14662L18.923 5.29261L21.1245 3.14662C21.325 2.95113 21.6491 2.95113 21.8496 3.14662C22.0501 3.34212 22.0501 3.65812 21.8496 3.85362L19.6486 6.0001L21.8496 8.14659C22.0342 8.32659 22.0486 8.61058 21.8927 8.80658L21.8496 8.85358C21.6491 9.04908 21.325 9.04908 21.1245 8.85358L18.923 6.7076L16.7214 8.85358C16.5209 9.04908 16.1968 9.04908 15.9963 8.85358C15.7958 8.65808 15.7958 8.34209 15.9963 8.14659L18.1973 6.0001L15.9963 3.85362C15.8117 3.67362 15.7973 3.38962 15.9532 3.19362L15.9963 3.14662C16.1968 2.95113 16.5209 2.95113 16.7214 3.14662Z" fill="black"/>
+            </svg>
+
+        ),
+        attributes: [
+            {
+                name: __("Enable", "website-accessibility"),
+                value: "enable",
+                css: [
+                    {
+                        selector: "img",
+                        properties: {
+                            display: "none",
+                        },
+                    },
+                ],
+                enableAnnouncement: __("Hide Images Enable.", "website-accessibility"),
+            },
+            {
+                name: __("Disable", "website-accessibility"),
+                value: "disable",
+                css: [],
+            },
+        ],
+    },
+    {
+        key: "cursor",
+        label: __("Cursor", "website-accessibility"),
+        styleMethod: "styleTag",
+        disableAnnouncement: __(
+            "The cursor setting has been disabled.",
+            "website-accessibility",
+        ),
+        icon: (
+            <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+            <path d="M2.43456 2.43456C2.63706 2.23205 2.93249 2.15285 3.20897 2.22752L20.8681 6.99803C21.1947 7.08623 21.4314 7.36985 21.458 7.70702C21.4845 8.04434 21.2952 8.3619 20.9863 8.49998L15.3935 11L21.5644 17.1709C21.8768 17.4833 21.8768 17.9903 21.5644 18.3027L18.3017 21.5654C17.9893 21.8778 17.4823 21.8778 17.1699 21.5654L10.999 15.3945L8.49998 20.9863C8.3619 21.2952 8.04434 21.4844 7.70702 21.458C7.36985 21.4314 7.08623 21.1947 6.99803 20.8681L2.22752 3.20897C2.15285 2.93249 2.23205 2.63706 2.43456 2.43456ZM7.95604 18.2822L10.0127 13.6816L10.0576 13.5947C10.1749 13.4001 10.3711 13.2635 10.5976 13.2217C10.8565 13.1739 11.1224 13.2562 11.3086 13.4424L17.7353 19.8681L19.8672 17.7363L13.4414 11.3096C13.2553 11.1234 13.1729 10.8575 13.2207 10.5986C13.2685 10.3398 13.4404 10.1211 13.6806 10.0137L18.2832 7.95604L4.13475 4.13475L7.95604 18.2822Z" fill="#161616"/>
+            </svg>
+        ),
+        attributes: [
+            {
+                name: __("Big Cursor", "website-accessibility"),
+                value: "big-cursor",
+                css: [
+                    {
+                        selector: "body, a, button, input, select, textarea, div",
+                        properties: {
+                            cursor:
+                                "url(\"data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='64' height='64' viewBox='0 0 64 64'><path d='M2 2 L50 30 L32 34 L30 62 Z' fill='white' stroke='black' stroke-width='3'/></svg>\") 2 2, auto",
+                        },
+                    },
+                ],
+                enableAnnouncement: __("Big Cursor Enable.", "website-accessibility"),
+            },
+            {
+                name: __("Mask", "website-accessibility"),
+                value: "mask",
+                css: [],
+                enableAnnouncement: __("Cursor Mask Enable.", "website-accessibility"),
+            },
+            {
+                name: __("Guideline", "website-accessibility"),
+                value: "guideline",
+                css: [],
+                enableAnnouncement: __(
+                    "Cursor Guideline Enable.",
+                    "website-accessibility",
+                ),
+            },
+        ],
+    },
+    {
+        key: "tooltips",
+        label: __("Tooltips", "website-accessibility"),
+        styleMethod: "rootClass",
+        disableAnnouncement: __(
+            "The tooltips setting has been disabled.",
+            "website-accessibility",
+        ),
+        icon: (
+            <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+            <path d="M18.2832 2C20.0847 2.00003 21.5 3.50453 21.5 5.30469V14.9707C21.4998 16.7707 20.0846 18.2744 18.2832 18.2744H7.65234L4.31348 21.7295L4.31445 21.7305C3.42925 22.6478 2 21.9426 2 20.7705V5.30469C2 3.50453 3.41529 2.00003 5.2168 2H18.2832ZM5.2168 3.5C4.29264 3.50003 3.5 4.28317 3.5 5.30469V20.4131L6.79297 17.0049C6.92933 16.8634 7.12003 16.7745 7.33203 16.7744H18.2832C19.2072 16.7744 19.9998 15.992 20 14.9707V5.30469C20 4.28317 19.2074 3.50003 18.2832 3.5H5.2168ZM11.75 8.89258C12.1048 8.89258 12.3925 9.16019 12.3926 9.48926V14.082C12.3926 14.4112 12.1048 14.6787 11.75 14.6787C11.3952 14.6787 11.1074 14.4112 11.1074 14.082V9.48926C11.1075 9.16019 11.3952 8.89258 11.75 8.89258ZM11.75 5.75C12.2234 5.75 12.6074 6.13404 12.6074 6.60742C12.6073 7.08068 12.2233 7.46386 11.75 7.46387C11.2767 7.46387 10.8927 7.08068 10.8926 6.60742C10.8926 6.13403 11.2766 5.75 11.75 5.75Z" fill="black"/>
+            </svg>
+        ),
+        attributes: [
+            {
+                name: __("Enable", "website-accessibility"),
+                value: "enable",
+                css: [],
+                enableAnnouncement: __("Tooltips Enable.", "website-accessibility"),
+            },
+            {
+                name: __("Disable", "website-accessibility"),
+                value: "disable",
+                css: [],
+            },
+        ],
+    },
+    {
+        key: "lineHeight",
+        label: __("Line Height", "website-accessibility"),
+        styleMethod: "styleTag",
+        disableAnnouncement: __(
+            "The line height setting has been disabled.",
+            "website-accessibility",
+        ),
+        icon: (
+            <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+            <path d="M3.64676 4C3.72877 4 3.80955 4.02309 3.87918 4.06641C3.94867 4.10971 4.0051 4.17167 4.04129 4.24512L5.24832 6.69141C5.28132 6.75824 5.29679 6.83277 5.29324 6.90723C5.28964 6.98162 5.26702 7.05386 5.22781 7.11719C5.18841 7.1807 5.13297 7.23319 5.06766 7.26953C5.00249 7.30578 4.92934 7.32512 4.85477 7.3252H4.34988V17.5479H4.85477C4.92933 17.5479 5.00249 17.5673 5.06766 17.6035C5.13297 17.6399 5.18841 17.6924 5.22781 17.7559C5.26702 17.8192 5.28964 17.8914 5.29324 17.9658C5.2968 18.0405 5.28151 18.1156 5.24832 18.1826L4.04129 20.6279C4.0051 20.7014 3.94866 20.7633 3.87918 20.8066C3.80955 20.85 3.72877 20.873 3.64676 20.873C3.56476 20.873 3.48396 20.85 3.41434 20.8066C3.34492 20.7634 3.28939 20.7013 3.2532 20.6279L2.0452 18.1826C2.01198 18.1156 1.99667 18.0405 2.00027 17.9658C2.00389 17.8911 2.02719 17.8184 2.06668 17.7549C2.10614 17.6916 2.16062 17.6387 2.22586 17.6025C2.29118 17.5663 2.36505 17.5478 2.43973 17.5479H2.94461V7.3252H2.43973C2.36505 7.32527 2.29118 7.30672 2.22586 7.27051C2.16062 7.2343 2.10614 7.18149 2.06668 7.11816C2.02719 7.05466 2.00389 6.98192 2.00027 6.90723C1.99668 6.83271 2.01217 6.7583 2.0452 6.69141L3.2532 4.24512C3.28939 4.17176 3.34492 4.10968 3.41434 4.06641C3.48396 4.0231 3.56476 4.00001 3.64676 4ZM18.7454 18.96C19.1331 18.9603 19.4473 19.2753 19.4475 19.6631C19.4475 20.051 19.1332 20.3659 18.7454 20.3662H8.53836C8.15025 20.3662 7.83532 20.0512 7.83524 19.6631C7.83545 19.2751 8.15034 18.96 8.53836 18.96H18.7454ZM21.2971 14.0244C21.6851 14.0246 22.0003 14.3405 22.0003 14.7285C21.9999 15.1162 21.6849 15.4305 21.2971 15.4307H8.53836C8.15046 15.4307 7.83565 15.1163 7.83524 14.7285C7.83524 14.3404 8.1502 14.0244 8.53836 14.0244H21.2971ZM21.2971 9.08984C21.685 9.09005 22.0001 9.40411 22.0003 9.79199C22.0002 10.1799 21.6851 10.4949 21.2971 10.4951H8.53836C8.15026 10.4951 7.83532 10.1801 7.83524 9.79199C7.83541 9.40398 8.15031 9.08984 8.53836 9.08984H21.2971ZM21.2971 4.1543C21.6851 4.1545 22.0003 4.46939 22.0003 4.85742C22.0003 5.24545 21.6851 5.56034 21.2971 5.56055H8.53836C8.1502 5.56055 7.83524 5.24558 7.83524 4.85742C7.83524 4.46927 8.1502 4.1543 8.53836 4.1543H21.2971Z" fill="black"/>
+            </svg>
+        ),
+        attributes: [
+            {
+                name: __("Medium", "website-accessibility"),
+                value: "medium",
+                css: [
+                    {
+                        selector: "p, div, li, td, th",
+                        properties: {
+                            lineHeight: "1.6",
+                        },
+                    },
+                ],
+                enableAnnouncement: __(
+                    "Line Height, set to Medium.",
+                    "website-accessibility",
+                ),
+            },
+            {
+                name: __("Large", "website-accessibility"),
+                value: "large",
+                css: [
+                    {
+                        selector: "p, div, li, td, th",
+                        properties: {
+                            lineHeight: "1.8",
+                        },
+                    },
+                ],
+                enableAnnouncement: __(
+                    "Line Height, set to Large.",
+                    "website-accessibility",
+                ),
+            },
+            {
+                name: __("Extra Large", "website-accessibility"),
+                value: "extra-large",
+                css: [
+                    {
+                        selector: "p, div, li, td, th",
+                        properties: {
+                            lineHeight: "2.2",
+                        },
+                    },
+                ],
+                enableAnnouncement: __(
+                    "Line Height, set to Extra Large.",
+                    "website-accessibility",
+                ),
+            },
+        ],
+    },
+    {
+        key: "textAlign",
+        label: __("Text Alignment", "website-accessibility"),
+        styleMethod: "styleTag",
+        disableAnnouncement: __(
+            "The text alignment setting has been disabled.",
+            "website-accessibility",
+        ),
+        icon: (
+            <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+            <path d="M17.5303 18.1973C17.9629 18.1973 18.3135 18.5478 18.3135 18.9805C18.3133 19.413 17.9628 19.7636 17.5303 19.7637H2.7832C2.35062 19.7637 2.00016 19.413 2 18.9805C2 18.5478 2.35052 18.1973 2.7832 18.1973H17.5303ZM21.2168 13.7988C21.6493 13.7988 21.9998 14.1486 22 14.5811C22 15.0137 21.6495 15.3643 21.2168 15.3643H2.7832C2.35054 15.3643 2.00003 15.0137 2 14.5811C2.00022 14.1486 2.35066 13.7988 2.7832 13.7988H21.2168ZM18.1445 9.39844C18.577 9.3986 18.9276 9.74916 18.9277 10.1816C18.9277 10.6142 18.5771 10.9647 18.1445 10.9648H2.7832C2.35052 10.9648 2 10.6143 2 10.1816C2.00012 9.74906 2.35059 9.39844 2.7832 9.39844H18.1445ZM21.2168 5C21.6495 5 22 5.35052 22 5.7832C21.9999 6.21583 21.6494 6.56641 21.2168 6.56641H2.7832C2.35056 6.56641 2.00007 6.21583 2 5.7832C2 5.35052 2.35052 5 2.7832 5H21.2168Z" fill="black"/>
+            </svg>
+        ),
+        attributes: [
+            {
+                name: __("Left", "website-accessibility"),
+                value: "left",
+                css: [
+                    {
+                        selector: "body, p, div, h1, h2, h3, h4, h5, h6",
+                        properties: {
+                            textAlign: "left",
+                        },
+                    },
+                ],
+                enableAnnouncement: __(
+                    "Text Alignment, set to Left.",
+                    "website-accessibility",
+                ),
+            },
+            {
+                name: __("Center", "website-accessibility"),
+                value: "center",
+                css: [
+                    {
+                        selector: "body, p, div, h1, h2, h3, h4, h5, h6",
+                        properties: {
+                            textAlign: "center",
+                        },
+                    },
+                ],
+                enableAnnouncement: __(
+                    "Text Alignment, set to Center.",
+                    "website-accessibility",
+                ),
+            },
+            {
+                name: __("Right", "website-accessibility"),
+                value: "right",
+                css: [
+                    {
+                        selector: "body, p, div, h1, h2, h3, h4, h5, h6",
+                        properties: {
+                            textAlign: "right",
+                        },
+                    },
+                ],
+                enableAnnouncement: __(
+                    "Text Alignment, set to Right.",
+                    "website-accessibility",
+                ),
+            },
+            {
+                name: __("Justify", "website-accessibility"),
+                value: "justify",
+                css: [
+                    {
+                        selector: "body, p, div, h1, h2, h3, h4, h5, h6",
+                        properties: {
+                            textAlign: "justify",
+                        },
+                    },
+                ],
+                enableAnnouncement: __(
+                    "Text Alignment, set to Justify.",
+                    "website-accessibility",
+                ),
+            },
+        ],
+    },
+    {
+        key: "saturation",
+        label: __("Saturation", "website-accessibility"),
+        styleMethod: "inline",
+        disableAnnouncement: __(
+            "The saturation setting has been disabled.",
+            "website-accessibility",
+        ),
+        icon: (
+            <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+            <path d="M11.7061 1C11.962 0.999945 12.2003 1.13195 12.335 1.34961L18.1729 10.7939C18.1914 10.824 18.2078 10.8559 18.2217 10.8877L18.2617 10.9541L18.293 11.0088C18.309 11.041 18.5796 11.6104 18.8486 12.333C19.1077 13.0289 19.413 13.9904 19.4131 14.7539C19.4129 18.8056 15.9142 21.9999 11.7061 22C7.49806 21.9998 4.00023 18.8055 4 14.7539C4.00005 13.3589 4.42408 12.0522 5.15234 10.9512L11.0781 1.35059L11.1328 1.27246C11.2719 1.10133 11.4822 1.00012 11.7061 1ZM6.40918 11.7266C6.40465 11.7339 6.40029 11.7418 6.39551 11.749C5.812 12.6243 5.47662 13.6559 5.47656 14.7539C5.4768 17.8959 8.21672 20.5232 11.7061 20.5234C11.8222 20.5234 11.9374 20.5194 12.0518 20.5137L11.7324 3.18652L11.7061 3.14355L6.40918 11.7266Z" fill="#161616"/>
+            </svg>
+        ),
+        attributes: [
+            {
+                name: __("Low", "website-accessibility"),
+                value: "low",
+                css: [
+                    {
+                        selector: "img, video",
+                        properties: {
+                            filter: "saturate(0.5)",
+                        },
+                    },
+                ],
+                enableAnnouncement: __(
+                    "Saturation, set to Low.",
+                    "website-accessibility",
+                ),
+            },
+            {
+                name: __("High", "website-accessibility"),
+                value: "high",
+                css: [
+                    {
+                        selector: "img, video",
+                        properties: {
+                            filter: "saturate(1.5)",
+                        },
+                    },
+                ],
+                enableAnnouncement: __(
+                    "Saturation, set to High.",
+                    "website-accessibility",
+                ),
+            },
+            {
+                name: __("Desaturate", "website-accessibility"),
+                value: "desaturate",
+                css: [
+                    {
+                        selector: "img, video",
+                        properties: {
+                            filter: "saturate(0)",
+                        },
+                    },
+                ],
+                enableAnnouncement: __(
+                    "Saturation, set to Desaturate.",
+                    "website-accessibility",
+                ),
+            },
+        ],
+    },
+    {
+        key: "dictionary",
+        label: __("Dictionary", "website-accessibility"),
+        styleMethod: "rootClass",
+        disableAnnouncement: __(
+            "The dictionary setting has been disabled.",
+            "website-accessibility",
+        ),
+        icon: (
+            <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+            <path d="M20.1748 2C20.555 2 20.8633 2.30833 20.8633 2.68848V17.1074C20.8632 17.4875 20.5549 17.7959 20.1748 17.7959H6.29004C6.04799 17.796 5.81577 17.8924 5.64453 18.0635C5.4733 18.2347 5.37618 18.4669 5.37598 18.709L5.38086 18.8027C5.42788 19.2643 5.81753 19.6238 6.29004 19.624H20.1748C20.5548 19.624 20.8631 19.9315 20.8633 20.3115C20.8631 20.6916 20.5549 21 20.1748 21H6.29004C5.10472 20.9998 4.12914 20.0992 4.01172 18.9434L4 18.709V5.26953C4 4.40241 4.34486 3.57116 4.95801 2.95801C5.57116 2.34486 6.40241 2 7.26953 2H20.1748ZM7.26953 3.37598C6.76751 3.37598 6.28565 3.57568 5.93066 3.93066C5.57568 4.28565 5.37598 4.76751 5.37598 5.26953V16.6104C5.66162 16.486 5.97247 16.419 6.29004 16.4189H7.73828V3.37598H7.26953ZM9.11426 16.4189H19.4873V3.37598H9.11426V16.4189ZM14.2676 6.55664L14.2891 6.56055C14.2991 6.56182 14.3092 6.56496 14.3184 6.56934C14.3565 6.57668 14.3934 6.59049 14.4268 6.61035C14.424 6.60816 14.4299 6.61085 14.4424 6.61914C14.4633 6.6343 14.484 6.64988 14.5049 6.66504C14.5083 6.66504 14.5139 6.66906 14.5225 6.67676C14.5284 6.6835 14.5353 6.68967 14.543 6.69434C14.5431 6.69697 14.5475 6.70272 14.5557 6.71094C14.5668 6.72212 14.5723 6.72972 14.5723 6.73145L14.585 6.74805C14.5955 6.75943 14.601 6.76575 14.6016 6.76855C14.6016 6.77194 14.6058 6.77915 14.6133 6.79004C14.6272 6.80922 14.6395 6.83057 14.6484 6.85254L16.1826 10.5576V10.5615L16.7129 11.835C16.7439 11.9096 16.7559 11.9908 16.748 12.0713C16.7401 12.1518 16.713 12.2296 16.668 12.2969C16.623 12.3641 16.5616 12.419 16.4902 12.457C16.4188 12.4951 16.3388 12.5149 16.2578 12.5146C16.1593 12.5201 16.0614 12.4934 15.9795 12.4385C15.8976 12.3835 15.8361 12.3031 15.8037 12.21L15.4023 11.2422H12.9873L12.5869 12.21C12.5545 12.3032 12.4921 12.3835 12.4102 12.4385C12.3282 12.4934 12.2303 12.5201 12.1318 12.5146C12.0998 12.5146 12.0682 12.5121 12.0371 12.5059L11.9443 12.4766C11.8844 12.4522 11.8299 12.4158 11.7842 12.3701C11.7385 12.3244 11.702 12.2699 11.6777 12.21C11.653 12.1506 11.6406 12.0868 11.6406 12.0225C11.6406 11.9581 11.653 11.8943 11.6777 11.835L12.208 10.5615V10.5576L13.7422 6.85254C13.7479 6.83835 13.7548 6.82464 13.7627 6.81152L13.7715 6.79004C13.7767 6.7827 13.7821 6.77529 13.7881 6.76855C13.7884 6.76571 13.7926 6.75885 13.8008 6.74902L13.8174 6.73242C13.8174 6.72984 13.8215 6.72345 13.8301 6.71484C13.8409 6.70403 13.8454 6.69707 13.8457 6.69434C13.8511 6.68984 13.8572 6.68516 13.8633 6.68164C13.874 6.67093 13.881 6.66541 13.8838 6.66504C13.8819 6.66481 13.8881 6.66158 13.9014 6.65332C13.9085 6.64797 13.9153 6.64182 13.9219 6.63574L13.9385 6.62402C13.9559 6.61453 13.9737 6.6057 13.9922 6.59863C14.0065 6.59023 14.0103 6.58756 14.0049 6.58984L14.0215 6.58203C14.0315 6.58033 14.0414 6.57726 14.0508 6.57324C14.0607 6.57125 14.0707 6.5691 14.0801 6.56543L14.0977 6.56055C14.1074 6.55993 14.1174 6.55888 14.127 6.55664L14.1465 6.55176H14.2432L14.2676 6.55664ZM13.3916 10.2617H14.998L14.1934 8.3252L13.3916 10.2617Z" fill="#161616"/>
+            </svg>
+        ),
+        attributes: [
+            {
+                name: __("Enable", "website-accessibility"),
+                value: "enable",
+                css: [],
+                enableAnnouncement: __("Dictionary Enable.", "website-accessibility"),
+            },
+            {
+                name: __("Disable", "website-accessibility"),
+                value: "disable",
+                css: [],
+                enableAnnouncement: __("Dictionary Disable.", "website-accessibility"),
+            },
+        ],
+    },
+];
+
+export default features;

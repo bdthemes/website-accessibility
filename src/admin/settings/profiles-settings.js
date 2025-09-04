@@ -82,17 +82,22 @@ const ProfilesSettings = () => {
             <ControlWrapper
                 label={__('Profiles', 'website-accessibility')}
             >
-                <Select
-                    mode="multiple"
-                    allowClear
-                    showSearch
-                    placeholder="Select profiles"
-                    options={profileOptions}
-                    value={attributes.profiles}
-                    onChange={(value) => updateAttr({ profiles: value })}
-                    style={{ width: '100%' }}
-                    optionFilterProp="label"
-                />
+                <div
+                    style={{ maxHeight: 200, overflow: 'auto' }}
+                    onWheel={(e) => e.stopPropagation()} // prevent parent/page scroll
+                >
+                    <Select
+                        mode="multiple"
+                        allowClear
+                        showSearch
+                        placeholder="Select profiles"
+                        options={profileOptions}
+                        value={attributes.profiles}
+                        onChange={(value) => updateAttr({ profiles: value })}
+                        style={{ width: '100%' }}
+                        optionFilterProp="label"
+                    />
+                </div>
             </ControlWrapper>
 
             <ControlWrapper

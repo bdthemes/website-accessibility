@@ -78,8 +78,9 @@ This plugin uses the following open-source libraries and third-party tools. We a
 
 **Third-Party Services:**
 
-- [Google Translate (element.js)](https://translate.google.com/) – Used for frontend language translation (Terms of Service apply)  
+- [Google Translate (element.js)](https://translate.google.com/) – Used for frontend language translation (Terms of Service apply)
 - [Free Dictionary API](https://dictionaryapi.dev/) – Used for displaying word definitions and pronunciation in dictionary tooltips (MIT License)
+- [OpenDyslexic Font](https://opendyslexic.org/) – Open-source font designed to increase readability for readers with dyslexia (SIL Open Font License)
 
 == Changelog ==
 

@@ -54,7 +54,7 @@ const Dashboard = () => {
             ),
         },
         {
-            title: __('Preset Profiles', 'website-accessibility'),
+            title: __('Custom Profiles', 'website-accessibility'),
             value: profilesCount,
             description: __('Create profiles for different user needs and preferences.', 'website-accessibility'),
             icon: <span className="dashicons dashicons-admin-users"/>,

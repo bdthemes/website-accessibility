@@ -6,8 +6,6 @@ import {
 } from "@ant-design/icons";
 import { useMemo } from "@wordpress/element";
 import clsx from "clsx";
-import { features, isScreenReaderActive } from "../utils";
-import screenReader from "../screen-reader";
 
 /* -------------------- 🔹 ProfileItem Component -------------------- */
 const ProfileItem = ({ profile, isActive, handleClick, attributes }) => {
@@ -84,12 +82,14 @@ const AccessibilityProfiles = ({
 	accessibilityContext,
 	accessibilityDispatch,
 }) => {
+	const features = window.wapHelpers?.features || [];
 	const { items } = value;
 	const profileItem = items.find((item) => item.slug === "profiles");
 	const attributes = profileItem?.attributes || {};
 	const profiles = attributes.profiles || [];
 	const layout = attributes.layout || "collapse";
 	const collapseTitle = attributes.collapseTitle || "Accessibility Profiles";
+	const { isScreenReaderActive = (() => false), screenReader = () => null } = window?.wapHelpers;
 
 	const isFrontend = !!accessibilityContext && !!accessibilityDispatch;
 	const { currentProfile, currentSettings } = accessibilityContext || {};

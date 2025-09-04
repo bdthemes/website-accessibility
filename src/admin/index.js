@@ -22,6 +22,6 @@ const Admin = () => {
 
 // Initialize only on our plugin's admin pages
 const appContainer = document.getElementById('website-accessibility-admin');
-if (appContainer) {
+if (appContainer && !appContainer.classList.contains('websac-lic-admin')) {
     createRoot(appContainer).render(<Admin />);
 }

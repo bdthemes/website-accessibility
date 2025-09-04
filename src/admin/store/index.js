@@ -10,6 +10,8 @@ export const generateUniqueTitle = (base) => {
     return `${base}-${timestamp}-${randomPart}`;
 };
 
+const panelItems = window?.wapHelpers?.panelItems || [];
+const isProActive = window?.websacPro?.isProActive;
 
 export const DEFAULT_STATE = {
     presets: [],
@@ -22,80 +24,9 @@ export const DEFAULT_STATE = {
         },
         panel: {
             wrapper: {
-                width: '500',
+                width: '420',
             },
-            items: [
-                {
-                    id: 'header',
-                    title: 'Header',
-                    slug: 'header',
-                    active: true,
-                    disableDrag: true,
-                    attributes: {
-                        text: 'Accessibility Menu (CTRL+U)',
-                        showClose: true,
-                        background: '#2e6cf6',
-                        border: '1px solid #2e6cf6',
-                        borderRadius: '6px',
-                        boxShadow: '0 4px 24px rgba(0,0,0,0.08)',
-                        padding: '10px 20px',
-                    }
-                },
-                {
-                    id: 'language',
-                    title: 'Language',
-                    slug: 'language',
-                    active: true,
-                    close: true,
-                    attributes: {
-                        text: 'Language',
-                        showClose: true,
-                        flipContent: false,
-                        background: '#ffffff',
-                        border: '1px solid #e0e0e0',
-                    }
-                },
-                {
-                    id: 'profiles',
-                    title: 'Profiles',
-                    slug: 'profiles',
-                    active: true,
-                    attributes: {
-                        profiles: [
-                            "motor",
-                            "blind",
-                            "color-blind",
-                            "dyslexia",
-                            "low-vision",
-                            "cognitive",
-                            "seizure",
-                            "adhd"
-                        ],
-                    }
-                },
-                {
-                    id: 'features',
-                    title: 'Features',
-                    slug: 'features',
-                    active: true,
-                    close: true,
-                    attributes: {
-                        text: 'Features',
-                        showClose: true,
-                        flipContent: false,
-                        background: '#ffffff',
-                        border: '1px solid #e0e0e0',
-                    }
-                },
-                {
-                    id: 'footer',
-                    title: 'Footer',
-                    slug: 'footer',
-                    active: true,
-                    close: true,
-                    disableDrag: true,
-                }
-            ]
+            items: panelItems,
         },
         button: {
             text: __('Accessibility Menu', 'website-accessibility'),
@@ -104,6 +35,8 @@ export const DEFAULT_STATE = {
             color: '#ffffff',
             bgColor: '#1677ff',
             position: 'bottom-right',
+            offsetX: 20,
+            offsetY: 20,
         },
     },
     profilesFormData: {
@@ -169,12 +102,12 @@ const store = createReduxStore(STORE_NAME, {
             return async ({ dispatch, registry }) => {
                 const { editEntityRecord, saveEditedEntityRecord, saveEntityRecord } = registry.dispatch('core');
                 const { getEntityRecords } = registry.select(coreStore);
-        
+
                 // Step 1: Fetch all existing presets
                 const prevPresets = getEntityRecords('postType', 'websac_preset', {
                     per_page: -1,
                 });
-        
+
                 // Step 2: If new preset is active, deactivate others of same type
                 if (presetFormData?.preset?.active) {
                     const sameTypePresets = prevPresets?.filter(preset => {
@@ -184,13 +117,13 @@ const store = createReduxStore(STORE_NAME, {
                         } catch (error) {
                             console.error(error);
                         }
-        
+
                         const isSameType = presetData?.preset?.condition === presetFormData?.preset?.condition;
                         const isActive = presetData?.preset?.active;
-        
+
                         return isSameType && isActive;
                     });
-        
+
                     for (const oldPreset of sameTypePresets) {
                         let oldContent = {};
                         try {
@@ -198,18 +131,18 @@ const store = createReduxStore(STORE_NAME, {
                         } catch (error) {
                             console.error(error);
                         }
-        
+
                         // Deactivate it
                         oldContent.preset.active = false;
-        
+
                         editEntityRecord('postType', 'websac_preset', oldPreset.id, {
                             content: JSON.stringify(oldContent),
                         });
-        
+
                         await saveEditedEntityRecord('postType', 'websac_preset', oldPreset.id);
                     }
                 }
-        
+
                 // Step 3: Save new preset
                 const newPreset = await saveEntityRecord('postType', 'websac_preset', {
                     title: presetFormData.title,
@@ -220,16 +153,16 @@ const store = createReduxStore(STORE_NAME, {
                         button: presetFormData.button,
                     }),
                 });
-        
+
                 await dispatch({ type: 'CREATE_PRESET', preset: newPreset });
             };
-        },        
+        },
         updatePreset: (id, presetFormData) => {
             return async ({ dispatch, registry }) => {
                 if (!id || !presetFormData?.title) {
                     return;
                 }
-                
+
                 const { editEntityRecord } = registry.dispatch('core');
                 const preset = await editEntityRecord('postType', 'websac_preset', id, presetFormData);
                 await dispatch({ type: 'UPDATE_PRESET', preset });
@@ -240,18 +173,18 @@ const store = createReduxStore(STORE_NAME, {
                 const { select, dispatch: coreDispatch } = registry;
                 const { getEditedEntityRecord, getEntityRecords, getEntityRecord } = select('core');
                 const { editEntityRecord, saveEditedEntityRecord } = coreDispatch('core');
-        
+
                 // Step 1: Get the edited version of the preset (unsaved)
                 const currentPreset = getEditedEntityRecord('postType', 'websac_preset', id);
                 if (!currentPreset) return;
-        
+
                 let currentContent = {};
                 try {
                     currentContent = JSON.parse(currentPreset.content?.raw || currentPreset.content);
                 } catch (error) {
                     console.error('Failed to parse current preset content', error);
                 }
-        
+
                 const isActive = currentContent?.preset?.active;
                 const currentCondition = currentContent?.preset?.condition;
 
@@ -276,28 +209,28 @@ const store = createReduxStore(STORE_NAME, {
                         wasCondition !== currentCondition
                     )
                 );
-        
+
                 if (shouldDeactivateOthers && currentCondition) {
                     const allPresets = getEntityRecords('postType', 'websac_preset', {
                         per_page: -1,
                     });
-        
+
                     const sameTypePresets = allPresets?.filter(preset => {
                         if (preset.id === id) return false; // Skip current
-        
+
                         let content = {};
                         try {
                             content = JSON.parse(preset.content?.raw || preset.content);
                         } catch (error) {
                             console.error('Failed to parse other preset content', error);
                         }
-        
+
                         const sameType = content?.preset?.condition === currentCondition;
                         const isActive = content?.preset?.active === true;
-        
+
                         return sameType && isActive;
                     });
-        
+
                     for (const preset of sameTypePresets) {
                         let content = {};
                         try {
@@ -305,26 +238,26 @@ const store = createReduxStore(STORE_NAME, {
                         } catch (error) {
                             console.error('Failed to parse same-type preset', error);
                         }
-        
+
                         // Deactivate it
                         content.preset.active = false;
-        
+
                         editEntityRecord('postType', 'websac_preset', preset.id, {
                             content: JSON.stringify(content),
                         });
-        
+
                         await saveEditedEntityRecord('postType', 'websac_preset', preset.id);
                     }
                 }
-        
+
                 // Step 3: Save the current edited preset
                 const savedPreset = await saveEditedEntityRecord('postType', 'websac_preset', id);
-        
+
                 // Step 4: Dispatch custom action if needed
                 await dispatch({ type: 'SAVE_EDITED_PRESET', preset: savedPreset });
             };
         },
-        
+
         setPresetFilters: (filters = {}) => {
             return { type: 'SET_PRESET_FILTERS', presetFilters: filters };
         },
@@ -400,6 +333,7 @@ const store = createReduxStore(STORE_NAME, {
         ),
         getProfiles: createRegistrySelector(
             (select) => (state, withDefault = false) => {
+                if (!isProActive) return withDefault ? defaultProfiles : [];
                 const { getEntityRecords } = select(coreStore);
                 const profiles = getEntityRecords('postType', 'websac_profile');
                 if (withDefault && profiles) {
@@ -410,6 +344,7 @@ const store = createReduxStore(STORE_NAME, {
         ),
         getProfile: createRegistrySelector(
             (select) => (state, id) => {
+                if (!isProActive) return null;
                 const { getEditedEntityRecord } = select(coreStore);
                 const profile = getEditedEntityRecord('postType', 'websac_profile', id);
                 return profile;
@@ -427,7 +362,7 @@ const store = createReduxStore(STORE_NAME, {
         },
         getPresetFilters: (state) => {
             return state.presetFilters;
-        },
+        }
     }
 });
 

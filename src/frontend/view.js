@@ -5,8 +5,8 @@ import { defaultProfiles } from "../utils";
 import useFrontendAccessibility from "./context/useAccessibility";
 import accessibilityManager from "../accessibilty-manager";
 import { __ } from "@wordpress/i18n";
-import screenReader from "../screen-reader";
 const View = () => {
+    const screenReader = window.wapHelpers?.screenReader || (() => null);
     const { PreviewButton, PreviewContent, Icon } = window?.wapComponents;
     const { profiles, currentPreset, currentPresetId } = window?.websiteAccessibility;
     const { dispatch, ...state } = useFrontendAccessibility();
@@ -54,14 +54,28 @@ const View = () => {
     useEffect(() => {
         if (!currentPresetId) return;
         const { currentProfile, currentSettings, isOverSized, enableTranslations, selectedLanguage } = state;
+        
+        // Create a serializable version of currentProfile
+        const serializableProfile = {
+            id: currentProfile?.id,
+            name: currentProfile?.name,
+            // Check if the icon is a React element and extract only the necessary data
+            icon: currentProfile?.icon && currentProfile?.icon.props && currentProfile.icon.props.dangerouslySetInnerHTML
+                ? { __html: currentProfile.icon.props.dangerouslySetInnerHTML.__html } // Store just the HTML string
+                : currentProfile?.icon, // If it's the simpler object or not present, store as is
+            settings: currentSettings // settings look good as they are plain data
+        };
 
         const localPreferences = {
-            profile: currentProfile,
-            settings: currentSettings,
+            profile: serializableProfile,
+            settings: currentSettings, // Assuming currentSettings is always serializable
             oversized: isOverSized,
             enableTranslations: enableTranslations,
             selectedLanguage: enableTranslations ? selectedLanguage : null
         };
+
+        console.log(serializableProfile); // Check the structure before saving
+
         localStorage.setItem(`${state.localStorageKeyPrefix}-${currentPresetId}`, JSON.stringify(localPreferences));
     }, [state, currentPresetId]);
 
@@ -88,9 +102,9 @@ const View = () => {
         const currentSettings = state?.currentSettings;
         if (!currentSettings?.screenReader?.currentStep) return;
         if (isOpen) {
-            screenReader().speak(__('Accessibility Menu Open', 'website-accessibility'));
+            screenReader()?.speak(__('Accessibility Menu Open', 'website-accessibility'));
         } else {
-            screenReader().speak(__('Accessibility Menu Close', 'website-accessibility'));
+            screenReader()?.speak(__('Accessibility Menu Close', 'website-accessibility'));
         }
     }, [isOpen]);
 
