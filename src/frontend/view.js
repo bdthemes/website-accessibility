@@ -74,8 +74,6 @@ const View = () => {
             selectedLanguage: enableTranslations ? selectedLanguage : null
         };
 
-        console.log(serializableProfile); // Check the structure before saving
-
         localStorage.setItem(`${state.localStorageKeyPrefix}-${currentPresetId}`, JSON.stringify(localPreferences));
     }, [state, currentPresetId]);
 
