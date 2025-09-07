@@ -264,7 +264,7 @@ final class WebsiteAccessibility
 			// Delete the flag so it only runs once
 			delete_option('websac_do_activation_redirect');
 
-			// Prevent redirect on multisite bulk activation
+			// phpcs:ignore WordPress.Security.NonceVerification.Recommended
 			if (! isset($_GET['activate-multi'])) {
 				wp_safe_redirect(admin_url('admin.php?page=website-accessibility'));
 				exit;
