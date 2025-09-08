@@ -1,5 +1,4 @@
-import { useMemo } from '@wordpress/element';
-import { Tabs, Select, Collapse, Space, Radio, Input, Switch } from 'antd';
+import { Collapse, Input, Switch } from 'antd';
 import { useSelect, useDispatch } from '@wordpress/data';
 import { STORE_NAME } from '../store';
 import ControlWrapper from '../components/control-wrapper';
@@ -27,20 +26,22 @@ const FeatureSettings = () => {
         });
     };
 
-    return (
-        <Collapse>
-            <Collapse.Panel header={__('General', 'website-accessibility')} key="1">
-                <ControlWrapper
-                    label={__('Hide Oversized Widget', 'website-accessibility')}
-                >
-                    <Switch
-                        checked={attributes?.hideOversizedWidget || false}
-                        onChange={(checked) => updateAttr({ hideOversizedWidget: checked })}
-                    />
-                </ControlWrapper>
+    const items = [
+        {
+            key: '1',
+            label: __('General', 'website-accessibility'),
+            children: (
+                <>
+                    <ControlWrapper
+                        label={__('Hide Oversized Widget', 'website-accessibility')}
+                    >
+                        <Switch
+                            checked={attributes?.hideOversizedWidget || false}
+                            onChange={(checked) => updateAttr({ hideOversizedWidget: checked })}
+                        />
+                    </ControlWrapper>
 
-                {
-                    !attributes?.hideOversizedWidget && (
+                    {!attributes?.hideOversizedWidget && (
                         <ControlWrapper
                             label={__('Oversized Widget Title', 'website-accessibility')}
                         >
@@ -51,51 +52,75 @@ const FeatureSettings = () => {
                                 style={{ width: '100%' }}
                             />
                         </ControlWrapper>
-                    )
-                }
+                    )}
 
-                <ControlWrapper
-                    label={__('Items per Row', 'website-accessibility')}
-                >
-                    <Input
-                        type="number"
-                        placeholder="3"
-                        value={attributes?.itemsPerRow || '3'}
-                        onChange={(e) => updateAttr({ itemsPerRow: e.target.value })}
-                        style={{ width: '100%' }}
-                        min={1}
-                        max={6}
-                    />
-                </ControlWrapper>
-            </Collapse.Panel>
+                    <ControlWrapper
+                        label={__('Items per Row', 'website-accessibility')}
+                    >
+                        <Input
+                            type="number"
+                            placeholder="3"
+                            value={attributes?.itemsPerRow || '3'}
+                            onChange={(e) => updateAttr({ itemsPerRow: e.target.value })}
+                            style={{ width: '100%' }}
+                            min={1}
+                            max={6}
+                        />
+                    </ControlWrapper>
+                </>
+            ),
+        },
+        {
+            key: '2',
+            label: __('Header', 'website-accessibility'),
+            children: (
+                <>
+                    <ControlWrapper
+                        label={__('Hide Title', 'website-accessibility')}
+                    >
+                        <Switch
+                            checked={attributes.hideHeaderTitle}
+                            onChange={(checked) => updateAttr({ hideHeaderTitle: checked })}
+                        />
+                    </ControlWrapper>
+                    <ControlWrapper
+                        label={__('Hide Icon', 'website-accessibility')}
+                    >
+                        <Switch
+                            checked={attributes.hideHeaderIcon}
+                            onChange={(checked) => updateAttr({ hideHeaderIcon: checked })}
+                        />
+                    </ControlWrapper>
+                </>
+            ),
+        },
+        {
+            key: '3',
+            label: __('Items', 'website-accessibility'),
+            children: (
+                <>
+                    <ControlWrapper
+                        label={__('Hide Item Icons', 'website-accessibility')}
+                    >
+                        <Switch
+                            checked={attributes.hideItemIcons}
+                            onChange={(checked) => updateAttr({ hideItemIcons: checked })}
+                        />
+                    </ControlWrapper>
+                    <ControlWrapper
+                        label={__('Hide Item Labels', 'website-accessibility')}
+                    >
+                        <Switch
+                            checked={attributes.hideItemLabels}
+                            onChange={(checked) => updateAttr({ hideItemLabels: checked })}
+                        />
+                    </ControlWrapper>
+                </>
+            ),
+        },
+    ];
 
-            <Collapse.Panel header={__('Header', 'website-accessibility')} key="2">
-                <ControlWrapper
-                    label={__('Hide Title', 'website-accessibility')}
-                >
-                    <Switch checked={attributes.hideHeaderTitle} onChange={(checked) => updateAttr({ hideHeaderTitle: checked })} />
-                </ControlWrapper>
-                <ControlWrapper
-                    label={__('Hide Icon', 'website-accessibility')}
-                >
-                    <Switch checked={attributes.hideHeaderIcon} onChange={(checked) => updateAttr({ hideHeaderIcon: checked })} />
-                </ControlWrapper>
-            </Collapse.Panel>
-
-            <Collapse.Panel header={__('Items', 'website-accessibility')} key="3">
-                <ControlWrapper
-                    label={__('Hide Item Icons', 'website-accessibility')}
-                >
-                    <Switch checked={attributes.hideItemIcons} onChange={(checked) => updateAttr({ hideItemIcons: checked })} />
-                </ControlWrapper>
-                <ControlWrapper
-                    label={__('Hide Item Labels', 'website-accessibility')}
-                >
-                    <Switch checked={attributes.hideItemLabels} onChange={(checked) => updateAttr({ hideItemLabels: checked })} />
-                </ControlWrapper>
-            </Collapse.Panel>
-        </Collapse>
-    );
+    return <Collapse items={items} defaultActiveKey={['1']} />;
 };
 
 export default FeatureSettings;

@@ -1,5 +1,5 @@
 import { useMemo } from '@wordpress/element';
-import { Tabs, Select, Collapse, Avatar, Space, Radio, Input, Switch } from 'antd';
+import { Select, Avatar, Space, Radio, Input } from 'antd';
 import { UserOutlined } from '@ant-design/icons';
 import { useSelect, useDispatch } from '@wordpress/data';
 import { STORE_NAME } from '../store';

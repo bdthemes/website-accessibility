@@ -1,5 +1,5 @@
-import { Button, Space } from 'antd';
-import { ReloadOutlined, ArrowRightOutlined } from '@ant-design/icons';
+import { Button } from 'antd';
+import { ReloadOutlined } from '@ant-design/icons';
 
 const PanelFooter = ({ value, accessibilityContext, accessibilityDispatch }) => {
   const footerItem = value?.items?.find(item => item.slug === 'footer');
@@ -10,10 +10,6 @@ const PanelFooter = ({ value, accessibilityContext, accessibilityDispatch }) => 
 
   // Reset Button
   const resetBtnText = attributes.resetBtnText || 'Reset All';
-
-  // Save Button
-  const showSaveBtn = attributes.showSaveBtn !== false;
-  const saveBtnText = attributes.saveBtnText || 'Save Preference';
 
   // Footer Links
   const showStatement = attributes.showStatement !== false;
@@ -42,11 +38,6 @@ const PanelFooter = ({ value, accessibilityContext, accessibilityDispatch }) => 
     });
   };
 
-  // Handle save action
-  const handleSave = () => {
-    if (!isFrontend) return;
-  };
-
   return (
     <footer className="wap-panel-footer" style={footerStyle}>
       <div className="wap-panel-footer__actions">
@@ -61,26 +52,14 @@ const PanelFooter = ({ value, accessibilityContext, accessibilityDispatch }) => 
         >
           {resetBtnText}
         </Button>
-        {/* {showSaveBtn && (
-              <Button
-                type="default"
-                size="large"
-                block
-                className="wap-panel-footer__save-btn"
-                onClick={handleSave}
-              >
-                <Space>
-                  <span>{saveBtnText}</span>
-                  <ArrowRightOutlined />
-                </Space>
-              </Button>
-          )} */}
       </div>
 
       <div className="wap-panel-footer__links">
         {showStatement && (
           <a
-            href="#"
+            href={attributes?.statementLink}
+            target="_blank"
+            rel="noopener noreferrer"
             className="wap-panel-footer__statement-link"
             style={{ color: linkColor }}
           >

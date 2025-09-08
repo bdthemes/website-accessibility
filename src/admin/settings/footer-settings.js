@@ -26,116 +26,158 @@ const FooterSettings = () => {
         });
     };
 
+    const contentCollapseItems = [
+        {
+            key: 'reset',
+            label: __('Reset Button', 'website-accessibility'),
+            children: (
+                <ControlWrapper label={__('Reset Button Text', 'website-accessibility')}>
+                    <Input
+                        value={attributes.resetBtnText || ''}
+                        onChange={e => updateAttr({ resetBtnText: e.target.value })}
+                        placeholder={__('Reset All', 'website-accessibility')}
+                    />
+                </ControlWrapper>
+            ),
+        },
+        {
+            key: 'links',
+            label: __('Footer Links', 'website-accessibility'),
+            children: (
+                <>
+                    <ControlWrapper label={__('Show Branding Title', 'website-accessibility')}>
+                        <Switch
+                            checked={attributes.showStatement !== false}
+                            onChange={checked => updateAttr({ showStatement: checked })}
+                        />
+                    </ControlWrapper>
+                    <ControlWrapper label={__('Branding Title', 'website-accessibility')}>
+                        <Input
+                            value={attributes.statementText || 'Website Accessibility'}
+                            onChange={e => updateAttr({ statementText: e.target.value })}
+                            placeholder={__('Accessibility Statement', 'website-accessibility')}
+                        />
+                    </ControlWrapper>
+                    <ControlWrapper label={__('Branding Link', 'website-accessibility')}>
+                        <Input
+                            value={attributes.statementLink || ''}
+                            onChange={e => updateAttr({ statementLink: e.target.value })}
+                            placeholder='https://bdthemes.com/'
+                        />
+                    </ControlWrapper>
+                    <ControlWrapper label={__('Show Branding Text', 'website-accessibility')}>
+                        <Switch
+                            checked={attributes.showBranding !== false}
+                            onChange={checked => updateAttr({ showBranding: checked })}
+                        />
+                    </ControlWrapper>
+                    <ControlWrapper label={__('Branding Text', 'website-accessibility')}>
+                        <Input
+                            value={attributes.brandingText || 'Proudly Powered by Website Accessibility'}
+                            onChange={e => updateAttr({ brandingText: e.target.value })}
+                            placeholder={__('Proudly Powered by Website Accessibility', 'website-accessibility')}
+                        />
+                    </ControlWrapper>
+                </>
+            ),
+        },
+    ];
+
+    const styleCollapseItems = [
+        {
+            key: 'general',
+            label: __('General', 'website-accessibility'),
+            children: (
+                <>
+                    <ControlWrapper label={__('Background Color', 'website-accessibility')}>
+                        <Input
+                            type="color"
+                            value={attributes.generalBg}
+                            onChange={e => updateAttr({ generalBg: e.target.value })}
+                        />
+                    </ControlWrapper>
+                    <ControlWrapper label={__('Padding', 'website-accessibility')}>
+                        <Input
+                            value={attributes.generalPadding}
+                            onChange={e => updateAttr({ generalPadding: e.target.value })}
+                            placeholder="10px 20px"
+                        />
+                    </ControlWrapper>
+                    <ControlWrapper label={__('Border Radius', 'website-accessibility')}>
+                        <Input
+                            value={attributes.generalRadius || `0 0 16px 16px`}
+                            onChange={e => updateAttr({ generalRadius: e.target.value })}
+                        />
+                    </ControlWrapper>
+                </>
+            ),
+        },
+        {
+            key: 'reset-style',
+            label: __('Reset Button', 'website-accessibility'),
+            children: (
+                <>
+                    <ControlWrapper label={__('Background Color', 'website-accessibility')}>
+                        <Input
+                            type="color"
+                            value={attributes.resetBtnBg}
+                            onChange={e => updateAttr({ resetBtnBg: e.target.value })}
+                        />
+                    </ControlWrapper>
+                    <ControlWrapper label={__('Text Color', 'website-accessibility')}>
+                        <Input
+                            type="color"
+                            value={attributes.resetBtnColor}
+                            onChange={e => updateAttr({ resetBtnColor: e.target.value })}
+                        />
+                    </ControlWrapper>
+                    <ControlWrapper label={__('Border Radius', 'website-accessibility')}>
+                        <Input
+                            value={attributes.resetBtnRadius}
+                            onChange={e => updateAttr({ resetBtnRadius: e.target.value })}
+                        />
+                    </ControlWrapper>
+                </>
+            ),
+        },
+        {
+            key: 'links-style',
+            label: __('Footer Links', 'website-accessibility'),
+            children: (
+                <>
+                    <ControlWrapper label={__('Link Color', 'website-accessibility')}>
+                        <Input
+                            type="color"
+                            value={attributes.linkColor || '#0073ea'}
+                            onChange={e => updateAttr({ linkColor: e.target.value })}
+                        />
+                    </ControlWrapper>
+                    <ControlWrapper label={__('Branding Color', 'website-accessibility')}>
+                        <Input
+                            type="color"
+                            value={attributes.brandingColor || '#1a4cd8'}
+                            onChange={e => updateAttr({ brandingColor: e.target.value })}
+                        />
+                    </ControlWrapper>
+                </>
+            ),
+        },
+    ];
+
     const tabItems = [
         {
             key: 'content',
             label: __('Content', 'website-accessibility'),
-            children: (
-                <Collapse>
-                    <Collapse.Panel header={__('Reset Button', 'website-accessibility')} key="reset">
-                        <ControlWrapper label={__('Reset Button Text', 'website-accessibility')}>
-                            <Input
-                                value={attributes.resetBtnText || ''}
-                                onChange={e => updateAttr({ resetBtnText: e.target.value })}
-                                placeholder={__('Reset All', 'website-accessibility')}
-                            />
-                        </ControlWrapper>
-                    </Collapse.Panel>
-                    {/* <Collapse.Panel header={__('Save Button', 'website-accessibility')} key="save">
-                        <ControlWrapper label={__('Show Save Button', 'website-accessibility')}>
-                            <Switch checked={attributes.showSaveBtn !== false} onChange={checked => updateAttr({ showSaveBtn: checked })} />
-                        </ControlWrapper>
-                        <ControlWrapper label={__('Save Button Text', 'website-accessibility')}>
-                            <Input
-                                value={attributes.saveBtnText || 'Save Preference'}
-                                onChange={e => updateAttr({ saveBtnText: e.target.value })}
-                                placeholder={__('Save Preference', 'website-accessibility')}
-                            />
-                        </ControlWrapper>
-                    </Collapse.Panel> */}
-                    <Collapse.Panel header={__('Footer Links', 'website-accessibility')} key="links">
-                        <ControlWrapper label={__('Show Accessibility Statement', 'website-accessibility')}>
-                            <Switch checked={attributes.showStatement !== false} onChange={checked => updateAttr({ showStatement: checked })} />
-                        </ControlWrapper>
-                        <ControlWrapper label={__('Accessibility Statement Text', 'website-accessibility')}>
-                            <Input
-                                value={attributes.statementText || 'Accessibility Statement'}
-                                onChange={e => updateAttr({ statementText: e.target.value })}
-                                placeholder={__('Accessibility Statement', 'website-accessibility')}
-                            />
-                        </ControlWrapper>
-                        <ControlWrapper label={__('Show Branding', 'website-accessibility')}>
-                            <Switch checked={attributes.showBranding !== false} onChange={checked => updateAttr({ showBranding: checked })} />
-                        </ControlWrapper>
-                        <ControlWrapper label={__('Branding Text', 'website-accessibility')}>
-                            <Input
-                                value={attributes.brandingText || 'Proudly Powered by Website Accessibility Pro'}
-                                onChange={e => updateAttr({ brandingText: e.target.value })}
-                                placeholder={__('Proudly Powered by Website Accessibility Pro', 'website-accessibility')}
-                            />
-                        </ControlWrapper>
-                    </Collapse.Panel>
-                </Collapse>
-            )
+            children: <Collapse items={contentCollapseItems} defaultActiveKey={['reset']} />,
         },
         {
             key: 'style',
             label: __('Style', 'website-accessibility'),
-            children: (
-                <Collapse>
-                    <Collapse.Panel header={__('General', 'website-accessibility')} key="general">
-                        <ControlWrapper label={__('Background Color', 'website-accessibility')}>
-                            <Input type="color" value={attributes.generalBg} onChange={e => updateAttr({ generalBg: e.target.value })} />
-                        </ControlWrapper>
-                        <ControlWrapper label={__('Padding', 'website-accessibility')}>
-                            <Input
-                                value={attributes.generalPadding}
-                                onChange={e => updateAttr({ generalPadding: e.target.value })}
-                                placeholder="10px 20px"
-                            />
-                        </ControlWrapper>
-                         <ControlWrapper label={__('Border Radius', 'website-accessibility')}>
-                            <Input value={attributes.generalRadius || `0 0 16px 16px`} onChange={e => updateAttr({ generalRadius: e.target.value })}/>
-                        </ControlWrapper>
-                    </Collapse.Panel>
-                    <Collapse.Panel header={__('Reset Button', 'website-accessibility')} key="reset-style">
-                        <ControlWrapper label={__('Background Color', 'website-accessibility')}>
-                            <Input type="color" value={attributes.resetBtnBg} onChange={e => updateAttr({ resetBtnBg: e.target.value })} />
-                        </ControlWrapper>
-                        <ControlWrapper label={__('Text Color', 'website-accessibility')}>
-                            <Input type="color" value={attributes.resetBtnColor} onChange={e => updateAttr({ resetBtnColor: e.target.value })} />
-                        </ControlWrapper>
-                        <ControlWrapper label={__('Border Radius', 'website-accessibility')}>
-                            <Input value={attributes.resetBtnRadius} onChange={e => updateAttr({ resetBtnRadius: e.target.value })}/>
-                        </ControlWrapper>
-                    </Collapse.Panel>
-                    {/* <Collapse.Panel header={__('Save Button', 'website-accessibility')} key="save-style">
-                        <ControlWrapper label={__('Background Color', 'website-accessibility')}>
-                            <Input type="color" value={attributes.saveBtnBg || '#fff'} onChange={e => updateAttr({ saveBtnBg: e.target.value })} />
-                        </ControlWrapper>
-                        <ControlWrapper label={__('Text Color', 'website-accessibility')}>
-                            <Input type="color" value={attributes.saveBtnColor || '#111'} onChange={e => updateAttr({ saveBtnColor: e.target.value })} />
-                        </ControlWrapper>
-                        <ControlWrapper label={__('Border Radius', 'website-accessibility')}>
-                            <Input type="number" value={attributes.saveBtnRadius || 50} onChange={e => updateAttr({ saveBtnRadius: e.target.value })} addonAfter="px" />
-                        </ControlWrapper>
-                    </Collapse.Panel> */}
-                    <Collapse.Panel header={__('Footer Links', 'website-accessibility')} key="links-style">
-                        <ControlWrapper label={__('Link Color', 'website-accessibility')}>
-                            <Input type="color" value={attributes.linkColor || '#0073ea'} onChange={e => updateAttr({ linkColor: e.target.value })} />
-                        </ControlWrapper>
-                        <ControlWrapper label={__('Branding Color', 'website-accessibility')}>
-                            <Input type="color" value={attributes.brandingColor || '#1a4cd8'} onChange={e => updateAttr({ brandingColor: e.target.value })} />
-                        </ControlWrapper>
-                    </Collapse.Panel>
-                </Collapse>
-            )
-        }
+            children: <Collapse items={styleCollapseItems} defaultActiveKey={['general']} />,
+        },
     ];
 
-    return (
-        <Tabs defaultActiveKey="content" items={tabItems} />
-    );
+    return <Tabs defaultActiveKey="content" items={tabItems} />;
 };
 
 export default FooterSettings;

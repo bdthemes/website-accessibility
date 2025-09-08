@@ -69,6 +69,15 @@ const panelItems = [
         active: true,
         close: true,
         disableDrag: true,
+        attributes: {
+            resetBtnText: 'Reset All',
+            showPrefBtn: true,
+            showFooterLink: true,
+            linkText: 'Website Accessibility',
+            linkUrl: 'https://bdthemes.com',
+            showDescription: true,
+            description: 'Proudly Powered by Website Accessibility',
+        }
     }
 ]
 
