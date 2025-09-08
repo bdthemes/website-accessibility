@@ -2,7 +2,7 @@ import { useEffect } from '@wordpress/element';
 import { Card, Button, Typography, Space, message } from 'antd';
 import { __ } from '@wordpress/i18n';
 import { useDispatch, useSelect } from '@wordpress/data';
-import { STORE_NAME } from '../store';
+import { DEFAULT_STATE, STORE_NAME } from '../store';
 import { useHistory, useLocation } from '../router';
 import ProfileForm from '../components/profile-form';
 
@@ -60,6 +60,7 @@ const EditProfile = () => {
 
     const handleBack = () => {
         history.push({ page: 'website-accessibilityfiles' });
+        setProfilesFormData(DEFAULT_STATE.profilesFormData);
     };
 
     if (!profile) return null;

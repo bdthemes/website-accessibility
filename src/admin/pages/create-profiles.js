@@ -21,15 +21,19 @@ const CreateProfiles = () => {
     };
 
     const purifyFormData = (data) => {
-        let purifiedData = {};
-        for (const key in data  ) {
-            const value = data[key];
-            if (typeof(value) === 'string' && value.length > 0) {
-                purifiedData[key] = value;
+        let purifiedFeatures = {};
+        for (const key in data?.features) {
+            const feature = data?.features[key];
+
+            if (feature && typeof feature === 'string' && feature.trim().length > 0) {
+                purifiedFeatures[key] = feature;
             }
         }
-        
-        return purifiedData;
+
+        return {
+            ...data,
+            features: purifiedFeatures
+        };
     }
 
     const handleSave = async () => {
@@ -38,6 +42,7 @@ const CreateProfiles = () => {
             history.push({
                 page: 'website-accessibilityfiles'
             });
+            setProfilesFormData(DEFAULT_STATE.profilesFormData);
         } catch (error) {
             console.error(error);
         }
