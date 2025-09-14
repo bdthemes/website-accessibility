@@ -1,7 +1,9 @@
 import { __ } from '@wordpress/i18n';
 import { Button, Card, Col, Row, Typography } from 'antd';
 import { RocketOutlined } from '@ant-design/icons';
-
+import createProfileImage from '../../assets/create-profile.gif';
+import addProileImage from '../../assets/add-profile.gif';
+import applyProfileImage from '../../assets/apply-profile.gif';
 const { Title, Paragraph } = Typography;
 
 const ProfilesFallback = () => {
@@ -25,7 +27,7 @@ const ProfilesFallback = () => {
         <Title level={4}>{__('How Custom Profiles Work', 'website-accessibility')}</Title>
         <Row gutter={[16, 16]}>
           <Col xs={24} sm={8}>
-            <Card cover={<img src={'https://placehold.co/100'} alt={__('Create Profile Form', 'website-accessibility')} />}>
+            <Card cover={<img src={createProfileImage} alt={__('Create Profile Form', 'website-accessibility')} />}>
               <Title level={5}>{__('Step 1: Create a Profile', 'website-accessibility')}</Title>
               <Paragraph>
                 {__('Open the Custom Profiles form and configure your accessibility settings.', 'website-accessibility')}
@@ -33,7 +35,7 @@ const ProfilesFallback = () => {
             </Card>
           </Col>
           <Col xs={24} sm={8}>
-            <Card cover={<img src={'https://placehold.co/100'} alt={__('Add Profile to Preset', 'website-accessibility')} />}>
+            <Card cover={<img src={addProileImage} alt={__('Add Profile to Preset', 'website-accessibility')} />}>
               <Title level={5}>{__('Step 2: Add to Preset', 'website-accessibility')}</Title>
               <Paragraph>
                 {__('Save your profile and include it in a preset so it shows alongside default profiles.', 'website-accessibility')}
@@ -41,7 +43,7 @@ const ProfilesFallback = () => {
             </Card>
           </Col>
           <Col xs={24} sm={8}>
-            <Card cover={<img src={'https://placehold.co/100'} alt={__('Frontend Profile View', 'website-accessibility')} />}>
+            <Card cover={<img src={applyProfileImage} alt={__('Frontend Profile View', 'website-accessibility')} />}>
               <Title level={5}>{__('Step 3: Apply in Frontend', 'website-accessibility')}</Title>
               <Paragraph>
                 {__('Your custom profile appears with default profiles. Users can apply it instantly for an improved experience.', 'website-accessibility')}
