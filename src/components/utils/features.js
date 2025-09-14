@@ -45,7 +45,7 @@ const features = [
                 ),
                 css: [
                     {
-                        selector: "body, main, section, article, nav, aside",
+                        selector: "body, main, section, article, nav, aside, div",
                         properties: {
                             background: "#111",
                             color: "#e0e0e0",
@@ -83,7 +83,7 @@ const features = [
                 css: [
                     {
                         selector:
-                            "body, main, section, article, nav, aside, .wp-block, .site, .content, .container",
+                            "body, main, section, article, nav, aside, div",
                         properties: {
                             background: "#fff",
                             color: "#222",
