@@ -134,7 +134,7 @@ const ButtonStylePreset = () => {
 							type="default"
 							text={button?.buttonType == "icon" ? null : button?.text}
 							icon={button?.buttonType !== "text" ? <Icon name={button?.icon} /> : null}
-							className={clsx("wap-button-style-preset__preview-btn", position)}
+							className={clsx("wap-button-style-preset__preview-btn", position, button?.buttonType)}
 							style={{
 								"--button-color": button.color,
 								"--button-bg": button.bgColor,

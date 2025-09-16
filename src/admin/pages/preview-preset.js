@@ -44,7 +44,7 @@ const PreviewPreset = () => {
           type="default"
           text={button?.buttonType == "icon" ? null : button?.text}
 					icon={button?.buttonType !== "text" ? <Icon name={button?.icon} /> : null}
-          className={clsx('wap-button-style-preset__preview-btn', button?.position)}
+          className={clsx('wap-button-style-preset__preview-btn', button?.position, button?.buttonType)}
           style={{
             '--button-color': button?.color,
             '--button-bg': button?.bgColor,
