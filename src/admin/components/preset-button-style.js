@@ -1,4 +1,4 @@
-import { Card, Input, Select, Switch, Tabs } from "antd";
+import { Card, Flex, Input, Radio, Select, Switch, Tabs } from "antd";
 import { __ } from "@wordpress/i18n";
 import { useSelect, useDispatch } from "@wordpress/data";
 import { STORE_NAME } from "../store";
@@ -16,14 +16,24 @@ const ContentTab = ({ button, handleButtonChange }) => (
 			/>
 		</ControlWrapper>
 
-		<ControlWrapper label={__("Show Icon", "website-accessibility")}>
-			<Switch
-				checked={button.showIcon || false}
-				onChange={(checked) => handleButtonChange("showIcon", checked)}
+		<ControlWrapper label={__("Button Type", "website-accessibility")}>
+			<Flex vertical gap="middle">
+			<Radio.Group
+				block
+				options={[
+					{ label: __("Icon", "website-accessibility"), value: "icon" },
+					{ label: __("Text", "website-accessibility"), value: "text" },
+					{ label: __("Both", "website-accessibility"), value: "both" },
+				]}
+				value={button?.buttonType}
+				onChange={(e) => handleButtonChange("buttonType", e.target.value)}
+				optionType="button"
+				buttonStyle="solid"
 			/>
+		</Flex>
 		</ControlWrapper>
 
-		{button.showIcon && (
+		{button.buttonType !== "text" && (
 			<ControlWrapper label={__("Select Icon", "website-accessibility")}>
 				<IconPicker
 					value={button.icon}
@@ -122,8 +132,8 @@ const ButtonStylePreset = () => {
 					<div className="wap-button-style-preset__preview-wrapper">
 						<PreviewButton
 							type="default"
-							text={button.text || __("Click Me", "website-accessibility")}
-							icon={button.showIcon ? <Icon name={button.icon} /> : null}
+							text={button?.buttonType == "icon" ? null : button?.text}
+							icon={button?.buttonType !== "text" ? <Icon name={button?.icon} /> : null}
 							className={clsx("wap-button-style-preset__preview-btn", position)}
 							style={{
 								"--button-color": button.color,

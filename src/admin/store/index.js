@@ -35,8 +35,9 @@ export const DEFAULT_STATE = {
             color: '#ffffff',
             bgColor: '#1677ff',
             position: 'bottom-right',
-            offsetX: 20,
-            offsetY: 20,
+            buttonType: 'icon',
+            offsetX: 40,
+            offsetY: 40,
         },
     },
     profilesFormData: {

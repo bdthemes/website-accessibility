@@ -42,8 +42,8 @@ const PreviewPreset = () => {
       <div className="wap-panel-customization__panel-wrapper">
         <PreviewButton
           type="default"
-          text={button?.text}
-          icon={button?.showIcon ? <Icon name={button?.icon} /> : null}
+          text={button?.buttonType == "icon" ? null : button?.text}
+					icon={button?.buttonType !== "text" ? <Icon name={button?.icon} /> : null}
           className={clsx('wap-button-style-preset__preview-btn', button?.position)}
           style={{
             '--button-color': button?.color,

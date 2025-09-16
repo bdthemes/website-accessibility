@@ -114,8 +114,8 @@ const View = () => {
         <div className="wap-accessibility-view">
             <PreviewButton
                 type="default"
-                text={currentPreset?.button?.text}
-                icon={currentPreset?.button?.showIcon ? <Icon name={currentPreset?.button?.icon} /> : null}
+                text={currentPreset?.button?.buttonType !== 'icon' ? currentPreset?.button?.text : null}
+                icon={currentPreset?.button?.buttonType !== 'text' ? <Icon name={currentPreset?.button?.icon} /> : null}
                 className={clsx('wap-button-style-preset__preview-btn', currentPreset?.button?.position)}
                 style={{
                     '--button-color': currentPreset?.button?.color,
