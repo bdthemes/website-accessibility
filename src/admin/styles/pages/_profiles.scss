@@ -1,3 +1,27 @@
+// Profiles Fallback Component
+.wap-pro-landing {
+
+  .profiles-steps {
+    .step-card {
+      transition: all 0.3s ease;
+      &:hover {
+        box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
+        transform: translateY(-4px);
+      }
+
+      .step-title {
+        margin: 0 0 10px;
+        font-weight: 600;
+      }
+
+      .step-description {
+        color: #666;
+        margin-bottom: 0;
+      }
+    }
+  }
+}
+
 .wap-create-profiles,
 .wap-edit-profile {
     .wap-feature-item {

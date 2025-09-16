@@ -1,4 +1,4 @@
-import { Card, Button, Row, Col, Typography, Space, Progress } from 'antd';
+import { Card, Button, Row, Col, Typography, Space, Progress, Tag } from 'antd';
 import { __ } from "@wordpress/i18n";
 import { useHistory } from "../router";
 
@@ -71,10 +71,20 @@ const Dashboard = () => {
             ),
         },
         {
-            title: __('Saved Preferences', 'website-accessibility'),
-            value: 0,
-            description: __('Users who have saved their accessibility preferences.', 'website-accessibility'),
-            icon: <span className="dashicons dashicons-visibility"/>,
+            title: (
+                <Space>
+                    {__('Saved Preferences', 'website-accessibility')}
+                    <span className="coming-soon-badge">
+                        {__('Coming Soon', 'website-accessibility')}
+                    </span>
+                </Space>
+            ),
+            // value: 0,
+            description: __(
+                'Users who have saved their accessibility preferences.', 
+                'website-accessibility'
+            ),
+            icon: <span className="dashicons dashicons-visibility" />,
             action: <Progress percent={0} size="small" showInfo={false} />, 
             extra: <Text type="secondary">0%</Text>,
         },
@@ -109,7 +119,7 @@ const Dashboard = () => {
 
             <Row gutter={[24, 24]} align="stretch" className="statistics-grid wap-statistics-grid">
                 {stats.map((stat, idx) => (
-                    <Col xs={24} md={8} key={stat.title}>
+                    <Col xs={24} md={8} key={stat.title} className="stat-card">
                         <Card>
                             <div className="stat-icon-wrapper">
                                 {stat.icon}
@@ -155,10 +165,15 @@ const Dashboard = () => {
                     </Col>
                     <Col xs={24} md={8}>
                         <div className="quick-action-btn-wrapper">
-                            <Button block size="large" onClick={() => navigateTo('website-accessibility-settings')}>
+                            <Button className='coming-soon-btn' block size="large" onClick={() => navigateTo('website-accessibility-settings')}>
                                 <Space>
                                     <span className="dashicons dashicons-admin-generic"/>
                                     <span>{__('Accessibility Settings', 'website-accessibility')}</span>
+                                </Space>
+                                <Space>
+                                    <span className="coming-soon-badge">
+                                        {__('Coming Soon', 'website-accessibility')}
+                                    </span>
                                 </Space>
                             </Button>
                         </div>

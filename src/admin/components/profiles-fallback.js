@@ -1,51 +1,102 @@
 import { __ } from '@wordpress/i18n';
-import { Button, Card, Col, Row, Typography } from 'antd';
+import { Button, Card, Col, Row, Typography, Layout } from 'antd';  
 import { RocketOutlined } from '@ant-design/icons';
 import createProfileImage from '../../assets/create-profile.gif';
 import addProileImage from '../../assets/add-profile.gif';
 import applyProfileImage from '../../assets/apply-profile.gif';
-const { Title, Paragraph } = Typography;
+
+const { Title, Paragraph, Text } = Typography;
+const { Space } = Layout;
 
 const ProfilesFallback = () => {
+  const openPricingPage = () => {
+    window.open('https://website-accessibility.com/pricing/', '_blank');
+  };
+
   return (
-    <div className="wap-pro-landing" style={{ padding: 24, maxWidth: 900, margin: '0 auto' }}>
-      
+    <div className="wap-pro-landing">
       {/* Hero Section */}
-      <div style={{ textAlign: 'center', marginBottom: 32 }}>
-        <RocketOutlined style={{ fontSize: 48, color: '#1a4cd8' }} />
-        <Title level={2}>{__('Accessibility Custom Profiles', 'website-accessibility')}</Title>
-        <Paragraph>
-          {__('Apply pre-configured settings in one click. Create your own custom profiles with Pro.', 'website-accessibility')}
-        </Paragraph>
-        <Button type="primary" size="large" onClick={() => window.open('https://website-accessibility.com/pricing/', '_blank')}>
-          {__('Upgrade to Pro to create custom profiles', 'website-accessibility')}
-        </Button>
-      </div>
+      <Card className="wap-welcome-card wap-header-card">
+        <div className="wap-welcome-card-content">
+          <Title level={2} className="wap-header-card-title">
+            {__('Accessibility Custom Profiles', 'website-accessibility')}
+          </Title>
+          <Text className="wap-header-card-description">
+            {__('Apply pre-configured settings in one click. Create your own custom profiles with Pro.', 'website-accessibility')}
+          </Text>
+        </div>
+        <div>
+          <Button
+            type="primary"
+            size="large"
+            onClick={openPricingPage}
+           
+          >
+            {__('Upgrade to Pro', 'website-accessibility')}
+            <span className="dashicons dashicons-arrow-right-alt" />
+          </Button>
+        </div>
+      </Card>
 
       {/* About Custom Profiles / Step Grid */}
-      <div style={{ marginBottom: 32 }}>
-        <Title level={4}>{__('How Custom Profiles Work', 'website-accessibility')}</Title>
-        <Row gutter={[16, 16]}>
+      <div className="profiles-steps">
+        <Title level={4} className="profiles-steps-title">
+          {__('How Custom Profiles Work', 'website-accessibility')}
+        </Title>
+        <Row gutter={[16, 16]} className="profiles-steps-row">
           <Col xs={24} sm={8}>
-            <Card cover={<img src={createProfileImage} alt={__('Create Profile Form', 'website-accessibility')} />}>
-              <Title level={5}>{__('Step 1: Create a Profile', 'website-accessibility')}</Title>
-              <Paragraph>
+            <Card 
+              cover={
+                <img 
+                  src={createProfileImage} 
+                  alt={__('Create Profile Form', 'website-accessibility')} 
+                  className="step-image"
+                />
+              }
+              className="step-card"
+            >
+              <Title level={5} className="step-title">
+                {__('Step 1: Create a Profile', 'website-accessibility')}
+              </Title>
+              <Paragraph className="step-description">
                 {__('Open the Custom Profiles form and configure your accessibility settings.', 'website-accessibility')}
               </Paragraph>
             </Card>
           </Col>
           <Col xs={24} sm={8}>
-            <Card cover={<img src={addProileImage} alt={__('Add Profile to Preset', 'website-accessibility')} />}>
-              <Title level={5}>{__('Step 2: Add to Preset', 'website-accessibility')}</Title>
-              <Paragraph>
+            <Card 
+              cover={
+                <img 
+                  src={addProileImage} 
+                  alt={__('Add Profile to Preset', 'website-accessibility')}
+                  className="step-image"
+                />
+              }
+              className="step-card"
+            >
+              <Title level={5} className="step-title">
+                {__('Step 2: Add to Preset', 'website-accessibility')}
+              </Title>
+              <Paragraph className="step-description">
                 {__('Save your profile and include it in a preset so it shows alongside default profiles.', 'website-accessibility')}
               </Paragraph>
             </Card>
           </Col>
           <Col xs={24} sm={8}>
-            <Card cover={<img src={applyProfileImage} alt={__('Frontend Profile View', 'website-accessibility')} />}>
-              <Title level={5}>{__('Step 3: Apply in Frontend', 'website-accessibility')}</Title>
-              <Paragraph>
+            <Card 
+              cover={
+                <img 
+                  src={applyProfileImage} 
+                  alt={__('Frontend Profile View', 'website-accessibility')}
+                  className="step-image"
+                />
+              }
+              className="step-card"
+            >
+              <Title level={5} className="step-title">
+                {__('Step 3: Apply in Frontend', 'website-accessibility')}
+              </Title>
+              <Paragraph className="step-description">
                 {__('Your custom profile appears with default profiles. Users can apply it instantly for an improved experience.', 'website-accessibility')}
               </Paragraph>
             </Card>
@@ -53,12 +104,17 @@ const ProfilesFallback = () => {
         </Row>
       </div>
 
-      {/* Final CTA */}
-      <div style={{ textAlign: 'center', marginTop: 32 }}>
-        <Button type="primary" size="large" onClick={() => window.open('https://website-accessibility.com/pricing/', '_blank')}>
+      {/* Final CTA
+      <div className="profiles-cta">
+        <Button 
+          type="primary" 
+          size="large" 
+          onClick={openPricingPage}
+          className="upgrade-button"
+        >
           {__('Upgrade to Pro and Create Custom Profiles', 'website-accessibility')}
         </Button>
-      </div>
+      </div> */}
     </div>
   );
 };
