@@ -116,6 +116,7 @@ const View = () => {
                 type="default"
                 text={currentPreset?.button?.buttonType !== 'icon' ? currentPreset?.button?.text : null}
                 icon={currentPreset?.button?.buttonType !== 'text' ? <Icon name={currentPreset?.button?.icon} /> : null}
+
                 className={clsx(
                     'wap-button-style-preset__preview-btn',
                     currentPreset?.button?.position,
