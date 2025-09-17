@@ -1,42 +1,11 @@
 // Panel Footer Styles
 .wap-panel-footer {
-	border-top: 1px solid #e2e8f0;
-	padding: var(--wap-footer-general-padding, 20px 24px);
 	border-radius: var(--wap-footer-general-radius, 0 0 16px 16px);
 	background: var(--wap-footer-general-bg, inherit);
-	position: relative;
-	overflow: hidden;
+	position: sticky;
+	bottom: 0;
 	animation: slideUpFade 0.6s ease-out;
-
-	// Subtle background pattern
-	&::before {
-		content: "";
-		position: absolute;
-		top: 0;
-		left: 0;
-		right: 0;
-		bottom: 0;
-		background-image: radial-gradient(
-				circle at 20% 80%,
-				rgba(0, 115, 234, 0.03) 0%,
-				transparent 50%
-			),
-			radial-gradient(
-				circle at 80% 20%,
-				rgba(26, 76, 216, 0.03) 0%,
-				transparent 50%
-			);
-		pointer-events: none;
-	}
-
-	.wap-panel-footer__links {
-		display: flex;
-		align-items: center;
-		flex-direction: column;
-		gap: 4px;
-		font-size: 13px;
-		color: #6f7286;
-	}
+	background: #fff;
 
 	// Actions Section
 	&__actions {
@@ -45,6 +14,9 @@
 		display: flex;
 		align-items: center;
 		gap: 10px;
+		padding: var(--wap-footer-general-padding, 20px 24px);
+		padding-top: 0;
+		// background: #f7f9fa;
 
 		.ant-row {
 			margin: 0 !important;
@@ -59,9 +31,8 @@
 	&__reset-btn {
 		position: relative;
 		overflow: hidden;
-		font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto,
-			sans-serif;
-		letter-spacing: -0.01em;
+		font-size: var(--wap-footer-reset-btn-font-size, 14px) !important;
+		font-weight: var(--wap-footer-reset-btn-font-weight, 500) !important;
 		background: var(--wap-footer-reset-btn-bg, #1677ff) !important;
 		color: var(--wap-footer-reset-btn-color, #ffffff) !important;
 		border-radius: var(--wap-footer-reset-btn-radius, 8px) !important;
@@ -90,53 +61,7 @@
 		}
 
 		.anticon {
-			font-size: 18px;
-			margin-right: 8px;
-		}
-	}
-
-	// Save Button
-	&__save-btn {
-		position: relative;
-		overflow: hidden;
-		font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto,
-			sans-serif;
-		letter-spacing: -0.01em;
-		background: #ffffff !important;
-
-		&::before {
-			content: "";
-			position: absolute;
-			top: 0;
-			left: 0;
-			right: 0;
-			bottom: 0;
-			background: linear-gradient(135deg, #f8fafc 0%, #ffffff 100%);
-			border-radius: inherit;
-			z-index: -1;
-		}
-
-		&:hover {
-			transform: translateY(-2px);
-			box-shadow: 0 8px 20px rgba(0, 0, 0, 0.12) !important;
-			border-color: #d1d5db !important;
-
-			.anticon {
-				transform: translateX(4px);
-			}
-		}
-
-		&:active {
-			transform: translateY(0);
-			box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08) !important;
-		}
-
-		.anticon {
-			transition: transform 0.3s ease;
-		}
-
-		.ant-space {
-			width: 100%;
+			font-size: 15px;
 		}
 	}
 
@@ -144,34 +69,47 @@
 	&__links {
 		position: relative;
 		z-index: 1;
-		text-align: center;
-		padding-top: 16px;
-		border-top: 1px solid rgba(226, 232, 240, 0.6);
+		border-top: 1px solid #ededef;
+		padding: var(--wap-footer-general-padding, 16px 24px);
 	}
 
 	// Statement Link
 	&__statement-link {
 		display: inline-block;
-		font-size: 14px;
+		font-size: 12px;
 		font-weight: 500;
-		text-decoration: none;
+		text-decoration: underline;
 		transition: all 0.3s ease;
-		margin-bottom: 12px;
 		position: relative;
 		overflow: hidden;
-		color: var(--wap-footer-link-color, #3c4044);
+		color: var(--wap-footer-link-color, #6f7286);
 	}
 
 	// Branding Section
 	&__branding {
-		display: inline-flex;
+		display: flex;
 		align-items: center;
 		gap: 8px;
 		transition: all 0.3s ease;
 		font-size: 12px;
 		font-weight: 500;
 		color: var(--wap-footer-branding-color, #6f7286);
+		justify-content: space-between;
+		svg {
+			width: 20px;
+			height: 20px;
+			display: block;
+		}
+
 	}
+
+
+	&__brand-left-text {
+		display: flex;
+		align-items: center;
+		gap: 5px;
+	}
+
 
 	// Brand Logo
 	&__brand-logo {

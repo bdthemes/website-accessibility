@@ -24,7 +24,8 @@ const PreviewPreset = () => {
   }, [preset?.content]);
 
   const panel = parsedContent?.panel ?? null;
-  const button = parsedContent?.button ?? null;
+  const button = parsedContent?.button ?? {};
+  const position = button?.position || 'bottom-right';
 
   const allProfiles = useSelect((select) => {
     const { getProfiles } = select(STORE_NAME);
@@ -41,19 +42,23 @@ const PreviewPreset = () => {
       </div>
       <div className="wap-panel-customization__panel-wrapper">
         <PreviewButton
-          type="default"
-          text={button?.buttonType == "icon" ? null : button?.text}
-					icon={button?.buttonType !== "text" ? <Icon name={button?.icon} /> : null}
-          className={clsx('wap-button-style-preset__preview-btn', button?.position)}
-          style={{
-            '--button-color': button?.color,
-            '--button-bg': button?.bgColor,
-            '--button-padding': button?.padding,
-            '--button-radius': button?.borderRadius,
-            '--button-offset-x': button?.offsetX ? `${button?.offsetX}px` : '',
-            '--button-offset-y': button?.offsetY ? `${button?.offsetY}px` : '',
-          }}
-          onClick={() => setIsOpen(true)}
+              type="default"
+              text={button?.buttonType === "icon" ? null : button?.text}
+              icon={button?.buttonType !== "text" ? <Icon name={button?.icon} /> : null}
+              className={clsx(
+                "wap-button-style-preset__preview-btn",
+                position,
+                button?.buttonType && `wap-button-style-preset__preview-btn--${button?.buttonType}`
+              )}
+              style={{
+                '--button-color': button?.color,
+                '--button-bg': button?.bgColor,
+                '--button-padding': button?.padding,
+                '--button-radius': button?.borderRadius,
+                '--button-offset-x': button?.offsetX ? `${button?.offsetX}px` : '',
+                '--button-offset-y': button?.offsetY ? `${button?.offsetY}px` : '',
+              }}
+              onClick={() => setIsOpen(true)}
         />
         <Drawer
           open={isOpen}

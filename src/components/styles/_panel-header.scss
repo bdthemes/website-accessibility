@@ -3,8 +3,11 @@
 		--wap-header-bg,
 		linear-gradient(135deg, #2e6cf6 0%, #1a4fb8 100%)
 	);
-	border: var(--wap-header-border, none);
-	border-radius: var(--wap-header-radius, 8px 8px 0 0);
+	// border: var(--wap-header-border, none);
+	border-top-left-radius: var(--wap-header-radius, 8px);
+	border-top-right-radius: var(--wap-header-radius, 8px);
+	border-bottom-left-radius: 0;
+	border-bottom-right-radius: 0;
 	box-shadow: var(--wap-header-shadow, 0 2px 8px rgba(0, 0, 0, 0.1));
 	padding: var(--wap-header-padding, 15px 25px);
 	display: flex;
@@ -17,6 +20,9 @@
 		color 0.3s ease,
 		border 0.3s ease,
 		box-shadow 0.3s ease;
+		position: sticky;
+		top: 0;
+		z-index: 999;
 
 	&--flipped {
 		flex-direction: row-reverse;
@@ -42,21 +48,22 @@
 		justify-content: center;
 		margin-left: 16px;
 		cursor: pointer;
-		background: var(--wap-close-button-bg, rgba(255, 255, 255, 0.1));
-		color: var(--wap-close-button-color, #fff);
+		// background: var(--wap-close-button-bg, rgba(255, 255, 255, 0.1));
+		color: var(--wap-close-button-color, #d6ddea);
 		width: var(--wap-close-button-size, 32px);
 		height: var(--wap-close-button-size, 32px);
-		border: var(--wap-close-button-border, 1px solid rgba(255, 255, 255, 0.2));
-		border-radius: var(--wap-close-button-border-radius, 50%);
+		// border: var(--wap-close-button-border, 1px solid rgba(255, 255, 255, 0.2));
+		border-radius: var(--wap-close-button-border-radius, 6px);
 		top: var(--wap-close-button-top, 14px);
 		right: var(--wap-close-button-right, 20px);
 		position: absolute;
 		transition: all 0.3s ease;
 
 		&:hover {
+			color: var(--wap-close-button-hover-color, #ffffff);
 			background: var(--wap-close-button-hover-bg, rgba(255, 255, 255, 0.2));
 			border-color: rgba(255, 255, 255, 0.3);
-			transform: rotate(90deg);
+			// transform: rotate(90deg);
 		}
 
 		&:active {
