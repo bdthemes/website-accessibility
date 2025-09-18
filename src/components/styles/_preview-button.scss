@@ -10,8 +10,10 @@
 
         color: var(--button-color, #fff);
         background-color: var(--button-bg, #1677ff);
-        padding: var(--button-padding, 20px 16px);
+        padding: var(--button-padding, 20px 20px);
         border-radius: var(--button-radius, 6px);
+        width: auto !important;
+        height: auto !important;
 
         &.bottom-right {
             bottom: var(--button-offset-y, 30px);
@@ -41,6 +43,24 @@
             path {
                 fill: currentColor;
             }
+        }
+
+        &.icon svg {
+            width: 3rem !important;
+            height: 3rem !important;
+            display: block;
+            padding: 1;
+        }
+    }
+
+    .wap-button-style-preset__preview-btn--icon {
+        border-radius: var(--button-radius, 50%);
+        padding: var(--button-padding, 16px 16px);
+        svg {
+            width: 2rem !important;
+            height: 2rem !important;
+            display: block;
+            padding: 1;
         }
     }
 }
@@ -76,3 +96,5 @@
         }
     }
 }
+
+        

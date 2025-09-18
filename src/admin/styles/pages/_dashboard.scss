@@ -1,4 +1,30 @@
 .wap-dashboard {
+
+    .coming-soon-badge {
+        background: linear-gradient(135deg, #fe5f55 0%, #ee0979 100%);
+        color: #fff;
+        padding: 4px 12px;
+        border-radius: 4px;
+        font-size: 12px;
+        margin-left: 8px;
+        border: none;
+        display: flex;
+        align-items: center;
+        position: absolute;
+        top: 25px;
+        right: 25px;
+        z-index: 99;
+    }
+
+    .coming-soon-btn {
+        justify-content: space-between;
+        cursor: not-allowed;
+        opacity: .5;
+        .coming-soon-badge {
+            position: unset;
+        }
+    }
+
     .wap-header-card {
         background: linear-gradient(135deg, #1677ff 0%, #135e96 100%);
         border-radius: 6px;

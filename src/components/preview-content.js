@@ -36,42 +36,44 @@ const PreviewContent = ({ panel, allProfiles, setIsOpen = () => {}, accessibilit
                     '--panel-box-shadow': panel?.wrapper?.boxShadow,
                 }}
             >
-                {
-                    panel?.items?.find((item) => item.slug === 'header')?.active && (
-                        <PanelHeader 
-                            value={panel} 
-                            setIsOpen={setIsOpen}
-                            accessibilityContext={accessibilityContext}
-                        />
-                    )
-                }
-                <div className="wap-panel-customization__info">
+                    <div className="wap-panel-customization__header-info">
+                        {
+                            panel?.items?.find((item) => item.slug === 'header')?.active && (
+                                <PanelHeader 
+                                    value={panel} 
+                                    setIsOpen={setIsOpen}
+                                    accessibilityContext={accessibilityContext}
+                                />
+                            )
+                        }
+                        <div className="wap-panel-customization__info">
+                            {
+                                panel?.items?.map((item) => {
+                                    const Component = itemComponents?.[item?.slug];
+                                    
+                                    if (!Component) return null;
+
+                                    // Must be active
+                                    if (!item.active) return null;
+
+                                    // If item is pro, also check isProActive
+                                    if (item?.isPro && !isProActive) return null;
+
+                                    return cloneElement(Component, { key: item.slug });
+                                })
+                            }
+
+                        </div>
+                    </div>
                     {
-                        panel?.items?.map((item) => {
-                            const Component = itemComponents?.[item?.slug];
-                            
-                            if (!Component) return null;
-
-                            // Must be active
-                            if (!item.active) return null;
-
-                            // If item is pro, also check isProActive
-                            if (item?.isPro && !isProActive) return null;
-
-                            return cloneElement(Component, { key: item.slug });
-                        })
+                        panel?.items?.find((item) => item.slug === 'footer')?.active && (
+                            <PanelFooter 
+                                value={panel} 
+                                accessibilityContext={accessibilityContext}
+                                accessibilityDispatch={accessibilityDispatch}
+                            />
+                        )
                     }
-
-                </div>
-                {
-                    panel?.items?.find((item) => item.slug === 'footer')?.active && (
-                        <PanelFooter 
-                            value={panel} 
-                            accessibilityContext={accessibilityContext}
-                            accessibilityDispatch={accessibilityDispatch}
-                        />
-                    )
-                }
             </div>
         </>
     )

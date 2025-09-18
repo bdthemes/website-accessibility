@@ -8,30 +8,34 @@ import clsx from "clsx";
 
 const ContentTab = ({ button, handleButtonChange }) => (
 	<>
-		<ControlWrapper label={__("Button Text", "website-accessibility")}>
-			<Input
-				value={button.text || ""}
-				onChange={(e) => handleButtonChange("text", e.target.value)}
-				placeholder={__("Click Me", "website-accessibility")}
-			/>
-		</ControlWrapper>
 
 		<ControlWrapper label={__("Button Type", "website-accessibility")}>
 			<Flex vertical gap="middle">
-			<Radio.Group
-				block
-				options={[
-					{ label: __("Icon", "website-accessibility"), value: "icon" },
-					{ label: __("Text", "website-accessibility"), value: "text" },
-					{ label: __("Both", "website-accessibility"), value: "both" },
-				]}
-				value={button?.buttonType}
-				onChange={(e) => handleButtonChange("buttonType", e.target.value)}
-				optionType="button"
-				buttonStyle="solid"
-			/>
-		</Flex>
+				<Radio.Group
+					block
+					options={[
+						{ label: __("Icon", "website-accessibility"), value: "icon" },
+						{ label: __("Text", "website-accessibility"), value: "text" },
+						{ label: __("Both", "website-accessibility"), value: "both" },
+					]}
+					value={button?.buttonType}
+					onChange={(e) => handleButtonChange("buttonType", e.target.value)}
+					optionType="button"
+					buttonStyle="solid"
+				/>
+			</Flex>
 		</ControlWrapper>
+
+		{button.buttonType !== "icon" && (
+			<ControlWrapper label={__("Button Text", "website-accessibility")}>
+				<Input
+					value={button.text || ""}
+					onChange={(e) => handleButtonChange("text", e.target.value)}
+					placeholder={__("Click Me", "website-accessibility")}
+				/>
+			</ControlWrapper>
+		)}
+
 
 		{button.buttonType !== "text" && (
 			<ControlWrapper label={__("Select Icon", "website-accessibility")}>
@@ -134,7 +138,13 @@ const ButtonStylePreset = () => {
 							type="default"
 							text={button?.buttonType == "icon" ? null : button?.text}
 							icon={button?.buttonType !== "text" ? <Icon name={button?.icon} /> : null}
-							className={clsx("wap-button-style-preset__preview-btn", position, button?.buttonType)}
+
+							className={clsx(
+								"wap-button-style-preset__preview-btn",
+								position,
+								`wap-button-style-preset__preview-btn--${button?.buttonType}`
+							)}
+
 							style={{
 								"--button-color": button.color,
 								"--button-bg": button.bgColor,
