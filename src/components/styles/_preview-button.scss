@@ -10,7 +10,7 @@
 
         color: var(--button-color, #fff);
         background-color: var(--button-bg, #1677ff);
-        padding: var(--button-padding, 20px 20px);
+        padding: var(--button-padding,  14px);
         border-radius: var(--button-radius, 6px);
         width: auto !important;
         height: auto !important;
@@ -56,11 +56,28 @@
     .wap-button-style-preset__preview-btn--icon {
         border-radius: var(--button-radius, 50%);
         padding: var(--button-padding, 16px 16px);
+        animation: wap-pulse 2s infinite;
+        
         svg {
             width: 2rem !important;
             height: 2rem !important;
             display: block;
             padding: 1;
+        }
+    }
+
+    @keyframes wap-pulse {
+        0% {
+            transform: scale(1);
+            box-shadow: 0 0 0 0 rgba(var(--button-bg-rgb, 22, 119, 255), 0.7);
+        }
+        70% {
+            transform: scale(1.05);
+            box-shadow: 0 0 0 10px rgba(var(--button-bg-rgb, 22, 119, 255), 0);
+        }
+        100% {
+            transform: scale(1);
+            box-shadow: 0 0 0 0 rgba(var(--button-bg-rgb, 22, 119, 255), 0);
         }
     }
 }
