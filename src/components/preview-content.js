@@ -1,8 +1,11 @@
 import { cloneElement } from "@wordpress/element";
+import clsx from "clsx";
 
 const PreviewContent = ({ panel, allProfiles, setIsOpen = () => {}, accessibilityContext, accessibilityDispatch }) => {
     const { LanguageSelector = () => null, AccessibilityProfiles, WidgetFeatures, PanelHeader, PanelFooter } = window?.wapComponents;
     const isProActive = window?.websacPro?.isProActive || false;
+    const { isOverSized } = accessibilityContext || {};
+
     // Create components with accessibility context
     const itemComponents = {
         language: <LanguageSelector 
@@ -26,7 +29,14 @@ const PreviewContent = ({ panel, allProfiles, setIsOpen = () => {}, accessibilit
     return (
         <>
             <div 
-                className="wap-panel-customization__panel"
+                className={
+                    clsx(
+                        "wap-panel-customization__panel",
+                        {
+                            "wap-panel-customization__panel--oversized": isOverSized
+                        }
+                    )
+                }
                 style={{
                     '--panel-width': panel?.wrapper?.width && `${panel.wrapper.width}px`,
                     '--panel-background': panel?.wrapper?.background,

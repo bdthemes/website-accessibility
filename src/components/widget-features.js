@@ -17,7 +17,7 @@ const WidgetFeatures = ({
 
 	// Calculate column span based on items per row
 	const itemsPerRow = parseInt(attributes?.itemsPerRow) || 2;
-	const colSpan = isOverSized ? (24 / ((itemsPerRow - 1) ? (itemsPerRow - 1) : 1)) : 24 / itemsPerRow;
+	const colSpan = 24 / itemsPerRow; 
 	// Handle feature click
 	const handleFeatureClick = (feature) => {
 		if (!isFrontend) return;

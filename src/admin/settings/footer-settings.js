@@ -10,6 +10,7 @@ const FooterSettings = () => {
     const { setPresetsFormData } = useDispatch(STORE_NAME);
     const footerItem = presetsFormData.panel.items.find(item => item.slug === 'footer');
     const attributes = footerItem?.attributes || {};
+    const isProActive = window?.websacPro?.isProActive || false;
 
     const updateAttr = (updates) => {
         const updatedItems = presetsFormData.panel.items.map((item) =>
@@ -64,16 +65,22 @@ const FooterSettings = () => {
                                 placeholder={__('Accessibility Statement', 'website-accessibility')}
                             />
                         </ControlWrapper>
-                        <ControlWrapper label={__('Show Branding', 'website-accessibility')}>
-                            <Switch checked={attributes.showBranding !== false} onChange={checked => updateAttr({ showBranding: checked })} />
-                        </ControlWrapper>
-                        <ControlWrapper label={__('Branding Text', 'website-accessibility')}>
-                            <Input
-                                value={attributes.brandingText || 'Proudly Powered by Website Accessibility Pro'}
-                                onChange={e => updateAttr({ brandingText: e.target.value })}
-                                placeholder={__('Proudly Powered by Website Accessibility Pro', 'website-accessibility')}
-                            />
-                        </ControlWrapper>
+                        {
+                            isProActive && (
+                                <>
+                                    <ControlWrapper label={__('Show Branding', 'website-accessibility')}>
+                                        <Switch checked={attributes.showBranding !== false} onChange={checked => updateAttr({ showBranding: checked })} />
+                                    </ControlWrapper>
+                                    <ControlWrapper label={__('Branding Text', 'website-accessibility')}>
+                                        <Input
+                                            value={attributes.brandingText || 'Proudly Powered by Website Accessibility Pro'}
+                                            onChange={e => updateAttr({ brandingText: e.target.value })}
+                                            placeholder={__('Proudly Powered by Website Accessibility Pro', 'website-accessibility')}
+                                        />
+                                    </ControlWrapper>
+                                </>
+                            )
+                        }
                     </Collapse.Panel>
                 </Collapse>
             )
@@ -94,8 +101,8 @@ const FooterSettings = () => {
                                 placeholder="10px 20px"
                             />
                         </ControlWrapper>
-                         <ControlWrapper label={__('Border Radius', 'website-accessibility')}>
-                            <Input value={attributes.generalRadius || `0 0 16px 16px`} onChange={e => updateAttr({ generalRadius: e.target.value })}/>
+                        <ControlWrapper label={__('Border Radius', 'website-accessibility')}>
+                            <Input value={attributes.generalRadius || `0 0 16px 16px`} onChange={e => updateAttr({ generalRadius: e.target.value })} />
                         </ControlWrapper>
                     </Collapse.Panel>
                     <Collapse.Panel header={__('Reset Button', 'website-accessibility')} key="reset-style">
@@ -106,7 +113,7 @@ const FooterSettings = () => {
                             <Input type="color" value={attributes.resetBtnColor} onChange={e => updateAttr({ resetBtnColor: e.target.value })} />
                         </ControlWrapper>
                         <ControlWrapper label={__('Border Radius', 'website-accessibility')}>
-                            <Input value={attributes.resetBtnRadius} onChange={e => updateAttr({ resetBtnRadius: e.target.value })}/>
+                            <Input value={attributes.resetBtnRadius} onChange={e => updateAttr({ resetBtnRadius: e.target.value })} />
                         </ControlWrapper>
                     </Collapse.Panel>
                     {/* <Collapse.Panel header={__('Save Button', 'website-accessibility')} key="save-style">

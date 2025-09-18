@@ -106,6 +106,18 @@ const View = () => {
         }
     }, [isOpen]);
 
+    useEffect(() => {
+        if (isOpen) {
+            document.body.classList.add('wap-accessibility-sidebar-open');
+        } else {
+            document.body.classList.remove('wap-accessibility-sidebar-open');
+        }
+
+        return () => {
+            document.body.classList.remove('wap-accessibility-sidebar-open');
+        };
+    }, [isOpen]);
+
     if (!currentPreset) {
         return null;
     }
@@ -146,6 +158,7 @@ const View = () => {
                     panel={currentPreset?.panel}
                     allProfiles={allProfiles}
                     setIsOpen={setIsOpen}
+                    isOpen={isOpen}
                     accessibilityContext={state}
                     accessibilityDispatch={dispatch}
                 />

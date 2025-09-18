@@ -1,9 +1,10 @@
-import { Button, Space } from 'antd';
-import { ReloadOutlined, ArrowRightOutlined } from '@ant-design/icons';
+import { Button } from 'antd';
+import { ReloadOutlined } from '@ant-design/icons';
 
 const PanelFooter = ({ value, accessibilityContext, accessibilityDispatch }) => {
   const footerItem = value?.items?.find(item => item.slug === 'footer');
   const attributes = footerItem?.attributes || {};
+  const isProActive = window?.websacPro?.isProActive || false;
 
   // Check if we're in frontend context
   const isFrontend = !!accessibilityContext && !!accessibilityDispatch;
@@ -18,9 +19,8 @@ const PanelFooter = ({ value, accessibilityContext, accessibilityDispatch }) => 
   // Footer Links
   const showStatement = attributes.showStatement !== false;
   const statementText = attributes.statementText || 'Statement';
-  const showBranding = attributes.showBranding !== false;
-  const brandingText = attributes.brandingText || 'Powered by Website Accessibility Pro';
-  const linkColor = attributes.linkColor || '#0073ea';
+  const showBranding = isProActive ? attributes.showBranding !== false : true;
+  const brandingText = isProActive ? attributes.brandingText || 'Powered by Website Accessibility' : 'Powered by Website Accessibility Pro';
 
   const footerStyle = {
     '--wap-footer-general-bg': attributes.generalBg,

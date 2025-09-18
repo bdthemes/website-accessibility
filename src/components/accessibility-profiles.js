@@ -33,19 +33,7 @@ const ProfileItem = ({ profile, isActive, handleClick, attributes }) => {
 			)}
 			{isActive && (
 				<div className="wap-accessibility-profiles__item-active-indicator">
-					<CheckCircleFilled
-						style={{
-							color: "#52c41a",
-							fontSize: "16px",
-							position: "absolute",
-							top: "4px",
-							right: "4px",
-							zIndex: 1,
-							backgroundColor: "white",
-							borderRadius: "50%",
-							padding: "1px",
-						}}
-					/>
+					<CheckCircleFilled />
 				</div>
 			)}
 		</div>
