@@ -60,7 +60,7 @@ const FooterSettings = () => {
                         </ControlWrapper>
                         <ControlWrapper label={__('Accessibility Statement Text', 'website-accessibility')}>
                             <Input
-                                value={attributes.statementText || 'Accessibility Statement'}
+                                value={attributes.statementText}
                                 onChange={e => updateAttr({ statementText: e.target.value })}
                                 placeholder={__('Accessibility Statement', 'website-accessibility')}
                             />
@@ -73,7 +73,7 @@ const FooterSettings = () => {
                                     </ControlWrapper>
                                     <ControlWrapper label={__('Branding Text', 'website-accessibility')}>
                                         <Input
-                                            value={attributes.brandingText || 'Proudly Powered by Website Accessibility Pro'}
+                                            value={attributes.brandingText}
                                             onChange={e => updateAttr({ brandingText: e.target.value })}
                                             placeholder={__('Proudly Powered by Website Accessibility Pro', 'website-accessibility')}
                                         />
