@@ -112,7 +112,7 @@ final class WebsiteAccessibility
 					],
 					'panel' => [
 						'wrapper' => [
-							'width' => '500',
+							'width' => '420',
 						],
 						'items' => [
 							[
@@ -197,13 +197,16 @@ final class WebsiteAccessibility
 							],
 						],
 					],
-					'button' => [
-						'text'     => 'Accessibility Menu',
-						'showIcon' => true,
-						'icon'     => 'accessibility1',
-						'color'    => '#ffffff',
-						'bgColor'  => '#1677ff',
-						'position' => 'bottom-right',
+					'button'     => [
+						'text'       => 'Accessibility Menu',
+						'showIcon'   => true,
+						'icon'       => 'accessibility1',
+						'color'      => '#ffffff',
+						'bgColor'    => '#1677ff',
+						'position'   => 'bottom-right',
+						'buttonType' => 'icon',
+						'offsetX'   => '40',
+						'offsetY'    => '40',
 					],
 				]),
 				'post_status'  => 'publish',
