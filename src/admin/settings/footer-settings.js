@@ -4,6 +4,7 @@ import { useSelect, useDispatch } from '@wordpress/data';
 import { STORE_NAME } from '../store';
 import ControlWrapper from '../components/control-wrapper';
 import { __ } from '@wordpress/i18n';
+import ColorPicker from '../controls/color-picker';
 
 const FooterSettings = () => {
     const { presetsFormData } = useSelect((select) => select(STORE_NAME).getPresetsFormData());
@@ -92,7 +93,10 @@ const FooterSettings = () => {
                 <Collapse>
                     <Collapse.Panel header={__('General', 'website-accessibility')} key="general">
                         <ControlWrapper label={__('Background Color', 'website-accessibility')}>
-                            <Input type="color" value={attributes.generalBg} onChange={e => updateAttr({ generalBg: e.target.value })} />
+                            <ColorPicker
+                                value={attributes.generalBg}
+                                onChange={value => updateAttr({ generalBg: value })}
+                            />
                         </ControlWrapper>
                         <ControlWrapper label={__('Padding', 'website-accessibility')}>
                             <Input
@@ -107,32 +111,33 @@ const FooterSettings = () => {
                     </Collapse.Panel>
                     <Collapse.Panel header={__('Reset Button', 'website-accessibility')} key="reset-style">
                         <ControlWrapper label={__('Background Color', 'website-accessibility')}>
-                            <Input type="color" value={attributes.resetBtnBg} onChange={e => updateAttr({ resetBtnBg: e.target.value })} />
+                            <ColorPicker
+                                value={attributes.resetBtnBg}
+                                onChange={value => updateAttr({ resetBtnBg: value })}
+                            />
                         </ControlWrapper>
                         <ControlWrapper label={__('Text Color', 'website-accessibility')}>
-                            <Input type="color" value={attributes.resetBtnColor} onChange={e => updateAttr({ resetBtnColor: e.target.value })} />
+                            <ColorPicker
+                                value={attributes.resetBtnColor}
+                                onChange={value => updateAttr({ resetBtnColor: value })}
+                            />
                         </ControlWrapper>
                         <ControlWrapper label={__('Border Radius', 'website-accessibility')}>
-                            <Input value={attributes.resetBtnRadius} onChange={e => updateAttr({ resetBtnRadius: e.target.value })} />
+                            <Input value={attributes.resetBtnRadius} onChange={e => updateAttr({ resetBtnRadius: e.target.value })} placeholder="6px" />
                         </ControlWrapper>
                     </Collapse.Panel>
-                    {/* <Collapse.Panel header={__('Save Button', 'website-accessibility')} key="save-style">
-                        <ControlWrapper label={__('Background Color', 'website-accessibility')}>
-                            <Input type="color" value={attributes.saveBtnBg || '#fff'} onChange={e => updateAttr({ saveBtnBg: e.target.value })} />
-                        </ControlWrapper>
-                        <ControlWrapper label={__('Text Color', 'website-accessibility')}>
-                            <Input type="color" value={attributes.saveBtnColor || '#111'} onChange={e => updateAttr({ saveBtnColor: e.target.value })} />
-                        </ControlWrapper>
-                        <ControlWrapper label={__('Border Radius', 'website-accessibility')}>
-                            <Input type="number" value={attributes.saveBtnRadius || 50} onChange={e => updateAttr({ saveBtnRadius: e.target.value })} addonAfter="px" />
-                        </ControlWrapper>
-                    </Collapse.Panel> */}
                     <Collapse.Panel header={__('Footer Links', 'website-accessibility')} key="links-style">
                         <ControlWrapper label={__('Link Color', 'website-accessibility')}>
-                            <Input type="color" value={attributes.linkColor || '#0073ea'} onChange={e => updateAttr({ linkColor: e.target.value })} />
+                            <ColorPicker
+                                value={attributes.linkColor}
+                                onChange={value => updateAttr({ linkColor: value })}
+                            />
                         </ControlWrapper>
                         <ControlWrapper label={__('Branding Color', 'website-accessibility')}>
-                            <Input type="color" value={attributes.brandingColor || '#1a4cd8'} onChange={e => updateAttr({ brandingColor: e.target.value })} />
+                            <ColorPicker
+                                value={attributes.brandingColor}
+                                onChange={value => updateAttr({ brandingColor: value })}
+                            />
                         </ControlWrapper>
                     </Collapse.Panel>
                 </Collapse>

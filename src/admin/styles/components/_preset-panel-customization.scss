@@ -91,7 +91,12 @@
 }
 
 .wap-panel-left-sidebar__drawer{
+    z-index: 9999 !important;
     .ant-drawer-mask{
         background: transparent !important;
     }
+}
+
+.ant-select-dropdown{
+    z-index: 999999 !important;
 }

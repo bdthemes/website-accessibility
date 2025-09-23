@@ -1,10 +1,11 @@
-import { Card, Flex, Input, Radio, Select, Switch, Tabs } from "antd";
+import { Card, Flex, Input, Radio, Select, Tabs } from "antd";
 import { __ } from "@wordpress/i18n";
 import { useSelect, useDispatch } from "@wordpress/data";
 import { STORE_NAME } from "../store";
 import IconPicker from "./icon-picker";
 import ControlWrapper from "./control-wrapper";
 import clsx from "clsx";
+import ColorPicker from "../controls/color-picker";
 
 const ContentTab = ({ button, handleButtonChange }) => (
 	<>
@@ -51,18 +52,16 @@ const ContentTab = ({ button, handleButtonChange }) => (
 const StyleTab = ({ button, handleButtonChange }) => (
 	<>
 		<ControlWrapper label={__("Text Color", "website-accessibility")}>
-			<Input
-				type="color"
-				value={button.color || "#ffffff"}
-				onChange={(e) => handleButtonChange("color", e.target.value)}
+			<ColorPicker
+				value={button.color}
+				onChange={(value) => handleButtonChange("color", value)}
 			/>
 		</ControlWrapper>
 
 		<ControlWrapper label={__("Background Color", "website-accessibility")}>
-			<Input
-				type="color"
-				value={button.bgColor || "#1677ff"}
-				onChange={(e) => handleButtonChange("bgColor", e.target.value)}
+			<ColorPicker
+				value={button.bgColor}
+				onChange={(value) => handleButtonChange("bgColor", value)}
 			/>
 		</ControlWrapper>
 

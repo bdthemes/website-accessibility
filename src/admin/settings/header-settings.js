@@ -115,11 +115,9 @@ const StyleTab = ({ presetsFormData, setPresetsFormData }) => {
 				</ControlWrapper>
 
 				<ControlWrapper label={__("Text Color", "website-accessibility")}>
-					<Input
-						type="color"
-						className="wap-panel-right-sidebar__color-input"
+					<ColorPicker
 						value={attributes.color}
-						onChange={(e) => updateAttr({ color: e.target.value })}
+						onChange={(value) => updateAttr({ color: value })}
 					/>
 				</ControlWrapper>
 
@@ -133,7 +131,7 @@ const StyleTab = ({ presetsFormData, setPresetsFormData }) => {
 
 				<ControlWrapper label={__("Font Weight", "website-accessibility")}>
 					<Select
-						value={attributes.fontWeight}
+						value={attributes.fontWeight || "600"}
 						onChange={(value) => updateAttr({ fontWeight: value })}
 						options={[
 							{ value: "400", label: "Normal (400)" },
@@ -148,7 +146,7 @@ const StyleTab = ({ presetsFormData, setPresetsFormData }) => {
 
 				<ControlWrapper label={__("Text Decoration", "website-accessibility")}>
 					<Select
-						value={attributes.textDecoration}
+						value={attributes?.textDecoration || "none"}
 						onChange={(value) => updateAttr({ textDecoration: value })}
 						options={[
 							{ value: "none", label: "None" },
@@ -161,28 +159,22 @@ const StyleTab = ({ presetsFormData, setPresetsFormData }) => {
 			</Panel>
 			<Panel header={__("Close Button", "website-accessibility")} key="2">
 				<ControlWrapper label={__("Background", "website-accessibility")}>
-					<Input
-						type="color"
-						className="wap-panel-right-sidebar__color-input"
+					<ColorPicker
 						value={attributes.closeButtonBackground}
-						onChange={(e) =>
-							updateAttr({ closeButtonBackground: e.target.value })
-						}
+						onChange={(value) => updateAttr({ closeButtonBackground: value })}
 					/>
 				</ControlWrapper>
 
 				<ControlWrapper label={__("Color", "website-accessibility")}>
-					<Input
-						type="color"
-						className="wap-panel-right-sidebar__color-input"
+					<ColorPicker
 						value={attributes.closeButtonColor}
-						onChange={(e) => updateAttr({ closeButtonColor: e.target.value })}
+						onChange={(value) => updateAttr({ closeButtonColor: value })}
 					/>
 				</ControlWrapper>
 
 				<ControlWrapper label={__("Size", "website-accessibility")}>
 					<Input
-						value={attributes.closeButtonSize}
+						value={attributes?.closeButtonSize}
 						onChange={(e) => updateAttr({ closeButtonSize: e.target.value })}
 						placeholder="24px"
 					/>
@@ -190,7 +182,7 @@ const StyleTab = ({ presetsFormData, setPresetsFormData }) => {
 
 				<ControlWrapper label={__("Border", "website-accessibility")}>
 					<Input
-						value={attributes.closeButtonBorder}
+						value={attributes?.closeButtonBorder}
 						onChange={(e) => updateAttr({ closeButtonBorder: e.target.value })}
 						placeholder="1px solid #ff0000"
 					/>

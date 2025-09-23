@@ -1,11 +1,10 @@
 // Panel Footer Styles
 .wap-panel-footer {
 	border-radius: var(--wap-footer-general-radius, 0 0 16px 16px);
-	background: var(--wap-footer-general-bg, inherit);
+	background: var(--wap-footer-general-bg, #fff);
 	position: sticky;
 	bottom: 0;
 	animation: slideUpFade 0.6s ease-out;
-	background: #fff;
 
 	// Actions Section
 	&__actions {

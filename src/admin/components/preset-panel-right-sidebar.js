@@ -3,6 +3,7 @@ import { __ } from "@wordpress/i18n";
 import { useSelect, useDispatch } from "@wordpress/data";
 import { STORE_NAME } from "../store";
 import ControlWrapper from "./control-wrapper";
+import ColorPicker from "../controls/color-picker";
 
 const PresetPanelRightSidebar = () => {
 	const { presetsFormData } = useSelect((select) =>
@@ -38,11 +39,9 @@ const PresetPanelRightSidebar = () => {
 			</ControlWrapper>
 
 			<ControlWrapper label={__("Background Color", "website-accessibility")}>
-				<Input
-					type="color"
-					value={wrapper.background || "#ffffff"}
-					onChange={(e) => handleWrapperChange("background", e.target.value)}
-					className="wap-panel-right-sidebar__color-input"
+				<ColorPicker
+					value={wrapper.background}
+					onChange={(value) => handleWrapperChange("background", value)}
 				/>
 			</ControlWrapper>
 
