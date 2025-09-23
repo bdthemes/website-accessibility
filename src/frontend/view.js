@@ -118,6 +118,12 @@ const View = () => {
         };
     }, [isOpen]);
 
+    useEffect(() => {
+        if (typeof window.google !== "undefined" && window.google.translate) {
+            window.wapGoogleTranslateInit();
+        }
+    }, [])
+
     if (!currentPreset) {
         return null;
     }

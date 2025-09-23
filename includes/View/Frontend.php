@@ -88,21 +88,26 @@ class Frontend
                 'isUserLoggedIn' => is_user_logged_in(),
             ]);
 
+            // Register the callback BEFORE the Google script
+            wp_register_script('gt-element-callback', '', [], WEBSAC_VERSION, false);
+            wp_enqueue_script('gt-element-callback');
+
+            $inline_function = 'window.wapGoogleTranslateInit = function() {
+                    new window.google.translate.TranslateElement({
+                        pageLanguage: "' . esc_js(get_bloginfo('language')) . '"
+                        }, "wap-google-translate-container");
+                    };';
+
+            wp_add_inline_script('gt-element-callback', $inline_function);
+
+            // Now enqueue the Google Translate script, which calls the callback
             wp_enqueue_script(
                 'gt-element',
-                '//translate.google.com/translate_a/element.js?cb=wapGoogleTranslateInit',
-                [],
-                WEBSAC_VERSION,
-                false // Must load in header so inline script is printed before this
+                'https://translate.google.com/translate_a/element.js?cb=wapGoogleTranslateInit&v=' . time(),
+                ['gt-element-callback'],
+                null,
+                false
             );
-
-            $inline_function = 'function wapGoogleTranslateInit() {
-                new window.google.translate.TranslateElement({
-                    pageLanguage: "' . esc_js(get_bloginfo('language')) . '"
-                }, "wap-google-translate-container");
-            };';
-
-            wp_add_inline_script('gt-element', $inline_function);
         }
     }
     public function render_preset_root()
