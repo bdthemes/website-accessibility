@@ -1,4 +1,4 @@
-=== Website Accessibility ===
+=== Sigmally Website Accessibility ===
 Contributors:      bdthemes  
 Tags:              accessibility, a11y, compliance, toolbar, frontend  
 Requires at least: 6.1  
@@ -12,7 +12,7 @@ Improve your website's accessibility and compliance with a fully customizable ac
 
 == Description ==
 
-**Website Accessibility** is a modern, flexible WordPress plugin that helps your website meet WCAG, ADA, and other accessibility standards effortlessly.
+**Sigmally Website Accessibility** is a modern, flexible WordPress plugin that helps your website meet WCAG, ADA, and other accessibility standards effortlessly.
 
 Create multiple accessibility presets and assign them conditionally to different areas of your site—Entire Site, Singular (posts/pages), or Archives (categories, tags). The plugin includes a built-in mini editor to customize the accessibility toolbar layout and controls, giving users an intuitive experience tailored to different needs.
 
@@ -27,7 +27,7 @@ It works independently of any page builder like Gutenberg or Elementor, ensuring
 - Compatible with all themes and page builders
 - Includes screen reader, contrast tools, animation controls, dictionary tooltips, Google Translate integration, and more
 
-Whether you’re building inclusive websites for clients or your own brand, Website Accessibility gives you the tools to make a real impact.
+Whether you’re building inclusive websites for clients or your own brand, Sigmally Website Accessibility gives you the tools to make a real impact.
 
 == Installation ==
 

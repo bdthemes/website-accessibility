@@ -2,7 +2,7 @@
 # This file is distributed under the GPL-2.0-or-later.
 msgid ""
 msgstr ""
-"Project-Id-Version: Website Accessibility 1.0.0\n"
+"Project-Id-Version: Sigmally Website Accessibility 1.0.0\n"
 "Report-Msgid-Bugs-To: https://wordpress.org/support/plugin/website-accessibility\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -17,7 +17,7 @@ msgstr ""
 #. Plugin Name of the plugin
 #: website-accessibility.php
 #: includes/Admin/Menu.php:24
-msgid "Website Accessibility"
+msgid "Sigmally Website Accessibility"
 msgstr ""
 
 #. Description of the plugin
@@ -355,7 +355,7 @@ msgid "Users who have saved their accessibility preferences."
 msgstr ""
 
 #: src/admin/pages/dashboard.js:90
-msgid "Welcome to Website Accessibility Pro"
+msgid "Welcome to Sigmally Website Accessibility"
 msgstr ""
 
 #: src/admin/pages/dashboard.js:93
@@ -508,7 +508,7 @@ msgid "Branding Text"
 msgstr ""
 
 #: src/admin/settings/footer-settings.js:74
-msgid "Proudly Powered by Website Accessibility Pro"
+msgid "Proudly Powered by Sigmally Website Accessibility"
 msgstr ""
 
 #: src/admin/settings/footer-settings.js:124

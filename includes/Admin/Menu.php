@@ -25,7 +25,7 @@ class Menu
     {
         // Add main menu
         add_menu_page(
-            __('Website Accessibility', 'website-accessibility'),
+            __('Sigmally Website Accessibility', 'website-accessibility'),
             __('Accessibility', 'website-accessibility'),
             'manage_options',
             'website-accessibility',

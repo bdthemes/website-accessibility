@@ -1,7 +1,7 @@
 <?php
 
 /**
- * Plugin Name:       Website Accessibility
+ * Plugin Name:       Sigmally Website Accessibility
  * Description:       A comprehensive WordPress plugin to enhance website accessibility and ensure WCAG compliance.
  * Requires at least: 6.1
  * Requires PHP:      7.4
@@ -10,9 +10,7 @@
  * Author URI:        https://bdthemes.com
  * License:           GPL-2.0-or-later
  * License URI:       https://www.gnu.org/licenses/gpl-2.0.html
- * Text Domain:       website-accessibility
- * 
- * @package           Website Accessibility Pro
+ * Text Domain:       website-accessibility 
  */
 
 use bdthemes\websiteaccessibility\Traits\Singleton;
@@ -28,7 +26,6 @@ if (file_exists($autoload_file)) {
 }
 
 /**
- * Main Website Accessibility Pro Class.
  * Implements the singleton pattern to ensure only one instance is running.
  */
 final class WebsiteAccessibility
@@ -69,7 +66,7 @@ final class WebsiteAccessibility
 	public function define_constants()
 	{
 		define('WEBSAC_VERSION', self::VERSION);
-		define('WEBSAC_NAME', 'Website Accessibility Pro');
+		define('WEBSAC_NAME', 'Sigmally Website Accessibility');
 		define('WEBSAC_URL', trailingslashit(plugin_dir_url(__FILE__)));
 		define('WEBSAC_DIR', trailingslashit(plugin_dir_path(__FILE__)));
 		define('WEBSAC_INCLUDES_DIR', WEBSAC_DIR . 'includes/');
@@ -277,7 +274,7 @@ final class WebsiteAccessibility
 }
 
 /**
- * Kickstart the Website Accessibility Pro plugin.
+ * Kickstart the Sigmally Website Accessibility plugin.
  *
  * @return WebsiteAccessibility
  */

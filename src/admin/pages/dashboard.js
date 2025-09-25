@@ -97,7 +97,7 @@ const Dashboard = () => {
             >
                 <div className="wap-welcome-card-content">
                     <Title level={2} className='wap-header-card-title'>
-                        {__('Welcome to Website Accessibility', 'website-accessibility')}
+                        {__('Welcome to Sigmally Website Accessibility', 'website-accessibility')}
                     </Title>
                     <Text className='wap-header-card-description'>
                         {__('Make your website accessible to everyone with our comprehensive accessibility tools.', 'website-accessibility')}
