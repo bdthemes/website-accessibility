@@ -136,7 +136,6 @@ const features = [
                         properties: {
                             backgroundColor: "#ffff00",
                             color: "#000",
-                            textDecoration: "underline",
                         },
                     },
                 ],
@@ -171,27 +170,9 @@ const features = [
                 value: "medium",
                 css: [
                     {
-                        selector: "body, p, div, span, li, td, th",
+                        selector: "html",
                         properties: {
-                            fontSize: "18px",
-                        },
-                    },
-                    {
-                        selector: "h1",
-                        properties: {
-                            fontSize: "36px",
-                        },
-                    },
-                    {
-                        selector: "h2",
-                        properties: {
-                            fontSize: "32px",
-                        },
-                    },
-                    {
-                        selector: "h3",
-                        properties: {
-                            fontSize: "28px",
+                            fontSize: "110%",
                         },
                     },
                 ],
@@ -205,27 +186,9 @@ const features = [
                 value: "large",
                 css: [
                     {
-                        selector: "body, p, div, span, li, td, th",
+                        selector: "html",
                         properties: {
-                            fontSize: "20px",
-                        },
-                    },
-                    {
-                        selector: "h1",
-                        properties: {
-                            fontSize: "40px",
-                        },
-                    },
-                    {
-                        selector: "h2",
-                        properties: {
-                            fontSize: "36px",
-                        },
-                    },
-                    {
-                        selector: "h3",
-                        properties: {
-                            fontSize: "32px",
+                            fontSize: "120%",
                         },
                     },
                 ],
@@ -239,27 +202,9 @@ const features = [
                 value: "extra-large",
                 css: [
                     {
-                        selector: "body, p, div, span, li, td, th",
+                        selector: "html",
                         properties: {
-                            fontSize: "22px",
-                        },
-                    },
-                    {
-                        selector: "h1",
-                        properties: {
-                            fontSize: "44px",
-                        },
-                    },
-                    {
-                        selector: "h2",
-                        properties: {
-                            fontSize: "40px",
-                        },
-                    },
-                    {
-                        selector: "h3",
-                        properties: {
-                            fontSize: "36px",
+                            fontSize: "130%",
                         },
                     },
                 ],
@@ -273,27 +218,9 @@ const features = [
                 value: "huge",
                 css: [
                     {
-                        selector: "body, p, div, span, li, td, th",
+                        selector: "html",
                         properties: {
-                            fontSize: "24px",
-                        },
-                    },
-                    {
-                        selector: "h1",
-                        properties: {
-                            fontSize: "48px",
-                        },
-                    },
-                    {
-                        selector: "h2",
-                        properties: {
-                            fontSize: "44px",
-                        },
-                    },
-                    {
-                        selector: "h3",
-                        properties: {
-                            fontSize: "40px",
+                            fontSize: "150%",
                         },
                     },
                 ],

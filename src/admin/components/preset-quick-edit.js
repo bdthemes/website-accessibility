@@ -1,10 +1,12 @@
 import { Drawer, Input, Switch, Button, Space, message, Select } from 'antd';
 import { __ } from '@wordpress/i18n';
-import { useEffect } from '@wordpress/element';
+import { useEffect, useState } from '@wordpress/element';
 import { useSelect, useDispatch } from '@wordpress/data';
 import { DEFAULT_STATE, STORE_NAME } from '../store';
 import ControlWrapper from './control-wrapper';
-import { locationOptions } from '../../utils';
+import { archivePages, locationOptions } from '../../utils';
+import apiFetch from '@wordpress/api-fetch';
+import { addQueryArgs } from '@wordpress/url';
 
 const PresetQuickEdit = ({
   visible,
@@ -12,9 +14,11 @@ const PresetQuickEdit = ({
   preset: presetRaw,
   onUpdate,
 }) => {
+  const [posts, setPosts] = useState([]);
+  const [searchInput, setSearchInput] = useState('');
   const { updatePreset, saveEditedPreset, setPresetsFormData } = useDispatch(STORE_NAME);
   const { presetsFormData } = useSelect((select) => select(STORE_NAME).getPresetsFormData());
-  
+
   const preset = useSelect((select) => select(STORE_NAME).getPreset(presetRaw?.id), [presetRaw?.id]);
 
   // Clear state when drawer closes
@@ -30,11 +34,53 @@ const PresetQuickEdit = ({
         ...presetData,
         title: preset?.title
       };
-      
+
       setPresetsFormData(initialData);
     }
   }, [preset, visible, setPresetsFormData]);
-  
+
+  const getSelectedPosts = (selectedIds = []) => {
+    if (!Array.isArray(selectedIds) || !selectedIds.length > 0) {
+      return [];
+    }
+
+    const url = addQueryArgs('/wp/v2/search', {
+      include: selectedIds?.length ? selectedIds.join(',') : undefined,
+      per_page: selectedIds?.length
+    });
+
+    return apiFetch({ path: url });
+  };
+
+  useEffect(() => {
+    (async () => {
+      try {
+        const selectedPosts = await getSelectedPosts(presetsFormData?.preset?.specificPosts) || [];
+
+        const url = addQueryArgs('/wp/v2/search', {
+          search: searchInput,
+          per_page: 10
+        });
+
+        const response = await apiFetch({ path: url });
+
+        // Merge and remove duplicates
+        const posts = [...response, ...selectedPosts].filter(
+          (post, index, self) => index === self.findIndex(p => p.id === post.id)
+        );
+
+        const postOptions = posts.map((post) => ({
+          label: post.title,
+          value: post.id
+        }));
+
+        setPosts(postOptions);
+      } catch (error) {
+        console.error(error);
+      }
+    })();
+  }, [searchInput, presetsFormData?.preset?.specificPosts]);
+
 
   // Clear state when drawer closes
   useEffect(() => {
@@ -59,13 +105,13 @@ const PresetQuickEdit = ({
       });
 
       await saveEditedPreset(preset.id);
-      
+
       message.success(__('Preset updated successfully', 'website-accessibility'));
-      
+
       // Clear state after successful update
       clearState();
       onClose();
-      
+
       if (onUpdate) {
         onUpdate();
       }
@@ -109,7 +155,7 @@ const PresetQuickEdit = ({
     clearState();
     onClose();
   };
-  
+
   return (
     <Drawer
       title={__('Quick Edit Preset', 'website-accessibility')}
@@ -122,8 +168,8 @@ const PresetQuickEdit = ({
       extra={
         <Space>
           <Button onClick={handleClose}>{__('Cancel', 'website-accessibility')}</Button>
-          <Button 
-            type="primary" 
+          <Button
+            type="primary"
             onClick={handleSave}
             disabled={!presetsFormData?.title}
           >
@@ -133,18 +179,18 @@ const PresetQuickEdit = ({
       }
     >
       <div className="wap-quick-edit-form">
-        <ControlWrapper 
+        <ControlWrapper
           label={__('Preset Name', 'website-accessibility')}
           required={true}
         >
-          <Input 
+          <Input
             value={presetsFormData?.title || ''}
             onChange={(e) => handleTitleChange(e.target.value)}
             placeholder={__('Enter preset name', 'website-accessibility')}
           />
         </ControlWrapper>
 
-        <ControlWrapper 
+        <ControlWrapper
           label={__('Condition', 'website-accessibility')}
           tooltip={__('Select where this preset should be applied', 'website-accessibility')}
         >
@@ -158,10 +204,43 @@ const PresetQuickEdit = ({
           />
         </ControlWrapper>
 
-        <ControlWrapper 
+        {
+          presetsFormData?.preset?.condition === 'archive' && (
+            <ControlWrapper label={__('Specific Archive Page', 'website-accessibility')} required>
+              <Select
+                options={archivePages}
+                onChange={(value) => setPresetsFormData({ ...presetsFormData, preset: { ...presetsFormData.preset, specificArchive: value } })}
+                value={presetsFormData?.preset?.specificArchive}
+                placeholder={__('keep blank for all archive pages', 'website-accessibility')}
+                mode="multiple"
+              />
+            </ControlWrapper>
+          )
+        }
+
+        {
+          presetsFormData?.preset?.condition === 'singular' && (
+            <>
+              <ControlWrapper label={__('Specific Posts', 'website-accessibility')} required>
+                <Select
+                  options={posts}
+                  onChange={(value) => setPresetsFormData({ ...presetsFormData, preset: { ...presetsFormData.preset, specificPosts: value } })}
+                  value={presetsFormData?.preset?.specificPosts}
+                  mode="multiple"
+                  showSearch
+                  filterOption={(input, option) => option?.label.toLowerCase().includes(input.toLowerCase())}
+                  onSearch={(value) => setSearchInput(value)}
+                  placeholder={__('keep blank for all', 'website-accessibility')}
+                />
+              </ControlWrapper>
+            </>
+          )
+        }
+
+        <ControlWrapper
           label={__('Active', 'website-accessibility')}
         >
-          <Switch 
+          <Switch
             checked={presetsFormData?.preset?.active}
             onChange={handleActiveChange}
           />

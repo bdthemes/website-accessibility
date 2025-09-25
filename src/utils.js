@@ -145,3 +145,15 @@ export const defaultProfiles = [
 		},
 	},
 ];
+
+export const archivePages = [
+	{ label: "Home", value: "home" },
+	{ label: "Blog / Posts Archive", value: "posts" },
+	{ label: "Category Archive", value: "category" },
+	{ label: "Tag Archive", value: "tag" },
+	{ label: "Author Archive", value: "author" },
+	{ label: "Date Archive", value: "date" },
+	{ label: "Search Results Page", value: "search" },
+	{ label: "404 Page", value: "404" },
+	{ label: "Attachment Page", value: "attachment" },
+];

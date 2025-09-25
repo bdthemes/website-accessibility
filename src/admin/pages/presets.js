@@ -1,5 +1,4 @@
-import { Card, Button, Row, Col, Typography, Tag, Space } from 'antd';
-import { PlusOutlined } from '@ant-design/icons';
+import { Card, Button, Typography, Tag, Space } from 'antd';
 import { __ } from '@wordpress/i18n';
 import PostTable from '../components/post-table';
 import PresetQuickEdit from '../components/preset-quick-edit';
@@ -50,11 +49,29 @@ const Presets = () => {
     const content = JSON.parse(preset?.content?.raw);
     const presetData = content?.preset;
 
+    let conditionText = '';
+
+    if(presetData?.condition === 'archive') {
+      conditionText = __('Archive', 'website-accessibility');
+
+      if (presetData?.specificArchive?.length) {
+        conditionText += ` (${presetData?.specificArchive?.length})`;
+      }
+    }else if(presetData?.condition === 'singular') {
+      conditionText = __('Singular', 'website-accessibility');
+
+      if (presetData?.specificPosts?.length) {
+        conditionText += ` (${presetData?.specificPosts?.length})`;
+      }
+    }else{
+      conditionText = __('Entire Site', 'website-accessibility');
+    }
+
     return {
       id: preset.id,
       name: preset?.title?.rendered,
       created: new Date(preset?.date).toLocaleDateString('en-US', { year: 'numeric', month: 'long', day: 'numeric' }),
-      condition: presetData?.condition,
+      condition: conditionText,
       status: presetData?.active ? <Tag color="green">Active</Tag> : <Tag color="red">Inactive</Tag>,
     };
   });
