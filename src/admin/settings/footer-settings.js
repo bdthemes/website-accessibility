@@ -76,7 +76,7 @@ const FooterSettings = () => {
                                         <Input
                                             value={attributes.brandingText}
                                             onChange={e => updateAttr({ brandingText: e.target.value })}
-                                            placeholder={__('Proudly Powered by Website Accessibility Pro', 'website-accessibility')}
+                                            placeholder={__('Proudly Powered by Sigmally Website Accessibility', 'website-accessibility')}
                                         />
                                     </ControlWrapper>
                                 </>

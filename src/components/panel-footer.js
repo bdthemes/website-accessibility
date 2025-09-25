@@ -20,7 +20,7 @@ const PanelFooter = ({ value, accessibilityContext, accessibilityDispatch }) => 
   const showStatement = attributes.showStatement !== false;
   const statementText = attributes.statementText || 'Statement';
   const showBranding = isProActive ? attributes.showBranding !== false : true;
-  const brandingText = isProActive ? attributes.brandingText || 'Powered by Website Accessibility' : 'Powered by Website Accessibility';
+  const brandingText = isProActive ? attributes.brandingText || 'Powered by Sigmally Website Accessibility' : 'Powered by Sigmally Website Accessibility';
 
   const footerStyle = {
     '--wap-footer-general-bg': attributes.generalBg,

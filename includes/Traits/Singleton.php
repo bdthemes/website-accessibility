@@ -1,11 +1,4 @@
 <?php
-/**
- * Singleton Trait
- *
- * @package Website Accessibility Pro
- * @subpackage Website Accessibility Pro/includes/Traits
- */
-
 namespace bdthemes\websiteaccessibility\Traits;
 
 if (!defined('ABSPATH')) {
