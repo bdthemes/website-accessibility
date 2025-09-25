@@ -1,4 +1,4 @@
-import { Card, Button, Row, Col, Typography, Space, Progress, Tag } from 'antd';
+import { Card, Button, Row, Col, Typography, Space, Progress } from 'antd';
 import { __ } from "@wordpress/i18n";
 import { useHistory } from "../router";
 

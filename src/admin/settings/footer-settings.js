@@ -1,4 +1,3 @@
-import { useMemo } from '@wordpress/element';
 import { Tabs, Collapse, Input, Switch } from 'antd';
 import { useSelect, useDispatch } from '@wordpress/data';
 import { STORE_NAME } from '../store';

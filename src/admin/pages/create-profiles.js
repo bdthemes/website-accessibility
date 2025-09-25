@@ -1,5 +1,4 @@
 import { Card, Button, Typography, Space } from 'antd';
-import { SaveOutlined, ArrowLeftOutlined } from '@ant-design/icons';
 import { __ } from '@wordpress/i18n';
 import { useDispatch, useSelect } from '@wordpress/data';
 import { DEFAULT_STATE, STORE_NAME } from '../store';

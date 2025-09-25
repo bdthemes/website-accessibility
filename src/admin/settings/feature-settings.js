@@ -1,5 +1,4 @@
-import { useMemo } from '@wordpress/element';
-import { Tabs, Select, Collapse, Space, Radio, Input, Switch } from 'antd';
+import { Collapse, Input, Switch } from 'antd';
 import { useSelect, useDispatch } from '@wordpress/data';
 import { STORE_NAME } from '../store';
 import ControlWrapper from '../components/control-wrapper';
