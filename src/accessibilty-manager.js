@@ -1,5 +1,5 @@
 import dictionary from "./dictionary";
-const { screenReader = () => null, smartContrast = () => null } = window.wapHelpers;
+const { screenReader = () => null, smartContrast = () => null, muteSounds = () => null } = window.wapHelpers;
 class AccessibilityManager {
     static instance = null;
     constructor() {
@@ -57,6 +57,8 @@ class AccessibilityManager {
                 case 'dictionary':
                     this.applyDictionary(key, attributes);
                     break;
+                case 'muteSounds':
+                    this.applyMuteSounds(key, attributes);
                 case 'contrast':
                 case 'highlightLinks':
                 case 'biggerText':
@@ -67,6 +69,8 @@ class AccessibilityManager {
                 case 'lineHeight':
                 case 'textAlign':
                 case 'saturation':
+                case 'grayscale':
+                case 'brightness':
                     this.applyCSSFeature(key, attributes);
                     break;
             }
@@ -81,11 +85,20 @@ class AccessibilityManager {
         return wrapper.contains(element);
     }
 
+    applyMuteSounds(key, attribute) {
+        if (!attribute || !muteSounds) return;
+        muteSounds()?.apply();
+    }
+
+    removeMuteSounds() {
+        muteSounds()?.remove();
+        delete this.props['muteSounds'];
+    }
+
     applyScreenReader(key, attribute) {
         if (!attribute || !screenReader) return;
         screenReader()?.apply(key, attribute);
     }
-
 
     removeScreenReader() {
         if(screenReader){
@@ -469,6 +482,8 @@ class AccessibilityManager {
             this.removeTooltip();
         } else if (key === 'dictionary') {
             this.removeDictionary(key);
+        }else if (key === 'muteSounds') {
+            this.removeMuteSounds(key);
         }else if (
             key === 'contrast' ||
             key === 'highlightLinks' ||
@@ -479,7 +494,9 @@ class AccessibilityManager {
             key === 'dyslexiaFriendly' ||
             key === 'lineHeight' ||
             key === 'textAlign' ||
-            key === 'saturation'
+            key === 'saturation' ||
+            key === 'grayscale' ||
+            key === 'brightness'
         ) {
             this.removeCSSFeature(key);
         }
