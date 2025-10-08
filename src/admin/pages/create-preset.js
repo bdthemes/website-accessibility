@@ -22,7 +22,7 @@ const CreatePreset = () => {
   const handleBack = () => {
     history.push({ page: 'website-accessibility-presets' });
   };
-  
+
   const next = async () => {
     setCurrent((prev) => prev + 1);
     window.scrollTo({ top: 0, behavior: 'smooth' });
@@ -47,62 +47,65 @@ const CreatePreset = () => {
           size='large'
         >
           <Space>
-             <span className='dashicons dashicons-arrow-left-alt' />
-             {__('Back to Presets', 'website-accessibility')}
+            <span className='dashicons dashicons-arrow-left-alt' />
+            {__('Back to Presets', 'website-accessibility')}
           </Space>
         </Button>
       </Card>
 
       <Steps
-          current={current}
-          size="small"
-          className="wap-preset-steps"
-          style={{ padding: '24px 0', marginBottom: 24 }}
-          items={steps.map((step) => ({ title: step.title }))}
-        />
+        current={current}
+        size="small"
+        className="wap-preset-steps"
+        style={{ padding: '24px 0', marginBottom: 24 }}
+        items={steps.map((step) => ({ title: step.title }))}
+        onChange={(value) => {
+          if(current === 0 && !presetsFormData?.title) return;
+          setCurrent(value);
+        }}
+      />
 
-        <StepContent />
-        
-      {/* <Card className="wap-preset-form-actions-card" style={{ marginTop: 24 }}> */}
-        <div className="wap-preset-form-actions" style={{ marginTop: 24 }}>
-          <Space>
-            {current > 0 && (
-              <Button onClick={prev} size='large' htmlType='button'>
-                <Space>
-                  <span className='dashicons dashicons-arrow-left-alt' />
-                  {__('Previous', 'website-accessibility')}
-                </Space>
-              </Button>
-            )}
-            {current < steps.length - 1 && (
-              <Button type="primary" onClick={next} size='large' htmlType='button' disabled={current === 0 && !presetsFormData?.title}>
-                <Space>
-                  {__('Next', 'website-accessibility')}
-                  <span className='dashicons dashicons-arrow-right-alt' />
-                </Space>
-              </Button>
-            )}
-            {current === steps.length - 1 && (
-              <Button 
-                type="primary" 
-                htmlType="submit"
-                size='large'
-                onClick={() => {
-                  createPreset(presetsFormData);
-                  history.push({
-                    page: 'website-accessibility-presets'
-                  });
-                  setPresetsFormData(DEFAULT_STATE?.presetsFormData);
-                }}
-              >
-                <Space>
-                  {__('Save Preset', 'website-accessibility')}
-                  <span className='dashicons dashicons-arrow-right-alt' />
-                </Space>
-              </Button>
-            )}
-          </Space>
-        </div>
+      <StepContent />
+
+      <div className="wap-preset-form-actions" style={{ marginTop: 24 }}>
+        <Space>
+          {current > 0 && (
+            <Button onClick={prev} size='large' htmlType='button'>
+              <Space>
+                <span className='dashicons dashicons-arrow-left-alt' />
+                {__('Previous', 'website-accessibility')}
+              </Space>
+            </Button>
+          )}
+          {current < steps.length - 1 && (
+            <Button type="primary" onClick={next} size='large' htmlType='button' disabled={current === 0 && !presetsFormData?.title}>
+              <Space>
+                {__('Next', 'website-accessibility')}
+                <span className='dashicons dashicons-arrow-right-alt' />
+              </Space>
+            </Button>
+          )}
+          {current === steps.length - 1 && (
+            <Button
+              type="primary"
+              htmlType="submit"
+              size='large'
+              onClick={() => {
+                createPreset(presetsFormData);
+                history.push({
+                  page: 'website-accessibility-presets'
+                });
+                setPresetsFormData(DEFAULT_STATE?.presetsFormData);
+              }}
+            >
+              <Space>
+                {__('Save Preset', 'website-accessibility')}
+                <span className='dashicons dashicons-arrow-right-alt' />
+              </Space>
+            </Button>
+          )}
+        </Space>
+      </div>
       {/* </Card> */}
     </div>
   );

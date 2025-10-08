@@ -1,14 +1,23 @@
-import { Collapse, Input, Switch } from 'antd';
+import { Collapse, Input, Switch, Flex, Typography, Button, Modal } from 'antd';
+import {
+    EditOutlined,
+    ReloadOutlined,
+} from "@ant-design/icons";
+import { useState } from '@wordpress/element';
 import { useSelect, useDispatch } from '@wordpress/data';
 import { STORE_NAME } from '../store';
 import ControlWrapper from '../components/control-wrapper';
 import { __ } from '@wordpress/i18n';
+import FeaturesCustomization from './features-customization';
+const { Title } = Typography;
 
 const FeatureSettings = () => {
+    const [openCustomizationModal, setOpenCustomizationModal] = useState(false);
     const { presetsFormData } = useSelect((select) => select(STORE_NAME).getPresetsFormData());
     const { setPresetsFormData } = useDispatch(STORE_NAME);
     const featureItem = presetsFormData.panel.items.find(item => item.slug === 'features');
     const attributes = featureItem?.attributes || {};
+
 
     const updateAttr = (updates) => {
         const updatedItems = presetsFormData.panel.items.map((item) =>
@@ -66,6 +75,24 @@ const FeatureSettings = () => {
                         max={6}
                     />
                 </ControlWrapper>
+                <Flex alignitems="center" justify='space-between'>
+                    <Title level={5} style={{ margin: 0 }}>{__('Feature Customization', 'website-accessibility')}</Title>
+                    <Flex alignitems="center" gap={5}>
+                        <Button type="primary" size="small" shape='circle' onClick={() => setOpenCustomizationModal(true)} icon={<EditOutlined />}></Button>
+                        <Modal
+                            title={__('Feature Customization', 'website-accessibility')}
+                            open={openCustomizationModal}
+                            onCancel={() => {
+                                setOpenCustomizationModal(false);
+                            }}
+                            zIndex={99999999999}
+                            footer={null}
+                            width={'60vw'}
+                        >
+                            <FeaturesCustomization updateAttr={updateAttr} attributes={attributes} />
+                        </Modal>
+                    </Flex>
+                </Flex>
             </Collapse.Panel>
 
             <Collapse.Panel header={__('Header', 'website-accessibility')} key="2">

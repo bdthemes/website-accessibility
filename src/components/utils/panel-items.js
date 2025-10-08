@@ -1,3 +1,5 @@
+import { active } from "sortablejs";
+
 const panelItems = [
     {
         id: 'header',
@@ -22,13 +24,6 @@ const panelItems = [
         active: true,
         close: true,
         isPro: true,
-        attributes: {
-            text: 'Language',
-            showClose: true,
-            flipContent: false,
-            background: '#ffffff',
-            border: '1px solid #e0e0e0',
-        }
     },
     {
         id: 'profiles',
@@ -55,11 +50,86 @@ const panelItems = [
         active: true,
         close: true,
         attributes: {
-            text: 'Features',
-            showClose: true,
-            flipContent: false,
-            background: '#ffffff',
-            border: '1px solid #e0e0e0',
+            widgets: [
+                {
+                    contrast: {
+                        active: true
+                    }
+                },
+                {
+                    highlightLinks: {
+                        active: true
+                    }
+                },
+                {
+                    biggerText: {
+                        active: true
+                    }
+                },
+                {
+                    textSpacing: {
+                        active: true
+                    }
+                },
+                {
+                    pauseAnimations: {
+                        active: true
+                    }
+                },
+                {
+                    hideImages: {
+                        active: true
+                    }
+                },
+                {
+                    cursor: {
+                        active: true
+                    }
+                },
+                {
+                    tooltips: {
+                        active: true
+                    }
+                },
+                {
+                    lineHeight: {
+                        active: true
+                    }
+                },
+                {
+                    textAlign: {
+                        active: true
+                    }
+                },
+                {
+                    saturation: {
+                        active: true
+                    }
+                },
+                {
+                    dictionary: {
+                        active: true
+                    }
+                },
+                {
+                    screenReader: {
+                        active: true,
+                        isPro: true
+                    }
+                },
+                {
+                    smartContrast: {
+                        active: true,
+                        isPro: true
+                    }
+                },
+                {
+                    dyslexiaFriendly: {
+                        active: true,
+                        isPro: true
+                    }
+                }
+            ],
         }
     },
     {
