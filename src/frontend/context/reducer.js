@@ -1,3 +1,4 @@
+import accessibilityManager from "../../accessibilty-manager";
 import { getSiteLanguage } from "../../utils";
 
 export const initialState = {
@@ -106,6 +107,7 @@ export const accessibilityReducer = (state, action) => {
                 isOverSized: action.payload,
             };
         case 'RESET_ACCESSIBILITY':
+            accessibilityManager().removeAllFeatures();
             return {
                 ...initialState,
             };
