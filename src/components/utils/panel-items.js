@@ -1,5 +1,3 @@
-import { active } from "sortablejs";
-
 const panelItems = [
     {
         id: 'header',
@@ -125,6 +123,24 @@ const panelItems = [
                 },
                 {
                     dyslexiaFriendly: {
+                        active: true,
+                        isPro: true
+                    }
+                },
+                {
+                    grayscale: {
+                        active: true,
+                        isPro: true
+                    }
+                },
+                {
+                    brightness: {
+                        active: true,
+                        isPro: true
+                    }
+                },
+                {
+                    muteSounds: {
                         active: true,
                         isPro: true
                     }
