@@ -1,7 +1,6 @@
 import { Collapse, Input, Switch, Flex, Typography, Button, Modal } from 'antd';
 import {
     EditOutlined,
-    ReloadOutlined,
 } from "@ant-design/icons";
 import { useState } from '@wordpress/element';
 import { useSelect, useDispatch } from '@wordpress/data';
