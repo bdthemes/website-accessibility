@@ -1,5 +1,5 @@
 import dictionary from "./dictionary";
-const { screenReader = () => null, smartContrast = () => null, muteSounds = () => null } = window.wapHelpers;
+const { screenReader = () => null, smartContrast = () => null, muteSounds = () => null, filterFeatures = () => null } = window.wapHelpers;
 class AccessibilityManager {
     static instance = null;
     constructor() {
@@ -42,6 +42,9 @@ class AccessibilityManager {
             this.props[key] = [];
 
             switch (key) {
+                case 'contrast':
+                    this.applyContrast(key, attributes);
+                    break;
                 case 'screenReader':
                     this.applyScreenReader(key, attributes);
                     break;
@@ -59,6 +62,13 @@ class AccessibilityManager {
                     break;
                 case 'muteSounds':
                     this.applyMuteSounds(key, attributes);
+                    break;
+                case 'grayscale':
+                    filterFeatures().applyGrayScale(attributes);
+                    break;
+                case 'brightness':
+                    filterFeatures().applyBrightness(attributes);
+                    break;
                 case 'contrast':
                 case 'highlightLinks':
                 case 'biggerText':
@@ -69,10 +79,9 @@ class AccessibilityManager {
                 case 'lineHeight':
                 case 'textAlign':
                 case 'saturation':
-                case 'grayscale':
-                case 'brightness':
                     this.applyCSSFeature(key, attributes);
                     break;
+            
             }
 
         }
@@ -83,6 +92,28 @@ class AccessibilityManager {
         const wrapper = document.querySelector('.wap-preset__preview-drawer-root');
         if (!wrapper) return false;
         return wrapper.contains(element);
+    }
+
+    applyContrast(key, attr) {
+        if (!attr) return;
+        switch (attr.value) {
+            case 'invert':
+                document.documentElement.style.setProperty('--wap-invert', '100%');
+                break;
+            case 'dark':
+                this.applyCSSFeature(key, attr);
+                break;
+            case 'light':
+                this.applyCSSFeature(key, attr);
+                break;
+        }
+    }
+
+    removeContrast() {
+        document.documentElement.style.removeProperty('--wap-invert');
+        this.removeCSSFeature('contrast');
+
+        delete this.props['contrast'];
     }
 
     applyMuteSounds(key, attribute) {
@@ -474,7 +505,9 @@ class AccessibilityManager {
         // Remove the feature
         if (key === 'screenReader') {
             screenReader ? screenReader()?.destroy() : null;
-        } else if (key === 'smartContrast') {
+        } else if (key === 'contrast') {
+            this.removeContrast();
+        }else if (key === 'smartContrast') {
             smartContrast()?.remove();
         } else if (key === 'cursor') {
             this.removeCursor();
@@ -484,8 +517,11 @@ class AccessibilityManager {
             this.removeDictionary(key);
         }else if (key === 'muteSounds') {
             this.removeMuteSounds(key);
+        }else if (key === 'grayscale') {
+            filterFeatures().removeGrayScale();
+        }else if (key === 'brightness') {
+            filterFeatures().removeBrightness();
         }else if (
-            key === 'contrast' ||
             key === 'highlightLinks' ||
             key === 'biggerText' ||
             key === 'textSpacing' ||
@@ -494,9 +530,7 @@ class AccessibilityManager {
             key === 'dyslexiaFriendly' ||
             key === 'lineHeight' ||
             key === 'textAlign' ||
-            key === 'saturation' ||
-            key === 'grayscale' ||
-            key === 'brightness'
+            key === 'saturation'
         ) {
             this.removeCSSFeature(key);
         }

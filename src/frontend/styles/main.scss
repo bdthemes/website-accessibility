@@ -25,6 +25,10 @@
   }
 }
 
+html {
+  filter: invert(var(--wap-invert, 0)) brightness(var(--wap-brightness, 1)) grayscale(var(--wap-grayscale, 0)) !important;
+}
+
 .wap-frontend{
   &.wap-accessibility-sidebar-open{
     overflow-y: auto !important;
