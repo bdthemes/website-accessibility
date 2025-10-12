@@ -79,13 +79,14 @@ class Frontend
                 $frontend_assets['version']
             );
             wp_localize_script('wap-accessibility-frontend', 'websiteAccessibility', [
-                'presets' => $presets_data,
-                'profiles' => $profiles,
-                'pageType' => $page_type,
-                'currentPreset' => Utils::get_current_preset($presets_data, $page_type),
+                'presets'         => $presets_data,
+                'profiles'        => $profiles,
+                'pageType'        => $page_type,
+                'currentPreset'   => Utils::get_current_preset($presets_data, $page_type),
                 'currentPresetId' => !empty(Utils::get_current_preset($presets_data, $page_type)['ID']) ? Utils::get_current_preset($presets_data, $page_type)['ID'] : null,
-                'siteLanguage' => get_bloginfo('language'),
-                'isUserLoggedIn' => is_user_logged_in(),
+                'siteLanguage'    => get_bloginfo('language'),
+                'isUserLoggedIn'  => is_user_logged_in(),
+                'nonce'           => wp_create_nonce('wp_rest'),
             ]);
 
             // Register the callback BEFORE the Google script

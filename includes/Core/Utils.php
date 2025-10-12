@@ -130,7 +130,6 @@ class Utils
 
             if (!$data || empty($data['active'])) continue; // skip inactive presets
 
-            error_log(print_r([$data, $page_type], true));
             if ($data['condition'] === $page_type) {
 
                 if ($page_type === 'archive') {

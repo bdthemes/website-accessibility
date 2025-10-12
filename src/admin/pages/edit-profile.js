@@ -51,7 +51,10 @@ const EditProfile = () => {
             }
             await updateProfile(id, updatedProfile);
             await saveEditedProfile(id);
-            message.success(__('Profile updated successfully!', 'website-accessibility'));
+            message.success({
+                content: __('Profile updated successfully!', 'website-accessibility'),
+                style: { marginBlockStart: 30 },
+            });
             history.push({ page: 'website-accessibilityfiles' });
         } catch (error) {
             console.error('Failed to update profile:', error);

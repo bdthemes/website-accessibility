@@ -106,7 +106,10 @@ const PresetQuickEdit = ({
 
       await saveEditedPreset(preset.id);
 
-      message.success(__('Preset updated successfully', 'website-accessibility'));
+      message.success({
+        content: __('Preset updated successfully', 'website-accessibility'),
+        style: { marginBlockStart: 30 },
+      });
 
       // Clear state after successful update
       clearState();
@@ -116,7 +119,10 @@ const PresetQuickEdit = ({
         onUpdate();
       }
     } catch (error) {
-      message.error(__('Failed to update preset', 'website-accessibility'));
+      message.error({
+        content: __('Failed to update preset', 'website-accessibility'),
+        style: { marginBlockStart: 30 },
+      });
     }
   };
 

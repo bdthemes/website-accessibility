@@ -245,6 +245,9 @@ final class WebsiteAccessibility
 		
 		// Initialize frontend assets
 		\bdthemes\websiteaccessibility\View\Frontend::get_instance();
+
+		// Initialize the routes
+		\bdthemes\websiteaccessibility\Routes\PreferenceRouteV1::get_instance();
 	}
 
 	/**
