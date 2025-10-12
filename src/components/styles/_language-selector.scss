@@ -27,6 +27,31 @@
 			padding-bottom: 12px;
 			margin-bottom: 12px;
 			padding: 12px 24px;
+
+			.wap-language-selector__badge,
+			.wap-lang-code,
+			.language-code {
+				flex: 0 0 auto;
+				margin-right: 8px;
+			}
+
+			.wap-lang-flag,
+			.flag,
+			img.flag-icon {
+				flex: 0 0 auto;
+				width: 22px;
+				height: 14px;
+				object-fit: cover;
+				margin-right: 10px;
+				border-radius: 2px;
+			}
+
+			.wap-lang-name,
+			.language-name,
+			.name {
+				flex: 1 1 auto;
+				min-width: 0;
+			}
 		}
 
 		 .wap-language-selector__search-wrapper {
@@ -58,7 +83,33 @@
 	&__header {
 		display: flex;
 		align-items: center;
-		gap: 12px;
+		gap: 12px ;
+
+		// Ensure header children (code, flag, name) have proper spacing
+		.wap-language-selector__badge,
+		.wap-lang-code,
+		.language-code {
+			flex: 0 0 auto;
+			margin-right: 8px;
+		}
+
+		.wap-lang-flag,
+		.flag,
+		img.flag-icon {
+			flex: 0 0 auto;
+			width: 22px;
+			height: 14px;
+			object-fit: cover;
+			margin-right: 10px;
+			border-radius: 2px;
+		}
+
+		.wap-lang-name,
+		.language-name,
+		.name {
+			flex: 1 1 auto;
+			min-width: 0;
+		}
 	}
 
 	&--header {
@@ -135,6 +186,32 @@
 		&--active {
 			background: #f0f5ff;
 		}
+	}
+
+	&__item .wap-lang-code,
+	&__item .wap-language-code,
+	&__item .language-code,
+	&__item .wap-language-selector__badge {
+		flex: 0 0 auto;
+		margin-right: 8px;
+	}
+
+	&__item .wap-lang-flag,
+	&__item .flag,
+	&__item img.flag-icon {
+		flex: 0 0 auto;
+		width: 22px;
+		height: 14px;
+		object-fit: cover;
+		margin-right: 10px;
+		border-radius: 2px;
+	}
+
+	&__item .wap-lang-name,
+	&__item .language-name,
+	&__item .name {
+		flex: 1 1 auto;
+		min-width: 0; // allow truncation when needed
 	}
 
 	&__item-label {

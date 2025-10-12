@@ -3,7 +3,7 @@
         'name' => 'bdthemes/website-accessibility',
         'pretty_version' => 'dev-main',
         'version' => 'dev-main',
-        'reference' => '40dfb388a254dab827f28eb9b52044af6e8f4b2a',
+        'reference' => 'ffc0e50f2a604acee8b1c3411290b14a49227c89',
         'type' => 'wordpress-plugin',
         'install_path' => __DIR__ . '/../../',
         'aliases' => array(),
@@ -13,7 +13,7 @@
         'bdthemes/website-accessibility' => array(
             'pretty_version' => 'dev-main',
             'version' => 'dev-main',
-            'reference' => '40dfb388a254dab827f28eb9b52044af6e8f4b2a',
+            'reference' => 'ffc0e50f2a604acee8b1c3411290b14a49227c89',
             'type' => 'wordpress-plugin',
             'install_path' => __DIR__ . '/../../',
             'aliases' => array(),
