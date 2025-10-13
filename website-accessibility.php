@@ -136,6 +136,7 @@ final class WebsiteAccessibility
 								'slug'    => 'language',
 								'active'  => true,
 								'close'   => true,
+								'isPro'   => true,
 								'attributes' => [
 									'text'        => 'Language',
 									'showClose'   => true,

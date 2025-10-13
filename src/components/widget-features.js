@@ -1,5 +1,6 @@
 import { Card, Row, Col, Switch } from "antd";
 import clsx from "clsx";
+import { useMemo } from "@wordpress/element";
 
 const WidgetFeatures = ({
 	value,
@@ -9,7 +10,15 @@ const WidgetFeatures = ({
 	const { items } = value;
 	const featureItem = items.find((item) => item.slug === "features");
 	const attributes = featureItem?.attributes || {};
-	const features = window.wapHelpers?.features || [];
+	const features = useMemo(() => {
+		const allFeatures = window.wapHelpers?.features || [];
+
+		return allFeatures.filter((feature) => {
+			const currentItem = attributes?.widgets?.find(item => item[feature?.key]);
+			const isCurrentActive = currentItem ? currentItem[feature?.key]?.active : true;
+			if(isCurrentActive) return feature;
+		});
+	}, [attributes?.widgets]);
 
 	// Check if we're in frontend context
 	const isFrontend = !!accessibilityContext && !!accessibilityDispatch;
@@ -148,8 +157,7 @@ const WidgetFeatures = ({
 					const currentAttribute = setting.currentAttribute;
 					const allAttributes = feature.attributes || [];
 					const isActive = currentStep > 0;
-					const showSteps =
-						currentStep > 0 && allAttributes[0]?.value !== "enable";
+					const showSteps = currentStep > 0 && allAttributes[0]?.value !== "enable";
 					const totalSteps = allAttributes.length;
 
 					return (
