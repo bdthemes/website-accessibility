@@ -159,7 +159,7 @@ const PresetPanelLeftSidebar = () => {
         placement="left"
         onClose={handleDrawerClose}
         open={drawerVisible}
-        width={400}
+        width={'27vw'}
         rootStyle={{ top: 30, left: 160 }}
         rootClassName="wap-panel-left-sidebar__drawer"
       >

@@ -6,6 +6,7 @@ import { STORE_NAME } from '../store';
 import { useEffect, useState } from '@wordpress/element';
 
 const { Title, Text } = Typography;
+import Disclaimer from '../components/disclaimer';
 
 const Dashboard = () => {
     const history = useHistory();
@@ -55,11 +56,11 @@ const Dashboard = () => {
             title: __('Active Presets', 'website-accessibility'),
             value: activePresetsCount,
             description: __('Presets help you quickly apply accessibility settings across your website.', 'website-accessibility'),
-            icon: <span className="dashicons dashicons-universal-access"/>,
+            icon: <span className="dashicons dashicons-universal-access" />,
             action: (
                 <Button size="small" onClick={() => navigateTo('website-accessibility-presets')}>
                     <Space>
-                        <span className="dashicons dashicons-visibility"/>
+                        <span className="dashicons dashicons-visibility" />
                         {__('View All', 'website-accessibility')}
                     </Space>
                 </Button>
@@ -69,11 +70,11 @@ const Dashboard = () => {
             title: __('Custom Profiles', 'website-accessibility'),
             value: profilesCount,
             description: __('Create profiles for different user needs and preferences.', 'website-accessibility'),
-            icon: <span className="dashicons dashicons-admin-users"/>,
+            icon: <span className="dashicons dashicons-admin-users" />,
             action: (
                 <Button size="small" onClick={() => navigateTo('website-accessibilityfiles')}>
                     <Space>
-                        <span className="dashicons dashicons-visibility"/>
+                        <span className="dashicons dashicons-visibility" />
                         {__('View All', 'website-accessibility')}
                     </Space>
                 </Button>
@@ -85,10 +86,10 @@ const Dashboard = () => {
             description: __('Users who have saved their accessibility preferences.', 'website-accessibility'),
             icon: <span className="dashicons dashicons-visibility" />,
             action: (
-                <Progress 
-                    percent={statsData.average_percent || 0} 
-                    size="small" 
-                    showInfo={false} 
+                <Progress
+                    percent={statsData.average_percent || 0}
+                    size="small"
+                    showInfo={false}
                     status={loading ? 'active' : 'normal'}
                 />
             ),
@@ -97,91 +98,96 @@ const Dashboard = () => {
     ];
 
     return (
-        <div className="wap-dashboard">
-            <Card className="wap-welcome-card wap-header-card">
-                <div className="wap-welcome-card-content">
-                    <Title level={2} className='wap-header-card-title'>
-                        {__('Welcome to Sigmally Website Accessibility', 'website-accessibility')}
-                    </Title>
-                    <Text className='wap-header-card-description'>
-                        {__('Make your website accessible to everyone with our comprehensive accessibility tools.', 'website-accessibility')}
-                    </Text>
-                </div>
-                <div>
-                    <Button
-                        type="primary"
-                        size="large"
-                        onClick={() => navigateTo('website-accessibility-presets-create')}
-                    >
-                        <Space>
-                            <span className="dashicons dashicons-plus-alt2"/>
-                            {__('Create New Preset', 'website-accessibility')}
-                        </Space>
-                    </Button>
-                </div>
-            </Card>
+        <>
+            <Disclaimer />
+            <div className="wap-dashboard">
+                <Card
+                    className="wap-welcome-card wap-header-card"
+                >
+                    <div className="wap-welcome-card-content">
+                        <Title level={2} className='wap-header-card-title'>
+                            {__('Welcome to Sigmally Website Accessibility', 'website-accessibility')}
+                        </Title>
+                        <Text className='wap-header-card-description'>
+                            {__('Make your website accessible to everyone with our comprehensive accessibility tools.', 'website-accessibility')}
+                        </Text>
+                    </div>
+                    <div>
+                        <Button
+                            type="primary"
+                            size="large"
+                            onClick={() => navigateTo('website-accessibility-presets-create')}
+                        >
+                            <Space>
+                                <span className="dashicons dashicons-plus-alt2" />
+                                {__('Create New Preset', 'website-accessibility')}
+                            </Space>
+                        </Button>
+                    </div>
+                </Card>
 
-            <Row gutter={[24, 24]} align="stretch" className="statistics-grid wap-statistics-grid">
-                {stats.map((stat) => (
-                    <Col xs={24} md={8} key={stat.title} className="stat-card">
-                        <Card>
-                            <div className="stat-icon-wrapper">
-                                {stat.icon}
-                                <div className="stat-content">
-                                    <Title className="stat-title" level={4}>{stat.title}</Title>
-                                    <Title className="stat-value" level={4}>{stat.value}</Title>
+                <Row gutter={[24, 24]} align="stretch" className="statistics-grid wap-statistics-grid">
+                    {stats.map((stat, idx) => (
+                        <Col xs={24} md={8} key={stat.title} className="stat-card">
+                            <Card>
+                                <div className="stat-icon-wrapper">
+                                    {stat.icon}
+                                    <div className="stat-content">
+                                        <Title className="stat-title" level={4}>{stat.title}</Title>
+                                        <Title className="stat-value" level={4}>{stat.value}</Title>
+                                    </div>
                                 </div>
-                            </div>
-                            <div className="stat-content-footer">
-                                <Text className="stat-description">{stat.description}</Text>
-                                <div>{stat.action} {stat.extra}</div>
-                            </div>
-                        </Card>
-                    </Col>
-                ))}
-            </Row>
+                                <div className="stat-content-footer">
+                                    <Text className="stat-description">{stat.description}</Text>
+                                    <div>{stat.action} {stat.extra}</div>
+                                </div>
+                            </Card>
+                        </Col>
+                    ))}
+                </Row>
 
-            <Title level={4} className='wap-section-title'>
-                {__('Quick Actions', 'website-accessibility')}
-            </Title>
-            <Row gutter={[16, 16]} justify="center">
-                <Col xs={24} md={8}>
-                    <div className="quick-action-btn-wrapper">
-                        <Button block size="large" onClick={() => navigateTo('website-accessibility-presets')}>
-                            <Space>
-                                <span className="dashicons dashicons-universal-access"/>
-                                <span>{__('Manage Presets', 'website-accessibility')}</span>
-                            </Space>
-                        </Button>
-                    </div>
-                </Col>
-                <Col xs={24} md={8}>
-                    <div className="quick-action-btn-wrapper">
-                        <Button block size="large" onClick={() => navigateTo('website-accessibilityfiles')}>
-                            <Space>
-                                <span className="dashicons dashicons-admin-users"/>
-                                <span>{__('Manage Profiles', 'website-accessibility')}</span>
-                            </Space>
-                        </Button>
-                    </div>
-                </Col>
-                <Col xs={24} md={8}>
-                    <div className="quick-action-btn-wrapper">
-                        <Button className='coming-soon-btn' block size="large" onClick={() => navigateTo('website-accessibility-settings')}>
-                            <Space>
-                                <span className="dashicons dashicons-admin-generic"/>
-                                <span>{__('Accessibility Settings', 'website-accessibility')}</span>
-                            </Space>
-                            <Space>
-                                <span className="coming-soon-badge">
-                                    {__('Coming Soon', 'website-accessibility')}
-                                </span>
-                            </Space>
-                        </Button>
-                    </div>
-                </Col>
-            </Row>
-        </div>
+                <Title level={4} className='wap-section-title'>
+                    {__('Quick Actions', 'website-accessibility')}
+                </Title>
+                <Row gutter={[16, 16]} justify="center">
+                    <Col xs={24} md={8}>
+                        <div className="quick-action-btn-wrapper">
+                            <Button block size="large" onClick={() => navigateTo('website-accessibility-presets')}>
+                                <Space>
+                                    <span className="dashicons dashicons-universal-access" />
+                                    <span>{__('Manage Presets', 'website-accessibility')}</span>
+                                </Space>
+                            </Button>
+                        </div>
+                    </Col>
+                    <Col xs={24} md={8}>
+                        <div className="quick-action-btn-wrapper">
+                            <Button block size="large" onClick={() => navigateTo('website-accessibilityfiles')}>
+                                <Space>
+                                    <span className="dashicons dashicons-admin-users" />
+                                    <span>{__('Manage Profiles', 'website-accessibility')}</span>
+                                </Space>
+                            </Button>
+                        </div>
+                    </Col>
+                    <Col xs={24} md={8}>
+                        <div className="quick-action-btn-wrapper">
+                            <Button className='coming-soon-btn' block size="large" onClick={() => navigateTo('website-accessibility-settings')}>
+                                <Space>
+                                    <span className="dashicons dashicons-admin-generic" />
+                                    <span>{__('Accessibility Settings', 'website-accessibility')}</span>
+                                </Space>
+                                <Space>
+                                    <span className="coming-soon-badge">
+                                        {__('Coming Soon', 'website-accessibility')}
+                                    </span>
+                                </Space>
+                            </Button>
+                        </div>
+                    </Col>
+                </Row>
+            </div>
+        </>
     );
 };
 
