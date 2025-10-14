@@ -63,7 +63,6 @@ const View = () => {
             icon: currentProfile?.icon && currentProfile?.icon.props && currentProfile.icon.props.dangerouslySetInnerHTML
                 ? { __html: currentProfile.icon.props.dangerouslySetInnerHTML.__html } // Store just the HTML string
                 : currentProfile?.icon, // If it's the simpler object or not present, store as is
-            settings: currentSettings // settings look good as they are plain data
         };
 
         const localPreferences = {
@@ -79,7 +78,7 @@ const View = () => {
 
     useEffect(() => {
         accessibilityManager().init(state?.currentSettings);
-    }, [state]);
+    }, [state?.currentSettings, currentPresetId, state?.currentProfile, state?.isOverSized, state?.enableTranslations, state?.selectedLanguage]);
 
     useEffect(() => {
         window.addEventListener('keydown', (e) => {
