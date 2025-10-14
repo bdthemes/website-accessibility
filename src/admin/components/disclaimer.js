@@ -13,7 +13,7 @@ const Description = () => {
             </p>
             <p>
                 {
-                    __("Feedback & Contact: If you encounter any accessibility barriers while using your website or our plugin, we welcome your feedback and suggestions. Please contact us at: https://bdthemes.com/supportor email [support@bdthemes.com].", "website-accessibility")
+                    __("Feedback & Contact: If you encounter any accessibility barriers while using your website or our plugin, we welcome your feedback and suggestions. Please contact us at: https://bdthemes.com/support or email [support@bdthemes.com].", "website-accessibility")
                 }
             </p>
         </div>
