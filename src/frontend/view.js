@@ -19,6 +19,12 @@ const View = () => {
         ...(profiles || []),
     ], [profiles]);
 
+    const isPreferenceActive = useMemo(() => {
+        const footerAttribiutes = currentPreset?.panel?.items?.find((item) => item.slug === 'footer')?.attributes;
+
+        return footerAttribiutes?.activePreference || false;
+    }, [currentPreset]);
+
     /**
      * Apply preference data to accessibility context
      */
@@ -43,7 +49,7 @@ const View = () => {
         const localData = localStorage.getItem(localKey);
 
         // ✅ Use API only if activePreference is true
-        if (state?.activePreference) {
+        if (isPreferenceActive) {
             apiFetch({ path: `/sigmally/v1/preference?post_id=${currentPresetId}`, method: 'GET' })
                 .then((response) => {
                     if (response?.success && response.data && Object.keys(response.data).length > 0) {
@@ -67,7 +73,7 @@ const View = () => {
                 applyPreferenceData(JSON.parse(localData));
             }
         }
-    }, [currentPresetId, state?.activePreference]);
+    }, [currentPresetId, isPreferenceActive]);
 
     /**
      * Sync preferences to localStorage on change
