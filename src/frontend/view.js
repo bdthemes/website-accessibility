@@ -1,14 +1,13 @@
 import { useState, useMemo, useEffect } from "@wordpress/element";
 import clsx from "clsx";
 import { Drawer } from "antd";
-import { defaultProfiles } from "../utils";
 import useFrontendAccessibility from "./context/useAccessibility";
 import accessibilityManager from "../accessibilty-manager";
 import { __ } from "@wordpress/i18n";
 import apiFetch from "@wordpress/api-fetch";
 
 const View = () => {
-    const screenReader = window.wapHelpers?.screenReader || (() => null);
+    const { screenReader = () => null, defaultProfiles = [] } = window.wapHelpers || {};
     const { PreviewButton, PreviewContent, Icon } = window?.wapComponents;
     const { profiles, currentPreset, currentPresetId } = window?.websiteAccessibility;
     const { dispatch, ...state } = useFrontendAccessibility();

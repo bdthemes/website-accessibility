@@ -1,7 +1,6 @@
 import { createReduxStore, createRegistrySelector } from '@wordpress/data';
 export const STORE_NAME = 'wap/admin-store';
 import { store as coreStore } from '@wordpress/core-data';
-import { defaultProfiles } from '../../utils';
 import { __ } from '@wordpress/i18n';
 
 export const generateUniqueTitle = (base) => {
@@ -10,7 +9,7 @@ export const generateUniqueTitle = (base) => {
     return `${base}-${timestamp}-${randomPart}`;
 };
 
-const panelItems = window?.wapHelpers?.panelItems || [];
+const { panelItems = [], defaultProfiles = [] } = window?.wapHelpers || {};
 const isProActive = window?.websacPro?.isProActive;
 
 export const DEFAULT_STATE = {

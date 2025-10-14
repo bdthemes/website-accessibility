@@ -9,6 +9,7 @@ import './styles/main.scss';
 import features from './utils/features';
 import panelItems from './utils/panel-items';
 import isScreenReaderActive from './utils/is-screenreader-active';
+import defaultProfiles from './utils/profiles';
 
 window.wapComponents = {
     AccessibilityProfiles,
@@ -23,5 +24,6 @@ window.wapComponents = {
 window.wapHelpers = {
     features,
     panelItems,
-    isScreenReaderActive
+    isScreenReaderActive,
+    defaultProfiles
 }
