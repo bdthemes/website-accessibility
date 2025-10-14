@@ -16,6 +16,26 @@ class Frontend
         add_action('wp_footer', [$this, 'render_preset_root']);
     }
 
+    private function get_profiles()
+    {
+        // Check if the Pro plugin class exists
+        if (class_exists('\bdthemes\websiteaccessibilitypro\Admin\License')) {
+            $license = \bdthemes\websiteaccessibilitypro\Admin\License::get_instance();
+
+            // Check if the license method exists and is valid
+            if (method_exists($license, 'is_license_valid') && $license->is_license_valid()) {
+                return get_posts([
+                    'post_type'      => 'websac_profile',
+                    'posts_per_page' => -1,
+                ]);
+            }
+        }
+
+        // If class or license method not found, or license is invalid — return empty array
+        return [];
+    }
+
+
     public function enqueue_components_scripts($hook)
     {
         if (!str_contains($hook, 'accessibility') && is_admin()) {
@@ -48,10 +68,7 @@ class Frontend
             'post_type' => 'websac_preset',
             'posts_per_page' => -1,
         ]);
-        $profiles = get_posts([
-            'post_type' => 'websac_profile',
-            'posts_per_page' => -1,
-        ]);
+        $profiles = $this->get_profiles();
 
         $presets_data = array_map(function ($preset) {
             $data = Utils::get_preset_data($preset);
