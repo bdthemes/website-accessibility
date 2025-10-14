@@ -5,6 +5,7 @@ import { useHistory } from "../router";
 const { Title, Text } = Typography;
 import { useSelect } from '@wordpress/data';
 import { STORE_NAME } from '../store';
+import Disclaimer from '../components/disclaimer';
 
 const Dashboard = () => {
     const history = useHistory();
@@ -91,54 +92,54 @@ const Dashboard = () => {
     ];
 
     return (
-        <div className="wap-dashboard">
-            <Card
-                className="wap-welcome-card wap-header-card"
-            >
-                <div className="wap-welcome-card-content">
-                    <Title level={2} className='wap-header-card-title'>
-                        {__('Welcome to Sigmally Website Accessibility', 'website-accessibility')}
-                    </Title>
-                    <Text className='wap-header-card-description'>
-                        {__('Make your website accessible to everyone with our comprehensive accessibility tools.', 'website-accessibility')}
-                    </Text>
-                </div>
-                <div>
-                    <Button
-                        type="primary"
-                        size="large"
-                        onClick={() => navigateTo('website-accessibility-presets-create')}
-                    >
-                        <Space>
-                            <span className="dashicons dashicons-plus-alt2"/>
-                            {__('Create New Preset', 'website-accessibility')}
-                        </Space>
-                    </Button>
-                </div>
-            </Card>
+        <>
+            <Disclaimer />
+            <div className="wap-dashboard">
+                <Card
+                    className="wap-welcome-card wap-header-card"
+                >
+                    <div className="wap-welcome-card-content">
+                        <Title level={2} className='wap-header-card-title'>
+                            {__('Welcome to Sigmally Website Accessibility', 'website-accessibility')}
+                        </Title>
+                        <Text className='wap-header-card-description'>
+                            {__('Make your website accessible to everyone with our comprehensive accessibility tools.', 'website-accessibility')}
+                        </Text>
+                    </div>
+                    <div>
+                        <Button
+                            type="primary"
+                            size="large"
+                            onClick={() => navigateTo('website-accessibility-presets-create')}
+                        >
+                            <Space>
+                                <span className="dashicons dashicons-plus-alt2" />
+                                {__('Create New Preset', 'website-accessibility')}
+                            </Space>
+                        </Button>
+                    </div>
+                </Card>
 
-            <Row gutter={[24, 24]} align="stretch" className="statistics-grid wap-statistics-grid">
-                {stats.map((stat, idx) => (
-                    <Col xs={24} md={8} key={stat.title} className="stat-card">
-                        <Card>
-                            <div className="stat-icon-wrapper">
-                                {stat.icon}
-                                <div className="stat-content">
-                                    <Title className="stat-title" level={4}>{stat.title}</Title>
-                                    <Title className="stat-value" level={4}>{stat.value}</Title>
+                <Row gutter={[24, 24]} align="stretch" className="statistics-grid wap-statistics-grid">
+                    {stats.map((stat, idx) => (
+                        <Col xs={24} md={8} key={stat.title} className="stat-card">
+                            <Card>
+                                <div className="stat-icon-wrapper">
+                                    {stat.icon}
+                                    <div className="stat-content">
+                                        <Title className="stat-title" level={4}>{stat.title}</Title>
+                                        <Title className="stat-value" level={4}>{stat.value}</Title>
+                                    </div>
                                 </div>
-                            </div>
-                            <div className="stat-content-footer">
-                                <Text className="stat-description">{stat.description}</Text>
-                                <div>{stat.action} {stat.extra}</div>
-                            </div>
-                        </Card>
-                    </Col>
-                ))}
-            </Row>
+                                <div className="stat-content-footer">
+                                    <Text className="stat-description">{stat.description}</Text>
+                                    <div>{stat.action} {stat.extra}</div>
+                                </div>
+                            </Card>
+                        </Col>
+                    ))}
+                </Row>
 
-            {/* Quick Actions */}
-            {/* <Card className="quick-actions"> */}
                 <Title level={4} className='wap-section-title'>
                     {__('Quick Actions', 'website-accessibility')}
                 </Title>
@@ -147,7 +148,7 @@ const Dashboard = () => {
                         <div className="quick-action-btn-wrapper">
                             <Button block size="large" onClick={() => navigateTo('website-accessibility-presets')}>
                                 <Space>
-                                    <span className="dashicons dashicons-universal-access"/>
+                                    <span className="dashicons dashicons-universal-access" />
                                     <span>{__('Manage Presets', 'website-accessibility')}</span>
                                 </Space>
                             </Button>
@@ -157,7 +158,7 @@ const Dashboard = () => {
                         <div className="quick-action-btn-wrapper">
                             <Button block size="large" onClick={() => navigateTo('website-accessibilityfiles')}>
                                 <Space>
-                                    <span className="dashicons dashicons-admin-users"/>
+                                    <span className="dashicons dashicons-admin-users" />
                                     <span>{__('Manage Profiles', 'website-accessibility')}</span>
                                 </Space>
                             </Button>
@@ -167,7 +168,7 @@ const Dashboard = () => {
                         <div className="quick-action-btn-wrapper">
                             <Button className='coming-soon-btn' block size="large" onClick={() => navigateTo('website-accessibility-settings')}>
                                 <Space>
-                                    <span className="dashicons dashicons-admin-generic"/>
+                                    <span className="dashicons dashicons-admin-generic" />
                                     <span>{__('Accessibility Settings', 'website-accessibility')}</span>
                                 </Space>
                                 <Space>
@@ -179,8 +180,8 @@ const Dashboard = () => {
                         </div>
                     </Col>
                 </Row>
-            {/* </Card> */}
-        </div>
+            </div>
+        </>
     );
 };
 
