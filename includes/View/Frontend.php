@@ -35,6 +35,28 @@ class Frontend
         return [];
     }
 
+    /**
+     * Get the Accessibility Statement page link if it exists.
+     *
+     * @return string|null URL of the page or null if not found.
+     */
+    private function get_statement_page_link()
+    {
+        $pages = get_posts([
+            'post_type'      => 'page',
+            'name'           => 'sigmally-accessibility-statement-page', // slug of the page
+            'post_status'    => ['publish', 'draft'],                   // include draft & published
+            'numberposts'    => 1,
+            'fields'         => 'ids',                                   // only need ID
+        ]);
+
+        if (! empty($pages)) {
+            return get_permalink($pages[0]);
+        }
+
+        return null;
+    }
+
 
     public function enqueue_components_scripts($hook)
     {
@@ -103,6 +125,7 @@ class Frontend
                 'currentPresetId' => !empty(Utils::get_current_preset($presets_data, $page_type)['ID']) ? Utils::get_current_preset($presets_data, $page_type)['ID'] : null,
                 'siteLanguage'    => get_bloginfo('language'),
                 'isUserLoggedIn'  => is_user_logged_in(),
+                'statementLink'   => $this->get_statement_page_link(),
                 'nonce'           => wp_create_nonce('wp_rest'),
             ]);
 

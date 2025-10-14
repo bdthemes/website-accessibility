@@ -26,7 +26,7 @@ const PanelFooter = ({ value, accessibilityContext, accessibilityDispatch }) => 
   const footerItem = value?.items?.find(item => item.slug === 'footer');
   const attributes = footerItem?.attributes || {};
   const isProActive = window?.websacPro?.isProActive || false;
-  const { currentPresetId, isUserLoggedIn } = window?.websiteAccessibility || {};
+  const { currentPresetId, isUserLoggedIn, statementLink } = window?.websiteAccessibility || {};
   const isFrontend = !!accessibilityContext && !!accessibilityDispatch;
 
   const resetBtnText = attributes.resetBtnText || 'Reset All';
@@ -101,7 +101,7 @@ const PanelFooter = ({ value, accessibilityContext, accessibilityDispatch }) => 
         });
       })
       .finally(() => setLoadingPreference(false));
-  }, [currentPresetId, isUserLoggedIn, isFrontend]);
+  }, [currentPresetId, isUserLoggedIn, isFrontend, saveablePreference, savingPreference]);
 
   // Reset
   const handleReset = () => {
@@ -166,6 +166,23 @@ const PanelFooter = ({ value, accessibilityContext, accessibilityDispatch }) => 
     }, 1000),
     [isFrontend, currentPresetId, isUserLoggedIn]
   );
+
+  let statementLinkAttr = {};
+  if (statementLink) {
+    statementLinkAttr = {
+      target: '_blank',
+      rel: 'noopener noreferrer',
+      href: statementLink,
+      className: 'wap-panel-footer__statement-link'
+    };
+  } else {
+    statementLinkAttr = {
+      className: 'wap-panel-footer__statement-link',
+      onClick: (e) => {
+        e.preventDefault();
+      },
+    };
+  }
 
 
 
@@ -237,9 +254,7 @@ const PanelFooter = ({ value, accessibilityContext, accessibilityDispatch }) => 
 
             {showStatement && (
               <a
-                onClick={() => window.open('#', '_blank')}
-
-                className="wap-panel-footer__statement-link"
+                {...statementLinkAttr}
               >
                 {statementText}
               </a>

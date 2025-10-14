@@ -64,6 +64,15 @@ class Menu
         );
 
         add_submenu_page(
+            'website-accessibility',
+            __('Settings', 'website-accessibility'),
+            __('Settings', 'website-accessibility'),
+            'manage_options',
+            'website-accessibility-settings',
+            [$this, 'render_menu_page']
+        );
+
+        add_submenu_page(
             'website-accessibility-presets-create', // parent slug
             __('Create Preset', 'website-accessibility'),             // page title
             __('Create Preset', 'website-accessibility'),
