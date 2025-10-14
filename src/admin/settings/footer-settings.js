@@ -48,6 +48,44 @@ const FooterSettings = () => {
                             )
                         },
                         {
+                            key: 'preference',
+                            label: __('Preference Button', 'website-accessibility'),
+                            children: (
+                                <>
+                                    <ControlWrapper label={__('Active Preference', 'website-accessibility')}>
+                                        <Switch checked={attributes.activePreference || false} onChange={checked => updateAttr({ activePreference: checked })} />
+                                    </ControlWrapper>
+                                    {
+                                        attributes?.activePreference && (
+                                            <>
+                                                <ControlWrapper label={__('Save button text', 'website-accessibility')}>
+                                                    <Input
+                                                        value={attributes.saveBtnText || ''}
+                                                        onChange={e => updateAttr({ saveBtnText: e.target.value })}
+                                                        placeholder={__('Save Preference', 'website-accessibility')}
+                                                    />
+                                                </ControlWrapper>
+                                                <ControlWrapper label={__('Update button text', 'website-accessibility')}>
+                                                    <Input
+                                                        value={attributes.updateBtnText || ''}
+                                                        onChange={e => updateAttr({ updateBtnText: e.target.value })}
+                                                        placeholder={__('Update Preference', 'website-accessibility')}
+                                                    />
+                                                </ControlWrapper>
+                                                <ControlWrapper label={__('Delete button text', 'website-accessibility')}>
+                                                    <Input
+                                                        value={attributes.deleteBtnText || ''}
+                                                        onChange={e => updateAttr({ deleteBtnText: e.target.value })}
+                                                        placeholder={__('Delete Preference', 'website-accessibility')}
+                                                    />
+                                                </ControlWrapper>
+                                            </>
+                                        )
+                                    }
+                                </>
+                            )
+                        },
+                        {
                             key: 'links',
                             label: __('Footer Links', 'website-accessibility'),
                             children: (

@@ -5,6 +5,8 @@ import { defaultProfiles } from "../utils";
 import useFrontendAccessibility from "./context/useAccessibility";
 import accessibilityManager from "../accessibilty-manager";
 import { __ } from "@wordpress/i18n";
+import apiFetch from "@wordpress/api-fetch";
+
 const View = () => {
     const screenReader = window.wapHelpers?.screenReader || (() => null);
     const { PreviewButton, PreviewContent, Icon } = window?.wapComponents;
@@ -12,92 +14,126 @@ const View = () => {
     const { dispatch, ...state } = useFrontendAccessibility();
     const [isOpen, setIsOpen] = useState(false);
 
-    const allProfiles = useMemo(() => {
-        return [
-            ...defaultProfiles,
-            ...profiles || [],
-        ];
-    }, [profiles]);
+    const allProfiles = useMemo(() => [
+        ...defaultProfiles,
+        ...(profiles || []),
+    ], [profiles]);
 
+    const isPreferenceActive = useMemo(() => {
+        const footerAttribiutes = currentPreset?.panel?.items?.find((item) => item.slug === 'footer')?.attributes;
 
-    useEffect(() => {
-        if (currentPresetId) {
-            const currentLocalItem = localStorage.getItem(`${state?.localStorageKeyPrefix}-${currentPresetId}`);
+        return footerAttribiutes?.activePreference || false;
+    }, [currentPreset]);
 
-            if (currentLocalItem) {
-                const initialLocalPreferences = JSON.parse(currentLocalItem);
-                dispatch({
-                    type: 'SET_CURRENT_PROFILE',
-                    payload: initialLocalPreferences?.profile || null,
-                });
-                dispatch({
-                    type: 'SET_CURRENT_SETTINGS',
-                    payload: initialLocalPreferences?.settings || {},
-                });
-                dispatch({
-                    type: 'SET_OVERSIZED',
-                    payload: initialLocalPreferences?.oversized || false,
-                });
+    /**
+     * Apply preference data to accessibility context
+     */
+    function applyPreferenceData(preferenceData) {
+        if (!preferenceData) return;
+        dispatch({ type: 'SET_CURRENT_PROFILE', payload: preferenceData.profile || null });
+        dispatch({ type: 'SET_CURRENT_SETTINGS', payload: preferenceData.settings || {} });
+        dispatch({ type: 'SET_OVERSIZED', payload: preferenceData.oversized || false });
+        dispatch({ type: 'SET_ENABLE_TRANSLATIONS', payload: preferenceData.enableTranslations || false });
+        dispatch({ type: 'SET_SELECTED_LANGUAGE', payload: preferenceData.selectedLanguage || null });
+    }
 
-                dispatch({
-                    type: 'SET_ENABLE_TRANSLATIONS',
-                    payload: initialLocalPreferences?.enableTranslations || false,
-                });
-                dispatch({
-                    type: 'SET_SELECTED_LANGUAGE',
-                    payload: initialLocalPreferences?.selectedLanguage || null,
-                });
-            }
-        }
-    }, [currentPresetId]);
-
+    /**
+     * Load preference data
+     * - Fetch from REST API if activePreference = true
+     * - Fallback to localStorage otherwise
+     */
     useEffect(() => {
         if (!currentPresetId) return;
+
+        const localKey = `${state?.localStorageKeyPrefix}-${currentPresetId}`;
+        const localData = localStorage.getItem(localKey);
+
+        // ✅ Use API only if activePreference is true
+        if (isPreferenceActive) {
+            apiFetch({ path: `/sigmally/v1/preference?post_id=${currentPresetId}`, method: 'GET' })
+                .then((response) => {
+                    if (response?.success && response.data && Object.keys(response.data).length > 0) {
+                        applyPreferenceData(response.data);
+
+                        // Optional: sync localStorage for offline support
+                        localStorage.setItem(localKey, JSON.stringify(response.data));
+                    } else if (localData) {
+                        applyPreferenceData(JSON.parse(localData));
+                    }
+                })
+                .catch((error) => {
+                    console.error('Error fetching preference:', error);
+                    if (localData) {
+                        applyPreferenceData(JSON.parse(localData));
+                    }
+                });
+        } else {
+            // 🧩 Local mode (no API call)
+            if (localData) {
+                applyPreferenceData(JSON.parse(localData));
+            }
+        }
+    }, [currentPresetId, isPreferenceActive]);
+
+    /**
+     * Sync preferences to localStorage on change
+     */
+    useEffect(() => {
+        if (!currentPresetId) return;
+
         const { currentProfile, currentSettings, isOverSized, enableTranslations, selectedLanguage } = state;
-        
-        // Create a serializable version of currentProfile
         const serializableProfile = {
             id: currentProfile?.id,
             name: currentProfile?.name,
-            // Check if the icon is a React element and extract only the necessary data
-            icon: currentProfile?.icon && currentProfile?.icon.props && currentProfile.icon.props.dangerouslySetInnerHTML
-                ? { __html: currentProfile.icon.props.dangerouslySetInnerHTML.__html } // Store just the HTML string
-                : currentProfile?.icon, // If it's the simpler object or not present, store as is
+            icon: currentProfile?.icon?.props?.dangerouslySetInnerHTML
+                ? { __html: currentProfile.icon.props.dangerouslySetInnerHTML.__html }
+                : currentProfile?.icon,
         };
 
         const localPreferences = {
             profile: serializableProfile,
-            settings: currentSettings, // Assuming currentSettings is always serializable
+            settings: currentSettings,
             oversized: isOverSized,
-            enableTranslations: enableTranslations,
-            selectedLanguage: enableTranslations ? selectedLanguage : null
+            enableTranslations,
+            selectedLanguage: enableTranslations ? selectedLanguage : null,
         };
 
         localStorage.setItem(`${state.localStorageKeyPrefix}-${currentPresetId}`, JSON.stringify(localPreferences));
     }, [state, currentPresetId]);
 
+    /**
+     * Initialize accessibility manager with current settings
+     */
     useEffect(() => {
         accessibilityManager().init(state?.currentSettings);
     }, [state?.currentSettings, currentPresetId, state?.currentProfile, state?.isOverSized, state?.enableTranslations, state?.selectedLanguage]);
 
+    /**
+     * Keyboard shortcuts: ESC to close, Ctrl+U to open
+     */
     useEffect(() => {
-        window.addEventListener('keydown', (e) => {
-            // ESC closes the menu if it's open
+        const handleKey = (e) => {
             if (e.key === 'Escape' && isOpen) {
                 setIsOpen(false);
             }
 
-            // Ctrl + U opens the menu if it's closed
             if (e.ctrlKey && (e.key === 'u' || e.key === 'U')) {
-                e.preventDefault(); // prevent browser "view source" shortcut
+                e.preventDefault();
                 setIsOpen(true);
             }
-        });
-    }, []);
+        };
 
+        window.addEventListener('keydown', handleKey);
+        return () => window.removeEventListener('keydown', handleKey);
+    }, [isOpen]);
+
+    /**
+     * Screen reader announcements for drawer open/close
+     */
     useEffect(() => {
         const currentSettings = state?.currentSettings;
         if (!currentSettings?.screenReader?.currentStep) return;
+
         if (isOpen) {
             screenReader()?.speak(__('Accessibility Menu Open', 'website-accessibility'));
         } else {
@@ -105,6 +141,9 @@ const View = () => {
         }
     }, [isOpen]);
 
+    /**
+     * Body class toggle for drawer open state
+     */
     useEffect(() => {
         if (isOpen) {
             document.body.classList.add('wap-accessibility-sidebar-open');
@@ -117,15 +156,16 @@ const View = () => {
         };
     }, [isOpen]);
 
+    /**
+     * Initialize Google Translate if present
+     */
     useEffect(() => {
         if (typeof window.google !== "undefined" && window.google.translate) {
             window.wapGoogleTranslateInit();
         }
-    }, [])
+    }, []);
 
-    if (!currentPreset) {
-        return null;
-    }
+    if (!currentPreset) return null;
 
     return (
         <div className="wap-accessibility-view">
@@ -133,7 +173,6 @@ const View = () => {
                 type="default"
                 text={currentPreset?.button?.buttonType !== 'icon' ? currentPreset?.button?.text : null}
                 icon={currentPreset?.button?.buttonType !== 'text' ? <Icon name={currentPreset?.button?.icon} /> : null}
-
                 className={clsx(
                     'wap-button-style-preset__preview-btn',
                     currentPreset?.button?.position,

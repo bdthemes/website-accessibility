@@ -1,26 +1,43 @@
-import { Button } from 'antd';
-import { ReloadOutlined } from '@ant-design/icons';
+import { Button, Flex, message } from 'antd';
+import { DeleteOutlined, ReloadOutlined, SaveOutlined } from '@ant-design/icons';
+import { __ } from '@wordpress/i18n';
+import { useState, useEffect, useCallback, useMemo } from '@wordpress/element';
+import apiFetch from '@wordpress/api-fetch';
+
+// Simple debounce helper
+const debounce = (fn, delay = 1000) => {
+  let timer;
+  return (...args) => {
+    clearTimeout(timer);
+    timer = setTimeout(() => fn(...args), delay);
+  };
+};
 
 const PanelFooter = ({ value, accessibilityContext, accessibilityDispatch }) => {
+  const [savingPreference, setSavingPreference] = useState(false);
+  const [deletingPreference, setDeletingPreference] = useState(false);
+  const [hasSavedPreference, setHasSavedPreference] = useState(false);
+  const [savePreference, setSavePreference] = useState();
+  const [loadingPreference, setLoadingPreference] = useState(false);
+
+  // ✅ Ant Design message
+  const [messageApi, contextHolder] = message.useMessage();
+
   const footerItem = value?.items?.find(item => item.slug === 'footer');
   const attributes = footerItem?.attributes || {};
   const isProActive = window?.websacPro?.isProActive || false;
-
-  // Check if we're in frontend context
+  const { currentPresetId, isUserLoggedIn } = window?.websiteAccessibility || {};
   const isFrontend = !!accessibilityContext && !!accessibilityDispatch;
 
-  // Reset Button
   const resetBtnText = attributes.resetBtnText || 'Reset All';
-
-  // Save Button
-  const showSaveBtn = attributes.showSaveBtn !== false;
-  const saveBtnText = attributes.saveBtnText || 'Save Preference';
-
-  // Footer Links
   const showStatement = attributes.showStatement !== false;
   const statementText = attributes.statementText || 'Statement';
   const showBranding = isProActive ? attributes.showBranding !== false : true;
   const brandingText = isProActive ? attributes.brandingText || 'Powered by Sigmally Website Accessibility' : 'Powered by Sigmally Website Accessibility';
+  const showPreference = attributes?.activePreference || false;
+  const savePreferenceText = attributes.saveBtnText || __('Save Preference', 'website-accessibility');
+  const updatePreferenceText = attributes.updateBtnText || __('Update Preference', 'website-accessibility');
+  const deletePreferenceText = attributes.deleteBtnText || __('Delete Preference', 'website-accessibility');
 
   const footerStyle = {
     '--wap-footer-general-bg': attributes.generalBg,
@@ -33,35 +50,170 @@ const PanelFooter = ({ value, accessibilityContext, accessibilityDispatch }) => 
     '--wap-footer-branding-color': attributes.brandingColor,
   };
 
-  // Handle reset action
+  const saveablePreference = useMemo(() => {
+    if (!isFrontend || !currentPresetId || !isUserLoggedIn) return null;
+    const { currentProfile, currentSettings, isOverSized, enableTranslations, selectedLanguage } = accessibilityContext;
+
+    const serializableProfile = {
+      id: currentProfile?.id,
+      name: currentProfile?.name,
+      icon: currentProfile?.icon?.props?.dangerouslySetInnerHTML
+        ? { __html: currentProfile.icon.props.dangerouslySetInnerHTML.__html }
+        : currentProfile?.icon,
+    };
+
+    let data = {};
+    if (serializableProfile?.id) data.profile = serializableProfile;
+
+    if (Object.keys(currentSettings).length > 0) {
+      let settings = {};
+      Object.keys(currentSettings).forEach((key) => {
+        if (currentSettings[key]?.currentStep !== 0) settings[key] = currentSettings[key];
+      });
+      if (Object.keys(settings).length > 0) data.settings = settings;
+    }
+
+    if (isOverSized) data.oversized = isOverSized;
+    if (enableTranslations) {
+      data.enableTranslations = enableTranslations;
+      data.selectedLanguage = selectedLanguage;
+    }
+
+    return { post_id: currentPresetId, data };
+  }, [accessibilityContext]);
+
+  // Fetch preference state
+  useEffect(() => {
+    if (!isFrontend || !currentPresetId || !isUserLoggedIn) return;
+    setLoadingPreference(true);
+
+    apiFetch({ path: `/sigmally/v1/preference?post_id=${currentPresetId}`, method: 'GET' })
+      .then((response) => {
+        setHasSavedPreference(response?.success && response.data && Object.keys(response.data).length > 0);
+        setSavePreference(response?.data);
+      })
+      .catch(() => {
+        setHasSavedPreference(false);
+        setSavePreference(null);
+        messageApi.error({
+          content: __('Failed to load preferences. Please try again.', 'website-accessibility'),
+          style: { marginBlockStart: 20 },
+        });
+      })
+      .finally(() => setLoadingPreference(false));
+  }, [currentPresetId, isUserLoggedIn, isFrontend]);
+
+  // Reset
   const handleReset = () => {
     if (!isFrontend) return;
-
-    accessibilityDispatch({
-      type: 'RESET_ACCESSIBILITY',
+    accessibilityDispatch({ type: 'RESET_ACCESSIBILITY' });
+    messageApi.info({
+      content: __('All accessibility settings have been reset to default.', 'website-accessibility'),
+      style: { marginBlockStart: 20 },
     });
   };
 
-  // Handle save action
-  const handleSave = () => {
-    if (!isFrontend) return;
-  };
+  // Save
+  const handleSave = useCallback(
+    debounce(async () => {
+      if (!isFrontend || !currentPresetId || !isUserLoggedIn) return;
+      setSavingPreference(true);
+
+      try {
+        await apiFetch({ path: '/sigmally/v1/preference', method: 'POST', data: saveablePreference });
+        setHasSavedPreference(true);
+        messageApi.success({
+          content: hasSavedPreference
+            ? __('Preferences updated successfully.', 'website-accessibility')
+            : __('Preferences saved successfully.', 'website-accessibility'),
+          style: { marginBlockStart: 20 },
+        });
+      } catch (error) {
+        console.error(error);
+        messageApi.error({
+          content: __('Failed to save preferences. Please try again.', 'website-accessibility'),
+          style: { marginBlockStart: 20 },
+        });
+      } finally {
+        setSavingPreference(false);
+      }
+    }, 1000),
+    [isFrontend, currentPresetId, isUserLoggedIn, accessibilityContext, hasSavedPreference]
+  );
+
+  // Delete
+  const handleDelete = useCallback(
+    debounce(async () => {
+      if (!isFrontend || !currentPresetId || !isUserLoggedIn) return;
+      setDeletingPreference(true);
+
+      try {
+        await apiFetch({ path: `/sigmally/v1/preference?post_id=${currentPresetId}`, method: 'DELETE' });
+        setHasSavedPreference(false);
+        messageApi.success({
+          content: __('Preferences deleted successfully.', 'website-accessibility'),
+          style: { marginBlockStart: 20 },
+        });
+      } catch (error) {
+        console.error(error);
+        messageApi.error({
+          content: __('Failed to delete preferences. Please try again.', 'website-accessibility'),
+          style: { marginBlockStart: 20 },
+        });
+      } finally {
+        setDeletingPreference(false);
+      }
+    }, 1000),
+    [isFrontend, currentPresetId, isUserLoggedIn]
+  );
+
+
 
   return (
     <footer className="wap-panel-footer" style={footerStyle}>
+      {contextHolder}
+
+      {(isUserLoggedIn || !isFrontend) && showPreference && (
+        <Flex align="center" justify="space-between" gap={10} style={{ marginBottom: '10px', padding: '0 24px' }}>
+          <Button
+            type="primary"
+            icon={<SaveOutlined />}
+            size="large"
+            block
+            onClick={handleSave}
+            loading={savingPreference || loadingPreference}
+            disabled={!isFrontend ? false : Object.keys(saveablePreference?.data || {}).length === 0 || JSON.stringify(saveablePreference?.data) === JSON.stringify(savePreference)}
+          >
+            {hasSavedPreference
+              ? updatePreferenceText
+              : savePreferenceText}
+          </Button>
+
+          <Button
+            danger
+            type="primary"
+            icon={<DeleteOutlined />}
+            size="large"
+            block
+            onClick={handleDelete}
+            loading={deletingPreference}
+            disabled={isFrontend ? !hasSavedPreference || deletingPreference || loadingPreference : false}
+          >
+            {deletePreferenceText}
+          </Button>
+        </Flex>
+      )}
+
       <div className="wap-panel-footer__actions">
         <Button
           type="primary"
           icon={<ReloadOutlined />}
           size="large"
           block
-          className="wap-panel-footer__reset-btn"
-
           onClick={handleReset}
         >
           {resetBtnText}
         </Button>
-
       </div>
 
       <div className="wap-panel-footer__links">
@@ -99,4 +251,4 @@ const PanelFooter = ({ value, accessibilityContext, accessibilityDispatch }) => 
   );
 };
 
-export default PanelFooter; 
+export default PanelFooter;

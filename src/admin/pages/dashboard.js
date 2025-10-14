@@ -1,20 +1,40 @@
 import { Card, Button, Row, Col, Typography, Space, Progress } from 'antd';
 import { __ } from "@wordpress/i18n";
 import { useHistory } from "../router";
-
-const { Title, Text } = Typography;
 import { useSelect } from '@wordpress/data';
 import { STORE_NAME } from '../store';
+import { useEffect, useState } from '@wordpress/element';
+
+const { Title, Text } = Typography;
 import Disclaimer from '../components/disclaimer';
 
 const Dashboard = () => {
     const history = useHistory();
+    const [statsData, setStatsData] = useState({ average_percent: 0 });
+    const [loading, setLoading] = useState(true);
 
     const navigateTo = (path) => {
-        history.push({
-            page: path,
-        });
+        history.push({ page: path });
     };
+
+    // Fetch stats from REST API
+    useEffect(() => {
+        const fetchStats = async () => {
+            try {
+                const response = await wp.apiFetch({
+                    path: '/sigmally/v1/preference?stats=true',
+                });
+                if (response?.success) {
+                    setStatsData(response.data);
+                }
+            } catch (error) {
+                console.error('Failed to fetch stats:', error);
+            } finally {
+                setLoading(false);
+            }
+        };
+        fetchStats();
+    }, []);
 
     const { activePresetsCount, profilesCount } = useSelect((select) => {
         const { getPresets, getProfiles } = select(STORE_NAME);
@@ -22,11 +42,7 @@ const Dashboard = () => {
         const activePresets = presets?.filter(preset => {
             const { content: { raw } } = preset;
             const data = JSON.parse(raw);
-            if (data?.preset?.active) {
-                return true;
-            }
-
-            return false;
+            return data?.preset?.active;
         });
 
         return {
@@ -34,21 +50,17 @@ const Dashboard = () => {
             profilesCount: getProfiles()?.length || 0,
         };
     }, []);
-    
 
     const stats = [
         {
             title: __('Active Presets', 'website-accessibility'),
             value: activePresetsCount,
             description: __('Presets help you quickly apply accessibility settings across your website.', 'website-accessibility'),
-            icon: <span className="dashicons dashicons-universal-access"/>,
+            icon: <span className="dashicons dashicons-universal-access" />,
             action: (
-                <Button
-                    size="small"
-                    onClick={() => navigateTo('website-accessibility-presets')}
-                >
+                <Button size="small" onClick={() => navigateTo('website-accessibility-presets')}>
                     <Space>
-                        <span className="dashicons dashicons-visibility"/>
+                        <span className="dashicons dashicons-visibility" />
                         {__('View All', 'website-accessibility')}
                     </Space>
                 </Button>
@@ -58,36 +70,30 @@ const Dashboard = () => {
             title: __('Custom Profiles', 'website-accessibility'),
             value: profilesCount,
             description: __('Create profiles for different user needs and preferences.', 'website-accessibility'),
-            icon: <span className="dashicons dashicons-admin-users"/>,
+            icon: <span className="dashicons dashicons-admin-users" />,
             action: (
-                <Button 
-                    size="small"
-                    onClick={() => navigateTo('website-accessibilityfiles')}
-                >
+                <Button size="small" onClick={() => navigateTo('website-accessibilityfiles')}>
                     <Space>
-                        <span className="dashicons dashicons-visibility"/>
+                        <span className="dashicons dashicons-visibility" />
                         {__('View All', 'website-accessibility')}
                     </Space>
                 </Button>
             ),
         },
         {
-            title: (
-                <Space>
-                    {__('Saved Preferences', 'website-accessibility')}
-                    <span className="coming-soon-badge">
-                        {__('Coming Soon', 'website-accessibility')}
-                    </span>
-                </Space>
-            ),
-            // value: 0,
-            description: __(
-                'Users who have saved their accessibility preferences.', 
-                'website-accessibility'
-            ),
+            title: __('Saved Preferences', 'website-accessibility'),
+            value: `${statsData.users_with_data || 0}/${statsData.total_users || 0}`,
+            description: __('Users who have saved their accessibility preferences.', 'website-accessibility'),
             icon: <span className="dashicons dashicons-visibility" />,
-            action: <Progress percent={0} size="small" showInfo={false} />, 
-            extra: <Text type="secondary">0%</Text>,
+            action: (
+                <Progress
+                    percent={statsData.average_percent || 0}
+                    size="small"
+                    showInfo={false}
+                    status={loading ? 'active' : 'normal'}
+                />
+            ),
+            extra: <Text type="secondary">{loading ? 'Loading...' : `${statsData.average_percent || 0}%`}</Text>,
         },
     ];
 
