@@ -504,11 +504,11 @@ class AccessibilityManager {
     removeFeature(key) {
         // Remove the feature
         if (key === 'screenReader') {
-            screenReader ? screenReader()?.destroy() : null;
+            this.removeScreenReader();
         } else if (key === 'contrast') {
             this.removeContrast();
         }else if (key === 'smartContrast') {
-            smartContrast()?.remove();
+            this.removeSmartContrast();
         } else if (key === 'cursor') {
             this.removeCursor();
         } else if (key === 'tooltips') {
@@ -518,9 +518,11 @@ class AccessibilityManager {
         }else if (key === 'muteSounds') {
             this.removeMuteSounds(key);
         }else if (key === 'grayscale') {
-            filterFeatures().removeGrayScale();
+            filterFeatures()?.removeGrayScale();
+            delete this.props['grayscale'];
         }else if (key === 'brightness') {
-            filterFeatures().removeBrightness();
+            filterFeatures()?.removeBrightness();
+            delete this.props['brightness'];
         }else if (
             key === 'highlightLinks' ||
             key === 'biggerText' ||

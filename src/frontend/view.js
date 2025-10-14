@@ -106,7 +106,7 @@ const View = () => {
      */
     useEffect(() => {
         accessibilityManager().init(state?.currentSettings);
-    }, [state]);
+    }, [state?.currentSettings, currentPresetId, state?.currentProfile, state?.isOverSized, state?.enableTranslations, state?.selectedLanguage]);
 
     /**
      * Keyboard shortcuts: ESC to close, Ctrl+U to open
