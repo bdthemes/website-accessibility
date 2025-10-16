@@ -1,14 +1,13 @@
 import { useState, useMemo, useEffect } from "@wordpress/element";
 import clsx from "clsx";
 import { Drawer } from "antd";
-import { defaultProfiles } from "../utils";
 import useFrontendAccessibility from "./context/useAccessibility";
 import accessibilityManager from "../accessibilty-manager";
 import { __ } from "@wordpress/i18n";
 import apiFetch from "@wordpress/api-fetch";
 
 const View = () => {
-    const screenReader = window.wapHelpers?.screenReader || (() => null);
+    const { screenReader = () => null, defaultProfiles = [] } = window.wapHelpers || {};
     const { PreviewButton, PreviewContent, Icon } = window?.wapComponents;
     const { profiles, currentPreset, currentPresetId } = window?.websiteAccessibility;
     const { dispatch, ...state } = useFrontendAccessibility();
@@ -25,13 +24,25 @@ const View = () => {
         return footerAttribiutes?.activePreference || false;
     }, [currentPreset]);
 
+    function validProfile(currentProfile){
+        if(!currentProfile) return null;
+        
+        const isExist = allProfiles.find((profile) => profile.id === currentProfile?.id);
+        return isExist ? currentProfile : null;
+    }
+    
     /**
      * Apply preference data to accessibility context
      */
     function applyPreferenceData(preferenceData) {
         if (!preferenceData) return;
-        dispatch({ type: 'SET_CURRENT_PROFILE', payload: preferenceData.profile || null });
-        dispatch({ type: 'SET_CURRENT_SETTINGS', payload: preferenceData.settings || {} });
+        const validCurrentProfile = validProfile(preferenceData.profile);
+        if(validCurrentProfile?.id !== preferenceData?.profile?.id) {
+            dispatch({ type: 'SET_CURRENT_SETTINGS', payload: {} });
+        }else{
+            dispatch({ type: 'SET_CURRENT_SETTINGS', payload: preferenceData.settings || {} });
+        }
+        dispatch({ type: 'SET_CURRENT_PROFILE', payload: validCurrentProfile });
         dispatch({ type: 'SET_OVERSIZED', payload: preferenceData.oversized || false });
         dispatch({ type: 'SET_ENABLE_TRANSLATIONS', payload: preferenceData.enableTranslations || false });
         dispatch({ type: 'SET_SELECTED_LANGUAGE', payload: preferenceData.selectedLanguage || null });
