@@ -9,6 +9,7 @@ import PreviewPreset from './preview-preset';
 import Profiles from './profiles';
 import CreateProfiles from './create-profiles';
 import EditProfile from './edit-profile';
+import Settings from './settings';
 
 const Pages = () => {
     const location = useLocation();
@@ -31,6 +32,8 @@ const Pages = () => {
                 return <Presets />;
             case 'website-accessibility-presets-create':
                 return <CreatePreset />;
+            case 'website-accessibility-settings':
+                return <Settings />;
             default:
                 return <Dashboard />;
         }

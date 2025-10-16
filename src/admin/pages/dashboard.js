@@ -172,15 +172,10 @@ const Dashboard = () => {
                     </Col>
                     <Col xs={24} md={8}>
                         <div className="quick-action-btn-wrapper">
-                            <Button className='coming-soon-btn' block size="large" onClick={() => navigateTo('website-accessibility-settings')}>
+                            <Button block size="large" onClick={() => navigateTo('website-accessibility-settings')}>
                                 <Space>
                                     <span className="dashicons dashicons-admin-generic" />
                                     <span>{__('Accessibility Settings', 'website-accessibility')}</span>
-                                </Space>
-                                <Space>
-                                    <span className="coming-soon-badge">
-                                        {__('Coming Soon', 'website-accessibility')}
-                                    </span>
                                 </Space>
                             </Button>
                         </div>
