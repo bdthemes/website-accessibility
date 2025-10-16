@@ -10,7 +10,7 @@ const { Space } = Layout;
 
 const ProfilesFallback = () => {
   const openPricingPage = () => {
-    window.open('https://sigmally.pro/', '_blank');
+    window.open('https://sigmally.pro/#pricing', '_blank');
   };
 
   return (
