@@ -144,9 +144,9 @@ class Frontend
             // Now enqueue the Google Translate script, which calls the callback
             wp_enqueue_script(
                 'gt-element',
-                'https://translate.google.com/translate_a/element.js?cb=wapGoogleTranslateInit&v=' . time(),
+                'https://translate.google.com/translate_a/element.js?cb=wapGoogleTranslateInit&v=' . time(), 
                 ['gt-element-callback'],
-                null,
+                null,  // phpcs:ignore WordPress.WP.EnqueuedResourceParameters.MissingVersion
                 false
             );
         }
