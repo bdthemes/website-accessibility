@@ -84,6 +84,18 @@ This plugin uses the following open-source libraries and third-party tools. We a
 
 == Changelog ==
 
+= 1.0.3 (20 oct 2025) =
+* Added: Save Preference feature for retaining user accessibility settings for logged in users
+* Added: Widget Activation/Deactivation option within presets
+* Added: Settings page with integrated Statement page Checker and Generator
+* Added: Specific Page/Post and Archive conditions for Preset
+* Added: Admin Disclaimer for better guidance and transparency
+* Improve: Font Size Widget functionality
+* Improve: Removed Blind and Dyslexic profiles to prevent confusion
+* Improve: Optimized overall UI/UX and enhanced code structure
+* Fixed: Issue where enabling the Hide Flag switch caused the app to break
+
+
 = 1.0.0 =
 * Initial release  
 * Multiple presets with conditional display (Entire Site, Singular, Archives)  
