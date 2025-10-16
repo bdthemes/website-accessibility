@@ -84,7 +84,7 @@ This plugin uses the following open-source libraries and third-party tools. We a
 
 == Changelog ==
 
-= 1.0.3 (20 oct 2025) =
+= 1.1.0 (20 oct 2025) =
 * Added: Save Preference feature for retaining user accessibility settings for logged in users
 * Added: Widget Activation/Deactivation option within presets
 * Added: Settings page with integrated Statement page Checker and Generator
