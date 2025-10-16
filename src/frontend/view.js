@@ -25,9 +25,10 @@ const View = () => {
     }, [currentPreset]);
 
     function validProfile(currentProfile){
-        if(!currentProfile) return null;
+        if(!currentProfile?.id) return null;
         
-        const isExist = allProfiles.find((profile) => profile.id === currentProfile?.id);
+        const isExist = allProfiles.find((profile) => (profile.id === currentProfile?.id || profile.ID === currentProfile?.id));
+
         return isExist ? currentProfile : null;
     }
     
@@ -37,6 +38,7 @@ const View = () => {
     function applyPreferenceData(preferenceData) {
         if (!preferenceData) return;
         const validCurrentProfile = validProfile(preferenceData.profile);
+        
         if(validCurrentProfile?.id !== preferenceData?.profile?.id) {
             dispatch({ type: 'SET_CURRENT_SETTINGS', payload: {} });
         }else{
