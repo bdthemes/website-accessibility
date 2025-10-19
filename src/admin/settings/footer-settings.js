@@ -87,7 +87,7 @@ const FooterSettings = () => {
                         },
                         {
                             key: 'links',
-                            label: __('Footer Links', 'website-accessibility'),
+                            label: __('Footer Text', 'website-accessibility'),
                             children: (
                                 <>
                                     <ControlWrapper label={__('Show Accessibility Statement', 'website-accessibility')}>
@@ -178,7 +178,7 @@ const FooterSettings = () => {
                         },
                         {
                             key: 'links-style',
-                            label: __('Footer Links', 'website-accessibility'),
+                            label: __('Footer Text', 'website-accessibility'),
                             children: (
                                 <>
                                     <ControlWrapper label={__('Link Color', 'website-accessibility')}>
