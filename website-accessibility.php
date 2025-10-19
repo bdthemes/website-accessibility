@@ -249,6 +249,7 @@ final class WebsiteAccessibility
 
 		// Initialize the routes
 		\bdthemes\websiteaccessibility\Routes\PreferenceRouteV1::get_instance();
+		\bdthemes\websiteaccessibility\Routes\SettingsRouteV1::get_instance();
 	}
 
 	/**

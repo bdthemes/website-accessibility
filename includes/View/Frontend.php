@@ -126,29 +126,9 @@ class Frontend
                 'siteLanguage'    => get_bloginfo('language'),
                 'isUserLoggedIn'  => is_user_logged_in(),
                 'statementLink'   => $this->get_statement_page_link(),
+                'settings'        => get_option('websac_settings'),
                 'nonce'           => wp_create_nonce('wp_rest'),
             ]);
-
-            // Register the callback BEFORE the Google script
-            wp_register_script('gt-element-callback', '', [], WEBSAC_VERSION, false);
-            wp_enqueue_script('gt-element-callback');
-
-            $inline_function = 'window.wapGoogleTranslateInit = function() {
-                    new window.google.translate.TranslateElement({
-                        pageLanguage: "' . esc_js(get_bloginfo('language')) . '"
-                        }, "wap-google-translate-container");
-                    };';
-
-            wp_add_inline_script('gt-element-callback', $inline_function);
-
-            // Now enqueue the Google Translate script, which calls the callback
-            wp_enqueue_script(
-                'gt-element',
-                'https://translate.google.com/translate_a/element.js?cb=wapGoogleTranslateInit&v=' . time(), 
-                ['gt-element-callback'],
-                null,  // phpcs:ignore WordPress.WP.EnqueuedResourceParameters.MissingVersion
-                false
-            );
         }
     }
     public function render_preset_root()
