@@ -48,11 +48,11 @@
 		justify-content: center;
 		margin-left: 16px;
 		cursor: pointer;
-		// background: var(--wap-close-button-bg, rgba(255, 255, 255, 0.1));
+		background: var(--wap-close-button-bg, rgba(255, 255, 255, 0.1));
 		color: var(--wap-close-button-color, #d6ddea);
 		width: var(--wap-close-button-size, 32px);
 		height: var(--wap-close-button-size, 32px);
-		// border: var(--wap-close-button-border, 1px solid rgba(255, 255, 255, 0.2));
+		border: var(--wap-close-button-border, 1px solid rgba(255, 255, 255, 0.2));
 		border-radius: var(--wap-close-button-border-radius, 6px);
 		top: var(--wap-close-button-top, 14px);
 		right: var(--wap-close-button-right, 20px);
