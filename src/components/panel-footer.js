@@ -268,7 +268,6 @@ const PanelFooter = ({ value, accessibilityContext, accessibilityDispatch }) => 
               size="large"
               block
               onClick={handleClearConsent}
-              style={{ width: 130 }}
             >
               {__('Clear consent', 'website-accessibility')}
             </Button>
