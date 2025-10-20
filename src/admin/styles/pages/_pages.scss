@@ -13,14 +13,14 @@
     input.ant-input:not(.wap-license-input input.ant-input) {
         min-height: 40px;
         border: 1px solid #ddd;
-        border-radius: 6px;
         font-size: 13px;
 
         &:focus,
         &:hover {
-            border-color: #1677ff;
             box-shadow: 0 0 0 2px rgba(5, 145, 255, 0.1);
             outline: 0;
+            border: 1px solid #1677ff;
+            border-radius: 6px 0 0 6px;
             background-color: #ffffff;
         }
     }
@@ -49,8 +49,8 @@
 
 
 
-    .wap-admin-page{
-        &.website-accessibility-presets-preview{
+    .wap-admin-page {
+        &.website-accessibility-presets-preview {
             min-height: 70vh;
             position: relative;
         }
@@ -73,4 +73,4 @@
 
 .wap-admin-pages:has(.website-accessibility-presets-preview) {
     padding: 0;
-  }
+}
