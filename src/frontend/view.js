@@ -8,8 +8,8 @@ import apiFetch from "@wordpress/api-fetch";
 
 const View = () => {
     const { screenReader = () => null, defaultProfiles = [] } = window.wapHelpers || {};
-    const { PreviewButton, PreviewContent, Icon } = window?.wapComponents;
-    const { profiles, currentPreset, currentPresetId } = window?.websiteAccessibility;
+    const { PreviewButton, PreviewContent, Icon, GoogleTranslateConsent = () => null } = window?.wapComponents;
+    const { profiles, currentPreset, currentPresetId, settings } = window?.websiteAccessibility;
     const { dispatch, ...state } = useFrontendAccessibility();
     const [isOpen, setIsOpen] = useState(false);
 
@@ -25,9 +25,10 @@ const View = () => {
     }, [currentPreset]);
 
     function validProfile(currentProfile){
-        if(!currentProfile) return null;
+        if(!currentProfile?.id) return null;
         
-        const isExist = allProfiles.find((profile) => profile.id === currentProfile?.id);
+        const isExist = allProfiles.find((profile) => (profile.id === currentProfile?.id || profile.ID === currentProfile?.id));
+
         return isExist ? currentProfile : null;
     }
     
@@ -37,6 +38,7 @@ const View = () => {
     function applyPreferenceData(preferenceData) {
         if (!preferenceData) return;
         const validCurrentProfile = validProfile(preferenceData.profile);
+        
         if(validCurrentProfile?.id !== preferenceData?.profile?.id) {
             dispatch({ type: 'SET_CURRENT_SETTINGS', payload: {} });
         }else{
@@ -110,7 +112,7 @@ const View = () => {
         };
 
         localStorage.setItem(`${state.localStorageKeyPrefix}-${currentPresetId}`, JSON.stringify(localPreferences));
-    }, [state, currentPresetId]);
+    }, [currentPresetId, state?.currentProfile, state?.currentSettings, state?.isOverSized, state?.enableTranslations, state?.selectedLanguage]);
 
     /**
      * Initialize accessibility manager with current settings
@@ -167,19 +169,11 @@ const View = () => {
         };
     }, [isOpen]);
 
-    /**
-     * Initialize Google Translate if present
-     */
-    useEffect(() => {
-        if (typeof window.google !== "undefined" && window.google.translate) {
-            window.wapGoogleTranslateInit();
-        }
-    }, []);
-
     if (!currentPreset) return null;
 
     return (
         <div className="wap-accessibility-view">
+
             <PreviewButton
                 type="default"
                 text={currentPreset?.button?.buttonType !== 'icon' ? currentPreset?.button?.text : null}
@@ -218,6 +212,7 @@ const View = () => {
                     accessibilityDispatch={dispatch}
                 />
             </Drawer>
+            <GoogleTranslateConsent showModal={settings?.show_translations_consent} />
         </div>
     );
 };

@@ -172,7 +172,7 @@ const features = [
                     {
                         selector: "html",
                         properties: {
-                            fontSize: "110%",
+                            fontSize: "120%",
                         },
                     },
                 ],
@@ -188,7 +188,7 @@ const features = [
                     {
                         selector: "html",
                         properties: {
-                            fontSize: "120%",
+                            fontSize: "140%",
                         },
                     },
                 ],
@@ -204,7 +204,7 @@ const features = [
                     {
                         selector: "html",
                         properties: {
-                            fontSize: "130%",
+                            fontSize: "160%",
                         },
                     },
                 ],
@@ -220,7 +220,7 @@ const features = [
                     {
                         selector: "html",
                         properties: {
-                            fontSize: "150%",
+                            fontSize: "200%",
                         },
                     },
                 ],
