@@ -126,7 +126,9 @@ class Frontend
                 'siteLanguage'    => get_bloginfo('language'),
                 'isUserLoggedIn'  => is_user_logged_in(),
                 'statementLink'   => $this->get_statement_page_link(),
-                'settings'        => get_option('websac_settings'),
+                'settings'        => get_option('websac_settings', [
+                    'show_translations_consent' => true
+                ]),
                 'nonce'           => wp_create_nonce('wp_rest'),
             ]);
         }
