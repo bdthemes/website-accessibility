@@ -1,18 +1,19 @@
 <?php
 
 /**
- * Plugin Name:       Sigmally Website Accessibility
+ * Plugin Name:       One Accessibility
  * Description:       A comprehensive WordPress plugin to enhance website accessibility and ensure WCAG compliance.
  * Requires at least: 6.1
  * Requires PHP:      7.4
  * Version:           1.1.0
  * Author:            bdthemes
- * Author URI:        https://bdthemes.com
+ * Author URI:        https://bdthemes.com/plugin/one-accessibility
  * License:           GPL-2.0-or-later
  * License URI:       https://www.gnu.org/licenses/gpl-2.0.html
  * Text Domain:       website-accessibility 
  */
 
+use bdthemes\websiteaccessibility\Core\Utils;
 use bdthemes\websiteaccessibility\Traits\Singleton;
 
 // Exit if accessed directly.
@@ -66,7 +67,7 @@ final class WebsiteAccessibility
 	public function define_constants()
 	{
 		define('WEBSAC_VERSION', self::VERSION);
-		define('WEBSAC_NAME', 'Sigmally Website Accessibility');
+		define('WEBSAC_NAME', 'One Accessibility');
 		define('WEBSAC_URL', trailingslashit(plugin_dir_url(__FILE__)));
 		define('WEBSAC_DIR', trailingslashit(plugin_dir_path(__FILE__)));
 		define('WEBSAC_INCLUDES_DIR', WEBSAC_DIR . 'includes/');
@@ -98,123 +99,43 @@ final class WebsiteAccessibility
 			'no_found_rows'  => true, // improves performance
 		]);
 
-		if (empty($existing_presets)) {
-			// Create a default preset
-			wp_insert_post([
-				'post_title'   => 'Accessibility Preset',
-				'post_content' => json_encode([
-					'preset' => [
-						'active'    => true,
-						'condition' => 'entire_site',
-					],
-					'panel' => [
-						'wrapper' => [
-							'width' => '420',
-						],
-						'items' => [
-							[
-								'id'          => 'header',
-								'title'       => 'Header',
-								'slug'        => 'header',
-								'active'      => true,
-								'disableDrag' => true,
-								'attributes'  => [
-									'text'         => 'Accessibility Menu (CTRL+U)',
-									'showClose'    => true,
-									'background'   => '#2e6cf6',
-									'border'       => '1px solid #2e6cf6',
-									'borderRadius' => '6px',
-									'boxShadow'    => '0 4px 24px rgba(0,0,0,0.08)',
-									'padding'      => '10px 20px',
-								],
-								'chosen'   => false,
-								'selected' => false,
-							],
-							[
-								'id'      => 'language',
-								'title'   => 'Language',
-								'slug'    => 'language',
-								'active'  => true,
-								'close'   => true,
-								'isPro'   => true,
-								'attributes' => [
-									'text'        => 'Language',
-									'showClose'   => true,
-									'flipContent' => false,
-									'background'  => '#ffffff',
-									'border'      => '1px solid #e0e0e0',
-								],
-								'chosen'   => false,
-								'selected' => false,
-							],
-							[
-								'id'      => 'profiles',
-								'title'   => 'Profiles',
-								'slug'    => 'profiles',
-								'active'  => true,
-								'attributes' => [
-									'profiles' => [
-										'motor',
-										'blind',
-										'color-blind',
-										'dyslexia',
-										'low-vision',
-										'cognitive',
-										'seizure',
-										'adhd',
-									],
-								],
-								'chosen'   => false,
-								'selected' => false,
-							],
-							[
-								'id'      => 'features',
-								'title'   => 'Features',
-								'slug'    => 'features',
-								'active'  => true,
-								'close'   => true,
-								'attributes' => [
-									'text'        => 'Features',
-									'showClose'   => true,
-									'flipContent' => false,
-									'background'  => '#ffffff',
-									'border'      => '1px solid #e0e0e0',
-								],
-								'chosen'   => false,
-								'selected' => false,
-							],
-							[
-								'id'          => 'footer',
-								'title'       => 'Footer',
-								'slug'        => 'footer',
-								'active'      => true,
-								'close'       => true,
-								'disableDrag' => true,
-								'chosen'      => false,
-								'selected'    => false,
-							],
-						],
-					],
-					'button'     => [
-						'text'       => 'Accessibility Menu',
-						'showIcon'   => true,
-						'icon'       => 'accessibility1',
-						'color'      => '#ffffff',
-						'bgColor'    => '#1677ff',
-						'position'   => 'bottom-right',
-						'buttonType' => 'icon',
-						'offsetX'   => '40',
-						'offsetY'    => '40',
-					],
-				]),
-				'post_status'  => 'publish',
-				'post_author'  => get_current_user_id(),
-				'post_type'    => 'websac_preset',
-			]);
+		$existing_statement = $existing_statement = get_page_by_path('one-accessibility-statement-page', OBJECT, 'page');
+
+
+		if (empty($existing_presets) || empty($existing_statement)) {
+			Utils::get_filesystem();
+
+			global $wp_filesystem;
+		}
+
+		if(empty($existing_presets)) {
+			$json_path = WEBSAC_DIR . 'default-posts/preset.json';
+			$data = json_decode($wp_filesystem->get_contents($json_path), true);
+
+			if (!empty($data)) {
+				if (!empty($data)) {
+					$data['post_author'] = get_current_user_id();
+					$data['post_content'] = json_encode($data['post_content'], JSON_UNESCAPED_UNICODE | JSON_UNESCAPED_SLASHES);
+					wp_insert_post($data);
+				}
+			}
+		}
+
+		if(empty($existing_statement)) {
+			$json_path = WEBSAC_DIR . 'default-posts/statement.json';
+			$data = json_decode($wp_filesystem->get_contents($json_path), true);
+
+			if (!empty($data)) {
+				if (!empty($data)) {
+					$data['post_author'] = get_current_user_id();
+					$data['post_content'] = $data['post_content'];
+					wp_insert_post($data);
+				}
+			}
 		}
 
 		// Set redirect flag to trigger on next admin page load
-    	add_option('websac_do_activation_redirect', true);
+		add_option('websac_do_activation_redirect', true);
 	}
 
 
@@ -233,17 +154,17 @@ final class WebsiteAccessibility
 		add_filter('body_class', fn($classes) => array_merge($classes, ['wap', 'wap-frontend']));
 
 		do_action('websac_plugins_loaded');
-		
+
 		// Register post types
 		\bdthemes\websiteaccessibility\Core\AccessibilityPreset::get_instance();
 		\bdthemes\websiteaccessibility\Core\PresetProfile::get_instance();
-		
+
 		// Register admin menu
 		\bdthemes\websiteaccessibility\Admin\Menu::get_instance();
-		
+
 		// Initialize admin assets
 		\bdthemes\websiteaccessibility\Admin\Enqueue::get_instance();
-		
+
 		// Initialize frontend assets
 		\bdthemes\websiteaccessibility\View\Frontend::get_instance();
 
@@ -279,7 +200,7 @@ final class WebsiteAccessibility
 }
 
 /**
- * Kickstart the Sigmally Website Accessibility plugin.
+ * Kickstart the One Accessibility plugin.
  *
  * @return WebsiteAccessibility
  */

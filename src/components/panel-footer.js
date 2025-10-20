@@ -56,7 +56,7 @@ const PanelFooter = ({ value, accessibilityContext, accessibilityDispatch }) => 
   const showStatement = attributes.showStatement !== false;
   const statementText = attributes.statementText || 'Statement';
   const showBranding = isProActive ? attributes.showBranding !== false : true;
-  const brandingText = isProActive ? attributes.brandingText || 'Powered by Sigmally Website Accessibility' : 'Powered by Sigmally Website Accessibility';
+  const brandingText = isProActive ? attributes.brandingText || 'Powered by One Accessibility' : 'Powered by One Accessibility';
   const showPreference = attributes?.activePreference || false;
   const savePreferenceText = attributes.saveBtnText || __('Save Preference', 'website-accessibility');
   const updatePreferenceText = attributes.updateBtnText || __('Update Preference', 'website-accessibility');

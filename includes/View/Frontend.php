@@ -44,7 +44,7 @@ class Frontend
     {
         $pages = get_posts([
             'post_type'      => 'page',
-            'name'           => 'sigmally-accessibility-statement-page', // slug of the page
+            'name'           => 'one-accessibility-statement-page', // slug of the page
             'post_status'    => ['publish', 'draft'],                   // include draft & published
             'numberposts'    => 1,
             'fields'         => 'ids',                                   // only need ID

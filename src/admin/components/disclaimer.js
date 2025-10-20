@@ -6,10 +6,10 @@ const Description = () => {
     return (
         <div className="wap-disclaimer-description">
             <p>
-                {__("Website Accessibility by BdThemes is designed to help make your WordPress website more accessible to all users. While the plugin provides tools to adjust your website to users’ needs, some pages or sections may still not be fully accessible, may require manual action to resolve certain issues, or may be in the process of becoming fully accessible.", "website-accessibility")}
+                {__("One Accessibility by BdThemes is designed to help make your WordPress website more accessible to all users. While the plugin provides tools to adjust your website to users’ needs, some pages or sections may still not be fully accessible, may require manual action to resolve certain issues, or may be in the process of becoming fully accessible.", "website-accessibility")}
             </p>
             <p>
-                {__("Website Accessibility by BdThemes is continually being improved, with updates, new features, and adoption of new technologies, as part of our commitment to achieve optimal accessibility standards.", "website-accessibility")}
+                {__("One Accessibility by BdThemes is continually being improved, with updates, new features, and adoption of new technologies, as part of our commitment to achieve optimal accessibility standards.", "website-accessibility")}
             </p>
             <p>
                 {

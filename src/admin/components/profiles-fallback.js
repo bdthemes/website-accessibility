@@ -10,7 +10,7 @@ const { Space } = Layout;
 
 const ProfilesFallback = () => {
   const openPricingPage = () => {
-    window.open('https://sigmally.pro/#pricing', '_blank');
+    window.open('https://bdthemes.com/plugin/one-accessibility#pricing', '_blank');
   };
 
   return (
@@ -103,18 +103,6 @@ const ProfilesFallback = () => {
           </Col>
         </Row>
       </div>
-
-      {/* Final CTA
-      <div className="profiles-cta">
-        <Button 
-          type="primary" 
-          size="large" 
-          onClick={openPricingPage}
-          className="upgrade-button"
-        >
-          {__('Upgrade to Pro and Create Custom Profiles', 'website-accessibility')}
-        </Button>
-      </div> */}
     </div>
   );
 };

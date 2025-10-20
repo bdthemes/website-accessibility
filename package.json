@@ -8,6 +8,7 @@
 	"files": [
 		"build",
 		"includes",
+		"default-posts",
 		"languages",
 		"vendor",
 		"composer.json",

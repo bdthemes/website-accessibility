@@ -1,6 +1,6 @@
 {
     "name": "bdthemes/website-accessibility",
-    "description": "Website Accessibility Pro is a WordPress plugin that enhances website accessibility and ensures WCAG compliance.",
+    "description": "One Accessibility Pro is a WordPress plugin that enhances website accessibility and ensures WCAG compliance.",
     "keywords": [
         "wordpress",
         "plugin",
@@ -26,7 +26,7 @@
             "homepage": "https://bdthemes.com"
         }
     ],
-    "homepage": "https://bdthemes.com/products/website-accessibility",
+    "homepage": "https://bdthemes.com/plugin/one-accessibility",
     "support": {
         "email": "support@bdthemes.com",
         "issues": "https://wordpress.org/support/plugin/website-accessibility/"
