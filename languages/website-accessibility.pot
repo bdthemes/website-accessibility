@@ -2,21 +2,21 @@
 # This file is distributed under the GPL-2.0-or-later.
 msgid ""
 msgstr ""
-"Project-Id-Version: Sigmally Website Accessibility 1.0.0\n"
+"Project-Id-Version: Sigmally Website Accessibility 1.1.0\n"
 "Report-Msgid-Bugs-To: https://wordpress.org/support/plugin/website-accessibility\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"POT-Creation-Date: 2025-08-16T10:03:33+00:00\n"
+"POT-Creation-Date: 2025-10-20T10:35:32+00:00\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "X-Generator: WP-CLI 2.11.0\n"
 "X-Domain: website-accessibility\n"
 
 #. Plugin Name of the plugin
 #: website-accessibility.php
-#: includes/Admin/Menu.php:24
+#: includes/Admin/Menu.php:28
 msgid "Sigmally Website Accessibility"
 msgstr ""
 
@@ -35,265 +35,380 @@ msgstr ""
 msgid "https://bdthemes.com"
 msgstr ""
 
-#: includes/Admin/Menu.php:25
+#: includes/Admin/Menu.php:29
 msgid "Accessibility"
 msgstr ""
 
-#: includes/Admin/Menu.php:35
-#: includes/Admin/Menu.php:36
+#: includes/Admin/Menu.php:39
+#: includes/Admin/Menu.php:40
 msgid "Dashboard"
 msgstr ""
 
-#: includes/Admin/Menu.php:45
-#: src/admin/pages/presets.js:90
+#: includes/Admin/Menu.php:49
+#: src/admin/pages/presets.js:107
 msgid "Accessibility Presets"
 msgstr ""
 
-#: includes/Admin/Menu.php:46
+#: includes/Admin/Menu.php:50
 #: includes/Core/AccessibilityPreset.php:24
 msgid "Presets"
 msgstr ""
 
-#: includes/Admin/Menu.php:55
-#: src/admin/pages/dashboard.js:57
+#: includes/Admin/Menu.php:59
 msgid "Preset Profiles"
 msgstr ""
 
-#: includes/Admin/Menu.php:56
-#: includes/Core/PresetProfile.php:24
-#: src/admin/settings/profiles-settings.js:83
-msgid "Profiles"
+#: includes/Admin/Menu.php:60
+#: src/admin/pages/dashboard.js:70
+msgid "Custom Profiles"
 msgstr ""
 
-#: includes/Admin/Menu.php:64
-#: includes/Admin/Menu.php:65
+#: includes/Admin/Menu.php:68
+#: includes/Admin/Menu.php:69
+msgid "Settings"
+msgstr ""
+
+#: includes/Admin/Menu.php:77
+#: includes/Admin/Menu.php:78
 msgid "Create Preset"
 msgstr ""
 
-#: includes/Admin/Menu.php:73
-#: includes/Admin/Menu.php:74
+#: includes/Admin/Menu.php:86
+#: includes/Admin/Menu.php:87
 #: src/admin/pages/edit-preset.js:85
 msgid "Edit Preset"
 msgstr ""
 
-#: includes/Admin/Menu.php:82
-#: includes/Admin/Menu.php:83
+#: includes/Admin/Menu.php:95
+#: includes/Admin/Menu.php:96
 msgid "Preview Preset"
-msgstr ""
-
-#: includes/Admin/Menu.php:91
-#: includes/Admin/Menu.php:92
-#: src/admin/pages/create-profiles.js:88
-msgid "Create Profile"
-msgstr ""
-
-#: includes/Admin/Menu.php:100
-#: includes/Admin/Menu.php:101
-#: src/admin/pages/edit-profile.js:72
-msgid "Edit Profile"
 msgstr ""
 
 #: includes/Core/AccessibilityPreset.php:25
 msgid "Preset"
 msgstr ""
 
+#: includes/Core/PresetProfile.php:24
+#: src/admin/settings/profiles-settings.js:83
+msgid "Profiles"
+msgstr ""
+
 #: includes/Core/PresetProfile.php:25
 msgid "Profile"
 msgstr ""
 
-#: src/admin/components/preset-button-style.js:11
-msgid "Button Text"
+#: src/admin/components/disclaimer.js:9
+msgid "Website Accessibility by BdThemes is designed to help make your WordPress website more accessible to all users. While the plugin provides tools to adjust your website to users’ needs, some pages or sections may still not be fully accessible, may require manual action to resolve certain issues, or may be in the process of becoming fully accessible."
 msgstr ""
 
-#: src/admin/components/preset-button-style.js:15
-#: src/admin/components/preset-button-style.js:121
-msgid "Click Me"
+#: src/admin/components/disclaimer.js:12
+msgid "Website Accessibility by BdThemes is continually being improved, with updates, new features, and adoption of new technologies, as part of our commitment to achieve optimal accessibility standards."
+msgstr ""
+
+#: src/admin/components/disclaimer.js:16
+msgid "Feedback & Contact: If you encounter any accessibility barriers while using your website or our plugin, we welcome your feedback and suggestions. Please contact us at: https://bdthemes.com/support or email [support@bdthemes.com]."
+msgstr ""
+
+#: src/admin/components/disclaimer.js:40
+msgid "Disclaimer for Site Administrators"
+msgstr ""
+
+#: src/admin/components/preset-button-style.js:13
+msgid "Button Type"
+msgstr ""
+
+#: src/admin/components/preset-button-style.js:18
+msgid "Icon"
 msgstr ""
 
 #: src/admin/components/preset-button-style.js:19
-msgid "Show Icon"
+msgid "Text"
 msgstr ""
 
-#: src/admin/components/preset-button-style.js:27
+#: src/admin/components/preset-button-style.js:20
+msgid "Both"
+msgstr ""
+
+#: src/admin/components/preset-button-style.js:31
+msgid "Button Text"
+msgstr ""
+
+#: src/admin/components/preset-button-style.js:35
+msgid "Click Me"
+msgstr ""
+
+#: src/admin/components/preset-button-style.js:42
 msgid "Select Icon"
 msgstr ""
 
-#: src/admin/components/preset-button-style.js:39
-#: src/admin/settings/footer-settings.js:105
-#: src/admin/settings/header-settings.js:114
+#: src/admin/components/preset-button-style.js:54
+#: src/admin/settings/footer-settings.js:167
+#: src/admin/settings/header-settings.js:118
 msgid "Text Color"
 msgstr ""
 
-#: src/admin/components/preset-button-style.js:47
-#: src/admin/components/preset-panel-right-sidebar.js:38
-#: src/admin/settings/footer-settings.js:87
-#: src/admin/settings/footer-settings.js:102
+#: src/admin/components/preset-button-style.js:61
+#: src/admin/components/preset-panel-right-sidebar.js:41
+#: src/admin/settings/footer-settings.js:137
+#: src/admin/settings/footer-settings.js:161
 msgid "Background Color"
 msgstr ""
 
-#: src/admin/components/preset-button-style.js:55
-#: src/admin/components/preset-panel-right-sidebar.js:56
-#: src/admin/settings/footer-settings.js:90
-#: src/admin/settings/header-settings.js:106
+#: src/admin/components/preset-button-style.js:68
+#: src/admin/components/preset-panel-right-sidebar.js:57
+#: src/admin/settings/footer-settings.js:143
+#: src/admin/settings/header-settings.js:110
 msgid "Padding"
 msgstr ""
 
-#: src/admin/components/preset-button-style.js:63
-#: src/admin/components/preset-panel-right-sidebar.js:65
-#: src/admin/settings/footer-settings.js:97
-#: src/admin/settings/footer-settings.js:108
-#: src/admin/settings/header-settings.js:90
-#: src/admin/settings/header-settings.js:194
+#: src/admin/components/preset-button-style.js:76
+#: src/admin/components/preset-panel-right-sidebar.js:66
+#: src/admin/settings/footer-settings.js:150
+#: src/admin/settings/footer-settings.js:173
+#: src/admin/settings/header-settings.js:94
+#: src/admin/settings/header-settings.js:198
 msgid "Border Radius"
 msgstr ""
 
-#: src/admin/components/preset-button-style.js:94
-#: src/admin/settings/footer-settings.js:32
-#: src/admin/settings/header-settings.js:229
+#: src/admin/components/preset-button-style.js:109
+#: src/admin/settings/footer-settings.js:33
+#: src/admin/settings/header-settings.js:242
 msgid "Content"
 msgstr ""
 
-#: src/admin/components/preset-button-style.js:99
-#: src/admin/settings/footer-settings.js:83
-#: src/admin/settings/header-settings.js:234
+#: src/admin/components/preset-button-style.js:116
+#: src/admin/settings/footer-settings.js:128
+#: src/admin/settings/header-settings.js:252
 msgid "Style"
 msgstr ""
 
-#: src/admin/components/preset-button-style.js:136
+#: src/admin/components/preset-button-style.js:164
 msgid "Button Position"
 msgstr ""
 
-#: src/admin/components/preset-button-style.js:141
+#: src/admin/components/preset-button-style.js:172
 msgid "Bottom Right"
 msgstr ""
 
-#: src/admin/components/preset-button-style.js:142
+#: src/admin/components/preset-button-style.js:176
 msgid "Bottom Left"
 msgstr ""
 
-#: src/admin/components/preset-button-style.js:143
+#: src/admin/components/preset-button-style.js:180
 msgid "Top Right"
 msgstr ""
 
-#: src/admin/components/preset-button-style.js:144
+#: src/admin/components/preset-button-style.js:184
 msgid "Top Left"
 msgstr ""
 
-#: src/admin/components/preset-button-style.js:149
+#: src/admin/components/preset-button-style.js:191
 msgid "Horizontal Offset"
 msgstr ""
 
-#: src/admin/components/preset-button-style.js:159
+#: src/admin/components/preset-button-style.js:203
 msgid "Vertical Offset"
 msgstr ""
 
-#: src/admin/components/preset-get-started.js:14
-#: src/admin/components/preset-quick-edit.js:136
+#: src/admin/components/preset-get-started.js:64
+#: src/admin/components/preset-quick-edit.js:189
 msgid "Preset Name"
 msgstr ""
 
-#: src/admin/components/preset-get-started.js:20
-#: src/admin/components/preset-quick-edit.js:147
-#: src/admin/pages/presets.js:15
+#: src/admin/components/preset-get-started.js:70
+#: src/admin/components/preset-quick-edit.js:200
+#: src/admin/pages/presets.js:14
 msgid "Condition"
 msgstr ""
 
-#: src/admin/components/preset-get-started.js:27
-#: src/admin/components/preset-quick-edit.js:161
+#: src/admin/components/preset-get-started.js:79
+#: src/admin/components/preset-quick-edit.js:215
+msgid "Specific Archive Page"
+msgstr ""
+
+#: src/admin/components/preset-get-started.js:84
+#: src/admin/components/preset-quick-edit.js:220
+msgid "keep blank for all archive pages"
+msgstr ""
+
+#: src/admin/components/preset-get-started.js:94
+#: src/admin/components/preset-quick-edit.js:230
+msgid "Specific Posts"
+msgstr ""
+
+#: src/admin/components/preset-get-started.js:103
+#: src/admin/components/preset-quick-edit.js:239
+msgid "keep blank for all"
+msgstr ""
+
+#: src/admin/components/preset-get-started.js:109
+#: src/admin/components/preset-quick-edit.js:247
 msgid "Active"
 msgstr ""
 
-#: src/admin/components/preset-panel-right-sidebar.js:28
+#: src/admin/components/preset-panel-right-sidebar.js:31
 msgid "Width (px)"
 msgstr ""
 
-#: src/admin/components/preset-panel-right-sidebar.js:47
-#: src/admin/settings/header-settings.js:82
-#: src/admin/settings/header-settings.js:186
+#: src/admin/components/preset-panel-right-sidebar.js:48
+#: src/admin/settings/header-settings.js:86
+#: src/admin/settings/header-settings.js:190
 msgid "Border"
 msgstr ""
 
-#: src/admin/components/preset-panel-right-sidebar.js:74
-#: src/admin/settings/header-settings.js:98
+#: src/admin/components/preset-panel-right-sidebar.js:75
+#: src/admin/settings/header-settings.js:102
 msgid "Box Shadow"
 msgstr ""
 
-#: src/admin/components/preset-quick-edit.js:63
+#: src/admin/components/preset-quick-edit.js:110
 msgid "Preset updated successfully"
 msgstr ""
 
-#: src/admin/components/preset-quick-edit.js:73
+#: src/admin/components/preset-quick-edit.js:123
 msgid "Failed to update preset"
 msgstr ""
 
-#: src/admin/components/preset-quick-edit.js:115
+#: src/admin/components/preset-quick-edit.js:167
 msgid "Quick Edit Preset"
 msgstr ""
 
-#: src/admin/components/preset-quick-edit.js:123
-#: src/admin/pages/create-profiles.js:79
-#: src/admin/pages/edit-profile.js:101
+#: src/admin/components/preset-quick-edit.js:176
+#: src/admin/pages/create-profiles.js:83
+#: src/admin/pages/edit-profile.js:105
 msgid "Cancel"
 msgstr ""
 
-#: src/admin/components/preset-quick-edit.js:129
+#: src/admin/components/preset-quick-edit.js:182
 msgid "Save"
 msgstr ""
 
-#: src/admin/components/preset-quick-edit.js:142
+#: src/admin/components/preset-quick-edit.js:195
 msgid "Enter preset name"
 msgstr ""
 
-#: src/admin/components/preset-quick-edit.js:148
+#: src/admin/components/preset-quick-edit.js:201
 msgid "Select where this preset should be applied"
 msgstr ""
 
-#: src/admin/components/preset-quick-edit.js:156
+#: src/admin/components/preset-quick-edit.js:209
 msgid "Select condition"
 msgstr ""
 
-#: src/admin/components/profile-form.js:273
+#: src/admin/components/profile-form.js:264
 msgid "Profile Information"
 msgstr ""
 
-#: src/admin/components/profile-form.js:276
+#: src/admin/components/profile-form.js:267
 msgid "Profile Name"
 msgstr ""
 
-#: src/admin/components/profile-form.js:282
+#: src/admin/components/profile-form.js:273
 msgid "Enter profile name"
 msgstr ""
 
-#: src/admin/components/profile-form.js:287
+#: src/admin/components/profile-form.js:278
 msgid "Description"
 msgstr ""
 
-#: src/admin/components/profile-form.js:292
+#: src/admin/components/profile-form.js:283
 msgid "Enter profile description"
 msgstr ""
 
-#: src/admin/components/profile-form.js:297
+#: src/admin/components/profile-form.js:288
 msgid "Profile Icon (SVG)"
 msgstr ""
 
-#: src/admin/components/profile-form.js:298
+#: src/admin/components/profile-form.js:289
 msgid "Paste your SVG markup here. Optional."
 msgstr ""
 
-#: src/admin/components/profile-form.js:303
+#: src/admin/components/profile-form.js:294
 msgid "Paste SVG markup here"
 msgstr ""
 
-#: src/admin/components/profile-form.js:308
+#: src/admin/components/profile-form.js:299
 msgid "Preview:"
 msgstr ""
 
-#: src/admin/components/profile-form.js:320
+#: src/admin/components/profile-form.js:311
 msgid "Accessibility Features"
 msgstr ""
 
+#: src/admin/components/profiles-fallback.js:22
+msgid "Accessibility Custom Profiles"
+msgstr ""
+
+#: src/admin/components/profiles-fallback.js:25
+msgid "Apply pre-configured settings in one click. Create your own custom profiles with Pro."
+msgstr ""
+
+#: src/admin/components/profiles-fallback.js:35
+msgid "Upgrade to Pro"
+msgstr ""
+
+#: src/admin/components/profiles-fallback.js:44
+msgid "How Custom Profiles Work"
+msgstr ""
+
+#: src/admin/components/profiles-fallback.js:52
+msgid "Create Profile Form"
+msgstr ""
+
+#: src/admin/components/profiles-fallback.js:59
+msgid "Step 1: Create a Profile"
+msgstr ""
+
+#: src/admin/components/profiles-fallback.js:62
+msgid "Open the Custom Profiles form and configure your accessibility settings."
+msgstr ""
+
+#: src/admin/components/profiles-fallback.js:71
+msgid "Add Profile to Preset"
+msgstr ""
+
+#: src/admin/components/profiles-fallback.js:78
+msgid "Step 2: Add to Preset"
+msgstr ""
+
+#: src/admin/components/profiles-fallback.js:81
+msgid "Save your profile and include it in a preset so it shows alongside default profiles."
+msgstr ""
+
+#: src/admin/components/profiles-fallback.js:90
+msgid "Frontend Profile View"
+msgstr ""
+
+#: src/admin/components/profiles-fallback.js:97
+msgid "Step 3: Apply in Frontend"
+msgstr ""
+
+#: src/admin/components/profiles-fallback.js:100
+msgid "Your custom profile appears with default profiles. Users can apply it instantly for an improved experience."
+msgstr ""
+
+#: src/admin/components/statement-setting.js:128
+msgid "Statement Page"
+msgstr ""
+
+#: src/admin/components/statement-setting.js:131
+msgid "This page communicates your accessibility commitment to visitors."
+msgstr ""
+
+#: src/admin/components/statement-setting.js:139
+msgid "No Accessibility Statement page found. Click the button to generate one."
+msgstr ""
+
+#: src/admin/components/statement-setting.js:157
+msgid "Click to generate a statement page"
+msgstr ""
+
+#: src/admin/components/statement-setting.js:168
+msgid "Hurray! We have a statement page!"
+msgstr ""
+
 #: src/admin/pages/create-preset.js:42
-#: src/admin/pages/dashboard.js:104
+#: src/admin/pages/dashboard.js:123
 msgid "Create New Preset"
 msgstr ""
 
@@ -302,742 +417,760 @@ msgstr ""
 msgid "Back to Presets"
 msgstr ""
 
-#: src/admin/pages/create-preset.js:73
-#: src/admin/pages/edit-preset.js:117
+#: src/admin/pages/create-preset.js:76
+#: src/admin/pages/edit-preset.js:121
 msgid "Previous"
 msgstr ""
 
-#: src/admin/pages/create-preset.js:80
-#: src/admin/pages/edit-preset.js:130
+#: src/admin/pages/create-preset.js:83
+#: src/admin/pages/edit-preset.js:134
 msgid "Next"
 msgstr ""
 
-#: src/admin/pages/create-preset.js:99
+#: src/admin/pages/create-preset.js:102
 msgid "Save Preset"
 msgstr ""
 
-#: src/admin/pages/create-profiles.js:52
+#: src/admin/pages/create-profiles.js:56
 msgid "Create New Profile"
 msgstr ""
 
-#: src/admin/pages/create-profiles.js:55
+#: src/admin/pages/create-profiles.js:59
 msgid "Create a custom accessibility profile with specific settings for different user needs."
 msgstr ""
 
-#: src/admin/pages/create-profiles.js:64
-#: src/admin/pages/edit-profile.js:86
+#: src/admin/pages/create-profiles.js:68
+#: src/admin/pages/edit-profile.js:90
 msgid "Back to Profiles"
 msgstr ""
 
-#: src/admin/pages/dashboard.js:40
+#: src/admin/pages/create-profiles.js:92
+msgid "Create Profile"
+msgstr ""
+
+#: src/admin/pages/dashboard.js:56
 msgid "Active Presets"
 msgstr ""
 
-#: src/admin/pages/dashboard.js:42
+#: src/admin/pages/dashboard.js:58
 msgid "Presets help you quickly apply accessibility settings across your website."
 msgstr ""
 
-#: src/admin/pages/dashboard.js:51
-#: src/admin/pages/dashboard.js:68
+#: src/admin/pages/dashboard.js:64
+#: src/admin/pages/dashboard.js:78
 msgid "View All"
 msgstr ""
 
-#: src/admin/pages/dashboard.js:59
+#: src/admin/pages/dashboard.js:72
 msgid "Create profiles for different user needs and preferences."
 msgstr ""
 
-#: src/admin/pages/dashboard.js:74
+#: src/admin/pages/dashboard.js:84
 msgid "Saved Preferences"
 msgstr ""
 
-#: src/admin/pages/dashboard.js:76
+#: src/admin/pages/dashboard.js:86
 msgid "Users who have saved their accessibility preferences."
 msgstr ""
 
-#: src/admin/pages/dashboard.js:90
+#: src/admin/pages/dashboard.js:109
 msgid "Welcome to Sigmally Website Accessibility"
 msgstr ""
 
-#: src/admin/pages/dashboard.js:93
+#: src/admin/pages/dashboard.js:112
 msgid "Make your website accessible to everyone with our comprehensive accessibility tools."
 msgstr ""
 
-#: src/admin/pages/dashboard.js:133
+#: src/admin/pages/dashboard.js:150
 msgid "Quick Actions"
 msgstr ""
 
-#: src/admin/pages/dashboard.js:141
+#: src/admin/pages/dashboard.js:158
 msgid "Manage Presets"
 msgstr ""
 
-#: src/admin/pages/dashboard.js:151
+#: src/admin/pages/dashboard.js:168
 msgid "Manage Profiles"
 msgstr ""
 
-#: src/admin/pages/dashboard.js:161
+#: src/admin/pages/dashboard.js:178
 msgid "Accessibility Settings"
 msgstr ""
 
-#: src/admin/pages/edit-preset.js:142
+#: src/admin/pages/edit-preset.js:146
 msgid "Update Preset"
 msgstr ""
 
-#: src/admin/pages/edit-profile.js:54
+#: src/admin/pages/edit-profile.js:55
 msgid "Profile updated successfully!"
 msgstr ""
 
-#: src/admin/pages/edit-profile.js:75
+#: src/admin/pages/edit-profile.js:76
+msgid "Edit Profile"
+msgstr ""
+
+#: src/admin/pages/edit-profile.js:79
 msgid "Update the details of this accessibility profile."
 msgstr ""
 
-#: src/admin/pages/edit-profile.js:111
+#: src/admin/pages/edit-profile.js:115
 msgid "Update Profile"
 msgstr ""
 
-#: src/admin/pages/presets.js:13
-#: src/admin/pages/profiles.js:67
+#: src/admin/pages/presets.js:12
+#: src/admin/pages/profiles.js:68
 msgid "Name"
 msgstr ""
 
-#: src/admin/pages/presets.js:14
-#: src/admin/pages/profiles.js:83
+#: src/admin/pages/presets.js:13
+#: src/admin/pages/profiles.js:84
 msgid "Created"
 msgstr ""
 
-#: src/admin/pages/presets.js:16
+#: src/admin/pages/presets.js:15
 msgid "Status"
 msgstr ""
 
-#: src/admin/pages/presets.js:95
+#: src/admin/pages/presets.js:55
+#: src/utils.js:29
+msgid "Archive"
+msgstr ""
+
+#: src/admin/pages/presets.js:61
+#: src/utils.js:21
+msgid "Singular"
+msgstr ""
+
+#: src/admin/pages/presets.js:67
+#: src/utils.js:13
+msgid "Entire Site"
+msgstr ""
+
+#: src/admin/pages/presets.js:112
 msgid "Add New Preset"
 msgstr ""
 
-#: src/admin/pages/profiles.js:88
+#: src/admin/pages/profiles.js:89
 msgid "Actions"
 msgstr ""
 
-#: src/admin/pages/profiles.js:110
+#: src/admin/pages/profiles.js:117
 msgid "User Accessibility Profiles"
 msgstr ""
 
-#: src/admin/pages/profiles.js:119
+#: src/admin/pages/profiles.js:126
 msgid "Add New Profile"
 msgstr ""
 
-#: src/admin/settings/feature-settings.js:32
-#: src/admin/settings/footer-settings.js:86
-#: src/admin/settings/language-selector-settings.js:31
+#: src/admin/pages/settings.js:26
+msgid "Failed to load settings."
+msgstr ""
+
+#: src/admin/pages/settings.js:43
+msgid "Settings saved successfully."
+msgstr ""
+
+#: src/admin/pages/settings.js:49
+msgid "Failed to save settings."
+msgstr ""
+
+#: src/admin/pages/settings.js:75
+msgid "Website Accessibility Settings"
+msgstr ""
+
+#: src/admin/pages/settings.js:86
+msgid "Show Consent for Translation"
+msgstr ""
+
+#: src/admin/pages/settings.js:87
+msgid "Show a consent message to users before translating content."
+msgstr ""
+
+#: src/admin/settings/feature-settings.js:40
+#: src/admin/settings/footer-settings.js:134
+#: src/admin/settings/language-selector-settings.js:32
 msgid "General"
 msgstr ""
 
-#: src/admin/settings/feature-settings.js:34
+#: src/admin/settings/feature-settings.js:44
 msgid "Hide Oversized Widget"
 msgstr ""
 
-#: src/admin/settings/feature-settings.js:45
-#: src/admin/settings/feature-settings.js:48
+#: src/admin/settings/feature-settings.js:55
+#: src/admin/settings/feature-settings.js:58
 msgid "Oversized Widget Title"
 msgstr ""
 
-#: src/admin/settings/feature-settings.js:58
+#: src/admin/settings/feature-settings.js:68
 msgid "Items per Row"
 msgstr ""
 
-#: src/admin/settings/feature-settings.js:72
-#: src/admin/settings/header-settings.js:74
-#: src/admin/settings/language-selector-settings.js:44
+#: src/admin/settings/feature-settings.js:81
+#: src/admin/settings/feature-settings.js:85
+msgid "Feature Customization"
+msgstr ""
+
+#: src/admin/settings/feature-settings.js:103
+#: src/admin/settings/header-settings.js:76
+#: src/admin/settings/language-selector-settings.js:47
 msgid "Header"
 msgstr ""
 
-#: src/admin/settings/feature-settings.js:74
+#: src/admin/settings/feature-settings.js:107
 msgid "Hide Title"
 msgstr ""
 
-#: src/admin/settings/feature-settings.js:79
+#: src/admin/settings/feature-settings.js:112
 msgid "Hide Icon"
 msgstr ""
 
-#: src/admin/settings/feature-settings.js:85
+#: src/admin/settings/feature-settings.js:121
 msgid "Items"
 msgstr ""
 
-#: src/admin/settings/feature-settings.js:87
+#: src/admin/settings/feature-settings.js:125
 msgid "Hide Item Icons"
 msgstr ""
 
-#: src/admin/settings/feature-settings.js:92
+#: src/admin/settings/feature-settings.js:130
 msgid "Hide Item Labels"
 msgstr ""
 
-#: src/admin/settings/footer-settings.js:35
-#: src/admin/settings/footer-settings.js:101
+#: src/admin/settings/footer-settings.js:39
+#: src/admin/settings/footer-settings.js:158
 msgid "Reset Button"
 msgstr ""
 
-#: src/admin/settings/footer-settings.js:36
+#: src/admin/settings/footer-settings.js:41
 msgid "Reset Button Text"
 msgstr ""
 
-#: src/admin/settings/footer-settings.js:40
+#: src/admin/settings/footer-settings.js:45
 msgid "Reset All"
 msgstr ""
 
-#: src/admin/settings/footer-settings.js:56
-#: src/admin/settings/footer-settings.js:123
-msgid "Footer Links"
+#: src/admin/settings/footer-settings.js:52
+msgid "Preference Button"
 msgstr ""
 
-#: src/admin/settings/footer-settings.js:57
+#: src/admin/settings/footer-settings.js:55
+msgid "Active Preference"
+msgstr ""
+
+#: src/admin/settings/footer-settings.js:61
+msgid "Save button text"
+msgstr ""
+
+#: src/admin/settings/footer-settings.js:65
+#: src/components/panel-footer.js:61
+msgid "Save Preference"
+msgstr ""
+
+#: src/admin/settings/footer-settings.js:68
+msgid "Update button text"
+msgstr ""
+
+#: src/admin/settings/footer-settings.js:72
+#: src/components/panel-footer.js:62
+msgid "Update Preference"
+msgstr ""
+
+#: src/admin/settings/footer-settings.js:75
+msgid "Delete button text"
+msgstr ""
+
+#: src/admin/settings/footer-settings.js:79
+#: src/components/panel-footer.js:63
+msgid "Delete Preference"
+msgstr ""
+
+#: src/admin/settings/footer-settings.js:90
+#: src/admin/settings/footer-settings.js:181
+msgid "Footer Text"
+msgstr ""
+
+#: src/admin/settings/footer-settings.js:93
 msgid "Show Accessibility Statement"
 msgstr ""
 
-#: src/admin/settings/footer-settings.js:60
+#: src/admin/settings/footer-settings.js:96
 msgid "Accessibility Statement Text"
 msgstr ""
 
-#: src/admin/settings/footer-settings.js:64
+#: src/admin/settings/footer-settings.js:100
 msgid "Accessibility Statement"
 msgstr ""
 
-#: src/admin/settings/footer-settings.js:67
+#: src/admin/settings/footer-settings.js:106
 msgid "Show Branding"
 msgstr ""
 
-#: src/admin/settings/footer-settings.js:70
+#: src/admin/settings/footer-settings.js:109
 msgid "Branding Text"
 msgstr ""
 
-#: src/admin/settings/footer-settings.js:74
+#: src/admin/settings/footer-settings.js:113
 msgid "Proudly Powered by Sigmally Website Accessibility"
 msgstr ""
 
-#: src/admin/settings/footer-settings.js:124
+#: src/admin/settings/footer-settings.js:184
 msgid "Link Color"
 msgstr ""
 
-#: src/admin/settings/footer-settings.js:127
+#: src/admin/settings/footer-settings.js:190
 msgid "Branding Color"
 msgstr ""
 
-#: src/admin/settings/header-settings.js:33
+#: src/admin/settings/header-settings.js:31
 msgid "Header Text"
 msgstr ""
 
-#: src/admin/settings/header-settings.js:37
+#: src/admin/settings/header-settings.js:35
 msgid "Accessibility Menu (CTRL+U)"
 msgstr ""
 
-#: src/admin/settings/header-settings.js:41
+#: src/admin/settings/header-settings.js:42
 msgid "Show Close Button"
 msgstr ""
 
-#: src/admin/settings/header-settings.js:75
-#: src/admin/settings/header-settings.js:160
+#: src/admin/settings/header-settings.js:79
+#: src/admin/settings/header-settings.js:168
 msgid "Background"
 msgstr ""
 
-#: src/admin/settings/header-settings.js:123
+#: src/admin/settings/header-settings.js:125
 msgid "Font Size"
 msgstr ""
 
-#: src/admin/settings/header-settings.js:131
+#: src/admin/settings/header-settings.js:133
 msgid "Font Weight"
 msgstr ""
 
-#: src/admin/settings/header-settings.js:146
+#: src/admin/settings/header-settings.js:148
 msgid "Text Decoration"
 msgstr ""
 
-#: src/admin/settings/header-settings.js:159
+#: src/admin/settings/header-settings.js:165
 msgid "Close Button"
 msgstr ""
 
-#: src/admin/settings/header-settings.js:169
+#: src/admin/settings/header-settings.js:175
 msgid "Color"
 msgstr ""
 
-#: src/admin/settings/header-settings.js:178
+#: src/admin/settings/header-settings.js:182
 msgid "Size"
 msgstr ""
 
-#: src/admin/settings/header-settings.js:202
+#: src/admin/settings/header-settings.js:208
 msgid "Top"
 msgstr ""
 
-#: src/admin/settings/header-settings.js:210
-#: src/utils.js:871
+#: src/admin/settings/header-settings.js:216
+#: src/components/utils/features.js:560
 msgid "Right"
 msgstr ""
 
-#: src/admin/settings/language-selector-settings.js:33
-#: src/admin/settings/profiles-settings.js:99
+#: src/admin/settings/language-selector-settings.js:34
+#: src/admin/settings/profiles-settings.js:104
 msgid "Layout"
 msgstr ""
 
 #: src/admin/settings/language-selector-settings.js:39
-#: src/admin/settings/profiles-settings.js:105
+#: src/admin/settings/profiles-settings.js:110
 msgid "With Collapse"
 msgstr ""
 
 #: src/admin/settings/language-selector-settings.js:40
-#: src/admin/settings/profiles-settings.js:106
+#: src/admin/settings/profiles-settings.js:111
 msgid "Simple List"
 msgstr ""
 
-#: src/admin/settings/language-selector-settings.js:46
-#: src/admin/settings/language-selector-settings.js:58
+#: src/admin/settings/language-selector-settings.js:50
+#: src/admin/settings/language-selector-settings.js:70
 msgid "Hide Flag"
 msgstr ""
 
-#: src/admin/settings/language-selector-settings.js:51
-#: src/admin/settings/language-selector-settings.js:63
+#: src/admin/settings/language-selector-settings.js:56
+#: src/admin/settings/language-selector-settings.js:76
 msgid "Hide Language Code badge"
 msgstr ""
 
-#: src/admin/settings/language-selector-settings.js:56
+#: src/admin/settings/language-selector-settings.js:67
 msgid "Body"
 msgstr ""
 
-#: src/admin/settings/profiles-settings.js:111
+#: src/admin/settings/profiles-settings.js:116
 msgid "Title"
 msgstr ""
 
-#: src/admin/settings/profiles-settings.js:114
+#: src/admin/settings/profiles-settings.js:119
 msgid "Accessibility Profiles"
 msgstr ""
 
-#: src/admin/store/index.js:101
-#: src/frontend/view.js:118
+#: src/admin/store/index.js:31
+#: src/frontend/view.js:196
 msgid "Accessibility Menu"
 msgstr ""
 
-#: src/components/language-selector.js:75
-msgid "Translation enabled"
+#: src/components/panel-footer.js:122
+msgid "Failed to load preferences. Please try again."
 msgstr ""
 
-#: src/components/language-selector.js:76
-msgid "Translation disabled"
+#: src/components/panel-footer.js:134
+msgid "All accessibility settings have been reset to default."
 msgstr ""
 
-#: src/components/language-selector.js:85
-msgid "Translation reset to site default"
+#: src/components/panel-footer.js:156
+msgid "Preferences updated successfully."
 msgstr ""
 
-#: src/components/language-selector.js:90
-msgid "Translation language changed to"
+#: src/components/panel-footer.js:157
+msgid "Preferences saved successfully."
 msgstr ""
 
-#: src/components/language-selector.js:109
-#: src/components/language-selector.js:110
-msgid "Search language"
+#: src/components/panel-footer.js:163
+msgid "Failed to save preferences. Please try again."
 msgstr ""
 
-#: src/components/language-selector.js:240
-msgid "Translation"
+#: src/components/panel-footer.js:183
+msgid "Preferences deleted successfully."
 msgstr ""
 
-#: src/components/language-selector.js:246
-msgid "Enable translations"
+#: src/components/panel-footer.js:189
+msgid "Failed to delete preferences. Please try again."
 msgstr ""
 
-#: src/frontend/view.js:91
-msgid "Accessibility Menu Open"
+#: src/components/panel-footer.js:272
+msgid "Clear consent"
 msgstr ""
 
-#: src/frontend/view.js:93
-msgid "Accessibility Menu Close"
-msgstr ""
-
-#: src/utils.js:49
-msgid "Entire Site"
-msgstr ""
-
-#: src/utils.js:51
-msgid "Apply to all pages of your website"
-msgstr ""
-
-#: src/utils.js:54
-msgid "Singular"
-msgstr ""
-
-#: src/utils.js:56
-msgid "Apply to individual posts and pages"
-msgstr ""
-
-#: src/utils.js:59
-msgid "Archive"
-msgstr ""
-
-#: src/utils.js:61
-msgid "Apply to archive pages and listings"
-msgstr ""
-
-#: src/utils.js:67
-msgid "Get Started"
-msgstr ""
-
-#: src/utils.js:72
-msgid "Button Style"
-msgstr ""
-
-#: src/utils.js:77
-msgid "Panel Customization"
-msgstr ""
-
-#: src/utils.js:224
+#: src/components/utils/features.js:5
 msgid "Contrast +"
 msgstr ""
 
-#: src/utils.js:226
+#: src/components/utils/features.js:7
 msgid "The contrast setting has been disabled."
 msgstr ""
 
-#: src/utils.js:235
+#: src/components/utils/features.js:18
 msgid "Invert"
 msgstr ""
 
-#: src/utils.js:237
+#: src/components/utils/features.js:20
 msgid "Enable Contrast Mode, set to Invert."
 msgstr ""
 
-#: src/utils.js:254
+#: src/components/utils/features.js:40
 msgid "Dark"
 msgstr ""
 
-#: src/utils.js:256
+#: src/components/utils/features.js:42
 msgid "Contrast Mode, set to Dark."
 msgstr ""
 
-#: src/utils.js:288
+#: src/components/utils/features.js:77
 msgid "Light"
 msgstr ""
 
-#: src/utils.js:290
+#: src/components/utils/features.js:79
 msgid "Contrast Mode, set to Light."
 msgstr ""
 
-#: src/utils.js:325
-msgid "Screen Reader"
-msgstr ""
-
-#: src/utils.js:327
-msgid "The screen reader setting has been disabled."
-msgstr ""
-
-#: src/utils.js:337
-msgid "Normal"
-msgstr ""
-
-#: src/utils.js:344
-msgid "Enable Screen Reader, set to Normal."
-msgstr ""
-
-#: src/utils.js:347
-msgid "Slow"
-msgstr ""
-
-#: src/utils.js:354
-msgid "Screen Reader, set to Slow."
-msgstr ""
-
-#: src/utils.js:357
-msgid "Fast"
-msgstr ""
-
-#: src/utils.js:364
-msgid "Screen Reader, set to Fast"
-msgstr ""
-
-#: src/utils.js:370
-msgid "Smart Contrast"
-msgstr ""
-
-#: src/utils.js:372
-msgid "The smart contrast setting has been disabled."
-msgstr ""
-
-#: src/utils.js:381
-#: src/utils.js:406
-#: src/utils.js:633
-#: src/utils.js:666
-#: src/utils.js:697
-#: src/utils.js:769
-#: src/utils.js:962
-msgid "Enable"
-msgstr ""
-
-#: src/utils.js:384
-msgid "Smart Contrast Mode Enable."
-msgstr ""
-
-#: src/utils.js:387
-#: src/utils.js:421
-#: src/utils.js:647
-#: src/utils.js:679
-#: src/utils.js:712
-#: src/utils.js:775
-#: src/utils.js:968
-msgid "Disable"
-msgstr ""
-
-#: src/utils.js:395
+#: src/components/utils/features.js:118
 msgid "Highlight Links"
 msgstr ""
 
-#: src/utils.js:397
+#: src/components/utils/features.js:120
 msgid "The highlight links setting has been disabled."
 msgstr ""
 
-#: src/utils.js:418
+#: src/components/utils/features.js:131
+#: src/components/utils/features.js:318
+#: src/components/utils/features.js:358
+#: src/components/utils/features.js:437
+#: src/components/utils/features.js:672
+msgid "Enable"
+msgstr ""
+
+#: src/components/utils/features.js:142
 msgid "Highlight Links Enable."
 msgstr ""
 
-#: src/utils.js:429
+#: src/components/utils/features.js:148
+#: src/components/utils/features.js:335
+#: src/components/utils/features.js:371
+#: src/components/utils/features.js:443
+#: src/components/utils/features.js:678
+msgid "Disable"
+msgstr ""
+
+#: src/components/utils/features.js:156
 msgid "Bigger Text"
 msgstr ""
 
-#: src/utils.js:431
+#: src/components/utils/features.js:158
 msgid "The bigger text setting has been disabled."
 msgstr ""
 
-#: src/utils.js:439
-#: src/utils.js:577
-#: src/utils.js:793
+#: src/components/utils/features.js:169
+#: src/components/utils/features.js:249
+#: src/components/utils/features.js:464
 msgid "Medium"
 msgstr ""
 
-#: src/utils.js:467
+#: src/components/utils/features.js:179
 msgid "Bigger Text, set to Medium."
 msgstr ""
 
-#: src/utils.js:470
-#: src/utils.js:591
-#: src/utils.js:806
+#: src/components/utils/features.js:185
+#: src/components/utils/features.js:266
+#: src/components/utils/features.js:480
 msgid "Large"
 msgstr ""
 
-#: src/utils.js:498
+#: src/components/utils/features.js:195
 msgid "Bigger Text, set to Large."
 msgstr ""
 
-#: src/utils.js:501
-#: src/utils.js:605
-#: src/utils.js:819
+#: src/components/utils/features.js:201
+#: src/components/utils/features.js:283
+#: src/components/utils/features.js:496
 msgid "Extra Large"
 msgstr ""
 
-#: src/utils.js:529
+#: src/components/utils/features.js:211
 msgid "Bigger Text, set to Extra Large."
 msgstr ""
 
-#: src/utils.js:532
+#: src/components/utils/features.js:217
 msgid "Huge"
 msgstr ""
 
-#: src/utils.js:560
+#: src/components/utils/features.js:227
 msgid "Bigger Text, set to Huge."
 msgstr ""
 
-#: src/utils.js:566
+#: src/components/utils/features.js:236
 msgid "Text Spacing"
 msgstr ""
 
-#: src/utils.js:568
+#: src/components/utils/features.js:238
 msgid "The text spacing setting has been disabled."
 msgstr ""
 
-#: src/utils.js:588
+#: src/components/utils/features.js:260
 msgid "Text Spacing, set to Medium."
 msgstr ""
 
-#: src/utils.js:602
+#: src/components/utils/features.js:277
 msgid "Text Spacing, set to Large."
 msgstr ""
 
-#: src/utils.js:616
+#: src/components/utils/features.js:294
 msgid "Text Spacing, set to Extra Large."
 msgstr ""
 
-#: src/utils.js:622
+#: src/components/utils/features.js:303
 msgid "Pause Animations"
 msgstr ""
 
-#: src/utils.js:624
+#: src/components/utils/features.js:305
 msgid "The pause animations setting has been disabled."
 msgstr ""
 
-#: src/utils.js:644
+#: src/components/utils/features.js:329
 msgid "Pause Animations Enable."
 msgstr ""
 
-#: src/utils.js:655
+#: src/components/utils/features.js:343
 msgid "Hide Images"
 msgstr ""
 
-#: src/utils.js:657
+#: src/components/utils/features.js:345
 msgid "The hide images setting has been disabled."
 msgstr ""
 
-#: src/utils.js:676
+#: src/components/utils/features.js:368
 msgid "Hide Images Enable."
 msgstr ""
 
-#: src/utils.js:687
-msgid "Dyslexia Friendly"
-msgstr ""
-
-#: src/utils.js:689
-msgid "The dyslexia friendly setting has been disabled."
-msgstr ""
-
-#: src/utils.js:709
-msgid "Dyslexia Friendly Enable."
-msgstr ""
-
-#: src/utils.js:720
+#: src/components/utils/features.js:379
 msgid "Cursor"
 msgstr ""
 
-#: src/utils.js:722
+#: src/components/utils/features.js:381
 msgid "The cursor setting has been disabled."
 msgstr ""
 
-#: src/utils.js:730
+#: src/components/utils/features.js:392
 msgid "Big Cursor"
 msgstr ""
 
-#: src/utils.js:740
+#: src/components/utils/features.js:403
 msgid "Big Cursor Enable."
 msgstr ""
 
-#: src/utils.js:743
+#: src/components/utils/features.js:406
 msgid "Mask"
 msgstr ""
 
-#: src/utils.js:746
+#: src/components/utils/features.js:409
 msgid "Cursor Mask Enable."
 msgstr ""
 
-#: src/utils.js:749
+#: src/components/utils/features.js:412
 msgid "Guideline"
 msgstr ""
 
-#: src/utils.js:752
+#: src/components/utils/features.js:415
 msgid "Cursor Guideline Enable."
 msgstr ""
 
-#: src/utils.js:758
+#: src/components/utils/features.js:424
 msgid "Tooltips"
 msgstr ""
 
-#: src/utils.js:760
+#: src/components/utils/features.js:426
 msgid "The tooltips setting has been disabled."
 msgstr ""
 
-#: src/utils.js:772
+#: src/components/utils/features.js:440
 msgid "Tooltips Enable."
 msgstr ""
 
-#: src/utils.js:783
+#: src/components/utils/features.js:451
 msgid "Line Height"
 msgstr ""
 
-#: src/utils.js:785
+#: src/components/utils/features.js:453
 msgid "The line height setting has been disabled."
 msgstr ""
 
-#: src/utils.js:803
+#: src/components/utils/features.js:474
 msgid "Line Height, set to Medium."
 msgstr ""
 
-#: src/utils.js:816
+#: src/components/utils/features.js:490
 msgid "Line Height, set to Large."
 msgstr ""
 
-#: src/utils.js:829
+#: src/components/utils/features.js:506
 msgid "Line Height, set to Extra Large."
 msgstr ""
 
-#: src/utils.js:835
+#: src/components/utils/features.js:515
 msgid "Text Alignment"
 msgstr ""
 
-#: src/utils.js:837
+#: src/components/utils/features.js:517
 msgid "The text alignment setting has been disabled."
 msgstr ""
 
-#: src/utils.js:845
+#: src/components/utils/features.js:528
 msgid "Left"
 msgstr ""
 
-#: src/utils.js:855
+#: src/components/utils/features.js:538
 msgid "Text Alignment, set to Left."
 msgstr ""
 
-#: src/utils.js:858
+#: src/components/utils/features.js:544
 msgid "Center"
 msgstr ""
 
-#: src/utils.js:868
+#: src/components/utils/features.js:554
 msgid "Text Alignment, set to Center."
 msgstr ""
 
-#: src/utils.js:881
+#: src/components/utils/features.js:570
 msgid "Text Alignment, set to Right."
 msgstr ""
 
-#: src/utils.js:884
+#: src/components/utils/features.js:576
 msgid "Justify"
 msgstr ""
 
-#: src/utils.js:894
+#: src/components/utils/features.js:586
 msgid "Text Alignment, set to Justify."
 msgstr ""
 
-#: src/utils.js:900
+#: src/components/utils/features.js:595
 msgid "Saturation"
 msgstr ""
 
-#: src/utils.js:902
+#: src/components/utils/features.js:597
 msgid "The saturation setting has been disabled."
 msgstr ""
 
-#: src/utils.js:910
+#: src/components/utils/features.js:608
 msgid "Low"
 msgstr ""
 
-#: src/utils.js:920
+#: src/components/utils/features.js:618
 msgid "Saturation, set to Low."
 msgstr ""
 
-#: src/utils.js:923
+#: src/components/utils/features.js:624
 msgid "High"
 msgstr ""
 
-#: src/utils.js:933
+#: src/components/utils/features.js:634
 msgid "Saturation, set to High."
 msgstr ""
 
-#: src/utils.js:936
+#: src/components/utils/features.js:640
 msgid "Desaturate"
 msgstr ""
 
-#: src/utils.js:946
+#: src/components/utils/features.js:650
 msgid "Saturation, set to Desaturate."
 msgstr ""
 
-#: src/utils.js:952
+#: src/components/utils/features.js:659
 msgid "Dictionary"
 msgstr ""
 
-#: src/utils.js:954
+#: src/components/utils/features.js:661
 msgid "The dictionary setting has been disabled."
 msgstr ""
 
-#: src/utils.js:965
+#: src/components/utils/features.js:675
 msgid "Dictionary Enable."
 msgstr ""
 
-#: src/utils.js:971
+#: src/components/utils/features.js:681
 msgid "Dictionary Disable."
+msgstr ""
+
+#: src/frontend/view.js:151
+msgid "Accessibility Menu Open"
+msgstr ""
+
+#: src/frontend/view.js:153
+msgid "Accessibility Menu Close"
+msgstr ""
+
+#: src/utils.js:15
+msgid "Apply to all pages of your website"
+msgstr ""
+
+#: src/utils.js:23
+msgid "Apply to individual posts and pages"
+msgstr ""
+
+#: src/utils.js:31
+msgid "Apply to archive pages and listings"
+msgstr ""
+
+#: src/utils.js:40
+msgid "Get Started"
+msgstr ""
+
+#: src/utils.js:45
+msgid "Button Style"
+msgstr ""
+
+#: src/utils.js:50
+msgid "Panel Customization"
 msgstr ""

@@ -91,7 +91,7 @@ class SettingsRouteV1
 
         return rest_ensure_response([
             'success' => true,
-            'message' => __('Settings updated successfully.', 'websac'),
+            'message' => __('Settings updated successfully.', 'website-accessibility'),
             'data'    => $sanitized,
         ]);
     }
@@ -105,7 +105,7 @@ class SettingsRouteV1
 
         return rest_ensure_response([
             'success' => true,
-            'message' => __('Settings have been reset to defaults.', 'websac'),
+            'message' => __('Settings have been reset to defaults.', 'website-accessibility'),
             'data'    => $this->defaults,
         ]);
     }
