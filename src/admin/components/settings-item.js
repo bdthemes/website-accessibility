@@ -6,7 +6,7 @@ const SettingsItem = ({ title, description, checked, onChange, disabled = false 
     return (
         <Card
             style={{
-                marginBottom: 10,
+                marginTop: 20,
                 borderRadius: 12,
             }}
         >

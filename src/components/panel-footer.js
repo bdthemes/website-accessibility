@@ -13,13 +13,36 @@ const debounce = (fn, delay = 1000) => {
   };
 };
 
+function removeCookie(name) {
+  // Set the cookie's expiration date to a past date
+  document.cookie = `${name}=; expires=Thu, 01 Jan 1970 00:00:00 UTC; path=/;`;
+}
+
+const getCookie = (name) => {
+  return document.cookie.split("; ").reduce((r, v) => {
+    const parts = v.split("=");
+    return parts[0] === name ? decodeURIComponent(parts[1]) : r;
+  }, "");
+};
+
+
 const PanelFooter = ({ value, accessibilityContext, accessibilityDispatch }) => {
   const [savingPreference, setSavingPreference] = useState(false);
   const [deletingPreference, setDeletingPreference] = useState(false);
   const [hasSavedPreference, setHasSavedPreference] = useState(false);
   const [savePreference, setSavePreference] = useState();
   const [loadingPreference, setLoadingPreference] = useState(false);
+  const [showConsent, setShowConsent] = useState(false);
 
+  const isLanguageActive = useMemo(() => {
+    return value?.items?.find(item => item.slug === 'language')?.active || false;
+  }, []);
+
+  useEffect(() => {
+    const consent = getCookie("wapGoogleTranslateConsent");
+    setShowConsent(consent);
+  }, []);
+  
   // ✅ Ant Design message
   const [messageApi, contextHolder] = message.useMessage();
 
@@ -111,6 +134,12 @@ const PanelFooter = ({ value, accessibilityContext, accessibilityDispatch }) => 
       content: __('All accessibility settings have been reset to default.', 'website-accessibility'),
       style: { marginBlockStart: 20 },
     });
+  };
+
+  const handleClearConsent = () => {
+    if (!isFrontend) return;
+    removeCookie('wapGoogleTranslateConsent');
+    window.location.reload();
   };
 
   // Save
@@ -221,7 +250,7 @@ const PanelFooter = ({ value, accessibilityContext, accessibilityDispatch }) => 
         </Flex>
       )}
 
-      <div className="wap-panel-footer__actions">
+      <Flex className="wap-panel-footer__actions">
         <Button
           type="primary"
           icon={<ReloadOutlined />}
@@ -231,7 +260,20 @@ const PanelFooter = ({ value, accessibilityContext, accessibilityDispatch }) => 
         >
           {resetBtnText}
         </Button>
-      </div>
+
+        {
+          (isProActive && showConsent && isLanguageActive) && (
+            <Button
+              type="primary"
+              size="large"
+              block
+              onClick={handleClearConsent}
+            >
+              {__('Clear consent', 'website-accessibility')}
+            </Button>
+          )
+        }
+      </Flex>
 
       <div className="wap-panel-footer__links">
 

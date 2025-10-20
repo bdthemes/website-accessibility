@@ -8,8 +8,8 @@ import apiFetch from "@wordpress/api-fetch";
 
 const View = () => {
     const { screenReader = () => null, defaultProfiles = [] } = window.wapHelpers || {};
-    const { PreviewButton, PreviewContent, Icon } = window?.wapComponents;
-    const { profiles, currentPreset, currentPresetId } = window?.websiteAccessibility;
+    const { PreviewButton, PreviewContent, Icon, GoogleTranslateConsent = () => null } = window?.wapComponents;
+    const { profiles, currentPreset, currentPresetId, settings } = window?.websiteAccessibility;
     const { dispatch, ...state } = useFrontendAccessibility();
     const [isOpen, setIsOpen] = useState(false);
 
@@ -112,7 +112,7 @@ const View = () => {
         };
 
         localStorage.setItem(`${state.localStorageKeyPrefix}-${currentPresetId}`, JSON.stringify(localPreferences));
-    }, [state, currentPresetId]);
+    }, [currentPresetId, state?.currentProfile, state?.currentSettings, state?.isOverSized, state?.enableTranslations, state?.selectedLanguage]);
 
     /**
      * Initialize accessibility manager with current settings
@@ -169,19 +169,11 @@ const View = () => {
         };
     }, [isOpen]);
 
-    /**
-     * Initialize Google Translate if present
-     */
-    useEffect(() => {
-        if (typeof window.google !== "undefined" && window.google.translate) {
-            window.wapGoogleTranslateInit();
-        }
-    }, []);
-
     if (!currentPreset) return null;
 
     return (
         <div className="wap-accessibility-view">
+
             <PreviewButton
                 type="default"
                 text={currentPreset?.button?.buttonType !== 'icon' ? currentPreset?.button?.text : null}
@@ -220,6 +212,7 @@ const View = () => {
                     accessibilityDispatch={dispatch}
                 />
             </Drawer>
+            <GoogleTranslateConsent showModal={settings?.show_translations_consent} />
         </div>
     );
 };
