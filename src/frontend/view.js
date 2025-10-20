@@ -8,7 +8,7 @@ import apiFetch from "@wordpress/api-fetch";
 
 const View = () => {
     const { screenReader = () => null, defaultProfiles = [] } = window.wapHelpers || {};
-    const { PreviewButton, PreviewContent, Icon, GoogleTranslateConsent } = window?.wapComponents;
+    const { PreviewButton, PreviewContent, Icon, GoogleTranslateConsent = () => null } = window?.wapComponents;
     const { profiles, currentPreset, currentPresetId, settings } = window?.websiteAccessibility;
     const { dispatch, ...state } = useFrontendAccessibility();
     const [isOpen, setIsOpen] = useState(false);
