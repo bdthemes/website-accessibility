@@ -13,9 +13,7 @@
 		display: flex;
 		align-items: center;
 		gap: 10px;
-		padding: var(--wap-footer-general-padding, 20px 24px);
-		// padding-top: 0;
-		// background: #f7f9fa;
+		padding: var(--wap-footer-general-padding, 0 24px);
 
 		.ant-row {
 			margin: 0 !important;
