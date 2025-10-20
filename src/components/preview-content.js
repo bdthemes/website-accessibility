@@ -1,6 +1,7 @@
 import { cloneElement } from "@wordpress/element";
 import clsx from "clsx";
 import { useEffect, useState } from "@wordpress/element";
+import { useMemo } from "react";
 
 const getCookie = (name) => {
     return document.cookie.split("; ").reduce((r, v) => {
@@ -22,36 +23,22 @@ const PreviewContent = ({ panel, allProfiles, setIsOpen = () => { }, accessibili
         setConsent(consent === "true");
     }, []);
 
-    let Translation = null;
-    if (settings?.show_translations_consent) {
-        if (consent) {
-            Translation = ({ value, accessibilityContext, accessibilityDispatch }) => (
-                <LanguageSelector
-                    value={value}
-                    accessibilityContext={accessibilityContext}
-                    accessibilityDispatch={accessibilityDispatch}
-                />
-            )
-        } else {
-            Translation = () => null
-        }
-    } else {
-        Translation = ({ value, accessibilityContext, accessibilityDispatch }) => (
+    const Translation = useMemo(() => {
+        const showConsent = settings?.show_translations_consent;
+        if (showConsent && !consent) return null;
+
+        return (
             <LanguageSelector
-                value={value}
+                value={panel}
                 accessibilityContext={accessibilityContext}
                 accessibilityDispatch={accessibilityDispatch}
             />
-        )
-    }
+        );
+    }, [consent, settings?.show_translations_consent, accessibilityContext, accessibilityDispatch, panel]);
 
     // Create components with accessibility context
     const itemComponents = {
-        language: <Translation
-            value={panel}
-            accessibilityContext={accessibilityContext}
-            accessibilityDispatch={accessibilityDispatch}
-        />,
+        language: Translation,
         profiles: <AccessibilityProfiles
             value={panel}
             allProfiles={allProfiles}

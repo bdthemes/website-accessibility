@@ -32,12 +32,17 @@ const PanelFooter = ({ value, accessibilityContext, accessibilityDispatch }) => 
   const [hasSavedPreference, setHasSavedPreference] = useState(false);
   const [savePreference, setSavePreference] = useState();
   const [loadingPreference, setLoadingPreference] = useState(false);
+  const [showConsent, setShowConsent] = useState(false);
 
   const isLanguageActive = useMemo(() => {
     return value?.items?.find(item => item.slug === 'language')?.active || false;
-  }, [value?.items]);
-  
+  }, []);
 
+  useEffect(() => {
+    const consent = getCookie("wapGoogleTranslateConsent");
+    setShowConsent(consent);
+  }, []);
+  
   // ✅ Ant Design message
   const [messageApi, contextHolder] = message.useMessage();
 
@@ -257,7 +262,7 @@ const PanelFooter = ({ value, accessibilityContext, accessibilityDispatch }) => 
         </Button>
 
         {
-          (getCookie('wapGoogleTranslateConsent') && isLanguageActive) && (
+          (isProActive && showConsent && isLanguageActive) && (
             <Button
               type="primary"
               size="large"

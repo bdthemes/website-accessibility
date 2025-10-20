@@ -212,11 +212,7 @@ const View = () => {
                     accessibilityDispatch={dispatch}
                 />
             </Drawer>
-            {
-                settings?.show_translations_consent && (
-                    <GoogleTranslateConsent />
-                )
-            }
+            <GoogleTranslateConsent showModal={settings?.show_translations_consent} />
         </div>
     );
 };
