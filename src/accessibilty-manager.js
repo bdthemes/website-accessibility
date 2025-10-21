@@ -1,4 +1,5 @@
 import dictionary from "./dictionary";
+import fontManipulator from "./font-manupulator";
 const { screenReader = () => null, smartContrast = () => null, muteSounds = () => null, filterFeatures = () => null } = window.wapHelpers;
 class AccessibilityManager {
     static instance = null;
@@ -69,9 +70,11 @@ class AccessibilityManager {
                 case 'brightness':
                     filterFeatures().applyBrightness(attributes);
                     break;
+                case 'biggerText':
+                    this.applyBiggerText(key, attributes);
+                    break;
                 case 'contrast':
                 case 'highlightLinks':
-                case 'biggerText':
                 case 'textSpacing':
                 case 'pauseAnimations':
                 case 'hideImages':
@@ -500,7 +503,16 @@ class AccessibilityManager {
         delete this.props[key];
     }
 
+    applyBiggerText(key, attr) {
+        if (!attr) return;
+        fontManipulator()?.apply(document.body, attr.percent, attr.properties);
+    }
 
+    removeBiggerText(key) {
+        fontManipulator()?.remove();
+        delete this.props['biggerText'];
+    }
+    
     removeFeature(key) {
         // Remove the feature
         if (key === 'screenReader') {
@@ -523,9 +535,10 @@ class AccessibilityManager {
         }else if (key === 'brightness') {
             filterFeatures()?.removeBrightness();
             delete this.props['brightness'];
+        }else if (key === 'biggerText') {
+            this.removeBiggerText(key);
         }else if (
             key === 'highlightLinks' ||
-            key === 'biggerText' ||
             key === 'textSpacing' ||
             key === 'pauseAnimations' ||
             key === 'hideImages' ||
