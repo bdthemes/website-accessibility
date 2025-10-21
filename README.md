@@ -1,10 +1,10 @@
-# Sigmally Website Accessibility
+# One Accessibility
 
 A comprehensive WordPress plugin that enhances website accessibility and ensures WCAG compliance with customizable accessibility toolbars, preset conditions, and user profiles.
 
 ## 🎯 Overview
 
-**Sigmally Website Accessibility** is a modern, flexible WordPress plugin that helps your website meet WCAG, ADA, and other accessibility standards effortlessly. Create multiple accessibility presets and assign them conditionally to different areas of your site—Entire Site, Singular (posts/pages), or Archives (categories, tags).
+**One Accessibility** is a modern, flexible WordPress plugin that helps your website meet WCAG, ADA, and other accessibility standards effortlessly. Create multiple accessibility presets and assign them conditionally to different areas of your site—Entire Site, Singular (posts/pages), or Archives (categories, tags).
 
 The plugin includes a built-in mini editor to customize the accessibility toolbar layout and controls, giving users an intuitive experience tailored to different needs. It works independently of any page builder like Gutenberg or Elementor, ensuring compatibility with all WordPress themes.
 
@@ -214,7 +214,7 @@ This plugin is licensed under the GPL-2.0-or-later license. See the [LICENSE](ht
 
 ## 🏢 About BDThemes
 
-Sigmally Website Accessibility is developed by [BDThemes](https://bdthemes.com), a leading WordPress theme and plugin development company.
+One Accessibility is developed by [BDThemes](https://bdthemes.com), a leading WordPress theme and plugin development company.
 
 ---
 

@@ -168,14 +168,8 @@ const features = [
             {
                 name: __("Medium", "website-accessibility"),
                 value: "medium",
-                css: [
-                    {
-                        selector: "html",
-                        properties: {
-                            fontSize: "120%",
-                        },
-                    },
-                ],
+                properties: ['font-size'],
+                percent: 20,
                 enableAnnouncement: __(
                     "Bigger Text, set to Medium.",
                     "website-accessibility",
@@ -184,14 +178,8 @@ const features = [
             {
                 name: __("Large", "website-accessibility"),
                 value: "large",
-                css: [
-                    {
-                        selector: "html",
-                        properties: {
-                            fontSize: "140%",
-                        },
-                    },
-                ],
+                properties: ['font-size'],
+                percent: 40,
                 enableAnnouncement: __(
                     "Bigger Text, set to Large.",
                     "website-accessibility",
@@ -200,14 +188,8 @@ const features = [
             {
                 name: __("Extra Large", "website-accessibility"),
                 value: "extra-large",
-                css: [
-                    {
-                        selector: "html",
-                        properties: {
-                            fontSize: "160%",
-                        },
-                    },
-                ],
+                properties: ['font-size'],
+                percent: 60,
                 enableAnnouncement: __(
                     "Bigger Text, set to Extra Large.",
                     "website-accessibility",
@@ -216,14 +198,8 @@ const features = [
             {
                 name: __("Huge", "website-accessibility"),
                 value: "huge",
-                css: [
-                    {
-                        selector: "html",
-                        properties: {
-                            fontSize: "200%",
-                        },
-                    },
-                ],
+                properties: ['font-size'],
+                percent: 80,
                 enableAnnouncement: __(
                     "Bigger Text, set to Huge.",
                     "website-accessibility",

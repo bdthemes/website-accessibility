@@ -4,6 +4,17 @@ namespace bdthemes\websiteaccessibility\Core;
 
 class Utils
 {
+    public static function get_filesystem()
+    {
+        // Check if WP_Filesystem is available
+        if (!function_exists('WP_Filesystem')) {
+            require_once ABSPATH . 'wp-admin/includes/file.php';
+        }
+
+        // Initialize WP_Filesystem
+        WP_Filesystem();
+    }
+    
     public static function get_preset_data($preset)
     {
         if (is_object($preset) && !empty($preset->ID) && !empty($preset->post_content)) {

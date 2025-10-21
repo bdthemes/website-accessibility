@@ -72,7 +72,7 @@ const Settings = () => {
             <Card className="wap-settings-card wap-header-card">
                 <div className="wap-settings-card-content">
                     <Title level={2} className="wap-header-card-title">
-                        {__("Website Accessibility Settings", "website-accessibility")}
+                        {__("One Accessibility Settings", "website-accessibility")}
                     </Title>
                 </div>
             </Card>
