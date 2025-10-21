@@ -1,7 +1,7 @@
 import { useLocation } from '../router';
 import { useMemo, useEffect } from '@wordpress/element';
-import Dashboard from './dashboard';
 import clsx from 'clsx';
+import Dashboard from './dashboard';
 import CreatePreset from './create-preset';
 import Presets from './presets';
 import EditPreset from './edit-preset';
@@ -10,6 +10,7 @@ import Profiles from './profiles';
 import CreateProfiles from './create-profiles';
 import EditProfile from './edit-profile';
 import Settings from './settings';
+import UsageStatisticsSection from '../components/UsageStatisticsSection';
 
 const Pages = () => {
     const location = useLocation();
@@ -56,13 +57,15 @@ const Pages = () => {
             }
         });
     }, [page]);
-
     return (
-        <div className="wap-admin-pages">
-            <div className={clsx('wap-admin-page', { [page]: page })}>
-                {RouteElement}
+        <>
+            <div className="wap-admin-pages">
+                <div className={clsx('wap-admin-page', { [page]: page })}>
+                    {RouteElement}
+                </div>
             </div>
-        </div>
+            {page === 'website-accessibility' && <UsageStatisticsSection />}
+        </>
     );
 };
 
