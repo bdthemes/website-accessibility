@@ -7,6 +7,7 @@ import { useEffect, useState } from '@wordpress/element';
 
 const { Title, Text } = Typography;
 import Disclaimer from '../components/disclaimer';
+import UsageStatistics from '../components/usageStatistics';
 
 const Dashboard = () => {
     const history = useHistory();
@@ -181,6 +182,18 @@ const Dashboard = () => {
                         </div>
                     </Col>
                 </Row>
+
+                <Card 
+                    className="usage-statistics-section" 
+                    style={{ marginTop: '24px' }}
+                    title={
+                        <Title level={4} style={{ margin: 0 }}>
+                            {__('Widget Usage Statistics', 'website-accessibility')}
+                        </Title>
+                    }
+                >
+                    <UsageStatistics />
+                </Card>
             </div>
         </>
     );
