@@ -1,9 +1,6 @@
-
-
 import { Card, Typography, Row, Col, Statistic } from 'antd';
 import { __ } from "@wordpress/i18n";
 import { ArrowUpOutlined, ArrowDownOutlined } from '@ant-design/icons';
-
 const { Text } = Typography;
 
 const UsageStatistics = () => {
@@ -41,7 +38,7 @@ const UsageStatistics = () => {
                             borderRadius: '8px',
                             boxShadow: '0 1px 2px 0 rgba(0, 0, 0, 0.03)',
                             height: '100%',
-                            background: "#F0F2F5"
+                            background: "#f6f7f9"
                         }}
                     >
                         <Statistic

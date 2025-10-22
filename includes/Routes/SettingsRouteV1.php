@@ -21,6 +21,7 @@ class SettingsRouteV1
      */
     private $defaults = [
         'show_translations_consent' => true,
+        'enable_usage_statistics' => true,
     ];
 
     /**
@@ -120,6 +121,10 @@ class SettingsRouteV1
         $clean['show_translations_consent'] = isset($settings['show_translations_consent'])
             ? (bool) $settings['show_translations_consent']
             : $this->defaults['show_translations_consent'];
+            
+        $clean['enable_usage_statistics'] = isset($settings['enable_usage_statistics'])
+            ? (bool) $settings['enable_usage_statistics']
+            : $this->defaults['enable_usage_statistics'];
 
         return $clean;
     }

@@ -1,6 +1,8 @@
 import { useLocation } from '../router';
-import { useMemo, useEffect } from '@wordpress/element';
+import { useMemo, useEffect, useState } from '@wordpress/element';
 import clsx from 'clsx';
+import apiFetch from '@wordpress/api-fetch';
+import { addQueryArgs } from '@wordpress/url';
 import Dashboard from './dashboard';
 import CreatePreset from './create-preset';
 import Presets from './presets';
@@ -11,10 +13,35 @@ import CreateProfiles from './create-profiles';
 import EditProfile from './edit-profile';
 import Settings from './settings';
 import UsageStatisticsSection from '../components/UsageStatisticsSection';
+import { Spin } from 'antd';
+
+const useUsageStatisticsSetting = () => {
+    const [isEnabled, setIsEnabled] = useState(null);
+
+    useEffect(() => {
+        const fetchSetting = async () => {
+            try {
+                const response = await apiFetch({ 
+                    path: addQueryArgs('/sigmally/v1/settings')
+                });
+                const settingValue = response?.data?.enable_usage_statistics;
+                setIsEnabled(settingValue !== false); 
+            } catch (error) {
+                console.error('Failed to load usage statistics setting:', error);
+                setIsEnabled(true); 
+            }
+        };
+
+        fetchSetting();
+    }, []);
+
+    return isEnabled;
+};
 
 const Pages = () => {
     const location = useLocation();
     const page = location?.params?.page;
+    const isUsageStatsEnabled = useUsageStatisticsSetting();
 
     const RouteElement = useMemo(() => {
         switch (page) {
@@ -64,7 +91,13 @@ const Pages = () => {
                     {RouteElement}
                 </div>
             </div>
-            {page === 'website-accessibility' && <UsageStatisticsSection />}
+{page === 'website-accessibility' && isUsageStatsEnabled === null ? (
+                <div style={{ marginTop: 40 }} className="wap-admin-pages">
+                    <Spin />
+                </div>
+            ) : page === 'website-accessibility' && isUsageStatsEnabled === true ? (
+                <UsageStatisticsSection />
+            ) : null}
         </>
     );
 };
