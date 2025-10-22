@@ -13,6 +13,7 @@ class Frontend
         add_action('wp_enqueue_scripts', [$this, 'enqueue_frontend_scripts']);
         add_action('wp_enqueue_scripts', [$this, 'enqueue_components_scripts'], 1);
         add_action('admin_enqueue_scripts', [$this, 'enqueue_components_scripts'], 1);
+        add_action('wp_enqueue_scripts', [$this, 'enqueue_admin_view_assets']);
         add_action('wp_footer', [$this, 'render_preset_root']);
     }
 
@@ -133,6 +134,54 @@ class Frontend
             ]);
         }
     }
+    /**
+     * Enqueue admin view assets
+     */
+    public function enqueue_admin_view_assets() {
+        // Define the build directory and URL
+        $build_dir = plugin_dir_path(dirname(dirname(__FILE__))) . 'build/';
+        $build_url = plugin_dir_url(dirname(dirname(__FILE__))) . 'build/';
+        
+        $admin_view_assets = $build_dir . 'admin-view/index.asset.php';
+        
+        if (file_exists($admin_view_assets)) {
+            $assets = include $admin_view_assets;
+            
+            // Define version from assets or use plugin version
+            $version = $assets['version'] ?? (defined('WEBSAC_VERSION') ? WEBSAC_VERSION : '1.0.0');
+            $dependencies = $assets['dependencies'] ?? ['wp-element', 'wp-i18n'];
+            
+            // Register and enqueue the script
+            wp_register_script(
+                'wap-admin-view',
+                $build_url . 'admin-view/index.js',
+                $dependencies,
+                $version,
+                true
+            );
+            
+            // Enqueue the style if it exists
+            $style_path = $build_dir . 'admin-view/style-index.css';
+            if (file_exists($style_path)) {
+                wp_enqueue_style(
+                    'wap-admin-view',
+                    $build_url . 'admin-view/style-index.css',
+                    [],
+                    $version
+                );
+            }
+            
+            // Localize script
+            wp_localize_script('wap-admin-view', 'websiteAccessibilityAdminView', [
+                'ajaxUrl' => admin_url('admin-ajax.php'),
+                'nonce'   => wp_create_nonce('wap_admin_view_nonce'),
+            ]);
+            
+            // Enqueue the script
+            wp_enqueue_script('wap-admin-view');
+        }
+    }
+
     public function render_preset_root()
     {
         if (!wp_script_is('wap-accessibility-frontend')) {
@@ -142,5 +191,7 @@ class Frontend
         echo '<div id="website-accessibility-app"></div>';
         // Google Translate
         echo '<div id="wap-google-translate-container"></div>';
+        // Admin View Container - Will be used by the admin view script
+        echo '<div id="website-accessibility-admin-view"></div>';
     }
 }
