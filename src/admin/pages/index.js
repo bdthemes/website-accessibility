@@ -21,14 +21,14 @@ const useUsageStatisticsSetting = () => {
     useEffect(() => {
         const fetchSetting = async () => {
             try {
-                const response = await apiFetch({ 
+                const response = await apiFetch({
                     path: addQueryArgs('/sigmally/v1/settings')
                 });
                 const settingValue = response?.data?.enable_usage_statistics;
-                setIsEnabled(settingValue !== false); 
+                setIsEnabled(settingValue !== false);
             } catch (error) {
                 console.error('Failed to load usage statistics setting:', error);
-                setIsEnabled(true); 
+                setIsEnabled(true);
             }
         };
 
@@ -91,13 +91,9 @@ const Pages = () => {
                     {RouteElement}
                 </div>
             </div>
-{page === 'website-accessibility' && isUsageStatsEnabled === null ? (
-                <div style={{ marginTop: 40 }} className="wap-admin-pages">
-                    <Spin />
-                </div>
-            ) : page === 'website-accessibility' && isUsageStatsEnabled === true ? (
+            {page === 'website-accessibility' && (
                 <UsageStatisticsSection />
-            ) : null}
+            )}
         </>
     );
 };

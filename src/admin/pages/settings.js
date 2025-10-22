@@ -93,18 +93,6 @@ const Settings = () => {
                     onChange={(checked) => updateSetting("show_translations_consent", checked)}
                 />
             )}
-
-            {/* Usage Statistics Setting */}
-            <SettingsItem
-                title={__("Enable Usage Statistics", "website-accessibility")}
-                description={__(
-                    "Enable or disable the usage statistics dashboard.",
-                    "website-accessibility"
-                )}
-                checked={settings.enable_usage_statistics !== false}
-                loading={saving}
-                onChange={(checked) => updateSetting("enable_usage_statistics", checked)}
-            />
         </div>
     );
 };
