@@ -1,5 +1,6 @@
 import { useLocation } from '../router';
-import { useMemo, useEffect } from '@wordpress/element';
+import { useMemo, useEffect, useState } from '@wordpress/element';
+import apiFetch from '@wordpress/api-fetch';
 import clsx from 'clsx';
 import Dashboard from './dashboard';
 import CreatePreset from './create-preset';
@@ -10,11 +11,26 @@ import Profiles from './profiles';
 import CreateProfiles from './create-profiles';
 import EditProfile from './edit-profile';
 import Settings from './settings';
-import UsageStatisticsSection from '../components/usage-statistics-section';
+import UsageStatistics from '../components/usage-statistics';
 
 const Pages = () => {
     const location = useLocation();
     const page = location?.params?.page;
+    const [settings, setSettings] = useState();
+    const API_NAMESPACE = "/sigmally/v1/settings";
+
+    const fetchSettings = async () => {
+        try {
+            const res = await apiFetch({ path: API_NAMESPACE });
+            setSettings(res?.data || {});
+        } catch (error) {
+            console.error("Failed to load settings:", error);
+        }
+    };
+
+    useEffect(() => {
+        fetchSettings();
+    }, []);
 
     const RouteElement = useMemo(() => {
         switch (page) {
@@ -64,8 +80,8 @@ const Pages = () => {
                     {RouteElement}
                 </div>
             </div>
-            {page === 'website-accessibility' && (
-                <UsageStatisticsSection />
+            {page === 'website-accessibility' && settings && settings?.show_usage_statistics && (
+                <UsageStatistics />
             )}
         </>
     );

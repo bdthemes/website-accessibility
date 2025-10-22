@@ -130,6 +130,7 @@ class Frontend
                     'show_translations_consent' => true
                 ]),
                 'nonce'           => wp_create_nonce('wp_rest'),
+                'restUrl'         => rest_url()
             ]);
         }
     }

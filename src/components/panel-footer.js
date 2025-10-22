@@ -13,18 +13,6 @@ const debounce = (fn, delay = 1000) => {
   };
 };
 
-function removeCookie(name) {
-  // Set the cookie's expiration date to a past date
-  document.cookie = `${name}=; expires=Thu, 01 Jan 1970 00:00:00 UTC; path=/;`;
-}
-
-const getCookie = (name) => {
-  return document.cookie.split("; ").reduce((r, v) => {
-    const parts = v.split("=");
-    return parts[0] === name ? decodeURIComponent(parts[1]) : r;
-  }, "");
-};
-
 
 const PanelFooter = ({ value, accessibilityContext, accessibilityDispatch }) => {
   const [savingPreference, setSavingPreference] = useState(false);
@@ -33,6 +21,7 @@ const PanelFooter = ({ value, accessibilityContext, accessibilityDispatch }) => 
   const [savePreference, setSavePreference] = useState();
   const [loadingPreference, setLoadingPreference] = useState(false);
   const [showConsent, setShowConsent] = useState(false);
+  const { getCookie, removeCookie } = window.wapHelpers;
 
   const isLanguageActive = useMemo(() => {
     return value?.items?.find(item => item.slug === 'language')?.active || false;
@@ -42,7 +31,7 @@ const PanelFooter = ({ value, accessibilityContext, accessibilityDispatch }) => 
     const consent = getCookie("wapGoogleTranslateConsent");
     setShowConsent(consent);
   }, []);
-  
+
   // ✅ Ant Design message
   const [messageApi, contextHolder] = message.useMessage();
 
@@ -103,7 +92,7 @@ const PanelFooter = ({ value, accessibilityContext, accessibilityDispatch }) => 
     }
 
     return { post_id: currentPresetId, data };
-  }, [accessibilityContext]);
+  }, [accessibilityContext?.currentProfile, accessibilityContext?.currentSettings, accessibilityContext?.isOverSized, accessibilityContext?.enableTranslations, accessibilityContext?.selectedLanguage, currentPresetId, isFrontend, isUserLoggedIn]);
 
   // Fetch preference state
   useEffect(() => {
