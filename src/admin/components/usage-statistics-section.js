@@ -1,13 +1,13 @@
-import { Card } from 'antd';
+import { Card, Typography } from 'antd';
 import { __ } from "@wordpress/i18n";
-import Title from 'antd/es/typography/Title';
-import clsx from 'clsx';
-import UsageStatistics from './usageStatistics';
+import UsageStatistics from './usage-statistics';
+
+const { Title } = Typography;
 
 const UsageStatisticsSection = () => {
 
     return (
-        <div style={{marginTop: 40}} className={clsx('wap-admin-pages')}>
+        <div style={{marginTop: 40}} className="wap-admin-pages">
             <Card
                 title={
                     <Title level={4} >
