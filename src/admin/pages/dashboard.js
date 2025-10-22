@@ -4,9 +4,9 @@ import { useHistory } from "../router";
 import { useSelect } from '@wordpress/data';
 import { STORE_NAME } from '../store';
 import { useEffect, useState } from '@wordpress/element';
-
 const { Title, Text } = Typography;
 import Disclaimer from '../components/disclaimer';
+
 
 const Dashboard = () => {
     const history = useHistory();
@@ -181,6 +181,7 @@ const Dashboard = () => {
                         </div>
                     </Col>
                 </Row>
+
             </div>
         </>
     );
