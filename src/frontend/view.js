@@ -282,7 +282,7 @@ const View = () => {
                     accessibilityDispatch={dispatch}
                 />
             </Drawer>
-            <GoogleTranslateConsent showModal={settings?.show_translations_consent} />
+            <GoogleTranslateConsent showModal={settings?.show_translations_consent} translateSiteLang={settings?.force_translate_site_language} accessibilityContext={state} />
         </div>
     );
 };
