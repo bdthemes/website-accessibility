@@ -21,6 +21,7 @@ class SettingsRouteV1
      */
     private $defaults = [
         'show_translations_consent' => true,
+        'force_translate_site_language' => false,
     ];
 
     /**
@@ -120,6 +121,10 @@ class SettingsRouteV1
         $clean['show_translations_consent'] = isset($settings['show_translations_consent'])
             ? (bool) $settings['show_translations_consent']
             : $this->defaults['show_translations_consent'];
+
+        $clean['force_translate_site_language'] = isset($settings['force_translate_site_language'])
+            ? (bool) $settings['force_translate_site_language']
+            : $this->defaults['force_translate_site_language'];
 
         return $clean;
     }

@@ -7,9 +7,10 @@ import { __ } from "@wordpress/i18n";
 import apiFetch from "@wordpress/api-fetch";
 
 const View = () => {
-    const { screenReader = () => null, defaultProfiles = [] } = window.wapHelpers || {};
+    const { screenReader = () => null, defaultProfiles = [], clickRestoreButtonInTranslateIframe = () => null } = window.wapHelpers || {};
     const { PreviewButton, PreviewContent, Icon, GoogleTranslateConsent = () => null } = window?.wapComponents;
-    const { profiles, currentPreset, currentPresetId, settings } = window?.websiteAccessibility;
+    const { profiles, currentPreset, currentPresetId, settings, siteLanguage } = window?.websiteAccessibility;
+    const { isProActive } = window?.websacPro || {};
     const { dispatch, ...state } = useFrontendAccessibility();
     const [isOpen, setIsOpen] = useState(false);
 
@@ -24,24 +25,24 @@ const View = () => {
         return footerAttribiutes?.activePreference || false;
     }, [currentPreset]);
 
-    function validProfile(currentProfile){
-        if(!currentProfile?.id) return null;
-        
+    function validProfile(currentProfile) {
+        if (!currentProfile?.id) return null;
+
         const isExist = allProfiles.find((profile) => (profile.id === currentProfile?.id || profile.ID === currentProfile?.id));
 
         return isExist ? currentProfile : null;
     }
-    
+
     /**
      * Apply preference data to accessibility context
      */
     function applyPreferenceData(preferenceData) {
         if (!preferenceData) return;
         const validCurrentProfile = validProfile(preferenceData.profile);
-        
-        if(validCurrentProfile?.id !== preferenceData?.profile?.id) {
+
+        if (validCurrentProfile?.id !== preferenceData?.profile?.id) {
             dispatch({ type: 'SET_CURRENT_SETTINGS', payload: {} });
-        }else{
+        } else {
             dispatch({ type: 'SET_CURRENT_SETTINGS', payload: preferenceData.settings || {} });
         }
         dispatch({ type: 'SET_CURRENT_PROFILE', payload: validCurrentProfile });
@@ -212,7 +213,7 @@ const View = () => {
                     accessibilityDispatch={dispatch}
                 />
             </Drawer>
-            <GoogleTranslateConsent showModal={settings?.show_translations_consent} />
+            <GoogleTranslateConsent showModal={settings?.show_translations_consent} translateSiteLang={settings?.force_translate_site_language} accessibilityContext={state} />
         </div>
     );
 };
