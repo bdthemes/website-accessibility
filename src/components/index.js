@@ -10,6 +10,8 @@ import features from './utils/features';
 import panelItems from './utils/panel-items';
 import isScreenReaderActive from './utils/is-screenreader-active';
 import defaultProfiles from './utils/profiles';
+import { getCookie, removeCookie, setCookie } from './utils/cookie-manager';
+import useBrowserKey from './utils/use-browser-key';
 
 window.wapComponents = {
     AccessibilityProfiles,
@@ -25,5 +27,9 @@ window.wapHelpers = {
     features,
     panelItems,
     isScreenReaderActive,
-    defaultProfiles
+    defaultProfiles,
+    getCookie,
+    setCookie,
+    removeCookie,
+    useBrowserKey
 }
