@@ -26,19 +26,19 @@ const View = () => {
 
     function validProfile(currentProfile){
         if(!currentProfile?.id) return null;
-        
+
         const isExist = allProfiles.find((profile) => (profile.id === currentProfile?.id || profile.ID === currentProfile?.id));
 
         return isExist ? currentProfile : null;
     }
-    
+
     /**
      * Apply preference data to accessibility context
      */
     function applyPreferenceData(preferenceData) {
         if (!preferenceData) return;
         const validCurrentProfile = validProfile(preferenceData.profile);
-        
+
         if(validCurrentProfile?.id !== preferenceData?.profile?.id) {
             dispatch({ type: 'SET_CURRENT_SETTINGS', payload: {} });
         }else{
@@ -198,9 +198,9 @@ const View = () => {
             <Drawer
                 open={isOpen}
                 onClose={() => setIsOpen(false)}
-                placement="right"
-                className="wap-preset__preview-drawer"
-                rootClassName="wap-preset__preview-drawer-root"
+                placement={currentPreset?.panel?.wrapper?.position || "right"}
+                className={`wap-preset__preview-drawer wap-preset__preview-drawer--${currentPreset?.panel?.wrapper?.position || 'right'}`}
+                rootClassName={`wap-preset__preview-drawer-root wap-preset__preview-drawer-root--${currentPreset?.panel?.wrapper?.position || 'right'}`}
                 width={Number(currentPreset?.panel?.wrapper?.width) || 400}
             >
                 <PreviewContent
