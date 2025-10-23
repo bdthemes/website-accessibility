@@ -22,6 +22,7 @@ class SettingsRouteV1
     private $defaults = [
         'show_translations_consent' => true,
         'force_translate_site_language' => false,
+        'show_usage_statistics'     => true,
     ];
 
     /**
@@ -125,6 +126,10 @@ class SettingsRouteV1
         $clean['force_translate_site_language'] = isset($settings['force_translate_site_language'])
             ? (bool) $settings['force_translate_site_language']
             : $this->defaults['force_translate_site_language'];
+            
+        $clean['show_usage_statistics'] = isset($settings['show_usage_statistics'])
+            ? (bool) $settings['show_usage_statistics']
+            : $this->defaults['show_usage_statistics'];
 
         return $clean;
     }

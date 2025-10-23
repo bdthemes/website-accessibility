@@ -105,6 +105,15 @@ const Settings = () => {
                     />
                 </>
             )}
+
+            <SettingsItem
+                title={__("Track Usage Statistics", "website-accessibility")}
+                description={__("Enable tracking to monitor how the accessibility widgets are being used.", "website-accessibility")}
+                checked={!!settings.show_usage_statistics}
+                loading={saving}
+                onChange={(checked) => updateSetting("show_usage_statistics", checked)}
+            />
+
         </div>
     );
 };

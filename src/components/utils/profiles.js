@@ -6,11 +6,12 @@ import {
     SeizureIcon,
     ADHDIcon,
 } from "../../assets/profiles-icons";
+import { __ } from "@wordpress/i18n";
 
 const defaultProfiles = [
     {
         id: "motor",
-        title: { rendered: "Motor Impaired", raw: "Motor Impaired" },
+        title: { rendered: __("Motor Impaired", "website-accessibility"), raw: __("Motor Impaired", "website-accessibility") },
         slug: "motor",
         icon: <MotorIcon />,
         features: {
@@ -19,7 +20,7 @@ const defaultProfiles = [
     },
     {
         id: "color-blind",
-        title: { rendered: "Color Blind", raw: "Color Blind" },
+        title: { rendered: __("Color Blind", "website-accessibility"), raw: __("Color Blind", "website-accessibility") },
         slug: "color-blind",
         icon: <ColorBlindIcon />,
         features: {
@@ -29,7 +30,7 @@ const defaultProfiles = [
     },
     {
         id: "low-vision",
-        title: { rendered: "Low vision", raw: "Low vision" },
+        title: { rendered: __("Low Vision", "website-accessibility"), raw: __("Low Vision", "website-accessibility") },
         slug: "low-vision",
         icon: <LowVisionIcon />,
         features: {
@@ -41,7 +42,7 @@ const defaultProfiles = [
     },
     {
         id: "cognitive",
-        title: { rendered: "Cognitive & Learning", raw: "Cognitive & Learning" },
+        title: { rendered: __("Cognitive & Learning", "website-accessibility"), raw: __("Cognitive & Learning", "website-accessibility") },
         slug: "cognitive",
         icon: <CognitiveIcon />,
         features: {
@@ -53,7 +54,7 @@ const defaultProfiles = [
     },
     {
         id: "seizure",
-        title: { rendered: "Seizure & Epileptic", raw: "Seizure & Epileptic" },
+        title: { rendered: __("Seizure & Epileptic", "website-accessibility"), raw: __("Seizure & Epileptic", "website-accessibility") },
         slug: "seizure",
         icon: <SeizureIcon />,
         features: {
@@ -62,7 +63,7 @@ const defaultProfiles = [
     },
     {
         id: "adhd",
-        title: { rendered: "ADHD", raw: "ADHD" },
+        title: { rendered: __("ADHD", "website-accessibility"), raw: __("ADHD", "website-accessibility") },
         slug: "adhd",
         icon: <ADHDIcon />,
         features: {

@@ -45,6 +45,8 @@ class Enqueue {
                 true
             );
 
+            wp_set_script_translations('website-accessibility-admin', 'website-accessibility', WEBSAC_DIR . 'languages/');
+
             wp_enqueue_style(
                 'website-accessibility-admin',
                 WEBSAC_URL . 'build/admin/index.css',

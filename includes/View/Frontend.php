@@ -74,6 +74,7 @@ class Frontend
                 $components_assets['version'],
                 true
             );
+            wp_set_script_translations('wap-accessibility-components', 'website-accessibility', WEBSAC_DIR . 'languages/');
             wp_enqueue_style(
                 'wap-accessibility-components',
                 WEBSAC_URL . 'build/components/index.css',
@@ -111,6 +112,7 @@ class Frontend
                 $frontend_assets['version'],
                 true
             );
+            wp_set_script_translations('wap-accessibility-frontend', 'website-accessibility', WEBSAC_DIR . 'languages/');
             wp_enqueue_style(
                 'wap-accessibility-frontend',
                 WEBSAC_URL . 'build/frontend/frontend.css',
@@ -131,6 +133,7 @@ class Frontend
                     'force_translate_site_language' => false
                 ]),
                 'nonce'           => wp_create_nonce('wp_rest'),
+                'restUrl'         => rest_url()
             ]);
         }
     }
