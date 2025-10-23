@@ -1,0 +1,32 @@
+.wap-statistics-card{
+    .ant-card-head{
+        min-height: 80px;
+
+        .ant-card-head-title{
+            overflow: unset !important;
+        }
+    }
+
+    .wap-statistics-card-item{
+        padding: 20px;
+        .ant-card-body{
+            padding: 0 !important;
+            margin-top: 10px;
+
+            .ant-card-meta{
+                justify-content: center !important;
+                gap: 6px;
+                margin: 0 !important;
+
+                .ant-card-meta-avatar{
+                    padding-inline-end: 0 !important;
+                    flex: unset;
+                }
+
+                .ant-card-meta-detail{
+                    flex: unset;
+                }
+            }
+        }
+    }
+}

@@ -3,16 +3,10 @@ import clsx from "clsx";
 import { useEffect, useState } from "@wordpress/element";
 import { useMemo } from "react";
 
-const getCookie = (name) => {
-    return document.cookie.split("; ").reduce((r, v) => {
-        const parts = v.split("=");
-        return parts[0] === name ? decodeURIComponent(parts[1]) : r;
-    }, "");
-};
-
 
 const PreviewContent = ({ panel, allProfiles, setIsOpen = () => { }, accessibilityContext, accessibilityDispatch }) => {
     const { LanguageSelector = () => null, AccessibilityProfiles, WidgetFeatures, PanelHeader, PanelFooter } = window?.wapComponents;
+    const { getCookie } = window.wapHelpers;
     const isProActive = window?.websacPro?.isProActive || false;
     const { isOverSized } = accessibilityContext || {};
     const { settings } = window?.websiteAccessibility || {};

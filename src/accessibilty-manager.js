@@ -65,10 +65,10 @@ class AccessibilityManager {
                     this.applyMuteSounds(key, attributes);
                     break;
                 case 'grayscale':
-                    filterFeatures().applyGrayScale(attributes);
+                    filterFeatures()?.applyGrayScale(attributes);
                     break;
                 case 'brightness':
-                    filterFeatures().applyBrightness(attributes);
+                    filterFeatures()?.applyBrightness(attributes);
                     break;
                 case 'biggerText':
                     this.applyBiggerText(key, attributes);
