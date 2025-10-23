@@ -41,7 +41,7 @@ const View = () => {
         if (!preferenceData) return;
         const validCurrentProfile = validProfile(preferenceData.profile);
 
-        if (validCurrentProfile?.id !== preferenceData?.profile?.id) {
+        if(validCurrentProfile?.id !== preferenceData?.profile?.id) {
             dispatch({ type: 'SET_CURRENT_SETTINGS', payload: {} });
         } else {
             dispatch({ type: 'SET_CURRENT_SETTINGS', payload: preferenceData.settings || {} });
@@ -268,9 +268,9 @@ const View = () => {
                         saveStatistics(saveablePreference?.data?.settings);
                     }
                 }}
-                placement="right"
-                className="wap-preset__preview-drawer"
-                rootClassName="wap-preset__preview-drawer-root"
+                placement={currentPreset?.panel?.wrapper?.position || "right"}
+                className={`wap-preset__preview-drawer wap-preset__preview-drawer--${currentPreset?.panel?.wrapper?.position || 'right'}`}
+                rootClassName={`wap-preset__preview-drawer-root wap-preset__preview-drawer-root--${currentPreset?.panel?.wrapper?.position || 'right'}`}
                 width={Number(currentPreset?.panel?.wrapper?.width) || 400}
             >
                 <PreviewContent
