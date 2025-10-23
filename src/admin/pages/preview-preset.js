@@ -66,8 +66,8 @@ const PreviewPreset = () => {
           onClose={() => setIsOpen(false)}
           placement={panel?.wrapper?.position || "right"}
           width={Number(panel?.wrapper?.width || 400)}
-          className="wap-preset__preview-drawer"
-          rootClassName="wap-preset__preview-drawer-root"
+          className={`wap-preset__preview-drawer wap-preset__preview-drawer--${panel?.wrapper?.position || 'right'}`}
+          rootClassName={`wap-preset__preview-drawer-root wap-preset__preview-drawer-root--${panel?.wrapper?.position || 'right'}`}
         >
           <PreviewContent panel={panel} allProfiles={allProfiles} setIsOpen={setIsOpen} />
         </Drawer>
