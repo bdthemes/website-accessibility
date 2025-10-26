@@ -4,7 +4,7 @@
 @forward './post-table';
 @forward './usage-statistics';
 
-.ant-select-dropdown{
+.ant-select-dropdown {
     svg {
         width: 1em;
         height: 1em;
@@ -12,8 +12,19 @@
     }
 }
 
-.wap-features-customization{
-    .ant-card-body{
+.wap-features-customization {
+    .ant-card-body {
         padding-bottom: 0;
+    }
+}
+
+.wap-widget-features-dummy {
+    position: absolute;
+    right: 5px;
+    top: 0px;
+    z-index: 5;
+
+    .ant-badge-count {
+        border-radius: 0 6px 0 0;
     }
 }

@@ -28,5 +28,16 @@
                 }
             }
         }
+
+        .wap-statistics-card-dummy{
+            position: absolute;
+            right: -1px;
+            top: -1px;
+            z-index: 5;
+
+            .ant-badge-count{
+                border-radius: 0 8px 0 0;
+            }
+        }
     }
 }

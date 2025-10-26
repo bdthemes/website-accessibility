@@ -1,5 +1,5 @@
-import { useState, useEffect } from "react";
-import { Card, Typography, Row, Col, Select, Skeleton, Empty, Flex } from "antd";
+import { useState, useEffect } from "@wordpress/element";
+import { Card, Typography, Row, Col, Select, Skeleton, Empty, Flex, Badge } from "antd";
 import { __ } from "@wordpress/i18n";
 import apiFetch from "@wordpress/api-fetch";
 
@@ -26,7 +26,8 @@ const UsageStatistics = () => {
                     response.push({
                         title: feature.label,
                         value: res.data[feature.key],
-                        icon: feature.icon
+                        icon: feature?.icon,
+                        isDummy: feature?.isDummy || false
                     })
                 });
                 setStats(response);
@@ -88,6 +89,11 @@ const UsageStatistics = () => {
                                         </Title>
                                     }
                                 >
+                                    {
+                                        stat.isDummy && (
+                                            <Badge color="gold" count={__("PRO", "website-accessibility")} className="wap-statistics-card-dummy" />
+                                        )
+                                    }
                                     <Meta
                                         avatar={stat.icon}
                                         title={stat.title}
