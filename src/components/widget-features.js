@@ -192,7 +192,7 @@ const WidgetFeatures = ({
 
 							{
 								isDummy && (
-									<Badge count="PRO" color="gold" className="wap-widget-features-dummy"/>
+									<Badge count={__("PRO", "website-accessibility")} color="gold" className="wap-widget-features-dummy"/>
 								)
 							}
 
