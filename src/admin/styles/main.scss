@@ -4,11 +4,7 @@
 #website-accessibility-admin {
     padding: 80px 0;
 
-    .notice {
-        display: none !important;
-    }
-
-    #ehe-admin-cb {
+    #ehe-admin-cb, .notice, .error {
         display: none !important;
     }
 }
