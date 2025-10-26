@@ -130,7 +130,8 @@ class Frontend
                 'statementLink'   => $this->get_statement_page_link(),
                 'settings'        => get_option('websac_settings', [
                     'show_translations_consent' => true,
-                    'force_translate_site_language' => false
+                    'force_translate_site_language' => false,
+                    'show_usage_statistics' => true
                 ]),
                 'nonce'           => wp_create_nonce('wp_rest'),
                 'restUrl'         => rest_url()
