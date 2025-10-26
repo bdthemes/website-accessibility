@@ -7,7 +7,7 @@
  * Requires PHP:      7.4
  * Version:           1.1.0
  * Author:            bdthemes
- * Author URI:        https://bdthemes.com/plugin/one-accessibility
+ * Author URI:        https://oneaccessibility.com
  * License:           GPL-2.0-or-later
  * License URI:       https://www.gnu.org/licenses/gpl-2.0.html
  * Text Domain:       website-accessibility 

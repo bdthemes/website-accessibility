@@ -32,7 +32,7 @@ msgstr ""
 
 #. Author URI of the plugin
 #: website-accessibility.php
-msgid "https://bdthemes.com/plugin/one-accessibility"
+msgid "https://oneaccessibility.com"
 msgstr ""
 
 #: includes/Admin/Menu.php:29

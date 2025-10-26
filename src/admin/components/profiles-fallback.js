@@ -10,7 +10,7 @@ const { Space } = Layout;
 
 const ProfilesFallback = () => {
   const openPricingPage = () => {
-    window.open('https://bdthemes.com/plugin/one-accessibility#pricing', '_blank');
+    window.open('https://oneaccessibility.com#pricing', '_blank');
   };
 
   return (
