@@ -1,62 +1,136 @@
-=== One Accessibility ===
-Contributors:      bdthemes  
-Tags:              accessibility, a11y, compliance, toolbar, frontend  
+=== One Accessibility – Making Your Site Accessible to Everyone ===
+Contributors:      bdthemes, mizan42047
+Tags:              accessibility, a11y, wcag, ada-compliance, screen-reader  
 Requires at least: 6.1  
 Tested up to:      6.8  
 Requires PHP:      7.4  
-Stable tag:        1.1.0
+Stable tag:        1.1.0  
 License:           GPL-2.0-or-later  
 License URI:       https://www.gnu.org/licenses/gpl-2.0.html  
 
-Improve your website's accessibility and compliance with a fully customizable accessibility toolbar, preset conditions, and user profiles.
+Make your site accessible to everyone with advanced tools, WCAG compliance, and customization for a truly inclusive experience.
 
 == Description ==
 
-**One Accessibility** is a modern, flexible WordPress plugin that helps your website meet WCAG, ADA, and other accessibility standards effortlessly.
+**Make Your Website Accessible to Everyone with One Accessibility Website Accessibility Plugin**
 
-Create multiple accessibility presets and assign them conditionally to different areas of your site—Entire Site, Singular (posts/pages), or Archives (categories, tags). The plugin includes a built-in mini editor to customize the accessibility toolbar layout and controls, giving users an intuitive experience tailored to different needs.
+In today's digital world, creating inclusive web experiences isn't just good practice—it's essential. **One Accessibility Website Accessibility** is a comprehensive WordPress plugin designed to help website owners, developers, and businesses effortlessly achieve WCAG 2.1, ADA, and Section 508 compliance while providing an exceptional user experience for visitors with diverse accessibility needs.
 
-It works independently of any page builder like Gutenberg or Elementor, ensuring compatibility with all WordPress themes.
+### ✨ Why Choose One Accessibility Website Accessibility?
 
-### 🔧 Key Features
+**Smart Conditional System**: Create unlimited accessibility presets and deploy them strategically across your entire site, specific pages, posts, or archive pages. Whether you're running a corporate website, e-commerce store, or personal blog, our intelligent conditional assignment system ensures the right accessibility tools appear exactly where they're needed.
 
-- Create multiple accessibility presets with conditional assignment (Entire Site, Singular, Archives)
-- Customize the toolbar layout using a built-in mini editor
-- Create and manage user-specific accessibility profiles (vision impairment, ADHD, dyslexia, etc.)
-- Lightweight, fast, and user-friendly
-- Compatible with all themes and page builders
-- Includes screen reader, contrast tools, animation controls, dictionary tooltips, Google Translate integration, and more
+**Visual Drag-and-Drop Editor**: Say goodbye to complex coding! Our intuitive mini-editor allows you to customize your accessibility toolbar's appearance, layout, and functionality with simple drag-and-drop controls. Design beautiful, user-friendly accessibility interfaces that match your brand aesthetic.
 
-Whether you’re building inclusive websites for clients or your own brand, One Accessibility gives you the tools to make a real impact.
+**Specialized User Profiles**: Support visitors with specific accessibility needs through our pre-configured user profiles including Motor Impairment, Blindness & Low Vision, Color Blindness, Dyslexia, Cognitive Disabilities, Seizure & Epilepsy Safety, and ADHD accommodations.
+
+**Universal Compatibility**: Built with modern React technology and designed to work flawlessly with any WordPress theme, page builder (Elementor, Gutenberg, Beaver Builder, etc.), or custom development setup. No conflicts, no compatibility issues—just seamless integration.
+
+### 🛠️ Powerful Features That Make a Difference
+
+**🎛️ Advanced Accessibility Toolbar**
+- Screen reader optimization and navigation
+- High contrast mode and color adjustments
+- Font size scaling and readability enhancements
+- Animation and motion reduction controls
+- Keyboard navigation improvements
+- Focus indicators and skip links
+
+**🌍 Language & Communication Tools**
+- Google Translate integration for multilingual accessibility
+- Dictionary tooltips with pronunciation guides
+- Text-to-speech functionality
+- Reading guides and focus indicators
+
+**⚙️ Professional Management System**
+- Multiple preset configurations
+- Real-time preview functionality
+- User behavior analytics
+- Compliance monitoring dashboard
+- Easy backup and restore options
+
+**🎨 Customization Excellence**
+- Brand-aligned toolbar designs
+- Custom color schemes and themes
+- Flexible positioning options
+- Mobile-responsive accessibility controls
+- Icon and text customization
+
+### 🏆 Perfect for Every Website Type
+
+Whether you're managing a government website requiring Section 508 compliance, an e-commerce platform serving diverse customers, educational institutions, healthcare providers, or any business committed to digital inclusion, One Accessibility Website Accessibility provides enterprise-level features with user-friendly simplicity.
+
+The plugin automatically creates a default accessibility preset upon activation, so you're instantly compliant and ready to serve all users. Advanced users can create sophisticated, multi-layered accessibility experiences, while beginners can rely on our expertly crafted defaults.
+
+**🚀 Start building a more inclusive web today** – because accessibility isn't just about compliance, it's about creating digital experiences that welcome everyone.
 
 == Installation ==
 
-1. Upload the plugin to `/wp-content/plugins/website-accessibility` or install it via the WordPress plugin directory.
-2. Activate the plugin via the “Plugins” screen in WordPress.
-3. Configure accessibility presets and profiles from the plugin settings.
-4. Assign presets conditionally to Entire Site, Singular, or Archive pages.
-5. Use the mini editor to customize the toolbar layout.
+### 🚀 Quick Start (Recommended)
+
+1. **Automatic Installation**: Go to your WordPress admin dashboard → Plugins → Add New → Search for "One Accessibility Website Accessibility" → Install Now → Activate
+2. **Manual Upload**: Download the plugin → Upload to `/wp-content/plugins/website-accessibility/` → Activate via Plugins screen
+3. **Auto-Configuration**: The plugin automatically creates a default accessibility preset upon activation - you're instantly ready!
+4. **Access Settings**: Navigate to **Accessibility** in your WordPress admin menu to customize further
+
+### ⚙️ Advanced Configuration
+
+1. **Create Custom Presets**: Go to Accessibility → Presets → Create new preset with specific conditions
+2. **Customize Toolbar**: Use the drag-and-drop mini editor to design your accessibility interface
+3. **Set Up Profiles**: Configure specialized user profiles for different accessibility needs
+4. **Conditional Assignment**: Assign different presets to Entire Site, Singular pages, or Archive pages
+5. **Preview & Test**: Use the built-in preview functionality to test your accessibility toolbar
+
+### 🔧 Post-Installation Checklist
+
+- ✅ Verify the accessibility toolbar appears on your frontend
+- ✅ Test keyboard navigation (CTRL+U to open accessibility menu)
+- ✅ Confirm Google Translate integration is working
+- ✅ Check mobile responsiveness of accessibility controls
+- ✅ Review preset conditions match your website structure
 
 == Frequently Asked Questions ==
 
-= Can I create multiple accessibility presets? =  
-Yes. You can create as many presets as you like and assign them conditionally to different parts of your website.
+= How do I know if my website meets accessibility standards? =
+The plugin automatically implements WCAG 2.1 AA guidelines through its default preset. Upon activation, your site immediately gains essential accessibility features like keyboard navigation, screen reader optimization, and focus indicators. For comprehensive compliance, we recommend using the plugin alongside accessibility testing tools and potentially consulting with accessibility experts for complex sites.
 
-= Does the plugin require Gutenberg or a page builder? =  
-No. The plugin is completely standalone and works with any theme or builder.
+= Can I customize the appearance of the accessibility toolbar to match my brand? =
+Absolutely! The plugin includes a powerful drag-and-drop mini editor that allows you to customize colors, fonts, positioning, button styles, icons, and layout. You can create brand-aligned accessibility toolbars that seamlessly integrate with your website design while maintaining full functionality.
 
-= Can I create different accessibility profiles for different user types? =  
-Yes. You can build and assign custom profiles to suit a variety of accessibility needs.
+= Does the accessibility toolbar work on mobile devices and tablets? =
+Yes! The plugin is fully responsive and optimized for all devices including smartphones, tablets, and desktops. The accessibility controls automatically adapt to different screen sizes, ensuring users can access all features regardless of their device. Touch-friendly interfaces make mobile accessibility seamless.
 
-= Where can I apply presets conditionally? =  
-You can assign presets to Entire Site, Singular (posts or pages), or Archives (category, tag, or other archive templates).
+= Can I use multiple accessibility presets on different pages of my website? =
+Definitely! You can create unlimited accessibility presets and assign them conditionally to different areas of your site. For example, use one preset for your homepage (Entire Site), a different preset for blog posts (Singular), and another for category pages (Archives). This allows targeted accessibility experiences for different content types.
+
+= Will this plugin conflict with my existing theme or page builder? =
+No conflicts guaranteed! One Accessibility Website Accessibility is built with modern React technology and designed to work seamlessly with all WordPress themes, page builders (Elementor, Gutenberg, Beaver Builder, Divi, etc.), and custom development setups. The plugin operates independently without interfering with your existing design or functionality.
+
+= What accessibility conditions and user profiles are supported? =
+The plugin supports comprehensive accessibility profiles including Motor Impairment, Blindness & Low Vision, Color Blindness, Dyslexia, Cognitive Disabilities, Seizure & Epilepsy Safety, and ADHD accommodations. Each profile automatically configures appropriate tools like high contrast modes, font adjustments, animation controls, and navigation enhancements.
+
+= Does the plugin support multilingual websites and translation? =
+Yes! The plugin includes integrated Google Translate functionality, supporting 100+ languages for global accessibility. It also works perfectly with popular translation plugins like WPML, Polylang, and TranslatePress. The accessibility toolbar itself can be translated and localized for international websites.
+
+= How does the dictionary tooltip feature work? =
+The dictionary tooltip feature provides instant word definitions and pronunciations to help users with reading comprehension. When enabled, users can hover over or click on words to get definitions from the Free Dictionary API, making content more accessible for users with cognitive disabilities, language learners, or those with dyslexia.
+
+= Will this plugin slow down my website? =
+Not at all! One Accessibility Website Accessibility is engineered for performance with optimized code, efficient loading, and minimal resource usage. The plugin loads only necessary components on-demand and uses modern caching techniques. Most users experience no noticeable impact on site speed while gaining comprehensive accessibility features.
+
+= Can I track how users interact with the accessibility features? =
+While the current version focuses on providing accessibility tools rather than detailed analytics, the plugin's architecture supports future analytics integration. You can monitor accessibility toolbar usage through your existing analytics tools, and we're working on built-in accessibility insights for future releases to help you understand user needs better.
+
+= ⚡ Where do I report security bugs found in this plugin? =
+
+Please report security bugs found in the source code of the Sigmally Website Accessibility plugin through the [Patchstack Vulnerability Disclosure  Program](https://patchstack.com/database/vdp/e9ff4b57-776a-4327-88d4-030a5a33d186). The Patchstack team will assist you with verification, CVE assignment, and notify the developers of this plugin.
 
 == Screenshots ==
 
 1. Accessibility toolbar on the frontend with customizable layout  
 2. Preset management screen with conditional assignments  
 3. Mini editor interface for toolbar customization  
-4. Custom profile creation and management interface  
+4. Custom profile creation and management interface
 
 == Libraries and Credits ==
 
@@ -102,4 +176,5 @@ This plugin uses the following open-source libraries and third-party tools. We a
 * Customizable mini editor for toolbar layout  
 * Custom accessibility profiles  
 * Theme-independent and compatible with all builders  
+
 
