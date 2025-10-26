@@ -4,7 +4,7 @@ Tags:              accessibility, a11y, wcag, ada-compliance, screen-reader
 Requires at least: 6.1  
 Tested up to:      6.8  
 Requires PHP:      7.4  
-Stable tag:        1.1.0  
+Stable tag:        1.1.1  
 License:           GPL-2.0-or-later  
 License URI:       https://www.gnu.org/licenses/gpl-2.0.html  
 
@@ -158,23 +158,32 @@ This plugin uses the following open-source libraries and third-party tools. We a
 
 == Changelog ==
 
-= 1.1.0 (20 oct 2025) =
-* Added: Save Preference feature for retaining user accessibility settings for logged in users
-* Added: Widget Activation/Deactivation option within presets
-* Added: Settings page with integrated Statement page Checker and Generator
-* Added: Specific Page/Post and Archive conditions for Preset
-* Added: Admin Disclaimer for better guidance and transparency
-* Improve: Font Size Widget functionality
-* Improve: Removed Blind and Dyslexic profiles to prevent confusion
-* Improve: Optimized overall UI/UX and enhanced code structure
-* Fixed: Issue where enabling the Hide Flag switch caused the app to break
+= 1.1.1 – October 27, 2025 =
+* New: Usage Analytics feature to track accessibility widget interactions.
+* New: Panel placement option for the Accessibility Preset panel.
+* Fix: Resolved translation compatibility issues with multilingual plugins.
+* Improvement: Refined UI/UX and updated code to meet higher development standards.
 
+= 1.1.0 – October 20, 2025 =
+* New: Save Preference feature to retain user accessibility settings for 
+  logged-in users.
+* New: Widget Activation/Deactivation option within presets.
+* New: Settings page with integrated Statement Page Checker and Generator.
+* New: Page/Post and Archive-specific conditions for presets.
+* New: Admin Disclaimer for better guidance and transparency.
+* Improvement: Enhanced Font Size widget functionality.
+* Improvement: Removed Blind and Dyslexic profiles for better clarity and 
+  user experience.
+* Improvement: Optimized overall UI/UX and improved code structure.
+* Fix: Resolved issue where enabling the "Hide Flag" switch caused the app 
+  to break.
 
-= 1.0.0 =
-* Initial release  
-* Multiple presets with conditional display (Entire Site, Singular, Archives)  
-* Customizable mini editor for toolbar layout  
-* Custom accessibility profiles  
-* Theme-independent and compatible with all builders  
+= 1.0.0 – Initial Release =
+* Initial release.
+* Multiple presets with conditional display (Entire Site, Singular, Archives).
+* Customizable mini editor for toolbar layout.
+* Custom accessibility profiles.
+* Theme-independent and compatible with all page builders.
+
 
 
