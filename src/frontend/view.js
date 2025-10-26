@@ -264,7 +264,7 @@ const View = () => {
                 open={isOpen}
                 onClose={() => {
                     setIsOpen(false)
-                    if(settings?.show_usage_statistics){
+                    if(settings?.show_usage_statistics && saveablePreference?.data?.settings){
                         saveStatistics(saveablePreference?.data?.settings);
                     }
                 }}

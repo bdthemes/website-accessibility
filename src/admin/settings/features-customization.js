@@ -1,5 +1,5 @@
-import { useState } from "react";
-import { Card, List, Input, Switch } from "antd";
+import { useState } from "@wordpress/element";
+import { Card, List, Input, Switch, Badge } from "antd";
 import { SearchOutlined } from "@ant-design/icons";
 import { __ } from "@wordpress/i18n";
 
@@ -15,7 +15,7 @@ const FeaturesCustomization = ({ attributes, updateAttr }) => {
     return (
         <Card className="wap-features-customization">
             <Input
-                placeholder="Search features..."
+                placeholder={__("Search features...", "website-accessibility")}
                 prefix={<SearchOutlined />}
                 value={searchTerm}
                 onChange={e => setSearchTerm(e.target.value)}
@@ -28,43 +28,51 @@ const FeaturesCustomization = ({ attributes, updateAttr }) => {
                 renderItem={(feature) => {
                     const currentItem = attributes?.widgets?.find(item => item[feature?.key]);
                     const isCurrentActive = currentItem ? currentItem[feature?.key]?.active : true;
-
+                    const isDummy = feature?.isDummy;
                     return (
                         <List.Item
                             key={feature?.key}
                             actions={[
-                                <Switch
-                                    checked={isCurrentActive}
-                                    onChange={(checked) => {
-                                        if (currentItem) {
-                                            updateAttr({
-                                                widgets: attributes.widgets.map(item => {
-                                                    if (item[feature?.key]) {
-                                                        return {
-                                                            ...item,
-                                                            [feature?.key]: {
-                                                                ...item[feature?.key],
-                                                                active: checked
-                                                            }
-                                                        };
+                                <>
+                                    {
+                                        !isDummy ? (
+                                            <Switch
+                                                checked={isCurrentActive}
+                                                onChange={(checked) => {
+                                                    if (currentItem) {
+                                                        updateAttr({
+                                                            widgets: attributes.widgets.map(item => {
+                                                                if (item[feature?.key]) {
+                                                                    return {
+                                                                        ...item,
+                                                                        [feature?.key]: {
+                                                                            ...item[feature?.key],
+                                                                            active: checked
+                                                                        }
+                                                                    };
+                                                                }
+                                                                return item;
+                                                            })
+                                                        });
+                                                    } else {
+                                                        updateAttr({
+                                                            widgets: [
+                                                                ...attributes?.widgets || [],
+                                                                {
+                                                                    [feature?.key]: {
+                                                                        active: checked
+                                                                    }
+                                                                }
+                                                            ]
+                                                        });
                                                     }
-                                                    return item;
-                                                })
-                                            });
-                                        }else {
-                                            updateAttr({
-                                                widgets: [
-                                                    ...attributes?.widgets || [],
-                                                    {
-                                                        [feature?.key]: {
-                                                            active: checked
-                                                        }
-                                                    }
-                                                ]
-                                            });
-                                        }
-                                    }}
-                                />
+                                                }}
+                                            />
+                                        ) : (
+                                            <Badge color="gold" count={__('PRO', 'website-accessibility')} />
+                                        )
+                                    }
+                                </>
                             ]}
                         >
                             <List.Item.Meta

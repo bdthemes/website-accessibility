@@ -1,4 +1,4 @@
-import { Card, Row, Col, Switch } from "antd";
+import { Card, Row, Col, Switch, Badge } from "antd";
 import clsx from "clsx";
 import { useMemo } from "@wordpress/element";
 
@@ -10,23 +10,28 @@ const WidgetFeatures = ({
 	const { items } = value;
 	const featureItem = items.find((item) => item.slug === "features");
 	const attributes = featureItem?.attributes || {};
-	const features = useMemo(() => {
-		const allFeatures = window.wapHelpers?.features || [];
-
-		return allFeatures.filter((feature) => {
-			const currentItem = attributes?.widgets?.find(item => item[feature?.key]);
-			const isCurrentActive = currentItem ? currentItem[feature?.key]?.active : true;
-			if(isCurrentActive) return feature;
-		});
-	}, [attributes?.widgets]);
-
 	// Check if we're in frontend context
 	const isFrontend = !!accessibilityContext && !!accessibilityDispatch;
 	const { currentSettings, isOverSized } = accessibilityContext || {};
 
+	const features = useMemo(() => {
+		let allFeatures = window.wapHelpers?.features || [];
+		if (isFrontend) [
+			allFeatures = allFeatures.filter((feature) => {
+				if (!feature?.isDummy) return feature;
+			})
+		]
+
+		return allFeatures.filter((feature) => {
+			const currentItem = attributes?.widgets?.find(item => item[feature?.key]);
+			const isCurrentActive = currentItem ? currentItem[feature?.key]?.active : true;
+			if (isCurrentActive) return feature;
+		})
+	}, [attributes?.widgets]);
+
 	// Calculate column span based on items per row
 	const itemsPerRow = parseInt(attributes?.itemsPerRow) || 2;
-	const colSpan = 24 / itemsPerRow; 
+	const colSpan = 24 / itemsPerRow;
 	// Handle feature click
 	const handleFeatureClick = (feature) => {
 		if (!isFrontend) return;
@@ -159,6 +164,7 @@ const WidgetFeatures = ({
 					const isActive = currentStep > 0;
 					const showSteps = currentStep > 0 && allAttributes[0]?.value !== "enable";
 					const totalSteps = allAttributes.length;
+					const isDummy = feature?.isDummy || false;
 
 					return (
 						<Col
@@ -183,6 +189,12 @@ const WidgetFeatures = ({
 									</svg>
 								</span>
 							)}
+
+							{
+								isDummy && (
+									<Badge count={__("PRO", "website-accessibility")} color="gold" className="wap-widget-features-dummy"/>
+								)
+							}
 
 							{/* Feature button */}
 							<div
