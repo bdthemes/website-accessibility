@@ -1,5 +1,6 @@
 import { useState } from '@wordpress/element';
 import { Table, Input, Button, Space, Dropdown } from 'antd';
+import WapButton from '../../components/wap-button';
 
 /**
  * PostTable - WordPress-style post table with Ant Design
@@ -78,7 +79,7 @@ const PostTable = ({
             }}
             trigger={['click']}
           >
-            <Button icon={<span className="dashicons dashicons-ellipsis" />} />
+            <WapButton icon={<span className="dashicons dashicons-ellipsis" />} />
           </Dropdown>
         ),
       },
@@ -111,9 +112,9 @@ const PostTable = ({
             }}
             trigger={['click']}
           >
-            <Button type="primary">
+            <WapButton type="primary">
               Bulk Actions <span className="dashicons dashicons-arrow-down-alt2" />
-            </Button>
+            </WapButton>
           </Dropdown>
         )}
       </Space>

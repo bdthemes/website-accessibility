@@ -7,6 +7,7 @@ import { useEffect, useState } from '@wordpress/element';
 const { Title, Text } = Typography;
 import Disclaimer from '../components/disclaimer';
 import WapCard from '../../components/wap-card';
+import WapButton from '../../components/wap-button';
 
 
 const Dashboard = () => {
@@ -59,12 +60,12 @@ const Dashboard = () => {
             description: __('Presets help you quickly apply accessibility settings across your website.', 'website-accessibility'),
             icon: <span className="dashicons dashicons-universal-access" />,
             action: (
-                <Button size="small" onClick={() => navigateTo('website-accessibility-presets')}>
+                <WapButton size="small" onClick={() => navigateTo('website-accessibility-presets')}>
                     <Space>
                         <span className="dashicons dashicons-visibility" />
                         {__('View All', 'website-accessibility')}
                     </Space>
-                </Button>
+                </WapButton>
             ),
         },
         {
@@ -73,12 +74,12 @@ const Dashboard = () => {
             description: __('Create profiles for different user needs and preferences.', 'website-accessibility'),
             icon: <span className="dashicons dashicons-admin-users" />,
             action: (
-                <Button size="small" onClick={() => navigateTo('website-accessibilityfiles')}>
+                <WapButton size="small" onClick={() => navigateTo('website-accessibilityfiles')}>
                     <Space>
                         <span className="dashicons dashicons-visibility" />
                         {__('View All', 'website-accessibility')}
                     </Space>
-                </Button>
+                </WapButton>
             ),
         },
         {
@@ -114,7 +115,7 @@ const Dashboard = () => {
                         </Text>
                     </div>
                     <div>
-                        <Button
+                        <WapButton
                             type="primary"
                             size="large"
                             onClick={() => navigateTo('website-accessibility-presets-create')}
@@ -123,7 +124,7 @@ const Dashboard = () => {
                                 <span className="dashicons dashicons-plus-alt2" />
                                 {__('Create New Preset', 'website-accessibility')}
                             </Space>
-                        </Button>
+                        </WapButton>
                     </div>
                 </WapCard>
 
@@ -153,32 +154,32 @@ const Dashboard = () => {
                 <Row gutter={[16, 16]} justify="center">
                     <Col xs={24} md={8}>
                         <div className="quick-action-btn-wrapper">
-                            <Button block size="large" onClick={() => navigateTo('website-accessibility-presets')}>
+                            <WapButton block size="large" onClick={() => navigateTo('website-accessibility-presets')}>
                                 <Space>
                                     <span className="dashicons dashicons-universal-access" />
                                     <span>{__('Manage Presets', 'website-accessibility')}</span>
                                 </Space>
-                            </Button>
+                            </WapButton>
                         </div>
                     </Col>
                     <Col xs={24} md={8}>
                         <div className="quick-action-btn-wrapper">
-                            <Button block size="large" onClick={() => navigateTo('website-accessibilityfiles')}>
+                            <WapButton block size="large" onClick={() => navigateTo('website-accessibilityfiles')}>
                                 <Space>
                                     <span className="dashicons dashicons-admin-users" />
                                     <span>{__('Manage Profiles', 'website-accessibility')}</span>
                                 </Space>
-                            </Button>
+                            </WapButton>
                         </div>
                     </Col>
                     <Col xs={24} md={8}>
                         <div className="quick-action-btn-wrapper">
-                            <Button block size="large" onClick={() => navigateTo('website-accessibility-settings')}>
+                            <WapButton block size="large" onClick={() => navigateTo('website-accessibility-settings')}>
                                 <Space>
                                     <span className="dashicons dashicons-admin-generic" />
                                     <span>{__('Accessibility Settings', 'website-accessibility')}</span>
                                 </Space>
-                            </Button>
+                            </WapButton>
                         </div>
                     </Col>
                 </Row>

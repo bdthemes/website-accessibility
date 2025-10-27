@@ -5,6 +5,7 @@ import createProfileImage from '../../assets/create-profile.gif';
 import addProileImage from '../../assets/add-profile.gif';
 import applyProfileImage from '../../assets/apply-profile.gif';
 import WapCard from '../../components/wap-card';
+import WapButton from '../../components/wap-button';
 
 const { Title, Paragraph, Text } = Typography;
 const { Space } = Layout;
@@ -27,7 +28,7 @@ const ProfilesFallback = () => {
           </Text>
         </div>
         <div>
-          <Button
+          <WapButton
             type="primary"
             size="large"
             onClick={openPricingPage}
@@ -35,7 +36,7 @@ const ProfilesFallback = () => {
           >
             {__('Upgrade to Pro', 'website-accessibility')}
             <span className="dashicons dashicons-arrow-right-alt" />
-          </Button>
+          </WapButton>
         </div>
       </WapCard>
 

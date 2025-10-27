@@ -12,6 +12,7 @@ import { useDispatch, useSelect } from "@wordpress/data";
 import { STORE_NAME } from "../store";
 import { useHistory, useLocation } from '../router';
 import WapCard from '../../components/wap-card';
+import WapButton from '../../components/wap-button';
 
 const EditPreset = () => {
   const [current, setCurrent] = useState(0);
@@ -85,7 +86,7 @@ const EditPreset = () => {
         <Title level={2} className='wap-header-card-title'>
           {__('Edit Preset', 'website-accessibility')}
         </Title>
-        <Button
+        <WapButton
           type="primary"
           onClick={handleBack}
           size='large'
@@ -94,7 +95,7 @@ const EditPreset = () => {
             <span className='dashicons dashicons-arrow-left-alt' />
             {__('Back to Presets', 'website-accessibility')}
           </Space>
-        </Button>
+        </WapButton>
 
       </WapCard>
 
@@ -116,15 +117,15 @@ const EditPreset = () => {
       <div className="wap-preset-form-actions" style={{ marginTop: 24 }}>
         <Space>
           {current > 0 && (
-            <Button onClick={prev} htmlType='button' size='large'>
+            <WapButton onClick={prev} htmlType='button' size='large'>
               <Space>
                 <span className='dashicons dashicons-arrow-left-alt' />
                 {__('Previous', 'website-accessibility')}
               </Space>
-            </Button>
+            </WapButton>
           )}
           {current < steps.length - 1 && (
-            <Button
+            <WapButton
               size='large'
               type="primary"
               onClick={next}
@@ -135,10 +136,10 @@ const EditPreset = () => {
                 {__('Next', 'website-accessibility')}
                 <span className='dashicons dashicons-arrow-right-alt' />
               </Space>
-            </Button>
+            </WapButton>
           )}
           {current === steps.length - 1 && (
-            <Button
+            <WapButton
               type="primary"
               onClick={handleSave}
               size='large'
@@ -147,7 +148,7 @@ const EditPreset = () => {
                 {__('Update Preset', 'website-accessibility')}
                 <span className='dashicons dashicons-arrow-right-alt' />
               </Space>
-            </Button>
+            </WapButton>
           )}
         </Space>
       </div>

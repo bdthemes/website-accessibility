@@ -12,6 +12,7 @@ import { useDispatch, useSelect } from "@wordpress/data";
 import { DEFAULT_STATE, STORE_NAME } from "../store";
 import { useHistory } from '../router';
 import WapCard from '../../components/wap-card';
+import WapButton from '../../components/wap-button';
 
 const CreatePreset = () => {
   const [current, setCurrent] = useState(0);
@@ -42,7 +43,7 @@ const CreatePreset = () => {
         <Title level={2} className='wap-header-card-title'>
           {__('Create New Preset', 'website-accessibility')}
         </Title>
-        <Button
+        <WapButton
           type="primary"
           onClick={handleBack}
           size='large'
@@ -51,7 +52,7 @@ const CreatePreset = () => {
             <span className='dashicons dashicons-arrow-left-alt' />
             {__('Back to Presets', 'website-accessibility')}
           </Space>
-        </Button>
+        </WapButton>
       </WapCard>
 
       <Steps
@@ -71,23 +72,23 @@ const CreatePreset = () => {
       <div className="wap-preset-form-actions" style={{ marginTop: 24 }}>
         <Space>
           {current > 0 && (
-            <Button onClick={prev} size='large' htmlType='button'>
+            <WapButton onClick={prev} size='large' htmlType='button'>
               <Space>
                 <span className='dashicons dashicons-arrow-left-alt' />
                 {__('Previous', 'website-accessibility')}
               </Space>
-            </Button>
+            </WapButton>
           )}
           {current < steps.length - 1 && (
-            <Button type="primary" onClick={next} size='large' htmlType='button' disabled={current === 0 && !presetsFormData?.title}>
+            <WapButton type="primary" onClick={next} size='large' htmlType='button' disabled={current === 0 && !presetsFormData?.title}>
               <Space>
                 {__('Next', 'website-accessibility')}
                 <span className='dashicons dashicons-arrow-right-alt' />
               </Space>
-            </Button>
+            </WapButton>
           )}
           {current === steps.length - 1 && (
-            <Button
+            <WapButton
               type="primary"
               htmlType="submit"
               size='large'
@@ -103,7 +104,7 @@ const CreatePreset = () => {
                 {__('Save Preset', 'website-accessibility')}
                 <span className='dashicons dashicons-arrow-right-alt' />
               </Space>
-            </Button>
+            </WapButton>
           )}
         </Space>
       </div>

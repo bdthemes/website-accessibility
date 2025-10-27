@@ -1,5 +1,5 @@
-import { Button } from 'antd';
 import { EyeOutlined } from '@ant-design/icons';
+import WapButton from './wap-button';
 
 const PreviewButton = ({
   text = 'Preview Accessibility',
@@ -13,7 +13,7 @@ const PreviewButton = ({
   ...props
 }) => {
   return (
-    <Button
+    <WapButton
       type={type}
       size={size}
       icon={icon}
@@ -24,7 +24,7 @@ const PreviewButton = ({
       {...props}
     >
       {text}
-    </Button>
+    </WapButton>
   );
 };
 

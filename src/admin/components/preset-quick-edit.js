@@ -7,6 +7,7 @@ import ControlWrapper from './control-wrapper';
 import { archivePages, locationOptions } from '../../utils';
 import apiFetch from '@wordpress/api-fetch';
 import { addQueryArgs } from '@wordpress/url';
+import WapButton from '../../components/wap-button';
 
 const PresetQuickEdit = ({
   visible,
@@ -173,14 +174,14 @@ const PresetQuickEdit = ({
       rootClassName="wap-panel-quick-edit-drawer"
       extra={
         <Space>
-          <Button onClick={handleClose}>{__('Cancel', 'website-accessibility')}</Button>
-          <Button
+          <WapButton onClick={handleClose}>{__('Cancel', 'website-accessibility')}</WapButton>
+          <WapButton
             type="primary"
             onClick={handleSave}
             disabled={!presetsFormData?.title}
           >
             {__('Save', 'website-accessibility')}
-          </Button>
+          </WapButton>
         </Space>
       }
     >

@@ -5,6 +5,7 @@ import { DEFAULT_STATE, STORE_NAME } from '../store';
 import { useHistory } from '../router';
 import ProfileForm from '../components/profile-form';
 import WapCard from '../../components/wap-card';
+import WapButton from '../../components/wap-button';
 
 const { Title, Text } = Typography;
 
@@ -60,7 +61,7 @@ const CreateProfiles = () => {
                             {__('Create a custom accessibility profile with specific settings for different user needs.', 'website-accessibility')}
                         </Text>
                     </div>
-                    <Button 
+                    <WapButton 
                         type="primary"
                         onClick={handleBack}
                     >
@@ -68,7 +69,7 @@ const CreateProfiles = () => {
                             <span className='dashicons dashicons-arrow-left-alt' />
                             {__('Back to Profiles', 'website-accessibility')}
                         </Space>
-                    </Button>
+                    </WapButton>
                 </WapCard>
 
                 <ProfileForm 
@@ -78,13 +79,13 @@ const CreateProfiles = () => {
 
                 <div style={{ marginTop: 24, textAlign: 'right' }}>
                     <Space>
-                        <Button onClick={handleBack}>
+                        <WapButton onClick={handleBack}>
                             <Space>
                                 <span className='dashicons dashicons-dismiss' />
                                 {__('Cancel', 'website-accessibility')}
                             </Space>
-                        </Button>
-                        <Button 
+                        </WapButton>
+                        <WapButton 
                             type="primary" 
                             onClick={handleSave}
                             disabled={!profilesFormData.name?.trim()}
@@ -93,7 +94,7 @@ const CreateProfiles = () => {
                                 {__('Create Profile', 'website-accessibility')}
                                 <span className='dashicons dashicons-arrow-right-alt' />
                             </Space>
-                        </Button>
+                        </WapButton>
                     </Space>
                 </div>
         </div>

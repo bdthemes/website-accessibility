@@ -14,6 +14,7 @@ import { getCookie, removeCookie, setCookie } from './utils/cookie-manager';
 import useBrowserKey from './utils/use-browser-key';
 import WapFlex from './wap-flex';
 import WapCard from './wap-card';
+import WapButton from './wap-button';
 
 window.wapComponents = {
     AccessibilityProfiles,
@@ -24,7 +25,8 @@ window.wapComponents = {
     PreviewContent,
     WidgetFeatures,
     WapFlex,
-    WapCard
+    WapCard,
+    WapButton
 }
 
 window.wapHelpers = {

@@ -4,6 +4,7 @@ import { __ } from '@wordpress/i18n';
 import { useState, useEffect, useCallback, useMemo } from '@wordpress/element';
 import apiFetch from '@wordpress/api-fetch';
 import WapFlex from './wap-flex';
+import WapButton from './wap-button';
 
 // Simple debounce helper
 const debounce = (fn, delay = 1000) => {
@@ -211,7 +212,7 @@ const PanelFooter = ({ value, accessibilityContext, accessibilityDispatch }) => 
 
       {(isUserLoggedIn || !isFrontend) && showPreference && (
         <WapFlex align="center" justify="space-between" gap={10} style={{ marginBottom: '10px', padding: '0 24px' }}>
-          <Button
+          <WapButton
             type="primary"
             icon={<SaveOutlined />}
             size="large"
@@ -223,9 +224,9 @@ const PanelFooter = ({ value, accessibilityContext, accessibilityDispatch }) => 
             {hasSavedPreference
               ? updatePreferenceText
               : savePreferenceText}
-          </Button>
+          </WapButton>
 
-          <Button
+          <WapButton
             danger
             type="primary"
             icon={<DeleteOutlined />}
@@ -236,12 +237,12 @@ const PanelFooter = ({ value, accessibilityContext, accessibilityDispatch }) => 
             disabled={isFrontend ? !hasSavedPreference || deletingPreference || loadingPreference : false}
           >
             {deletePreferenceText}
-          </Button>
+          </WapButton>
         </WapFlex>
       )}
 
       <WapFlex className="wap-panel-footer__actions">
-        <Button
+        <WapButton
           type="primary"
           icon={<ReloadOutlined />}
           size="large"
@@ -249,18 +250,18 @@ const PanelFooter = ({ value, accessibilityContext, accessibilityDispatch }) => 
           onClick={handleReset}
         >
           {resetBtnText}
-        </Button>
+        </WapButton>
 
         {
           (isProActive && showConsent && isLanguageActive) && (
-            <Button
+            <WapButton
               type="primary"
               size="large"
               block
               onClick={handleClearConsent}
             >
               {__('Clear consent', 'website-accessibility')}
-            </Button>
+            </WapButton>
           )
         }
       </WapFlex>

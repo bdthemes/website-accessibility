@@ -13,6 +13,7 @@ const { Title, Text } = Typography;
 
 import statementJson from "../../../default-posts/statement.json";
 import WapCard from "../../components/wap-card";
+import WapButton from "../../components/wap-button";
 
 const StatementSetting = () => {
     const [page, setPage] = useState(null);
@@ -125,7 +126,7 @@ const StatementSetting = () => {
                         <Tooltip
                             title={__("Click to generate a statement page", "website-accessibility")}
                         >
-                            <Button
+                            <WapButton
                                 type="primary"
                                 shape="circle"
                                 icon={<ReloadOutlined spin={creating || loading} />}
@@ -136,7 +137,7 @@ const StatementSetting = () => {
                         <Tooltip
                             title={__("Hurray! We have a statement page!", "website-accessibility")}
                         >
-                            <Button
+                            <WapButton
                                 type="primary"
                                 shape="circle"
                                 icon={<CheckCircleOutlined />}

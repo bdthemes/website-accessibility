@@ -6,6 +6,7 @@ import { DEFAULT_STATE, STORE_NAME } from '../store';
 import { useHistory, useLocation } from '../router';
 import ProfileForm from '../components/profile-form';
 import WapCard from '../../components/wap-card';
+import WapButton from '../../components/wap-button';
 
 const { Title, Text } = Typography;
 
@@ -81,7 +82,7 @@ const EditProfile = () => {
                         </Text>
                     </div>
 
-                    <Button
+                    <WapButton
                         type="primary"
                         onClick={handleBack}
                         size='large'
@@ -90,7 +91,7 @@ const EditProfile = () => {
                             <span className="dashicons dashicons-arrow-left-alt"/>
                             {__('Back to Profiles', 'website-accessibility')}
                         </Space>
-                    </Button>
+                    </WapButton>
                 </WapCard>
 
                 <ProfileForm
@@ -100,13 +101,13 @@ const EditProfile = () => {
 
                 <div style={{ marginTop: 24, textAlign: 'right' }}>
                     <Space>
-                        <Button onClick={handleBack} size='large'>
+                        <WapButton onClick={handleBack} size='large'>
                             <Space>
                                 <span className='dashicons dashicons-dismiss' />
                                 {__('Cancel', 'website-accessibility')}
                             </Space>
-                        </Button>
-                        <Button
+                        </WapButton>
+                        <WapButton
                             type="primary"
                             onClick={handleUpdate}
                             disabled={!profilesFormData?.name?.trim()}
@@ -116,7 +117,7 @@ const EditProfile = () => {
                                 {__('Update Profile', 'website-accessibility')}
                                 <span className='dashicons dashicons-arrow-right-alt' />
                             </Space>
-                        </Button>
+                        </WapButton>
                     </Space>
                 </div>
         </div>

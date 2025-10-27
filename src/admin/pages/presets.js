@@ -8,6 +8,7 @@ import { useSelect, useDispatch } from "@wordpress/data";
 import { STORE_NAME } from "../store";
 import { useMemo, useState } from '@wordpress/element';
 import WapCard from '../../components/wap-card';
+import WapButton from '../../components/wap-button';
 
 const columns = [
   { title: __('Name', 'website-accessibility'), dataIndex: 'name', key: 'name', sorter: (a, b) => a.name.localeCompare(b.name) },
@@ -107,13 +108,13 @@ const Presets = () => {
               <Title level={2} className='wap-header-card-title'>
                 {__('Accessibility Presets', 'website-accessibility')}
               </Title>
-              <Button type="primary" size='large' onClick={() => navigate('website-accessibility-presets-create')}>
+              <WapButton   type="primary" size='large' onClick={() => navigate('website-accessibility-presets-create')}>
                 <Space>
                   <span className="dashicons dashicons-plus-alt2"/>
                   {__('Add New Preset', 'website-accessibility')}
                 </Space>
                   
-              </Button>
+              </WapButton>
         </WapCard>
         <WapCard>
           <div>
