@@ -6,6 +6,7 @@ import { useSelect, useDispatch } from '@wordpress/data';
 import { STORE_NAME } from '../store';
 import ProfilesFallback from '../components/profiles-fallback';
 import WapCard from '../../components/wap-card';
+import WapButton from '../../components/wap-button';
 
 const { Title } = Typography;
 
@@ -99,7 +100,7 @@ const Profiles = () => {
           }}
           trigger={['click']}
         >
-          <Button icon={<span className="dashicons dashicons-ellipsis" />} />
+          <WapButton icon={<span className="dashicons dashicons-ellipsis" />} />
         </Dropdown>
       ),
     }
@@ -117,7 +118,7 @@ const Profiles = () => {
           <Title level={2} className='wap-header-card-title'>
             {__('User Accessibility Profiles', 'website-accessibility')}
           </Title>
-          <Button 
+          <WapButton 
                 type="primary" 
                 onClick={handleCreateProfile}
                 size='large'
@@ -126,7 +127,7 @@ const Profiles = () => {
                   <span className="dashicons dashicons-plus-alt2"/>
                   {__('Add New Profile', 'website-accessibility')}
                 </Space>
-              </Button>
+              </WapButton>
       </WapCard>
       <WapCard >
         <div>
