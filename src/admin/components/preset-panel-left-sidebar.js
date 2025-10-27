@@ -17,6 +17,7 @@ import LanguageSelectorSettings from "../settings/language-selector-settings";
 import FooterSettings from "../settings/footer-settings";
 import WapCard from "../../components/wap-card";
 import WapRow from "../../components/wap-row";
+import WapCol from "../../components/wap-col";
 
 const PresetPanelLeftSidebar = () => {
   const [drawerVisible, setDrawerVisible] = useState(false);
@@ -104,15 +105,15 @@ const PresetPanelLeftSidebar = () => {
           return (
             <WapCard key={item.id} className="wap-panel-left-sidebar__row">
               <WapRow justify="space-between" align="middle">
-                <Col>
+                <WapCol>
                   {
                     !item?.disableDrag && (
                       <MenuOutlined className="wap-panel-left-sidebar__drag-handle" />
                     )
                   }
                   <span>{item.title}</span>
-                </Col>
-                <Col className="wap-panel-left-sidebar__actions">
+                </WapCol>
+                <WapCol className="wap-panel-left-sidebar__actions">
                   {(!item?.isPro || isProActive) && (
                     <EditOutlined
                       className="wap-panel-left-sidebar__icon-action"
@@ -149,7 +150,7 @@ const PresetPanelLeftSidebar = () => {
                     />
                   )}
 
-                </Col>
+                </WapCol>
               </WapRow>
             </WapCard>
           )

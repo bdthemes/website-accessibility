@@ -5,6 +5,7 @@ import apiFetch from "@wordpress/api-fetch";
 import WapFlex from "../../components/wap-flex";
 import WapCard from "../../components/wap-card";
 import WapRow from "../../components/wap-row";
+import WapCol from "../../components/wap-col";
 
 const { Meta } = Card;
 const { Title } = Typography;
@@ -83,7 +84,7 @@ const UsageStatistics = () => {
                 ) : (
                     <WapRow gutter={[16, 16]}>
                         {stats && stats?.map((stat, index) => (
-                            <Col xs={24} sm={12} md={8} lg={6} key={index}>
+                            <WapCol xs={24} sm={12} md={8} lg={6} key={index}>
                                 <WapCard
                                     className="wap-statistics-card-item"
                                     cover={
@@ -102,7 +103,7 @@ const UsageStatistics = () => {
                                         title={stat.title}
                                     />
                                 </WapCard>
-                            </Col>
+                            </WapCol>
                         ))}
                     </WapRow>
                 )}

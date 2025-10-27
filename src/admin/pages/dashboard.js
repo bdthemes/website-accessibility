@@ -9,6 +9,7 @@ import Disclaimer from '../components/disclaimer';
 import WapCard from '../../components/wap-card';
 import WapButton from '../../components/wap-button';
 import WapRow from '../../components/wap-row';
+import WapCol from '../../components/wap-col';
 
 
 const Dashboard = () => {
@@ -131,7 +132,7 @@ const Dashboard = () => {
 
                 <WapRow gutter={[24, 24]} align="stretch" className="statistics-grid wap-statistics-grid">
                     {stats.map((stat, idx) => (
-                        <Col xs={24} md={8} key={stat.title} className="stat-card">
+                        <WapCol xs={24} md={8} key={stat.title} className="stat-card">
                             <WapCard>
                                 <div className="stat-icon-wrapper">
                                     {stat.icon}
@@ -145,7 +146,7 @@ const Dashboard = () => {
                                     <div>{stat.action} {stat.extra}</div>
                                 </div>
                             </WapCard>
-                        </Col>
+                        </WapCol>
                     ))}
                 </WapRow>
 
@@ -153,7 +154,7 @@ const Dashboard = () => {
                     {__('Quick Actions', 'website-accessibility')}
                 </Title>
                 <WapRow gutter={[16, 16]} justify="center">
-                    <Col xs={24} md={8}>
+                    <WapCol xs={24} md={8}>
                         <div className="quick-action-btn-wrapper">
                             <WapButton block size="large" onClick={() => navigateTo('website-accessibility-presets')}>
                                 <Space>
@@ -162,8 +163,8 @@ const Dashboard = () => {
                                 </Space>
                             </WapButton>
                         </div>
-                    </Col>
-                    <Col xs={24} md={8}>
+                    </WapCol>
+                    <WapCol xs={24} md={8}>
                         <div className="quick-action-btn-wrapper">
                             <WapButton block size="large" onClick={() => navigateTo('website-accessibilityfiles')}>
                                 <Space>
@@ -172,8 +173,8 @@ const Dashboard = () => {
                                 </Space>
                             </WapButton>
                         </div>
-                    </Col>
-                    <Col xs={24} md={8}>
+                    </WapCol>
+                    <WapCol xs={24} md={8}>
                         <div className="quick-action-btn-wrapper">
                             <WapButton block size="large" onClick={() => navigateTo('website-accessibility-settings')}>
                                 <Space>
@@ -182,7 +183,7 @@ const Dashboard = () => {
                                 </Space>
                             </WapButton>
                         </div>
-                    </Col>
+                    </WapCol>
                 </WapRow>
 
             </div>

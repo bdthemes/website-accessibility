@@ -7,6 +7,7 @@ import applyProfileImage from '../../assets/apply-profile.gif';
 import WapCard from '../../components/wap-card';
 import WapButton from '../../components/wap-button';
 import WapRow from '../../components/wap-row';
+import WapCol from '../../components/wap-col';
 
 const { Title, Paragraph, Text } = Typography;
 const { Space } = Layout;
@@ -47,7 +48,7 @@ const ProfilesFallback = () => {
           {__('How Custom Profiles Work', 'website-accessibility')}
         </Title>
         <WapRow gutter={[16, 16]} className="profiles-steps-row">
-          <Col xs={24} sm={8}>
+          <WapCol xs={24} sm={8}>
             <WapCard 
               cover={
                 <img 
@@ -65,8 +66,8 @@ const ProfilesFallback = () => {
                 {__('Open the Custom Profiles form and configure your accessibility settings.', 'website-accessibility')}
               </Paragraph>
             </WapCard>
-          </Col>
-          <Col xs={24} sm={8}>
+          </WapCol>
+          <WapCol xs={24} sm={8}>
             <WapCard 
               cover={
                 <img 
@@ -84,8 +85,8 @@ const ProfilesFallback = () => {
                 {__('Save your profile and include it in a preset so it shows alongside default profiles.', 'website-accessibility')}
               </Paragraph>
             </WapCard>
-          </Col>
-          <Col xs={24} sm={8}>
+          </WapCol>
+          <WapCol xs={24} sm={8}>
             <WapCard 
               cover={
                 <img 
@@ -103,7 +104,7 @@ const ProfilesFallback = () => {
                 {__('Your custom profile appears with default profiles. Users can apply it instantly for an improved experience.', 'website-accessibility')}
               </Paragraph>
             </WapCard>
-          </Col>
+          </WapCol>
         </WapRow>
       </div>
     </div>

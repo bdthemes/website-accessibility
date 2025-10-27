@@ -4,6 +4,7 @@ import { useMemo } from "@wordpress/element";
 import { __ } from "@wordpress/i18n";
 import WapCard from "./wap-card";
 import WapRow from "./wap-row";
+import WapCol from "./wap-col";
 
 const WidgetFeatures = ({
 	value,
@@ -141,7 +142,7 @@ const WidgetFeatures = ({
 					align="middle"
 					className="wap-widget-features__row wap-widget-features__row--oversized"
 				>
-					<Col span={18}>
+					<WapCol span={18}>
 						{!attributes?.hideHeaderIcon && (
 							<span className="wap-widget-features__badge">XL</span>
 						)}
@@ -150,10 +151,10 @@ const WidgetFeatures = ({
 								{attributes?.oversizedTitle || "Oversized Widget"}
 							</span>
 						)}
-					</Col>
-					<Col span={6} style={{ textAlign: "right" }}>
+					</WapCol>
+					<WapCol span={6} style={{ textAlign: "right" }}>
 						<Switch checked={isOverSized} onChange={handleOversizedToggle} />
-					</Col>
+					</WapCol>
 				</WapRow>
 			)}
 
@@ -170,7 +171,7 @@ const WidgetFeatures = ({
 					const isDummy = feature?.isDummy || false;
 
 					return (
-						<Col
+						<WapCol
 							key={key}
 							className={clsx(`wap-feature-${key}`, {
 								"wap-feature--active": isActive,
@@ -240,7 +241,7 @@ const WidgetFeatures = ({
 									</span>
 								</span>
 							)}
-						</Col>
+						</WapCol>
 					);
 				})}
 			</WapRow>

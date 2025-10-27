@@ -3,6 +3,7 @@ import { __ } from '@wordpress/i18n';
 import ControlWrapper from './control-wrapper';
 import WapCard from '../../components/wap-card';
 import WapRow from '../../components/wap-row';
+import WapCol from '../../components/wap-col';
 
 const { TextArea } = Input;
 const { Text } = Typography;
@@ -307,7 +308,7 @@ const ProfileForm = ({ formData, onFormChange }) => {
 
     return (
         <WapRow gutter={[24, 24]}>
-            <Col xs={24} lg={6}>
+            <WapCol xs={24} lg={6}>
                 <WapCard className='wap-profile-form-left-card' title={__('Profile Information', 'website-accessibility')}>
                     <Space direction="vertical" style={{ width: '100%' }} size="large">
                         <ControlWrapper
@@ -352,13 +353,13 @@ const ProfileForm = ({ formData, onFormChange }) => {
                         </ControlWrapper>
                     </Space>
                 </WapCard>
-            </Col>
+            </WapCol>
 
-            <Col xs={24} lg={18}>
+            <WapCol xs={24} lg={18}>
                 <WapCard title={__('Accessibility Features', 'website-accessibility')}>
                     <WapRow gutter={[16, 16]}>
                         {widgetFeatures.map(feature => (
-                            <Col xs={24} sm={12} md={8} key={feature.key}>
+                            <WapCol xs={24} sm={12} md={8} key={feature.key}>
                                 <div className="wap-feature-item">
                                     <div className="wap-feature-header">
                                         <span className="wap-feature-icon">
@@ -372,11 +373,11 @@ const ProfileForm = ({ formData, onFormChange }) => {
                                         {renderFeatureControl(feature)}
                                     </div>
                                 </div>
-                            </Col>
+                            </WapCol>
                         ))}
                     </WapRow>
                 </WapCard>
-            </Col>
+            </WapCol>
         </WapRow>
     );
 };
