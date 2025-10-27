@@ -15,6 +15,7 @@ import ProfilesSettings from "../settings/profiles-settings";
 import FeatureSettings from "../settings/feature-settings";
 import LanguageSelectorSettings from "../settings/language-selector-settings";
 import FooterSettings from "../settings/footer-settings";
+import WapCard from "../../components/wap-card";
 
 const PresetPanelLeftSidebar = () => {
   const [drawerVisible, setDrawerVisible] = useState(false);
@@ -100,7 +101,7 @@ const PresetPanelLeftSidebar = () => {
       >
         {items.map((item) => {
           return (
-            <Card key={item.id} className="wap-panel-left-sidebar__row">
+            <WapCard key={item.id} className="wap-panel-left-sidebar__row">
               <Row justify="space-between" align="middle">
                 <Col>
                   {
@@ -149,7 +150,7 @@ const PresetPanelLeftSidebar = () => {
 
                 </Col>
               </Row>
-            </Card>
+            </WapCard>
           )
         })}
       </ReactSortable>

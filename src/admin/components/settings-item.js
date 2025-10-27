@@ -1,10 +1,12 @@
-import { Card, Switch, Typography, Space } from "antd";
+import { Switch, Typography, Space } from "antd";
+import WapCard from "../../components/wap-card";
+
 
 const { Title, Text } = Typography;
 
 const SettingsItem = ({ title, description, checked, onChange, disabled = false }) => {
     return (
-        <Card
+        <WapCard
             style={{
                 marginTop: 20,
                 borderRadius: 12,
@@ -26,7 +28,7 @@ const SettingsItem = ({ title, description, checked, onChange, disabled = false 
 
                 <Switch checked={checked} onChange={onChange} disabled={disabled} />
             </Space>
-        </Card>
+        </WapCard>
     );
 };
 

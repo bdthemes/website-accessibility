@@ -7,6 +7,7 @@ import ControlWrapper from "./control-wrapper";
 import clsx from "clsx";
 import ColorPicker from "../controls/color-picker";
 import WapFlex from "../../components/wap-flex";
+import WapCard from "../../components/wap-card";
 
 const ContentTab = ({ button, handleButtonChange }) => (
 	<>
@@ -122,7 +123,7 @@ const ButtonStylePreset = () => {
 	];
 
 	return (
-		<Card className="wap-button-style-preset-card" style={{ margin: "0 auto" }}>
+		<WapCard className="wap-button-style-preset-card" style={{ margin: "0 auto" }}>
 			<div className="wap-button-style-preset">
 				<div className="wap-button-style-preset__left">
 					<Tabs defaultActiveKey="content" items={tabItems} />
@@ -213,7 +214,7 @@ const ButtonStylePreset = () => {
 					</ControlWrapper>
 				</div>
 			</div>
-		</Card>
+		</WapCard>
 	);
 };
 

@@ -1,6 +1,7 @@
 import { Card, Input, Row, Col, Select, Switch, Space, Typography } from 'antd';
 import { __ } from '@wordpress/i18n';
 import ControlWrapper from './control-wrapper';
+import WapCard from '../../components/wap-card';
 
 const { TextArea } = Input;
 const { Text } = Typography;
@@ -306,7 +307,7 @@ const ProfileForm = ({ formData, onFormChange }) => {
     return (
         <Row gutter={[24, 24]}>
             <Col xs={24} lg={6}>
-                <Card className='wap-profile-form-left-card' title={__('Profile Information', 'website-accessibility')}>
+                <WapCard className='wap-profile-form-left-card' title={__('Profile Information', 'website-accessibility')}>
                     <Space direction="vertical" style={{ width: '100%' }} size="large">
                         <ControlWrapper
                             label={__('Profile Name', 'website-accessibility')}
@@ -349,11 +350,11 @@ const ProfileForm = ({ formData, onFormChange }) => {
                             )}
                         </ControlWrapper>
                     </Space>
-                </Card>
+                </WapCard>
             </Col>
 
             <Col xs={24} lg={18}>
-                <Card title={__('Accessibility Features', 'website-accessibility')}>
+                <WapCard title={__('Accessibility Features', 'website-accessibility')}>
                     <Row gutter={[16, 16]}>
                         {widgetFeatures.map(feature => (
                             <Col xs={24} sm={12} md={8} key={feature.key}>
@@ -373,7 +374,7 @@ const ProfileForm = ({ formData, onFormChange }) => {
                             </Col>
                         ))}
                     </Row>
-                </Card>
+                </WapCard>
             </Col>
         </Row>
     );

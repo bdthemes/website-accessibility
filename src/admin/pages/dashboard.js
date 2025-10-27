@@ -6,6 +6,7 @@ import { STORE_NAME } from '../store';
 import { useEffect, useState } from '@wordpress/element';
 const { Title, Text } = Typography;
 import Disclaimer from '../components/disclaimer';
+import WapCard from '../../components/wap-card';
 
 
 const Dashboard = () => {
@@ -101,7 +102,7 @@ const Dashboard = () => {
         <>
             <Disclaimer />
             <div className="wap-dashboard">
-                <Card
+                <WapCard
                     className="wap-welcome-card wap-header-card"
                 >
                     <div className="wap-welcome-card-content">
@@ -124,12 +125,12 @@ const Dashboard = () => {
                             </Space>
                         </Button>
                     </div>
-                </Card>
+                </WapCard>
 
                 <Row gutter={[24, 24]} align="stretch" className="statistics-grid wap-statistics-grid">
                     {stats.map((stat, idx) => (
                         <Col xs={24} md={8} key={stat.title} className="stat-card">
-                            <Card>
+                            <WapCard>
                                 <div className="stat-icon-wrapper">
                                     {stat.icon}
                                     <div className="stat-content">
@@ -141,7 +142,7 @@ const Dashboard = () => {
                                     <Text className="stat-description">{stat.description}</Text>
                                     <div>{stat.action} {stat.extra}</div>
                                 </div>
-                            </Card>
+                            </WapCard>
                         </Col>
                     ))}
                 </Row>

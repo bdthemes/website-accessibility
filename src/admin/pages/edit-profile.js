@@ -5,6 +5,7 @@ import { useDispatch, useSelect } from '@wordpress/data';
 import { DEFAULT_STATE, STORE_NAME } from '../store';
 import { useHistory, useLocation } from '../router';
 import ProfileForm from '../components/profile-form';
+import WapCard from '../../components/wap-card';
 
 const { Title, Text } = Typography;
 
@@ -70,7 +71,7 @@ const EditProfile = () => {
 
     return (
         <div className="wap-edit-profile">
-                <Card className='wap-header-card'>
+                <WapCard className='wap-header-card'>
                     <div className='wap-header-card-content'>
                         <Title level={2} className='wap-header-card-title'>
                             {__('Edit Profile', 'website-accessibility')}
@@ -90,7 +91,7 @@ const EditProfile = () => {
                             {__('Back to Profiles', 'website-accessibility')}
                         </Space>
                     </Button>
-                </Card>
+                </WapCard>
 
                 <ProfileForm
                     formData={profilesFormData}

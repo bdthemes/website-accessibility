@@ -7,6 +7,7 @@ import ControlWrapper from "./control-wrapper";
 import { archivePages, locationOptions } from "../../utils";
 import apiFetch from "@wordpress/api-fetch";
 import { addQueryArgs } from "@wordpress/url";
+import WapCard from "../../components/wap-card";
 
 
 const GetStartedPreset = () => {
@@ -60,7 +61,7 @@ const GetStartedPreset = () => {
 
 
     return (
-        <Card className="wap-get-started-preset-card">
+        <WapCard className="wap-get-started-preset-card">
             <ControlWrapper label={__('Preset Name', 'website-accessibility')} required>
                 <Input
                     onChange={(e) => setPresetsFormData({ ...presetsFormData, title: e.target.value })}
@@ -112,7 +113,7 @@ const GetStartedPreset = () => {
                     onChange={(value) => setPresetsFormData({ ...presetsFormData, preset: { ...presetsFormData.preset, active: value } })}
                     value={presetsFormData?.preset?.active} />
             </ControlWrapper>
-        </Card>
+        </WapCard>
     )
 };
 

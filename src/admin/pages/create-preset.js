@@ -11,6 +11,7 @@ import { steps } from '../../utils';
 import { useDispatch, useSelect } from "@wordpress/data";
 import { DEFAULT_STATE, STORE_NAME } from "../store";
 import { useHistory } from '../router';
+import WapCard from '../../components/wap-card';
 
 const CreatePreset = () => {
   const [current, setCurrent] = useState(0);
@@ -37,7 +38,7 @@ const CreatePreset = () => {
 
   return (
     <div className="wap-preset-editor">
-      <Card className='wap-header-card'>
+      <WapCard className='wap-header-card'>
         <Title level={2} className='wap-header-card-title'>
           {__('Create New Preset', 'website-accessibility')}
         </Title>
@@ -51,7 +52,7 @@ const CreatePreset = () => {
             {__('Back to Presets', 'website-accessibility')}
           </Space>
         </Button>
-      </Card>
+      </WapCard>
 
       <Steps
         current={current}

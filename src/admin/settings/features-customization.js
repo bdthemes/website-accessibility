@@ -2,6 +2,7 @@ import { useState } from "@wordpress/element";
 import { Card, List, Input, Switch, Badge } from "antd";
 import { SearchOutlined } from "@ant-design/icons";
 import { __ } from "@wordpress/i18n";
+import WapCard from "../../components/wap-card";
 
 const FeaturesCustomization = ({ attributes, updateAttr }) => {
     const features = window?.wapHelpers?.features || [];
@@ -13,7 +14,7 @@ const FeaturesCustomization = ({ attributes, updateAttr }) => {
     );
 
     return (
-        <Card className="wap-features-customization">
+        <WapCard className="wap-features-customization">
             <Input
                 placeholder={__("Search features...", "website-accessibility")}
                 prefix={<SearchOutlined />}
@@ -83,7 +84,7 @@ const FeaturesCustomization = ({ attributes, updateAttr }) => {
                     );
                 }}
             />
-        </Card>
+        </WapCard>
     );
 };
 

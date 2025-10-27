@@ -4,6 +4,7 @@ import { RocketOutlined } from '@ant-design/icons';
 import createProfileImage from '../../assets/create-profile.gif';
 import addProileImage from '../../assets/add-profile.gif';
 import applyProfileImage from '../../assets/apply-profile.gif';
+import WapCard from '../../components/wap-card';
 
 const { Title, Paragraph, Text } = Typography;
 const { Space } = Layout;
@@ -16,7 +17,7 @@ const ProfilesFallback = () => {
   return (
     <div className="wap-pro-landing">
       {/* Hero Section */}
-      <Card className="wap-welcome-card wap-header-card">
+      <WapCard className="wap-welcome-card wap-header-card">
         <div className="wap-welcome-card-content">
           <Title level={2} className="wap-header-card-title">
             {__('Accessibility Custom Profiles', 'website-accessibility')}
@@ -36,7 +37,7 @@ const ProfilesFallback = () => {
             <span className="dashicons dashicons-arrow-right-alt" />
           </Button>
         </div>
-      </Card>
+      </WapCard>
 
       {/* About Custom Profiles / Step Grid */}
       <div className="profiles-steps">
@@ -45,7 +46,7 @@ const ProfilesFallback = () => {
         </Title>
         <Row gutter={[16, 16]} className="profiles-steps-row">
           <Col xs={24} sm={8}>
-            <Card 
+            <WapCard 
               cover={
                 <img 
                   src={createProfileImage} 
@@ -61,10 +62,10 @@ const ProfilesFallback = () => {
               <Paragraph className="step-description">
                 {__('Open the Custom Profiles form and configure your accessibility settings.', 'website-accessibility')}
               </Paragraph>
-            </Card>
+            </WapCard>
           </Col>
           <Col xs={24} sm={8}>
-            <Card 
+            <WapCard 
               cover={
                 <img 
                   src={addProileImage} 
@@ -80,10 +81,10 @@ const ProfilesFallback = () => {
               <Paragraph className="step-description">
                 {__('Save your profile and include it in a preset so it shows alongside default profiles.', 'website-accessibility')}
               </Paragraph>
-            </Card>
+            </WapCard>
           </Col>
           <Col xs={24} sm={8}>
-            <Card 
+            <WapCard 
               cover={
                 <img 
                   src={applyProfileImage} 
@@ -99,7 +100,7 @@ const ProfilesFallback = () => {
               <Paragraph className="step-description">
                 {__('Your custom profile appears with default profiles. Users can apply it instantly for an improved experience.', 'website-accessibility')}
               </Paragraph>
-            </Card>
+            </WapCard>
           </Col>
         </Row>
       </div>

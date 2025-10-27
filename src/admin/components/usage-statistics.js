@@ -3,6 +3,7 @@ import { Card, Typography, Row, Col, Select, Skeleton, Empty, Flex, Badge } from
 import { __ } from "@wordpress/i18n";
 import apiFetch from "@wordpress/api-fetch";
 import WapFlex from "../../components/wap-flex";
+import WapCard from "../../components/wap-card";
 
 const { Meta } = Card;
 const { Title } = Typography;
@@ -48,7 +49,7 @@ const UsageStatistics = () => {
 
     return (
         <div style={{ marginTop: 40 }} className="wap-admin-pages">
-            <Card
+            <WapCard
                 className="wap-statistics-card"
                 title={
                     <WapFlex justify="space-between" align="center">
@@ -82,7 +83,7 @@ const UsageStatistics = () => {
                     <Row gutter={[16, 16]}>
                         {stats && stats?.map((stat, index) => (
                             <Col xs={24} sm={12} md={8} lg={6} key={index}>
-                                <Card
+                                <WapCard
                                     className="wap-statistics-card-item"
                                     cover={
                                         <Title level={4} className="stat-value" style={{ textAlign: "center", margin: 0 }}>
@@ -99,12 +100,12 @@ const UsageStatistics = () => {
                                         avatar={stat.icon}
                                         title={stat.title}
                                     />
-                                </Card>
+                                </WapCard>
                             </Col>
                         ))}
                     </Row>
                 )}
-            </Card>
+            </WapCard>
         </div>
     );
 };

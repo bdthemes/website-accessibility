@@ -12,6 +12,7 @@ import { addQueryArgs } from "@wordpress/url";
 const { Title, Text } = Typography;
 
 import statementJson from "../../../default-posts/statement.json";
+import WapCard from "../../components/wap-card";
 
 const StatementSetting = () => {
     const [page, setPage] = useState(null);
@@ -77,7 +78,7 @@ const StatementSetting = () => {
     };
 
     return (
-        <Card
+        <WapCard
             style={{
                 marginTop: 20,
                 borderRadius: 16,
@@ -147,7 +148,7 @@ const StatementSetting = () => {
                     )
                 }
             </Space>
-        </Card>
+        </WapCard>
     );
 };
 

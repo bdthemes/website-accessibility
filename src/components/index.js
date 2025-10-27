@@ -13,6 +13,7 @@ import defaultProfiles from './utils/profiles';
 import { getCookie, removeCookie, setCookie } from './utils/cookie-manager';
 import useBrowserKey from './utils/use-browser-key';
 import WapFlex from './wap-flex';
+import WapCard from './wap-card';
 
 window.wapComponents = {
     AccessibilityProfiles,
@@ -22,7 +23,8 @@ window.wapComponents = {
     PreviewButton,
     PreviewContent,
     WidgetFeatures,
-    WapFlex
+    WapFlex,
+    WapCard
 }
 
 window.wapHelpers = {

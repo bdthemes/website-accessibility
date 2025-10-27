@@ -7,6 +7,7 @@ const { Title } = Typography;
 import { useSelect, useDispatch } from "@wordpress/data";
 import { STORE_NAME } from "../store";
 import { useMemo, useState } from '@wordpress/element';
+import WapCard from '../../components/wap-card';
 
 const columns = [
   { title: __('Name', 'website-accessibility'), dataIndex: 'name', key: 'name', sorter: (a, b) => a.name.localeCompare(b.name) },
@@ -102,7 +103,7 @@ const Presets = () => {
 
   return (
     <div className="wap-presets">
-        <Card className='wap-header-card'>
+      <WapCard className='wap-header-card'>
               <Title level={2} className='wap-header-card-title'>
                 {__('Accessibility Presets', 'website-accessibility')}
               </Title>
@@ -113,8 +114,8 @@ const Presets = () => {
                 </Space>
                   
               </Button>
-        </Card>
-        <Card>
+        </WapCard>
+        <WapCard>
           <div>
             <PostTable
               columns={columns}
@@ -152,7 +153,7 @@ const Presets = () => {
               }}
             />
           </div>
-        </Card>
+        </WapCard>
 
       <PresetQuickEdit
         visible={drawerVisible}

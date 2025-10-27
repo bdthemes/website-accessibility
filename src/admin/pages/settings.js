@@ -4,6 +4,7 @@ import { Card, Typography, Spin, message } from "antd";
 import { __ } from "@wordpress/i18n";
 import SettingsItem from "../components/settings-item";
 import StatementSetting from "../components/statement-setting";
+import WapCard from "../../components/wap-card";
 
 const { Title } = Typography;
 
@@ -69,13 +70,13 @@ const Settings = () => {
 
     return (
         <div className="wap-settings">
-            <Card className="wap-settings-card wap-header-card">
+            <WapCard className="wap-settings-card wap-header-card">
                 <div className="wap-settings-card-content">
                     <Title level={2} className="wap-header-card-title">
                         {__("One Accessibility Settings", "website-accessibility")}
                     </Title>
                 </div>
-            </Card>
+            </WapCard>
 
             {/* General Statement Section */}
             <StatementSetting />

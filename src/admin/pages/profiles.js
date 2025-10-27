@@ -5,6 +5,7 @@ import { useHistory } from '../router';
 import { useSelect, useDispatch } from '@wordpress/data';
 import { STORE_NAME } from '../store';
 import ProfilesFallback from '../components/profiles-fallback';
+import WapCard from '../../components/wap-card';
 
 const { Title } = Typography;
 
@@ -112,7 +113,7 @@ const Profiles = () => {
 
   return (
     <div className="wap-profiles">
-      <Card className='wap-header-card'>
+      <WapCard className='wap-header-card'>
           <Title level={2} className='wap-header-card-title'>
             {__('User Accessibility Profiles', 'website-accessibility')}
           </Title>
@@ -126,8 +127,8 @@ const Profiles = () => {
                   {__('Add New Profile', 'website-accessibility')}
                 </Space>
               </Button>
-      </Card>
-      <Card >
+      </WapCard>
+      <WapCard >
         <div>
           <PostTable 
             columns={columns} 
@@ -137,7 +138,7 @@ const Profiles = () => {
             loading={!profiles}
           />
         </div>
-      </Card>
+      </WapCard>
     </div>
   );
 };
