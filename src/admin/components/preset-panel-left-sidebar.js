@@ -16,6 +16,7 @@ import FeatureSettings from "../settings/feature-settings";
 import LanguageSelectorSettings from "../settings/language-selector-settings";
 import FooterSettings from "../settings/footer-settings";
 import WapCard from "../../components/wap-card";
+import WapRow from "../../components/wap-row";
 
 const PresetPanelLeftSidebar = () => {
   const [drawerVisible, setDrawerVisible] = useState(false);
@@ -102,7 +103,7 @@ const PresetPanelLeftSidebar = () => {
         {items.map((item) => {
           return (
             <WapCard key={item.id} className="wap-panel-left-sidebar__row">
-              <Row justify="space-between" align="middle">
+              <WapRow justify="space-between" align="middle">
                 <Col>
                   {
                     !item?.disableDrag && (
@@ -149,7 +150,7 @@ const PresetPanelLeftSidebar = () => {
                   )}
 
                 </Col>
-              </Row>
+              </WapRow>
             </WapCard>
           )
         })}

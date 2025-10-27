@@ -5,6 +5,7 @@ import {
 } from "@ant-design/icons";
 import { useMemo } from "@wordpress/element";
 import clsx from "clsx";
+import WapRow from "./wap-row";
 
 const FallbackIcon = () => (
 	<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 55 55"><path d="M55 27.5A27.5 27.5 0 1 0 9 47.8h-.1l.9.7.2.2a27.6 27.6 0 0 0 3.6 2.5l.3.2 2 1c2.1 1 4.4 1.7 6.7 2.2h.2l2.2.3h.3a27.2 27.2 0 0 0 4.4 0h.3l2.2-.3h.2c2.3-.5 4.5-1.1 6.5-2l.3-.2a27.6 27.6 0 0 0 3.8-2.2l.5-.4 1.3-1 .3-.2 1-.7H46c5.5-5.1 9-12.4 9-20.4zm-53 0a25.5 25.5 0 1 1 42.4 19l-.9-.5-8.4-4.2a2.2 2.2 0 0 1-1.3-2v-3l.6-.8c1.1-1.5 2-3.2 2.7-5.1 1.2-.6 2-1.9 2-3.3v-3.5c0-.9-.3-1.7-.9-2.4V17a8 8 0 0 0-1.8-5.8C34.5 9 31.5 8 27.5 8s-7 1-8.9 3.2a8 8 0 0 0-1.9 5.8v4.7c-.5.7-.8 1.5-.8 2.4v3.5c0 1.1.5 2.1 1.3 2.8.8 3.2 2.5 5.6 3.1 6.4v3c0 .7-.4 1.5-1.2 1.9L11.2 46l-.7.5a25.4 25.4 0 0 1-8.5-19zm40.5 20.6-1.1.8c-.2 0-.3.2-.5.3l-1.4.8-.4.2c-1.1.6-2.3 1-3.5 1.5l-2 .6-2 .4-1.9.2h-.3a24.8 24.8 0 0 1-3.8 0h-.3l-2-.2-3.9-1h-.1l-1.9-.8a26 26 0 0 1-1.7-.8l-.2-.1a25.7 25.7 0 0 1-3.3-2.1l-.1-.1 8-4.4a4.2 4.2 0 0 0 2.2-3.7v-3.6l-.2-.3s-2.2-2.6-3-6.2l-.1-.4-.4-.2c-.4-.3-.7-.8-.7-1.4v-3.5c0-.5.2-1 .5-1.3l.3-.3v-5.7a6 6 0 0 1 1.4-4.3c1.5-1.7 4-2.5 7.4-2.5 3.4 0 5.9.8 7.3 2.5 1.7 1.9 1.5 4.3 1.5 4.3v5.7l.3.3c.3.4.5.8.5 1.3v3.5c0 .7-.4 1.4-1.1 1.6l-.5.1-.2.5a18.5 18.5 0 0 1-3.2 6l-.3.3v3.7c0 1.6 1 3 2.4 3.8l8.4 4.2.2.1-.3.2z"/></svg>
@@ -48,7 +49,7 @@ const ProfilesGrid = ({
 	attributes,
 }) => {
 	return (
-		<Row gutter={[10, 10]} className="wap-accessibility-profiles__grid">
+		<WapRow gutter={[10, 10]} className="wap-accessibility-profiles__grid">
 			{profiles.map((profile) => {
 				const isActive = String(currentProfile?.id) === String(profile.id);
 				return (
@@ -62,7 +63,7 @@ const ProfilesGrid = ({
 					</Col>
 				);
 			})}
-		</Row>
+		</WapRow>
 	);
 };
 

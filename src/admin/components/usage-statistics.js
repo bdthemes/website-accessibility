@@ -4,6 +4,7 @@ import { __ } from "@wordpress/i18n";
 import apiFetch from "@wordpress/api-fetch";
 import WapFlex from "../../components/wap-flex";
 import WapCard from "../../components/wap-card";
+import WapRow from "../../components/wap-row";
 
 const { Meta } = Card;
 const { Title } = Typography;
@@ -80,7 +81,7 @@ const UsageStatistics = () => {
                         style={{ padding: "40px 0" }}
                     />
                 ) : (
-                    <Row gutter={[16, 16]}>
+                    <WapRow gutter={[16, 16]}>
                         {stats && stats?.map((stat, index) => (
                             <Col xs={24} sm={12} md={8} lg={6} key={index}>
                                 <WapCard
@@ -103,7 +104,7 @@ const UsageStatistics = () => {
                                 </WapCard>
                             </Col>
                         ))}
-                    </Row>
+                    </WapRow>
                 )}
             </WapCard>
         </div>

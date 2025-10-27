@@ -3,6 +3,7 @@ import clsx from "clsx";
 import { useMemo } from "@wordpress/element";
 import { __ } from "@wordpress/i18n";
 import WapCard from "./wap-card";
+import WapRow from "./wap-row";
 
 const WidgetFeatures = ({
 	value,
@@ -136,7 +137,7 @@ const WidgetFeatures = ({
 	return (
 		<WapCard className="wap-widget-features">
 			{!attributes?.hideOversizedWidget && (
-				<Row
+				<WapRow
 					align="middle"
 					className="wap-widget-features__row wap-widget-features__row--oversized"
 				>
@@ -153,10 +154,10 @@ const WidgetFeatures = ({
 					<Col span={6} style={{ textAlign: "right" }}>
 						<Switch checked={isOverSized} onChange={handleOversizedToggle} />
 					</Col>
-				</Row>
+				</WapRow>
 			)}
 
-			<Row gutter={[10, 10]} className="wap-widget-features__grid">
+			<WapRow gutter={[10, 10]} className="wap-widget-features__grid">
 				{features.map((feature) => {
 					const key = feature.key;
 					const setting = currentSettings?.[key] || {};
@@ -242,7 +243,7 @@ const WidgetFeatures = ({
 						</Col>
 					);
 				})}
-			</Row>
+			</WapRow>
 		</WapCard>
 	);
 };

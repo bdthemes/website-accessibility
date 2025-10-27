@@ -6,6 +6,7 @@ import addProileImage from '../../assets/add-profile.gif';
 import applyProfileImage from '../../assets/apply-profile.gif';
 import WapCard from '../../components/wap-card';
 import WapButton from '../../components/wap-button';
+import WapRow from '../../components/wap-row';
 
 const { Title, Paragraph, Text } = Typography;
 const { Space } = Layout;
@@ -45,7 +46,7 @@ const ProfilesFallback = () => {
         <Title level={4} className="profiles-steps-title">
           {__('How Custom Profiles Work', 'website-accessibility')}
         </Title>
-        <Row gutter={[16, 16]} className="profiles-steps-row">
+        <WapRow gutter={[16, 16]} className="profiles-steps-row">
           <Col xs={24} sm={8}>
             <WapCard 
               cover={
@@ -103,7 +104,7 @@ const ProfilesFallback = () => {
               </Paragraph>
             </WapCard>
           </Col>
-        </Row>
+        </WapRow>
       </div>
     </div>
   );
