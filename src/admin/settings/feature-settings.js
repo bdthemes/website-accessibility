@@ -10,6 +10,7 @@ import { __ } from '@wordpress/i18n';
 import FeaturesCustomization from './features-customization';
 import WapFlex from '../../components/wap-flex';
 import WapButton from '../../components/wap-button';
+import WapCollapse from '../../components/wap-collapse';
 const { Title } = Typography;
 
 const FeatureSettings = () => {
@@ -139,7 +140,7 @@ const FeatureSettings = () => {
     ];
 
     return (
-        <Collapse items={collapseItems} />
+        <WapCollapse items={collapseItems} />
     );
 };
 

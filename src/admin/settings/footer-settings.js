@@ -4,6 +4,7 @@ import { STORE_NAME } from '../store';
 import ControlWrapper from '../components/control-wrapper';
 import { __ } from '@wordpress/i18n';
 import ColorPicker from '../controls/color-picker';
+import WapCollapse from '../../components/wap-collapse';
 
 const FooterSettings = () => {
     const { presetsFormData } = useSelect((select) => select(STORE_NAME).getPresetsFormData());
@@ -32,7 +33,7 @@ const FooterSettings = () => {
             key: 'content',
             label: __('Content', 'website-accessibility'),
             children: (
-                <Collapse
+                <WapCollapse                                                
                     items={[
                         {
                             key: 'reset',
@@ -127,7 +128,7 @@ const FooterSettings = () => {
             key: 'style',
             label: __('Style', 'website-accessibility'),
             children: (
-                <Collapse
+                <WapCollapse
                     items={[
                         {
                             key: 'general',

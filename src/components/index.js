@@ -15,6 +15,9 @@ import useBrowserKey from './utils/use-browser-key';
 import WapFlex from './wap-flex';
 import WapCard from './wap-card';
 import WapButton from './wap-button';
+import WapRow from './wap-row';
+import WapCol from './wap-col';
+import WapCollapse from './wap-collapse';
 
 window.wapComponents = {
     AccessibilityProfiles,
@@ -26,7 +29,10 @@ window.wapComponents = {
     WidgetFeatures,
     WapFlex,
     WapCard,
-    WapButton
+    WapButton,
+    WapCol,
+    WapRow,
+    WapCollapse
 }
 
 window.wapHelpers = {

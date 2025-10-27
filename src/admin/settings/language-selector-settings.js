@@ -3,6 +3,7 @@ import { useSelect, useDispatch } from '@wordpress/data';
 import { STORE_NAME } from '../store';
 import ControlWrapper from '../components/control-wrapper';
 import { __ } from '@wordpress/i18n';
+import WapCollapse from '../../components/wap-collapse';
 
 const LanguageSelectorSettings = () => {
   const { presetsFormData } = useSelect((select) => select(STORE_NAME).getPresetsFormData());
@@ -84,7 +85,7 @@ const LanguageSelectorSettings = () => {
     }
   ];
 
-  return <Collapse items={collapseItems} />;
+  return <WapCollapse items={collapseItems} />;
 };
 
 export default LanguageSelectorSettings;
