@@ -8,6 +8,7 @@ import { STORE_NAME } from '../store';
 import ControlWrapper from '../components/control-wrapper';
 import { __ } from '@wordpress/i18n';
 import FeaturesCustomization from './features-customization';
+import WapFlex from '../../components/wap-flex';
 const { Title } = Typography;
 
 const FeatureSettings = () => {
@@ -77,9 +78,9 @@ const FeatureSettings = () => {
                             max={6}
                         />
                     </ControlWrapper>
-                    <Flex align="center" justify='space-between'>
+                    <WapFlex align="center" justify='space-between'>
                         <Title level={5} style={{ margin: 0 }}>{__('Feature Customization', 'website-accessibility')}</Title>
-                        <Flex align="center" gap={5}>
+                        <WapFlex align="center" gap={5}>
                             <Button type="primary" size="small" shape='circle' onClick={() => setOpenCustomizationModal(true)} icon={<EditOutlined />}></Button>
                             <Modal
                                 title={__('Feature Customization', 'website-accessibility')}
@@ -93,8 +94,8 @@ const FeatureSettings = () => {
                             >
                                 <FeaturesCustomization updateAttr={updateAttr} attributes={attributes} />
                             </Modal>
-                        </Flex>
-                    </Flex>
+                        </WapFlex>
+                    </WapFlex>
                 </>
             )
         },

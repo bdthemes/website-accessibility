@@ -3,6 +3,7 @@ import { DeleteOutlined, ReloadOutlined, SaveOutlined } from '@ant-design/icons'
 import { __ } from '@wordpress/i18n';
 import { useState, useEffect, useCallback, useMemo } from '@wordpress/element';
 import apiFetch from '@wordpress/api-fetch';
+import WapFlex from './wap-flex';
 
 // Simple debounce helper
 const debounce = (fn, delay = 1000) => {
@@ -209,7 +210,7 @@ const PanelFooter = ({ value, accessibilityContext, accessibilityDispatch }) => 
       {contextHolder}
 
       {(isUserLoggedIn || !isFrontend) && showPreference && (
-        <Flex align="center" justify="space-between" gap={10} style={{ marginBottom: '10px', padding: '0 24px' }}>
+        <WapFlex align="center" justify="space-between" gap={10} style={{ marginBottom: '10px', padding: '0 24px' }}>
           <Button
             type="primary"
             icon={<SaveOutlined />}
@@ -236,10 +237,10 @@ const PanelFooter = ({ value, accessibilityContext, accessibilityDispatch }) => 
           >
             {deletePreferenceText}
           </Button>
-        </Flex>
+        </WapFlex>
       )}
 
-      <Flex className="wap-panel-footer__actions">
+      <WapFlex className="wap-panel-footer__actions">
         <Button
           type="primary"
           icon={<ReloadOutlined />}
@@ -262,7 +263,7 @@ const PanelFooter = ({ value, accessibilityContext, accessibilityDispatch }) => 
             </Button>
           )
         }
-      </Flex>
+      </WapFlex>
 
       <div className="wap-panel-footer__links">
 

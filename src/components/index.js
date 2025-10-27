@@ -12,6 +12,7 @@ import isScreenReaderActive from './utils/is-screenreader-active';
 import defaultProfiles from './utils/profiles';
 import { getCookie, removeCookie, setCookie } from './utils/cookie-manager';
 import useBrowserKey from './utils/use-browser-key';
+import WapFlex from './wap-flex';
 
 window.wapComponents = {
     AccessibilityProfiles,
@@ -20,7 +21,8 @@ window.wapComponents = {
     PanelHeader,
     PreviewButton,
     PreviewContent,
-    WidgetFeatures
+    WidgetFeatures,
+    WapFlex
 }
 
 window.wapHelpers = {

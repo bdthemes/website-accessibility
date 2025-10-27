@@ -2,6 +2,7 @@ import { useState, useEffect } from "@wordpress/element";
 import { Card, Typography, Row, Col, Select, Skeleton, Empty, Flex, Badge } from "antd";
 import { __ } from "@wordpress/i18n";
 import apiFetch from "@wordpress/api-fetch";
+import WapFlex from "../../components/wap-flex";
 
 const { Meta } = Card;
 const { Title } = Typography;
@@ -50,7 +51,7 @@ const UsageStatistics = () => {
             <Card
                 className="wap-statistics-card"
                 title={
-                    <Flex justify="space-between" align="center">
+                    <WapFlex justify="space-between" align="center">
                         <Title level={4} style={{ margin: 0 }}>
                             {__("Widget Usage Statistics", "website-accessibility")}
                         </Title>
@@ -65,7 +66,7 @@ const UsageStatistics = () => {
                             <Option value="30days">{__("Last 30 Days", "website-accessibility")}</Option>
                             <Option value="all">{__("All Time", "website-accessibility")}</Option>
                         </Select>
-                    </Flex>
+                    </WapFlex>
                 }
             >
                 {loading ? (

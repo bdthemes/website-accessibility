@@ -6,12 +6,13 @@ import IconPicker from "./icon-picker";
 import ControlWrapper from "./control-wrapper";
 import clsx from "clsx";
 import ColorPicker from "../controls/color-picker";
+import WapFlex from "../../components/wap-flex";
 
 const ContentTab = ({ button, handleButtonChange }) => (
 	<>
 
 		<ControlWrapper label={__("Button Type", "website-accessibility")}>
-			<Flex vertical gap="middle">
+			<WapFlex vertical gap="middle">
 				<Radio.Group
 					block
 					options={[
@@ -24,7 +25,7 @@ const ContentTab = ({ button, handleButtonChange }) => (
 					optionType="button"
 					buttonStyle="solid"
 				/>
-			</Flex>
+			</WapFlex>
 		</ControlWrapper>
 
 		{button.buttonType !== "icon" && (
