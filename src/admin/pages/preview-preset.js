@@ -4,6 +4,7 @@ import { useLocation } from "../router";
 import clsx from "clsx";
 import { useState, useMemo } from '@wordpress/element';
 import { Drawer } from 'antd';
+import WapDrawer from "../../components/wap-drawer";
 
 const PreviewPreset = () => {
   const { Icon, PreviewButton, PreviewContent } = window?.wapComponents;
@@ -61,7 +62,7 @@ const PreviewPreset = () => {
               onClick={() => setIsOpen(true)}
 
         />
-        <Drawer
+        <WapDrawer
           open={isOpen}
           onClose={() => setIsOpen(false)}
           placement={panel?.wrapper?.position || "right"}
@@ -70,7 +71,7 @@ const PreviewPreset = () => {
           rootClassName={`wap-preset__preview-drawer-root wap-preset__preview-drawer-root--${panel?.wrapper?.position || 'right'}`}
         >
           <PreviewContent panel={panel} allProfiles={allProfiles} setIsOpen={setIsOpen} />
-        </Drawer>
+        </WapDrawer>
       </div>
     </>
   )

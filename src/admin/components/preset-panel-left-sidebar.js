@@ -18,6 +18,7 @@ import FooterSettings from "../settings/footer-settings";
 import WapCard from "../../components/wap-card";
 import WapRow from "../../components/wap-row";
 import WapCol from "../../components/wap-col";
+import WapDrawer from "../../components/wap-drawer";
 
 const PresetPanelLeftSidebar = () => {
   const [drawerVisible, setDrawerVisible] = useState(false);
@@ -157,7 +158,7 @@ const PresetPanelLeftSidebar = () => {
         })}
       </ReactSortable>
 
-      <Drawer
+      <WapDrawer
         title={`Edit ${selectedItem?.title || 'Item'}`}
         placement="left"
         onClose={handleDrawerClose}
@@ -193,7 +194,7 @@ const PresetPanelLeftSidebar = () => {
           />
         )}
 
-      </Drawer>
+      </WapDrawer>
     </div>
   );
 };

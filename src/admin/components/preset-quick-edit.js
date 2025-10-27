@@ -9,6 +9,7 @@ import apiFetch from '@wordpress/api-fetch';
 import { addQueryArgs } from '@wordpress/url';
 import WapButton from '../../components/wap-button';
 import WapInput from '../../components/wap-input';
+import WapDrawer from '../../components/wap-drawer';
 
 const PresetQuickEdit = ({
   visible,
@@ -165,7 +166,7 @@ const PresetQuickEdit = ({
   };
 
   return (
-    <Drawer
+    <WapDrawer
       title={__('Quick Edit Preset', 'website-accessibility')}
       className="wap-preset-quick-edit"
       placement="right"
@@ -254,7 +255,7 @@ const PresetQuickEdit = ({
           />
         </ControlWrapper>
       </div>
-    </Drawer>
+    </WapDrawer>
   );
 };
 

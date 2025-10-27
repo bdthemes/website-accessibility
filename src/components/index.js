@@ -18,6 +18,8 @@ import WapButton from './wap-button';
 import WapRow from './wap-row';
 import WapCol from './wap-col';
 import WapCollapse from './wap-collapse';
+import WapInput from './wap-input';
+import WapDrawer from './wap-drawer';
 
 window.wapComponents = {
     AccessibilityProfiles,
@@ -32,7 +34,9 @@ window.wapComponents = {
     WapButton,
     WapCol,
     WapRow,
-    WapCollapse
+    WapCollapse,
+    WapInput,
+    WapDrawer
 }
 
 window.wapHelpers = {
