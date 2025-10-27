@@ -5,6 +5,7 @@ import { useSelect, useDispatch } from '@wordpress/data';
 import { STORE_NAME } from '../store';
 import ControlWrapper from '../components/control-wrapper';
 import { __ } from '@wordpress/i18n';
+import WapInput from '../../components/wap-input';
 
 const ProfilesSettings = () => {
     const profilesRaw = useSelect((select) => {
@@ -115,7 +116,7 @@ const ProfilesSettings = () => {
             <ControlWrapper
                 label={__('Title', 'website-accessibility')}
             >
-                <Input
+                <WapInput
                     placeholder={__('Accessibility Profiles', 'website-accessibility')}
                     value={attributes?.collapseTitle || ''}
                     onChange={(e) => updateAttr({ collapseTitle: e.target.value })}

@@ -5,6 +5,7 @@ import ControlWrapper from '../components/control-wrapper';
 import { __ } from '@wordpress/i18n';
 import ColorPicker from '../controls/color-picker';
 import WapCollapse from '../../components/wap-collapse';
+import WapInput from '../../components/wap-input';
 
 const FooterSettings = () => {
     const { presetsFormData } = useSelect((select) => select(STORE_NAME).getPresetsFormData());
@@ -40,7 +41,7 @@ const FooterSettings = () => {
                             label: __('Reset Button', 'website-accessibility'),
                             children: (
                                 <ControlWrapper label={__('Reset Button Text', 'website-accessibility')}>
-                                    <Input
+                                    <WapInput
                                         value={attributes.resetBtnText || ''}
                                         onChange={e => updateAttr({ resetBtnText: e.target.value })}
                                         placeholder={__('Reset All', 'website-accessibility')}
@@ -60,21 +61,21 @@ const FooterSettings = () => {
                                         attributes?.activePreference && (
                                             <>
                                                 <ControlWrapper label={__('Save button text', 'website-accessibility')}>
-                                                    <Input
+                                                    <WapInput
                                                         value={attributes.saveBtnText || ''}
                                                         onChange={e => updateAttr({ saveBtnText: e.target.value })}
                                                         placeholder={__('Save Preference', 'website-accessibility')}
                                                     />
                                                 </ControlWrapper>
                                                 <ControlWrapper label={__('Update button text', 'website-accessibility')}>
-                                                    <Input
+                                                    <WapInput
                                                         value={attributes.updateBtnText || ''}
                                                         onChange={e => updateAttr({ updateBtnText: e.target.value })}
                                                         placeholder={__('Update Preference', 'website-accessibility')}
                                                     />
                                                 </ControlWrapper>
                                                 <ControlWrapper label={__('Delete button text', 'website-accessibility')}>
-                                                    <Input
+                                                    <WapInput
                                                         value={attributes.deleteBtnText || ''}
                                                         onChange={e => updateAttr({ deleteBtnText: e.target.value })}
                                                         placeholder={__('Delete Preference', 'website-accessibility')}
@@ -95,7 +96,7 @@ const FooterSettings = () => {
                                         <Switch checked={attributes.showStatement !== false} onChange={checked => updateAttr({ showStatement: checked })} />
                                     </ControlWrapper>
                                     <ControlWrapper label={__('Accessibility Statement Text', 'website-accessibility')}>
-                                        <Input
+                                        <WapInput
                                             value={attributes.statementText}
                                             onChange={e => updateAttr({ statementText: e.target.value })}
                                             placeholder={__('Accessibility Statement', 'website-accessibility')}
@@ -108,7 +109,7 @@ const FooterSettings = () => {
                                                     <Switch checked={attributes.showBranding !== false} onChange={checked => updateAttr({ showBranding: checked })} />
                                                 </ControlWrapper>
                                                 <ControlWrapper label={__('Branding Text', 'website-accessibility')}>
-                                                    <Input
+                                                    <WapInput
                                                         value={attributes.brandingText}
                                                         onChange={e => updateAttr({ brandingText: e.target.value })}
                                                         placeholder={__('Proudly Powered by One Accessibility', 'website-accessibility')}
@@ -142,14 +143,14 @@ const FooterSettings = () => {
                                         />
                                     </ControlWrapper>
                                     <ControlWrapper label={__('Padding', 'website-accessibility')}>
-                                        <Input
+                                        <WapInput
                                             value={attributes.generalPadding}
                                             onChange={e => updateAttr({ generalPadding: e.target.value })}
                                             placeholder="10px 20px"
                                         />
                                     </ControlWrapper>
                                     <ControlWrapper label={__('Border Radius', 'website-accessibility')}>
-                                        <Input value={attributes.generalRadius || `0 0 16px 16px`} onChange={e => updateAttr({ generalRadius: e.target.value })} />
+                                        <WapInput value={attributes.generalRadius || `0 0 16px 16px`} onChange={e => updateAttr({ generalRadius: e.target.value })} />
                                     </ControlWrapper>
                                 </>
                             )
@@ -172,7 +173,7 @@ const FooterSettings = () => {
                                         />
                                     </ControlWrapper>
                                     <ControlWrapper label={__('Border Radius', 'website-accessibility')}>
-                                        <Input value={attributes.resetBtnRadius} onChange={e => updateAttr({ resetBtnRadius: e.target.value })} placeholder="6px" />
+                                        <WapInput value={attributes.resetBtnRadius} onChange={e => updateAttr({ resetBtnRadius: e.target.value })} placeholder="6px" />
                                     </ControlWrapper>
                                 </>
                             )

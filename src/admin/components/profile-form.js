@@ -4,6 +4,7 @@ import ControlWrapper from './control-wrapper';
 import WapCard from '../../components/wap-card';
 import WapRow from '../../components/wap-row';
 import WapCol from '../../components/wap-col';
+import WapInput from '../../components/wap-input';
 
 const { TextArea } = Input;
 const { Text } = Typography;
@@ -315,7 +316,7 @@ const ProfileForm = ({ formData, onFormChange }) => {
                             label={__('Profile Name', 'website-accessibility')}
                             required
                         >
-                            <Input
+                            <WapInput
                                 value={formData?.name || ''}
                                 onChange={(e) => handleFieldChange('name', e.target.value)}
                                 placeholder={__('Enter profile name', 'website-accessibility')}

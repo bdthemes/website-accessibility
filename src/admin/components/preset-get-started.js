@@ -8,7 +8,7 @@ import { archivePages, locationOptions } from "../../utils";
 import apiFetch from "@wordpress/api-fetch";
 import { addQueryArgs } from "@wordpress/url";
 import WapCard from "../../components/wap-card";
-
+import WapInput from "../../components/wap-input";
 
 const GetStartedPreset = () => {
     const [posts, setPosts] = useState([]);
@@ -63,7 +63,7 @@ const GetStartedPreset = () => {
     return (
         <WapCard className="wap-get-started-preset-card">
             <ControlWrapper label={__('Preset Name', 'website-accessibility')} required>
-                <Input
+                <WapInput
                     onChange={(e) => setPresetsFormData({ ...presetsFormData, title: e.target.value })}
                     value={presetsFormData?.title}
                 />

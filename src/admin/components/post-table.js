@@ -1,6 +1,7 @@
 import { useState } from '@wordpress/element';
 import { Table, Input, Button, Space, Dropdown } from 'antd';
 import WapButton from '../../components/wap-button';
+import WapInput from '../../components/wap-input';
 
 /**
  * PostTable - WordPress-style post table with Ant Design
@@ -89,7 +90,7 @@ const PostTable = ({
   return (
     <div>
       <Space className="wap-post-table__searchbar">
-        <Input
+        <WapInput
           placeholder="Search posts"
           value={searchText}
           onChange={handleSearch}

@@ -4,6 +4,7 @@ import { useSelect, useDispatch } from "@wordpress/data";
 import { STORE_NAME } from "../store";
 import ControlWrapper from "./control-wrapper";
 import ColorPicker from "../controls/color-picker";
+import WapInput from "../../components/wap-input";
 
 const { Option } = Select;
 
@@ -58,7 +59,7 @@ const PresetPanelRightSidebar = () => {
 			</ControlWrapper>
 
 			<ControlWrapper label={__("Border", "website-accessibility")}>
-				<Input
+				<WapInput
 					value={wrapper.border || ""}
 					onChange={(e) => handleWrapperChange("border", e.target.value)}
 					placeholder="e.g., 1px solid #e0e0e0"
@@ -67,7 +68,7 @@ const PresetPanelRightSidebar = () => {
 			</ControlWrapper>
 
 			<ControlWrapper label={__("Padding", "website-accessibility")}>
-				<Input
+				<WapInput
 					value={wrapper.padding || ""}
 					onChange={(e) => handleWrapperChange("padding", e.target.value)}
 					placeholder="e.g., 20px"
@@ -76,7 +77,7 @@ const PresetPanelRightSidebar = () => {
 			</ControlWrapper>
 
 			<ControlWrapper label={__("Border Radius", "website-accessibility")}>
-				<Input
+				<WapInput
 					value={wrapper.borderRadius || ""}
 					onChange={(e) => handleWrapperChange("borderRadius", e.target.value)}
 					placeholder="e.g., 8px"
@@ -85,7 +86,7 @@ const PresetPanelRightSidebar = () => {
 			</ControlWrapper>
 
 			<ControlWrapper label={__("Box Shadow", "website-accessibility")}>
-				<Input
+				<WapInput
 					value={wrapper.boxShadow || ""}
 					onChange={(e) => handleWrapperChange("boxShadow", e.target.value)}
 					placeholder="e.g., 0 4px 24px rgba(0,0,0,0.1)"

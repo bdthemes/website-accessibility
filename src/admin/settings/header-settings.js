@@ -4,6 +4,8 @@ import ControlWrapper from "../components/control-wrapper";
 import { useSelect, useDispatch } from "@wordpress/data";
 import { STORE_NAME } from "../store";
 import ColorPicker from "../controls/color-picker";
+import WapCollapse from "../../components/wap-collapse";
+import WapInput from "../../components/wap-input";
 
 const ContentTab = ({ presetsFormData, setPresetsFormData }) => {
     const { items } = presetsFormData?.panel || {};
@@ -29,7 +31,7 @@ const ContentTab = ({ presetsFormData, setPresetsFormData }) => {
     return (
         <>
             <ControlWrapper label={__("Header Text", "website-accessibility")}>
-                <Input
+                <WapInput
                     value={attributes.text || ""}
                     onChange={(e) => updateAttr({ text: e.target.value })}
                     placeholder={__(
@@ -84,7 +86,7 @@ const StyleTab = ({ presetsFormData, setPresetsFormData }) => {
                     </ControlWrapper>
 
                     <ControlWrapper label={__("Border", "website-accessibility")}>
-                        <Input
+                        <WapInput
                             value={attributes.border}
                             onChange={(e) => updateAttr({ border: e.target.value })}
                             placeholder="1px solid #2e6cf6"
@@ -92,7 +94,7 @@ const StyleTab = ({ presetsFormData, setPresetsFormData }) => {
                     </ControlWrapper>
 
                     <ControlWrapper label={__("Border Radius", "website-accessibility")}>
-                        <Input
+                        <WapInput
                             value={attributes.borderRadius}
                             onChange={(e) => updateAttr({ borderRadius: e.target.value })}
                             placeholder="6px"
@@ -100,7 +102,7 @@ const StyleTab = ({ presetsFormData, setPresetsFormData }) => {
                     </ControlWrapper>
 
                     <ControlWrapper label={__("Box Shadow", "website-accessibility")}>
-                        <Input
+                        <WapInput
                             value={attributes.boxShadow}
                             onChange={(e) => updateAttr({ boxShadow: e.target.value })}
                             placeholder="0 4px 24px rgba(0,0,0,0.08)"
@@ -108,7 +110,7 @@ const StyleTab = ({ presetsFormData, setPresetsFormData }) => {
                     </ControlWrapper>
 
                     <ControlWrapper label={__("Padding", "website-accessibility")}>
-                        <Input
+                        <WapInput
                             value={attributes.padding}
                             onChange={(e) => updateAttr({ padding: e.target.value })}
                             placeholder="10px 20px"
@@ -123,7 +125,7 @@ const StyleTab = ({ presetsFormData, setPresetsFormData }) => {
                     </ControlWrapper>
 
                     <ControlWrapper label={__("Font Size", "website-accessibility")}>
-                        <Input
+                        <WapInput
                             value={attributes.fontSize}
                             onChange={(e) => updateAttr({ fontSize: e.target.value })}
                             placeholder="16px"
@@ -180,7 +182,7 @@ const StyleTab = ({ presetsFormData, setPresetsFormData }) => {
                     </ControlWrapper>
 
                     <ControlWrapper label={__("Size", "website-accessibility")}>
-                        <Input
+                        <WapInput
                             value={attributes?.closeButtonSize}
                             onChange={(e) => updateAttr({ closeButtonSize: e.target.value })}
                             placeholder="24px"
@@ -188,7 +190,7 @@ const StyleTab = ({ presetsFormData, setPresetsFormData }) => {
                     </ControlWrapper>
 
                     <ControlWrapper label={__("Border", "website-accessibility")}>
-                        <Input
+                        <WapInput
                             value={attributes?.closeButtonBorder}
                             onChange={(e) => updateAttr({ closeButtonBorder: e.target.value })}
                             placeholder="1px solid #ff0000"
@@ -196,7 +198,7 @@ const StyleTab = ({ presetsFormData, setPresetsFormData }) => {
                     </ControlWrapper>
 
                     <ControlWrapper label={__("Border Radius", "website-accessibility")}>
-                        <Input
+                        <WapInput
                             value={attributes.closeButtonBorderRadius}
                             onChange={(e) =>
                                 updateAttr({ closeButtonBorderRadius: e.target.value })
@@ -206,7 +208,7 @@ const StyleTab = ({ presetsFormData, setPresetsFormData }) => {
                     </ControlWrapper>
 
                     <ControlWrapper label={__("Top", "website-accessibility")}>
-                        <Input
+                        <WapInput
                             value={attributes.closeButtonTop}
                             onChange={(e) => updateAttr({ closeButtonTop: e.target.value })}
                             placeholder="10px"
@@ -214,7 +216,7 @@ const StyleTab = ({ presetsFormData, setPresetsFormData }) => {
                     </ControlWrapper>
 
                     <ControlWrapper label={__("Right", "website-accessibility")}>
-                        <Input
+                        <WapInput
                             value={attributes.closeButtonRight}
                             onChange={(e) => updateAttr({ closeButtonRight: e.target.value })}
                             placeholder="10px"
@@ -226,7 +228,7 @@ const StyleTab = ({ presetsFormData, setPresetsFormData }) => {
     ];
 
     return (
-        <Collapse accordion items={collapseItems} />
+        <WapCollapse accordion items={collapseItems} />
     );
 };
 

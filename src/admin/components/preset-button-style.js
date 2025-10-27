@@ -8,6 +8,7 @@ import clsx from "clsx";
 import ColorPicker from "../controls/color-picker";
 import WapFlex from "../../components/wap-flex";
 import WapCard from "../../components/wap-card";
+import WapInput from "../../components/wap-input";
 
 const ContentTab = ({ button, handleButtonChange }) => (
 	<>
@@ -31,7 +32,7 @@ const ContentTab = ({ button, handleButtonChange }) => (
 
 		{button.buttonType !== "icon" && (
 			<ControlWrapper label={__("Button Text", "website-accessibility")}>
-				<Input
+				<WapInput
 					value={button.text || ""}
 					onChange={(e) => handleButtonChange("text", e.target.value)}
 					placeholder={__("Click Me", "website-accessibility")}
@@ -68,7 +69,7 @@ const StyleTab = ({ button, handleButtonChange }) => (
 		</ControlWrapper>
 
 		<ControlWrapper label={__("Padding", "website-accessibility")}>
-			<Input
+			<WapInput
 				value={button.padding || ""}
 				onChange={(e) => handleButtonChange("padding", e.target.value)}
 				placeholder="e.g., 10px 20px"
@@ -76,7 +77,7 @@ const StyleTab = ({ button, handleButtonChange }) => (
 		</ControlWrapper>
 
 		<ControlWrapper label={__("Border Radius", "website-accessibility")}>
-			<Input
+			<WapInput
 				value={button.borderRadius || ""}
 				onChange={(e) => handleButtonChange("borderRadius", e.target.value)}
 				placeholder="e.g., 6px"
@@ -192,7 +193,7 @@ const ButtonStylePreset = () => {
 					<ControlWrapper
 						label={__("Horizontal Offset", "website-accessibility")}
 					>
-						<Input
+						<WapInput
 							type="number"
 							value={button.offsetX || ""}
 							onChange={(e) => handleButtonChange("offsetX", e.target.value)}
@@ -204,7 +205,7 @@ const ButtonStylePreset = () => {
 					<ControlWrapper
 						label={__("Vertical Offset", "website-accessibility")}
 					>
-						<Input
+						<WapInput
 							type="number"
 							value={button.offsetY || ""}
 							onChange={(e) => handleButtonChange("offsetY", e.target.value)}

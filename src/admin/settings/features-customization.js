@@ -1,8 +1,9 @@
 import { useState } from "@wordpress/element";
-import { Card, List, Input, Switch, Badge } from "antd";
+import { List, Switch, Badge } from "antd";
 import { SearchOutlined } from "@ant-design/icons";
 import { __ } from "@wordpress/i18n";
 import WapCard from "../../components/wap-card";
+import WapInput from "../../components/wap-input";
 
 const FeaturesCustomization = ({ attributes, updateAttr }) => {
     const features = window?.wapHelpers?.features || [];
@@ -15,7 +16,7 @@ const FeaturesCustomization = ({ attributes, updateAttr }) => {
 
     return (
         <WapCard className="wap-features-customization">
-            <Input
+            <WapInput
                 placeholder={__("Search features...", "website-accessibility")}
                 prefix={<SearchOutlined />}
                 value={searchTerm}

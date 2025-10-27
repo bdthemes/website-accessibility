@@ -8,6 +8,7 @@ import { archivePages, locationOptions } from '../../utils';
 import apiFetch from '@wordpress/api-fetch';
 import { addQueryArgs } from '@wordpress/url';
 import WapButton from '../../components/wap-button';
+import WapInput from '../../components/wap-input';
 
 const PresetQuickEdit = ({
   visible,
@@ -190,7 +191,7 @@ const PresetQuickEdit = ({
           label={__('Preset Name', 'website-accessibility')}
           required={true}
         >
-          <Input
+          <WapInput
             value={presetsFormData?.title || ''}
             onChange={(e) => handleTitleChange(e.target.value)}
             placeholder={__('Enter preset name', 'website-accessibility')}

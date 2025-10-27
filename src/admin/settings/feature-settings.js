@@ -11,6 +11,7 @@ import FeaturesCustomization from './features-customization';
 import WapFlex from '../../components/wap-flex';
 import WapButton from '../../components/wap-button';
 import WapCollapse from '../../components/wap-collapse';
+import WapInput from '../../components/wap-input';
 const { Title } = Typography;
 
 const FeatureSettings = () => {
@@ -57,7 +58,7 @@ const FeatureSettings = () => {
                             <ControlWrapper
                                 label={__('Oversized Widget Title', 'website-accessibility')}
                             >
-                                <Input
+                                <WapInput
                                     placeholder={__('Oversized Widget Title', 'website-accessibility')}
                                     value={attributes?.oversizedTitle || ''}
                                     onChange={(e) => updateAttr({ oversizedTitle: e.target.value })}
@@ -70,7 +71,7 @@ const FeatureSettings = () => {
                     <ControlWrapper
                         label={__('Items per Row', 'website-accessibility')}
                     >
-                        <Input
+                        <WapInput
                             type="number"
                             placeholder="3"
                             value={attributes?.itemsPerRow || '3'}
