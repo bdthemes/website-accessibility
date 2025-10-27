@@ -75,6 +75,7 @@ class Frontend
                 $components_assets['version'],
                 true
             );
+            wp_set_script_translations('wap-accessibility-components', 'website-accessibility', WEBSAC_DIR . 'languages/');
             wp_enqueue_style(
                 'wap-accessibility-components',
                 WEBSAC_URL . 'build/components/index.css',
@@ -112,6 +113,7 @@ class Frontend
                 $frontend_assets['version'],
                 true
             );
+            wp_set_script_translations('wap-accessibility-frontend', 'website-accessibility', WEBSAC_DIR . 'languages/');
             wp_enqueue_style(
                 'wap-accessibility-frontend',
                 WEBSAC_URL . 'build/frontend/frontend.css',
@@ -128,9 +130,12 @@ class Frontend
                 'isUserLoggedIn'  => is_user_logged_in(),
                 'statementLink'   => $this->get_statement_page_link(),
                 'settings'        => get_option('websac_settings', [
-                    'show_translations_consent' => true
+                    'show_translations_consent' => true,
+                    'force_translate_site_language' => false,
+                    'show_usage_statistics' => true
                 ]),
                 'nonce'           => wp_create_nonce('wp_rest'),
+                'restUrl'         => rest_url()
             ]);
         }
     }

@@ -1,9 +1,11 @@
-import { InputNumber, Input } from "antd";
+import { InputNumber, Input, Select } from "antd";
 import { __ } from "@wordpress/i18n";
 import { useSelect, useDispatch } from "@wordpress/data";
 import { STORE_NAME } from "../store";
 import ControlWrapper from "./control-wrapper";
 import ColorPicker from "../controls/color-picker";
+
+const { Option } = Select;
 
 const PresetPanelRightSidebar = () => {
 	const { presetsFormData } = useSelect((select) =>
@@ -28,6 +30,16 @@ const PresetPanelRightSidebar = () => {
 
 	return (
 		<>
+			<ControlWrapper label={__("Panel Position", "website-accessibility")}>
+				<Select
+					value={wrapper.position || "right"}
+					onChange={(value) => handleWrapperChange("position", value)}
+					className="wap-panel-right-sidebar__full-width"
+				>
+					<Option value="left">{__("Left Side", "website-accessibility")}</Option>
+					<Option value="right">{__("Right Side", "website-accessibility")}</Option>
+				</Select>
+			</ControlWrapper>
 			<ControlWrapper label={__("Width (px)", "website-accessibility")}>
 				<InputNumber
 					min={200}
@@ -80,6 +92,7 @@ const PresetPanelRightSidebar = () => {
 					className="wap-panel-right-sidebar__full-width"
 				/>
 			</ControlWrapper>
+
 		</>
 	);
 };

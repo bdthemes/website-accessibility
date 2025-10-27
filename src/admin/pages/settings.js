@@ -82,17 +82,38 @@ const Settings = () => {
 
             {/* Example Setting: Translation Consent */}
             {isProActive && (
-                <SettingsItem
-                    title={__("Show Consent for Translation", "website-accessibility")}
-                    description={__(
-                        "Show a consent message to users before translating content.",
-                        "website-accessibility"
-                    )}
-                    checked={!!settings.show_translations_consent}
-                    loading={saving}
-                    onChange={(checked) => updateSetting("show_translations_consent", checked)}
-                />
+                <>
+                    <SettingsItem
+                        title={__("Show Consent for Translation", "website-accessibility")}
+                        description={__(
+                            "Show a consent message to users before translating content.",
+                            "website-accessibility"
+                        )}
+                        checked={!!settings.show_translations_consent}
+                        loading={saving}
+                        onChange={(checked) => updateSetting("show_translations_consent", checked)}
+                    />
+                    <SettingsItem
+                        title={__("Force Translate Site Language", "website-accessibility")}
+                        description={__(
+                            "Automatically translate your website's original language. This will override the default site language translation with auto-generated translations.",
+                            "website-accessibility"
+                        )}
+                        checked={!!settings.force_translate_site_language}
+                        loading={saving}
+                        onChange={(checked) => updateSetting("force_translate_site_language", checked)}
+                    />
+                </>
             )}
+
+            <SettingsItem
+                title={__("Track Usage Statistics", "website-accessibility")}
+                description={__("Enable tracking to monitor how the accessibility widgets are being used.", "website-accessibility")}
+                checked={!!settings.show_usage_statistics}
+                loading={saving}
+                onChange={(checked) => updateSetting("show_usage_statistics", checked)}
+            />
+
         </div>
     );
 };

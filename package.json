@@ -18,7 +18,7 @@
 		"start": "wp-scripts start",
 		"build": "wp-scripts build",
 		"packages-update": "wp-scripts packages-update",
-		"make-pot": "wp i18n make-pot . languages/website-accessibility.pot --exclude=node_modules,build,vendor",
+		"make-pot": "wp i18n make-pot . languages/website-accessibility.pot --exclude=node_modules,vendor,src",
 		"plugin-zip": "wp-scripts plugin-zip",
 		"publish": "npm run build && npm run make-pot && npm run plugin-zip"
 	},
