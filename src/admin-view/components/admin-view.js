@@ -226,7 +226,8 @@ const AdminView = () => {
         try {
             const results = runAccessibilityScan();
             setScanResults(results);
-            setActivePanels(results.categories.map(cat => cat.id));
+            // Set only the first category as active by default
+            setActivePanels(results.categories.length > 0 ? [results.categories[0].id] : []);
             setLastScanTime(new Date().toLocaleString());
             setOpen(true);
         } catch (error) {
