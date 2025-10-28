@@ -13,6 +13,7 @@ import { STORE_NAME } from "../store";
 import { useHistory, useLocation } from '../router';
 import WapCard from '../../components/wap-card';
 import WapButton from '../../components/wap-button';
+import WapSpace from '../../components/wap-space';
 
 const EditPreset = () => {
   const [current, setCurrent] = useState(0);
@@ -91,10 +92,10 @@ const EditPreset = () => {
           onClick={handleBack}
           size='large'
         >
-          <Space>
+          <WapSpace>
             <span className='dashicons dashicons-arrow-left-alt' />
             {__('Back to Presets', 'website-accessibility')}
-          </Space>
+          </WapSpace>
         </WapButton>
 
       </WapCard>
@@ -115,13 +116,13 @@ const EditPreset = () => {
 
       {/* <Card className="wap-preset-form-actions-card" style={{ marginTop: 24 }}> */}
       <div className="wap-preset-form-actions" style={{ marginTop: 24 }}>
-        <Space>
+        <WapSpace>
           {current > 0 && (
             <WapButton onClick={prev} htmlType='button' size='large'>
-              <Space>
+              <WapSpace>
                 <span className='dashicons dashicons-arrow-left-alt' />
                 {__('Previous', 'website-accessibility')}
-              </Space>
+              </WapSpace>
             </WapButton>
           )}
           {current < steps.length - 1 && (
@@ -132,10 +133,10 @@ const EditPreset = () => {
               htmlType='button'
               disabled={current === 0 && !presetsFormData?.title}
             >
-              <Space>
+              <WapSpace>
                 {__('Next', 'website-accessibility')}
                 <span className='dashicons dashicons-arrow-right-alt' />
-              </Space>
+              </WapSpace>
             </WapButton>
           )}
           {current === steps.length - 1 && (
@@ -144,13 +145,13 @@ const EditPreset = () => {
               onClick={handleSave}
               size='large'
             >
-              <Space>
+              <WapSpace>
                 {__('Update Preset', 'website-accessibility')}
                 <span className='dashicons dashicons-arrow-right-alt' />
-              </Space>
+              </WapSpace>
             </WapButton>
           )}
-        </Space>
+        </WapSpace>
       </div>
       {/* </Card> */}
     </div>

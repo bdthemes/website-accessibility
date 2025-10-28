@@ -13,6 +13,7 @@ import { DEFAULT_STATE, STORE_NAME } from "../store";
 import { useHistory } from '../router';
 import WapCard from '../../components/wap-card';
 import WapButton from '../../components/wap-button';
+import WapSpace from '../../components/wap-space';
 
 const CreatePreset = () => {
   const [current, setCurrent] = useState(0);
@@ -48,10 +49,10 @@ const CreatePreset = () => {
           onClick={handleBack}
           size='large'
         >
-          <Space>
+          <WapSpace>
             <span className='dashicons dashicons-arrow-left-alt' />
             {__('Back to Presets', 'website-accessibility')}
-          </Space>
+          </WapSpace>
         </WapButton>
       </WapCard>
 
@@ -70,21 +71,21 @@ const CreatePreset = () => {
       <StepContent />
 
       <div className="wap-preset-form-actions" style={{ marginTop: 24 }}>
-        <Space>
+        <WapSpace>
           {current > 0 && (
             <WapButton onClick={prev} size='large' htmlType='button'>
-              <Space>
+              <WapSpace>
                 <span className='dashicons dashicons-arrow-left-alt' />
                 {__('Previous', 'website-accessibility')}
-              </Space>
+              </WapSpace>
             </WapButton>
           )}
           {current < steps.length - 1 && (
             <WapButton type="primary" onClick={next} size='large' htmlType='button' disabled={current === 0 && !presetsFormData?.title}>
-              <Space>
+              <WapSpace>
                 {__('Next', 'website-accessibility')}
                 <span className='dashicons dashicons-arrow-right-alt' />
-              </Space>
+              </WapSpace>
             </WapButton>
           )}
           {current === steps.length - 1 && (
@@ -100,13 +101,13 @@ const CreatePreset = () => {
                 setPresetsFormData(DEFAULT_STATE?.presetsFormData);
               }}
             >
-              <Space>
+              <WapSpace>
                 {__('Save Preset', 'website-accessibility')}
                 <span className='dashicons dashicons-arrow-right-alt' />
-              </Space>
+              </WapSpace>
             </WapButton>
           )}
-        </Space>
+        </WapSpace>
       </div>
       {/* </Card> */}
     </div>

@@ -6,6 +6,8 @@ import { STORE_NAME } from '../store';
 import ControlWrapper from '../components/control-wrapper';
 import { __ } from '@wordpress/i18n';
 import WapInput from '../../components/wap-input';
+import WapSpace from '../../components/wap-space';
+import WapSelectComponent from '../../components/wap-select';
 
 const ProfilesSettings = () => {
     const profilesRaw = useSelect((select) => {
@@ -70,10 +72,10 @@ const ProfilesSettings = () => {
 
     const profileOptions = profiles.map(profile => ({
         label: (
-            <Space>
+            <WapSpace>
                 <Avatar icon={profile.icon || <UserOutlined />} size="small" />
                 {profile.name}
-            </Space>
+            </WapSpace>
         ),
         value: profile.id,
     }));
@@ -87,7 +89,7 @@ const ProfilesSettings = () => {
                     style={{ maxHeight: 200, overflow: 'auto' }}
                     onWheel={(e) => e.stopPropagation()} // prevent parent/page scroll
                 >
-                    <WapSelect
+                    <WapSelectComponent
                         mode="multiple"
                         allowClear
                         showSearch

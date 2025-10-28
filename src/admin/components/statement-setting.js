@@ -14,6 +14,7 @@ const { Title, Text } = Typography;
 import statementJson from "../../../default-posts/statement.json";
 import WapCard from "../../components/wap-card";
 import WapButton from "../../components/wap-button";
+import WapSpace from "../../components/wap-space";
 
 const StatementSetting = () => {
     const [page, setPage] = useState(null);
@@ -85,7 +86,7 @@ const StatementSetting = () => {
                 borderRadius: 16,
             }}
         >
-            <Space
+            <WapSpace
                 align="start"
                 style={{
                     width: "100%",
@@ -93,7 +94,7 @@ const StatementSetting = () => {
                 }}
             >
                 {/* Left side: Title, description, warning */}
-                <Space direction="vertical" size={6} style={{ flex: 1 }}>
+                <WapSpace direction="vertical" size={6} style={{ flex: 1 }}>
                     <Title level={4} style={{ margin: 0 }}>
                         {__("Statement Page", "website-accessibility")}
                     </Title>
@@ -119,7 +120,7 @@ const StatementSetting = () => {
                             }}
                         />
                     )}
-                </Space>
+                </WapSpace>
 
                 {
                     !page ? (
@@ -148,7 +149,7 @@ const StatementSetting = () => {
                         </Tooltip>
                     )
                 }
-            </Space>
+            </WapSpace>
         </WapCard>
     );
 };

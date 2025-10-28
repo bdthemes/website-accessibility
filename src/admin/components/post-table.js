@@ -2,6 +2,7 @@ import { useState } from '@wordpress/element';
 import { Table, Input, Button, Space, Dropdown } from 'antd';
 import WapButton from '../../components/wap-button';
 import WapInput from '../../components/wap-input';
+import WapSpace from '../../components/wap-space';
 
 /**
  * PostTable - WordPress-style post table with Ant Design
@@ -89,7 +90,7 @@ const PostTable = ({
 
   return (
     <div>
-      <Space className="wap-post-table__searchbar">
+      <WapSpace className="wap-post-table__searchbar">
         <WapInput
           placeholder="Search posts"
           value={searchText}
@@ -118,7 +119,7 @@ const PostTable = ({
             </WapButton>
           </Dropdown>
         )}
-      </Space>
+      </WapSpace>
       <Table
         rowSelection={rowSelection}
         columns={extendedColumns}

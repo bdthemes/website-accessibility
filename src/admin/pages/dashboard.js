@@ -10,6 +10,7 @@ import WapCard from '../../components/wap-card';
 import WapButton from '../../components/wap-button';
 import WapRow from '../../components/wap-row';
 import WapCol from '../../components/wap-col';
+import WapSpace from '../../components/wap-space';
 
 
 const Dashboard = () => {
@@ -63,10 +64,10 @@ const Dashboard = () => {
             icon: <span className="dashicons dashicons-universal-access" />,
             action: (
                 <WapButton size="small" onClick={() => navigateTo('website-accessibility-presets')}>
-                    <Space>
+                    <WapSpace>
                         <span className="dashicons dashicons-visibility" />
                         {__('View All', 'website-accessibility')}
-                    </Space>
+                    </WapSpace>
                 </WapButton>
             ),
         },
@@ -77,10 +78,10 @@ const Dashboard = () => {
             icon: <span className="dashicons dashicons-admin-users" />,
             action: (
                 <WapButton size="small" onClick={() => navigateTo('website-accessibilityfiles')}>
-                    <Space>
+                    <WapSpace>
                         <span className="dashicons dashicons-visibility" />
                         {__('View All', 'website-accessibility')}
-                    </Space>
+                    </WapSpace>
                 </WapButton>
             ),
         },
@@ -122,10 +123,10 @@ const Dashboard = () => {
                             size="large"
                             onClick={() => navigateTo('website-accessibility-presets-create')}
                         >
-                            <Space>
+                            <WapSpace>
                                 <span className="dashicons dashicons-plus-alt2" />
                                 {__('Create New Preset', 'website-accessibility')}
-                            </Space>
+                            </WapSpace>
                         </WapButton>
                     </div>
                 </WapCard>
@@ -157,30 +158,30 @@ const Dashboard = () => {
                     <WapCol xs={24} md={8}>
                         <div className="quick-action-btn-wrapper">
                             <WapButton block size="large" onClick={() => navigateTo('website-accessibility-presets')}>
-                                <Space>
+                                <WapSpace>
                                     <span className="dashicons dashicons-universal-access" />
                                     <span>{__('Manage Presets', 'website-accessibility')}</span>
-                                </Space>
+                                </WapSpace>
                             </WapButton>
                         </div>
                     </WapCol>
                     <WapCol xs={24} md={8}>
                         <div className="quick-action-btn-wrapper">
                             <WapButton block size="large" onClick={() => navigateTo('website-accessibilityfiles')}>
-                                <Space>
+                                <WapSpace>
                                     <span className="dashicons dashicons-admin-users" />
                                     <span>{__('Manage Profiles', 'website-accessibility')}</span>
-                                </Space>
+                                </WapSpace>
                             </WapButton>
                         </div>
                     </WapCol>
                     <WapCol xs={24} md={8}>
                         <div className="quick-action-btn-wrapper">
                             <WapButton block size="large" onClick={() => navigateTo('website-accessibility-settings')}>
-                                <Space>
+                                <WapSpace>
                                     <span className="dashicons dashicons-admin-generic" />
                                     <span>{__('Accessibility Settings', 'website-accessibility')}</span>
-                                </Space>
+                                </WapSpace>
                             </WapButton>
                         </div>
                     </WapCol>

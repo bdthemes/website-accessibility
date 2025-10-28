@@ -6,6 +6,7 @@ import { useHistory } from '../router';
 import ProfileForm from '../components/profile-form';
 import WapCard from '../../components/wap-card';
 import WapButton from '../../components/wap-button';
+import WapSpace from '../../components/wap-space';
 
 const { Title, Text } = Typography;
 
@@ -65,10 +66,10 @@ const CreateProfiles = () => {
                         type="primary"
                         onClick={handleBack}
                     >
-                        <Space>
+                        <WapSpace>
                             <span className='dashicons dashicons-arrow-left-alt' />
                             {__('Back to Profiles', 'website-accessibility')}
-                        </Space>
+                        </WapSpace>
                     </WapButton>
                 </WapCard>
 
@@ -78,24 +79,24 @@ const CreateProfiles = () => {
                 />
 
                 <div style={{ marginTop: 24, textAlign: 'right' }}>
-                    <Space>
+                    <WapSpace>
                         <WapButton onClick={handleBack}>
-                            <Space>
+                            <WapSpace>
                                 <span className='dashicons dashicons-dismiss' />
                                 {__('Cancel', 'website-accessibility')}
-                            </Space>
+                            </WapSpace>
                         </WapButton>
                         <WapButton 
                             type="primary" 
                             onClick={handleSave}
                             disabled={!profilesFormData.name?.trim()}
                         >
-                            <Space> 
+                            <WapSpace> 
                                 {__('Create Profile', 'website-accessibility')}
                                 <span className='dashicons dashicons-arrow-right-alt' />
-                            </Space>
+                            </WapSpace>
                         </WapButton>
-                    </Space>
+                    </WapSpace>
                 </div>
         </div>
     );

@@ -7,6 +7,7 @@ import { STORE_NAME } from '../store';
 import ProfilesFallback from '../components/profiles-fallback';
 import WapCard from '../../components/wap-card';
 import WapButton from '../../components/wap-button';
+import WapSpace from '../../components/wap-space';
 
 const { Title } = Typography;
 
@@ -123,10 +124,10 @@ const Profiles = () => {
                 onClick={handleCreateProfile}
                 size='large'
               >
-                <Space>
+                <WapSpace>
                   <span className="dashicons dashicons-plus-alt2"/>
                   {__('Add New Profile', 'website-accessibility')}
-                </Space>
+                </WapSpace>
               </WapButton>
       </WapCard>
       <WapCard >

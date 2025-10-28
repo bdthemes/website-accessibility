@@ -5,6 +5,8 @@ import WapCard from '../../components/wap-card';
 import WapRow from '../../components/wap-row';
 import WapCol from '../../components/wap-col';
 import WapInput from '../../components/wap-input';
+import WapSpace from '../../components/wap-space';
+import WapSelectComponent from '../../components/wap-select';
 
 const { TextArea } = Input;
 const { Text } = Typography;
@@ -283,7 +285,7 @@ const ProfileForm = ({ formData, onFormChange }) => {
         switch (feature.control) {
             case 'select':
                 return (
-                    <WapSelect
+                    <WapSelectComponent
                         key={feature.key}
                         value={value || ''}
                         onChange={(val) => handleFeatureChange(feature.key, val)}
@@ -311,7 +313,7 @@ const ProfileForm = ({ formData, onFormChange }) => {
         <WapRow gutter={[24, 24]}>
             <WapCol xs={24} lg={6}>
                 <WapCard className='wap-profile-form-left-card' title={__('Profile Information', 'website-accessibility')}>
-                    <Space direction="vertical" style={{ width: '100%' }} size="large">
+                    <WapSpace direction="vertical" style={{ width: '100%' }} size="large">
                         <ControlWrapper
                             label={__('Profile Name', 'website-accessibility')}
                             required
@@ -352,7 +354,7 @@ const ProfileForm = ({ formData, onFormChange }) => {
                                 </div>
                             )}
                         </ControlWrapper>
-                    </Space>
+                    </WapSpace>
                 </WapCard>
             </WapCol>
 

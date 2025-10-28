@@ -10,6 +10,7 @@ import { addQueryArgs } from '@wordpress/url';
 import WapButton from '../../components/wap-button';
 import WapInput from '../../components/wap-input';
 import WapDrawer from '../../components/wap-drawer';
+import WapSpace from '../../components/wap-space';
 
 const PresetQuickEdit = ({
   visible,
@@ -175,7 +176,7 @@ const PresetQuickEdit = ({
       width={400}
       rootClassName="wap-panel-quick-edit-drawer"
       extra={
-        <Space>
+        <WapSpace>
           <WapButton onClick={handleClose}>{__('Cancel', 'website-accessibility')}</WapButton>
           <WapButton
             type="primary"
@@ -184,7 +185,7 @@ const PresetQuickEdit = ({
           >
             {__('Save', 'website-accessibility')}
           </WapButton>
-        </Space>
+        </WapSpace>
       }
     >
       <div className="wap-quick-edit-form">
