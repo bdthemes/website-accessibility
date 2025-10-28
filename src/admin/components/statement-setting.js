@@ -16,6 +16,7 @@ import WapCard from "../../components/wap-card";
 import WapButton from "../../components/wap-button";
 import WapSpace from "../../components/wap-space";
 import WapAlert from "../../components/wap-alert";
+import WapTooltip from "../../components/wap-tooltip";
 
 const StatementSetting = () => {
     const [page, setPage] = useState(null);
@@ -125,7 +126,7 @@ const StatementSetting = () => {
 
                 {
                     !page ? (
-                        <Tooltip
+                        <WapTooltip
                             title={__("Click to generate a statement page", "website-accessibility")}
                         >
                             <WapButton
@@ -134,9 +135,9 @@ const StatementSetting = () => {
                                 icon={<ReloadOutlined spin={creating || loading} />}
                                 onClick={handleGenerate}
                             />
-                        </Tooltip>
+                        </WapTooltip>
                     ) : (
-                        <Tooltip
+                        <WapTooltip
                             title={__("Hurray! We have a statement page!", "website-accessibility")}
                         >
                             <WapButton
@@ -147,7 +148,7 @@ const StatementSetting = () => {
                                 target="_blank"
                                 size="large"
                             />
-                        </Tooltip>
+                        </WapTooltip>
                     )
                 }
             </WapSpace>
