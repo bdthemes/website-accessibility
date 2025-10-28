@@ -20,6 +20,10 @@ import WapCol from './wap-col';
 import WapCollapse from './wap-collapse';
 import WapInput from './wap-input';
 import WapDrawer from './wap-drawer';
+import WapAlert from './wap-alert';
+import WapRadio from './wap-radio';
+import WapSelect from './wap-select';
+import WapSpace from './wap-space';
 
 window.wapComponents = {
     AccessibilityProfiles,
@@ -36,7 +40,11 @@ window.wapComponents = {
     WapRow,
     WapCollapse,
     WapInput,
-    WapDrawer
+    WapDrawer,
+    WapAlert,
+    WapRadio,
+    WapSelect,
+    WapSpace,
 }
 
 window.wapHelpers = {

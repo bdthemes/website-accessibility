@@ -1,4 +1,3 @@
-import { Alert } from "antd";
 import { useState, useEffect } from "@wordpress/element";
 import { __ } from "@wordpress/i18n";
 import WapAlert from "../../components/wap-alert";

@@ -1,4 +1,3 @@
-import { Typography, Tooltip } from "antd";
 import WapFlex from "../../components/wap-flex";
 import WapTypography from "../../components/wap-typography";
 import WapTooltip from "../../components/wap-tooltip";

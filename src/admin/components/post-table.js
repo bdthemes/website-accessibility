@@ -3,6 +3,7 @@ import { Table, Input, Button, Space, Dropdown } from 'antd';
 import WapButton from '../../components/wap-button';
 import WapInput from '../../components/wap-input';
 import WapSpace from '../../components/wap-space';
+import WapTable from '../../components/wap-table';
 
 /**
  * PostTable - WordPress-style post table with Ant Design
@@ -120,7 +121,7 @@ const PostTable = ({
           </Dropdown>
         )}
       </WapSpace>
-      <Table
+      <WapTable
         rowSelection={rowSelection}
         columns={extendedColumns}
         dataSource={data}
