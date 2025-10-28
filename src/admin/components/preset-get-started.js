@@ -1,4 +1,5 @@
-import { Card, Input, Select, Switch } from "antd";
+import { Card, Input, Switch } from "antd";
+import WapSelect from "../../components/wap-select";
 import { __ } from "@wordpress/i18n";
 import { useState, useEffect } from "@wordpress/element";
 import { useSelect, useDispatch } from "@wordpress/data";
@@ -69,7 +70,7 @@ const GetStartedPreset = () => {
                 />
             </ControlWrapper>
             <ControlWrapper label={__('Condition', 'website-accessibility')} required>
-                <Select
+                <WapSelect
                     options={locationOptions}
                     onChange={(value) => setPresetsFormData({ ...presetsFormData, preset: { ...presetsFormData.preset, condition: value } })}
                     value={presetsFormData?.preset?.condition}
@@ -78,7 +79,7 @@ const GetStartedPreset = () => {
             {
                 presetsFormData?.preset?.condition === 'archive' && (
                     <ControlWrapper label={__('Specific Archive Page', 'website-accessibility')} required>
-                        <Select
+                        <WapSelect
                             options={archivePages}
                             onChange={(value) => setPresetsFormData({ ...presetsFormData, preset: { ...presetsFormData.preset, specificArchive: value } })}
                             value={presetsFormData?.preset?.specificArchive}
@@ -93,7 +94,7 @@ const GetStartedPreset = () => {
                 presetsFormData?.preset?.condition === 'singular' && (
                     <>
                         <ControlWrapper label={__('Specific Posts', 'website-accessibility')} required>
-                            <Select
+                            <WapSelect
                                 options={posts}
                                 onChange={(value) => setPresetsFormData({ ...presetsFormData, preset: { ...presetsFormData.preset, specificPosts: value } })}
                                 value={presetsFormData?.preset?.specificPosts}

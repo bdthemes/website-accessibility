@@ -283,7 +283,7 @@ const ProfileForm = ({ formData, onFormChange }) => {
         switch (feature.control) {
             case 'select':
                 return (
-                    <Select
+                    <WapSelect
                         key={feature.key}
                         value={value || ''}
                         onChange={(val) => handleFeatureChange(feature.key, val)}

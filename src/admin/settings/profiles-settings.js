@@ -87,7 +87,7 @@ const ProfilesSettings = () => {
                     style={{ maxHeight: 200, overflow: 'auto' }}
                     onWheel={(e) => e.stopPropagation()} // prevent parent/page scroll
                 >
-                    <Select
+                    <WapSelect
                         mode="multiple"
                         allowClear
                         showSearch

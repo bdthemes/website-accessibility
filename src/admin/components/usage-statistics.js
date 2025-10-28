@@ -6,6 +6,7 @@ import WapFlex from "../../components/wap-flex";
 import WapCard from "../../components/wap-card";
 import WapRow from "../../components/wap-row";
 import WapCol from "../../components/wap-col";
+import WapSelect from "../../components/wap-select";
 
 const { Meta } = Card;
 const { Title } = Typography;
@@ -59,7 +60,7 @@ const UsageStatistics = () => {
                             {__("Widget Usage Statistics", "website-accessibility")}
                         </Title>
 
-                        <Select
+                        <WapSelect
                             value={filter}
                             onChange={(value) => setFilter(value)}
                             style={{ width: 160 }}
@@ -68,7 +69,7 @@ const UsageStatistics = () => {
                             <Option value="7days">{__("Last 7 Days", "website-accessibility")}</Option>
                             <Option value="30days">{__("Last 30 Days", "website-accessibility")}</Option>
                             <Option value="all">{__("All Time", "website-accessibility")}</Option>
-                        </Select>
+                        </WapSelect>
                     </WapFlex>
                 }
             >

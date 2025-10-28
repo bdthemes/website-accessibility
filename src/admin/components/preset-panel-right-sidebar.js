@@ -5,6 +5,7 @@ import { STORE_NAME } from "../store";
 import ControlWrapper from "./control-wrapper";
 import ColorPicker from "../controls/color-picker";
 import WapInput from "../../components/wap-input";
+import WapSelect from "../../components/wap-select";
 
 const { Option } = Select;
 
@@ -32,14 +33,14 @@ const PresetPanelRightSidebar = () => {
 	return (
 		<>
 			<ControlWrapper label={__("Panel Position", "website-accessibility")}>
-				<Select
+				<WapSelect
 					value={wrapper.position || "right"}
 					onChange={(value) => handleWrapperChange("position", value)}
 					className="wap-panel-right-sidebar__full-width"
 				>
 					<Option value="left">{__("Left Side", "website-accessibility")}</Option>
 					<Option value="right">{__("Right Side", "website-accessibility")}</Option>
-				</Select>
+				</WapSelect>
 			</ControlWrapper>
 			<ControlWrapper label={__("Width (px)", "website-accessibility")}>
 				<InputNumber

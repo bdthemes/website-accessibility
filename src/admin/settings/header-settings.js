@@ -133,7 +133,7 @@ const StyleTab = ({ presetsFormData, setPresetsFormData }) => {
                     </ControlWrapper>
 
                     <ControlWrapper label={__("Font Weight", "website-accessibility")}>
-                        <Select
+                        <WapSelect
                             value={attributes.fontWeight || "600"}
                             onChange={(value) => updateAttr({ fontWeight: value })}
                             options={[
@@ -148,7 +148,7 @@ const StyleTab = ({ presetsFormData, setPresetsFormData }) => {
                     </ControlWrapper>
 
                     <ControlWrapper label={__("Text Decoration", "website-accessibility")}>
-                        <Select
+                        <WapSelect
                             value={attributes?.textDecoration || "none"}
                             onChange={(value) => updateAttr({ textDecoration: value })}
                             options={[

@@ -203,7 +203,7 @@ const PresetQuickEdit = ({
           label={__('Condition', 'website-accessibility')}
           tooltip={__('Select where this preset should be applied', 'website-accessibility')}
         >
-          <Select
+          <WapSelect
             value={presetsFormData?.preset?.condition}
             onChange={handleConditionChange}
             options={locationOptions}
@@ -216,7 +216,7 @@ const PresetQuickEdit = ({
         {
           presetsFormData?.preset?.condition === 'archive' && (
             <ControlWrapper label={__('Specific Archive Page', 'website-accessibility')} required>
-              <Select
+              <WapSelect
                 options={archivePages}
                 onChange={(value) => setPresetsFormData({ ...presetsFormData, preset: { ...presetsFormData.preset, specificArchive: value } })}
                 value={presetsFormData?.preset?.specificArchive}
@@ -231,7 +231,7 @@ const PresetQuickEdit = ({
           presetsFormData?.preset?.condition === 'singular' && (
             <>
               <ControlWrapper label={__('Specific Posts', 'website-accessibility')} required>
-                <Select
+                <WapSelect
                   options={posts}
                   onChange={(value) => setPresetsFormData({ ...presetsFormData, preset: { ...presetsFormData.preset, specificPosts: value } })}
                   value={presetsFormData?.preset?.specificPosts}

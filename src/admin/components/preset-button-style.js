@@ -1,4 +1,4 @@
-import { Card, Flex, Input, Radio, Select, Tabs } from "antd";
+import { Card, Flex, Input, Radio, Tabs } from "antd";
 import { __ } from "@wordpress/i18n";
 import { useSelect, useDispatch } from "@wordpress/data";
 import { STORE_NAME } from "../store";
@@ -8,6 +8,7 @@ import clsx from "clsx";
 import ColorPicker from "../controls/color-picker";
 import WapFlex from "../../components/wap-flex";
 import WapCard from "../../components/wap-card";
+import WapSelect from "../../components/wap-select";
 import WapInput from "../../components/wap-input";
 
 const ContentTab = ({ button, handleButtonChange }) => (
@@ -166,7 +167,7 @@ const ButtonStylePreset = () => {
 					<ControlWrapper
 						label={__("Button Position", "website-accessibility")}
 					>
-						<Select
+						<WapSelect
 							value={position}
 							onChange={(value) => handleButtonChange("position", value)}
 							options={[
