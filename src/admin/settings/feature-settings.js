@@ -1,4 +1,3 @@
-import { Collapse, Input, Switch, Flex, Typography, Button, Modal } from 'antd';
 import {
     EditOutlined,
 } from "@ant-design/icons";
@@ -14,6 +13,7 @@ import WapCollapse from '../../components/wap-collapse';
 import WapInput from '../../components/wap-input';
 import WapSwitch from '../../components/wap-switch';
 import WapTypography from '../../components/wap-typography';
+import WapModal from '../../components/wap-modal';
 const { Title } = WapTypography;
 
 const FeatureSettings = () => {
@@ -87,7 +87,7 @@ const FeatureSettings = () => {
                         <Title level={5} style={{ margin: 0 }}>{__('Feature Customization', 'website-accessibility')}</Title>
                         <WapFlex align="center" gap={5}>
                             <WapButton type="primary" size="small" shape='circle' onClick={() => setOpenCustomizationModal(true)} icon={<EditOutlined />}></WapButton>
-                            <Modal
+                            <WapModal
                                 title={__('Feature Customization', 'website-accessibility')}
                                 open={openCustomizationModal}
                                 onCancel={() => {
@@ -98,7 +98,7 @@ const FeatureSettings = () => {
                                 width={'60vw'}
                             >
                                 <FeaturesCustomization updateAttr={updateAttr} attributes={attributes} />
-                            </Modal>
+                            </WapModal>
                         </WapFlex>
                     </WapFlex>
                 </>
