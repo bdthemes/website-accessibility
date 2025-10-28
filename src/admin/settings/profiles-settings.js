@@ -1,5 +1,6 @@
 import { useMemo } from '@wordpress/element';
-import { Select, Avatar, Space, Radio, Input } from 'antd';
+import { Select, Avatar, Space, Input } from 'antd';
+import WapRadio from '../../components/wap-radio';
 import { UserOutlined } from '@ant-design/icons';
 import { useSelect, useDispatch } from '@wordpress/data';
 import { STORE_NAME } from '../store';
@@ -106,13 +107,13 @@ const ProfilesSettings = () => {
             <ControlWrapper
                 label={__('Layout', 'website-accessibility')}
             >
-                <Radio.Group
+                <WapRadio.Group
                     value={attributes.layout || 'collapse'}
                     onChange={(e) => updateAttr({ layout: e.target.value })}
                 >
-                    <Radio value="collapse">{__('With Collapse', 'website-accessibility')}</Radio>
-                    <Radio value="simple">{__('Simple List', 'website-accessibility')}</Radio>
-                </Radio.Group>
+                    <WapRadio value="collapse">{__('With Collapse', 'website-accessibility')}</WapRadio>
+                    <WapRadio value="simple">{__('Simple List', 'website-accessibility')}</WapRadio>
+                </WapRadio.Group>
             </ControlWrapper>
 
             <ControlWrapper

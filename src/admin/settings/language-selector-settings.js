@@ -1,4 +1,5 @@
 import { Collapse, Radio, Switch } from 'antd';
+import WapRadio from '../../components/wap-radio';
 import { useSelect, useDispatch } from '@wordpress/data';
 import { STORE_NAME } from '../store';
 import ControlWrapper from '../components/control-wrapper';
@@ -32,15 +33,15 @@ const LanguageSelectorSettings = () => {
       key: '1',
       label: __('General', 'website-accessibility'),
       children: (
-        <ControlWrapper label={__('Layout', 'website-accessibility')}>
-          <Radio.Group
-            value={attributes.layout || 'collapse'}
-            onChange={(e) => updateAttr({ layout: e.target.value })}
-          >
-            <Radio value="collapse">{__('With Collapse', 'website-accessibility')}</Radio>
-            <Radio value="list">{__('Simple List', 'website-accessibility')}</Radio>
-          </Radio.Group>
-        </ControlWrapper>
+          <ControlWrapper label={__('Layout', 'website-accessibility')}>
+            <WapRadio.Group
+              value={attributes.layout || 'collapse'}
+              onChange={(e) => updateAttr({ layout: e.target.value })}
+            >
+              <WapRadio value="collapse">{__('With Collapse', 'website-accessibility')}</WapRadio>
+              <WapRadio value="list">{__('Simple List', 'website-accessibility')}</WapRadio>
+            </WapRadio.Group>
+          </ControlWrapper>
       )
     },
     {

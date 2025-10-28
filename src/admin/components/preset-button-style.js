@@ -1,4 +1,4 @@
-import { Card, Flex, Input, Radio, Tabs } from "antd";
+import { Card, Flex, Input, Tabs } from "antd";
 import { __ } from "@wordpress/i18n";
 import { useSelect, useDispatch } from "@wordpress/data";
 import { STORE_NAME } from "../store";
@@ -10,25 +10,26 @@ import WapFlex from "../../components/wap-flex";
 import WapCard from "../../components/wap-card";
 import WapSelect from "../../components/wap-select";
 import WapInput from "../../components/wap-input";
+import WapRadio from "../../components/wap-radio";
 
 const ContentTab = ({ button, handleButtonChange }) => (
 	<>
 
 		<ControlWrapper label={__("Button Type", "website-accessibility")}>
-			<WapFlex vertical gap="middle">
-				<Radio.Group
-					block
-					options={[
-						{ label: __("Icon", "website-accessibility"), value: "icon" },
-						{ label: __("Text", "website-accessibility"), value: "text" },
-						{ label: __("Both", "website-accessibility"), value: "both" },
-					]}
-					value={button?.buttonType}
-					onChange={(e) => handleButtonChange("buttonType", e.target.value)}
-					optionType="button"
-					buttonStyle="solid"
-				/>
-			</WapFlex>
+				<WapFlex vertical gap="middle">
+					<WapRadio.Group
+						block
+						options={[
+							{ label: __("Icon", "website-accessibility"), value: "icon" },
+							{ label: __("Text", "website-accessibility"), value: "text" },
+							{ label: __("Both", "website-accessibility"), value: "both" },
+						]}
+						value={button?.buttonType}
+						onChange={(e) => handleButtonChange("buttonType", e.target.value)}
+						optionType="button"
+						buttonStyle="solid"
+					/>
+				</WapFlex>
 		</ControlWrapper>
 
 		{button.buttonType !== "icon" && (
