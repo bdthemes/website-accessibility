@@ -7,6 +7,7 @@ import WapCol from '../../components/wap-col';
 import WapInput from '../../components/wap-input';
 import WapSpace from '../../components/wap-space';
 import WapSelect from '../../components/wap-select';
+import WapSwitch from '../../components/wap-switch';
 
 const { TextArea } = Input;
 const { Text } = Typography;
@@ -295,7 +296,7 @@ const ProfileForm = ({ formData, onFormChange }) => {
                 );
             case 'switch':
                 return (
-                    <Switch
+                    <WapSwitch
                         key={feature.key}
                         checked={value == 'enable' || false}
                         onChange={(checked) => {

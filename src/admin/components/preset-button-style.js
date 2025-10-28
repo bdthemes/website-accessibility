@@ -1,4 +1,3 @@
-import { Card, Flex, Input, Tabs } from "antd";
 import { __ } from "@wordpress/i18n";
 import { useSelect, useDispatch } from "@wordpress/data";
 import { STORE_NAME } from "../store";

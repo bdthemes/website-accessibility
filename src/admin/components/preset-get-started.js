@@ -1,4 +1,3 @@
-import { Card, Input, Switch } from "antd";
 import WapSelect from "../../components/wap-select";
 import { __ } from "@wordpress/i18n";
 import { useState, useEffect } from "@wordpress/element";
@@ -10,6 +9,7 @@ import apiFetch from "@wordpress/api-fetch";
 import { addQueryArgs } from "@wordpress/url";
 import WapCard from "../../components/wap-card";
 import WapInput from "../../components/wap-input";
+import WapSwitch from "../../components/wap-switch";
 
 const GetStartedPreset = () => {
     const [posts, setPosts] = useState([]);
@@ -109,7 +109,7 @@ const GetStartedPreset = () => {
                 )
             }
             <ControlWrapper label={__('Active', 'website-accessibility')}>
-                <Switch
+                <WapSwitch
                     checked={presetsFormData?.preset?.active}
                     onChange={(value) => setPresetsFormData({ ...presetsFormData, preset: { ...presetsFormData.preset, active: value } })}
                     value={presetsFormData?.preset?.active} />

@@ -4,6 +4,7 @@ import { SearchOutlined } from "@ant-design/icons";
 import { __ } from "@wordpress/i18n";
 import WapCard from "../../components/wap-card";
 import WapInput from "../../components/wap-input";
+import WapSwitch from "../../components/wap-switch";
 
 const FeaturesCustomization = ({ attributes, updateAttr }) => {
     const features = window?.wapHelpers?.features || [];
@@ -38,7 +39,7 @@ const FeaturesCustomization = ({ attributes, updateAttr }) => {
                                 <>
                                     {
                                         !isDummy ? (
-                                            <Switch
+                                            <WapSwitch
                                                 checked={isCurrentActive}
                                                 onChange={(checked) => {
                                                     if (currentItem) {

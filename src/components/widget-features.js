@@ -5,6 +5,7 @@ import { __ } from "@wordpress/i18n";
 import WapCard from "./wap-card";
 import WapRow from "./wap-row";
 import WapCol from "./wap-col";
+import WapSwitch from "./wap-switch";
 
 const WidgetFeatures = ({
 	value,
@@ -153,7 +154,7 @@ const WidgetFeatures = ({
 						)}
 					</WapCol>
 					<WapCol span={6} style={{ textAlign: "right" }}>
-						<Switch checked={isOverSized} onChange={handleOversizedToggle} />
+						<WapSwitch checked={isOverSized} onChange={handleOversizedToggle} />
 					</WapCol>
 				</WapRow>
 			)}

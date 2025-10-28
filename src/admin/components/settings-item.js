@@ -1,9 +1,10 @@
-import { Switch, Typography, Space } from "antd";
 import WapCard from "../../components/wap-card";
 import WapSpace from "../../components/wap-space";
+import WapSwitch from "../../components/wap-switch";
+import WapTypography from "../../components/wap-typography";
 
 
-const { Title, Text } = Typography;
+const { Title, Text } = WapTypography;
 
 const SettingsItem = ({ title, description, checked, onChange, disabled = false }) => {
     return (
@@ -27,7 +28,7 @@ const SettingsItem = ({ title, description, checked, onChange, disabled = false 
                     <Text type="secondary">{description}</Text>
                 </WapSpace>
 
-                <Switch checked={checked} onChange={onChange} disabled={disabled} />
+                <WapSwitch checked={checked} onChange={onChange} disabled={disabled} />
             </WapSpace>
         </WapCard>
     );

@@ -12,6 +12,7 @@ import WapInput from '../../components/wap-input';
 import WapDrawer from '../../components/wap-drawer';
 import WapSpace from '../../components/wap-space';
 import WapSelect from '../../components/wap-select';
+import WapSwitch from '../../components/wap-switch';
 
 const PresetQuickEdit = ({
   visible,
@@ -251,7 +252,7 @@ const PresetQuickEdit = ({
         <ControlWrapper
           label={__('Active', 'website-accessibility')}
         >
-          <Switch
+          <WapSwitch
             checked={presetsFormData?.preset?.active}
             onChange={handleActiveChange}
           />

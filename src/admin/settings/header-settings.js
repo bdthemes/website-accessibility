@@ -1,4 +1,3 @@
-import { Tabs, Input, Switch, Select, Collapse } from "antd";
 import { __ } from "@wordpress/i18n";
 import ControlWrapper from "../components/control-wrapper";
 import { useSelect, useDispatch } from "@wordpress/data";
@@ -44,7 +43,7 @@ const ContentTab = ({ presetsFormData, setPresetsFormData }) => {
             </ControlWrapper>
 
             <ControlWrapper label={__("Show Close Button", "website-accessibility")}>
-                <Switch
+                <WapSelect
                     checked={attributes.showClose !== false}
                     onChange={(checked) => updateAttr({ showClose: checked })}
                 />

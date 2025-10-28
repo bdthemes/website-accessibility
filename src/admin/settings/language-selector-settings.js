@@ -1,10 +1,10 @@
-import { Collapse, Radio, Switch } from 'antd';
 import WapRadio from '../../components/wap-radio';
 import { useSelect, useDispatch } from '@wordpress/data';
 import { STORE_NAME } from '../store';
 import ControlWrapper from '../components/control-wrapper';
 import { __ } from '@wordpress/i18n';
 import WapCollapse from '../../components/wap-collapse';
+import WapSwitch from '../../components/wap-switch';
 
 const LanguageSelectorSettings = () => {
   const { presetsFormData } = useSelect((select) => select(STORE_NAME).getPresetsFormData());
@@ -50,13 +50,13 @@ const LanguageSelectorSettings = () => {
       children: (
         <>
           <ControlWrapper label={__('Hide Flag', 'website-accessibility')}>
-            <Switch
+            <WapSwitch
               checked={attributes.hideHeaderFlag}
               onChange={(checked) => updateAttr({ hideHeaderFlag: checked })}
             />
           </ControlWrapper>
           <ControlWrapper label={__('Hide Language Code badge', 'website-accessibility')}>
-            <Switch
+            <WapSwitch
               checked={attributes.hideHeaderLanguageCode}
               onChange={(checked) => updateAttr({ hideHeaderLanguageCode: checked })}
             />
@@ -70,13 +70,13 @@ const LanguageSelectorSettings = () => {
       children: (
         <>
           <ControlWrapper label={__('Hide Flag', 'website-accessibility')}>
-            <Switch
+            <WapSwitch
               checked={attributes.hideBodyFlag}
               onChange={(checked) => updateAttr({ hideBodyFlag: checked })}
             />
           </ControlWrapper>
           <ControlWrapper label={__('Hide Language Code badge', 'website-accessibility')}>
-            <Switch
+            <WapSwitch
               checked={attributes.hideBodyLanguageCode}
               onChange={(checked) => updateAttr({ hideBodyLanguageCode: checked })}
             />

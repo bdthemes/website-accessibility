@@ -12,7 +12,9 @@ import WapFlex from '../../components/wap-flex';
 import WapButton from '../../components/wap-button';
 import WapCollapse from '../../components/wap-collapse';
 import WapInput from '../../components/wap-input';
-const { Title } = Typography;
+import WapSwitch from '../../components/wap-switch';
+import WapTypography from '../../components/wap-typography';
+const { Title } = WapTypography;
 
 const FeatureSettings = () => {
     const [openCustomizationModal, setOpenCustomizationModal] = useState(false);
@@ -47,7 +49,7 @@ const FeatureSettings = () => {
                     <ControlWrapper
                         label={__('Hide Oversized Widget', 'website-accessibility')}
                     >
-                        <Switch
+                        <WapSwitch
                             checked={attributes?.hideOversizedWidget || false}
                             onChange={(checked) => updateAttr({ hideOversizedWidget: checked })}
                         />
@@ -110,12 +112,12 @@ const FeatureSettings = () => {
                     <ControlWrapper
                         label={__('Hide Title', 'website-accessibility')}
                     >
-                        <Switch checked={attributes.hideHeaderTitle} onChange={(checked) => updateAttr({ hideHeaderTitle: checked })} />
+                        <WapSwitch checked={attributes.hideHeaderTitle} onChange={(checked) => updateAttr({ hideHeaderTitle: checked })} />
                     </ControlWrapper>
                     <ControlWrapper
                         label={__('Hide Icon', 'website-accessibility')}
                     >
-                        <Switch checked={attributes.hideHeaderIcon} onChange={(checked) => updateAttr({ hideHeaderIcon: checked })} />
+                        <WapSwitch checked={attributes.hideHeaderIcon} onChange={(checked) => updateAttr({ hideHeaderIcon: checked })} />
                     </ControlWrapper>
                 </>
             )
@@ -128,12 +130,12 @@ const FeatureSettings = () => {
                     <ControlWrapper
                         label={__('Hide Item Icons', 'website-accessibility')}
                     >
-                        <Switch checked={attributes.hideItemIcons} onChange={(checked) => updateAttr({ hideItemIcons: checked })} />
+                        <WapSwitch checked={attributes.hideItemIcons} onChange={(checked) => updateAttr({ hideItemIcons: checked })} />
                     </ControlWrapper>
                     <ControlWrapper
                         label={__('Hide Item Labels', 'website-accessibility')}
                     >
-                        <Switch checked={attributes.hideItemLabels} onChange={(checked) => updateAttr({ hideItemLabels: checked })} />
+                        <WapSwitch checked={attributes.hideItemLabels} onChange={(checked) => updateAttr({ hideItemLabels: checked })} />
                     </ControlWrapper>
                 </>
             )

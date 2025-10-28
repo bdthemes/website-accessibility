@@ -1,4 +1,3 @@
-import { Tabs, Collapse, Input, Switch } from 'antd';
 import { useSelect, useDispatch } from '@wordpress/data';
 import { STORE_NAME } from '../store';
 import ControlWrapper from '../components/control-wrapper';
@@ -7,6 +6,7 @@ import ColorPicker from '../controls/color-picker';
 import WapCollapse from '../../components/wap-collapse';
 import WapInput from '../../components/wap-input';
 import WapTabs from '../../components/wap-tabs';
+import WapSwitch from '../../components/wap-switch';
 
 const FooterSettings = () => {
     const { presetsFormData } = useSelect((select) => select(STORE_NAME).getPresetsFormData());
@@ -56,7 +56,7 @@ const FooterSettings = () => {
                             children: (
                                 <>
                                     <ControlWrapper label={__('Active Preference', 'website-accessibility')}>
-                                        <Switch checked={attributes.activePreference || false} onChange={checked => updateAttr({ activePreference: checked })} />
+                                        <WapSwitch checked={attributes.activePreference || false} onChange={checked => updateAttr({ activePreference: checked })} />
                                     </ControlWrapper>
                                     {
                                         attributes?.activePreference && (
@@ -94,7 +94,7 @@ const FooterSettings = () => {
                             children: (
                                 <>
                                     <ControlWrapper label={__('Show Accessibility Statement', 'website-accessibility')}>
-                                        <Switch checked={attributes.showStatement !== false} onChange={checked => updateAttr({ showStatement: checked })} />
+                                        <WapSwitch checked={attributes.showStatement !== false} onChange={checked => updateAttr({ showStatement: checked })} />
                                     </ControlWrapper>
                                     <ControlWrapper label={__('Accessibility Statement Text', 'website-accessibility')}>
                                         <WapInput
@@ -107,7 +107,7 @@ const FooterSettings = () => {
                                         isProActive && (
                                             <>
                                                 <ControlWrapper label={__('Show Branding', 'website-accessibility')}>
-                                                    <Switch checked={attributes.showBranding !== false} onChange={checked => updateAttr({ showBranding: checked })} />
+                                                    <WapSwitch checked={attributes.showBranding !== false} onChange={checked => updateAttr({ showBranding: checked })} />
                                                 </ControlWrapper>
                                                 <ControlWrapper label={__('Branding Text', 'website-accessibility')}>
                                                     <WapInput
