@@ -15,6 +15,7 @@ import statementJson from "../../../default-posts/statement.json";
 import WapCard from "../../components/wap-card";
 import WapButton from "../../components/wap-button";
 import WapSpace from "../../components/wap-space";
+import WapAlert from "../../components/wap-alert";
 
 const StatementSetting = () => {
     const [page, setPage] = useState(null);
@@ -106,7 +107,7 @@ const StatementSetting = () => {
                     </Text>
 
                     {!loading && !page && (
-                        <Alert
+                        <WapAlert
                             message={__(
                                 "No Accessibility Statement page found. Click the button to generate one.",
                                 "website-accessibility"

@@ -1,6 +1,7 @@
 import { Alert } from "antd";
 import { useState, useEffect } from "@wordpress/element";
 import { __ } from "@wordpress/i18n";
+import WapAlert from "../../components/wap-alert";
 
 const Description = () => {
     return (
@@ -36,7 +37,7 @@ const Disclaimer = () => {
 
     return visible ? (
         <div className="wap-disclaimer">
-            <Alert
+            <WapAlert
                 message={__("Disclaimer for Site Administrators", "website-accessibility")}
                 description={ <Description /> }
                 type="info"
