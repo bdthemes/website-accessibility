@@ -6,6 +6,7 @@ import { __ } from '@wordpress/i18n';
 import ColorPicker from '../controls/color-picker';
 import WapCollapse from '../../components/wap-collapse';
 import WapInput from '../../components/wap-input';
+import WapTabs from '../../components/wap-tabs';
 
 const FooterSettings = () => {
     const { presetsFormData } = useSelect((select) => select(STORE_NAME).getPresetsFormData());
@@ -205,7 +206,7 @@ const FooterSettings = () => {
     ];
 
     return (
-        <Tabs defaultActiveKey="content" items={tabItems} />
+        <WapTabs defaultActiveKey="content" items={tabItems} />
     );
 };
 

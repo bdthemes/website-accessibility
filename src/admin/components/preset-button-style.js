@@ -11,6 +11,7 @@ import WapCard from "../../components/wap-card";
 import WapSelect from "../../components/wap-select";
 import WapInput from "../../components/wap-input";
 import WapRadio from "../../components/wap-radio";
+import WapTabs from "../../components/wap-tabs";
 
 const ContentTab = ({ button, handleButtonChange }) => (
 	<>
@@ -129,7 +130,7 @@ const ButtonStylePreset = () => {
 		<WapCard className="wap-button-style-preset-card" style={{ margin: "0 auto" }}>
 			<div className="wap-button-style-preset">
 				<div className="wap-button-style-preset__left">
-					<Tabs defaultActiveKey="content" items={tabItems} />
+					<WapTabs defaultActiveKey="content" items={tabItems} />
 				</div>
 				<div className="wap-button-style-preset__center">
 					<div className="wap-os-style-wrapper">
