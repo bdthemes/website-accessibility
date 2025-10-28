@@ -7,6 +7,7 @@ import ColorPicker from "../controls/color-picker";
 import WapCollapse from "../../components/wap-collapse";
 import WapInput from "../../components/wap-input";
 import WapTabs from "../../components/wap-tabs";
+import WapSelect from "../../components/wap-select";
 
 const ContentTab = ({ presetsFormData, setPresetsFormData }) => {
     const { items } = presetsFormData?.panel || {};

@@ -6,7 +6,7 @@ import WapRow from '../../components/wap-row';
 import WapCol from '../../components/wap-col';
 import WapInput from '../../components/wap-input';
 import WapSpace from '../../components/wap-space';
-import WapSelectComponent from '../../components/wap-select';
+import WapSelect from '../../components/wap-select';
 
 const { TextArea } = Input;
 const { Text } = Typography;
@@ -285,7 +285,7 @@ const ProfileForm = ({ formData, onFormChange }) => {
         switch (feature.control) {
             case 'select':
                 return (
-                    <WapSelectComponent
+                    <WapSelect
                         key={feature.key}
                         value={value || ''}
                         onChange={(val) => handleFeatureChange(feature.key, val)}

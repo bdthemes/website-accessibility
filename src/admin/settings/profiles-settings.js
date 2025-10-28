@@ -8,7 +8,7 @@ import ControlWrapper from '../components/control-wrapper';
 import { __ } from '@wordpress/i18n';
 import WapInput from '../../components/wap-input';
 import WapSpace from '../../components/wap-space';
-import WapSelectComponent from '../../components/wap-select';
+import WapSelect from '../../components/wap-select';
 
 const ProfilesSettings = () => {
     const profilesRaw = useSelect((select) => {
@@ -90,7 +90,7 @@ const ProfilesSettings = () => {
                     style={{ maxHeight: 200, overflow: 'auto' }}
                     onWheel={(e) => e.stopPropagation()} // prevent parent/page scroll
                 >
-                    <WapSelectComponent
+                    <WapSelect
                         mode="multiple"
                         allowClear
                         showSearch

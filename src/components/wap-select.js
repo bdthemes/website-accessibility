@@ -29,9 +29,4 @@ const WapSelect = (props) => {
 
 
 WapSelect.Option = Option;
-
-
-const WapSelectComponent = WapSelect;
-WapSelectComponent.Option = Option;
-
-export default WapSelectComponent;
+export default WapSelect;
