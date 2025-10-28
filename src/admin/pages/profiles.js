@@ -1,4 +1,4 @@
-import { Card, Button, Typography, Dropdown , Space} from 'antd';
+import { Card, Button, Typography, Dropdown, Space } from 'antd';
 import { __ } from '@wordpress/i18n';
 import PostTable from '../components/post-table';
 import { useHistory } from '../router';
@@ -8,8 +8,10 @@ import ProfilesFallback from '../components/profiles-fallback';
 import WapCard from '../../components/wap-card';
 import WapButton from '../../components/wap-button';
 import WapSpace from '../../components/wap-space';
+import WapDropdown from '../../components/wap-dropdown';
+import WapTypography from '../../components/wap-typography';
 
-const { Title } = Typography;
+const { Title } = WapTypography;
 
 const Profiles = () => {
   const isProActive = window?.websacPro?.isProActive || false;
@@ -67,9 +69,9 @@ const Profiles = () => {
   })) || [];
 
   const columns = [
-    { 
-      title: __('Name', 'website-accessibility'), 
-      dataIndex: 'name', 
+    {
+      title: __('Name', 'website-accessibility'),
+      dataIndex: 'name',
       key: 'name',
       render: (text, record) => (
         <div>
@@ -83,16 +85,16 @@ const Profiles = () => {
         </div>
       )
     },
-    { 
-      title: __('Created', 'website-accessibility'), 
-      dataIndex: 'created', 
+    {
+      title: __('Created', 'website-accessibility'),
+      dataIndex: 'created',
       key: 'created'
     },
     {
       title: __('Actions', 'website-accessibility'),
       key: 'actions',
       render: (_, record) => (
-        <Dropdown
+        <WapDropdown
           menu={{
             items: [
               { key: 'edit', label: 'Edit', onClick: () => handleRowAction('edit', record) },
@@ -102,7 +104,7 @@ const Profiles = () => {
           trigger={['click']}
         >
           <WapButton icon={<span className="dashicons dashicons-ellipsis" />} />
-        </Dropdown>
+        </WapDropdown>
       ),
     }
   ];
@@ -116,25 +118,25 @@ const Profiles = () => {
   return (
     <div className="wap-profiles">
       <WapCard className='wap-header-card'>
-          <Title level={2} className='wap-header-card-title'>
-            {__('User Accessibility Profiles', 'website-accessibility')}
-          </Title>
-          <WapButton 
-                type="primary" 
-                onClick={handleCreateProfile}
-                size='large'
-              >
-                <WapSpace>
-                  <span className="dashicons dashicons-plus-alt2"/>
-                  {__('Add New Profile', 'website-accessibility')}
-                </WapSpace>
-              </WapButton>
+        <Title level={2} className='wap-header-card-title'>
+          {__('User Accessibility Profiles', 'website-accessibility')}
+        </Title>
+        <WapButton
+          type="primary"
+          onClick={handleCreateProfile}
+          size='large'
+        >
+          <WapSpace>
+            <span className="dashicons dashicons-plus-alt2" />
+            {__('Add New Profile', 'website-accessibility')}
+          </WapSpace>
+        </WapButton>
       </WapCard>
       <WapCard >
         <div>
-          <PostTable 
-            columns={columns} 
-            data={tableData} 
+          <PostTable
+            columns={columns}
+            data={tableData}
             onRowAction={handleRowAction}
             onBulkAction={handleBulkAction}
             loading={!profiles}

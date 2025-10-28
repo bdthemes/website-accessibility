@@ -1,5 +1,4 @@
-import { __ } from '@wordpress/i18n';
-import { Button, Card, Col, Row, Typography, Layout } from 'antd';  
+import { __ } from '@wordpress/i18n'; 
 import { RocketOutlined } from '@ant-design/icons';
 import createProfileImage from '../../assets/create-profile.gif';
 import addProileImage from '../../assets/add-profile.gif';
@@ -8,9 +7,10 @@ import WapCard from '../../components/wap-card';
 import WapButton from '../../components/wap-button';
 import WapRow from '../../components/wap-row';
 import WapCol from '../../components/wap-col';
+import WapTypography from '../../components/wap-typography';
 
-const { Title, Paragraph, Text } = Typography;
-const { Space } = Layout;
+const { Title, Paragraph, Text } = WapTypography;
+
 
 const ProfilesFallback = () => {
   const openPricingPage = () => {

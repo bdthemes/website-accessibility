@@ -4,6 +4,7 @@ import WapButton from '../../components/wap-button';
 import WapInput from '../../components/wap-input';
 import WapSpace from '../../components/wap-space';
 import WapTable from '../../components/wap-table';
+import WapDropdown from '../../components/wap-dropdown';
 
 /**
  * PostTable - WordPress-style post table with Ant Design
@@ -55,7 +56,7 @@ const PostTable = ({
         title: 'Actions',
         key: 'actions',
         render: (_, record) => (
-          <Dropdown
+          <WapDropdown
             menu={{
               items: [
                 {
@@ -83,7 +84,7 @@ const PostTable = ({
             trigger={['click']}
           >
             <WapButton icon={<span className="dashicons dashicons-ellipsis" />} />
-          </Dropdown>
+          </WapDropdown>
         ),
       },
     ];
@@ -100,7 +101,7 @@ const PostTable = ({
           allowClear
         />
         {selectedRowKeys.length > 0 && (
-          <Dropdown
+          <WapDropdown
             menu={{
               items: [
                 {
@@ -118,7 +119,7 @@ const PostTable = ({
             <WapButton type="primary">
               Bulk Actions <span className="dashicons dashicons-arrow-down-alt2" />
             </WapButton>
-          </Dropdown>
+          </WapDropdown>
         )}
       </WapSpace>
       <WapTable
