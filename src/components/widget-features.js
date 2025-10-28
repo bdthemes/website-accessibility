@@ -6,6 +6,7 @@ import WapCard from "./wap-card";
 import WapRow from "./wap-row";
 import WapCol from "./wap-col";
 import WapSwitch from "./wap-switch";
+import WapBadge from "./wap-badge";
 
 const WidgetFeatures = ({
 	value,
@@ -197,7 +198,7 @@ const WidgetFeatures = ({
 
 							{
 								isDummy && (
-									<Badge count={__("PRO", "website-accessibility")} color="gold" className="wap-widget-features-dummy"/>
+									<WapBadge count={__("PRO", "website-accessibility")} color="gold" className="wap-widget-features-dummy"/>
 								)
 							}
 

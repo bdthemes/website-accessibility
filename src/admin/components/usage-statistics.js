@@ -7,6 +7,7 @@ import WapCard from "../../components/wap-card";
 import WapRow from "../../components/wap-row";
 import WapCol from "../../components/wap-col";
 import WapSelect from "../../components/wap-select";
+import WapBadge from "../../components/wap-badge";
 
 const { Meta } = Card;
 const { Title } = Typography;
@@ -96,7 +97,7 @@ const UsageStatistics = () => {
                                 >
                                     {
                                         stat.isDummy && (
-                                            <Badge color="gold" count={__("PRO", "website-accessibility")} className="wap-statistics-card-dummy" />
+                                            <WapBadge color="gold" count={__("PRO", "website-accessibility")} className="wap-statistics-card-dummy" />
                                         )
                                     }
                                     <Meta

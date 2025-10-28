@@ -5,6 +5,7 @@ import { __ } from "@wordpress/i18n";
 import WapCard from "../../components/wap-card";
 import WapInput from "../../components/wap-input";
 import WapSwitch from "../../components/wap-switch";
+import WapBadge from "../../components/wap-badge";
 
 const FeaturesCustomization = ({ attributes, updateAttr }) => {
     const features = window?.wapHelpers?.features || [];
@@ -72,7 +73,7 @@ const FeaturesCustomization = ({ attributes, updateAttr }) => {
                                                 }}
                                             />
                                         ) : (
-                                            <Badge color="gold" count={__('PRO', 'website-accessibility')} />
+                                            <WapBadge color="gold" count={__('PRO', 'website-accessibility')} />
                                         )
                                     }
                                 </>

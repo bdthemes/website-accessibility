@@ -19,6 +19,7 @@ import WapCard from "../../components/wap-card";
 import WapRow from "../../components/wap-row";
 import WapCol from "../../components/wap-col";
 import WapDrawer from "../../components/wap-drawer";
+import WapBadge from "../../components/wap-badge";
 
 const PresetPanelLeftSidebar = () => {
   const [drawerVisible, setDrawerVisible] = useState(false);
@@ -125,7 +126,7 @@ const PresetPanelLeftSidebar = () => {
                     />
                   )}
                   {item?.isPro && !isProActive ? (
-                    <Badge
+                    <WapBadge
                       count="Pro"
                       style={{
                         backgroundColor: '#f5222d',
