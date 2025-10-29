@@ -3,7 +3,6 @@ import { STORE_NAME } from "../store";
 import { useLocation } from "../router";
 import clsx from "clsx";
 import { useState, useMemo } from '@wordpress/element';
-import { Drawer } from 'antd';
 import WapDrawer from "../../components/wap-drawer";
 
 const PreviewPreset = () => {

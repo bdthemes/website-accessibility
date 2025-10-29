@@ -1,15 +1,17 @@
-import { Card, Button, Typography, Tag, Space } from 'antd';
 import { __ } from '@wordpress/i18n';
 import PostTable from '../components/post-table';
 import PresetQuickEdit from '../components/preset-quick-edit';
 import { useHistory } from '../router';
-const { Title } = Typography;
 import { useSelect, useDispatch } from "@wordpress/data";
 import { STORE_NAME } from "../store";
 import { useMemo, useState } from '@wordpress/element';
 import WapCard from '../../components/wap-card';
 import WapButton from '../../components/wap-button';
 import WapSpace from '../../components/wap-space';
+import WapTypography from '../../components/wap-typography';
+import WapTag from '../../components/wap-tag';
+
+const { Title } = WapTypography;
 
 
 const columns = [
@@ -76,7 +78,7 @@ const Presets = () => {
       name: preset?.title?.rendered,
       created: new Date(preset?.date).toLocaleDateString('en-US', { year: 'numeric', month: 'long', day: 'numeric' }),
       condition: conditionText,
-      status: presetData?.active ? <Tag color="green">Active</Tag> : <Tag color="red">Inactive</Tag>,
+      status: presetData?.active ? <WapTag color="green">Active</WapTag> : <WapTag color="red">Inactive</WapTag>,
     };
   });
 

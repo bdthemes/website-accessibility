@@ -1,5 +1,4 @@
 import { useState, useEffect } from "@wordpress/element";
-import { Card, Typography, Row, Col, Select, Skeleton, Empty, Flex, Badge } from "antd";
 import { __ } from "@wordpress/i18n";
 import apiFetch from "@wordpress/api-fetch";
 import WapFlex from "../../components/wap-flex";
@@ -9,6 +8,8 @@ import WapCol from "../../components/wap-col";
 import WapSelect from "../../components/wap-select";
 import WapBadge from "../../components/wap-badge";
 import WapTypography from "../../components/wap-typography";
+import WapSkeleton from "../../components/wap-skeleton";
+import WapEmpty from "../../components/wap-empty";
 
 const { Meta } = WapCard;
 const { Title } = WapTypography;
@@ -77,10 +78,10 @@ const UsageStatistics = () => {
             >
                 {loading ? (
                     <div style={{ textAlign: "center", padding: "40px 0" }}>
-                        <Skeleton />
+                        <WapSkeleton />
                     </div>
                 ) : stats?.length === 0 ? (
-                    <Empty
+                    <WapEmpty
                         description={__("No statistics available yet.", "website-accessibility")}
                         style={{ padding: "40px 0" }}
                     />
