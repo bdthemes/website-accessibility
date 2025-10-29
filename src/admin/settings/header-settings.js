@@ -6,6 +6,7 @@ import ColorPicker from "../controls/color-picker";
 import WapCollapse from "../../components/wap-collapse";
 import WapInput from "../../components/wap-input";
 import WapTabs from "../../components/wap-tabs";
+import WapSwitch from "../../components/wap-switch";
 import WapSelect from "../../components/wap-select";
 
 const ContentTab = ({ presetsFormData, setPresetsFormData }) => {
@@ -43,7 +44,7 @@ const ContentTab = ({ presetsFormData, setPresetsFormData }) => {
             </ControlWrapper>
 
             <ControlWrapper label={__("Show Close Button", "website-accessibility")}>
-                <WapSelect
+                <WapSwitch
                     checked={attributes.showClose !== false}
                     onChange={(checked) => updateAttr({ showClose: checked })}
                 />
