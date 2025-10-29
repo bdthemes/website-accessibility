@@ -8,4 +8,7 @@ const WapCard = (props) => {
     );
 };
 
+// expose AntD Card.Meta so callers can use `WapCard.Meta`
+WapCard.Meta = Card.Meta;
+
 export default WapCard;

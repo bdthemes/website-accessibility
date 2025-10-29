@@ -24,6 +24,18 @@ import WapAlert from './wap-alert';
 import WapRadio from './wap-radio';
 import WapSelect from './wap-select';
 import WapSpace from './wap-space';
+import WapSkeleton from './wap-skeleton';
+import WapBadge from './wap-badge';
+import WapAvatar from './wap-avatar';
+import WapSpin from './wap-spin';
+import WapTag from './wap-tag';
+import WapProgress from './wap-progress';
+import WapModal from './wap-modal';
+import WapTooltip from './wap-tooltip';
+import WapDropdown from './wap-dropdown';
+import WapList from './wap-list';
+import WapSteps from './wap-steps';
+import WapTable from './wap-table';
 
 window.wapComponents = {
     AccessibilityProfiles,
@@ -45,6 +57,18 @@ window.wapComponents = {
     WapRadio,
     WapSelect,
     WapSpace,
+    WapSkeleton,
+    WapAvatar,
+    WapSpin,
+    WapBadge,
+    WapTag,
+    WapProgress,
+    WapModal,
+    WapTooltip,
+    WapDropdown,
+    WapList,
+    WapSteps,
+    WapTable,
 }
 
 window.wapHelpers = {

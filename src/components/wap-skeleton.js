@@ -1,3 +1,5 @@
+import { Skeleton } from "antd";
+
 const WapSkeleton = () => {
     return (
         <Skeleton />
