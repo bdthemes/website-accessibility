@@ -6,4 +6,6 @@ const WapInput = ({...props}) => {
     )
 }
 
+WapInput.TextArea = Input.TextArea;
+
 export default WapInput;
