@@ -5,6 +5,7 @@ import { useState, useEffect, useCallback, useMemo } from '@wordpress/element';
 import apiFetch from '@wordpress/api-fetch';
 import WapFlex from './wap-flex';
 import WapButton from './wap-button';
+import WapMessage from './wap-message';
 
 // Simple debounce helper
 const debounce = (fn, delay = 1000) => {
@@ -35,7 +36,7 @@ const PanelFooter = ({ value, accessibilityContext, accessibilityDispatch }) => 
   }, []);
 
   // ✅ Ant Design message
-  const [messageApi, contextHolder] = message.useMessage();
+  const [messageApi, contextHolder] = WapMessage.useMessage();
 
   const footerItem = value?.items?.find(item => item.slug === 'footer');
   const attributes = footerItem?.attributes || {};

@@ -1,4 +1,3 @@
-import { Drawer, Input, Switch, Button, Space, message, Select } from 'antd';
 import { __ } from '@wordpress/i18n';
 import { useEffect, useState } from '@wordpress/element';
 import { useSelect, useDispatch } from '@wordpress/data';
@@ -13,6 +12,7 @@ import WapDrawer from '../../components/wap-drawer';
 import WapSpace from '../../components/wap-space';
 import WapSelect from '../../components/wap-select';
 import WapSwitch from '../../components/wap-switch';
+import WapMessage from '../../components/wap-message';
 
 const PresetQuickEdit = ({
   visible,
@@ -112,7 +112,7 @@ const PresetQuickEdit = ({
 
       await saveEditedPreset(preset.id);
 
-      message.success({
+      WapMessage.success({
         content: __('Preset updated successfully', 'website-accessibility'),
         style: { marginBlockStart: 30 },
       });

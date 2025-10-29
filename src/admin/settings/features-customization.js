@@ -1,7 +1,7 @@
 import { useState } from "@wordpress/element";
-import { List, Switch, Badge } from "antd";
 import { SearchOutlined } from "@ant-design/icons";
 import { __ } from "@wordpress/i18n";
+import WapList from "../../components/wap-list";
 import WapCard from "../../components/wap-card";
 import WapInput from "../../components/wap-input";
 import WapSwitch from "../../components/wap-switch";
@@ -26,7 +26,7 @@ const FeaturesCustomization = ({ attributes, updateAttr }) => {
                 style={{ marginBottom: 16 }}
                 allowClear
             />
-            <List
+            <WapList
                 dataSource={filteredFeatures}
                 itemLayout="horizontal"
                 renderItem={(feature) => {
@@ -34,7 +34,7 @@ const FeaturesCustomization = ({ attributes, updateAttr }) => {
                     const isCurrentActive = currentItem ? currentItem[feature?.key]?.active : true;
                     const isDummy = feature?.isDummy;
                     return (
-                        <List.Item
+                        <WapList.Item
                             key={feature?.key}
                             actions={[
                                 <>
@@ -79,11 +79,11 @@ const FeaturesCustomization = ({ attributes, updateAttr }) => {
                                 </>
                             ]}
                         >
-                            <List.Item.Meta
+                            <WapList.Item.Meta
                                 avatar={feature?.icon}
                                 title={feature?.label}
                             />
-                        </List.Item>
+                        </WapList.Item>
                     );
                 }}
             />

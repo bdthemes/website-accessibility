@@ -1,4 +1,3 @@
-import { Card, Input, Row, Col, Select, Switch, Space, Typography } from 'antd';
 import { __ } from '@wordpress/i18n';
 import ControlWrapper from './control-wrapper';
 import WapCard from '../../components/wap-card';
@@ -8,9 +7,10 @@ import WapInput from '../../components/wap-input';
 import WapSpace from '../../components/wap-space';
 import WapSelect from '../../components/wap-select';
 import WapSwitch from '../../components/wap-switch';
+import WapTypography from '../../components/wap-typography';
 
-const { TextArea } = Input;
-const { Text } = Typography;
+const { TextArea } = WapInput;
+const { Text } = WapTypography;
 
 // Widget features with their control options
 const widgetFeatures = [

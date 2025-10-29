@@ -4,7 +4,6 @@ import {
   EyeInvisibleOutlined,
   MenuOutlined,
 } from "@ant-design/icons";
-import { Card, Row, Col, Drawer, Badge } from "antd";
 import { ReactSortable } from "react-sortablejs";
 import { useState, useRef, useEffect } from "@wordpress/element";
 import { __ } from "@wordpress/i18n";

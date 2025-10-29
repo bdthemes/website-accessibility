@@ -1,5 +1,4 @@
 import { useEffect } from '@wordpress/element';
-import { Card, Button, Typography, Space, message } from 'antd';
 import { __ } from '@wordpress/i18n';
 import { useDispatch, useSelect } from '@wordpress/data';
 import { DEFAULT_STATE, STORE_NAME } from '../store';
@@ -8,8 +7,10 @@ import ProfileForm from '../components/profile-form';
 import WapCard from '../../components/wap-card';
 import WapButton from '../../components/wap-button';
 import WapSpace from '../../components/wap-space';
+import WapTypography from '../../components/wap-typography';
+import WapMessage from '../../components/wap-message';
 
-const { Title, Text } = Typography;
+const { Title, Text } = WapTypography;
 
 const EditProfile = () => {
     const history = useHistory();
@@ -54,7 +55,7 @@ const EditProfile = () => {
             }
             await updateProfile(id, updatedProfile);
             await saveEditedProfile(id);
-            message.success({
+            WapMessage.success({
                 content: __('Profile updated successfully!', 'website-accessibility'),
                 style: { marginBlockStart: 30 },
             });

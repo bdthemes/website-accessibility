@@ -5,8 +5,10 @@ import { __ } from "@wordpress/i18n";
 import SettingsItem from "../components/settings-item";
 import StatementSetting from "../components/statement-setting";
 import WapCard from "../../components/wap-card";
+import WapTypography from "../../components/wap-typography";
+import WapMessage from "../../components/wap-message";
 
-const { Title } = Typography;
+const { Title } = WapTypography;
 
 const Settings = () => {
     const { isProActive } = window?.websacPro || {};
@@ -24,7 +26,7 @@ const Settings = () => {
             setSettings(res?.data || {});
         } catch (error) {
             console.error("Failed to load settings:", error);
-            message.error(__("Failed to load settings.", "website-accessibility"));
+            WapMessage.error(__("Failed to load settings.", "website-accessibility"));
         } finally {
             setLoading(false);
         }
@@ -40,13 +42,13 @@ const Settings = () => {
                 data: { [key]: value },
             });
             setSettings((prev) => ({ ...prev, [key]: value }));
-            message.success({
+            WapMessage.success({
                 content: __("Settings saved successfully.", "website-accessibility"),
                 style: { marginBlockStart: 20 },
             });
         } catch (error) {
             console.error("Failed to save setting:", error);
-            message.error({
+            WapMessage.error({
                 content: __("Failed to save settings.", "website-accessibility"),
                 style: { marginBlockStart: 20 },
             });

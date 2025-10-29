@@ -1,6 +1,5 @@
 import { useState, useMemo, useEffect } from "@wordpress/element";
 import clsx from "clsx";
-import { Drawer } from "antd";
 import useFrontendAccessibility from "./context/useAccessibility";
 import accessibilityManager from "../accessibilty-manager";
 import { __ } from "@wordpress/i18n";

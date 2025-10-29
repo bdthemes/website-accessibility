@@ -8,15 +8,17 @@ import {
 } from "@ant-design/icons";
 import { __ } from "@wordpress/i18n";
 import { addQueryArgs } from "@wordpress/url";
-
-const { Title, Text } = Typography;
-
 import statementJson from "../../../default-posts/statement.json";
 import WapCard from "../../components/wap-card";
 import WapButton from "../../components/wap-button";
 import WapSpace from "../../components/wap-space";
 import WapAlert from "../../components/wap-alert";
 import WapTooltip from "../../components/wap-tooltip";
+import WapMessage from "../../components/wap-message";
+import WapTypography from "../../components/wap-typography";
+
+
+const { Title, Text } = WapTypography;
 
 const StatementSetting = () => {
     const [page, setPage] = useState(null);
@@ -66,13 +68,13 @@ const StatementSetting = () => {
                 },
             });
             setPage(newPage);
-            message.success({
+            WapMessage.success({
                 content: "Accessibility Statement page created successfully.",
                 style: { marginTop: 20 },
             });
         } catch (err) {
             console.error("Error creating statement page:", err);
-            message.error({
+            WapMessage.error({
                 content: "Failed to create Accessibility Statement page.",
                 style: { marginTop: 20 },
             });
