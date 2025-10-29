@@ -7,7 +7,6 @@ const SettingsItem = ({ title, description, checked, onChange, disabled = false 
         <Card
             style={{
                 marginTop: 20,
-                borderRadius: 12,
             }}
         >
             <Space
