@@ -1,12 +1,12 @@
 import { useEffect, useState } from "react";
 import apiFetch from "@wordpress/api-fetch";
-import { Card, Typography, Spin, message } from "antd";
 import { __ } from "@wordpress/i18n";
 import SettingsItem from "../components/settings-item";
 import StatementSetting from "../components/statement-setting";
 import WapCard from "../../components/wap-card";
 import WapTypography from "../../components/wap-typography";
 import WapMessage from "../../components/wap-message";
+import WapSpin from "../../components/wap-spin";
 
 const { Title } = WapTypography;
 
@@ -65,7 +65,7 @@ const Settings = () => {
     if (loading) {
         return (
             <div className="wap-settings-loading">
-                <Spin size="large" />
+                <WapSpin size="large" />
             </div>
         );
     }

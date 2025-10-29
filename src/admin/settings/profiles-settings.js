@@ -1,5 +1,4 @@
 import { useMemo } from '@wordpress/element';
-import { Select, Avatar, Space, Input } from 'antd';
 import WapRadio from '../../components/wap-radio';
 import { UserOutlined } from '@ant-design/icons';
 import { useSelect, useDispatch } from '@wordpress/data';
@@ -9,6 +8,7 @@ import { __ } from '@wordpress/i18n';
 import WapInput from '../../components/wap-input';
 import WapSpace from '../../components/wap-space';
 import WapSelect from '../../components/wap-select';
+import WapAvatar from '../../components/wap-avatar';
 
 const ProfilesSettings = () => {
     const profilesRaw = useSelect((select) => {
@@ -74,7 +74,7 @@ const ProfilesSettings = () => {
     const profileOptions = profiles.map(profile => ({
         label: (
             <WapSpace>
-                <Avatar icon={profile.icon || <UserOutlined />} size="small" />
+                <WapAvatar icon={profile.icon || <UserOutlined />} size="small" />
                 {profile.name}
             </WapSpace>
         ),

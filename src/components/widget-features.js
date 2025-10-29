@@ -1,4 +1,3 @@
-import { Card, Row, Col, Switch, Badge } from "antd";
 import clsx from "clsx";
 import { useMemo } from "@wordpress/element";
 import { __ } from "@wordpress/i18n";

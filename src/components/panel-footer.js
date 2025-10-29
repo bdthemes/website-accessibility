@@ -1,4 +1,3 @@
-import { Button, Flex, message } from 'antd';
 import { DeleteOutlined, ReloadOutlined, SaveOutlined } from '@ant-design/icons';
 import { __ } from '@wordpress/i18n';
 import { useState, useEffect, useCallback, useMemo } from '@wordpress/element';

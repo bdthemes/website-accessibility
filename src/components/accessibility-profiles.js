@@ -1,4 +1,3 @@
-import { Collapse, Row, Col } from "antd";
 import {
 	InfoCircleOutlined,
 	CheckCircleFilled,

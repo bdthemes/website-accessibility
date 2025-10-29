@@ -1,4 +1,3 @@
-import { Card, Button, Typography, Dropdown, Space } from 'antd';
 import { __ } from '@wordpress/i18n';
 import PostTable from '../components/post-table';
 import { useHistory } from '../router';
