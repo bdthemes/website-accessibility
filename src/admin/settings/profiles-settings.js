@@ -1,14 +1,11 @@
 import { useMemo } from '@wordpress/element';
-import WapRadio from '../../components/wap-radio';
 import { UserOutlined } from '@ant-design/icons';
 import { useSelect, useDispatch } from '@wordpress/data';
 import { STORE_NAME } from '../store';
 import ControlWrapper from '../components/control-wrapper';
 import { __ } from '@wordpress/i18n';
-import WapInput from '../../components/wap-input';
-import WapSpace from '../../components/wap-space';
-import WapSelect from '../../components/wap-select';
-import WapAvatar from '../../components/wap-avatar';
+
+const {  WapRadio, WapInput, WapSelect, WapAvatar } = window?.wapComponents;
 
 const ProfilesSettings = () => {
     const profilesRaw = useSelect((select) => {

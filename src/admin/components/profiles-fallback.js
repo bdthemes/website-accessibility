@@ -3,11 +3,8 @@ import { RocketOutlined } from '@ant-design/icons';
 import createProfileImage from '../../assets/create-profile.gif';
 import addProileImage from '../../assets/add-profile.gif';
 import applyProfileImage from '../../assets/apply-profile.gif';
-import WapCard from '../../components/wap-card';
-import WapButton from '../../components/wap-button';
-import WapRow from '../../components/wap-row';
-import WapCol from '../../components/wap-col';
-import WapTypography from '../../components/wap-typography';
+
+const { WapCard, WapButton, WapRow, WapCol, WapTypography } = window?.wapComponents;
 
 const { Title, Paragraph, Text } = WapTypography;
 

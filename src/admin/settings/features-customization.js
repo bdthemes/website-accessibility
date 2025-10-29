@@ -1,11 +1,9 @@
 import { useState } from "@wordpress/element";
 import { SearchOutlined } from "@ant-design/icons";
 import { __ } from "@wordpress/i18n";
-import WapList from "../../components/wap-list";
-import WapCard from "../../components/wap-card";
-import WapInput from "../../components/wap-input";
-import WapSwitch from "../../components/wap-switch";
-import WapBadge from "../../components/wap-badge";
+
+
+const { WapList, WapCard, WapInput, WapSwitch, WapBadge } = window?.wapComponents;
 
 const FeaturesCustomization = ({ attributes, updateAttr }) => {
     const features = window?.wapHelpers?.features || [];

@@ -4,7 +4,8 @@ import useFrontendAccessibility from "./context/useAccessibility";
 import accessibilityManager from "../accessibilty-manager";
 import { __ } from "@wordpress/i18n";
 import apiFetch from "@wordpress/api-fetch";
-import WapDrawer from "../components/wap-drawer";
+
+const { WapDrawer} = window?.wapComponents;
 
 const View = () => {
     const { screenReader = () => null, defaultProfiles = [], useBrowserKey, getCookie, setCookie } = window.wapHelpers || {};

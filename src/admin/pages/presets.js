@@ -5,11 +5,9 @@ import { useHistory } from '../router';
 import { useSelect, useDispatch } from "@wordpress/data";
 import { STORE_NAME } from "../store";
 import { useMemo, useState } from '@wordpress/element';
-import WapCard from '../../components/wap-card';
-import WapButton from '../../components/wap-button';
-import WapSpace from '../../components/wap-space';
-import WapTypography from '../../components/wap-typography';
-import WapTag from '../../components/wap-tag';
+
+
+const { WapCard, WapButton, WapSpace, WapTypography, WapTag } = window?.wapComponents;
 
 const { Title } = WapTypography;
 

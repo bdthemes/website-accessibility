@@ -1,8 +1,5 @@
-import WapCard from "../../components/wap-card";
-import WapSpace from "../../components/wap-space";
-import WapSwitch from "../../components/wap-switch";
-import WapTypography from "../../components/wap-typography";
 
+const { WapCard, WapSpace, WapSwitch, WapTypography } = window?.wapComponents;
 
 const { Title, Text } = WapTypography;
 

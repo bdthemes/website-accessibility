@@ -36,6 +36,9 @@ import WapDropdown from './wap-dropdown';
 import WapList from './wap-list';
 import WapSteps from './wap-steps';
 import WapTable from './wap-table';
+import WapTypography from './wap-typography';
+import WapTabs from './wap-tabs';
+import WapEmpty from './wap-empty';
 
 window.wapComponents = {
     AccessibilityProfiles,
@@ -69,6 +72,9 @@ window.wapComponents = {
     WapList,
     WapSteps,
     WapTable,
+    WapTypography,
+    WapTabs,
+    WapEmpty,
 }
 
 window.wapHelpers = {

@@ -1,7 +1,8 @@
 import { __ } from "@wordpress/i18n";
 import * as icons from "../../assets/icons";
 import Icon from "../../components/icon";
-import WapSelect from "../../components/wap-select";
+
+const { WapSelect } = window?.wapComponents;
 
 const IconPicker = (props) => {
     const options = Object.entries(icons).map(([key, value]) => ({

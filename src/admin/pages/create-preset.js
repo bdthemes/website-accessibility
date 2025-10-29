@@ -4,11 +4,8 @@ import { steps } from '../../utils';
 import { useDispatch, useSelect } from "@wordpress/data";
 import { DEFAULT_STATE, STORE_NAME } from "../store";
 import { useHistory } from '../router';
-import WapCard from '../../components/wap-card';
-import WapButton from '../../components/wap-button';
-import WapSpace from '../../components/wap-space';
-import WapTypography from '../../components/wap-typography';
-import WapSteps from '../../components/wap-steps';
+
+const { WapCard, WapButton, WapSpace, WapTypography, WapSteps } = window?.wapComponents;
 
 const CreatePreset = () => {
   const [current, setCurrent] = useState(0);

@@ -4,11 +4,9 @@ import { useDispatch, useSelect } from '@wordpress/data';
 import { DEFAULT_STATE, STORE_NAME } from '../store';
 import { useHistory, useLocation } from '../router';
 import ProfileForm from '../components/profile-form';
-import WapCard from '../../components/wap-card';
-import WapButton from '../../components/wap-button';
-import WapSpace from '../../components/wap-space';
-import WapTypography from '../../components/wap-typography';
-import WapMessage from '../../components/wap-message';
+
+
+const { WapCard, WapButton, WapSpace, WapTypography, WapMessage } = window?.wapComponents;
 
 const { Title, Text } = WapTypography;
 

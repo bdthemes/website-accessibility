@@ -1,6 +1,7 @@
 import { useState, useEffect } from "@wordpress/element";
 import { __ } from "@wordpress/i18n";
-import WapAlert from "../../components/wap-alert";
+
+const { WapAlert } = window?.wapComponents;
 
 const Description = () => {
     return (

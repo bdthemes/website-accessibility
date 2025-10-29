@@ -4,11 +4,8 @@ import { useHistory } from '../router';
 import { useSelect, useDispatch } from '@wordpress/data';
 import { STORE_NAME } from '../store';
 import ProfilesFallback from '../components/profiles-fallback';
-import WapCard from '../../components/wap-card';
-import WapButton from '../../components/wap-button';
-import WapSpace from '../../components/wap-space';
-import WapDropdown from '../../components/wap-dropdown';
-import WapTypography from '../../components/wap-typography';
+
+const { WapCard, WapButton, WapSpace, WapDropdown, WapTypography } = window?.wapComponents;
 
 const { Title } = WapTypography;
 

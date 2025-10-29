@@ -7,13 +7,9 @@ import { STORE_NAME } from '../store';
 import ControlWrapper from '../components/control-wrapper';
 import { __ } from '@wordpress/i18n';
 import FeaturesCustomization from './features-customization';
-import WapFlex from '../../components/wap-flex';
-import WapButton from '../../components/wap-button';
-import WapCollapse from '../../components/wap-collapse';
-import WapInput from '../../components/wap-input';
-import WapSwitch from '../../components/wap-switch';
-import WapTypography from '../../components/wap-typography';
-import WapModal from '../../components/wap-modal';
+
+const { WapInput, WapSwitch, WapTypography, WapModal, WapFlex, WapButton } = window?.wapComponents;
+
 const { Title } = WapTypography;
 
 const FeatureSettings = () => {

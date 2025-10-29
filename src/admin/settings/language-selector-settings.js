@@ -1,10 +1,10 @@
-import WapRadio from '../../components/wap-radio';
 import { useSelect, useDispatch } from '@wordpress/data';
 import { STORE_NAME } from '../store';
 import ControlWrapper from '../components/control-wrapper';
 import { __ } from '@wordpress/i18n';
-import WapCollapse from '../../components/wap-collapse';
-import WapSwitch from '../../components/wap-switch';
+
+
+const { WapCollapse, WapRadio, WapSwitch } = window?.wapComponents;
 
 const LanguageSelectorSettings = () => {
   const { presetsFormData } = useSelect((select) => select(STORE_NAME).getPresetsFormData());

@@ -1,6 +1,4 @@
-import WapFlex from "../../components/wap-flex";
-import WapTypography from "../../components/wap-typography";
-import WapTooltip from "../../components/wap-tooltip";
+const { WapFlex, WapTypography, WapTooltip } = window?.wapComponents;
 
 const ControlWrapper = ({ children, label, required, tooltip, noLabel = false, description = '' }) => {
     return (

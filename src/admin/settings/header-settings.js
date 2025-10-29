@@ -2,12 +2,9 @@ import { __ } from "@wordpress/i18n";
 import ControlWrapper from "../components/control-wrapper";
 import { useSelect, useDispatch } from "@wordpress/data";
 import { STORE_NAME } from "../store";
-import ColorPicker from "../controls/color-picker";
-import WapCollapse from "../../components/wap-collapse";
-import WapInput from "../../components/wap-input";
-import WapTabs from "../../components/wap-tabs";
-import WapSwitch from "../../components/wap-switch";
-import WapSelect from "../../components/wap-select";
+
+
+const {  WapInput, WapTabs, WapSwitch, WapSelect , WapCollapse } = window?.wapComponents;
 
 const ContentTab = ({ presetsFormData, setPresetsFormData }) => {
     const { items } = presetsFormData?.panel || {};

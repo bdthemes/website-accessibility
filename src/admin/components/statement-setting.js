@@ -8,13 +8,9 @@ import {
 import { __ } from "@wordpress/i18n";
 import { addQueryArgs } from "@wordpress/url";
 import statementJson from "../../../default-posts/statement.json";
-import WapCard from "../../components/wap-card";
-import WapButton from "../../components/wap-button";
-import WapSpace from "../../components/wap-space";
-import WapAlert from "../../components/wap-alert";
-import WapTooltip from "../../components/wap-tooltip";
-import WapMessage from "../../components/wap-message";
-import WapTypography from "../../components/wap-typography";
+
+
+const { WapCard, WapButton, WapSpace, WapAlert, WapTooltip, WapMessage, WapTypography } = window?.wapComponents;
 
 
 const { Title, Text } = WapTypography;

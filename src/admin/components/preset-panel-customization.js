@@ -3,9 +3,10 @@ import PresetPanelRightSidebar from "./preset-panel-right-sidebar";
 import PreviewContent from "../../components/preview-content";
 import { useSelect } from "@wordpress/data";
 import { STORE_NAME } from "../store";
-import WapCard from "../../components/wap-card";
+
 
 const PanelCustomizationPreset = () => {
+    const { WapCard } = window?.wapComponents;
     const { presetsFormData } = useSelect((select) => select(STORE_NAME).getPresetsFormData());
     const allProfiles = useSelect((select) => {
         const { getProfiles } = select(STORE_NAME);

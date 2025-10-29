@@ -1,15 +1,9 @@
 import { useState, useEffect } from "@wordpress/element";
 import { __ } from "@wordpress/i18n";
 import apiFetch from "@wordpress/api-fetch";
-import WapFlex from "../../components/wap-flex";
-import WapCard from "../../components/wap-card";
-import WapRow from "../../components/wap-row";
-import WapCol from "../../components/wap-col";
-import WapSelect from "../../components/wap-select";
-import WapBadge from "../../components/wap-badge";
-import WapTypography from "../../components/wap-typography";
-import WapSkeleton from "../../components/wap-skeleton";
-import WapEmpty from "../../components/wap-empty";
+
+
+const { WapCard, WapSelect, WapTypography, WapEmpty, WapSkeleton, WapFlex, WapRow, WapCol, WapBadge} = window?.wapComponents;
 
 const { Meta } = WapCard;
 const { Title } = WapTypography;

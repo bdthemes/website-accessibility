@@ -4,14 +4,8 @@ import { useSelect } from '@wordpress/data';
 import { STORE_NAME } from '../store';
 import { useEffect, useState } from '@wordpress/element';
 import Disclaimer from '../components/disclaimer';
-import WapCard from '../../components/wap-card';
-import WapButton from '../../components/wap-button';
-import WapRow from '../../components/wap-row';
-import WapCol from '../../components/wap-col';
-import WapSpace from '../../components/wap-space';
-import WapTypography from '../../components/wap-typography';
-import WapProgress from '../../components/wap-progress';
 
+const { WapCard, WapButton, WapRow, WapCol, WapSpace, WapTypography, WapProgress } = window?.wapComponents;
 
 const { Title, Text } = WapTypography;
 

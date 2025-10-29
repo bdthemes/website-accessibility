@@ -1,4 +1,3 @@
-import WapSelect from "../../components/wap-select";
 import { __ } from "@wordpress/i18n";
 import { useState, useEffect } from "@wordpress/element";
 import { useSelect, useDispatch } from "@wordpress/data";
@@ -7,11 +6,9 @@ import ControlWrapper from "./control-wrapper";
 import { archivePages, locationOptions } from "../../utils";
 import apiFetch from "@wordpress/api-fetch";
 import { addQueryArgs } from "@wordpress/url";
-import WapCard from "../../components/wap-card";
-import WapInput from "../../components/wap-input";
-import WapSwitch from "../../components/wap-switch";
 
 const GetStartedPreset = () => {
+    const { WapCard, WapInput, WapSwitch, WapSelect } = window?.wapComponents;   
     const [posts, setPosts] = useState([]);
     const [searchInput, setSearchInput] = useState('');
     const { presetsFormData } = useSelect((select) => select(STORE_NAME).getPresetsFormData());

@@ -1,13 +1,8 @@
 import { __ } from '@wordpress/i18n';
 import ControlWrapper from './control-wrapper';
-import WapCard from '../../components/wap-card';
-import WapRow from '../../components/wap-row';
-import WapCol from '../../components/wap-col';
-import WapInput from '../../components/wap-input';
-import WapSpace from '../../components/wap-space';
-import WapSelect from '../../components/wap-select';
-import WapSwitch from '../../components/wap-switch';
-import WapTypography from '../../components/wap-typography';
+
+
+const { WapInput,  WapSpace, WapSelect, WapSwitch, WapTypography, WapCol, WapRow, WapCard } = window?.wapComponents;
 
 const { TextArea } = WapInput;
 const { Text } = WapTypography;

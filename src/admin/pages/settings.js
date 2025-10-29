@@ -3,10 +3,8 @@ import apiFetch from "@wordpress/api-fetch";
 import { __ } from "@wordpress/i18n";
 import SettingsItem from "../components/settings-item";
 import StatementSetting from "../components/statement-setting";
-import WapCard from "../../components/wap-card";
-import WapTypography from "../../components/wap-typography";
-import WapMessage from "../../components/wap-message";
-import WapSpin from "../../components/wap-spin";
+
+const { WapCard, WapTypography, WapMessage, WapSpin } = window?.wapComponents;
 
 const { Title } = WapTypography;
 

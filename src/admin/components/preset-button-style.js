@@ -5,14 +5,13 @@ import IconPicker from "./icon-picker";
 import ControlWrapper from "./control-wrapper";
 import clsx from "clsx";
 import ColorPicker from "../controls/color-picker";
-import WapFlex from "../../components/wap-flex";
-import WapCard from "../../components/wap-card";
-import WapSelect from "../../components/wap-select";
-import WapInput from "../../components/wap-input";
-import WapRadio from "../../components/wap-radio";
-import WapTabs from "../../components/wap-tabs";
+
+
+
+const { WapRadio , WapFlex, WapInput, WapCard, WapSelect, WapTabs } = window?.wapComponents;
 
 const ContentTab = ({ button, handleButtonChange }) => (
+
 	<>
 
 		<ControlWrapper label={__("Button Type", "website-accessibility")}>

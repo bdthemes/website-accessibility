@@ -1,9 +1,4 @@
 import { useState } from '@wordpress/element';
-import WapButton from '../../components/wap-button';
-import WapInput from '../../components/wap-input';
-import WapSpace from '../../components/wap-space';
-import WapTable from '../../components/wap-table';
-import WapDropdown from '../../components/wap-dropdown';
 
 /**
  * PostTable - WordPress-style post table with Ant Design
@@ -18,6 +13,9 @@ import WapDropdown from '../../components/wap-dropdown';
  * @param {object} rowSelectionProps - Optional row selection props
  * @param {object} statusMap - Optional status color/label map
  */
+
+const { WapButton, WapInput, WapSpace, WapTable, WapDropdown } = window?.wapComponents;
+
 const PostTable = ({
   columns,
   data,

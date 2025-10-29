@@ -3,10 +3,8 @@ import { STORE_NAME } from '../store';
 import ControlWrapper from '../components/control-wrapper';
 import { __ } from '@wordpress/i18n';
 import ColorPicker from '../controls/color-picker';
-import WapCollapse from '../../components/wap-collapse';
-import WapInput from '../../components/wap-input';
-import WapTabs from '../../components/wap-tabs';
-import WapSwitch from '../../components/wap-switch';
+
+const { WapCollapse, WapInput, WapTabs, WapSwitch } = window?.wapComponents;
 
 const FooterSettings = () => {
     const { presetsFormData } = useSelect((select) => select(STORE_NAME).getPresetsFormData());

@@ -14,13 +14,9 @@ import ProfilesSettings from "../settings/profiles-settings";
 import FeatureSettings from "../settings/feature-settings";
 import LanguageSelectorSettings from "../settings/language-selector-settings";
 import FooterSettings from "../settings/footer-settings";
-import WapCard from "../../components/wap-card";
-import WapRow from "../../components/wap-row";
-import WapCol from "../../components/wap-col";
-import WapDrawer from "../../components/wap-drawer";
-import WapBadge from "../../components/wap-badge";
 
 const PresetPanelLeftSidebar = () => {
+  const { WapCard, WapRow, WapCol, WapDrawer, WapBadge } = window?.wapComponents;
   const [drawerVisible, setDrawerVisible] = useState(false);
   const [selectedItem, setSelectedItem] = useState(null);
   const isProActive = window?.websacPro?.isProActive || false;

@@ -3,10 +3,8 @@ import { useDispatch, useSelect } from '@wordpress/data';
 import { DEFAULT_STATE, STORE_NAME } from '../store';
 import { useHistory } from '../router';
 import ProfileForm from '../components/profile-form';
-import WapCard from '../../components/wap-card';
-import WapButton from '../../components/wap-button';
-import WapSpace from '../../components/wap-space';
-import WapTypography from '../../components/wap-typography';
+
+const { WapCard, WapButton, WapSpace, WapTypography } = window?.wapComponents;
 
 const { Title, Text } = WapTypography;
 
