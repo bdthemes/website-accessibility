@@ -80,7 +80,6 @@ const StatementSetting = () => {
         <Card
             style={{
                 marginTop: 20,
-                borderRadius: 16,
             }}
         >
             <Space
