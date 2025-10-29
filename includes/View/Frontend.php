@@ -138,6 +138,7 @@ class Frontend
             ]);
         }
     }
+
     public function render_preset_root()
     {
         if (!wp_script_is('wap-accessibility-frontend')) {
@@ -147,5 +148,13 @@ class Frontend
         echo '<div id="website-accessibility-app"></div>';
         // Google Translate
         echo '<div id="wap-google-translate-container"></div>';
+        // Admin View Container - Will be used by the admin view script
+        if(
+            current_user_can('manage_options') && 
+            class_exists('\bdthemes\websiteaccessibilitypro\Admin\License') && 
+            \bdthemes\websiteaccessibilitypro\Admin\License::get_instance()->is_license_valid()
+        ) {
+            echo '<div id="website-accessibility-checker"></div>';
+        }
     }
 }
