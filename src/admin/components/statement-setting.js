@@ -1,6 +1,5 @@
 import { useState, useEffect } from "@wordpress/element";
 import apiFetch from "@wordpress/api-fetch";
-import { Card, Button, Typography, Space, Tooltip, message, Alert } from "antd";
 import {
     ReloadOutlined,
     ExclamationCircleOutlined,

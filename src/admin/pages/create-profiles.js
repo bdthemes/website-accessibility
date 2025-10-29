@@ -1,4 +1,3 @@
-import { Card, Button, Typography, Space } from 'antd';
 import { __ } from '@wordpress/i18n';
 import { useDispatch, useSelect } from '@wordpress/data';
 import { DEFAULT_STATE, STORE_NAME } from '../store';
@@ -7,8 +6,9 @@ import ProfileForm from '../components/profile-form';
 import WapCard from '../../components/wap-card';
 import WapButton from '../../components/wap-button';
 import WapSpace from '../../components/wap-space';
+import WapTypography from '../../components/wap-typography';
 
-const { Title, Text } = Typography;
+const { Title, Text } = WapTypography;
 
 const CreateProfiles = () => {
     const { profilesFormData } = useSelect((select) => select(STORE_NAME).getProfilesFormData());

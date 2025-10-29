@@ -1,16 +1,19 @@
-import { Card, Button, Row, Col, Typography, Space, Progress } from 'antd';
 import { __ } from "@wordpress/i18n";
 import { useHistory } from "../router";
 import { useSelect } from '@wordpress/data';
 import { STORE_NAME } from '../store';
 import { useEffect, useState } from '@wordpress/element';
-const { Title, Text } = Typography;
 import Disclaimer from '../components/disclaimer';
 import WapCard from '../../components/wap-card';
 import WapButton from '../../components/wap-button';
 import WapRow from '../../components/wap-row';
 import WapCol from '../../components/wap-col';
 import WapSpace from '../../components/wap-space';
+import WapTypography from '../../components/wap-typography';
+import WapProgress from '../../components/wap-progress';
+
+
+const { Title, Text } = WapTypography;
 
 
 const Dashboard = () => {
@@ -91,7 +94,7 @@ const Dashboard = () => {
             description: __('Users who have saved their accessibility preferences.', 'website-accessibility'),
             icon: <span className="dashicons dashicons-visibility" />,
             action: (
-                <Progress
+                <WapProgress
                     percent={statsData.average_percent || 0}
                     size="small"
                     showInfo={false}

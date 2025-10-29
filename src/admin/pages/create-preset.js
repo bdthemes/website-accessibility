@@ -1,11 +1,4 @@
 import { useState } from '@wordpress/element';
-import {
-  Card,
-  Button,
-  Steps,
-  Space,
-  Typography,
-} from 'antd';
 import { __ } from '@wordpress/i18n';
 import { steps } from '../../utils';
 import { useDispatch, useSelect } from "@wordpress/data";
@@ -14,13 +7,15 @@ import { useHistory } from '../router';
 import WapCard from '../../components/wap-card';
 import WapButton from '../../components/wap-button';
 import WapSpace from '../../components/wap-space';
+import WapTypography from '../../components/wap-typography';
+import WapSteps from '../../components/wap-steps';
 
 const CreatePreset = () => {
   const [current, setCurrent] = useState(0);
   const { presetsFormData } = useSelect((select) => select(STORE_NAME).getPresetsFormData());
   const { setPresetsFormData, createPreset } = useDispatch(STORE_NAME);
   const history = useHistory();
-  const { Title } = Typography;
+  const { Title } = WapTypography;
 
   const handleBack = () => {
     history.push({ page: 'website-accessibility-presets' });
@@ -56,7 +51,7 @@ const CreatePreset = () => {
         </WapButton>
       </WapCard>
 
-      <Steps
+      <WapSteps
         current={current}
         size="small"
         className="wap-preset-steps"

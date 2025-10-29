@@ -1,11 +1,5 @@
-import { message } from "antd";
+import { message } from 'antd';
 
-const WapMessage = ({...props}) => {
-    return (
-        message({
-            ...props
-        })
-    );
-};
+const WapMessage = message;
 
 export default WapMessage;

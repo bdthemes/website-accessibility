@@ -8,10 +8,11 @@ import WapRow from "../../components/wap-row";
 import WapCol from "../../components/wap-col";
 import WapSelect from "../../components/wap-select";
 import WapBadge from "../../components/wap-badge";
+import WapTypography from "../../components/wap-typography";
 
-const { Meta } = Card;
-const { Title } = Typography;
-const { Option } = Select;
+const { Meta } = WapCard;
+const { Title } = WapTypography;
+const { Option } = WapSelect;
 
 const UsageStatistics = () => {
     const [stats, setStats] = useState([]);
