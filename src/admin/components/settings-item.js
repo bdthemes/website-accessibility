@@ -1,9 +1,7 @@
 
-const { WapCard, WapSpace, WapSwitch, WapTypography } = window?.wapComponents;
-
-const { Title, Text } = WapTypography;
-
 const SettingsItem = ({ title, description, checked, onChange, disabled = false }) => {
+    const { WapCard, WapSpace, WapSwitch, WapTypography } = window?.wapComponents;
+    const { Title, Text } = WapTypography;
     return (
         <WapCard
             style={{

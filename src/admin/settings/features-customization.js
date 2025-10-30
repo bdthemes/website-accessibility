@@ -3,9 +3,8 @@ import { SearchOutlined } from "@ant-design/icons";
 import { __ } from "@wordpress/i18n";
 
 
-const { WapList, WapCard, WapInput, WapSwitch, WapBadge } = window?.wapComponents;
-
 const FeaturesCustomization = ({ attributes, updateAttr }) => {
+    const { WapCard, WapInput, WapList, WapSwitch, WapBadge } = window?.wapComponents;
     const features = window?.wapHelpers?.features || [];
     const [searchTerm, setSearchTerm] = useState("");
 

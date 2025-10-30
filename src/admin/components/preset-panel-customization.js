@@ -6,7 +6,7 @@ import { STORE_NAME } from "../store";
 
 
 const PanelCustomizationPreset = () => {
-    const { WapCard } = window?.wapComponents;
+    const {WapCard} = window?.wapComponents;
     const { presetsFormData } = useSelect((select) => select(STORE_NAME).getPresetsFormData());
     const allProfiles = useSelect((select) => {
         const { getProfiles } = select(STORE_NAME);

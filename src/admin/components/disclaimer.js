@@ -1,7 +1,6 @@
 import { useState, useEffect } from "@wordpress/element";
 import { __ } from "@wordpress/i18n";
 
-const { WapAlert } = window?.wapComponents;
 
 const Description = () => {
     return (
@@ -22,6 +21,7 @@ const Description = () => {
 };
 
 const Disclaimer = () => {
+    const { WapAlert } = window?.wapComponents;     
     const [visible, setVisible] = useState(true);
 
     // Optional: Persist dismissal in localStorage

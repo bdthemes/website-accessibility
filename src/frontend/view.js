@@ -9,7 +9,7 @@ const { WapDrawer} = window?.wapComponents;
 
 const View = () => {
     const { screenReader = () => null, defaultProfiles = [], useBrowserKey, getCookie, setCookie } = window.wapHelpers || {};
-    const { PreviewButton, PreviewContent, Icon, GoogleTranslateConsent = () => null } = window?.wapComponents;
+    const { PreviewButton, PreviewContent, Icon,WapDrawer, GoogleTranslateConsent = () => null } = window?.wapComponents;
     const { profiles, currentPreset, currentPresetId, settings, nonce, restUrl } = window?.websiteAccessibility;
     const { dispatch, ...state } = useFrontendAccessibility();
     const [isOpen, setIsOpen] = useState(false);

@@ -1,17 +1,14 @@
 import clsx from "clsx";
 import { useMemo } from "@wordpress/element";
 import { __ } from "@wordpress/i18n";
-import WapCard from "./wap-card";
-import WapRow from "./wap-row";
-import WapCol from "./wap-col";
-import WapSwitch from "./wap-switch";
-import WapBadge from "./wap-badge";
+
 
 const WidgetFeatures = ({
 	value,
 	accessibilityContext,
 	accessibilityDispatch,
 }) => {
+	const {WapCard, WapRow, WapCol, WapSwitch, WapBadge} = window?.wapComponents;
 	const { items } = value;
 	const featureItem = items.find((item) => item.slug === "features");
 	const attributes = featureItem?.attributes || {};

@@ -6,9 +6,8 @@ import { STORE_NAME } from "../store";
 import { useHistory, useLocation } from '../router';
 
 
-const { WapCard, WapButton, WapSpace, WapTypography, WapSteps } = window?.wapComponents;
-
 const EditPreset = () => {
+  const { WapCard, WapButton, WapSpace, WapTypography, WapSteps } = window?.wapComponents;
   const [current, setCurrent] = useState(0);
   const { updatePreset, saveEditedPreset, setPresetsFormData } = useDispatch(STORE_NAME);
   const history = useHistory();

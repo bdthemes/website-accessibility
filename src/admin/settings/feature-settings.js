@@ -8,11 +8,10 @@ import ControlWrapper from '../components/control-wrapper';
 import { __ } from '@wordpress/i18n';
 import FeaturesCustomization from './features-customization';
 
-const { WapInput, WapSwitch, WapTypography, WapModal, WapFlex, WapButton } = window?.wapComponents;
-
-const { Title } = WapTypography;
 
 const FeatureSettings = () => {
+    const { WapSwitch, WapInput, WapModal, WapButton, WapFlex, WapCollapse ,WapTypography} = window?.wapComponents;
+    const { Title } = WapTypography;
     const [openCustomizationModal, setOpenCustomizationModal] = useState(false);
     const { presetsFormData } = useSelect((select) => select(STORE_NAME).getPresetsFormData());
     const { setPresetsFormData } = useDispatch(STORE_NAME);

@@ -14,8 +14,6 @@ import { useState } from '@wordpress/element';
  * @param {object} statusMap - Optional status color/label map
  */
 
-const { WapButton, WapInput, WapSpace, WapTable, WapDropdown } = window?.wapComponents;
-
 const PostTable = ({
   columns,
   data,
@@ -26,6 +24,7 @@ const PostTable = ({
   onSearch,
   rowSelectionProps = {},
 }) => {
+  const { WapInput, WapTable, WapButton, WapDropdown, WapSpace } = window?.wapComponents;
   const [selectedRowKeys, setSelectedRowKeys] = useState([]);
   const [searchText, setSearchText] = useState('');
 

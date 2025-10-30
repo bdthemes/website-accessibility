@@ -10,12 +10,10 @@ import { addQueryArgs } from "@wordpress/url";
 import statementJson from "../../../default-posts/statement.json";
 
 
-const { WapCard, WapButton, WapSpace, WapAlert, WapTooltip, WapMessage, WapTypography } = window?.wapComponents;
-
-
-const { Title, Text } = WapTypography;
-
 const StatementSetting = () => {
+    const { WapCard, WapSpace, WapButton, WapAlert, WapTooltip, WapTypography } = window?.wapComponents;
+
+    const { Title, Text } = WapTypography;
     const [page, setPage] = useState(null);
     const [loading, setLoading] = useState(true);
     const [creating, setCreating] = useState(false);
@@ -50,6 +48,7 @@ const StatementSetting = () => {
 
     // Generate new statement page
     const handleGenerate = async () => {
+        const { WapMessage } = window?.wapComponents;
         setCreating(true);
         try {
             const newPage = await apiFetch({

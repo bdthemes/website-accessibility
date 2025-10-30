@@ -4,11 +4,10 @@ import { __ } from "@wordpress/i18n";
 import SettingsItem from "../components/settings-item";
 import StatementSetting from "../components/statement-setting";
 
-const { WapCard, WapTypography, WapMessage, WapSpin } = window?.wapComponents;
-
-const { Title } = WapTypography;
 
 const Settings = () => {
+    const  { WapCard, WapTypography, WapSpin, WapMessage } = window?.wapComponents;
+    const { Title } = WapTypography;
     const { isProActive } = window?.websacPro || {};
     const [settings, setSettings] = useState({});
     const [loading, setLoading] = useState(true);

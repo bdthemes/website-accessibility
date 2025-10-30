@@ -2,14 +2,11 @@ import { useState, useEffect } from "@wordpress/element";
 import { __ } from "@wordpress/i18n";
 import apiFetch from "@wordpress/api-fetch";
 
-
-const { WapCard, WapSelect, WapTypography, WapEmpty, WapSkeleton, WapFlex, WapRow, WapCol, WapBadge} = window?.wapComponents;
-
-const { Meta } = WapCard;
-const { Title } = WapTypography;
-const { Option } = WapSelect;
-
 const UsageStatistics = () => {
+    const { WapCard, WapRow, WapCol, WapSelect, WapTypography, WapSkeleton, WapEmpty, WapFlex, WapBadge } = window?.wapComponents;
+    const { Meta } = WapCard;
+    const { Title } = WapTypography;
+    const { Option } = WapSelect;
     const [stats, setStats] = useState([]);
     const [loading, setLoading] = useState(false);
     const [filter, setFilter] = useState("daily");

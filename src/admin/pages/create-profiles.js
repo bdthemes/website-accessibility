@@ -4,11 +4,10 @@ import { DEFAULT_STATE, STORE_NAME } from '../store';
 import { useHistory } from '../router';
 import ProfileForm from '../components/profile-form';
 
-const { WapCard, WapButton, WapSpace, WapTypography } = window?.wapComponents;
-
-const { Title, Text } = WapTypography;
 
 const CreateProfiles = () => {
+    const { WapCard, WapButton, WapSpace, WapTypography } = window?.wapComponents;
+    const { Title, Text } = WapTypography;
     const { profilesFormData } = useSelect((select) => select(STORE_NAME).getProfilesFormData());
     const { setProfilesFormData, createProfile } = useDispatch(STORE_NAME);
     const history = useHistory();

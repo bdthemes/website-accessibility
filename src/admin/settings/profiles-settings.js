@@ -5,9 +5,9 @@ import { STORE_NAME } from '../store';
 import ControlWrapper from '../components/control-wrapper';
 import { __ } from '@wordpress/i18n';
 
-const {  WapRadio, WapInput, WapSelect, WapAvatar } = window?.wapComponents;
 
 const ProfilesSettings = () => {
+    const { WapSelect, WapRadio, WapSpace, WapAvatar, WapInput } = window?.wapComponents;
     const profilesRaw = useSelect((select) => {
         const { getProfiles } = select(STORE_NAME);
         return getProfiles(true);

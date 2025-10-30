@@ -2,9 +2,7 @@ import { DeleteOutlined, ReloadOutlined, SaveOutlined } from '@ant-design/icons'
 import { __ } from '@wordpress/i18n';
 import { useState, useEffect, useCallback, useMemo } from '@wordpress/element';
 import apiFetch from '@wordpress/api-fetch';
-import WapFlex from './wap-flex';
-import WapButton from './wap-button';
-import WapMessage from './wap-message';
+
 
 // Simple debounce helper
 const debounce = (fn, delay = 1000) => {
@@ -17,6 +15,7 @@ const debounce = (fn, delay = 1000) => {
 
 
 const PanelFooter = ({ value, accessibilityContext, accessibilityDispatch }) => {
+  const { WapMessage, WapButton, WapFlex } = window?.wapComponents;
   const [savingPreference, setSavingPreference] = useState(false);
   const [deletingPreference, setDeletingPreference] = useState(false);
   const [hasSavedPreference, setHasSavedPreference] = useState(false);

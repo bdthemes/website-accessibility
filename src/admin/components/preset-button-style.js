@@ -7,14 +7,12 @@ import clsx from "clsx";
 import ColorPicker from "../controls/color-picker";
 
 
+const ContentTab = ({ button, handleButtonChange }) => {
+	const { WapFlex, WapInput, WapRadio } = window?.wapComponents;
 
-const { WapRadio , WapFlex, WapInput, WapCard, WapSelect, WapTabs } = window?.wapComponents;
-
-const ContentTab = ({ button, handleButtonChange }) => (
-
-	<>
-
-		<ControlWrapper label={__("Button Type", "website-accessibility")}>
+	return (
+		<>
+			<ControlWrapper label={__("Button Type", "website-accessibility")}>
 				<WapFlex vertical gap="middle">
 					<WapRadio.Group
 						block
@@ -29,66 +27,71 @@ const ContentTab = ({ button, handleButtonChange }) => (
 						buttonStyle="solid"
 					/>
 				</WapFlex>
-		</ControlWrapper>
+			</ControlWrapper>
 
-		{button.buttonType !== "icon" && (
-			<ControlWrapper label={__("Button Text", "website-accessibility")}>
+			{button.buttonType !== "icon" && (
+				<ControlWrapper label={__("Button Text", "website-accessibility")}>
+					<WapInput
+						value={button.text || ""}
+						onChange={(e) => handleButtonChange("text", e.target.value)}
+						placeholder={__("Click Me", "website-accessibility")}
+					/>
+				</ControlWrapper>
+			)}
+
+
+			{button.buttonType !== "text" && (
+				<ControlWrapper label={__("Select Icon", "website-accessibility")}>
+					<IconPicker
+						value={button.icon}
+						onChange={(value) => handleButtonChange("icon", value)}
+					/>
+				</ControlWrapper>
+			)}
+		</>
+	);
+};
+
+const StyleTab = ({ button, handleButtonChange }) => {
+	const { WapInput } = window?.wapComponents;
+
+	return (
+		<>
+			<ControlWrapper label={__("Text Color", "website-accessibility")}>
+				<ColorPicker
+					value={button.color}
+					onChange={(value) => handleButtonChange("color", value)}
+				/>
+			</ControlWrapper>
+
+			<ControlWrapper label={__("Background Color", "website-accessibility")}>
+				<ColorPicker
+					value={button.bgColor}
+					onChange={(value) => handleButtonChange("bgColor", value)}
+				/>
+			</ControlWrapper>
+
+			<ControlWrapper label={__("Padding", "website-accessibility")}>
 				<WapInput
-					value={button.text || ""}
-					onChange={(e) => handleButtonChange("text", e.target.value)}
-					placeholder={__("Click Me", "website-accessibility")}
+					value={button.padding || ""}
+					onChange={(e) => handleButtonChange("padding", e.target.value)}
+					placeholder="e.g., 10px 20px"
 				/>
 			</ControlWrapper>
-		)}
 
-
-		{button.buttonType !== "text" && (
-			<ControlWrapper label={__("Select Icon", "website-accessibility")}>
-				<IconPicker
-					value={button.icon}
-					onChange={(value) => handleButtonChange("icon", value)}
+			<ControlWrapper label={__("Border Radius", "website-accessibility")}>
+				<WapInput
+					value={button.borderRadius || ""}
+					onChange={(e) => handleButtonChange("borderRadius", e.target.value)}
+					placeholder="e.g., 6px"
 				/>
 			</ControlWrapper>
-		)}
-	</>
-);
-
-const StyleTab = ({ button, handleButtonChange }) => (
-	<>
-		<ControlWrapper label={__("Text Color", "website-accessibility")}>
-			<ColorPicker
-				value={button.color}
-				onChange={(value) => handleButtonChange("color", value)}
-			/>
-		</ControlWrapper>
-
-		<ControlWrapper label={__("Background Color", "website-accessibility")}>
-			<ColorPicker
-				value={button.bgColor}
-				onChange={(value) => handleButtonChange("bgColor", value)}
-			/>
-		</ControlWrapper>
-
-		<ControlWrapper label={__("Padding", "website-accessibility")}>
-			<WapInput
-				value={button.padding || ""}
-				onChange={(e) => handleButtonChange("padding", e.target.value)}
-				placeholder="e.g., 10px 20px"
-			/>
-		</ControlWrapper>
-
-		<ControlWrapper label={__("Border Radius", "website-accessibility")}>
-			<WapInput
-				value={button.borderRadius || ""}
-				onChange={(e) => handleButtonChange("borderRadius", e.target.value)}
-				placeholder="e.g., 6px"
-			/>
-		</ControlWrapper>
-	</>
-);
+		</>
+	);
+};
 
 const ButtonStylePreset = () => {
-	const { PreviewButton, Icon } = window?.wapComponents;
+	const { PreviewButton, Icon, WapCard, WapSelect, WapTabs, WapInput } = window?.wapComponents;
 	const { presetsFormData } = useSelect((select) =>
 		select(STORE_NAME).getPresetsFormData(),
 	);

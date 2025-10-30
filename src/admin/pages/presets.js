@@ -7,11 +7,6 @@ import { STORE_NAME } from "../store";
 import { useMemo, useState } from '@wordpress/element';
 
 
-const { WapCard, WapButton, WapSpace, WapTypography, WapTag } = window?.wapComponents;
-
-const { Title } = WapTypography;
-
-
 const columns = [
   { title: __('Name', 'website-accessibility'), dataIndex: 'name', key: 'name', sorter: (a, b) => a.name.localeCompare(b.name) },
   { title: __('Created', 'website-accessibility'), dataIndex: 'created', key: 'created', sorter: (a, b) => new Date(a.created) - new Date(b.created) },
@@ -20,6 +15,8 @@ const columns = [
 ];
 
 const Presets = () => {
+  const { WapCard, WapButton, WapSpace, WapTypography, WapTag } = window?.wapComponents;
+  const { Title } = WapTypography;
   const [drawerVisible, setDrawerVisible] = useState(false);
   const [selectedPreset, setSelectedPreset] = useState(null);
   const history = useHistory();

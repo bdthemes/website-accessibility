@@ -2,11 +2,10 @@ import { __ } from "@wordpress/i18n";
 import ControlWrapper from "../components/control-wrapper";
 import { useSelect, useDispatch } from "@wordpress/data";
 import { STORE_NAME } from "../store";
-
-
-const {  WapInput, WapTabs, WapSwitch, WapSelect , WapCollapse } = window?.wapComponents;
+import ColorPicker from "../controls/color-picker";
 
 const ContentTab = ({ presetsFormData, setPresetsFormData }) => {
+    const { WapInput, WapSwitch } = window?.wapComponents;
     const { items } = presetsFormData?.panel || {};
     const headerItem = items?.find((item) => item.slug === "header");
     const attributes = headerItem?.attributes || {};
@@ -51,6 +50,7 @@ const ContentTab = ({ presetsFormData, setPresetsFormData }) => {
 };
 
 const StyleTab = ({ presetsFormData, setPresetsFormData }) => {
+    const { WapInput, WapSelect, WapCollapse } = window?.wapComponents;
     const { items } = presetsFormData?.panel || {};
     const headerItem = items?.find((item) => item.slug === "header");
     const attributes = headerItem?.attributes || {};
@@ -232,6 +232,7 @@ const StyleTab = ({ presetsFormData, setPresetsFormData }) => {
 };
 
 const HeaderSettings = () => {
+    const {WapTabs} = window?.wapComponents;
     const { presetsFormData } = useSelect((select) =>
         select(STORE_NAME).getPresetsFormData(),
     );

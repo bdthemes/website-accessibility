@@ -1,15 +1,14 @@
-import { __ } from '@wordpress/i18n'; 
+import { __ } from '@wordpress/i18n';
 import { RocketOutlined } from '@ant-design/icons';
 import createProfileImage from '../../assets/create-profile.gif';
 import addProileImage from '../../assets/add-profile.gif';
 import applyProfileImage from '../../assets/apply-profile.gif';
 
-const { WapCard, WapButton, WapRow, WapCol, WapTypography } = window?.wapComponents;
-
-const { Title, Paragraph, Text } = WapTypography;
 
 
 const ProfilesFallback = () => {
+  const {WapCard, WapButton, WapRow, WapCol, WapTypography} = window?.wapComponents;
+  const { Title, Paragraph, Text } = WapTypography;
   const openPricingPage = () => {
     window.open('https://oneaccessibility.com#pricing', '_blank');
   };
@@ -31,7 +30,7 @@ const ProfilesFallback = () => {
             type="primary"
             size="large"
             onClick={openPricingPage}
-           
+
           >
             {__('Upgrade to Pro', 'website-accessibility')}
             <span className="dashicons dashicons-arrow-right-alt" />
@@ -46,11 +45,11 @@ const ProfilesFallback = () => {
         </Title>
         <WapRow gutter={[16, 16]} className="profiles-steps-row">
           <WapCol xs={24} sm={8}>
-            <WapCard 
+            <WapCard
               cover={
-                <img 
-                  src={createProfileImage} 
-                  alt={__('Create Profile Form', 'website-accessibility')} 
+                <img
+                  src={createProfileImage}
+                  alt={__('Create Profile Form', 'website-accessibility')}
                   className="step-image"
                 />
               }
@@ -65,10 +64,10 @@ const ProfilesFallback = () => {
             </WapCard>
           </WapCol>
           <WapCol xs={24} sm={8}>
-            <WapCard 
+            <WapCard
               cover={
-                <img 
-                  src={addProileImage} 
+                <img
+                  src={addProileImage}
                   alt={__('Add Profile to Preset', 'website-accessibility')}
                   className="step-image"
                 />
@@ -84,10 +83,10 @@ const ProfilesFallback = () => {
             </WapCard>
           </WapCol>
           <WapCol xs={24} sm={8}>
-            <WapCard 
+            <WapCard
               cover={
-                <img 
-                  src={applyProfileImage} 
+                <img
+                  src={applyProfileImage}
                   alt={__('Frontend Profile View', 'website-accessibility')}
                   className="step-image"
                 />

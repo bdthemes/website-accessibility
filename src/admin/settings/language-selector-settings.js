@@ -4,9 +4,8 @@ import ControlWrapper from '../components/control-wrapper';
 import { __ } from '@wordpress/i18n';
 
 
-const { WapCollapse, WapRadio, WapSwitch } = window?.wapComponents;
-
 const LanguageSelectorSettings = () => {
+  const { WapRadio, WapCollapse, WapSwitch } = window?.wapComponents;
   const { presetsFormData } = useSelect((select) => select(STORE_NAME).getPresetsFormData());
   const { setPresetsFormData } = useDispatch(STORE_NAME);
   const languageItem = presetsFormData.panel.items.find(item => item.slug === 'language');

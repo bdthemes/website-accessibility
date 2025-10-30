@@ -3,10 +3,11 @@ import { useSelect, useDispatch } from "@wordpress/data";
 import { STORE_NAME } from "../store";
 import ControlWrapper from "./control-wrapper";
 import ColorPicker from "../controls/color-picker";
-	
+
+
 
 const PresetPanelRightSidebar = () => {
-	const { WapSelect, WapInputNumber, WapInput } = window?.wapComponents;
+	const { WapSelect, WapInput, WapInputNumber } = window?.wapComponents;
 	const { presetsFormData } = useSelect((select) =>
 		select(STORE_NAME).getPresetsFormData(),
 	);

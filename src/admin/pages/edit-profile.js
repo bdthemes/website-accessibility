@@ -11,6 +11,7 @@ const { WapCard, WapButton, WapSpace, WapTypography, WapMessage } = window?.wapC
 const { Title, Text } = WapTypography;
 
 const EditProfile = () => {
+    const { WapCard, WapButton, WapSpace, WapTypography } = window?.wapComponents;
     const history = useHistory();
     const location = useLocation();
     const id = location?.params?.id;
@@ -44,6 +45,7 @@ const EditProfile = () => {
     }, [profile]);
 
     const handleUpdate = async () => {
+        const { WapMessage } = window?.wapComponents;
         try {
             const updatedProfile = {
                 title: profilesFormData.name,

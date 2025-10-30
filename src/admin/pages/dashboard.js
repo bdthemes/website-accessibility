@@ -7,10 +7,10 @@ import Disclaimer from '../components/disclaimer';
 
 const { WapCard, WapButton, WapRow, WapCol, WapSpace, WapTypography, WapProgress } = window?.wapComponents;
 
-const { Title, Text } = WapTypography;
-
 
 const Dashboard = () => {
+    const { WapCard, WapButton, WapRow, WapCol, WapSpace, WapTypography, WapProgress } = window?.wapComponents;
+    const { Title, Text } = WapTypography;
     const history = useHistory();
     const [statsData, setStatsData] = useState({ average_percent: 0 });
     const [loading, setLoading] = useState(true);

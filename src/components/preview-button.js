@@ -12,6 +12,7 @@ const PreviewButton = ({
   style = {},
   ...props
 }) => {
+  const { WapButton } = window?.wapComponents;
   return (
     <WapButton
       type={type}

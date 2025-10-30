@@ -4,9 +4,8 @@ import ControlWrapper from '../components/control-wrapper';
 import { __ } from '@wordpress/i18n';
 import ColorPicker from '../controls/color-picker';
 
-const { WapCollapse, WapInput, WapTabs, WapSwitch } = window?.wapComponents;
-
 const FooterSettings = () => {
+    const { WapTabs, WapInput, WapSwitch, WapCollapse } = window?.wapComponents;
     const { presetsFormData } = useSelect((select) => select(STORE_NAME).getPresetsFormData());
     const { setPresetsFormData } = useDispatch(STORE_NAME);
     const footerItem = presetsFormData.panel.items.find(item => item.slug === 'footer');

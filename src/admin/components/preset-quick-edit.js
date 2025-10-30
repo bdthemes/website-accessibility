@@ -13,7 +13,7 @@ const PresetQuickEdit = ({
   preset: presetRaw,
   onUpdate,
 }) => {
-  const { WapSelect, WapInput, WapMessage, WapSpace, WapButton, WapDrawer, WapSwitch } = window?.wapComponents;
+  const { WapInput, WapSelect, WapSwitch, WapDrawer, WapButton, WapSpace, WapMessage } = window?.wapComponents;
   const [posts, setPosts] = useState([]);
   const [searchInput, setSearchInput] = useState('');
   const { updatePreset, saveEditedPreset, setPresetsFormData } = useDispatch(STORE_NAME);

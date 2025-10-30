@@ -2,11 +2,6 @@ import { __ } from '@wordpress/i18n';
 import ControlWrapper from './control-wrapper';
 
 
-const { WapInput,  WapSpace, WapSelect, WapSwitch, WapTypography, WapCol, WapRow, WapCard } = window?.wapComponents;
-
-const { TextArea } = WapInput;
-const { Text } = WapTypography;
-
 // Widget features with their control options
 const widgetFeatures = [
     {
@@ -258,6 +253,11 @@ const widgetFeatures = [
 
 const ProfileForm = ({ formData, onFormChange }) => {
 
+    const { WapInput, WapRow, WapCol, WapCard, WapSpace, WapTypography } = window?.wapComponents;
+
+    const { TextArea } = WapInput;
+    const { Text } = WapTypography;
+
     const handleFeatureChange = (featureKey, value) => {
         onFormChange({
             ...formData,
@@ -276,6 +276,7 @@ const ProfileForm = ({ formData, onFormChange }) => {
     };
 
     const renderFeatureControl = (feature) => {
+        const { WapSelect, WapSwitch } = window?.wapComponents;
         const value = formData?.features?.[feature.key];
 
         switch (feature.control) {

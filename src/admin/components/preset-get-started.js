@@ -7,8 +7,9 @@ import { archivePages, locationOptions } from "../../utils";
 import apiFetch from "@wordpress/api-fetch";
 import { addQueryArgs } from "@wordpress/url";
 
+
 const GetStartedPreset = () => {
-    const { WapCard, WapInput, WapSwitch, WapSelect } = window?.wapComponents;   
+    const { WapCard , WapInput, WapSelect, WapSwitch} = window?.wapComponents;
     const [posts, setPosts] = useState([]);
     const [searchInput, setSearchInput] = useState('');
     const { presetsFormData } = useSelect((select) => select(STORE_NAME).getPresetsFormData());

@@ -5,9 +5,9 @@ import { useDispatch, useSelect } from "@wordpress/data";
 import { DEFAULT_STATE, STORE_NAME } from "../store";
 import { useHistory } from '../router';
 
-const { WapCard, WapButton, WapSpace, WapTypography, WapSteps } = window?.wapComponents;
 
 const CreatePreset = () => {
+  const { WapCard, WapButton, WapSpace, WapTypography, WapSteps } = window?.wapComponents;
   const [current, setCurrent] = useState(0);
   const { presetsFormData } = useSelect((select) => select(STORE_NAME).getPresetsFormData());
   const { setPresetsFormData, createPreset } = useDispatch(STORE_NAME);

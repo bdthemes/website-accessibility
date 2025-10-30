@@ -4,8 +4,9 @@ import { useLocation } from "../router";
 import clsx from "clsx";
 import { useState, useMemo } from '@wordpress/element';
 
+
 const PreviewPreset = () => {
-  const { Icon, PreviewButton, PreviewContent, WapDrawer } = window?.wapComponents;
+  const { Icon, PreviewButton, PreviewContent , WapDrawer} = window?.wapComponents;
   const location = useLocation();
   const id = location?.params?.id;
   const [isOpen, setIsOpen] = useState(false);

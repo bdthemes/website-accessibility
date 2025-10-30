@@ -37,8 +37,11 @@ import WapList from './wap-list';
 import WapSteps from './wap-steps';
 import WapTable from './wap-table';
 import WapTypography from './wap-typography';
-import WapTabs from './wap-tabs';
 import WapEmpty from './wap-empty';
+import WapInputNumber from './wap-input-number';
+import WapMessage from './wap-message';
+import WapSwitch from './wap-switch';
+import WapTabs from './wap-tabs';
 
 window.wapComponents = {
     AccessibilityProfiles,
@@ -73,8 +76,12 @@ window.wapComponents = {
     WapSteps,
     WapTable,
     WapTypography,
-    WapTabs,
     WapEmpty,
+    WapInputNumber,
+    WapMessage,
+    WapSwitch,
+    WapTabs
+    
 }
 
 window.wapHelpers = {

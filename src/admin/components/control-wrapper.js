@@ -1,6 +1,6 @@
-const { WapFlex, WapTypography, WapTooltip } = window?.wapComponents;
 
 const ControlWrapper = ({ children, label, required, tooltip, noLabel = false, description = '' }) => {
+    const { WapFlex, WapTypography, WapTooltip } = window?.wapComponents;
     return (
         <div className="wap-control-wrapper">
             <WapFlex align="baseline" gap={2}>
