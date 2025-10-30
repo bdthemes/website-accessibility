@@ -5,8 +5,6 @@ import { STORE_NAME } from '../store';
 import { useEffect, useState } from '@wordpress/element';
 import Disclaimer from '../components/disclaimer';
 
-const { WapCard, WapButton, WapRow, WapCol, WapSpace, WapTypography, WapProgress } = window?.wapComponents;
-
 
 const Dashboard = () => {
     const { WapCard, WapButton, WapRow, WapCol, WapSpace, WapTypography, WapProgress } = window?.wapComponents;
