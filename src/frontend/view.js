@@ -126,11 +126,71 @@ const View = () => {
     }, [saveablePreference?.data, currentPresetId]);
 
     /**
+     * Check if we're in editor mode (Gutenberg, Elementor, etc.)
+     */
+    const isEditorMode = useMemo(() => {
+        // Skip if we're in the admin area but not in the customizer
+        if (window.location.href.includes('/wp-admin/') && 
+            !window.location.href.includes('customize.php') &&
+            !window.location.href.includes('post.php') &&
+            !window.location.href.includes('post-new.php')) {
+            return true;
+        }
+
+        // Check for Gutenberg editor in edit mode
+        if (window.wp && window.wp.data && window.wp.data.select('core/editor')) {
+            // Double check we're not in the customizer
+            if (window.wp.customize && window.wp.customize.section) {
+                return false;
+            }
+            // Only return true if we're actually in the editor, not just on a page with Gutenberg
+            try {
+                const isEditing = window.wp.data.select('core/editor').isEditingPost();
+                return isEditing;
+            } catch (e) {
+                return false;
+            }
+        }
+        
+        // Check for Elementor editor
+        if (window.elementor && window.elementor.getPreferences) {
+            // Check if we're in the Elementor preview iframe or in edit mode
+            if (window.self !== window.top || window.elementor.channels.data.request('context') === 'editor') {
+                return true;
+            }
+            return false;
+        }
+        
+        // Check for other page builders
+        const isBuilderActive = [
+            'elementor-editor-active',
+            'fl-builder-edit',
+            'brizy-edit',
+            'vc_editor',
+            'et-fb',
+            'block-editor-page',
+            'elementor-editor-preview',
+            'elementor-editor-active',
+            'fl-builder',
+            'brizy-editor',
+            'vc_editor'
+        ].some(className => document.body.classList.contains(className));
+
+        return isBuilderActive;
+    }, []);
+
+    /**
      * Initialize accessibility manager with current settings
      */
     useEffect(() => {
+        // Don't initialize in editor mode
+        if (isEditorMode) {
+            console.log('Accessibility menu disabled in editor mode');
+            return;
+        }
+        console.log('Initializing accessibility menu');
         accessibilityManager().init(state?.currentSettings);
-    }, [state?.currentSettings, currentPresetId, state?.currentProfile, state?.isOverSized, state?.enableTranslations, state?.selectedLanguage]);
+    }, [state?.currentSettings, currentPresetId, state?.currentProfile, state?.isOverSized, state?.enableTranslations, state?.selectedLanguage, isEditorMode]);
 
     /**
      * Keyboard shortcuts: ESC to close, Ctrl+U to open
@@ -234,7 +294,12 @@ const View = () => {
         };
     }, [isOpen]);
 
+    // Don't render if we don't have a preset or if we're in editor mode
     if (!currentPreset) return null;
+    if (isEditorMode) {
+        console.log('Accessibility menu hidden in editor mode');
+        return null;
+    }
 
     return (
         <div className="wap-accessibility-view">
