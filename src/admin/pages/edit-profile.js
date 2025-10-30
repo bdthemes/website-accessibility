@@ -44,7 +44,7 @@ const EditProfile = () => {
     const handleUpdate = async () => {
         try {
             const updatedProfile = {
-                title: profilesFormData.name,
+                name: profilesFormData.name,
                 description: profilesFormData.description,
                 features: profilesFormData.features,
                 icon: profilesFormData?.icon,
