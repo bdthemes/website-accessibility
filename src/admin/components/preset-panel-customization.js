@@ -1,11 +1,12 @@
-import { Card } from "antd";
 import PresetPanelLeftSidebar from "./preset-panel-left-sidebar";
 import PresetPanelRightSidebar from "./preset-panel-right-sidebar";
 import PreviewContent from "../../components/preview-content";
 import { useSelect } from "@wordpress/data";
 import { STORE_NAME } from "../store";
 
+
 const PanelCustomizationPreset = () => {
+    const {WapCard} = window?.wapComponents;
     const { presetsFormData } = useSelect((select) => select(STORE_NAME).getPresetsFormData());
     const allProfiles = useSelect((select) => {
         const { getProfiles } = select(STORE_NAME);
@@ -14,7 +15,7 @@ const PanelCustomizationPreset = () => {
     }, []);
     const panel = presetsFormData?.panel || {};
     return (
-        <Card className="wap-panel-customization-card">
+        <WapCard className="wap-panel-customization-card">
             <div className="wap-panel-customization">
                 <div className="wap-panel-customization__left">
                     <PresetPanelLeftSidebar />
@@ -33,7 +34,7 @@ const PanelCustomizationPreset = () => {
                     <PresetPanelRightSidebar />
                 </div>
             </div>
-        </Card>
+        </WapCard>
     )
 }
 

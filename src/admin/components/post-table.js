@@ -1,5 +1,4 @@
 import { useState } from '@wordpress/element';
-import { Table, Input, Button, Space, Dropdown } from 'antd';
 
 /**
  * PostTable - WordPress-style post table with Ant Design
@@ -14,6 +13,7 @@ import { Table, Input, Button, Space, Dropdown } from 'antd';
  * @param {object} rowSelectionProps - Optional row selection props
  * @param {object} statusMap - Optional status color/label map
  */
+
 const PostTable = ({
   columns,
   data,
@@ -24,6 +24,7 @@ const PostTable = ({
   onSearch,
   rowSelectionProps = {},
 }) => {
+  const { WapInput, WapTable, WapButton, WapDropdown, WapSpace } = window?.wapComponents;
   const [selectedRowKeys, setSelectedRowKeys] = useState([]);
   const [searchText, setSearchText] = useState('');
 
@@ -51,7 +52,7 @@ const PostTable = ({
         title: 'Actions',
         key: 'actions',
         render: (_, record) => (
-          <Dropdown
+          <WapDropdown
             menu={{
               items: [
                 {
@@ -78,8 +79,8 @@ const PostTable = ({
             }}
             trigger={['click']}
           >
-            <Button icon={<span className="dashicons dashicons-ellipsis" />} />
-          </Dropdown>
+            <WapButton icon={<span className="dashicons dashicons-ellipsis" />} />
+          </WapDropdown>
         ),
       },
     ];
@@ -87,8 +88,8 @@ const PostTable = ({
 
   return (
     <div>
-      <Space className="wap-post-table__searchbar">
-        <Input
+      <WapSpace className="wap-post-table__searchbar">
+        <WapInput
           placeholder="Search posts"
           value={searchText}
           onChange={handleSearch}
@@ -96,7 +97,7 @@ const PostTable = ({
           allowClear
         />
         {selectedRowKeys.length > 0 && (
-          <Dropdown
+          <WapDropdown
             menu={{
               items: [
                 {
@@ -111,13 +112,13 @@ const PostTable = ({
             }}
             trigger={['click']}
           >
-            <Button type="primary">
+            <WapButton type="primary">
               Bulk Actions <span className="dashicons dashicons-arrow-down-alt2" />
-            </Button>
-          </Dropdown>
+            </WapButton>
+          </WapDropdown>
         )}
-      </Space>
-      <Table
+      </WapSpace>
+      <WapTable
         rowSelection={rowSelection}
         columns={extendedColumns}
         dataSource={data}

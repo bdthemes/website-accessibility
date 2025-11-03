@@ -1,13 +1,13 @@
-import { InputNumber, Input, Select } from "antd";
 import { __ } from "@wordpress/i18n";
 import { useSelect, useDispatch } from "@wordpress/data";
 import { STORE_NAME } from "../store";
 import ControlWrapper from "./control-wrapper";
 import ColorPicker from "../controls/color-picker";
 
-const { Option } = Select;
+
 
 const PresetPanelRightSidebar = () => {
+	const { WapSelect, WapInput, WapInputNumber } = window?.wapComponents;
 	const { presetsFormData } = useSelect((select) =>
 		select(STORE_NAME).getPresetsFormData(),
 	);
@@ -31,17 +31,17 @@ const PresetPanelRightSidebar = () => {
 	return (
 		<>
 			<ControlWrapper label={__("Panel Position", "website-accessibility")}>
-				<Select
+				<WapSelect
 					value={wrapper.position || "right"}
 					onChange={(value) => handleWrapperChange("position", value)}
 					className="wap-panel-right-sidebar__full-width"
 				>
-					<Option value="left">{__("Left Side", "website-accessibility")}</Option>
-					<Option value="right">{__("Right Side", "website-accessibility")}</Option>
-				</Select>
+					<WapSelect.Option value="left">{__("Left Side", "website-accessibility")}</WapSelect.Option>
+					<WapSelect.Option value="right">{__("Right Side", "website-accessibility")}</WapSelect.Option>
+				</WapSelect>
 			</ControlWrapper>
 			<ControlWrapper label={__("Width (px)", "website-accessibility")}>
-				<InputNumber
+				<WapInputNumber
 					min={200}
 					max={1000}
 					value={wrapper.width || 420}
@@ -58,7 +58,7 @@ const PresetPanelRightSidebar = () => {
 			</ControlWrapper>
 
 			<ControlWrapper label={__("Border", "website-accessibility")}>
-				<Input
+				<WapInput
 					value={wrapper.border || ""}
 					onChange={(e) => handleWrapperChange("border", e.target.value)}
 					placeholder="e.g., 1px solid #e0e0e0"
@@ -67,7 +67,7 @@ const PresetPanelRightSidebar = () => {
 			</ControlWrapper>
 
 			<ControlWrapper label={__("Padding", "website-accessibility")}>
-				<Input
+				<WapInput
 					value={wrapper.padding || ""}
 					onChange={(e) => handleWrapperChange("padding", e.target.value)}
 					placeholder="e.g., 20px"
@@ -76,7 +76,7 @@ const PresetPanelRightSidebar = () => {
 			</ControlWrapper>
 
 			<ControlWrapper label={__("Border Radius", "website-accessibility")}>
-				<Input
+				<WapInput
 					value={wrapper.borderRadius || ""}
 					onChange={(e) => handleWrapperChange("borderRadius", e.target.value)}
 					placeholder="e.g., 8px"
@@ -85,7 +85,7 @@ const PresetPanelRightSidebar = () => {
 			</ControlWrapper>
 
 			<ControlWrapper label={__("Box Shadow", "website-accessibility")}>
-				<Input
+				<WapInput
 					value={wrapper.boxShadow || ""}
 					onChange={(e) => handleWrapperChange("boxShadow", e.target.value)}
 					placeholder="e.g., 0 4px 24px rgba(0,0,0,0.1)"

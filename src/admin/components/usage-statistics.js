@@ -1,13 +1,12 @@
 import { useState, useEffect } from "@wordpress/element";
-import { Card, Typography, Row, Col, Select, Skeleton, Empty, Flex, Badge } from "antd";
 import { __ } from "@wordpress/i18n";
 import apiFetch from "@wordpress/api-fetch";
 
-const { Meta } = Card;
-const { Title } = Typography;
-const { Option } = Select;
-
 const UsageStatistics = () => {
+    const { WapCard, WapRow, WapCol, WapSelect, WapTypography, WapSkeleton, WapEmpty, WapFlex, WapBadge } = window?.wapComponents;
+    const { Meta } = WapCard;
+    const { Title } = WapTypography;
+    const { Option } = WapSelect;
     const [stats, setStats] = useState([]);
     const [loading, setLoading] = useState(false);
     const [filter, setFilter] = useState("daily");
@@ -47,15 +46,15 @@ const UsageStatistics = () => {
 
     return (
         <div style={{ marginTop: 40 }} className="wap-admin-pages">
-            <Card
+            <WapCard
                 className="wap-statistics-card"
                 title={
-                    <Flex justify="space-between" align="center">
+                    <WapFlex justify="space-between" align="center">
                         <Title level={4} style={{ margin: 0 }}>
                             {__("Widget Usage Statistics", "website-accessibility")}
                         </Title>
 
-                        <Select
+                        <WapSelect
                             value={filter}
                             onChange={(value) => setFilter(value)}
                             style={{ width: 160 }}
@@ -64,24 +63,24 @@ const UsageStatistics = () => {
                             <Option value="7days">{__("Last 7 Days", "website-accessibility")}</Option>
                             <Option value="30days">{__("Last 30 Days", "website-accessibility")}</Option>
                             <Option value="all">{__("All Time", "website-accessibility")}</Option>
-                        </Select>
-                    </Flex>
+                        </WapSelect>
+                    </WapFlex>
                 }
             >
                 {loading ? (
                     <div style={{ textAlign: "center", padding: "40px 0" }}>
-                        <Skeleton />
+                        <WapSkeleton />
                     </div>
                 ) : stats?.length === 0 ? (
-                    <Empty
+                    <WapEmpty
                         description={__("No statistics available yet.", "website-accessibility")}
                         style={{ padding: "40px 0" }}
                     />
                 ) : (
-                    <Row gutter={[16, 16]}>
+                    <WapRow gutter={[16, 16]}>
                         {stats && stats?.map((stat, index) => (
-                            <Col xs={24} sm={12} md={8} lg={6} key={index}>
-                                <Card
+                            <WapCol xs={24} sm={12} md={8} lg={6} key={index}>
+                                <WapCard
                                     className="wap-statistics-card-item"
                                     cover={
                                         <Title level={4} className="stat-value" style={{ textAlign: "center", margin: 0 }}>
@@ -91,19 +90,19 @@ const UsageStatistics = () => {
                                 >
                                     {
                                         stat.isDummy && (
-                                            <Badge color="gold" count={__("PRO", "website-accessibility")} className="wap-statistics-card-dummy" />
+                                            <WapBadge color="gold" count={__("PRO", "website-accessibility")} className="wap-statistics-card-dummy" />
                                         )
                                     }
                                     <Meta
                                         avatar={stat.icon}
                                         title={stat.title}
                                     />
-                                </Card>
-                            </Col>
+                                </WapCard>
+                            </WapCol>
                         ))}
-                    </Row>
+                    </WapRow>
                 )}
-            </Card>
+            </WapCard>
         </div>
     );
 };

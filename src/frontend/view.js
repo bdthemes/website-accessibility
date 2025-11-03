@@ -1,14 +1,15 @@
 import { useState, useMemo, useEffect } from "@wordpress/element";
 import clsx from "clsx";
-import { Drawer } from "antd";
 import useFrontendAccessibility from "./context/useAccessibility";
 import accessibilityManager from "../accessibilty-manager";
 import { __ } from "@wordpress/i18n";
 import apiFetch from "@wordpress/api-fetch";
 
+const { WapDrawer} = window?.wapComponents;
+
 const View = () => {
     const { screenReader = () => null, defaultProfiles = [], useBrowserKey, getCookie, setCookie } = window.wapHelpers || {};
-    const { PreviewButton, PreviewContent, Icon, GoogleTranslateConsent = () => null } = window?.wapComponents;
+    const { PreviewButton, PreviewContent, Icon,WapDrawer, GoogleTranslateConsent = () => null } = window?.wapComponents;
     const { profiles, currentPreset, currentPresetId, settings, nonce, restUrl } = window?.websiteAccessibility;
     const { dispatch, ...state } = useFrontendAccessibility();
     const [isOpen, setIsOpen] = useState(false);
@@ -41,7 +42,7 @@ const View = () => {
         if (!preferenceData) return;
         const validCurrentProfile = validProfile(preferenceData.profile);
 
-        if(validCurrentProfile?.id !== preferenceData?.profile?.id) {
+        if (validCurrentProfile?.id !== preferenceData?.profile?.id) {
             dispatch({ type: 'SET_CURRENT_SETTINGS', payload: {} });
         } else {
             dispatch({ type: 'SET_CURRENT_SETTINGS', payload: preferenceData.settings || {} });
@@ -53,7 +54,7 @@ const View = () => {
     }
 
     const saveablePreference = useMemo(() => {
-        if (!currentPresetId ) return null;
+        if (!currentPresetId) return null;
         const { currentProfile, currentSettings, isOverSized, enableTranslations, selectedLanguage } = state;
 
         const serializableProfile = {
@@ -183,7 +184,7 @@ const View = () => {
         const statistics = {};
 
         for (const key in data) {
-            if(data?.[key]?.currentStep == 0){
+            if (data?.[key]?.currentStep == 0) {
                 continue;
             }
 
@@ -196,7 +197,7 @@ const View = () => {
             return;
         }
         const apiURL = `${restUrl}one-accessibility/v1/usage-statistics`;
-        
+
         try {
             const response = await fetch(apiURL, {
                 method: 'POST',
@@ -260,11 +261,11 @@ const View = () => {
                 onFocus={(e) => e.preventDefault()}
                 aria-label={__('Accessibility Menu', 'website-accessibility')}
             />
-            <Drawer
+            <WapDrawer
                 open={isOpen}
                 onClose={() => {
                     setIsOpen(false)
-                    if(settings?.show_usage_statistics && saveablePreference?.data?.settings){
+                    if (settings?.show_usage_statistics && saveablePreference?.data?.settings) {
                         saveStatistics(saveablePreference?.data?.settings);
                     }
                 }}
@@ -281,7 +282,7 @@ const View = () => {
                     accessibilityContext={state}
                     accessibilityDispatch={dispatch}
                 />
-            </Drawer>
+            </WapDrawer>
             <GoogleTranslateConsent showModal={settings?.show_translations_consent} translateSiteLang={settings?.force_translate_site_language} accessibilityContext={state} />
         </div>
     );

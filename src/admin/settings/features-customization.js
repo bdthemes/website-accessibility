@@ -1,9 +1,10 @@
 import { useState } from "@wordpress/element";
-import { Card, List, Input, Switch, Badge } from "antd";
 import { SearchOutlined } from "@ant-design/icons";
 import { __ } from "@wordpress/i18n";
 
+
 const FeaturesCustomization = ({ attributes, updateAttr }) => {
+    const { WapCard, WapInput, WapList, WapSwitch, WapBadge } = window?.wapComponents;
     const features = window?.wapHelpers?.features || [];
     const [searchTerm, setSearchTerm] = useState("");
 
@@ -13,8 +14,8 @@ const FeaturesCustomization = ({ attributes, updateAttr }) => {
     );
 
     return (
-        <Card className="wap-features-customization">
-            <Input
+        <WapCard className="wap-features-customization">
+            <WapInput
                 placeholder={__("Search features...", "website-accessibility")}
                 prefix={<SearchOutlined />}
                 value={searchTerm}
@@ -22,7 +23,7 @@ const FeaturesCustomization = ({ attributes, updateAttr }) => {
                 style={{ marginBottom: 16 }}
                 allowClear
             />
-            <List
+            <WapList
                 dataSource={filteredFeatures}
                 itemLayout="horizontal"
                 renderItem={(feature) => {
@@ -30,13 +31,13 @@ const FeaturesCustomization = ({ attributes, updateAttr }) => {
                     const isCurrentActive = currentItem ? currentItem[feature?.key]?.active : true;
                     const isDummy = feature?.isDummy;
                     return (
-                        <List.Item
+                        <WapList.Item
                             key={feature?.key}
                             actions={[
                                 <>
                                     {
                                         !isDummy ? (
-                                            <Switch
+                                            <WapSwitch
                                                 checked={isCurrentActive}
                                                 onChange={(checked) => {
                                                     if (currentItem) {
@@ -69,21 +70,21 @@ const FeaturesCustomization = ({ attributes, updateAttr }) => {
                                                 }}
                                             />
                                         ) : (
-                                            <Badge color="gold" count={__('PRO', 'website-accessibility')} />
+                                            <WapBadge color="gold" count={__('PRO', 'website-accessibility')} />
                                         )
                                     }
                                 </>
                             ]}
                         >
-                            <List.Item.Meta
+                            <WapList.Item.Meta
                                 avatar={feature?.icon}
                                 title={feature?.label}
                             />
-                        </List.Item>
+                        </WapList.Item>
                     );
                 }}
             />
-        </Card>
+        </WapCard>
     );
 };
 

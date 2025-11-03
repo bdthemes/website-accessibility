@@ -1,9 +1,6 @@
-import { Card, Input, Row, Col, Select, Switch, Space, Typography } from 'antd';
 import { __ } from '@wordpress/i18n';
 import ControlWrapper from './control-wrapper';
 
-const { TextArea } = Input;
-const { Text } = Typography;
 
 // Widget features with their control options
 const widgetFeatures = [
@@ -256,6 +253,11 @@ const widgetFeatures = [
 
 const ProfileForm = ({ formData, onFormChange }) => {
 
+    const { WapInput, WapRow, WapCol, WapCard, WapSpace, WapTypography } = window?.wapComponents;
+
+    const { TextArea } = WapInput;
+    const { Text } = WapTypography;
+
     const handleFeatureChange = (featureKey, value) => {
         onFormChange({
             ...formData,
@@ -274,12 +276,13 @@ const ProfileForm = ({ formData, onFormChange }) => {
     };
 
     const renderFeatureControl = (feature) => {
+        const { WapSelect, WapSwitch } = window?.wapComponents;
         const value = formData?.features?.[feature.key];
 
         switch (feature.control) {
             case 'select':
                 return (
-                    <Select
+                    <WapSelect
                         key={feature.key}
                         value={value || ''}
                         onChange={(val) => handleFeatureChange(feature.key, val)}
@@ -289,7 +292,7 @@ const ProfileForm = ({ formData, onFormChange }) => {
                 );
             case 'switch':
                 return (
-                    <Switch
+                    <WapSwitch
                         key={feature.key}
                         checked={value == 'enable' || false}
                         onChange={(checked) => {
@@ -304,15 +307,15 @@ const ProfileForm = ({ formData, onFormChange }) => {
     };
 
     return (
-        <Row gutter={[24, 24]}>
-            <Col xs={24} lg={6}>
-                <Card className='wap-profile-form-left-card' title={__('Profile Information', 'website-accessibility')}>
-                    <Space direction="vertical" style={{ width: '100%' }} size="large">
+        <WapRow gutter={[24, 24]}>
+            <WapCol xs={24} lg={6}>
+                <WapCard className='wap-profile-form-left-card' title={__('Profile Information', 'website-accessibility')}>
+                    <WapSpace direction="vertical" style={{ width: '100%' }} size="large">
                         <ControlWrapper
                             label={__('Profile Name', 'website-accessibility')}
                             required
                         >
-                            <Input
+                            <WapInput
                                 value={formData?.name || ''}
                                 onChange={(e) => handleFieldChange('name', e.target.value)}
                                 placeholder={__('Enter profile name', 'website-accessibility')}
@@ -348,15 +351,15 @@ const ProfileForm = ({ formData, onFormChange }) => {
                                 </div>
                             )}
                         </ControlWrapper>
-                    </Space>
-                </Card>
-            </Col>
+                    </WapSpace>
+                </WapCard>
+            </WapCol>
 
-            <Col xs={24} lg={18}>
-                <Card title={__('Accessibility Features', 'website-accessibility')}>
-                    <Row gutter={[16, 16]}>
+            <WapCol xs={24} lg={18}>
+                <WapCard title={__('Accessibility Features', 'website-accessibility')}>
+                    <WapRow gutter={[16, 16]}>
                         {widgetFeatures.map(feature => (
-                            <Col xs={24} sm={12} md={8} key={feature.key}>
+                            <WapCol xs={24} sm={12} md={8} key={feature.key}>
                                 <div className="wap-feature-item">
                                     <div className="wap-feature-header">
                                         <span className="wap-feature-icon">
@@ -370,12 +373,12 @@ const ProfileForm = ({ formData, onFormChange }) => {
                                         {renderFeatureControl(feature)}
                                     </div>
                                 </div>
-                            </Col>
+                            </WapCol>
                         ))}
-                    </Row>
-                </Card>
-            </Col>
-        </Row>
+                    </WapRow>
+                </WapCard>
+            </WapCol>
+        </WapRow>
     );
 };
 

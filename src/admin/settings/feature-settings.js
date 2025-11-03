@@ -1,4 +1,3 @@
-import { Collapse, Input, Switch, Flex, Typography, Button, Modal } from 'antd';
 import {
     EditOutlined,
 } from "@ant-design/icons";
@@ -8,9 +7,11 @@ import { STORE_NAME } from '../store';
 import ControlWrapper from '../components/control-wrapper';
 import { __ } from '@wordpress/i18n';
 import FeaturesCustomization from './features-customization';
-const { Title } = Typography;
+
 
 const FeatureSettings = () => {
+    const { WapSwitch, WapInput, WapModal, WapButton, WapFlex, WapCollapse ,WapTypography} = window?.wapComponents;
+    const { Title } = WapTypography;
     const [openCustomizationModal, setOpenCustomizationModal] = useState(false);
     const { presetsFormData } = useSelect((select) => select(STORE_NAME).getPresetsFormData());
     const { setPresetsFormData } = useDispatch(STORE_NAME);
@@ -43,7 +44,7 @@ const FeatureSettings = () => {
                     <ControlWrapper
                         label={__('Hide Oversized Widget', 'website-accessibility')}
                     >
-                        <Switch
+                        <WapSwitch
                             checked={attributes?.hideOversizedWidget || false}
                             onChange={(checked) => updateAttr({ hideOversizedWidget: checked })}
                         />
@@ -54,7 +55,7 @@ const FeatureSettings = () => {
                             <ControlWrapper
                                 label={__('Oversized Widget Title', 'website-accessibility')}
                             >
-                                <Input
+                                <WapInput
                                     placeholder={__('Oversized Widget Title', 'website-accessibility')}
                                     value={attributes?.oversizedTitle || ''}
                                     onChange={(e) => updateAttr({ oversizedTitle: e.target.value })}
@@ -67,7 +68,7 @@ const FeatureSettings = () => {
                     <ControlWrapper
                         label={__('Items per Row', 'website-accessibility')}
                     >
-                        <Input
+                        <WapInput
                             type="number"
                             placeholder="3"
                             value={attributes?.itemsPerRow || '3'}
@@ -77,11 +78,11 @@ const FeatureSettings = () => {
                             max={6}
                         />
                     </ControlWrapper>
-                    <Flex align="center" justify='space-between'>
+                    <WapFlex align="center" justify='space-between'>
                         <Title level={5} style={{ margin: 0 }}>{__('Feature Customization', 'website-accessibility')}</Title>
-                        <Flex align="center" gap={5}>
-                            <Button type="primary" size="small" shape='circle' onClick={() => setOpenCustomizationModal(true)} icon={<EditOutlined />}></Button>
-                            <Modal
+                        <WapFlex align="center" gap={5}>
+                            <WapButton type="primary" size="small" shape='circle' onClick={() => setOpenCustomizationModal(true)} icon={<EditOutlined />}></WapButton>
+                            <WapModal
                                 title={__('Feature Customization', 'website-accessibility')}
                                 open={openCustomizationModal}
                                 onCancel={() => {
@@ -92,9 +93,9 @@ const FeatureSettings = () => {
                                 width={'60vw'}
                             >
                                 <FeaturesCustomization updateAttr={updateAttr} attributes={attributes} />
-                            </Modal>
-                        </Flex>
-                    </Flex>
+                            </WapModal>
+                        </WapFlex>
+                    </WapFlex>
                 </>
             )
         },
@@ -106,12 +107,12 @@ const FeatureSettings = () => {
                     <ControlWrapper
                         label={__('Hide Title', 'website-accessibility')}
                     >
-                        <Switch checked={attributes.hideHeaderTitle} onChange={(checked) => updateAttr({ hideHeaderTitle: checked })} />
+                        <WapSwitch checked={attributes.hideHeaderTitle} onChange={(checked) => updateAttr({ hideHeaderTitle: checked })} />
                     </ControlWrapper>
                     <ControlWrapper
                         label={__('Hide Icon', 'website-accessibility')}
                     >
-                        <Switch checked={attributes.hideHeaderIcon} onChange={(checked) => updateAttr({ hideHeaderIcon: checked })} />
+                        <WapSwitch checked={attributes.hideHeaderIcon} onChange={(checked) => updateAttr({ hideHeaderIcon: checked })} />
                     </ControlWrapper>
                 </>
             )
@@ -124,12 +125,12 @@ const FeatureSettings = () => {
                     <ControlWrapper
                         label={__('Hide Item Icons', 'website-accessibility')}
                     >
-                        <Switch checked={attributes.hideItemIcons} onChange={(checked) => updateAttr({ hideItemIcons: checked })} />
+                        <WapSwitch checked={attributes.hideItemIcons} onChange={(checked) => updateAttr({ hideItemIcons: checked })} />
                     </ControlWrapper>
                     <ControlWrapper
                         label={__('Hide Item Labels', 'website-accessibility')}
                     >
-                        <Switch checked={attributes.hideItemLabels} onChange={(checked) => updateAttr({ hideItemLabels: checked })} />
+                        <WapSwitch checked={attributes.hideItemLabels} onChange={(checked) => updateAttr({ hideItemLabels: checked })} />
                     </ControlWrapper>
                 </>
             )
@@ -137,7 +138,7 @@ const FeatureSettings = () => {
     ];
 
     return (
-        <Collapse items={collapseItems} />
+        <WapCollapse items={collapseItems} />
     );
 };
 

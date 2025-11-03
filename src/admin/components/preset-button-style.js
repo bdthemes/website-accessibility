@@ -1,4 +1,3 @@
-import { Card, Flex, Input, Radio, Select, Tabs } from "antd";
 import { __ } from "@wordpress/i18n";
 import { useSelect, useDispatch } from "@wordpress/data";
 import { STORE_NAME } from "../store";
@@ -7,84 +6,92 @@ import ControlWrapper from "./control-wrapper";
 import clsx from "clsx";
 import ColorPicker from "../controls/color-picker";
 
-const ContentTab = ({ button, handleButtonChange }) => (
-	<>
 
-		<ControlWrapper label={__("Button Type", "website-accessibility")}>
-			<Flex vertical gap="middle">
-				<Radio.Group
-					block
-					options={[
-						{ label: __("Icon", "website-accessibility"), value: "icon" },
-						{ label: __("Text", "website-accessibility"), value: "text" },
-						{ label: __("Both", "website-accessibility"), value: "both" },
-					]}
-					value={button?.buttonType}
-					onChange={(e) => handleButtonChange("buttonType", e.target.value)}
-					optionType="button"
-					buttonStyle="solid"
-				/>
-			</Flex>
-		</ControlWrapper>
+const ContentTab = ({ button, handleButtonChange }) => {
+	const { WapFlex, WapInput, WapRadio } = window?.wapComponents;
 
-		{button.buttonType !== "icon" && (
-			<ControlWrapper label={__("Button Text", "website-accessibility")}>
-				<Input
-					value={button.text || ""}
-					onChange={(e) => handleButtonChange("text", e.target.value)}
-					placeholder={__("Click Me", "website-accessibility")}
+	return (
+		<>
+			<ControlWrapper label={__("Button Type", "website-accessibility")}>
+				<WapFlex vertical gap="middle">
+					<WapRadio.Group
+						block
+						options={[
+							{ label: __("Icon", "website-accessibility"), value: "icon" },
+							{ label: __("Text", "website-accessibility"), value: "text" },
+							{ label: __("Both", "website-accessibility"), value: "both" },
+						]}
+						value={button?.buttonType}
+						onChange={(e) => handleButtonChange("buttonType", e.target.value)}
+						optionType="button"
+						buttonStyle="solid"
+					/>
+				</WapFlex>
+			</ControlWrapper>
+
+			{button.buttonType !== "icon" && (
+				<ControlWrapper label={__("Button Text", "website-accessibility")}>
+					<WapInput
+						value={button.text || ""}
+						onChange={(e) => handleButtonChange("text", e.target.value)}
+						placeholder={__("Click Me", "website-accessibility")}
+					/>
+				</ControlWrapper>
+			)}
+
+
+			{button.buttonType !== "text" && (
+				<ControlWrapper label={__("Select Icon", "website-accessibility")}>
+					<IconPicker
+						value={button.icon}
+						onChange={(value) => handleButtonChange("icon", value)}
+					/>
+				</ControlWrapper>
+			)}
+		</>
+	);
+};
+
+const StyleTab = ({ button, handleButtonChange }) => {
+	const { WapInput } = window?.wapComponents;
+
+	return (
+		<>
+			<ControlWrapper label={__("Text Color", "website-accessibility")}>
+				<ColorPicker
+					value={button.color}
+					onChange={(value) => handleButtonChange("color", value)}
 				/>
 			</ControlWrapper>
-		)}
 
-
-		{button.buttonType !== "text" && (
-			<ControlWrapper label={__("Select Icon", "website-accessibility")}>
-				<IconPicker
-					value={button.icon}
-					onChange={(value) => handleButtonChange("icon", value)}
+			<ControlWrapper label={__("Background Color", "website-accessibility")}>
+				<ColorPicker
+					value={button.bgColor}
+					onChange={(value) => handleButtonChange("bgColor", value)}
 				/>
 			</ControlWrapper>
-		)}
-	</>
-);
 
-const StyleTab = ({ button, handleButtonChange }) => (
-	<>
-		<ControlWrapper label={__("Text Color", "website-accessibility")}>
-			<ColorPicker
-				value={button.color}
-				onChange={(value) => handleButtonChange("color", value)}
-			/>
-		</ControlWrapper>
+			<ControlWrapper label={__("Padding", "website-accessibility")}>
+				<WapInput
+					value={button.padding || ""}
+					onChange={(e) => handleButtonChange("padding", e.target.value)}
+					placeholder="e.g., 10px 20px"
+				/>
+			</ControlWrapper>
 
-		<ControlWrapper label={__("Background Color", "website-accessibility")}>
-			<ColorPicker
-				value={button.bgColor}
-				onChange={(value) => handleButtonChange("bgColor", value)}
-			/>
-		</ControlWrapper>
-
-		<ControlWrapper label={__("Padding", "website-accessibility")}>
-			<Input
-				value={button.padding || ""}
-				onChange={(e) => handleButtonChange("padding", e.target.value)}
-				placeholder="e.g., 10px 20px"
-			/>
-		</ControlWrapper>
-
-		<ControlWrapper label={__("Border Radius", "website-accessibility")}>
-			<Input
-				value={button.borderRadius || ""}
-				onChange={(e) => handleButtonChange("borderRadius", e.target.value)}
-				placeholder="e.g., 6px"
-			/>
-		</ControlWrapper>
-	</>
-);
+			<ControlWrapper label={__("Border Radius", "website-accessibility")}>
+				<WapInput
+					value={button.borderRadius || ""}
+					onChange={(e) => handleButtonChange("borderRadius", e.target.value)}
+					placeholder="e.g., 6px"
+				/>
+			</ControlWrapper>
+		</>
+	);
+};
 
 const ButtonStylePreset = () => {
-	const { PreviewButton, Icon } = window?.wapComponents;
+	const { PreviewButton, Icon, WapCard, WapSelect, WapTabs, WapInput } = window?.wapComponents;
 	const { presetsFormData } = useSelect((select) =>
 		select(STORE_NAME).getPresetsFormData(),
 	);
@@ -121,10 +128,10 @@ const ButtonStylePreset = () => {
 	];
 
 	return (
-		<Card className="wap-button-style-preset-card" style={{ margin: "0 auto" }}>
+		<WapCard className="wap-button-style-preset-card" style={{ margin: "0 auto" }}>
 			<div className="wap-button-style-preset">
 				<div className="wap-button-style-preset__left">
-					<Tabs defaultActiveKey="content" items={tabItems} />
+					<WapTabs defaultActiveKey="content" items={tabItems} />
 				</div>
 				<div className="wap-button-style-preset__center">
 					<div className="wap-os-style-wrapper">
@@ -163,7 +170,7 @@ const ButtonStylePreset = () => {
 					<ControlWrapper
 						label={__("Button Position", "website-accessibility")}
 					>
-						<Select
+						<WapSelect
 							value={position}
 							onChange={(value) => handleButtonChange("position", value)}
 							options={[
@@ -190,7 +197,7 @@ const ButtonStylePreset = () => {
 					<ControlWrapper
 						label={__("Horizontal Offset", "website-accessibility")}
 					>
-						<Input
+						<WapInput
 							type="number"
 							value={button.offsetX || ""}
 							onChange={(e) => handleButtonChange("offsetX", e.target.value)}
@@ -202,7 +209,7 @@ const ButtonStylePreset = () => {
 					<ControlWrapper
 						label={__("Vertical Offset", "website-accessibility")}
 					>
-						<Input
+						<WapInput
 							type="number"
 							value={button.offsetY || ""}
 							onChange={(e) => handleButtonChange("offsetY", e.target.value)}
@@ -212,7 +219,7 @@ const ButtonStylePreset = () => {
 					</ControlWrapper>
 				</div>
 			</div>
-		</Card>
+		</WapCard>
 	);
 };
 

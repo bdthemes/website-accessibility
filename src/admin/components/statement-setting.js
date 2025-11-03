@@ -1,6 +1,5 @@
 import { useState, useEffect } from "@wordpress/element";
 import apiFetch from "@wordpress/api-fetch";
-import { Card, Button, Typography, Space, Tooltip, message, Alert } from "antd";
 import {
     ReloadOutlined,
     ExclamationCircleOutlined,
@@ -8,12 +7,13 @@ import {
 } from "@ant-design/icons";
 import { __ } from "@wordpress/i18n";
 import { addQueryArgs } from "@wordpress/url";
-
-const { Title, Text } = Typography;
-
 import statementJson from "../../../default-posts/statement.json";
 
+
 const StatementSetting = () => {
+    const { WapCard, WapSpace, WapButton, WapAlert, WapTooltip, WapTypography } = window?.wapComponents;
+
+    const { Title, Text } = WapTypography;
     const [page, setPage] = useState(null);
     const [loading, setLoading] = useState(true);
     const [creating, setCreating] = useState(false);
@@ -48,6 +48,7 @@ const StatementSetting = () => {
 
     // Generate new statement page
     const handleGenerate = async () => {
+        const { WapMessage } = window?.wapComponents;
         setCreating(true);
         try {
             const newPage = await apiFetch({
@@ -61,13 +62,13 @@ const StatementSetting = () => {
                 },
             });
             setPage(newPage);
-            message.success({
+            WapMessage.success({
                 content: "Accessibility Statement page created successfully.",
                 style: { marginTop: 20 },
             });
         } catch (err) {
             console.error("Error creating statement page:", err);
-            message.error({
+            WapMessage.error({
                 content: "Failed to create Accessibility Statement page.",
                 style: { marginTop: 20 },
             });
@@ -77,12 +78,12 @@ const StatementSetting = () => {
     };
 
     return (
-        <Card
+        <WapCard
             style={{
                 marginTop: 20,
             }}
         >
-            <Space
+            <WapSpace
                 align="start"
                 style={{
                     width: "100%",
@@ -90,7 +91,7 @@ const StatementSetting = () => {
                 }}
             >
                 {/* Left side: Title, description, warning */}
-                <Space direction="vertical" size={6} style={{ flex: 1 }}>
+                <WapSpace direction="vertical" size={6} style={{ flex: 1 }}>
                     <Title level={4} style={{ margin: 0 }}>
                         {__("Statement Page", "website-accessibility")}
                     </Title>
@@ -102,7 +103,7 @@ const StatementSetting = () => {
                     </Text>
 
                     {!loading && !page && (
-                        <Alert
+                        <WapAlert
                             message={__(
                                 "No Accessibility Statement page found. Click the button to generate one.",
                                 "website-accessibility"
@@ -116,25 +117,25 @@ const StatementSetting = () => {
                             }}
                         />
                     )}
-                </Space>
+                </WapSpace>
 
                 {
                     !page ? (
-                        <Tooltip
+                        <WapTooltip
                             title={__("Click to generate a statement page", "website-accessibility")}
                         >
-                            <Button
+                            <WapButton
                                 type="primary"
                                 shape="circle"
                                 icon={<ReloadOutlined spin={creating || loading} />}
                                 onClick={handleGenerate}
                             />
-                        </Tooltip>
+                        </WapTooltip>
                     ) : (
-                        <Tooltip
+                        <WapTooltip
                             title={__("Hurray! We have a statement page!", "website-accessibility")}
                         >
-                            <Button
+                            <WapButton
                                 type="primary"
                                 shape="circle"
                                 icon={<CheckCircleOutlined />}
@@ -142,11 +143,11 @@ const StatementSetting = () => {
                                 target="_blank"
                                 size="large"
                             />
-                        </Tooltip>
+                        </WapTooltip>
                     )
                 }
-            </Space>
-        </Card>
+            </WapSpace>
+        </WapCard>
     );
 };
 

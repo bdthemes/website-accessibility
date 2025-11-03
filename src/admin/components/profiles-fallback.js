@@ -1,14 +1,14 @@
 import { __ } from '@wordpress/i18n';
-import { Button, Card, Col, Row, Typography, Layout } from 'antd';  
 import { RocketOutlined } from '@ant-design/icons';
 import createProfileImage from '../../assets/create-profile.gif';
 import addProileImage from '../../assets/add-profile.gif';
 import applyProfileImage from '../../assets/apply-profile.gif';
 
-const { Title, Paragraph, Text } = Typography;
-const { Space } = Layout;
+
 
 const ProfilesFallback = () => {
+  const {WapCard, WapButton, WapRow, WapCol, WapTypography} = window?.wapComponents;
+  const { Title, Paragraph, Text } = WapTypography;
   const openPricingPage = () => {
     window.open('https://oneaccessibility.com#pricing', '_blank');
   };
@@ -16,7 +16,7 @@ const ProfilesFallback = () => {
   return (
     <div className="wap-pro-landing">
       {/* Hero Section */}
-      <Card className="wap-welcome-card wap-header-card">
+      <WapCard className="wap-welcome-card wap-header-card">
         <div className="wap-welcome-card-content">
           <Title level={2} className="wap-header-card-title">
             {__('Accessibility Custom Profiles', 'website-accessibility')}
@@ -26,30 +26,30 @@ const ProfilesFallback = () => {
           </Text>
         </div>
         <div>
-          <Button
+          <WapButton
             type="primary"
             size="large"
             onClick={openPricingPage}
-           
+
           >
             {__('Upgrade to Pro', 'website-accessibility')}
             <span className="dashicons dashicons-arrow-right-alt" />
-          </Button>
+          </WapButton>
         </div>
-      </Card>
+      </WapCard>
 
       {/* About Custom Profiles / Step Grid */}
       <div className="profiles-steps">
         <Title level={4} className="profiles-steps-title">
           {__('How Custom Profiles Work', 'website-accessibility')}
         </Title>
-        <Row gutter={[16, 16]} className="profiles-steps-row">
-          <Col xs={24} sm={8}>
-            <Card 
+        <WapRow gutter={[16, 16]} className="profiles-steps-row">
+          <WapCol xs={24} sm={8}>
+            <WapCard
               cover={
-                <img 
-                  src={createProfileImage} 
-                  alt={__('Create Profile Form', 'website-accessibility')} 
+                <img
+                  src={createProfileImage}
+                  alt={__('Create Profile Form', 'website-accessibility')}
                   className="step-image"
                 />
               }
@@ -61,13 +61,13 @@ const ProfilesFallback = () => {
               <Paragraph className="step-description">
                 {__('Open the Custom Profiles form and configure your accessibility settings.', 'website-accessibility')}
               </Paragraph>
-            </Card>
-          </Col>
-          <Col xs={24} sm={8}>
-            <Card 
+            </WapCard>
+          </WapCol>
+          <WapCol xs={24} sm={8}>
+            <WapCard
               cover={
-                <img 
-                  src={addProileImage} 
+                <img
+                  src={addProileImage}
                   alt={__('Add Profile to Preset', 'website-accessibility')}
                   className="step-image"
                 />
@@ -80,13 +80,13 @@ const ProfilesFallback = () => {
               <Paragraph className="step-description">
                 {__('Save your profile and include it in a preset so it shows alongside default profiles.', 'website-accessibility')}
               </Paragraph>
-            </Card>
-          </Col>
-          <Col xs={24} sm={8}>
-            <Card 
+            </WapCard>
+          </WapCol>
+          <WapCol xs={24} sm={8}>
+            <WapCard
               cover={
-                <img 
-                  src={applyProfileImage} 
+                <img
+                  src={applyProfileImage}
                   alt={__('Frontend Profile View', 'website-accessibility')}
                   className="step-image"
                 />
@@ -99,9 +99,9 @@ const ProfilesFallback = () => {
               <Paragraph className="step-description">
                 {__('Your custom profile appears with default profiles. Users can apply it instantly for an improved experience.', 'website-accessibility')}
               </Paragraph>
-            </Card>
-          </Col>
-        </Row>
+            </WapCard>
+          </WapCol>
+        </WapRow>
       </div>
     </div>
   );

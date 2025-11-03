@@ -1,31 +1,30 @@
-import { Card, Switch, Typography, Space } from "antd";
-
-const { Title, Text } = Typography;
 
 const SettingsItem = ({ title, description, checked, onChange, disabled = false }) => {
+    const { WapCard, WapSpace, WapSwitch, WapTypography } = window?.wapComponents;
+    const { Title, Text } = WapTypography;
     return (
-        <Card
+        <WapCard
             style={{
                 marginTop: 20,
             }}
         >
-            <Space
+            <WapSpace
                 align="center"
                 style={{
                     width: "100%",
                     justifyContent: "space-between",
                 }}
             >
-                <Space direction="vertical" size={0}>
+                <WapSpace direction="vertical" size={0}>
                     <Title level={4} style={{ margin: 0 }}>
                         {title}
                     </Title>
                     <Text type="secondary">{description}</Text>
-                </Space>
+                </WapSpace>
 
-                <Switch checked={checked} onChange={onChange} disabled={disabled} />
-            </Space>
-        </Card>
+                <WapSwitch checked={checked} onChange={onChange} disabled={disabled} />
+            </WapSpace>
+        </WapCard>
     );
 };
 

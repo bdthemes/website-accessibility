@@ -1,17 +1,17 @@
-import { Typography, Flex, Tooltip } from "antd";
 
 const ControlWrapper = ({ children, label, required, tooltip, noLabel = false, description = '' }) => {
+    const { WapFlex, WapTypography, WapTooltip } = window?.wapComponents;
     return (
         <div className="wap-control-wrapper">
-            <Flex align="baseline" gap={2}>
-                {!noLabel && <Typography.Title level={5}>
+            <WapFlex align="baseline" gap={2}>
+                {!noLabel && <WapTypography.Title level={5}>
                     {label}
-                </Typography.Title>}
-                {required && <Typography.Text type="danger">*</Typography.Text>}
-            </Flex>
-            {tooltip && <Tooltip title={tooltip}></Tooltip>}
+                </WapTypography.Title>}
+                {required && <WapTypography.Text type="danger">*</WapTypography.Text>}
+            </WapFlex>
+            {tooltip && <WapTooltip title={tooltip}></WapTooltip>}
             {children}
-            {description && <Typography.Text type="secondary">{description}</Typography.Text>}
+            {description && <WapTypography.Text type="secondary">{description}</WapTypography.Text>}
         </div>
     );
 };

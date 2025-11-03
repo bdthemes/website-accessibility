@@ -4,7 +4,6 @@ import {
   EyeInvisibleOutlined,
   MenuOutlined,
 } from "@ant-design/icons";
-import { Card, Row, Col, Drawer, Badge } from "antd";
 import { ReactSortable } from "react-sortablejs";
 import { useState, useRef, useEffect } from "@wordpress/element";
 import { __ } from "@wordpress/i18n";
@@ -17,6 +16,7 @@ import LanguageSelectorSettings from "../settings/language-selector-settings";
 import FooterSettings from "../settings/footer-settings";
 
 const PresetPanelLeftSidebar = () => {
+  const { WapCard, WapRow, WapCol, WapDrawer, WapBadge } = window?.wapComponents;
   const [drawerVisible, setDrawerVisible] = useState(false);
   const [selectedItem, setSelectedItem] = useState(null);
   const isProActive = window?.websacPro?.isProActive || false;
@@ -100,17 +100,17 @@ const PresetPanelLeftSidebar = () => {
       >
         {items.map((item) => {
           return (
-            <Card key={item.id} className="wap-panel-left-sidebar__row">
-              <Row justify="space-between" align="middle">
-                <Col>
+            <WapCard key={item.id} className="wap-panel-left-sidebar__row">
+              <WapRow justify="space-between" align="middle">
+                <WapCol>
                   {
                     !item?.disableDrag && (
                       <MenuOutlined className="wap-panel-left-sidebar__drag-handle" />
                     )
                   }
                   <span>{item.title}</span>
-                </Col>
-                <Col className="wap-panel-left-sidebar__actions">
+                </WapCol>
+                <WapCol className="wap-panel-left-sidebar__actions">
                   {(!item?.isPro || isProActive) && (
                     <EditOutlined
                       className="wap-panel-left-sidebar__icon-action"
@@ -121,7 +121,7 @@ const PresetPanelLeftSidebar = () => {
                     />
                   )}
                   {item?.isPro && !isProActive ? (
-                    <Badge
+                    <WapBadge
                       count="Pro"
                       style={{
                         backgroundColor: '#f5222d',
@@ -147,14 +147,14 @@ const PresetPanelLeftSidebar = () => {
                     />
                   )}
 
-                </Col>
-              </Row>
-            </Card>
+                </WapCol>
+              </WapRow>
+            </WapCard>
           )
         })}
       </ReactSortable>
 
-      <Drawer
+      <WapDrawer
         title={`Edit ${selectedItem?.title || 'Item'}`}
         placement="left"
         onClose={handleDrawerClose}
@@ -190,7 +190,7 @@ const PresetPanelLeftSidebar = () => {
           />
         )}
 
-      </Drawer>
+      </WapDrawer>
     </div>
   );
 };

@@ -1,14 +1,17 @@
 import { useEffect } from '@wordpress/element';
-import { Card, Button, Typography, Space, message } from 'antd';
 import { __ } from '@wordpress/i18n';
 import { useDispatch, useSelect } from '@wordpress/data';
 import { DEFAULT_STATE, STORE_NAME } from '../store';
 import { useHistory, useLocation } from '../router';
 import ProfileForm from '../components/profile-form';
 
-const { Title, Text } = Typography;
+
+const { WapCard, WapButton, WapSpace, WapTypography, WapMessage } = window?.wapComponents;
+
+const { Title, Text } = WapTypography;
 
 const EditProfile = () => {
+    const { WapCard, WapButton, WapSpace, WapTypography } = window?.wapComponents;
     const history = useHistory();
     const location = useLocation();
     const id = location?.params?.id;
@@ -42,6 +45,7 @@ const EditProfile = () => {
     }, [profile]);
 
     const handleUpdate = async () => {
+        const { WapMessage } = window?.wapComponents;
         try {
             const updatedProfile = {
                 title: profilesFormData.name,
@@ -51,7 +55,7 @@ const EditProfile = () => {
             }
             await updateProfile(id, updatedProfile);
             await saveEditedProfile(id);
-            message.success({
+            WapMessage.success({
                 content: __('Profile updated successfully!', 'website-accessibility'),
                 style: { marginBlockStart: 30 },
             });
@@ -70,7 +74,7 @@ const EditProfile = () => {
 
     return (
         <div className="wap-edit-profile">
-                <Card className='wap-header-card'>
+                <WapCard className='wap-header-card'>
                     <div className='wap-header-card-content'>
                         <Title level={2} className='wap-header-card-title'>
                             {__('Edit Profile', 'website-accessibility')}
@@ -80,17 +84,17 @@ const EditProfile = () => {
                         </Text>
                     </div>
 
-                    <Button
+                    <WapButton
                         type="primary"
                         onClick={handleBack}
                         size='large'
                     >
-                        <Space>
+                        <WapSpace>
                             <span className="dashicons dashicons-arrow-left-alt"/>
                             {__('Back to Profiles', 'website-accessibility')}
-                        </Space>
-                    </Button>
-                </Card>
+                        </WapSpace>
+                    </WapButton>
+                </WapCard>
 
                 <ProfileForm
                     formData={profilesFormData}
@@ -98,25 +102,25 @@ const EditProfile = () => {
                 />
 
                 <div style={{ marginTop: 24, textAlign: 'right' }}>
-                    <Space>
-                        <Button onClick={handleBack} size='large'>
-                            <Space>
+                    <WapSpace>
+                        <WapButton onClick={handleBack} size='large'>
+                            <WapSpace>
                                 <span className='dashicons dashicons-dismiss' />
                                 {__('Cancel', 'website-accessibility')}
-                            </Space>
-                        </Button>
-                        <Button
+                            </WapSpace>
+                        </WapButton>
+                        <WapButton
                             type="primary"
                             onClick={handleUpdate}
                             disabled={!profilesFormData?.name?.trim()}
                             size='large'
                         >
-                            <Space>
+                            <WapSpace>
                                 {__('Update Profile', 'website-accessibility')}
                                 <span className='dashicons dashicons-arrow-right-alt' />
-                            </Space>
-                        </Button>
-                    </Space>
+                            </WapSpace>
+                        </WapButton>
+                    </WapSpace>
                 </div>
         </div>
     );

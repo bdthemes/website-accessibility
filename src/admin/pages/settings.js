@@ -1,13 +1,13 @@
 import { useEffect, useState } from "react";
 import apiFetch from "@wordpress/api-fetch";
-import { Card, Typography, Spin, message } from "antd";
 import { __ } from "@wordpress/i18n";
 import SettingsItem from "../components/settings-item";
 import StatementSetting from "../components/statement-setting";
 
-const { Title } = Typography;
 
 const Settings = () => {
+    const  { WapCard, WapTypography, WapSpin, WapMessage } = window?.wapComponents;
+    const { Title } = WapTypography;
     const { isProActive } = window?.websacPro || {};
     const [settings, setSettings] = useState({});
     const [loading, setLoading] = useState(true);
@@ -23,7 +23,7 @@ const Settings = () => {
             setSettings(res?.data || {});
         } catch (error) {
             console.error("Failed to load settings:", error);
-            message.error(__("Failed to load settings.", "website-accessibility"));
+            WapMessage.error(__("Failed to load settings.", "website-accessibility"));
         } finally {
             setLoading(false);
         }
@@ -39,13 +39,13 @@ const Settings = () => {
                 data: { [key]: value },
             });
             setSettings((prev) => ({ ...prev, [key]: value }));
-            message.success({
+            WapMessage.success({
                 content: __("Settings saved successfully.", "website-accessibility"),
                 style: { marginBlockStart: 20 },
             });
         } catch (error) {
             console.error("Failed to save setting:", error);
-            message.error({
+            WapMessage.error({
                 content: __("Failed to save settings.", "website-accessibility"),
                 style: { marginBlockStart: 20 },
             });
@@ -62,20 +62,20 @@ const Settings = () => {
     if (loading) {
         return (
             <div className="wap-settings-loading">
-                <Spin size="large" />
+                <WapSpin size="large" />
             </div>
         );
     }
 
     return (
         <div className="wap-settings">
-            <Card className="wap-settings-card wap-header-card">
+            <WapCard className="wap-settings-card wap-header-card">
                 <div className="wap-settings-card-content">
                     <Title level={2} className="wap-header-card-title">
                         {__("One Accessibility Settings", "website-accessibility")}
                     </Title>
                 </div>
-            </Card>
+            </WapCard>
 
             {/* General Statement Section */}
             <StatementSetting />

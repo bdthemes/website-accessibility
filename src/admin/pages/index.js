@@ -13,6 +13,7 @@ import EditProfile from './edit-profile';
 import Settings from './settings';
 import UsageStatistics from '../components/usage-statistics';
 
+
 const Pages = () => {
     const location = useLocation();
     const page = location?.params?.page;

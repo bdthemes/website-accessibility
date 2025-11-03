@@ -1,13 +1,14 @@
-import { Card, Row, Col, Switch, Badge } from "antd";
 import clsx from "clsx";
 import { useMemo } from "@wordpress/element";
 import { __ } from "@wordpress/i18n";
+
 
 const WidgetFeatures = ({
 	value,
 	accessibilityContext,
 	accessibilityDispatch,
 }) => {
+	const {WapCard, WapRow, WapCol, WapSwitch, WapBadge} = window?.wapComponents;
 	const { items } = value;
 	const featureItem = items.find((item) => item.slug === "features");
 	const attributes = featureItem?.attributes || {};
@@ -133,13 +134,13 @@ const WidgetFeatures = ({
 	};
 
 	return (
-		<Card className="wap-widget-features">
+		<WapCard className="wap-widget-features">
 			{!attributes?.hideOversizedWidget && (
-				<Row
+				<WapRow
 					align="middle"
 					className="wap-widget-features__row wap-widget-features__row--oversized"
 				>
-					<Col span={18}>
+					<WapCol span={18}>
 						{!attributes?.hideHeaderIcon && (
 							<span className="wap-widget-features__badge">XL</span>
 						)}
@@ -148,14 +149,14 @@ const WidgetFeatures = ({
 								{attributes?.oversizedTitle || "Oversized Widget"}
 							</span>
 						)}
-					</Col>
-					<Col span={6} style={{ textAlign: "right" }}>
-						<Switch checked={isOverSized} onChange={handleOversizedToggle} />
-					</Col>
-				</Row>
+					</WapCol>
+					<WapCol span={6} style={{ textAlign: "right" }}>
+						<WapSwitch checked={isOverSized} onChange={handleOversizedToggle} />
+					</WapCol>
+				</WapRow>
 			)}
 
-			<Row gutter={[10, 10]} className="wap-widget-features__grid">
+			<WapRow gutter={[10, 10]} className="wap-widget-features__grid">
 				{features.map((feature) => {
 					const key = feature.key;
 					const setting = currentSettings?.[key] || {};
@@ -168,7 +169,7 @@ const WidgetFeatures = ({
 					const isDummy = feature?.isDummy || false;
 
 					return (
-						<Col
+						<WapCol
 							key={key}
 							className={clsx(`wap-feature-${key}`, {
 								"wap-feature--active": isActive,
@@ -193,7 +194,7 @@ const WidgetFeatures = ({
 
 							{
 								isDummy && (
-									<Badge count={__("PRO", "website-accessibility")} color="gold" className="wap-widget-features-dummy"/>
+									<WapBadge count={__("PRO", "website-accessibility")} color="gold" className="wap-widget-features-dummy"/>
 								)
 							}
 
@@ -238,11 +239,11 @@ const WidgetFeatures = ({
 									</span>
 								</span>
 							)}
-						</Col>
+						</WapCol>
 					);
 				})}
-			</Row>
-		</Card>
+			</WapRow>
+		</WapCard>
 	);
 };
 

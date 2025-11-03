@@ -1,13 +1,13 @@
-import { Card, Button, Typography, Space } from 'antd';
 import { __ } from '@wordpress/i18n';
 import { useDispatch, useSelect } from '@wordpress/data';
 import { DEFAULT_STATE, STORE_NAME } from '../store';
 import { useHistory } from '../router';
 import ProfileForm from '../components/profile-form';
 
-const { Title, Text } = Typography;
 
 const CreateProfiles = () => {
+    const { WapCard, WapButton, WapSpace, WapTypography } = window?.wapComponents;
+    const { Title, Text } = WapTypography;
     const { profilesFormData } = useSelect((select) => select(STORE_NAME).getProfilesFormData());
     const { setProfilesFormData, createProfile } = useDispatch(STORE_NAME);
     const history = useHistory();
@@ -50,7 +50,7 @@ const CreateProfiles = () => {
     return (
         <div className="wap-create-profiles">
 
-                 <Card className='wap-header-card'>
+                <WapCard className='wap-header-card'>
                     <div className='wap-header-card-content'>
                         <Title level={2} className='wap-header-card-title'>
                             {__('Create New Profile', 'website-accessibility')}
@@ -59,16 +59,16 @@ const CreateProfiles = () => {
                             {__('Create a custom accessibility profile with specific settings for different user needs.', 'website-accessibility')}
                         </Text>
                     </div>
-                    <Button 
+                    <WapButton 
                         type="primary"
                         onClick={handleBack}
                     >
-                        <Space>
+                        <WapSpace>
                             <span className='dashicons dashicons-arrow-left-alt' />
                             {__('Back to Profiles', 'website-accessibility')}
-                        </Space>
-                    </Button>
-                </Card>
+                        </WapSpace>
+                    </WapButton>
+                </WapCard>
 
                 <ProfileForm 
                     formData={profilesFormData}
@@ -76,24 +76,24 @@ const CreateProfiles = () => {
                 />
 
                 <div style={{ marginTop: 24, textAlign: 'right' }}>
-                    <Space>
-                        <Button onClick={handleBack}>
-                            <Space>
+                    <WapSpace>
+                        <WapButton onClick={handleBack}>
+                            <WapSpace>
                                 <span className='dashicons dashicons-dismiss' />
                                 {__('Cancel', 'website-accessibility')}
-                            </Space>
-                        </Button>
-                        <Button 
+                            </WapSpace>
+                        </WapButton>
+                        <WapButton 
                             type="primary" 
                             onClick={handleSave}
                             disabled={!profilesFormData.name?.trim()}
                         >
-                            <Space> 
+                            <WapSpace> 
                                 {__('Create Profile', 'website-accessibility')}
                                 <span className='dashicons dashicons-arrow-right-alt' />
-                            </Space>
-                        </Button>
-                    </Space>
+                            </WapSpace>
+                        </WapButton>
+                    </WapSpace>
                 </div>
         </div>
     );

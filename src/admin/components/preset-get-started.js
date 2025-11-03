@@ -1,4 +1,3 @@
-import { Card, Input, Select, Switch } from "antd";
 import { __ } from "@wordpress/i18n";
 import { useState, useEffect } from "@wordpress/element";
 import { useSelect, useDispatch } from "@wordpress/data";
@@ -10,6 +9,7 @@ import { addQueryArgs } from "@wordpress/url";
 
 
 const GetStartedPreset = () => {
+    const { WapCard , WapInput, WapSelect, WapSwitch} = window?.wapComponents;
     const [posts, setPosts] = useState([]);
     const [searchInput, setSearchInput] = useState('');
     const { presetsFormData } = useSelect((select) => select(STORE_NAME).getPresetsFormData());
@@ -60,15 +60,15 @@ const GetStartedPreset = () => {
 
 
     return (
-        <Card className="wap-get-started-preset-card">
+        <WapCard className="wap-get-started-preset-card">
             <ControlWrapper label={__('Preset Name', 'website-accessibility')} required>
-                <Input
+                <WapInput
                     onChange={(e) => setPresetsFormData({ ...presetsFormData, title: e.target.value })}
                     value={presetsFormData?.title}
                 />
             </ControlWrapper>
             <ControlWrapper label={__('Condition', 'website-accessibility')} required>
-                <Select
+                <WapSelect
                     options={locationOptions}
                     onChange={(value) => setPresetsFormData({ ...presetsFormData, preset: { ...presetsFormData.preset, condition: value } })}
                     value={presetsFormData?.preset?.condition}
@@ -77,7 +77,7 @@ const GetStartedPreset = () => {
             {
                 presetsFormData?.preset?.condition === 'archive' && (
                     <ControlWrapper label={__('Specific Archive Page', 'website-accessibility')} required>
-                        <Select
+                        <WapSelect
                             options={archivePages}
                             onChange={(value) => setPresetsFormData({ ...presetsFormData, preset: { ...presetsFormData.preset, specificArchive: value } })}
                             value={presetsFormData?.preset?.specificArchive}
@@ -92,7 +92,7 @@ const GetStartedPreset = () => {
                 presetsFormData?.preset?.condition === 'singular' && (
                     <>
                         <ControlWrapper label={__('Specific Posts', 'website-accessibility')} required>
-                            <Select
+                            <WapSelect
                                 options={posts}
                                 onChange={(value) => setPresetsFormData({ ...presetsFormData, preset: { ...presetsFormData.preset, specificPosts: value } })}
                                 value={presetsFormData?.preset?.specificPosts}
@@ -107,12 +107,12 @@ const GetStartedPreset = () => {
                 )
             }
             <ControlWrapper label={__('Active', 'website-accessibility')}>
-                <Switch
+                <WapSwitch
                     checked={presetsFormData?.preset?.active}
                     onChange={(value) => setPresetsFormData({ ...presetsFormData, preset: { ...presetsFormData.preset, active: value } })}
                     value={presetsFormData?.preset?.active} />
             </ControlWrapper>
-        </Card>
+        </WapCard>
     )
 };
 

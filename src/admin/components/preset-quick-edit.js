@@ -1,4 +1,3 @@
-import { Drawer, Input, Switch, Button, Space, message, Select } from 'antd';
 import { __ } from '@wordpress/i18n';
 import { useEffect, useState } from '@wordpress/element';
 import { useSelect, useDispatch } from '@wordpress/data';
@@ -14,6 +13,7 @@ const PresetQuickEdit = ({
   preset: presetRaw,
   onUpdate,
 }) => {
+  const { WapInput, WapSelect, WapSwitch, WapDrawer, WapButton, WapSpace, WapMessage } = window?.wapComponents;
   const [posts, setPosts] = useState([]);
   const [searchInput, setSearchInput] = useState('');
   const { updatePreset, saveEditedPreset, setPresetsFormData } = useDispatch(STORE_NAME);
@@ -106,7 +106,7 @@ const PresetQuickEdit = ({
 
       await saveEditedPreset(preset.id);
 
-      message.success({
+      WapMessage.success({
         content: __('Preset updated successfully', 'website-accessibility'),
         style: { marginBlockStart: 30 },
       });
@@ -163,7 +163,7 @@ const PresetQuickEdit = ({
   };
 
   return (
-    <Drawer
+    <WapDrawer
       title={__('Quick Edit Preset', 'website-accessibility')}
       className="wap-preset-quick-edit"
       placement="right"
@@ -172,16 +172,16 @@ const PresetQuickEdit = ({
       width={400}
       rootClassName="wap-panel-quick-edit-drawer"
       extra={
-        <Space>
-          <Button onClick={handleClose}>{__('Cancel', 'website-accessibility')}</Button>
-          <Button
+        <WapSpace>
+          <WapButton onClick={handleClose}>{__('Cancel', 'website-accessibility')}</WapButton>
+          <WapButton
             type="primary"
             onClick={handleSave}
             disabled={!presetsFormData?.title}
           >
             {__('Save', 'website-accessibility')}
-          </Button>
-        </Space>
+          </WapButton>
+        </WapSpace>
       }
     >
       <div className="wap-quick-edit-form">
@@ -189,7 +189,7 @@ const PresetQuickEdit = ({
           label={__('Preset Name', 'website-accessibility')}
           required={true}
         >
-          <Input
+          <WapInput
             value={presetsFormData?.title || ''}
             onChange={(e) => handleTitleChange(e.target.value)}
             placeholder={__('Enter preset name', 'website-accessibility')}
@@ -200,7 +200,7 @@ const PresetQuickEdit = ({
           label={__('Condition', 'website-accessibility')}
           tooltip={__('Select where this preset should be applied', 'website-accessibility')}
         >
-          <Select
+          <WapSelect
             value={presetsFormData?.preset?.condition}
             onChange={handleConditionChange}
             options={locationOptions}
@@ -213,7 +213,7 @@ const PresetQuickEdit = ({
         {
           presetsFormData?.preset?.condition === 'archive' && (
             <ControlWrapper label={__('Specific Archive Page', 'website-accessibility')} required>
-              <Select
+              <WapSelect
                 options={archivePages}
                 onChange={(value) => setPresetsFormData({ ...presetsFormData, preset: { ...presetsFormData.preset, specificArchive: value } })}
                 value={presetsFormData?.preset?.specificArchive}
@@ -228,7 +228,7 @@ const PresetQuickEdit = ({
           presetsFormData?.preset?.condition === 'singular' && (
             <>
               <ControlWrapper label={__('Specific Posts', 'website-accessibility')} required>
-                <Select
+                <WapSelect
                   options={posts}
                   onChange={(value) => setPresetsFormData({ ...presetsFormData, preset: { ...presetsFormData.preset, specificPosts: value } })}
                   value={presetsFormData?.preset?.specificPosts}
@@ -246,13 +246,13 @@ const PresetQuickEdit = ({
         <ControlWrapper
           label={__('Active', 'website-accessibility')}
         >
-          <Switch
+          <WapSwitch
             checked={presetsFormData?.preset?.active}
             onChange={handleActiveChange}
           />
         </ControlWrapper>
       </div>
-    </Drawer>
+    </WapDrawer>
   );
 };
 

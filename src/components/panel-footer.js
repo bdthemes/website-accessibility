@@ -1,8 +1,8 @@
-import { Button, Flex, message } from 'antd';
 import { DeleteOutlined, ReloadOutlined, SaveOutlined } from '@ant-design/icons';
 import { __ } from '@wordpress/i18n';
 import { useState, useEffect, useCallback, useMemo } from '@wordpress/element';
 import apiFetch from '@wordpress/api-fetch';
+
 
 // Simple debounce helper
 const debounce = (fn, delay = 1000) => {
@@ -15,6 +15,7 @@ const debounce = (fn, delay = 1000) => {
 
 
 const PanelFooter = ({ value, accessibilityContext, accessibilityDispatch }) => {
+  const { WapMessage, WapButton, WapFlex } = window?.wapComponents;
   const [savingPreference, setSavingPreference] = useState(false);
   const [deletingPreference, setDeletingPreference] = useState(false);
   const [hasSavedPreference, setHasSavedPreference] = useState(false);
@@ -33,7 +34,7 @@ const PanelFooter = ({ value, accessibilityContext, accessibilityDispatch }) => 
   }, []);
 
   // ✅ Ant Design message
-  const [messageApi, contextHolder] = message.useMessage();
+  const [messageApi, contextHolder] = WapMessage.useMessage();
 
   const footerItem = value?.items?.find(item => item.slug === 'footer');
   const attributes = footerItem?.attributes || {};
@@ -209,8 +210,8 @@ const PanelFooter = ({ value, accessibilityContext, accessibilityDispatch }) => 
       {contextHolder}
 
       {(isUserLoggedIn || !isFrontend) && showPreference && (
-        <Flex align="center" justify="space-between" gap={10} style={{ marginBottom: '10px', padding: '0 24px' }}>
-          <Button
+        <WapFlex align="center" justify="space-between" gap={10} style={{ marginBottom: '10px', padding: '0 24px' }}>
+          <WapButton
             type="primary"
             icon={<SaveOutlined />}
             size="large"
@@ -222,9 +223,9 @@ const PanelFooter = ({ value, accessibilityContext, accessibilityDispatch }) => 
             {hasSavedPreference
               ? updatePreferenceText
               : savePreferenceText}
-          </Button>
+          </WapButton>
 
-          <Button
+          <WapButton
             danger
             type="primary"
             icon={<DeleteOutlined />}
@@ -235,12 +236,12 @@ const PanelFooter = ({ value, accessibilityContext, accessibilityDispatch }) => 
             disabled={isFrontend ? !hasSavedPreference || deletingPreference || loadingPreference : false}
           >
             {deletePreferenceText}
-          </Button>
-        </Flex>
+          </WapButton>
+        </WapFlex>
       )}
 
-      <Flex className="wap-panel-footer__actions">
-        <Button
+      <WapFlex className="wap-panel-footer__actions">
+        <WapButton
           type="primary"
           icon={<ReloadOutlined />}
           size="large"
@@ -248,21 +249,21 @@ const PanelFooter = ({ value, accessibilityContext, accessibilityDispatch }) => 
           onClick={handleReset}
         >
           {resetBtnText}
-        </Button>
+        </WapButton>
 
         {
           (isProActive && showConsent && isLanguageActive) && (
-            <Button
+            <WapButton
               type="primary"
               size="large"
               block
               onClick={handleClearConsent}
             >
               {__('Clear consent', 'website-accessibility')}
-            </Button>
+            </WapButton>
           )
         }
-      </Flex>
+      </WapFlex>
 
       <div className="wap-panel-footer__links">
 
