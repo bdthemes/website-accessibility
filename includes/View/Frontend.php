@@ -134,7 +134,8 @@ class Frontend
                     'show_usage_statistics' => true
                 ]),
                 'nonce'           => wp_create_nonce('wp_rest'),
-                'restUrl'         => rest_url()
+                'restUrl'         => rest_url(),
+                'postId'          => get_the_ID(),
             ]);
         }
     }
