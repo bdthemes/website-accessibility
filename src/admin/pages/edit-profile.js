@@ -48,7 +48,7 @@ const EditProfile = () => {
         const { WapMessage } = window?.wapComponents;
         try {
             const updatedProfile = {
-                title: profilesFormData.name,
+                name: profilesFormData.name,
                 description: profilesFormData.description,
                 features: profilesFormData.features,
                 icon: profilesFormData?.icon,

@@ -294,7 +294,7 @@ const store = createReduxStore(STORE_NAME, {
                         features: profileFormData.features,
                         icon: profileFormData?.icon,
                     }),
-                });
+                });             
                 await dispatch({ type: 'UPDATE_PROFILE', profile });
             };
         },
