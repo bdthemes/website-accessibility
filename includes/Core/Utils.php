@@ -14,7 +14,7 @@ class Utils
         // Initialize WP_Filesystem
         WP_Filesystem();
     }
-    
+
     public static function get_preset_data($preset)
     {
         if (is_object($preset) && !empty($preset->ID) && !empty($preset->post_content)) {
@@ -42,6 +42,81 @@ class Utils
 
         return null;
     }
+
+    private static function detect_page_builder_edit_mode()
+    {
+        global $pagenow;
+
+        // Elementor
+        if (did_action('elementor/loaded') && class_exists('\Elementor\Plugin')) {
+            try {
+                if (\Elementor\Plugin::$instance->editor->is_edit_mode() || \Elementor\Plugin::$instance->preview->is_preview_mode()) {
+                    return 'elementor';
+                }
+            } catch (\Exception $e) {
+            }
+        }
+
+        // Bricks
+        if (defined('BRICKS_VERSION')) {
+            if (function_exists('bricks_is_builder') && bricks_is_builder()) {
+                return 'bricks';
+            }
+            if (isset($_GET['bricks']) && $_GET['bricks'] === 'editor') {
+                return 'bricks';
+            }
+        }
+
+        // Beaver Builder
+        if (class_exists('FLBuilderModel') && \FLBuilderModel::is_builder_active()) {
+            return 'beaver';
+        }
+
+        // Divi
+        if (function_exists('et_core_is_fb_enabled') && et_core_is_fb_enabled()) {
+            return 'divi';
+        }
+
+        // WPBakery / VC
+        if (defined('WPB_VC_VERSION') && function_exists('vc_is_inline') && vc_is_inline()) {
+            return 'wpbakery';
+        }
+
+        // Oxygen
+        if (defined('OXYGEN_IFRAME') || isset($_GET['ct_builder']) || isset($_GET['oxygen_iframe'])) {
+            return 'oxygen';
+        }
+
+        // SiteOrigin
+        if (class_exists('SiteOrigin_Panels') && !empty($_GET['so_live_editor'])) {
+            return 'siteorigin';
+        }
+
+        // Cornerstone
+        if (isset($_GET['cornerstone']) || isset($_GET['x-cs-preview'])) {
+            return 'cornerstone';
+        }
+
+        // Thrive
+        if (isset($_GET['tve']) && $_GET['tve'] === 'true') {
+            return 'thrive';
+        }
+
+        // Breakdance
+        if (defined('BREAKDANCE_VERSION') && isset($_GET['breakdance']) && $_GET['breakdance'] === 'builder') {
+            return 'breakdance';
+        }
+
+        return false;
+    }
+
+    public static function is_builder_editor(){
+        if (!empty(self::detect_page_builder_edit_mode())) {
+            return true;
+        }
+        return false;
+    }
+
 
     public static function process_preset_data($content)
     {

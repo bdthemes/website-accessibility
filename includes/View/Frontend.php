@@ -57,12 +57,33 @@ class Frontend
         return null;
     }
 
+    public function get_preset_data()
+    {
+        $presets = get_posts([
+            'post_type' => 'websac_preset',
+            'posts_per_page' => -1,
+        ]);
+
+        return array_map(function ($preset) {
+            $data = Utils::get_preset_data($preset);
+            if (!empty($data['preset']['active'])) {
+                return $data;
+            }
+            return null;
+        }, $presets);
+    }
+
+    public function should_render_preset_assets()
+    {
+        return is_admin() || !empty(Utils::get_current_preset($this->get_preset_data(), Utils::get_page_type()));
+    }
+
 
     public function enqueue_components_scripts($hook)
     {
-        if (!str_contains($hook, 'accessibility') && is_admin()) {
-            return;
-        }
+        if (!str_contains($hook, 'accessibility') && is_admin()) return;
+
+        if (!$this->should_render_preset_assets() || Utils::is_builder_editor()) return;
 
         $components_assets = WEBSAC_BUILD_DIR . 'components/index.asset.php';
         if (file_exists($components_assets)) {
@@ -86,21 +107,11 @@ class Frontend
 
     public function enqueue_frontend_scripts()
     {
+        if (!$this->should_render_preset_assets() || Utils::is_builder_editor()) return;
+
         $frontend_assets = WEBSAC_BUILD_DIR . 'frontend/frontend.asset.php';
-        $presets = get_posts([
-            'post_type' => 'websac_preset',
-            'posts_per_page' => -1,
-        ]);
         $profiles = $this->get_profiles();
-
-        $presets_data = array_map(function ($preset) {
-            $data = Utils::get_preset_data($preset);
-            if (!empty($data['preset']['active'])) {
-                return $data;
-            }
-            return null;
-        }, $presets);
-
+        $presets_data = $this->get_preset_data();
         $page_type = Utils::get_page_type();
 
         if (file_exists($frontend_assets)) {
@@ -142,17 +153,19 @@ class Frontend
 
     public function render_preset_root()
     {
-        if (!wp_script_is('wap-accessibility-frontend')) {
-            return;
+        if (Utils::is_builder_editor()) return;
+        
+        if (wp_script_is('wap-accessibility-frontend')) {
+            echo '<div id="website-accessibility-app"></div>';
+            // Google Translate
+            echo '<div id="wap-google-translate-container"></div>';
         }
 
-        echo '<div id="website-accessibility-app"></div>';
-        // Google Translate
-        echo '<div id="wap-google-translate-container"></div>';
+
         // Admin View Container - Will be used by the admin view script
-        if(
-            current_user_can('manage_options') && 
-            class_exists('\bdthemes\websiteaccessibilitypro\Admin\License') && 
+        if (
+            current_user_can('manage_options') &&
+            class_exists('\bdthemes\websiteaccessibilitypro\Admin\License') &&
             \bdthemes\websiteaccessibilitypro\Admin\License::get_instance()->is_license_valid()
         ) {
             echo '<div id="website-accessibility-checker"></div>';
