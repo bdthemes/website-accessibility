@@ -1,5 +1,4 @@
 import { EyeOutlined } from '@ant-design/icons';
-import WapButton from './wap-button';
 
 const PreviewButton = ({
   text = 'Preview Accessibility',

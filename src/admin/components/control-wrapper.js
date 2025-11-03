@@ -4,14 +4,14 @@ const ControlWrapper = ({ children, label, required, tooltip, noLabel = false, d
     return (
         <div className="wap-control-wrapper">
             <WapFlex align="baseline" gap={2}>
-                {!noLabel && <WapTypography level={5}>
+                {!noLabel && <WapTypography.Title level={5}>
                     {label}
-                </WapTypography>}
-                {required && <WapTypography type="danger">*</WapTypography>}
+                </WapTypography.Title>}
+                {required && <WapTypography.Text type="danger">*</WapTypography.Text>}
             </WapFlex>
             {tooltip && <WapTooltip title={tooltip}></WapTooltip>}
             {children}
-            {description && <WapTypography type="secondary">{description}</WapTypography>}
+            {description && <WapTypography.Text type="secondary">{description}</WapTypography.Text>}
         </div>
     );
 };
