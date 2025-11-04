@@ -59,6 +59,8 @@ const PanelFooter = ({ value, accessibilityContext, accessibilityDispatch }) => 
     '--wap-footer-reset-btn-bg': attributes.resetBtnBg,
     '--wap-footer-reset-btn-color': attributes.resetBtnColor,
     '--wap-footer-reset-btn-radius': attributes.resetBtnRadius,
+    '--wap-footer-reset-btn-font-size': attributes.resetBtnFontSize,
+    '--wap-footer-reset-btn-font-weight': attributes.resetBtnFontWeight,
     '--wap-footer-link-color': attributes.linkColor,
     '--wap-footer-branding-color': attributes.brandingColor,
   };
@@ -242,6 +244,7 @@ const PanelFooter = ({ value, accessibilityContext, accessibilityDispatch }) => 
 
       <WapFlex className="wap-panel-footer__actions">
         <WapButton
+          className="wap-panel-footer__reset-btn"
           type="primary"
           icon={<ReloadOutlined />}
           size="large"
@@ -254,6 +257,7 @@ const PanelFooter = ({ value, accessibilityContext, accessibilityDispatch }) => 
         {
           (isProActive && showConsent && isLanguageActive) && (
             <WapButton
+              className="wap-panel-footer__reset-btn"
               type="primary"
               size="large"
               block
