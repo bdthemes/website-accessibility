@@ -1,5 +1,5 @@
 === One Accessibility – Making Your Site Accessible to Everyone ===
-Contributors:      bdthemes, mizan42047
+Contributors:      bdthemes, mizan42047, abutalib, mohammaadfarid, muhammadasik, syedfarhanreza
 Tags:              accessibility, a11y, wcag, ada-compliance, screen-reader  
 Requires at least: 6.1  
 Tested up to:      6.8  
@@ -15,6 +15,8 @@ Make your site accessible to everyone with advanced tools, WCAG compliance, and 
 **Make Your Website Accessible to Everyone with One Accessibility Website Accessibility Plugin**
 
 In today's digital world, creating inclusive web experiences isn't just good practice—it's essential. **One Accessibility Website Accessibility** is a comprehensive WordPress plugin designed to help website owners, developers, and businesses effortlessly achieve WCAG 2.1, ADA, and Section 508 compliance while providing an exceptional user experience for visitors with diverse accessibility needs.
+
+### [🎉 Black Friday Offer: Upgrade to Pro and Save up to 87% on All Plugins! 🎊](https://bdthemes.com/deals/?utm_source=WordPress_org&utm_medium=bfcm_cta&utm_campaign=one_accessibility)
 
 ### ✨ Why Choose One Accessibility Website Accessibility?
 
