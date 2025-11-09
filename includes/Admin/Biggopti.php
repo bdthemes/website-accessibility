@@ -140,16 +140,22 @@ class Biggopti {
 	 * @return bool True if the biggopti should be shown, false otherwise.
 	 */
 	private function is_biggopti_compatible_with_plugin($biggopti) {
+		$license = null;
+		if (class_exists('\bdthemes\websiteaccessibilitypro\Admin\License')) {
+            $license = \bdthemes\websiteaccessibilitypro\Admin\License::get_instance();
+        }
+
 		// Get current plugin info
 		$current_plugin_slug = $this->get_current_plugin_slug();
-		$is_pro_active = function_exists('one_accessibility_pro_activated') ? one_accessibility_pro_activated() : false;
+		$is_pro_active = $license && method_exists($license, 'is_license_valid') ? $license->is_license_valid() : false;
 		$is_lite_active = $current_plugin_slug === 'website-accessibility';
-		$is_pro_plugin = $current_plugin_slug === 'one-accessibility-pro';
-		
+		$is_pro_plugin = $current_plugin_slug === 'website-accessibility-pro';
+	
 		// Get client targets, default to ['both'] if not set or not an array
 		$client_targets = (isset($biggopti->client_targets) && is_array($biggopti->client_targets))
 		? $biggopti->client_targets
 		: ['both'];
+
 
 		// Determine if this is targeted at Pro users
 		$pro_targeted = in_array('pro', $client_targets, true);
@@ -179,7 +185,7 @@ class Biggopti {
 					break;
 					
 				case 'free':
-					if ($is_lite_active) {
+					if ($is_lite_active && !$is_pro_active) {
 						return true;
 					}
 					break;
