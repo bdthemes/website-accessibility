@@ -165,6 +165,9 @@ final class WebsiteAccessibility
 		// Initialize admin assets
 		\bdthemes\websiteaccessibility\Admin\Enqueue::get_instance();
 
+		// Initialize admin biggopti system
+		\bdthemes\websiteaccessibility\Admin\Biggopti::get_instance();
+
 		// Initialize frontend assets
 		\bdthemes\websiteaccessibility\View\Frontend::get_instance();
 
