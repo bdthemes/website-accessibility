@@ -5,7 +5,7 @@
  * Description:       A comprehensive WordPress plugin to enhance website accessibility and ensure WCAG compliance.
  * Requires at least: 6.1
  * Requires PHP:      7.4
- * Version:           1.1.1
+ * Version:           1.1.2
  * Author:            bdthemes
  * Author URI:        https://oneaccessibility.com
  * License:           GPL-2.0-or-later
@@ -38,7 +38,7 @@ final class WebsiteAccessibility
 	 *
 	 * @var string
 	 */
-	const VERSION = '1.1.1';
+	const VERSION = '1.1.2';
 
 	/**
 	 * Private constructor for singleton pattern.
@@ -165,13 +165,17 @@ final class WebsiteAccessibility
 		// Initialize admin assets
 		\bdthemes\websiteaccessibility\Admin\Enqueue::get_instance();
 
+		// Initialize admin biggopti system
+		\bdthemes\websiteaccessibility\Admin\Biggopti::get_instance();
+
 		// Initialize frontend assets
 		\bdthemes\websiteaccessibility\View\Frontend::get_instance();
 
-		// Initialize the routes
-		\bdthemes\websiteaccessibility\Routes\PreferenceRouteV1::get_instance();
-		\bdthemes\websiteaccessibility\Routes\SettingsRouteV1::get_instance();
-		\bdthemes\websiteaccessibility\Routes\UsageStatisticsRouteV1::get_instance();
+	// Initialize the routes
+	\bdthemes\websiteaccessibility\Routes\PreferenceRouteV1::get_instance();
+	\bdthemes\websiteaccessibility\Routes\SettingsRouteV1::get_instance();
+	\bdthemes\websiteaccessibility\Routes\UsageStatisticsRouteV1::get_instance();
+	\bdthemes\websiteaccessibility\Routes\ExportImportRouteV1::get_instance();
 	}
 
 	/**
