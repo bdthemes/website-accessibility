@@ -173,6 +173,12 @@ const FooterSettings = () => {
                                     <ControlWrapper label={__('Border Radius', 'website-accessibility')}>
                                         <WapInput value={attributes.resetBtnRadius} onChange={e => updateAttr({ resetBtnRadius: e.target.value })} placeholder="6px" />
                                     </ControlWrapper>
+                                    <ControlWrapper label={__('Font Size', 'website-accessibility')}>
+                                        <WapInput value={attributes.resetBtnFontSize} onChange={e => updateAttr({ resetBtnFontSize: e.target.value })} placeholder="14px" />
+                                    </ControlWrapper>
+                                    <ControlWrapper label={__('Font Weight', 'website-accessibility')}>
+                                        <WapInput value={attributes.resetBtnFontWeight} onChange={e => updateAttr({ resetBtnFontWeight: e.target.value })} placeholder="500" />
+                                    </ControlWrapper>
                                 </>
                             )
                         },
