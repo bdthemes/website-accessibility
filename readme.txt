@@ -160,6 +160,9 @@ This plugin uses the following open-source libraries and third-party tools. We a
 
 == Changelog ==
 
+= 1.1.3 – November 10, 2025 =
+* Improvement: Refined UI/UX
+
 = 1.1.2 – November 9, 2025 =
 * Fix: Resolved issue with the Accessibility edit profile name.
 * Improvement: Optimized overall UI/UX, performance, and code structure.
