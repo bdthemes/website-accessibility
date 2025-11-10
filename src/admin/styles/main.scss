@@ -63,7 +63,7 @@
     &:not(.wap-pro-admin) {
         .toplevel_page_website-accessibility {
             &>.wp-submenu-wrap {
-                li:nth-last-child(2) {
+                li:nth-last-child(3) {
                     @include profile-pro-badge;
                 }
             }
@@ -73,7 +73,7 @@
     &.not-licensed {
         .toplevel_page_website-accessibility {
             &>.wp-submenu-wrap {
-                li:nth-last-child(3) {
+                li:nth-last-child(4) {
                     @include profile-pro-badge;
                 }
             }
