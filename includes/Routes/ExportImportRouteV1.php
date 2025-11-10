@@ -222,7 +222,18 @@ class ExportImportRouteV1
             }
 
             // Check if preset with same title exists
-            $existing = get_page_by_title($preset['title'], OBJECT, 'websac_preset');
+            $existing = get_posts([
+                'post_type'      => 'websac_preset',
+                'title'          => $preset['title'],
+                'post_status'    => 'any',
+                'posts_per_page' => 1,
+            ]);
+
+            if (!empty($existing)) {
+                $existing = $existing[0];
+            }else {
+                $existing = false;
+            }
 
             $post_data = [
                 'post_title'   => sanitize_text_field($preset['title']),
@@ -270,7 +281,18 @@ class ExportImportRouteV1
             }
 
             // Check if profile with same title exists
-            $existing = get_page_by_title($profile['title'], OBJECT, 'websac_profile');
+            $existing = get_posts([
+                'post_type'      => 'websac_profile',
+                'title'          => $profile['title'],
+                'post_status'    => 'any',
+                'posts_per_page' => 1,
+            ]);
+
+            if (!empty($existing)) {
+                $existing = $existing[0];
+            } else {
+                $existing = false;
+            }
 
             $post_data = [
                 'post_title'   => sanitize_text_field($profile['title']),
