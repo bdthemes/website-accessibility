@@ -171,10 +171,11 @@ final class WebsiteAccessibility
 		// Initialize frontend assets
 		\bdthemes\websiteaccessibility\View\Frontend::get_instance();
 
-		// Initialize the routes
-		\bdthemes\websiteaccessibility\Routes\PreferenceRouteV1::get_instance();
-		\bdthemes\websiteaccessibility\Routes\SettingsRouteV1::get_instance();
-		\bdthemes\websiteaccessibility\Routes\UsageStatisticsRouteV1::get_instance();
+	// Initialize the routes
+	\bdthemes\websiteaccessibility\Routes\PreferenceRouteV1::get_instance();
+	\bdthemes\websiteaccessibility\Routes\SettingsRouteV1::get_instance();
+	\bdthemes\websiteaccessibility\Routes\UsageStatisticsRouteV1::get_instance();
+	\bdthemes\websiteaccessibility\Routes\ExportImportRouteV1::get_instance();
 	}
 
 	/**

@@ -1,0 +1,64 @@
+// Export/Import Settings Card Styles
+
+.wap-export-import-card {
+    margin-top: 20px;
+    
+    .wap-settings-card-content {
+        padding: 0;
+    }
+
+    .ant-card-body {
+        padding: 24px;
+    }
+
+    .wap-export-import-header {
+        margin-bottom: 16px;
+        
+        .ant-typography {
+            margin-bottom: 0;
+        }
+    }
+
+    .ant-btn {
+        height: 40px;
+        min-width: 140px;
+        font-size: 14px;
+        font-weight: 500;
+    }
+
+    .ant-space {
+        display: flex;
+        flex-wrap: wrap;
+    }
+}
+
+// Settings Cards General Styles
+.wap-settings {
+    .wap-settings-card {
+        margin-bottom: 16px;
+        border-radius: 8px;
+        box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+
+        &.wap-header-card {
+            background: linear-gradient(135deg, #1677ff 0%, #0958d9 100%);
+            color: #fff;
+            margin-bottom: 24px;
+
+            .wap-settings-card-content {
+                padding: 24px;
+            }
+
+            .wap-header-card-title {
+                color: #fff;
+                margin: 0;
+            }
+        }
+    }
+
+    .wap-settings-loading {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        min-height: 400px;
+    }
+}

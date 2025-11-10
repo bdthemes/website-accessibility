@@ -3,6 +3,7 @@ import apiFetch from "@wordpress/api-fetch";
 import { __ } from "@wordpress/i18n";
 import SettingsItem from "../components/settings-item";
 import StatementSetting from "../components/statement-setting";
+import ExportImportSettings from "../components/export-import-settings";
 
 
 const Settings = () => {
@@ -113,6 +114,9 @@ const Settings = () => {
                 loading={saving}
                 onChange={(checked) => updateSetting("show_usage_statistics", checked)}
             />
+
+            {/* Export/Import Settings */}
+            <ExportImportSettings />
 
         </div>
     );
