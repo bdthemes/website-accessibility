@@ -226,7 +226,7 @@ class Biggopti {
 		
 		// Prepare background styles
 		$background_style = '';
-		$wrapper_classes = 'oa-biggopti-wrapper';
+		$wrapper_classes = 'bdt-biggopti-wrapper';
 		
 		if (isset($biggopti->background_color) && !empty($biggopti->background_color)) {
 			$background_style .= 'background-color: ' . esc_attr($biggopti->background_color) . ';';
@@ -243,32 +243,32 @@ class Biggopti {
 			
 			<?php $title = (isset($biggopti->title) && !empty($biggopti->title)) ? $biggopti->title : ''; ?>
 
-			<div class="oa-api-biggopti-content">
-				<div class="oa-plugin-logo-wrapper">
+			<div class="bdt-api-biggopti-content">
+				<div class="bdt-plugin-logo-wrapper">
 					<img height="40" width="40" src="<?php echo esc_url(WEBSAC_URL); ?>assets/images/logo.png" alt="One Accessibility Logo">
 				</div>
 
-				<div class="oa-biggopti-content">
-					<div class="oa-biggopti-content-inner">
+				<div class="bdt-biggopti-content">
+					<div class="bdt-biggopti-content-inner">
 						<?php if (isset($biggopti->logo) && !empty($biggopti->logo)) : ?>
-							<div class="oa-biggopti-logo-wrapper">
+							<div class="bdt-biggopti-logo-wrapper">
 								<img width="100" src="<?php echo esc_url($biggopti->logo); ?>" alt="Logo">
 							</div>
 						<?php endif; ?>
-						<div class="oa-biggopti-title-description">
+						<div class="bdt-biggopti-title-description">
 							<?php if (isset($title) && !empty($title)) : ?>
-								<h2 class="oa-biggopti-title"><?php echo wp_kses_post($title); ?></h2>
+								<h2 class="bdt-biggopti-title"><?php echo wp_kses_post($title); ?></h2>
 							<?php endif; ?>
 		
 							<?php if (isset($biggopti->content) && !empty($biggopti->content)) : ?>
-								<div class="oa-biggopti-html-content">
+								<div class="bdt-biggopti-html-content">
 									<?php echo wp_kses_post($biggopti->content); ?>
 								</div>
 							<?php endif; ?>
 						</div>
 					</div>
 
-					<div class="oa-biggopti-content-right">
+					<div class="bdt-biggopti-content-right">
 						<?php 
 						// Only show countdown if it's enabled, has an end date, and the end date is in the future
 						$show_countdown = isset($biggopti->show_countdown) && $biggopti->show_countdown && isset($biggopti->end_date);
@@ -279,13 +279,13 @@ class Biggopti {
 						}
 						?>
 						<?php if ($show_countdown) : ?>
-							<div class="oa-biggopti-countdown" data-end-date="<?php echo esc_attr($biggopti->end_date); ?>" data-timezone="<?php echo esc_attr($biggopti->timezone ? $biggopti->timezone : 'UTC'); ?>">
+							<div class="bdt-biggopti-countdown" data-end-date="<?php echo esc_attr($biggopti->end_date); ?>" data-timezone="<?php echo esc_attr($biggopti->timezone ? $biggopti->timezone : 'UTC'); ?>">
 								<div class="countdown-timer">Loading...</div>
 							</div>
 						<?php endif; ?>
 		
 						<?php if (isset($biggopti->link) && !empty($biggopti->link)) : ?>
-							<div class="oa-biggopti-btn">
+							<div class="bdt-biggopti-btn">
 								<a href="<?php echo esc_url($biggopti->link); ?>" target="_blank">
 									<div class="nm-biggopti-btn">
 										<?php echo isset($biggopti->button_text) ? esc_html($biggopti->button_text) : 'Read More'; ?>
@@ -436,10 +436,10 @@ class Biggopti {
 			}
 
 			// Biggopti ID.
-			$biggopti_id    = 'oa-admin-biggopti-' . $biggopti['id'];
+			$biggopti_id    = 'bdt-admin-biggopti-' . $biggopti['id'];
 			$biggopti['id'] = $biggopti_id;
 			if (!isset($biggopti['id'])) {
-				$biggopti_id    = 'oa-admin-biggopti-' . $biggopti['id'];
+				$biggopti_id    = 'bdt-admin-biggopti-' . $biggopti['id'];
 				$biggopti['id'] = $biggopti_id;
 			} else {
 				$biggopti_id = $biggopti['id'];
@@ -488,20 +488,20 @@ class Biggopti {
 
 	?>
 		<div id="<?php echo esc_attr($biggopti['id']); ?>" class="<?php echo esc_attr($biggopti['classes']); ?>" <?php echo esc_attr($biggopti['data']); ?>>
-			<div class="oa-biggopti-wrapper">
-				<div class="oa-biggopti-icon-wrapper">
+			<div class="bdt-biggopti-wrapper">
+				<div class="bdt-biggopti-icon-wrapper">
 					<img height="40" width="40" src="<?php echo esc_url(WEBSAC_URL); ?>assets/images/logo.png">
 				</div>
 
-				<div class="oa-biggopti-content">
+				<div class="bdt-biggopti-content">
 					<?php if (isset($biggopti['title']) && !empty($biggopti['title'])) : ?>
-						<h2 class="oa-biggopti-title"><?php echo wp_kses_post($biggopti['title']); ?></h2>
+						<h2 class="bdt-biggopti-title"><?php echo wp_kses_post($biggopti['title']); ?></h2>
 					<?php endif; ?>
 
-					<p class="oa-biggopti-text"><?php echo wp_kses_post($biggopti['message']); ?></p>
+					<p class="bdt-biggopti-text"><?php echo wp_kses_post($biggopti['message']); ?></p>
 
 					<?php if (isset($biggopti['action_link']) && !empty($biggopti['action_link'])) : ?>
-						<div class="oa-biggopti-btn">
+						<div class="bdt-biggopti-btn">
 							<a href="#">Renew Now</a>
 						</div>
 					<?php endif; ?>

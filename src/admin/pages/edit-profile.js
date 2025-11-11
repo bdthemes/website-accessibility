@@ -6,9 +6,6 @@ import { useHistory, useLocation } from '../router';
 import ProfileForm from '../components/profile-form';
 
 
-const { WapCard, WapButton, WapSpace, WapTypography, WapMessage } = window?.wapComponents;
-
-const { Title, Text } = WapTypography;
 
 const EditProfile = () => {
     const { WapCard, WapButton, WapSpace, WapTypography } = window?.wapComponents;
@@ -76,12 +73,12 @@ const EditProfile = () => {
         <div className="wap-edit-profile">
                 <WapCard className='wap-header-card'>
                     <div className='wap-header-card-content'>
-                        <Title level={2} className='wap-header-card-title'>
+                        <WapTypography.Title level={2} className='wap-header-card-title'>
                             {__('Edit Profile', 'website-accessibility')}
-                        </Title>
-                        <Text type="secondary" className='wap-header-card-description'>
+                        </WapTypography.Title>
+                        <WapTypography.Text type="secondary" className='wap-header-card-description'>
                             {__('Update the details of this accessibility profile.', 'website-accessibility')}
-                        </Text>
+                        </WapTypography.Text>
                     </div>
 
                     <WapButton

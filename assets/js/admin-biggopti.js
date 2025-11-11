@@ -28,7 +28,7 @@ jQuery(document).ready(function ($) {
      */
     function initAPIBiggoptiCountdown() {
         // Find all countdown elements on the page
-        jQuery('.oa-biggopti-countdown').each(function() {
+        jQuery('.bdt-biggopti-countdown').each(function() {
             var $countdown = jQuery(this);
             var $timer = $countdown.find('.countdown-timer');
             var endDate = $countdown.data('end-date');
@@ -95,7 +95,7 @@ jQuery(document).ready(function ($) {
     
     // Re-initialize countdown when new biggoptis are added (for dynamic content)
     // This ensures countdown works even if biggoptis are loaded after page load
-    jQuery(document).on('DOMNodeInserted', '.oa-biggopti-countdown', function() {
+    jQuery(document).on('DOMNodeInserted', '.bdt-biggopti-countdown', function() {
         initAPIBiggoptiCountdown();
     });
 
@@ -129,9 +129,9 @@ jQuery(document).ready(function ($) {
                         var $biggopti = $(this);
                         var biggoptiId = $biggopti.attr('id');
                         
-                        // Extract class pattern from biggopti ID (e.g., oa-admin-biggopti-api-biggopti-class-xxxxx)
-                        if (biggoptiId && biggoptiId.indexOf('oa-admin-biggopti-api-biggopti-class-') !== -1) {
-                            var classPattern = biggoptiId.substring(biggoptiId.indexOf('oa-admin-biggopti-api-biggopti-class-'));
+                        // Extract class pattern from biggopti ID (e.g., bdt-admin-biggopti-api-biggopti-class-xxxxx)
+                        if (biggoptiId && biggoptiId.indexOf('bdt-admin-biggopti-api-biggopti-class-') !== -1) {
+                            var classPattern = biggoptiId.substring(biggoptiId.indexOf('bdt-admin-biggopti-api-biggopti-class-'));
                             
                             // Check if any existing biggopti in DOM has similar class pattern from any plugin
                             var existingBiggoptis = $('[id$="' + classPattern + '"]');
