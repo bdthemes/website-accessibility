@@ -129,9 +129,9 @@ jQuery(document).ready(function ($) {
                         var $biggopti = $(this);
                         var biggoptiId = $biggopti.attr('id');
                         
-                        // Extract class pattern from biggopti ID (e.g., oa-admin-biggopti-api-biggopti-class-xxxxx)
-                        if (biggoptiId && biggoptiId.indexOf('oa-admin-biggopti-api-biggopti-class-') !== -1) {
-                            var classPattern = biggoptiId.substring(biggoptiId.indexOf('oa-admin-biggopti-api-biggopti-class-'));
+                        // Extract class pattern from biggopti ID (e.g., bdt-admin-biggopti-api-biggopti-class-xxxxx)
+                        if (biggoptiId && biggoptiId.indexOf('bdt-admin-biggopti-api-biggopti-class-') !== -1) {
+                            var classPattern = biggoptiId.substring(biggoptiId.indexOf('bdt-admin-biggopti-api-biggopti-class-'));
                             
                             // Check if any existing biggopti in DOM has similar class pattern from any plugin
                             var existingBiggoptis = $('[id$="' + classPattern + '"]');
