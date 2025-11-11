@@ -144,7 +144,7 @@ const AccessibilityProfiles = ({
 		for (const key in profileSettings) {
 			const setting = profileSettings[key];
 			const feature = features.find((f) => f.key === key);
-			if (feature) {
+			if (feature && !feature?.isDummy) {
 				const currentIndex = feature.attributes.findIndex(
 					(attr) => attr.value == setting,
 				);
