@@ -5,11 +5,9 @@ import { useSelect, useDispatch } from '@wordpress/data';
 import { STORE_NAME } from '../store';
 import ProfilesFallback from '../components/profiles-fallback';
 
-const { WapCard, WapButton, WapSpace, WapDropdown, WapTypography } = window?.wapComponents;
-
-const { Title } = WapTypography;
 
 const Profiles = () => {
+  const { WapCard, WapButton, WapSpace, WapDropdown, WapTypography } = window?.wapComponents;
   const isProActive = window?.websacPro?.isProActive || false;
   const history = useHistory();
   const profiles = useSelect((select) => select(STORE_NAME).getProfiles());
@@ -114,9 +112,9 @@ const Profiles = () => {
   return (
     <div className="wap-profiles">
       <WapCard className='wap-header-card'>
-        <Title level={2} className='wap-header-card-title'>
+        <WapTypography.Title level={2} className='wap-header-card-title'>
           {__('User Accessibility Profiles', 'website-accessibility')}
-        </Title>
+        </WapTypography.Title>
         <WapButton
           type="primary"
           onClick={handleCreateProfile}
