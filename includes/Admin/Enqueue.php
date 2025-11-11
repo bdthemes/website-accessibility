@@ -63,9 +63,7 @@ class Enqueue {
      * @param string $hook_suffix The current admin page.
      */
     public function enqueue_biggopti_scripts($hook_suffix) {
-        // Enqueue jQuery
-        wp_enqueue_script('jquery');
-
+        
         // Enqueue biggopti script
         wp_enqueue_script(
             'one-accessibility-biggopti',
