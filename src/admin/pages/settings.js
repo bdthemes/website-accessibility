@@ -3,11 +3,10 @@ import apiFetch from "@wordpress/api-fetch";
 import { __ } from "@wordpress/i18n";
 import SettingsItem from "../components/settings-item";
 import StatementSetting from "../components/statement-setting";
-import ExportImportSettings from "../components/export-import-settings";
 
 
 const Settings = () => {
-    const  { WapCard, WapTypography, WapSpin, WapMessage } = window?.wapComponents;
+    const  { WapCard, WapTypography, WapSpin, WapMessage, ExportImportSettings } = window?.wapComponents;
     const { Title } = WapTypography;
     const { isProActive } = window?.websacPro || {};
     const [settings, setSettings] = useState({});
@@ -115,8 +114,8 @@ const Settings = () => {
                 onChange={(checked) => updateSetting("show_usage_statistics", checked)}
             />
 
-            {/* Export/Import Settings */}
-            <ExportImportSettings />
+            {/* Export/Import Settings - Only available in Pro version */}
+            {isProActive && ExportImportSettings && <ExportImportSettings />}
 
         </div>
     );
