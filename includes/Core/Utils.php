@@ -238,4 +238,15 @@ class Utils
 
         return $entire_site_preset ?? null;
     }
+
+    public static function get_settings($key = null)
+    {
+        $options = get_option('websac_settings');
+        
+        if (empty($options)) return null;
+
+        if (empty($key)) return $options;
+
+        return $options[$key] ?? null;
+    }
 }

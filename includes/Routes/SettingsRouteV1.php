@@ -20,9 +20,10 @@ class SettingsRouteV1
      * @var array
      */
     private $defaults = [
-        'show_translations_consent' => true,
+        'show_translations_consent'     => true,
         'force_translate_site_language' => false,
-        'show_usage_statistics'     => true,
+        'show_usage_statistics'         => true,
+        'enable_accessibility_checker'  => true,
     ];
 
     /**
@@ -31,6 +32,11 @@ class SettingsRouteV1
     private function __construct()
     {
         add_action('rest_api_init', [$this, 'register_routes']);
+    }
+
+    public static function get_defaults_settings()
+    {
+        return self::get_instance()->defaults;
     }
 
     /**
@@ -130,6 +136,10 @@ class SettingsRouteV1
         $clean['show_usage_statistics'] = isset($settings['show_usage_statistics'])
             ? (bool) $settings['show_usage_statistics']
             : $this->defaults['show_usage_statistics'];
+
+        $clean['enable_accessibility_checker'] = isset($settings['enable_accessibility_checker'])
+            ? (bool) $settings['enable_accessibility_checker']
+            : $this->defaults['enable_accessibility_checker'];
 
         return $clean;
     }

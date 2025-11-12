@@ -142,7 +142,8 @@ class Frontend
                 'settings'        => get_option('websac_settings', [
                     'show_translations_consent' => true,
                     'force_translate_site_language' => false,
-                    'show_usage_statistics' => true
+                    'show_usage_statistics' => true,
+                    'enable_accessibility_checker' => true
                 ]),
                 'nonce'           => wp_create_nonce('wp_rest'),
                 'restUrl'         => rest_url(),
