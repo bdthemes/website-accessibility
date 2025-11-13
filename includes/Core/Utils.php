@@ -2,6 +2,8 @@
 
 namespace bdthemes\websiteaccessibility\Core;
 
+use bdthemes\websiteaccessibility\Routes\SettingsRouteV1;
+
 class Utils
 {
     public static function get_filesystem()
@@ -237,5 +239,15 @@ class Utils
         }
 
         return $entire_site_preset ?? null;
+    }
+
+    public static function get_settings($key = null)
+    {
+        $options = get_option('websac_settings', SettingsRouteV1::get_defaults_settings());
+        if (empty($options)) return null;
+
+        if (empty($key)) return $options;
+
+        return $options[$key] ?? null;
     }
 }

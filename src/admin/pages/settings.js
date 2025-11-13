@@ -77,6 +77,9 @@ const Settings = () => {
                 </div>
             </WapCard>
 
+            {/* Export/Import Settings - Only available in Pro version */}
+            {isProActive && ExportImportSettings && <ExportImportSettings />}
+
             {/* General Statement Section */}
             <StatementSetting />
 
@@ -103,6 +106,16 @@ const Settings = () => {
                         loading={saving}
                         onChange={(checked) => updateSetting("force_translate_site_language", checked)}
                     />
+                    <SettingsItem
+                        title={__("Enable Accessibility Checker", "website-accessibility")}
+                        description={__(
+                            "Show a Accessibility Checker button in the frontend for admin",
+                            "website-accessibility"
+                        )}
+                        checked={!!settings.enable_accessibility_checker}
+                        loading={saving}
+                        onChange={(checked) => updateSetting("enable_accessibility_checker", checked)}
+                    />
                 </>
             )}
 
@@ -113,9 +126,6 @@ const Settings = () => {
                 loading={saving}
                 onChange={(checked) => updateSetting("show_usage_statistics", checked)}
             />
-
-            {/* Export/Import Settings - Only available in Pro version */}
-            {isProActive && ExportImportSettings && <ExportImportSettings />}
 
         </div>
     );
