@@ -106,13 +106,17 @@ const FooterSettings = () => {
                                                 <ControlWrapper label={__('Show Branding', 'website-accessibility')}>
                                                     <WapSwitch checked={attributes.showBranding !== false} onChange={checked => updateAttr({ showBranding: checked })} />
                                                 </ControlWrapper>
-                                                <ControlWrapper label={__('Branding Text', 'website-accessibility')}>
-                                                    <WapInput
-                                                        value={attributes.brandingText}
-                                                        onChange={e => updateAttr({ brandingText: e.target.value })}
-                                                        placeholder={__('Proudly Powered by One Accessibility', 'website-accessibility')}
-                                                    />
-                                                </ControlWrapper>
+                                                {
+                                                    attributes.showBranding !== false && (
+                                                        <ControlWrapper label={__('Branding Text', 'website-accessibility')}>
+                                                            <WapInput
+                                                                value={attributes.brandingText}
+                                                                onChange={e => updateAttr({ brandingText: e.target.value })}
+                                                                placeholder={__('Proudly Powered by One Accessibility', 'website-accessibility')}
+                                                            />
+                                                        </ControlWrapper>
+                                                    )
+                                                }
                                             </>
                                         )
                                     }

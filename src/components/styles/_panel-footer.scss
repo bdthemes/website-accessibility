@@ -13,7 +13,8 @@
 		display: flex;
 		align-items: center;
 		gap: 10px;
-		padding: var(--wap-footer-general-padding, 0 24px);
+		padding: var(--wap-footer-general-padding, 10px 24px);
+		margin-bottom: 10px;
 
 		.ant-row {
 			margin: 0 !important;
@@ -68,7 +69,11 @@
 		z-index: 1;
 		border-top: 1px solid #ededef;
 		padding: var(--wap-footer-general-padding, 16px 24px);
-		margin-top: 20px;
+		margin-top: 10px;
+		display: flex;
+		align-items: center;
+		justify-content: space-between;
+		gap: 8px;
 	}
 
 	// Statement Link
@@ -81,33 +86,23 @@
 		position: relative;
 		overflow: hidden;
 		color: var(--wap-footer-link-color, #6f7286);
+		margin-left: auto;
 	}
-
-	// Branding Section
-	&__branding {
-		display: flex;
-		align-items: center;
-		gap: 8px;
-		transition: all 0.3s ease;
-		font-size: 12px;
-		font-weight: 500;
-		color: var(--wap-footer-branding-color, #6f7286);
-		justify-content: space-between;
-		svg {
-			width: 20px;
-			height: 20px;
-			display: block;
-		}
-
-	}
-
 
 	&__brand-left-text {
 		display: flex;
 		align-items: center;
 		gap: 5px;
+		transition: all 0.3s ease;
+		font-size: 12px;
+		font-weight: 500;
+		color: var(--wap-footer-branding-color, #6f7286);
+		svg {
+			width: 20px;
+			height: 20px;
+			display: block;
+		}
 	}
-
 
 	// Brand Logo
 	&__brand-logo {
