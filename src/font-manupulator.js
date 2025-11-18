@@ -44,13 +44,14 @@ class FontManipulator {
                 const unit = originalValue.replace(/[0-9.\s]/g, '') || 'px';
 
                 const newValue = numeric * (1 + percent / 100);
-                stored[prop] = originalValue;
+                // Store the original inline style value (may be empty string if not set)
+                stored[prop] = el.style.getPropertyValue(prop) || '';
 
                 el.style.setProperty(prop, `${newValue}${unit}`);
             });
 
             // Store original values as JSON
-            if (Object.keys(stored).length > 0) {
+            if (Object.keys(stored).length > 0 && !el.hasAttribute(this.dataAttribute)) {
                 el.setAttribute(this.dataAttribute, JSON.stringify(stored));
             }
         }
@@ -69,7 +70,12 @@ class FontManipulator {
             try {
                 const original = JSON.parse(storedData);
                 Object.entries(original).forEach(([prop, value]) => {
-                    el.style.setProperty(prop, value);
+                    // If original value was empty (not set inline), remove the property
+                    if (value === '' || value === null || value === undefined) {
+                        el.style.removeProperty(prop);
+                    } else {
+                        el.style.setProperty(prop, value);
+                    }
                 });
             } catch (e) {
                 console.warn('Invalid font-manipulator data:', e);
@@ -93,6 +99,14 @@ class FontManipulator {
 
         for (let el of allElements) {
             if (el === document.body) continue;
+            
+            // Skip elements with data-font-manipulator-skip attribute
+            if (el.hasAttribute('data-font-manipulator-skip')) continue;
+            
+            // Skip child elements of elements with data-font-manipulator-skip
+            if (el.closest('[data-font-manipulator-skip]')) continue;
+            
+            // Skip elements inside predefined containers
             if (skippedRoots.some(rootEl => rootEl.contains(el))) continue;
 
             const hasVisibleText = Array.from(el.childNodes).some(node =>
