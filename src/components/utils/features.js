@@ -54,19 +54,19 @@ const features = [
                         },
                     },
                     {
-                        selector: "h1, h2, h3, h4, h5, h6",
+                        selector: "h1, h2, h3, h4, h5, h6, h1 *, h2 *, h3 *, h4 *, h5 *, h6 *",
                         properties: {
                             color: "#fff",
                         },
                     },
                     {
-                        selector: "a",
+                        selector: "a, a *",
                         properties: {
                             color: "#4fd1c5",
                         },
                     },
                     {
-                        selector: "input, textarea, select, button",
+                        selector: "input, textarea, select, button, button *",
                         properties: {
                             background: "#222",
                             color: "#e0e0e0",
@@ -92,19 +92,19 @@ const features = [
                         },
                     },
                     {
-                        selector: "h1, h2, h3, h4, h5, h6",
+                        selector: "h1, h2, h3, h4, h5, h6, h1 *, h2 *, h3 *, h4 *, h5 *, h6 *",
                         properties: {
                             color: "#111",
                         },
                     },
                     {
-                        selector: "a",
+                        selector: "a, a *",
                         properties: {
                             color: "#1a4cd8",
                         },
                     },
                     {
-                        selector: "input, textarea, select, button",
+                        selector: "input, textarea, select, button, button *",
                         properties: {
                             background: "#f5f7fa",
                             color: "#222",

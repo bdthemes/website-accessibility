@@ -97,6 +97,24 @@ class AccessibilityManager {
         return wrapper.contains(element);
     }
 
+    addBodyClass(classNames = []) {
+        if (!Array.isArray(classNames) || classNames.length === 0) return;
+        classNames.forEach(className => {
+            if(!document.body.classList.contains(className)){
+                document.body.classList.add(className);
+            }
+        });
+    }
+
+    removeBodyClass(classNames = []) {
+        if (!Array.isArray(classNames) || classNames.length === 0) return;
+        classNames.forEach(className => {
+            if(document.body.classList.contains(className)){
+                document.body.classList.remove(className);
+            }
+        });
+    }
+
     applyContrast(key, attr) {
         if (!attr) return;
         switch (attr.value) {

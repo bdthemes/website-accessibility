@@ -1,12 +1,11 @@
-import { cloneElement } from "@wordpress/element";
+
+import { useEffect, useState, useMemo, useRef, cloneElement } from "@wordpress/element";
 import clsx from "clsx";
-import { useEffect, useState } from "@wordpress/element";
-import { useMemo } from "react";
 
 
-const PreviewContent = ({ panel, allProfiles, setIsOpen = () => { }, accessibilityContext, accessibilityDispatch }) => {
+const PreviewContent = ({ panel, allProfiles, setIsOpen = () => { }, accessibilityContext, accessibilityDispatch, isOpen }) => {
     const { LanguageSelector = () => null, AccessibilityProfiles, WidgetFeatures, PanelHeader, PanelFooter } = window?.wapComponents;
-    const { getCookie } = window.wapHelpers;
+    const { getCookie, useDrawerScrollControl } = window.wapHelpers;
     const isProActive = window?.websacPro?.isProActive || false;
     const { isOverSized } = accessibilityContext || {};
     const { settings } = window?.websiteAccessibility || {};
@@ -16,6 +15,9 @@ const PreviewContent = ({ panel, allProfiles, setIsOpen = () => { }, accessibili
         const consent = getCookie("wapGoogleTranslateConsent");
         setConsent(consent === "true");
     }, []);
+
+    const scrollRef = useRef(null);
+    useDrawerScrollControl(scrollRef, isOpen);
 
     const Translation = useMemo(() => {
         const showConsent = settings?.show_translations_consent;
@@ -47,65 +49,64 @@ const PreviewContent = ({ panel, allProfiles, setIsOpen = () => { }, accessibili
     }
 
     return (
-        <>
-            <div
-                className={
-                    clsx(
-                        "wap-panel-customization__panel",
-                        {
-                            "wap-panel-customization__panel--oversized": isOverSized
-                        }
-                    )
-                }
-                style={{
-                    '--panel-width': panel?.wrapper?.width && `${panel.wrapper.width}px`,
-                    '--panel-background': panel?.wrapper?.background,
-                    '--panel-border': panel?.wrapper?.border,
-                    '--panel-padding': panel?.wrapper?.padding,
-                    '--panel-border-radius': panel?.wrapper?.borderRadius,
-                    '--panel-box-shadow': panel?.wrapper?.boxShadow,
-                }}
-            >
-                <div className="wap-panel-customization__header-info">
+        <div
+            ref={scrollRef}
+            className={
+                clsx(
+                    "wap-panel-customization__panel",
                     {
-                        panel?.items?.find((item) => item.slug === 'header')?.active && (
-                            <PanelHeader
-                                value={panel}
-                                setIsOpen={setIsOpen}
-                                accessibilityContext={accessibilityContext}
-                            />
-                        )
+                        "wap-panel-customization__panel--oversized": isOverSized
                     }
-                    <div className="wap-panel-customization__info">
-                        {
-                            panel?.items?.map((item) => {
-                                const Component = itemComponents?.[item?.slug];
-
-                                if (!Component) return null;
-
-                                // Must be active
-                                if (!item.active) return null;
-
-                                // If item is pro, also check isProActive
-                                if (item?.isPro && !isProActive) return null;
-
-                                return cloneElement(Component, { key: item.slug });
-                            })
-                        }
-
-                    </div>
-                </div>
+                )
+            }
+            style={{
+                '--panel-width': panel?.wrapper?.width && `${panel.wrapper.width}px`,
+                '--panel-background': panel?.wrapper?.background,
+                '--panel-border': panel?.wrapper?.border,
+                '--panel-padding': panel?.wrapper?.padding,
+                '--panel-border-radius': panel?.wrapper?.borderRadius,
+                '--panel-box-shadow': panel?.wrapper?.boxShadow,
+            }}
+        >
+            <div className="wap-panel-customization__header-info">
                 {
-                    panel?.items?.find((item) => item.slug === 'footer')?.active && (
-                        <PanelFooter
+                    panel?.items?.find((item) => item.slug === 'header')?.active && (
+                        <PanelHeader
                             value={panel}
+                            setIsOpen={setIsOpen}
                             accessibilityContext={accessibilityContext}
-                            accessibilityDispatch={accessibilityDispatch}
                         />
                     )
                 }
+                <div className="wap-panel-customization__info">
+                    {
+                        panel?.items?.map((item) => {
+                            const Component = itemComponents?.[item?.slug];
+
+                            if (!Component) return null;
+
+                            // Must be active
+                            if (!item.active) return null;
+
+                            // If item is pro, also check isProActive
+                            if (item?.isPro && !isProActive) return null;
+
+                            return cloneElement(Component, { key: item.slug });
+                        })
+                    }
+
+                </div>
             </div>
-        </>
+            {
+                panel?.items?.find((item) => item.slug === 'footer')?.active && (
+                    <PanelFooter
+                        value={panel}
+                        accessibilityContext={accessibilityContext}
+                        accessibilityDispatch={accessibilityDispatch}
+                    />
+                )
+            }
+        </div>
     )
 }
 

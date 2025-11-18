@@ -50,7 +50,7 @@ class FontManipulator {
             });
 
             // Store original values as JSON
-            if (Object.keys(stored).length > 0) {
+            if (Object.keys(stored).length > 0 && !el.hasAttribute(this.dataAttribute)) {
                 el.setAttribute(this.dataAttribute, JSON.stringify(stored));
             }
         }
