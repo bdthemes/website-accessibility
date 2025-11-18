@@ -42,6 +42,7 @@ import WapInputNumber from './wap-input-number';
 import WapMessage from './wap-message';
 import WapSwitch from './wap-switch';
 import WapTabs from './wap-tabs';
+import useDrawerScrollControl from './utils/use-drawer-scroll-control';
 
 window.wapComponents = {
     AccessibilityProfiles,
@@ -92,5 +93,6 @@ window.wapHelpers = {
     getCookie,
     setCookie,
     removeCookie,
-    useBrowserKey
+    useBrowserKey,
+    useDrawerScrollControl,
 }

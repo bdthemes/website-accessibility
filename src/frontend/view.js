@@ -5,11 +5,9 @@ import accessibilityManager from "../accessibilty-manager";
 import { __ } from "@wordpress/i18n";
 import apiFetch from "@wordpress/api-fetch";
 
-const { WapDrawer} = window?.wapComponents;
-
 const View = () => {
     const { screenReader = () => null, defaultProfiles = [], useBrowserKey, getCookie, setCookie } = window.wapHelpers || {};
-    const { PreviewButton, PreviewContent, Icon,WapDrawer, GoogleTranslateConsent = () => null } = window?.wapComponents;
+    const { PreviewButton, PreviewContent, Icon, WapDrawer, GoogleTranslateConsent = () => null } = window?.wapComponents;
     const { profiles, currentPreset, currentPresetId, settings, nonce, restUrl } = window?.websiteAccessibility;
     const { dispatch, ...state } = useFrontendAccessibility();
     const [isOpen, setIsOpen] = useState(false);
@@ -126,11 +124,55 @@ const View = () => {
         localStorage.setItem(`${state.localStorageKeyPrefix}-${currentPresetId}`, JSON.stringify(saveablePreference?.data));
     }, [saveablePreference?.data, currentPresetId]);
 
+    const addBodyClasses = (classNames = []) => {
+        classNames.forEach(className => {
+            if (!document.body.classList.contains(className)) {
+                document.body.classList.add(className);
+            }
+        });
+    };
+
+    const removeBodyClasses = (classNames = []) => {
+        classNames.forEach(className => {
+            if (document.body.classList.contains(className)) {
+                document.body.classList.remove(className);
+            }
+        });
+    };
+
+    const findPrefixesClasses = (prefix) => {
+        const classes = Array.from(document.body.classList);
+        return classes.filter(className => className.startsWith(prefix));
+    };
+
     /**
      * Initialize accessibility manager with current settings
      */
     useEffect(() => {
         accessibilityManager().init(state?.currentSettings);
+
+        if (findPrefixesClasses(`one-accessibility-feature`).length > 0) {
+            removeBodyClasses(findPrefixesClasses(`one-accessibility-feature`));
+        }
+        
+        for (const key in state?.currentSettings) {
+            const value = state?.currentSettings[key];
+            if(!value?.currentStep || value?.currentStep === 0) continue;
+
+            const attr = value?.currentAttribute;
+            if (!attr?.value) continue;
+            
+            addBodyClasses([`one-accessibility-feature-${key}-${attr?.value}`]);
+        }
+
+        if (state?.enableTranslations && state?.selectedLanguage) {
+            addBodyClasses(['one-accessibility-feature-enable-translations', `one-accessibility-feature-language-${state?.selectedLanguage}`]);
+        }
+
+        if (state?.currentProfile?.id) {
+            addBodyClasses([`one-accessibility-feature-profile-${state?.currentProfile?.id}`]);
+        }
+        
     }, [state?.currentSettings, currentPresetId, state?.currentProfile, state?.isOverSized, state?.enableTranslations, state?.selectedLanguage]);
 
     /**
