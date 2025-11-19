@@ -54,19 +54,19 @@ const features = [
                         },
                     },
                     {
-                        selector: "h1, h2, h3, h4, h5, h6, h1 *, h2 *, h3 *, h4 *, h5 *, h6 *",
+                        selector: "h1, h2, h3, h4, h5, h6, h1 span, h2 span, h3 span, h4 span, h5 span, h6 span",
                         properties: {
                             color: "#fff",
                         },
                     },
                     {
-                        selector: "a, a *",
+                        selector: "a, a span",
                         properties: {
                             color: "#4fd1c5",
                         },
                     },
                     {
-                        selector: "input, textarea, select, button, button *",
+                        selector: "input, textarea, select, button, button span",
                         properties: {
                             background: "#222",
                             color: "#e0e0e0",
