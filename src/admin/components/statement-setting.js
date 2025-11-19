@@ -129,6 +129,9 @@ const StatementSetting = () => {
                                 shape="circle"
                                 icon={<ReloadOutlined spin={creating || loading} />}
                                 onClick={handleGenerate}
+                                style={{
+                                    height: 32,
+                                }}
                             />
                         </WapTooltip>
                     ) : (

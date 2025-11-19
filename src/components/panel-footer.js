@@ -48,9 +48,9 @@ const PanelFooter = ({ value, accessibilityContext, accessibilityDispatch }) => 
   const showBranding = isProActive ? attributes.showBranding !== false : true;
   const brandingText = isProActive ? attributes.brandingText || 'Powered by One Accessibility' : 'Powered by One Accessibility';
   const showPreference = attributes?.activePreference || false;
-  const savePreferenceText = attributes.saveBtnText || __('Save Preference', 'website-accessibility');
-  const updatePreferenceText = attributes.updateBtnText || __('Update Preference', 'website-accessibility');
-  const deletePreferenceText = attributes.deleteBtnText || __('Delete Preference', 'website-accessibility');
+  const savePreferenceText = attributes.saveBtnText || __('Save Pref.', 'website-accessibility');
+  const updatePreferenceText = attributes.updateBtnText || __('Update Pref.', 'website-accessibility');
+  const deletePreferenceText = attributes.deleteBtnText || __('Delete Pref.', 'website-accessibility');
 
   const footerStyle = {
     '--wap-footer-general-bg': attributes.generalBg,

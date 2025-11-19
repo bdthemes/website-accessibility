@@ -62,7 +62,7 @@ const FooterSettings = () => {
                                                     <WapInput
                                                         value={attributes.saveBtnText || ''}
                                                         onChange={e => updateAttr({ saveBtnText: e.target.value })}
-                                                        placeholder={__('Save Preference', 'website-accessibility')}
+                                                        placeholder={__('Save Pref.', 'website-accessibility')}
                                                     />
                                                 </ControlWrapper>
                                                 <ControlWrapper label={__('Update button text', 'website-accessibility')}>
