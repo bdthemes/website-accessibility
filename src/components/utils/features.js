@@ -66,11 +66,17 @@ const features = [
                         },
                     },
                     {
-                        selector: "input, textarea, select, button, button span",
+                        selector: "input, textarea, select, button",
                         properties: {
                             background: "#222",
                             color: "#e0e0e0",
                             borderColor: "#444",
+                        },
+                    },
+                    {
+                        selector: "button span",
+                        properties: {
+                            color: "#e0e0e0",
                         },
                     },
                 ],
