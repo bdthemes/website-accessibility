@@ -4,7 +4,7 @@ Tags:              accessibility, a11y, wcag, ada-compliance, screen-reader
 Requires at least: 6.1  
 Tested up to:      6.8  
 Requires PHP:      7.4  
-Stable tag:        1.1.4
+Stable tag:        1.1.5
 License:           GPL-2.0-or-later  
 License URI:       https://www.gnu.org/licenses/gpl-2.0.html  
 
@@ -160,6 +160,14 @@ This plugin uses the following open-source libraries and third-party tools. We a
 
 == Changelog ==
 
+= 1.1.5 – November 20, 2025 =
+* New: Added body classes to identify applied features.
+* Fix: Nested elements now correctly change color in the "Contrast+" widget.
+* Fix: Original text size is restored correctly in the “Bigger Text” widget.
+* Fix: Footer reset button style controls are now working properly.
+* Fix: Resolved scroll conflict between body and preset panel.
+* Improvement: Enhanced control over footer branding and statement visibility controls.
+
 = 1.1.4 – November 11, 2025 =
 * Fix: Resolved reset button styling issue.
 * Improvement: Optimized overall UI/UX, performance, and code structure.
@@ -178,8 +186,7 @@ This plugin uses the following open-source libraries and third-party tools. We a
 * Improvement: Refined UI/UX and updated code to meet higher development standards.
 
 = 1.1.0 – October 20, 2025 =
-* New: Save Preference feature to retain user accessibility settings for 
-  logged-in users.
+* New: Save Preference feature to retain user accessibility settings for logged-in users.
 * New: Widget Activation/Deactivation option within presets.
 * New: Settings page with integrated Statement Page Checker and Generator.
 * New: Page/Post and Archive-specific conditions for presets.

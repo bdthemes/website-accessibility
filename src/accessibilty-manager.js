@@ -482,33 +482,69 @@ class AccessibilityManager {
         dictionary().remove();
     }
 
+    isActuallyVisible(el) {
+        let node = el;
+        while (node && node.nodeType === 1) {
+            const style = window.getComputedStyle(node);
+            if (style.display === "none" || style.visibility === "hidden" || parseFloat(style.opacity) === 0) {
+                return false;
+            }
+            node = node.parentElement;
+        }
+        return true;
+    }
+
     applyCSSFeature(key, attr) {
-        if (!attr?.css || attr?.css?.length == 0) return;
+        if (!attr?.css || attr.css.length === 0) return;
+
         const previewButton = document.querySelector('.wap-preset__preview-button');
         let skipOriginal = false;
+
         attr.css.forEach(css => {
             const elements = document.querySelectorAll(css.selector);
+
             elements.forEach(element => {
-                // Skip if element is inside preview drawer
-                if (this.isInsidePreviewDrawer(element) || element === previewButton || previewButton?.contains(element)) {
+                if (
+                    this.isInsidePreviewDrawer(element) ||
+                    element === previewButton ||
+                    previewButton?.contains(element)
+                ) {
                     return;
                 }
 
-                if (key == 'highlightLinks' && this.props['contrast']?.length > 0) {
+                if (!this.isActuallyVisible(element)) {
+                    return;
+                }
+
+                if (key === 'highlightLinks' && this.props['contrast']?.length > 0) {
                     skipOriginal = true;
                 }
 
                 for (const property in css.properties) {
-                    this.props[key].push({
-                        element,
-                        property,
-                        originalValue: skipOriginal ? null : element.style[property] || ''
-                    });
+                    let inlineOriginal = element.style.getPropertyValue(property);
+
+                    // 🔥 Check if original already stored
+                    const alreadyStored = this.props[key].some(
+                        item => item.element === element && item.property === property
+                    );
+
+                    if (!alreadyStored) {
+                        this.props[key].push({
+                            element,
+                            property,
+                            originalValue: skipOriginal
+                                ? null
+                                : (inlineOriginal ? inlineOriginal : null)
+                        });
+                    }
+
+                    // Apply new CSS
                     element.style[property] = css.properties[property];
                 }
             });
         });
     }
+
 
     removeCSSFeature(key) {
         const cssProps = this.props[key];
