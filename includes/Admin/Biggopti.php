@@ -43,13 +43,12 @@ class Biggopti {
 		}
 
 		// API endpoint for biggoptis
-		$api_url = 'https://store.bdthemes.com/api/notices/api-data-records';
+		$api_url = 'https://api.sigmative.io/prod/store/api/biggopti/api-data-records';
 
 		$response = wp_remote_get($api_url, [
 			'timeout' => 30,
 			'headers' => [
 				'Accept' => 'application/json',
-				'X-ALLOW-KEY'  => 'bdthemes',
 			],
 		]);
 
@@ -63,8 +62,8 @@ class Biggopti {
 
 		$biggoptis = json_decode($response_body);
 		
-		if( isset($biggoptis->api) && isset($biggoptis->api->{'one-accessibility'}) ) {
-			$data = $biggoptis->api->{'one-accessibility'};
+		if( isset($biggoptis) && isset($biggoptis->{'one-accessibility'}) ) {
+			$data = $biggoptis->{'one-accessibility'};
 			if (is_array($data)) {
 				$ttl = apply_filters('oa_api_biggoptis_cache_ttl', 6 * HOUR_IN_SECONDS);
 				set_transient($transient_key, $data, $ttl);
@@ -158,7 +157,7 @@ class Biggopti {
 
 
 		// Determine if this is targeted at Pro users
-		$pro_targeted = in_array('pro', $client_targets, true);
+		$pro_targeted = in_array('pro_targeted', $client_targets, true);
 		
 		// Ensure client_targets is always an array
 		if (!is_array($client_targets)) {
@@ -166,7 +165,7 @@ class Biggopti {
 		}
 		
 		// Handle pro_targeted parameter (only for free version)
-		if ($pro_targeted && $is_lite_active) {
+		if ($pro_targeted) {
 			// If pro_targeted is true, only show if pro is NOT active
 			$should_show = !$is_pro_active;
 			return $should_show;
@@ -327,7 +326,7 @@ class Biggopti {
 		if (is_array($biggoptis)) {
 			foreach ($biggoptis as $index => $biggopti) {
 				if ($this->should_show_biggopti($biggopti)) {
-					$biggopti_class = isset($biggopti->notice_class) ? $biggopti->notice_class : 'default-' . $index;
+					$biggopti_class = isset($biggopti->biggopti_class) ? $biggopti->biggopti_class : 'default-' . $index;
 					if (!isset($grouped_biggoptis[$biggopti_class])) {
 						$grouped_biggoptis[$biggopti_class] = $biggopti;
 					}
