@@ -1,6 +1,6 @@
 import dictionary from "./dictionary";
 import fontManipulator from "./font-manupulator";
-const { screenReader = () => null, smartContrast = () => null, muteSounds = () => null, filterFeatures = () => null } = window.wapHelpers;
+const { screenReader = () => null, smartContrast = () => null, muteSounds = () => null, filterFeatures = () => null, keyboardNavigation = () => null } = window.wapHelpers;
 class AccessibilityManager {
     static instance = null;
     constructor() {
@@ -72,6 +72,9 @@ class AccessibilityManager {
                     break;
                 case 'biggerText':
                     this.applyBiggerText(key, attributes);
+                    break;
+                case 'keyboardNavigation':
+                    keyboardNavigation()?.apply();
                     break;
                 case 'contrast':
                 case 'highlightLinks':
@@ -591,6 +594,9 @@ class AccessibilityManager {
             delete this.props['brightness'];
         }else if (key === 'biggerText') {
             this.removeBiggerText(key);
+        }else if (key === 'keyboardNavigation') {
+            keyboardNavigation()?.remove();
+            delete this.props['keyboardNavigation'];
         }else if (
             key === 'highlightLinks' ||
             key === 'textSpacing' ||
