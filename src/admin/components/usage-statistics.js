@@ -84,7 +84,7 @@ const UsageStatistics = () => {
                                     className="wap-statistics-card-item"
                                     cover={
                                         <Title level={4} className="stat-value" style={{ textAlign: "center", margin: 0 }}>
-                                            {stat.value}
+                                            {stat.value || 0}
                                         </Title>
                                     }
                                 >

@@ -26,7 +26,11 @@
 }
 
 html {
-  filter: invert(var(--wap-invert, 0)) brightness(var(--wap-brightness, 1)) grayscale(var(--wap-grayscale, 0)) !important;
+  filter: 
+    invert(var(--wap-invert, 0)) 
+    brightness(var(--wap-brightness, 1)) 
+    grayscale(var(--wap-grayscale, 0)) 
+    saturate(var(--wap-saturation, 1)) !important;
 }
 
 .wap-frontend{

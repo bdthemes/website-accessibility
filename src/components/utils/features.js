@@ -8,6 +8,10 @@ const features = [
             "The contrast setting has been disabled.",
             "website-accessibility",
         ),
+        description: __(
+            "Improves visibility by changing the website’s contrast with invert, dark, and light modes.",
+            "website-accessibility",
+        ),
         icon: (
             <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
                 <path d="M20.25 12C20.25 7.44365 16.5563 3.75 12 3.75C7.44365 3.75 3.75 7.44365 3.75 12C3.75 16.5563 7.44365 20.25 12 20.25C16.5563 20.25 20.25 16.5563 20.25 12ZM21.75 12C21.75 17.3848 17.3848 21.75 12 21.75C6.61522 21.75 2.25 17.3848 2.25 12C2.25 6.61522 6.61522 2.25 12 2.25C17.3848 2.25 21.75 6.61522 21.75 12Z" fill="black" />
@@ -129,6 +133,10 @@ const features = [
             "The highlight links setting has been disabled.",
             "website-accessibility",
         ),
+        description: __(
+            "Helps users find clickable links by clearly highlighting them.",
+            "website-accessibility",
+        ),
         icon: (
             <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
                 <path d="M1.25 12C1.25 9.37665 3.37665 7.25 6 7.25H10.333C10.7472 7.25 11.083 7.58579 11.083 8C11.083 8.41421 10.7472 8.75 10.333 8.75H6C4.20507 8.75 2.75 10.2051 2.75 12C2.75 13.7949 4.20508 15.25 6 15.25H10.333C10.7472 15.25 11.083 15.5858 11.083 16C11.083 16.4142 10.7472 16.75 10.333 16.75H6C3.37665 16.75 1.25 14.6234 1.25 12Z" fill="black" />
@@ -167,6 +175,10 @@ const features = [
         styleMethod: "styleTag",
         disableAnnouncement: __(
             "The bigger text setting has been disabled.",
+            "website-accessibility",
+        ),
+        description: __(
+            "Increases text size to improve readability across the website.",
             "website-accessibility",
         ),
         icon: (
@@ -232,6 +244,10 @@ const features = [
                 <path d="M18.458 6.50194C18.1829 6.1924 17.709 6.16438 17.3994 6.43944C17.0899 6.7146 17.0618 7.18845 17.3369 7.49803L20.3301 10.8652H18.9228C18.5088 10.8653 18.1729 11.2012 18.1728 11.6152C18.1728 12.0294 18.5087 12.3651 18.9228 12.3652H20.3301L17.3369 15.7324C17.0617 16.042 17.0898 16.5158 17.3994 16.791C17.7089 17.0661 18.1828 17.0388 18.458 16.7295L22.5605 12.1133C22.8129 11.8291 22.813 11.4013 22.5605 11.1172L18.458 6.50194Z" fill="black" />
             </svg>
         ),
+        description: __(
+            "Improves readability by adding space between text elements.",
+            "website-accessibility",
+        ),
         attributes: [
             {
                 name: __("Medium", "website-accessibility"),
@@ -294,6 +310,10 @@ const features = [
             "The pause animations setting has been disabled.",
             "website-accessibility",
         ),
+        description: __(
+            "Pauses animations to reduce distractions and motion.",
+            "website-accessibility",
+        ),
         icon: (
             <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
                 <path d="M4.66699 12.75L3 12.75C2.58579 12.75 2.25 12.4142 2.25 12C2.25 11.5858 2.58579 11.25 3 11.25L4.66699 11.25C5.08106 11.2502 5.41699 11.5859 5.41699 12C5.41699 12.4141 5.08106 12.7498 4.66699 12.75Z" fill="black" />
@@ -354,6 +374,10 @@ const features = [
                 <path d="M20.1973 15.5303C20.0881 15.4961 19.9839 15.44 19.8965 15.3545L18.3154 13.8066L15.4404 16.6201L19.1328 20.2344C19.7351 20.1447 20.1973 19.6272 20.1973 19V15.5303ZM21.4697 3.46973C21.7626 3.17684 22.2374 3.17684 22.5303 3.46973C22.8232 3.76262 22.8232 4.23738 22.5303 4.53028L20.5605 6.5L22.5303 8.46973C22.8232 8.76262 22.8232 9.23738 22.5303 9.53028C22.2374 9.82317 21.7626 9.82317 21.4697 9.53028L19.5 7.56055L17.5303 9.53028C17.2374 9.82317 16.7626 9.82317 16.4697 9.53028C16.1768 9.23738 16.1768 8.76262 16.4697 8.46973L18.4395 6.5L16.4697 4.53028C16.1768 4.23738 16.1768 3.76262 16.4697 3.46973C16.7626 3.17684 17.2374 3.17684 17.5303 3.46973L19.5 5.43946L21.4697 3.46973ZM2.75 19C2.75 19.6904 3.30964 20.25 4 20.25H17.0029L7.2627 10.7168L2.75 15.1328V19ZM21.6973 19C21.6973 20.5188 20.466 21.75 18.9473 21.75H4C2.48122 21.75 1.25 20.5188 1.25 19V6.51563C1.25 4.99685 2.48122 3.76563 4 3.76563H14.6318C15.0459 3.76577 15.3818 4.1015 15.3818 4.51563C15.3816 4.92954 15.0458 5.26549 14.6318 5.26563H4C3.30964 5.26563 2.75 5.82527 2.75 6.51563V13.0342L6.73828 9.13086L6.85547 9.03711C7.14398 8.84988 7.533 8.88119 7.78809 9.13086L14.3682 15.5713L17.791 12.2217L17.9082 12.1279C18.1967 11.9408 18.5858 11.972 18.8408 12.2217L20.1973 13.5488V10.6973C20.1973 10.2831 20.5331 9.94733 20.9473 9.94727C21.3615 9.94727 21.6973 10.2831 21.6973 10.6973V19Z" fill="black" />
             </svg>
         ),
+        description: __(
+            "Hides images to reduce distractions and improve focus on text content.",
+            "website-accessibility",
+        ),
         attributes: [
             {
                 name: __("Enable", "website-accessibility"),
@@ -387,6 +411,10 @@ const features = [
             <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
                 <path d="M3.55566 5.31348C3.29033 4.25165 4.25165 3.29034 5.31348 3.55566L17.9922 6.72461C19.2639 7.04268 19.4937 8.75105 18.3516 9.39453L15.0059 11.2793L20.0137 16.2861C20.5972 16.8698 20.5761 17.8221 19.9678 18.3799L18.1016 20.0908C17.5211 20.6229 16.6218 20.5941 16.0762 20.0264L11.2686 15.0244L9.39453 18.3516C8.75105 19.4938 7.04268 19.2639 6.72461 17.9922L3.55566 5.31348ZM8.14941 17.5068L9.99512 14.2295C10.4424 13.4359 11.4891 13.2573 12.1729 13.8154L12.3047 13.9365L17.124 18.9512L18.915 17.3086L13.8994 12.2939C13.2208 11.6153 13.3769 10.476 14.2129 10.0049L17.5068 8.14941L5.03027 5.03027L8.14941 17.5068Z" fill="black" />
             </svg>
+        ),
+        description: __(
+            "Changes the cursor to a big cursor, mask, or guideline.",
+            "website-accessibility",
         ),
         attributes: [
             {
@@ -428,6 +456,10 @@ const features = [
             "The tooltips setting has been disabled.",
             "website-accessibility",
         ),
+        description: __(
+            "Enables tooltips to provide additional context for elements on the page.",
+            "website-accessibility",
+        ),
         icon: (
             <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
                 <path d="M20.25 5C20.25 3.75736 19.2426 2.75 18 2.75H6C4.75736 2.75 3.75 3.75736 3.75 5V20.1924L6.2207 17.7295C6.92365 17.0285 7.87643 16.6348 8.86914 16.6348H18C19.2426 16.6348 20.2499 15.6273 20.25 14.3848V5ZM11.5068 14V8.5C11.5068 8.08589 11.8428 7.75017 12.2568 7.75C12.671 7.75 13.0068 8.08579 13.0068 8.5V14C13.0068 14.4142 12.671 14.75 12.2568 14.75C11.8428 14.7498 11.5068 14.4141 11.5068 14ZM11.5068 6V5.5C11.5068 5.08589 11.8428 4.75017 12.2568 4.75C12.671 4.75 13.0068 5.08579 13.0068 5.5V6C13.0068 6.41421 12.671 6.75 12.2568 6.75C11.8428 6.74983 11.5068 6.41411 11.5068 6ZM21.75 14.3848C21.7499 16.4558 20.071 18.1348 18 18.1348H8.86914C8.27366 18.1348 7.70201 18.3706 7.28027 18.791L3.5293 22.5312C3.31469 22.7451 2.99273 22.8084 2.71289 22.6924C2.4329 22.5762 2.25 22.3031 2.25 22V5C2.25 2.92893 3.92893 1.25 6 1.25H18C20.0711 1.25 21.75 2.92893 21.75 5V14.3848Z" fill="black" />
@@ -453,6 +485,10 @@ const features = [
         styleMethod: "styleTag",
         disableAnnouncement: __(
             "The line height setting has been disabled.",
+            "website-accessibility",
+        ),
+        description: __(
+            "Increases the space between lines of text for better readability.",
             "website-accessibility",
         ),
         icon: (
@@ -520,6 +556,10 @@ const features = [
         styleMethod: "styleTag",
         disableAnnouncement: __(
             "The text alignment setting has been disabled.",
+            "website-accessibility",
+        ),
+        description: __(
+            "Aligns text to the left, center, or right.",
             "website-accessibility",
         ),
         icon: (
@@ -602,6 +642,10 @@ const features = [
             "The saturation setting has been disabled.",
             "website-accessibility",
         ),
+        description: __(
+            "Adjusts the saturation of colors to improve readability.",
+            "website-accessibility",
+        ),
         icon: (
             <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
                 <path d="M10.9121 2.39746C11.361 1.60559 12.4592 1.55626 12.9893 2.24903L13.0879 2.39746L18.0928 11.2305C19.1381 13.0752 20.0147 15.463 19.1006 17.7227C17.9156 20.6513 15.2061 22.75 12 22.75C8.79393 22.75 6.08436 20.6513 4.89941 17.7227C3.98526 15.463 4.86187 13.0752 5.90723 11.2305L10.9121 2.39746ZM7.21191 11.9707C6.21274 13.7341 5.64793 15.5753 6.28906 17.1602C7.27675 19.6015 9.48617 21.25 12 21.25C14.5138 21.25 16.7232 19.6015 17.7109 17.1602C18.3521 15.5753 17.7873 13.7341 16.7881 11.9707L12 3.52149L7.21191 11.9707Z" fill="black" />
@@ -615,14 +659,7 @@ const features = [
             {
                 name: __("Low", "website-accessibility"),
                 value: "low",
-                css: [
-                    {
-                        selector: "img, video",
-                        properties: {
-                            filter: "saturate(0.5)",
-                        },
-                    },
-                ],
+                css: [],
                 enableAnnouncement: __(
                     "Saturation, set to Low.",
                     "website-accessibility",
@@ -631,14 +668,7 @@ const features = [
             {
                 name: __("High", "website-accessibility"),
                 value: "high",
-                css: [
-                    {
-                        selector: "img, video",
-                        properties: {
-                            filter: "saturate(1.5)",
-                        },
-                    },
-                ],
+                css: [],
                 enableAnnouncement: __(
                     "Saturation, set to High.",
                     "website-accessibility",
@@ -647,14 +677,7 @@ const features = [
             {
                 name: __("Desaturate", "website-accessibility"),
                 value: "desaturate",
-                css: [
-                    {
-                        selector: "img, video",
-                        properties: {
-                            filter: "saturate(0)",
-                        },
-                    },
-                ],
+                css: [],
                 enableAnnouncement: __(
                     "Saturation, set to Desaturate.",
                     "website-accessibility",
@@ -668,6 +691,10 @@ const features = [
         styleMethod: "rootClass",
         disableAnnouncement: __(
             "The dictionary setting has been disabled.",
+            "website-accessibility",
+        ),
+        description: __(
+            "Enables a dictionary to provide additional context for words on the page.",
             "website-accessibility",
         ),
         icon: (
@@ -702,10 +729,14 @@ const features = [
     },
     {
         key: "screenReader",
-        label: __("Screen Reader", "website-accessibility-pro"),
+        label: __("Screen Reader", "website-accessibility"),
         disableAnnouncement: __(
             "The screen reader setting has been disabled.",
-            "website-accessibility-pro",
+            "website-accessibility",
+        ),
+        description: __(
+            "Activates screen reader mode to read content aloud with Normal, Slow, and Fast modes.",
+            "website-accessibility",
         ),
         icon: (
             <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
@@ -716,10 +747,14 @@ const features = [
     },
     {
         key: "smartContrast",
-        label: __("Smart Contrast", "website-accessibility-pro"),
+        label: __("Smart Contrast", "website-accessibility"),
         disableAnnouncement: __(
             "The smart contrast setting has been disabled.",
-            "website-accessibility-pro",
+            "website-accessibility",
+        ),
+        description: __(
+            "Automatically adjusts contrast based on surrounding colors for optimal readability.",
+            "website-accessibility",
         ),
         icon: (
             <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
@@ -733,10 +768,14 @@ const features = [
     },
     {
         key: "dyslexiaFriendly",
-        label: __("Dyslexia Friendly", "website-accessibility-pro"),
+        label: __("Dyslexia Friendly", "website-accessibility"),
         disableAnnouncement: __(
             "The dyslexia friendly setting has been disabled.",
-            "website-accessibility-pro",
+            "website-accessibility",
+        ),
+        description: __(
+            "Adjusts text style and spacing to improve readability for users with dyslexia.",
+            "website-accessibility",
         ),
         icon: (
             <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
@@ -748,10 +787,14 @@ const features = [
     },
     {
         key: "grayscale",
-        label: __("Grayscale", "website-accessibility-pro"),
+        label: __("Grayscale", "website-accessibility"),
         disableAnnouncement: __(
             "The grayscale setting has been disabled.",
-            "website-accessibility-pro",
+            "website-accessibility",
+        ),
+        description: __(
+            "Converts the website to grayscale, removing all colors for simpler visual focus.",
+            "website-accessibility",
         ),
         icon: (
             <svg
@@ -771,10 +814,14 @@ const features = [
     },
     {
         key: "brightness",
-        label: __("Brightness", "website-accessibility-pro"),
+        label: __("Brightness", "website-accessibility"),
         disableAnnouncement: __(
             "The brightness setting has been disabled.",
-            "website-accessibility-pro",
+            "website-accessibility",
+        ),
+        description: __(
+            "Improves visibility by changing the website’s brightness.",
+            "website-accessibility",
         ),
         icon: (
             <svg
@@ -802,10 +849,14 @@ const features = [
     },
     {
         key: "muteSounds",
-        label: __("Mute Sounds", "website-accessibility-pro"),
+        label: __("Mute Sounds", "website-accessibility"),
         disableAnnouncement: __(
             "The mute sounds setting has been disabled.",
-            "website-accessibility-pro",
+            "website-accessibility",
+        ),
+        description: __(
+            "Silences all website sounds and audio effects for a distraction-free experience.",
+            "website-accessibility",
         ),
         icon: (
             <svg
@@ -820,6 +871,28 @@ const features = [
                     d="M10.6201 4.35461C11.1901 3.94468 11.9403 3.88424 12.5703 4.20422C13.2002 4.52419 13.5897 5.16451 13.5898 5.86438V17.7042C13.5898 18.4242 13.19 19.0649 12.54 19.3849C12.2801 19.5149 11.9899 19.5743 11.71 19.5743V19.5851C11.31 19.5851 10.9103 19.4544 10.5703 19.1945L6.55957 16.0948C6.49961 16.0449 6.41997 16.0148 6.33008 16.0148H2.87012C1.84012 16.0148 1 15.1747 1 14.1447V9.47473C1 8.44473 1.84012 7.60461 2.87012 7.60461H6.00977C6.08977 7.60461 6.16047 7.5843 6.23047 7.5343L10.6201 4.35461ZM11.8799 5.54504C11.8199 5.51505 11.6599 5.45449 11.5 5.57434L7.11035 8.755C6.79035 8.985 6.40977 9.10461 6.00977 9.10461H2.87012C2.67012 9.10461 2.5 9.27473 2.5 9.47473V14.1447C2.5 14.3447 2.67012 14.5148 2.87012 14.5148H6.33008C6.73993 14.5148 7.14979 14.6546 7.46973 14.9044L11.4805 18.005C11.6403 18.1345 11.8101 18.075 11.8701 18.045C11.9301 18.0151 12.0799 17.9247 12.0801 17.715V5.87512C12.0801 5.67518 11.9399 5.57508 11.8799 5.54504ZM15.3203 8.48449C15.6103 8.1948 16.08 8.18476 16.3799 8.48449L18.6494 10.7335L20.9199 8.48449C21.2098 8.1948 21.6895 8.19494 21.9795 8.48449C22.2695 8.77449 22.2695 9.25504 21.9795 9.54504L19.7148 11.7892L21.9805 14.0343C22.2704 14.3242 22.2803 14.8048 21.9805 15.0948C21.8305 15.2448 21.6401 15.3145 21.4502 15.3146C21.2602 15.3146 21.0699 15.2448 20.9199 15.0948L18.6494 12.8448L16.3799 15.0948C16.2299 15.2448 16.0396 15.3146 15.8496 15.3146C15.6598 15.3145 15.4602 15.2446 15.3203 15.0948C15.0303 14.8049 15.0303 14.3253 15.3203 14.0353L17.585 11.7892L15.3203 9.54504C15.0303 9.25504 15.0203 8.77449 15.3203 8.48449Z"
                     fill="black"
                 />
+            </svg>
+        ),
+        isDummy: true
+    },
+    {
+        key: "keyboardNavigation",
+        label: __("Keyboard Navigation", "website-accessibility"),
+        disableAnnouncement: __(
+            "The keyboard navigation setting has been disabled.",
+            "website-accessibility",
+        ),
+        description: __(
+            "Tab: navigate elements. B/F/G/H: jump to Buttons/Forms/Graphics/Headings. Shift + any key: move backward.",
+            "website-accessibility",
+        ),
+        icon: (
+            <svg width="24" height="24" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 48 48">
+                <defs>
+                    <style>{`.cls-1{fill:none;stroke:#000;stroke-linecap:round;stroke-linejoin:round}`}</style>
+                </defs>
+                <path d="M8.14 14.94v4.53h4.53v-4.53Zm6.8 0v4.53h4.53v-4.53Zm6.79 0v4.53h4.54v-4.53Zm6.8 0v4.53h4.53v-4.53Zm6.8 0v4.53h4.53v-4.53ZM8.14 21.73v4.54h4.53v-4.54Zm6.8 0v4.54h4.53v-4.54Zm6.79 0v4.54h4.54v-4.54Zm6.8 0v4.54h4.53v-4.54Zm6.8 0v4.54h4.53v-4.54Zm-27.19 6.8v4.53h4.53v-4.53Zm6.8 0v4.53h18.12v-4.53Zm20.39 0v4.53h4.53v-4.53Z" className="cls-1"/>
+                <path d="M43.5 35.5v-23a2 2 0 0 0-2-2h-35a2 2 0 0 0-2 2v23a2 2 0 0 0 2 2h35a2 2 0 0 0 2-2Z" className="cls-1"/>
             </svg>
         ),
         isDummy: true

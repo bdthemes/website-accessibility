@@ -1,6 +1,6 @@
 import dictionary from "./dictionary";
 import fontManipulator from "./font-manupulator";
-const { screenReader = () => null, smartContrast = () => null, muteSounds = () => null, filterFeatures = () => null } = window.wapHelpers;
+const { screenReader = () => null, smartContrast = () => null, muteSounds = () => null, filterFeatures = () => null, keyboardNavigation = () => null } = window.wapHelpers;
 class AccessibilityManager {
     static instance = null;
     constructor() {
@@ -73,6 +73,12 @@ class AccessibilityManager {
                 case 'biggerText':
                     this.applyBiggerText(key, attributes);
                     break;
+                case 'keyboardNavigation':
+                    keyboardNavigation()?.apply();
+                    break;
+                case 'saturation':
+                    this.applySaturation(key, attributes);
+                    break;
                 case 'contrast':
                 case 'highlightLinks':
                 case 'textSpacing':
@@ -81,7 +87,6 @@ class AccessibilityManager {
                 case 'dyslexiaFriendly':
                 case 'lineHeight':
                 case 'textAlign':
-                case 'saturation':
                     this.applyCSSFeature(key, attributes);
                     break;
             
@@ -168,6 +173,26 @@ class AccessibilityManager {
         smartContrast()?.remove();
         delete this.props['smartContrast'];
     }
+    applySaturation(key, attribute) {
+        if (!attribute || key !== 'saturation') return;
+        switch (attribute.value) {
+            case 'low':
+                document.documentElement.style.setProperty('--wap-saturation', '0.5');
+                break;
+            case 'high':
+                document.documentElement.style.setProperty('--wap-saturation', '3');
+                break;
+            case 'desaturate':
+                document.documentElement.style.setProperty('--wap-saturation', '0');
+                break;
+        }
+    }
+
+    removeSaturation() {
+        document.documentElement.style.removeProperty('--wap-saturation');
+        delete this.props['saturation'];
+    }
+
 
     applyCursor(key, attribute) {
         if (!attribute) return;
@@ -591,6 +616,11 @@ class AccessibilityManager {
             delete this.props['brightness'];
         }else if (key === 'biggerText') {
             this.removeBiggerText(key);
+        }else if (key === 'keyboardNavigation') {
+            keyboardNavigation()?.remove();
+            delete this.props['keyboardNavigation'];
+        }else if (key === 'saturation') {
+            this.removeSaturation();
         }else if (
             key === 'highlightLinks' ||
             key === 'textSpacing' ||
@@ -598,8 +628,7 @@ class AccessibilityManager {
             key === 'hideImages' ||
             key === 'dyslexiaFriendly' ||
             key === 'lineHeight' ||
-            key === 'textAlign' ||
-            key === 'saturation'
+            key === 'textAlign'
         ) {
             this.removeCSSFeature(key);
         }

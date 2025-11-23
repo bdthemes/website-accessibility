@@ -1,14 +1,14 @@
 import clsx from "clsx";
 import { useMemo } from "@wordpress/element";
 import { __ } from "@wordpress/i18n";
-
+import { InfoCircleOutlined } from "@ant-design/icons";
 
 const WidgetFeatures = ({
 	value,
 	accessibilityContext,
 	accessibilityDispatch,
 }) => {
-	const {WapCard, WapRow, WapCol, WapSwitch, WapBadge} = window?.wapComponents;
+	const {WapCard, WapRow, WapCol, WapSwitch, WapBadge, WapTooltip} = window?.wapComponents;
 	const { items } = value;
 	const featureItem = items.find((item) => item.slug === "features");
 	const attributes = featureItem?.attributes || {};
@@ -195,6 +195,19 @@ const WidgetFeatures = ({
 							{
 								isDummy && (
 									<WapBadge count={__("PRO", "website-accessibility")} color="gold" className="wap-widget-features-dummy"/>
+								)
+							}
+
+							{
+								feature?.description && (
+									<WapTooltip 
+										title={feature?.description} 
+										placement="top" 
+										mouseEnterDelay={0}
+										overlayStyle={{ zIndex: 9999999999 }}
+									>
+										<InfoCircleOutlined className="wap-widget-features__feature-tooltip" />
+									</WapTooltip>
 								)
 							}
 
