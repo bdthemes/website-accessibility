@@ -2,14 +2,14 @@
 # This file is distributed under the GPL-2.0-or-later.
 msgid ""
 msgstr ""
-"Project-Id-Version: One Accessibility 1.1.2\n"
+"Project-Id-Version: One Accessibility 1.1.6\n"
 "Report-Msgid-Bugs-To: https://wordpress.org/support/plugin/website-accessibility\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"POT-Creation-Date: 2025-11-10T07:25:44+00:00\n"
+"POT-Creation-Date: 2025-11-24T03:54:07+00:00\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "X-Generator: WP-CLI 2.12.0\n"
 "X-Domain: website-accessibility\n"
@@ -50,7 +50,7 @@ msgid "Accessibility Presets"
 msgstr ""
 
 #: includes/Admin/Menu.php:51
-#: includes/Core/AccessibilityPreset.php:24
+#: includes/Core/AccessibilityPreset.php:29
 msgid "Presets"
 msgstr ""
 
@@ -68,28 +68,28 @@ msgstr ""
 msgid "Settings"
 msgstr ""
 
-#: includes/Admin/Menu.php:79
-#: includes/Admin/Menu.php:80
+#: includes/Admin/Menu.php:86
+#: includes/Admin/Menu.php:87
 msgid "Black Friday Limited Offer Up To 87%"
-msgstr ""
-
-#: includes/Admin/Menu.php:88
-#: includes/Admin/Menu.php:89
-msgid "Create Preset"
 msgstr ""
 
 #: includes/Admin/Menu.php:97
 #: includes/Admin/Menu.php:98
-#: build/admin/index.js:1
-msgid "Edit Preset"
+msgid "Create Preset"
 msgstr ""
 
 #: includes/Admin/Menu.php:106
 #: includes/Admin/Menu.php:107
+#: build/admin/index.js:1
+msgid "Edit Preset"
+msgstr ""
+
+#: includes/Admin/Menu.php:115
+#: includes/Admin/Menu.php:116
 msgid "Preview Preset"
 msgstr ""
 
-#: includes/Core/AccessibilityPreset.php:25
+#: includes/Core/AccessibilityPreset.php:30
 msgid "Preset"
 msgstr ""
 
@@ -102,11 +102,49 @@ msgstr ""
 msgid "Profile"
 msgstr ""
 
-#: includes/Routes/SettingsRouteV1.php:96
+#: includes/Routes/ExportImportRouteV1.php:71
+msgid "Settings exported successfully."
+msgstr ""
+
+#: includes/Routes/ExportImportRouteV1.php:76
+msgid "Failed to export settings: "
+msgstr ""
+
+#: includes/Routes/ExportImportRouteV1.php:93
+msgid "No data provided for import."
+msgstr ""
+
+#: includes/Routes/ExportImportRouteV1.php:102
+msgid "Invalid import file format."
+msgstr ""
+
+#. translators: %d: number of presets imported.
+#: includes/Routes/ExportImportRouteV1.php:120
+#, php-format
+msgid "%d presets"
+msgstr ""
+
+#. translators: %d: number of profiles imported.
+#: includes/Routes/ExportImportRouteV1.php:129
+#, php-format
+msgid "%d profiles"
+msgstr ""
+
+#. translators: %s: comma-separated list of imported items.
+#: includes/Routes/ExportImportRouteV1.php:135
+#, php-format
+msgid "Successfully imported: %s"
+msgstr ""
+
+#: includes/Routes/ExportImportRouteV1.php:150
+msgid "Failed to import settings: "
+msgstr ""
+
+#: includes/Routes/SettingsRouteV1.php:102
 msgid "Settings updated successfully."
 msgstr ""
 
-#: includes/Routes/SettingsRouteV1.php:110
+#: includes/Routes/SettingsRouteV1.php:116
 msgid "Settings have been reset to defaults."
 msgstr ""
 
@@ -423,7 +461,7 @@ msgstr ""
 
 #: build/admin/index.js:1
 #: build/components/index.js:1
-msgid "Save Preference"
+msgid "Save Pref."
 msgstr ""
 
 #: build/admin/index.js:1
@@ -431,7 +469,6 @@ msgid "Update button text"
 msgstr ""
 
 #: build/admin/index.js:1
-#: build/components/index.js:1
 msgid "Update Preference"
 msgstr ""
 
@@ -440,7 +477,6 @@ msgid "Delete button text"
 msgstr ""
 
 #: build/admin/index.js:1
-#: build/components/index.js:1
 msgid "Delete Preference"
 msgstr ""
 
@@ -730,6 +766,7 @@ msgid "Add New Profile"
 msgstr ""
 
 #: build/admin/index.js:1
+#: build/components/index.js:1
 msgid "Grayscale"
 msgstr ""
 
@@ -753,6 +790,7 @@ msgid "High"
 msgstr ""
 
 #: build/admin/index.js:1
+#: build/components/index.js:1
 msgid "Brightness"
 msgstr ""
 
@@ -771,6 +809,7 @@ msgid "High Contrast"
 msgstr ""
 
 #: build/admin/index.js:1
+#: build/components/index.js:1
 msgid "Mute Sounds"
 msgstr ""
 
@@ -785,6 +824,7 @@ msgid "Invert"
 msgstr ""
 
 #: build/admin/index.js:1
+#: build/components/index.js:1
 msgid "Screen Reader"
 msgstr ""
 
@@ -801,6 +841,7 @@ msgid "Fast"
 msgstr ""
 
 #: build/admin/index.js:1
+#: build/components/index.js:1
 msgid "Smart Contrast"
 msgstr ""
 
@@ -844,6 +885,7 @@ msgid "Hide images"
 msgstr ""
 
 #: build/admin/index.js:1
+#: build/components/index.js:1
 msgid "Dyslexia Friendly"
 msgstr ""
 
@@ -1037,6 +1079,14 @@ msgid "Automatically translate your website's original language. This will overr
 msgstr ""
 
 #: build/admin/index.js:1
+msgid "Enable Accessibility Checker"
+msgstr ""
+
+#: build/admin/index.js:1
+msgid "Show a Accessibility Checker button in the frontend for admin"
+msgstr ""
+
+#: build/admin/index.js:1
 msgid "Track Usage Statistics"
 msgstr ""
 
@@ -1073,6 +1123,10 @@ msgid "The contrast setting has been disabled."
 msgstr ""
 
 #: build/components/index.js:1
+msgid "Improves visibility by changing the website’s contrast with invert, dark, and light modes."
+msgstr ""
+
+#: build/components/index.js:1
 msgid "Enable Contrast Mode, set to Invert."
 msgstr ""
 
@@ -1089,6 +1143,10 @@ msgid "The highlight links setting has been disabled."
 msgstr ""
 
 #: build/components/index.js:1
+msgid "Helps users find clickable links by clearly highlighting them."
+msgstr ""
+
+#: build/components/index.js:1
 msgid "Enable"
 msgstr ""
 
@@ -1102,6 +1160,10 @@ msgstr ""
 
 #: build/components/index.js:1
 msgid "The bigger text setting has been disabled."
+msgstr ""
+
+#: build/components/index.js:1
+msgid "Increases text size to improve readability across the website."
 msgstr ""
 
 #: build/components/index.js:1
@@ -1125,6 +1187,10 @@ msgid "The text spacing setting has been disabled."
 msgstr ""
 
 #: build/components/index.js:1
+msgid "Improves readability by adding space between text elements."
+msgstr ""
+
+#: build/components/index.js:1
 msgid "Text Spacing, set to Medium."
 msgstr ""
 
@@ -1141,6 +1207,10 @@ msgid "The pause animations setting has been disabled."
 msgstr ""
 
 #: build/components/index.js:1
+msgid "Pauses animations to reduce distractions and motion."
+msgstr ""
+
+#: build/components/index.js:1
 msgid "Pause Animations Enable."
 msgstr ""
 
@@ -1153,11 +1223,19 @@ msgid "The hide images setting has been disabled."
 msgstr ""
 
 #: build/components/index.js:1
+msgid "Hides images to reduce distractions and improve focus on text content."
+msgstr ""
+
+#: build/components/index.js:1
 msgid "Hide Images Enable."
 msgstr ""
 
 #: build/components/index.js:1
 msgid "The cursor setting has been disabled."
+msgstr ""
+
+#: build/components/index.js:1
+msgid "Changes the cursor to a big cursor, mask, or guideline."
 msgstr ""
 
 #: build/components/index.js:1
@@ -1177,11 +1255,19 @@ msgid "The tooltips setting has been disabled."
 msgstr ""
 
 #: build/components/index.js:1
+msgid "Enables tooltips to provide additional context for elements on the page."
+msgstr ""
+
+#: build/components/index.js:1
 msgid "Tooltips Enable."
 msgstr ""
 
 #: build/components/index.js:1
 msgid "The line height setting has been disabled."
+msgstr ""
+
+#: build/components/index.js:1
+msgid "Increases the space between lines of text for better readability."
 msgstr ""
 
 #: build/components/index.js:1
@@ -1198,6 +1284,10 @@ msgstr ""
 
 #: build/components/index.js:1
 msgid "The text alignment setting has been disabled."
+msgstr ""
+
+#: build/components/index.js:1
+msgid "Aligns text to the left, center, or right."
 msgstr ""
 
 #: build/components/index.js:1
@@ -1221,6 +1311,10 @@ msgid "The saturation setting has been disabled."
 msgstr ""
 
 #: build/components/index.js:1
+msgid "Adjusts the saturation of colors to improve readability."
+msgstr ""
+
+#: build/components/index.js:1
 msgid "Saturation, set to Low."
 msgstr ""
 
@@ -1237,11 +1331,75 @@ msgid "The dictionary setting has been disabled."
 msgstr ""
 
 #: build/components/index.js:1
+msgid "Enables a dictionary to provide additional context for words on the page."
+msgstr ""
+
+#: build/components/index.js:1
 msgid "Dictionary Enable."
 msgstr ""
 
 #: build/components/index.js:1
 msgid "Dictionary Disable."
+msgstr ""
+
+#: build/components/index.js:1
+msgid "The screen reader setting has been disabled."
+msgstr ""
+
+#: build/components/index.js:1
+msgid "Activates screen reader mode to read content aloud with Normal, Slow, and Fast modes."
+msgstr ""
+
+#: build/components/index.js:1
+msgid "The smart contrast setting has been disabled."
+msgstr ""
+
+#: build/components/index.js:1
+msgid "Automatically adjusts contrast based on surrounding colors for optimal readability."
+msgstr ""
+
+#: build/components/index.js:1
+msgid "The dyslexia friendly setting has been disabled."
+msgstr ""
+
+#: build/components/index.js:1
+msgid "Adjusts text style and spacing to improve readability for users with dyslexia."
+msgstr ""
+
+#: build/components/index.js:1
+msgid "The grayscale setting has been disabled."
+msgstr ""
+
+#: build/components/index.js:1
+msgid "Converts the website to grayscale, removing all colors for simpler visual focus."
+msgstr ""
+
+#: build/components/index.js:1
+msgid "The brightness setting has been disabled."
+msgstr ""
+
+#: build/components/index.js:1
+msgid "Improves visibility by changing the website’s brightness."
+msgstr ""
+
+#: build/components/index.js:1
+msgid "The mute sounds setting has been disabled."
+msgstr ""
+
+#: build/components/index.js:1
+msgid "Silences all website sounds and audio effects for a distraction-free experience."
+msgstr ""
+
+#: build/components/index.js:1
+msgid "Keyboard Navigation"
+msgstr ""
+
+#: build/components/index.js:1
+msgid "The keyboard navigation setting has been disabled."
+msgstr ""
+
+#: build/components/index.js:1
+msgid "Tab: navigate elements. B/F/G/H: jump to Buttons/Forms/Graphics/Headings. Shift + any key: move backward."
 msgstr ""
 
 #: build/components/index.js:1
@@ -1266,6 +1424,14 @@ msgstr ""
 
 #: build/components/index.js:1
 msgid "ADHD"
+msgstr ""
+
+#: build/components/index.js:1
+msgid "Update Pref."
+msgstr ""
+
+#: build/components/index.js:1
+msgid "Delete Pref."
 msgstr ""
 
 #: build/components/index.js:1
