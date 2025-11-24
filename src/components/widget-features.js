@@ -204,7 +204,9 @@ const WidgetFeatures = ({
 										title={feature?.description} 
 										placement="top" 
 										mouseEnterDelay={0}
-										overlayStyle={{ zIndex: 9999999999 }}
+										styles={{
+											root: { zIndex: 9999999999 } 
+										}}
 									>
 										<InfoCircleOutlined className="wap-widget-features__feature-tooltip" />
 									</WapTooltip>

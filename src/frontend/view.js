@@ -8,7 +8,7 @@ import apiFetch from "@wordpress/api-fetch";
 const View = () => {
     const { screenReader = () => null, defaultProfiles = [], useBrowserKey, getCookie, setCookie } = window.wapHelpers || {};
     const { PreviewButton, PreviewContent, Icon, WapDrawer, GoogleTranslateConsent = () => null } = window?.wapComponents;
-    const { profiles, currentPreset, currentPresetId, settings, nonce, restUrl } = window?.websiteAccessibility;
+    const { profiles, currentPreset, currentPresetId, settings, nonce, restUrl, isUserLoggedIn } = window?.websiteAccessibility;
     const { dispatch, ...state } = useFrontendAccessibility();
     const [isOpen, setIsOpen] = useState(false);
     const browserKey = useBrowserKey();
@@ -84,7 +84,7 @@ const View = () => {
     }, [state?.currentProfile, state?.currentSettings, state?.isOverSized, state?.enableTranslations, state?.selectedLanguage]);
 
     useEffect(() => {
-        if (!currentPresetId) return;
+        if (!currentPresetId || !isUserLoggedIn) return;
 
         const localKey = `${state?.localStorageKeyPrefix}-${currentPresetId}`;
         const localData = localStorage.getItem(localKey);

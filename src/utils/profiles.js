@@ -5,7 +5,7 @@ import {
     CognitiveIcon,
     SeizureIcon,
     ADHDIcon,
-} from "../../assets/profiles-icons";
+} from "../assets/profiles-icons";
 import { __ } from "@wordpress/i18n";
 
 const defaultProfiles = [
