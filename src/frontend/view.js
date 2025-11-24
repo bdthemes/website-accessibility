@@ -235,7 +235,6 @@ const View = () => {
 
         // Throttle by daily timestamp (12h)
         if (dailyTimestamp && now - dailyTimestamp < twelveHours) {
-            console.log('Throttling statistics');
             return;
         }
         const apiURL = `${restUrl}one-accessibility/v1/usage-statistics`;
