@@ -6,4 +6,7 @@ const WapSkeleton = () => {
     );
 };
 
+WapSkeleton.Node = Skeleton.Node;
+WapSkeleton.Input = Skeleton.Input;
+
 export default WapSkeleton;
