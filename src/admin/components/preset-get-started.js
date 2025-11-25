@@ -12,7 +12,7 @@ const GetStartedPreset = () => {
     const { WapCard , WapInput, WapSelect, WapSwitch} = window?.wapComponents;
     const [posts, setPosts] = useState([]);
     const [searchInput, setSearchInput] = useState('');
-    const { presetsFormData } = useSelect((select) => select(STORE_NAME).getPresetsFormData());
+    const { presetsFormData } = useSelect((select) => select(STORE_NAME).getPresetsFormData(), []);
     const { setPresetsFormData } = useDispatch(STORE_NAME);
 
     const getSelectedPosts = (selectedIds = []) => {

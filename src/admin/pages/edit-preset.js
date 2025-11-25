@@ -45,10 +45,12 @@ const EditPreset = () => {
   useEffect(() => {
     if (preset && Object.keys(preset).length > 0) {
       const content = JSON.parse(preset?.content);
+      delete content.title;
       const presetData = {
         title: preset?.title,
-        ...content,
+        ...content
       };
+      
       setPresetsFormData(presetData);
     } else {
       history.push({
