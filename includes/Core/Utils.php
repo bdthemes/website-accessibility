@@ -139,7 +139,7 @@ class Utils
     {
         if (is_singular()) {
             return 'singular';
-        } elseif (is_front_page() || is_home() || is_archive()) {
+        } elseif (is_front_page() || is_home() || is_archive() || is_search() || is_404()) {
             return 'archive'; // treat homepage & blog index as archive
         }
 

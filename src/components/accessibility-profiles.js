@@ -4,6 +4,7 @@ import {
 } from "@ant-design/icons";
 import { useMemo } from "@wordpress/element";
 import clsx from "clsx";
+import { __ } from "@wordpress/i18n";
 
 
 const FallbackIcon = () => (
@@ -74,7 +75,7 @@ const AccessibilityProfiles = ({
 	accessibilityContext,
 	accessibilityDispatch,
 }) => {
-	const { WapCollapse } = window?.wapComponents;
+	const { WapCollapse, WapTooltip } = window?.wapComponents;
 	const features = window.wapHelpers?.features || [];
 	const { items } = value;
 	const profileItem = items.find((item) => item.slug === "profiles");
@@ -211,7 +212,16 @@ const AccessibilityProfiles = ({
 								{collapseTitle}
 							</span>
 						)}
-						<InfoCircleOutlined className="wap-accessibility-profiles__info-icon" />
+						<WapTooltip 
+								title={__("Enable one or multiple accessibility widget as needed.", "wp-accessibility")}
+								placement="top"
+								mouseEnterDelay={0}
+								styles={{
+									root: { zIndex: 9999999999 }
+								}}
+						>
+							<InfoCircleOutlined className="wap-accessibility-profiles__info-icon" />
+						</WapTooltip>
 					</div>
 				),
 				children: (
@@ -264,7 +274,16 @@ const AccessibilityProfiles = ({
 								{collapseTitle}
 							</span>
 						)}
-						<InfoCircleOutlined className="wap-accessibility-profiles__info-icon" />
+						<WapTooltip 
+								title={__("Enable one or multiple accessibility widget as needed.", "wp-accessibility")}
+								placement="top"
+								mouseEnterDelay={0}
+								styles={{
+									root: { zIndex: 9999999999 }
+								}}
+						>
+							<InfoCircleOutlined className="wap-accessibility-profiles__info-icon" />
+						</WapTooltip>
 					</div>
 					<ProfilesGrid
 						profiles={selectedProfiles}

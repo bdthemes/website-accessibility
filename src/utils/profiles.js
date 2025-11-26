@@ -15,7 +15,10 @@ const defaultProfiles = [
         slug: "motor",
         icon: <MotorIcon />,
         features: {
-            tooltips: "enable",
+            cursor: "big-cursor",           // Easier to track pointer
+            keyboardNavigation: "enable",   // Enables full keyboard control
+            tooltips: "enable",             // Helps clarify actions
+            pauseAnimations: "enable"       // Avoid distraction from moving elements
         },
     },
     {
@@ -24,8 +27,9 @@ const defaultProfiles = [
         slug: "color-blind",
         icon: <ColorBlindIcon />,
         features: {
-            smartContrast: "enable",
-            saturation: "high",
+            smartContrast: "enable",        // Ensures text/background are distinguishable
+            grayscale: "medium",            // Reduces reliance on color differentiation
+            highlightLinks: "enable"        // Makes links easier to identify
         },
     },
     {
@@ -34,10 +38,12 @@ const defaultProfiles = [
         slug: "low-vision",
         icon: <LowVisionIcon />,
         features: {
-            biggerText: "medium",
-            cursor: "big-cursor",
-            tooltips: "enable",
-            saturation: "high",
+            biggerText: "extra-large",      // Easier to read
+            cursor: "big-cursor",           // Easier to locate pointer
+            tooltips: "enable",             // Clarifies elements
+            brightness: "high",             // Better visibility
+            saturation: "high",             // Better visibility
+            lineHeight: "large"             // Easier to follow text
         },
     },
     {
@@ -46,10 +52,11 @@ const defaultProfiles = [
         slug: "cognitive",
         icon: <CognitiveIcon />,
         features: {
-            smartContrast: "enable",
-            biggerText: "medium",
-            cursor: "guideline",
-            tooltips: "enable"
+            smartContrast: "enable",        // Helps distinguish content
+            biggerText: "medium",           // Easier reading without overwhelming layout
+            cursor: "guideline",            // Focus aid for reading text
+            textSpacing: "medium",            // Improves readability and comprehension
+            lineHeight: "medium"              // Makes text flow easier to follow
         },
     },
     {
@@ -58,7 +65,11 @@ const defaultProfiles = [
         slug: "seizure",
         icon: <SeizureIcon />,
         features: {
-            saturation: "low",
+            smartContrast: "enable",        // Helps distinguish content
+            pauseAnimations: "enable",      // Prevent flashing content
+            saturation: "low",              // Reduces intense colors
+            contrast: "light",              // Avoid high contrast triggers
+            brightness: "medium"            // Comfortable viewing
         },
     },
     {
@@ -67,8 +78,11 @@ const defaultProfiles = [
         slug: "adhd",
         icon: <ADHDIcon />,
         features: {
-            cursor: "mask",
-            saturation: "low",
+            cursor: "mask",                 // Helps focus on the current area
+            saturation: "low",              // Reduces visual overstimulation
+            pauseAnimations: "enable",      // Reduces distraction
+            highlightLinks: "enable",       // Easier navigation and focus
+            textSpacing: "medium"           // Prevents text from feeling crowded
         },
     },
 ];
