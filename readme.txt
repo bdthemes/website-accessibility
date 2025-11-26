@@ -4,7 +4,7 @@ Tags:              accessibility, a11y, wcag, ada-compliance, screen-reader
 Requires at least: 6.1  
 Tested up to:      6.8  
 Requires PHP:      7.4  
-Stable tag:        1.1.6
+Stable tag:        1.1.7
 License:           GPL-2.0-or-later  
 License URI:       https://www.gnu.org/licenses/gpl-2.0.html  
 
@@ -160,9 +160,14 @@ This plugin uses the following open-source libraries and third-party tools. We a
 
 == Changelog ==
 
-= 1.1.7 – November 20, 2025 =
-* Fix: Resolved "Contrast+" and “Bigger Text” not working with Nested elements.
-* Improvement: Refined UI/UX.
+= 1.1.7 – November 27, 2025 =
+* Fix: Resolved an issue where the footer mask shadow visible on widgets.
+* Fix: Resolved an issue where the updated preset name did not appear in edit mode.
+* Fix: Resolved issues with archive search results and 404 page conditions not working correctly.
+* Improvement: Enhanced the Saturation widget.
+* Improvement: Improved the default profiles.
+* Improvement: Enhanced the Contrast widget.
+* Improvement: Optimized overall UI/UX, performance, and code structure.
 
 = 1.1.6 – November 20, 2025 =
 * Fix: Resolved "Contrast+" and “Bigger Text” not working with Nested elements.
