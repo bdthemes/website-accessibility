@@ -2,14 +2,14 @@
 # This file is distributed under the GPL-2.0-or-later.
 msgid ""
 msgstr ""
-"Project-Id-Version: One Accessibility 1.1.6\n"
+"Project-Id-Version: One Accessibility 1.1.7\n"
 "Report-Msgid-Bugs-To: https://wordpress.org/support/plugin/website-accessibility\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"POT-Creation-Date: 2025-11-24T03:54:07+00:00\n"
+"POT-Creation-Date: 2025-11-26T14:41:28+00:00\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "X-Generator: WP-CLI 2.12.0\n"
 "X-Domain: website-accessibility\n"
@@ -169,6 +169,7 @@ msgid "Usage statistics have been reset."
 msgstr ""
 
 #: build/admin/index.js:1
+#: build/components/index.js:1
 #: build/frontend/frontend.js:1
 msgid "Accessibility Menu"
 msgstr ""
@@ -343,6 +344,7 @@ msgstr ""
 
 #: build/admin/index.js:1
 #: build/components/index.js:1
+#: build/frontend/frontend.js:1
 msgid "Right"
 msgstr ""
 
@@ -533,36 +535,703 @@ msgid "Width (px)"
 msgstr ""
 
 #: build/admin/index.js:1
+#: build/components/index.js:1
+#: build/frontend/frontend.js:1
+msgid "Contrast +"
+msgstr ""
+
+#: build/admin/index.js:1
+#: build/components/index.js:1
+#: build/frontend/frontend.js:1
+msgid "The contrast setting has been disabled."
+msgstr ""
+
+#: build/admin/index.js:1
+#: build/components/index.js:1
+#: build/frontend/frontend.js:1
+msgid "Improves visibility by changing the website’s contrast with invert, dark, and light modes."
+msgstr ""
+
+#: build/admin/index.js:1
+#: build/components/index.js:1
+#: build/frontend/frontend.js:1
+msgid "Invert"
+msgstr ""
+
+#: build/admin/index.js:1
+#: build/components/index.js:1
+#: build/frontend/frontend.js:1
+msgid "Enable Contrast Mode, set to Invert."
+msgstr ""
+
+#: build/admin/index.js:1
+#: build/components/index.js:1
+#: build/frontend/frontend.js:1
+msgid "Dark"
+msgstr ""
+
+#: build/admin/index.js:1
+#: build/components/index.js:1
+#: build/frontend/frontend.js:1
+msgid "Contrast Mode, set to Dark."
+msgstr ""
+
+#: build/admin/index.js:1
+#: build/components/index.js:1
+#: build/frontend/frontend.js:1
+msgid "Light"
+msgstr ""
+
+#: build/admin/index.js:1
+#: build/components/index.js:1
+#: build/frontend/frontend.js:1
+msgid "Contrast Mode, set to Light."
+msgstr ""
+
+#: build/admin/index.js:1
+#: build/components/index.js:1
+#: build/frontend/frontend.js:1
+msgid "Highlight Links"
+msgstr ""
+
+#: build/admin/index.js:1
+#: build/components/index.js:1
+#: build/frontend/frontend.js:1
+msgid "The highlight links setting has been disabled."
+msgstr ""
+
+#: build/admin/index.js:1
+#: build/components/index.js:1
+#: build/frontend/frontend.js:1
+msgid "Helps users find clickable links by clearly highlighting them."
+msgstr ""
+
+#: build/admin/index.js:1
+#: build/components/index.js:1
+#: build/frontend/frontend.js:1
+msgid "Enable"
+msgstr ""
+
+#: build/admin/index.js:1
+#: build/components/index.js:1
+#: build/frontend/frontend.js:1
+msgid "Highlight Links Enable."
+msgstr ""
+
+#: build/admin/index.js:1
+#: build/components/index.js:1
+#: build/frontend/frontend.js:1
+msgid "Disable"
+msgstr ""
+
+#: build/admin/index.js:1
+#: build/components/index.js:1
+#: build/frontend/frontend.js:1
+msgid "Bigger Text"
+msgstr ""
+
+#: build/admin/index.js:1
+#: build/components/index.js:1
+#: build/frontend/frontend.js:1
+msgid "The bigger text setting has been disabled."
+msgstr ""
+
+#: build/admin/index.js:1
+#: build/components/index.js:1
+#: build/frontend/frontend.js:1
+msgid "Increases text size to improve readability across the website."
+msgstr ""
+
+#: build/admin/index.js:1
+#: build/components/index.js:1
+#: build/frontend/frontend.js:1
+msgid "Medium"
+msgstr ""
+
+#: build/admin/index.js:1
+#: build/components/index.js:1
+#: build/frontend/frontend.js:1
+msgid "Bigger Text, set to Medium."
+msgstr ""
+
+#: build/admin/index.js:1
+#: build/components/index.js:1
+#: build/frontend/frontend.js:1
+msgid "Large"
+msgstr ""
+
+#: build/admin/index.js:1
+#: build/components/index.js:1
+#: build/frontend/frontend.js:1
+msgid "Bigger Text, set to Large."
+msgstr ""
+
+#: build/admin/index.js:1
+#: build/components/index.js:1
+#: build/frontend/frontend.js:1
+msgid "Extra Large"
+msgstr ""
+
+#: build/admin/index.js:1
+#: build/components/index.js:1
+#: build/frontend/frontend.js:1
+msgid "Bigger Text, set to Extra Large."
+msgstr ""
+
+#: build/admin/index.js:1
+#: build/components/index.js:1
+#: build/frontend/frontend.js:1
+msgid "Huge"
+msgstr ""
+
+#: build/admin/index.js:1
+#: build/components/index.js:1
+#: build/frontend/frontend.js:1
+msgid "Bigger Text, set to Huge."
+msgstr ""
+
+#: build/admin/index.js:1
+#: build/components/index.js:1
+#: build/frontend/frontend.js:1
+msgid "Text Spacing"
+msgstr ""
+
+#: build/admin/index.js:1
+#: build/components/index.js:1
+#: build/frontend/frontend.js:1
+msgid "The text spacing setting has been disabled."
+msgstr ""
+
+#: build/admin/index.js:1
+#: build/components/index.js:1
+#: build/frontend/frontend.js:1
+msgid "Improves readability by adding space between text elements."
+msgstr ""
+
+#: build/admin/index.js:1
+#: build/components/index.js:1
+#: build/frontend/frontend.js:1
+msgid "Text Spacing, set to Medium."
+msgstr ""
+
+#: build/admin/index.js:1
+#: build/components/index.js:1
+#: build/frontend/frontend.js:1
+msgid "Text Spacing, set to Large."
+msgstr ""
+
+#: build/admin/index.js:1
+#: build/components/index.js:1
+#: build/frontend/frontend.js:1
+msgid "Text Spacing, set to Extra Large."
+msgstr ""
+
+#: build/admin/index.js:1
+#: build/components/index.js:1
+#: build/frontend/frontend.js:1
+msgid "Pause Animations"
+msgstr ""
+
+#: build/admin/index.js:1
+#: build/components/index.js:1
+#: build/frontend/frontend.js:1
+msgid "The pause animations setting has been disabled."
+msgstr ""
+
+#: build/admin/index.js:1
+#: build/components/index.js:1
+#: build/frontend/frontend.js:1
+msgid "Pauses animations to reduce distractions and motion."
+msgstr ""
+
+#: build/admin/index.js:1
+#: build/components/index.js:1
+#: build/frontend/frontend.js:1
+msgid "Pause Animations Enable."
+msgstr ""
+
+#: build/admin/index.js:1
+#: build/components/index.js:1
+#: build/frontend/frontend.js:1
+msgid "Hide Images"
+msgstr ""
+
+#: build/admin/index.js:1
+#: build/components/index.js:1
+#: build/frontend/frontend.js:1
+msgid "The hide images setting has been disabled."
+msgstr ""
+
+#: build/admin/index.js:1
+#: build/components/index.js:1
+#: build/frontend/frontend.js:1
+msgid "Hides images to reduce distractions and improve focus on text content."
+msgstr ""
+
+#: build/admin/index.js:1
+#: build/components/index.js:1
+#: build/frontend/frontend.js:1
+msgid "Hide Images Enable."
+msgstr ""
+
+#: build/admin/index.js:1
+#: build/components/index.js:1
+#: build/frontend/frontend.js:1
+msgid "Cursor"
+msgstr ""
+
+#: build/admin/index.js:1
+#: build/components/index.js:1
+#: build/frontend/frontend.js:1
+msgid "The cursor setting has been disabled."
+msgstr ""
+
+#: build/admin/index.js:1
+#: build/components/index.js:1
+#: build/frontend/frontend.js:1
+msgid "Changes the cursor to a big cursor, mask, or guideline."
+msgstr ""
+
+#: build/admin/index.js:1
+#: build/components/index.js:1
+#: build/frontend/frontend.js:1
+msgid "Big Cursor"
+msgstr ""
+
+#: build/admin/index.js:1
+#: build/components/index.js:1
+#: build/frontend/frontend.js:1
+msgid "Big Cursor Enable."
+msgstr ""
+
+#: build/admin/index.js:1
+#: build/components/index.js:1
+#: build/frontend/frontend.js:1
+msgid "Mask"
+msgstr ""
+
+#: build/admin/index.js:1
+#: build/components/index.js:1
+#: build/frontend/frontend.js:1
+msgid "Cursor Mask Enable."
+msgstr ""
+
+#: build/admin/index.js:1
+#: build/components/index.js:1
+#: build/frontend/frontend.js:1
+msgid "Guideline"
+msgstr ""
+
+#: build/admin/index.js:1
+#: build/components/index.js:1
+#: build/frontend/frontend.js:1
+msgid "Cursor Guideline Enable."
+msgstr ""
+
+#: build/admin/index.js:1
+#: build/components/index.js:1
+#: build/frontend/frontend.js:1
+msgid "Tooltips"
+msgstr ""
+
+#: build/admin/index.js:1
+#: build/components/index.js:1
+#: build/frontend/frontend.js:1
+msgid "The tooltips setting has been disabled."
+msgstr ""
+
+#: build/admin/index.js:1
+#: build/components/index.js:1
+#: build/frontend/frontend.js:1
+msgid "Enables tooltips to provide additional context for elements on the page."
+msgstr ""
+
+#: build/admin/index.js:1
+#: build/components/index.js:1
+#: build/frontend/frontend.js:1
+msgid "Tooltips Enable."
+msgstr ""
+
+#: build/admin/index.js:1
+#: build/components/index.js:1
+#: build/frontend/frontend.js:1
+msgid "Line Height"
+msgstr ""
+
+#: build/admin/index.js:1
+#: build/components/index.js:1
+#: build/frontend/frontend.js:1
+msgid "The line height setting has been disabled."
+msgstr ""
+
+#: build/admin/index.js:1
+#: build/components/index.js:1
+#: build/frontend/frontend.js:1
+msgid "Increases the space between lines of text for better readability."
+msgstr ""
+
+#: build/admin/index.js:1
+#: build/components/index.js:1
+#: build/frontend/frontend.js:1
+msgid "Line Height, set to Medium."
+msgstr ""
+
+#: build/admin/index.js:1
+#: build/components/index.js:1
+#: build/frontend/frontend.js:1
+msgid "Line Height, set to Large."
+msgstr ""
+
+#: build/admin/index.js:1
+#: build/components/index.js:1
+#: build/frontend/frontend.js:1
+msgid "Line Height, set to Extra Large."
+msgstr ""
+
+#: build/admin/index.js:1
+#: build/components/index.js:1
+#: build/frontend/frontend.js:1
+msgid "Text Alignment"
+msgstr ""
+
+#: build/admin/index.js:1
+#: build/components/index.js:1
+#: build/frontend/frontend.js:1
+msgid "The text alignment setting has been disabled."
+msgstr ""
+
+#: build/admin/index.js:1
+#: build/components/index.js:1
+#: build/frontend/frontend.js:1
+msgid "Aligns text to the left, center, or right."
+msgstr ""
+
+#: build/admin/index.js:1
+#: build/components/index.js:1
+#: build/frontend/frontend.js:1
+msgid "Left"
+msgstr ""
+
+#: build/admin/index.js:1
+#: build/components/index.js:1
+#: build/frontend/frontend.js:1
+msgid "Text Alignment, set to Left."
+msgstr ""
+
+#: build/admin/index.js:1
+#: build/components/index.js:1
+#: build/frontend/frontend.js:1
+msgid "Center"
+msgstr ""
+
+#: build/admin/index.js:1
+#: build/components/index.js:1
+#: build/frontend/frontend.js:1
+msgid "Text Alignment, set to Center."
+msgstr ""
+
+#: build/admin/index.js:1
+#: build/components/index.js:1
+#: build/frontend/frontend.js:1
+msgid "Text Alignment, set to Right."
+msgstr ""
+
+#: build/admin/index.js:1
+#: build/components/index.js:1
+#: build/frontend/frontend.js:1
+msgid "Justify"
+msgstr ""
+
+#: build/admin/index.js:1
+#: build/components/index.js:1
+#: build/frontend/frontend.js:1
+msgid "Text Alignment, set to Justify."
+msgstr ""
+
+#: build/admin/index.js:1
+#: build/components/index.js:1
+#: build/frontend/frontend.js:1
+msgid "Saturation"
+msgstr ""
+
+#: build/admin/index.js:1
+#: build/components/index.js:1
+#: build/frontend/frontend.js:1
+msgid "The saturation setting has been disabled."
+msgstr ""
+
+#: build/admin/index.js:1
+#: build/components/index.js:1
+#: build/frontend/frontend.js:1
+msgid "Adjusts the saturation of colors to improve readability."
+msgstr ""
+
+#: build/admin/index.js:1
+#: build/components/index.js:1
+#: build/frontend/frontend.js:1
+msgid "Low"
+msgstr ""
+
+#: build/admin/index.js:1
+#: build/components/index.js:1
+#: build/frontend/frontend.js:1
+msgid "Saturation, set to Low."
+msgstr ""
+
+#: build/admin/index.js:1
+#: build/components/index.js:1
+#: build/frontend/frontend.js:1
+msgid "High"
+msgstr ""
+
+#: build/admin/index.js:1
+#: build/components/index.js:1
+#: build/frontend/frontend.js:1
+msgid "Saturation, set to High."
+msgstr ""
+
+#: build/admin/index.js:1
+#: build/components/index.js:1
+#: build/frontend/frontend.js:1
+msgid "Desaturate"
+msgstr ""
+
+#: build/admin/index.js:1
+#: build/components/index.js:1
+#: build/frontend/frontend.js:1
+msgid "Saturation, set to Desaturate."
+msgstr ""
+
+#: build/admin/index.js:1
+#: build/components/index.js:1
+#: build/frontend/frontend.js:1
+msgid "Dictionary"
+msgstr ""
+
+#: build/admin/index.js:1
+#: build/components/index.js:1
+#: build/frontend/frontend.js:1
+msgid "The dictionary setting has been disabled."
+msgstr ""
+
+#: build/admin/index.js:1
+#: build/components/index.js:1
+#: build/frontend/frontend.js:1
+msgid "Enables a dictionary to provide additional context for words on the page."
+msgstr ""
+
+#: build/admin/index.js:1
+#: build/components/index.js:1
+#: build/frontend/frontend.js:1
+msgid "Dictionary Enable."
+msgstr ""
+
+#: build/admin/index.js:1
+#: build/components/index.js:1
+#: build/frontend/frontend.js:1
+msgid "Dictionary Disable."
+msgstr ""
+
+#: build/admin/index.js:1
+#: build/components/index.js:1
+#: build/frontend/frontend.js:1
+msgid "Screen Reader"
+msgstr ""
+
+#: build/admin/index.js:1
+#: build/components/index.js:1
+#: build/frontend/frontend.js:1
+msgid "The screen reader setting has been disabled."
+msgstr ""
+
+#: build/admin/index.js:1
+#: build/components/index.js:1
+#: build/frontend/frontend.js:1
+msgid "Activates screen reader mode to read content aloud with Normal, Slow, and Fast modes."
+msgstr ""
+
+#: build/admin/index.js:1
+#: build/components/index.js:1
+#: build/frontend/frontend.js:1
+msgid "Smart Contrast"
+msgstr ""
+
+#: build/admin/index.js:1
+#: build/components/index.js:1
+#: build/frontend/frontend.js:1
+msgid "The smart contrast setting has been disabled."
+msgstr ""
+
+#: build/admin/index.js:1
+#: build/components/index.js:1
+#: build/frontend/frontend.js:1
+msgid "Automatically adjusts contrast based on surrounding colors for optimal readability."
+msgstr ""
+
+#: build/admin/index.js:1
+#: build/components/index.js:1
+#: build/frontend/frontend.js:1
+msgid "Dyslexia Friendly"
+msgstr ""
+
+#: build/admin/index.js:1
+#: build/components/index.js:1
+#: build/frontend/frontend.js:1
+msgid "The dyslexia friendly setting has been disabled."
+msgstr ""
+
+#: build/admin/index.js:1
+#: build/components/index.js:1
+#: build/frontend/frontend.js:1
+msgid "Adjusts text style and spacing to improve readability for users with dyslexia."
+msgstr ""
+
+#: build/admin/index.js:1
+#: build/components/index.js:1
+#: build/frontend/frontend.js:1
+msgid "Grayscale"
+msgstr ""
+
+#: build/admin/index.js:1
+#: build/components/index.js:1
+#: build/frontend/frontend.js:1
+msgid "The grayscale setting has been disabled."
+msgstr ""
+
+#: build/admin/index.js:1
+#: build/components/index.js:1
+#: build/frontend/frontend.js:1
+msgid "Converts the website to grayscale, removing all colors for simpler visual focus."
+msgstr ""
+
+#: build/admin/index.js:1
+#: build/components/index.js:1
+#: build/frontend/frontend.js:1
+msgid "Brightness"
+msgstr ""
+
+#: build/admin/index.js:1
+#: build/components/index.js:1
+#: build/frontend/frontend.js:1
+msgid "The brightness setting has been disabled."
+msgstr ""
+
+#: build/admin/index.js:1
+#: build/components/index.js:1
+#: build/frontend/frontend.js:1
+msgid "Improves visibility by changing the website’s brightness."
+msgstr ""
+
+#: build/admin/index.js:1
+#: build/components/index.js:1
+#: build/frontend/frontend.js:1
+msgid "Mute Sounds"
+msgstr ""
+
+#: build/admin/index.js:1
+#: build/components/index.js:1
+#: build/frontend/frontend.js:1
+msgid "The mute sounds setting has been disabled."
+msgstr ""
+
+#: build/admin/index.js:1
+#: build/components/index.js:1
+#: build/frontend/frontend.js:1
+msgid "Silences all website sounds and audio effects for a distraction-free experience."
+msgstr ""
+
+#: build/admin/index.js:1
+#: build/components/index.js:1
+#: build/frontend/frontend.js:1
+msgid "Keyboard Navigation"
+msgstr ""
+
+#: build/admin/index.js:1
+#: build/components/index.js:1
+#: build/frontend/frontend.js:1
+msgid "The keyboard navigation setting has been disabled."
+msgstr ""
+
+#: build/admin/index.js:1
+#: build/components/index.js:1
+#: build/frontend/frontend.js:1
+msgid "Tab: navigate elements. B/F/G/H: jump to Buttons/Forms/Graphics/Headings. Shift + any key: move backward."
+msgstr ""
+
+#: build/admin/index.js:1
+#: build/components/index.js:1
+#: build/frontend/frontend.js:1
+msgid "Motor Impaired"
+msgstr ""
+
+#: build/admin/index.js:1
+#: build/components/index.js:1
+#: build/frontend/frontend.js:1
+msgid "Color Blind"
+msgstr ""
+
+#: build/admin/index.js:1
+#: build/components/index.js:1
+#: build/frontend/frontend.js:1
+msgid "Low Vision"
+msgstr ""
+
+#: build/admin/index.js:1
+#: build/components/index.js:1
+#: build/frontend/frontend.js:1
+msgid "Cognitive & Learning"
+msgstr ""
+
+#: build/admin/index.js:1
+#: build/components/index.js:1
+#: build/frontend/frontend.js:1
+msgid "Seizure & Epileptic"
+msgstr ""
+
+#: build/admin/index.js:1
+#: build/components/index.js:1
+#: build/frontend/frontend.js:1
+msgid "ADHD"
+msgstr ""
+
+#: build/admin/index.js:1
+#: build/components/index.js:1
 #: build/frontend/frontend.js:1
 msgid "Entire Site"
 msgstr ""
 
 #: build/admin/index.js:1
+#: build/components/index.js:1
 #: build/frontend/frontend.js:1
 msgid "Apply to all pages of your website"
 msgstr ""
 
 #: build/admin/index.js:1
+#: build/components/index.js:1
 #: build/frontend/frontend.js:1
 msgid "Singular"
 msgstr ""
 
 #: build/admin/index.js:1
+#: build/components/index.js:1
 #: build/frontend/frontend.js:1
 msgid "Apply to individual posts and pages"
 msgstr ""
 
 #: build/admin/index.js:1
+#: build/components/index.js:1
 #: build/frontend/frontend.js:1
 msgid "Archive"
 msgstr ""
 
 #: build/admin/index.js:1
+#: build/components/index.js:1
 #: build/frontend/frontend.js:1
 msgid "Apply to archive pages and listings"
 msgstr ""
 
 #: build/admin/index.js:1
+#: build/components/index.js:1
 #: build/frontend/frontend.js:1
 msgid "Get Started"
 msgstr ""
@@ -596,6 +1265,7 @@ msgid "Active"
 msgstr ""
 
 #: build/admin/index.js:1
+#: build/components/index.js:1
 #: build/frontend/frontend.js:1
 msgid "Button Style"
 msgstr ""
@@ -629,6 +1299,7 @@ msgid "Vertical Offset"
 msgstr ""
 
 #: build/admin/index.js:1
+#: build/components/index.js:1
 #: build/frontend/frontend.js:1
 msgid "Panel Customization"
 msgstr ""
@@ -766,66 +1437,11 @@ msgid "Add New Profile"
 msgstr ""
 
 #: build/admin/index.js:1
-#: build/components/index.js:1
-msgid "Grayscale"
-msgstr ""
-
-#: build/admin/index.js:1
 msgid "None"
 msgstr ""
 
 #: build/admin/index.js:1
-#: build/components/index.js:1
-msgid "Low"
-msgstr ""
-
-#: build/admin/index.js:1
-#: build/components/index.js:1
-msgid "Medium"
-msgstr ""
-
-#: build/admin/index.js:1
-#: build/components/index.js:1
-msgid "High"
-msgstr ""
-
-#: build/admin/index.js:1
-#: build/components/index.js:1
-msgid "Brightness"
-msgstr ""
-
-#: build/admin/index.js:1
-#: build/components/index.js:1
-msgid "Light"
-msgstr ""
-
-#: build/admin/index.js:1
-#: build/components/index.js:1
-msgid "Dark"
-msgstr ""
-
-#: build/admin/index.js:1
 msgid "High Contrast"
-msgstr ""
-
-#: build/admin/index.js:1
-#: build/components/index.js:1
-msgid "Mute Sounds"
-msgstr ""
-
-#: build/admin/index.js:1
-#: build/components/index.js:1
-msgid "Contrast +"
-msgstr ""
-
-#: build/admin/index.js:1
-#: build/components/index.js:1
-msgid "Invert"
-msgstr ""
-
-#: build/admin/index.js:1
-#: build/components/index.js:1
-msgid "Screen Reader"
 msgstr ""
 
 #: build/admin/index.js:1
@@ -841,117 +1457,7 @@ msgid "Fast"
 msgstr ""
 
 #: build/admin/index.js:1
-#: build/components/index.js:1
-msgid "Smart Contrast"
-msgstr ""
-
-#: build/admin/index.js:1
-#: build/components/index.js:1
-msgid "Highlight Links"
-msgstr ""
-
-#: build/admin/index.js:1
-#: build/components/index.js:1
-msgid "Bigger Text"
-msgstr ""
-
-#: build/admin/index.js:1
-#: build/components/index.js:1
-msgid "Large"
-msgstr ""
-
-#: build/admin/index.js:1
-#: build/components/index.js:1
-msgid "Extra Large"
-msgstr ""
-
-#: build/admin/index.js:1
-#: build/components/index.js:1
-msgid "Huge"
-msgstr ""
-
-#: build/admin/index.js:1
-#: build/components/index.js:1
-msgid "Text Spacing"
-msgstr ""
-
-#: build/admin/index.js:1
-#: build/components/index.js:1
-msgid "Pause Animations"
-msgstr ""
-
-#: build/admin/index.js:1
 msgid "Hide images"
-msgstr ""
-
-#: build/admin/index.js:1
-#: build/components/index.js:1
-msgid "Dyslexia Friendly"
-msgstr ""
-
-#: build/admin/index.js:1
-#: build/components/index.js:1
-msgid "Cursor"
-msgstr ""
-
-#: build/admin/index.js:1
-#: build/components/index.js:1
-msgid "Big Cursor"
-msgstr ""
-
-#: build/admin/index.js:1
-#: build/components/index.js:1
-msgid "Mask"
-msgstr ""
-
-#: build/admin/index.js:1
-#: build/components/index.js:1
-msgid "Guideline"
-msgstr ""
-
-#: build/admin/index.js:1
-#: build/components/index.js:1
-msgid "Tooltips"
-msgstr ""
-
-#: build/admin/index.js:1
-#: build/components/index.js:1
-msgid "Line Height"
-msgstr ""
-
-#: build/admin/index.js:1
-#: build/components/index.js:1
-msgid "Text Alignment"
-msgstr ""
-
-#: build/admin/index.js:1
-#: build/components/index.js:1
-msgid "Left"
-msgstr ""
-
-#: build/admin/index.js:1
-#: build/components/index.js:1
-msgid "Center"
-msgstr ""
-
-#: build/admin/index.js:1
-#: build/components/index.js:1
-msgid "Justify"
-msgstr ""
-
-#: build/admin/index.js:1
-#: build/components/index.js:1
-msgid "Saturation"
-msgstr ""
-
-#: build/admin/index.js:1
-#: build/components/index.js:1
-msgid "Desaturate"
-msgstr ""
-
-#: build/admin/index.js:1
-#: build/components/index.js:1
-msgid "Dictionary"
 msgstr ""
 
 #: build/admin/index.js:1
@@ -1116,314 +1622,6 @@ msgstr ""
 
 #: build/admin/index.js:1
 msgid "No statistics available yet."
-msgstr ""
-
-#: build/components/index.js:1
-msgid "The contrast setting has been disabled."
-msgstr ""
-
-#: build/components/index.js:1
-msgid "Improves visibility by changing the website’s contrast with invert, dark, and light modes."
-msgstr ""
-
-#: build/components/index.js:1
-msgid "Enable Contrast Mode, set to Invert."
-msgstr ""
-
-#: build/components/index.js:1
-msgid "Contrast Mode, set to Dark."
-msgstr ""
-
-#: build/components/index.js:1
-msgid "Contrast Mode, set to Light."
-msgstr ""
-
-#: build/components/index.js:1
-msgid "The highlight links setting has been disabled."
-msgstr ""
-
-#: build/components/index.js:1
-msgid "Helps users find clickable links by clearly highlighting them."
-msgstr ""
-
-#: build/components/index.js:1
-msgid "Enable"
-msgstr ""
-
-#: build/components/index.js:1
-msgid "Highlight Links Enable."
-msgstr ""
-
-#: build/components/index.js:1
-msgid "Disable"
-msgstr ""
-
-#: build/components/index.js:1
-msgid "The bigger text setting has been disabled."
-msgstr ""
-
-#: build/components/index.js:1
-msgid "Increases text size to improve readability across the website."
-msgstr ""
-
-#: build/components/index.js:1
-msgid "Bigger Text, set to Medium."
-msgstr ""
-
-#: build/components/index.js:1
-msgid "Bigger Text, set to Large."
-msgstr ""
-
-#: build/components/index.js:1
-msgid "Bigger Text, set to Extra Large."
-msgstr ""
-
-#: build/components/index.js:1
-msgid "Bigger Text, set to Huge."
-msgstr ""
-
-#: build/components/index.js:1
-msgid "The text spacing setting has been disabled."
-msgstr ""
-
-#: build/components/index.js:1
-msgid "Improves readability by adding space between text elements."
-msgstr ""
-
-#: build/components/index.js:1
-msgid "Text Spacing, set to Medium."
-msgstr ""
-
-#: build/components/index.js:1
-msgid "Text Spacing, set to Large."
-msgstr ""
-
-#: build/components/index.js:1
-msgid "Text Spacing, set to Extra Large."
-msgstr ""
-
-#: build/components/index.js:1
-msgid "The pause animations setting has been disabled."
-msgstr ""
-
-#: build/components/index.js:1
-msgid "Pauses animations to reduce distractions and motion."
-msgstr ""
-
-#: build/components/index.js:1
-msgid "Pause Animations Enable."
-msgstr ""
-
-#: build/components/index.js:1
-msgid "Hide Images"
-msgstr ""
-
-#: build/components/index.js:1
-msgid "The hide images setting has been disabled."
-msgstr ""
-
-#: build/components/index.js:1
-msgid "Hides images to reduce distractions and improve focus on text content."
-msgstr ""
-
-#: build/components/index.js:1
-msgid "Hide Images Enable."
-msgstr ""
-
-#: build/components/index.js:1
-msgid "The cursor setting has been disabled."
-msgstr ""
-
-#: build/components/index.js:1
-msgid "Changes the cursor to a big cursor, mask, or guideline."
-msgstr ""
-
-#: build/components/index.js:1
-msgid "Big Cursor Enable."
-msgstr ""
-
-#: build/components/index.js:1
-msgid "Cursor Mask Enable."
-msgstr ""
-
-#: build/components/index.js:1
-msgid "Cursor Guideline Enable."
-msgstr ""
-
-#: build/components/index.js:1
-msgid "The tooltips setting has been disabled."
-msgstr ""
-
-#: build/components/index.js:1
-msgid "Enables tooltips to provide additional context for elements on the page."
-msgstr ""
-
-#: build/components/index.js:1
-msgid "Tooltips Enable."
-msgstr ""
-
-#: build/components/index.js:1
-msgid "The line height setting has been disabled."
-msgstr ""
-
-#: build/components/index.js:1
-msgid "Increases the space between lines of text for better readability."
-msgstr ""
-
-#: build/components/index.js:1
-msgid "Line Height, set to Medium."
-msgstr ""
-
-#: build/components/index.js:1
-msgid "Line Height, set to Large."
-msgstr ""
-
-#: build/components/index.js:1
-msgid "Line Height, set to Extra Large."
-msgstr ""
-
-#: build/components/index.js:1
-msgid "The text alignment setting has been disabled."
-msgstr ""
-
-#: build/components/index.js:1
-msgid "Aligns text to the left, center, or right."
-msgstr ""
-
-#: build/components/index.js:1
-msgid "Text Alignment, set to Left."
-msgstr ""
-
-#: build/components/index.js:1
-msgid "Text Alignment, set to Center."
-msgstr ""
-
-#: build/components/index.js:1
-msgid "Text Alignment, set to Right."
-msgstr ""
-
-#: build/components/index.js:1
-msgid "Text Alignment, set to Justify."
-msgstr ""
-
-#: build/components/index.js:1
-msgid "The saturation setting has been disabled."
-msgstr ""
-
-#: build/components/index.js:1
-msgid "Adjusts the saturation of colors to improve readability."
-msgstr ""
-
-#: build/components/index.js:1
-msgid "Saturation, set to Low."
-msgstr ""
-
-#: build/components/index.js:1
-msgid "Saturation, set to High."
-msgstr ""
-
-#: build/components/index.js:1
-msgid "Saturation, set to Desaturate."
-msgstr ""
-
-#: build/components/index.js:1
-msgid "The dictionary setting has been disabled."
-msgstr ""
-
-#: build/components/index.js:1
-msgid "Enables a dictionary to provide additional context for words on the page."
-msgstr ""
-
-#: build/components/index.js:1
-msgid "Dictionary Enable."
-msgstr ""
-
-#: build/components/index.js:1
-msgid "Dictionary Disable."
-msgstr ""
-
-#: build/components/index.js:1
-msgid "The screen reader setting has been disabled."
-msgstr ""
-
-#: build/components/index.js:1
-msgid "Activates screen reader mode to read content aloud with Normal, Slow, and Fast modes."
-msgstr ""
-
-#: build/components/index.js:1
-msgid "The smart contrast setting has been disabled."
-msgstr ""
-
-#: build/components/index.js:1
-msgid "Automatically adjusts contrast based on surrounding colors for optimal readability."
-msgstr ""
-
-#: build/components/index.js:1
-msgid "The dyslexia friendly setting has been disabled."
-msgstr ""
-
-#: build/components/index.js:1
-msgid "Adjusts text style and spacing to improve readability for users with dyslexia."
-msgstr ""
-
-#: build/components/index.js:1
-msgid "The grayscale setting has been disabled."
-msgstr ""
-
-#: build/components/index.js:1
-msgid "Converts the website to grayscale, removing all colors for simpler visual focus."
-msgstr ""
-
-#: build/components/index.js:1
-msgid "The brightness setting has been disabled."
-msgstr ""
-
-#: build/components/index.js:1
-msgid "Improves visibility by changing the website’s brightness."
-msgstr ""
-
-#: build/components/index.js:1
-msgid "The mute sounds setting has been disabled."
-msgstr ""
-
-#: build/components/index.js:1
-msgid "Silences all website sounds and audio effects for a distraction-free experience."
-msgstr ""
-
-#: build/components/index.js:1
-msgid "Keyboard Navigation"
-msgstr ""
-
-#: build/components/index.js:1
-msgid "The keyboard navigation setting has been disabled."
-msgstr ""
-
-#: build/components/index.js:1
-msgid "Tab: navigate elements. B/F/G/H: jump to Buttons/Forms/Graphics/Headings. Shift + any key: move backward."
-msgstr ""
-
-#: build/components/index.js:1
-msgid "Motor Impaired"
-msgstr ""
-
-#: build/components/index.js:1
-msgid "Color Blind"
-msgstr ""
-
-#: build/components/index.js:1
-msgid "Low Vision"
-msgstr ""
-
-#: build/components/index.js:1
-msgid "Cognitive & Learning"
-msgstr ""
-
-#: build/components/index.js:1
-msgid "Seizure & Epileptic"
-msgstr ""
-
-#: build/components/index.js:1
-msgid "ADHD"
 msgstr ""
 
 #: build/components/index.js:1
