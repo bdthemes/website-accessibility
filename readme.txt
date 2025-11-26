@@ -160,6 +160,10 @@ This plugin uses the following open-source libraries and third-party tools. We a
 
 == Changelog ==
 
+= 1.1.7 – November 20, 2025 =
+* Fix: Resolved "Contrast+" and “Bigger Text” not working with Nested elements.
+* Improvement: Refined UI/UX.
+
 = 1.1.6 – November 20, 2025 =
 * Fix: Resolved "Contrast+" and “Bigger Text” not working with Nested elements.
 * Improvement: Refined UI/UX.
