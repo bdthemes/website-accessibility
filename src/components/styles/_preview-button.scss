@@ -1,68 +1,117 @@
 .wap-admin,
 .wap-frontend {
     .wap-button-style-preset__preview-btn {
-        display: inline-flex;
+        position: fixed;
+        z-index: 999999;
+        border: none;
+        border-radius: var(--button-radius, 8px);
+        padding: var(--button-padding, 12px 20px);
+        background: var(--button-bg, #0073ea);
+        color: var(--button-color, #ffffff);
+        font-size: var(--button-font-size, 14px);
+        font-weight: 600;
+        cursor: pointer;
+        transition: all 0.3s ease;
+        box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+        display: flex;
         align-items: center;
         gap: 8px;
-        border: none;
-        cursor: pointer;
-        z-index: 999;
-
-        color: var(--button-color, #fff);
-        background-color: var(--button-bg, #1677ff);
-        padding: var(--button-padding,  14px);
-        border-radius: var(--button-radius, 6px);
-        width: auto !important;
+        justify-content: center;
+        width: auto;
         height: auto !important;
 
-        &.bottom-right {
-            bottom: var(--button-offset-y, 30px);
-            right: var(--button-offset-x, 30px);
-        }
-
-        &.bottom-left {
-            bottom: var(--button-offset-y, 30px);
-            left: var(--button-offset-x, 30px);
-        }
-
         &:hover {
-            opacity: 0.9;
-            transform: translateY(-1px);
+            transform: translateY(-2px);
+            box-shadow: 0 6px 20px rgba(0, 0, 0, 0.2);
         }
 
         &:active {
             transform: translateY(0);
         }
 
+        // Position variants
+        &.top-left {
+            top: 20px;
+            left: 20px;
+        }
+
+        &.top-right {
+            top: 20px;
+            right: 20px;
+        }
+
+        &.bottom-left {
+            bottom: 20px;
+            left: 20px;
+        }
+
+        &.bottom-right {
+            bottom: 20px;
+            right: 20px;
+        }
+
+        &.center-left {
+            top: 50%;
+            left: 20px;
+            transform: translateY(-50%);
+
+            &:hover {
+                transform: translateY(-50%) translateX(4px);
+            }
+        }
+
+        &.center-right {
+            top: 50%;
+            right: 20px;
+            transform: translateY(-50%);
+
+            &:hover {
+                transform: translateY(-50%) translateX(-4px);
+            }
+        }
+
         svg {
-            width: 1em;
-            height: 1em;
             fill: currentColor;
-            color: inherit;
+            width: var(--button-icon-size, 1em) !important;
+            height: var(--button-icon-size, 1em) !important;
+            display: block;
+            padding: 1px;
 
             path {
                 fill: currentColor;
             }
         }
 
-        &.icon svg {
-            width: 3rem !important;
-            height: 3rem !important;
-            display: block;
-            padding: 1;
+        // High contrast mode support
+        @media (prefers-contrast: high) {
+            border: 2px solid currentColor;
         }
-    }
 
-    .wap-button-style-preset__preview-btn--icon {
-        border-radius: var(--button-radius, 50%);
-        padding: var(--button-padding, 16px 16px);
-        animation: wap-pulse 2s infinite;
-        
-        svg {
-            width: 2rem !important;
-            height: 2rem !important;
-            display: block;
-            padding: 1;
+        // Reduced motion support
+        @media (prefers-reduced-motion: reduce) {
+            transition: none;
+
+            &:hover {
+                transform: none;
+            }
+        }
+
+        &.wap-button-style-preset__preview-btn--icon {
+            border-radius: var(--button-radius, 50%);
+            padding: var(--button-padding, 16px 16px);
+            animation: wap-pulse 2s infinite;
+
+            svg {
+                fill: currentColor;
+                width: var(--button-icon-size, 2rem) !important;
+                height: var(--button-icon-size, 2rem) !important;
+                display: block;
+                padding: 1px;
+
+                path {
+                    fill: currentColor;
+                }
+            }
         }
     }
 
@@ -71,10 +120,12 @@
             transform: scale(1);
             box-shadow: 0 0 0 0 rgba(var(--button-bg-rgb, 22, 119, 255), 0.7);
         }
+
         70% {
             transform: scale(1.05);
             box-shadow: 0 0 0 10px rgba(var(--button-bg-rgb, 22, 119, 255), 0);
         }
+
         100% {
             transform: scale(1);
             box-shadow: 0 0 0 0 rgba(var(--button-bg-rgb, 22, 119, 255), 0);
@@ -113,5 +164,3 @@
         }
     }
 }
-
-        

@@ -40,78 +40,6 @@ html {
   }
 }
 
-// Button styles
-.wap-button-style-preset__preview-btn {
-  position: fixed;
-  z-index: 999999;
-  border: none;
-  border-radius: var(--button-radius, 8px);
-  padding: var(--button-padding, 12px 20px);
-  background: var(--button-bg, #0073ea);
-  color: var(--button-color, #ffffff);
-  font-size: 14px;
-  font-weight: 600;
-  cursor: pointer;
-  transition: all 0.3s ease;
-  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
-  display: flex;
-  align-items: center;
-  gap: 8px;
-  // min-width: 120px;
-  justify-content: center;
-  width: auto;
-
-  &:hover {
-    transform: translateY(-2px);
-    box-shadow: 0 6px 20px rgba(0, 0, 0, 0.2);
-  }
-
-  &:active {
-    transform: translateY(0);
-  }
-
-  // Position variants
-  &.top-left {
-    top: 20px;
-    left: 20px;
-  }
-
-  &.top-right {
-    top: 20px;
-    right: 20px;
-  }
-
-  &.bottom-left {
-    bottom: 20px;
-    left: 20px;
-  }
-
-  &.bottom-right {
-    bottom: 20px;
-    right: 20px;
-  }
-
-  &.center-left {
-    top: 50%;
-    left: 20px;
-    transform: translateY(-50%);
-
-    &:hover {
-      transform: translateY(-50%) translateX(4px);
-    }
-  }
-
-  &.center-right {
-    top: 50%;
-    right: 20px;
-    transform: translateY(-50%);
-
-    &:hover {
-      transform: translateY(-50%) translateX(-4px);
-    }
-  }
-}
-
 // Drawer styles
 .wap-preset__preview-drawer {
   .ant-drawer-content {
@@ -254,24 +182,6 @@ body {
 @media print {
   .wap-accessibility-view {
     display: none !important;
-  }
-}
-
-// High contrast mode support
-@media (prefers-contrast: high) {
-  .wap-button-style-preset__preview-btn {
-    border: 2px solid currentColor;
-  }
-}
-
-// Reduced motion support
-@media (prefers-reduced-motion: reduce) {
-  .wap-button-style-preset__preview-btn {
-    transition: none;
-
-    &:hover {
-      transform: none;
-    }
   }
 }
 

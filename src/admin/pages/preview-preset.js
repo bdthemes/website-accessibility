@@ -51,6 +51,8 @@ const PreviewPreset = () => {
                 button?.buttonType && `wap-button-style-preset__preview-btn--${button?.buttonType}`
               )}
               style={{
+                "--button-font-size": button.fontSize,
+								"--button-icon-size": button.iconSize,
                 '--button-color': button?.color,
                 '--button-bg': button?.bgColor,
                 '--button-padding': button?.padding,
