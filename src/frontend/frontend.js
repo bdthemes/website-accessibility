@@ -1,5 +1,4 @@
 import View from "./view";
-import 'antd/dist/reset.css';
 import "./styles/main.scss";
 import { createRoot } from "@wordpress/element";
 import AccessibilityContextProvider from "./context/provider";

@@ -116,6 +116,10 @@
 	&--header {
 		padding: 12px 24px 0 24px;
 
+		@media screen and (max-width: 768px) {
+			padding: 12px 12px 0 12px;
+		}
+
 		.ant-typography {
 			margin: 0;
 			display: inline-flex;

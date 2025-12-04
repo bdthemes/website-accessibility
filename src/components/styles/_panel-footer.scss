@@ -4,7 +4,21 @@
 	background: var(--wap-footer-general-bg, #fff);
 	position: sticky;
 	bottom: 0;
-	animation: slideUpFade 0.6s ease-out;
+	animation: wapSlideUpFade 0.6s ease-out;
+
+	@media only screen and (min-device-width: 768px) and (max-device-width: 1366px) and (orientation: landscape) {
+		position: absolute;
+		bottom: 0;
+		left: 0;
+		right: 0;
+	}
+
+	@media screen and (max-width: 768px) {
+		position: absolute;
+		bottom: 0;
+		left: 0;
+		right: 0;
+	}
 
 	// Actions Section
 	&__actions {
@@ -15,6 +29,10 @@
 		gap: 10px;
 		padding: var(--wap-footer-general-padding, 10px 24px);
 		margin-bottom: 10px;
+
+		@media screen and (max-width: 768px) {
+			padding: var(--wap-footer-general-padding, 0);
+		}
 
 		.ant-row {
 			margin: 0 !important;
@@ -43,12 +61,10 @@
 			left: -100%;
 			width: 100%;
 			height: 100%;
-			background: linear-gradient(
-				90deg,
-				transparent,
-				rgba(255, 255, 255, 0.2),
-				transparent
-			);
+			background: linear-gradient(90deg,
+					transparent,
+					rgba(255, 255, 255, 0.2),
+					transparent);
 			transition: left 0.6s ease;
 		}
 
@@ -74,6 +90,10 @@
 		align-items: center;
 		justify-content: space-between;
 		gap: 8px;
+
+		@media screen and (max-width: 768px) {
+			padding: var(--wap-footer-general-padding, 0);
+		}
 	}
 
 	// Statement Link
@@ -97,6 +117,7 @@
 		font-size: 12px;
 		font-weight: 500;
 		color: var(--wap-footer-branding-color, #6f7286);
+
 		svg {
 			width: 20px;
 			height: 20px;
@@ -169,7 +190,7 @@
 	}
 
 	// Animation for initial load
-	@keyframes slideUpFade {
+	@keyframes wapSlideUpFade {
 		from {
 			opacity: 0;
 			transform: translateY(20px);

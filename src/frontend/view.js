@@ -291,6 +291,8 @@ const View = () => {
                     currentPreset?.button?.buttonType && `wap-button-style-preset__preview-btn--${currentPreset?.button?.buttonType}`
                 )}
                 style={{
+                    '--button-font-size': currentPreset?.button?.fontSize,
+                    '--button-icon-size': currentPreset?.button?.iconSize,
                     '--button-color': currentPreset?.button?.color,
                     '--button-bg': currentPreset?.button?.bgColor,
                     '--button-padding': currentPreset?.button?.padding,

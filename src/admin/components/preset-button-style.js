@@ -57,6 +57,20 @@ const StyleTab = ({ button, handleButtonChange }) => {
 
 	return (
 		<>
+			<ControlWrapper label={__("Font Size", "website-accessibility")}>
+				<WapInput
+					value={button?.fontSize || ""}
+					onChange={(e) => handleButtonChange("fontSize", e.target.value)}
+					placeholder="e.g., 14px"
+				/>
+			</ControlWrapper>
+			<ControlWrapper label={__("Icon Size", "website-accessibility")}>
+				<WapInput
+					value={button?.iconSize || ""}
+					onChange={(e) => handleButtonChange("iconSize", e.target.value)}
+					placeholder="e.g., 14px"
+				/>
+			</ControlWrapper>
 			<ControlWrapper label={__("Text Color", "website-accessibility")}>
 				<ColorPicker
 					value={button.color}
@@ -152,6 +166,8 @@ const ButtonStylePreset = () => {
 							)}
 
 							style={{
+								"--button-font-size": button.fontSize,
+								"--button-icon-size": button.iconSize,
 								"--button-color": button.color,
 								"--button-bg": button.bgColor,
 								"--button-padding": button.padding,

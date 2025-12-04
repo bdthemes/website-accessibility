@@ -29,6 +29,16 @@
 	max-height: 100vh;
 	overflow-y: auto;
 
+	@media only screen and (min-device-width: 768px) and (max-device-width: 1366px) and (orientation: landscape) {
+		max-height: calc(100vh - 125px);
+	}
+
+	@media screen and (max-width: 575px) {
+		max-height: calc(100vh - 125px);
+	}
+
+	
+
 	.wap-panel-customization__header-info {
 		mask-image: linear-gradient(#000 96%, transparent);
 
@@ -51,6 +61,10 @@
 
 	.ant-collapse-header {
 		padding: 12px 24px !important;
+
+		@media screen and (max-width: 575px) {
+			padding: 12px !important;
+		}
 	}
 
 	.ant-collapse-content-box {
@@ -119,6 +133,11 @@
 
 	.ant-drawer-content-wrapper {
 		top: unset;
+
+		@media only screen and (min-device-width: 768px) and (max-device-width: 1366px) and (orientation: landscape) {
+			top: 0;
+		}
+
 
 		@media screen and (max-width: 768px) {
 			top: 0;
