@@ -4,7 +4,7 @@ Tags:              accessibility, a11y, wcag, ada-compliance, screen-reader
 Requires at least: 6.1  
 Tested up to:      6.9
 Requires PHP:      7.4  
-Stable tag:        1.1.9
+Stable tag:        1.2.0
 License:           GPL-2.0-or-later  
 License URI:       https://www.gnu.org/licenses/gpl-2.0.html  
 
@@ -159,6 +159,12 @@ This plugin uses the following open-source libraries and third-party tools. We a
 - [OpenDyslexic Font](https://opendyslexic.org/) – Open-source font designed to increase readability for readers with dyslexia (SIL Open Font License)
 
 == Changelog ==
+
+= 1.2.0 – December 04, 2025 =
+* New: Added font and icon size controls for accessibility button.
+* Fix: Accessibility toolbar panel footer is not visible on mobile devices.
+* Fix: Resolved an issue where antdesign reset css conflicts with bricks sticky header.
+* Improvement: Optimized overall UI/UX.
 
 = 1.1.9 – December 03, 2025 =
 * Fix: Accessibility toolbar panel header is not visible on mobile devices.
