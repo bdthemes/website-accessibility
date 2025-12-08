@@ -39,7 +39,7 @@ const PanelFooter = ({ value, accessibilityContext, accessibilityDispatch }) => 
   const footerItem = value?.items?.find(item => item.slug === 'footer');
   const attributes = footerItem?.attributes || {};
   const isProActive = window?.websacPro?.isProActive || false;
-  const { currentPresetId, isUserLoggedIn, statementLink } = window?.websiteAccessibility || {};
+  const { currentPresetId, isUserLoggedIn, statementLink, settings } = window?.websiteAccessibility || {};
   const isFrontend = !!accessibilityContext && !!accessibilityDispatch;
 
   const resetBtnText = attributes.resetBtnText || 'Reset All';
@@ -89,13 +89,13 @@ const PanelFooter = ({ value, accessibilityContext, accessibilityDispatch }) => 
     }
 
     if (isOverSized) data.oversized = isOverSized;
-    if (enableTranslations) {
+    if (enableTranslations || settings?.always_on_translations) {
       data.enableTranslations = enableTranslations;
       data.selectedLanguage = selectedLanguage;
     }
 
     return { post_id: currentPresetId, data };
-  }, [accessibilityContext?.currentProfile, accessibilityContext?.currentSettings, accessibilityContext?.isOverSized, accessibilityContext?.enableTranslations, accessibilityContext?.selectedLanguage, currentPresetId, isFrontend, isUserLoggedIn]);
+  }, [accessibilityContext?.currentProfile, accessibilityContext?.currentSettings, accessibilityContext?.isOverSized, accessibilityContext?.enableTranslations, accessibilityContext?.selectedLanguage, currentPresetId, isFrontend, isUserLoggedIn, settings?.always_on_translations]);
 
   // Fetch preference state
   useEffect(() => {

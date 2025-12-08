@@ -107,6 +107,16 @@ const Settings = () => {
                         onChange={(checked) => updateSetting("force_translate_site_language", checked)}
                     />
                     <SettingsItem
+                        title={__("Always on Translation", "website-accessibility")}
+                        description={__(
+                            "This will remove the translation toggle button and ensure that the frontend content is always translated according to the selected language.",
+                            "website-accessibility"
+                        )}
+                        checked={!!settings.always_on_translations}
+                        loading={saving}
+                        onChange={(checked) => updateSetting("always_on_translations", checked)}
+                    />
+                    <SettingsItem
                         title={__("Enable Accessibility Checker", "website-accessibility")}
                         description={__(
                             "Show a Accessibility Checker button in the frontend for admin",

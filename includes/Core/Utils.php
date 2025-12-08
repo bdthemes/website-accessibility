@@ -243,11 +243,19 @@ class Utils
 
     public static function get_settings($key = null)
     {
-        $options = get_option('websac_settings', SettingsRouteV1::get_defaults_settings());
-        if (empty($options)) return null;
+        // Get saved options (may be partial)
+        $options = get_option('websac_settings', []);
 
-        if (empty($key)) return $options;
+        // Merge with defaults so missing values fallback correctly
+        $options = wp_parse_args($options, SettingsRouteV1::get_defaults_settings());
 
+        // If no key requested, return full merged settings
+        if ($key === null) {
+            return $options;
+        }
+
+        // Return specific key or null if it still doesn't exist
         return $options[$key] ?? null;
     }
+
 }
