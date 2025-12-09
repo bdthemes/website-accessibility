@@ -75,7 +75,7 @@ const View = () => {
         }
 
         if (isOverSized) data.oversized = isOverSized;
-        if (enableTranslations) {
+        if (enableTranslations || settings?.always_on_translations) {
             data.enableTranslations = enableTranslations;
             data.selectedLanguage = selectedLanguage;
         }
