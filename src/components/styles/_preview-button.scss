@@ -29,45 +29,14 @@
             transform: translateY(0);
         }
 
-        // Position variants
-        &.top-left {
-            top: 20px;
-            left: 20px;
-        }
-
-        &.top-right {
-            top: 20px;
-            right: 20px;
-        }
-
         &.bottom-left {
-            bottom: 20px;
-            left: 20px;
+            bottom: var(--button-offset-y, 30px);
+            left: var(--button-offset-x, 30px);
         }
 
         &.bottom-right {
-            bottom: 20px;
-            right: 20px;
-        }
-
-        &.center-left {
-            top: 50%;
-            left: 20px;
-            transform: translateY(-50%);
-
-            &:hover {
-                transform: translateY(-50%) translateX(4px);
-            }
-        }
-
-        &.center-right {
-            top: 50%;
-            right: 20px;
-            transform: translateY(-50%);
-
-            &:hover {
-                transform: translateY(-50%) translateX(-4px);
-            }
+            bottom: var(--button-offset-y, 30px);
+            right: var(--button-offset-x, 30px);
         }
 
         svg {

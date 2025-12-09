@@ -174,10 +174,10 @@ const ButtonStylePreset = () => {
 								"--button-radius": button.borderRadius,
 								"--button-offset-x": button.offsetX
 									? `${button.offsetX}px`
-									: "0",
+									: "",
 								"--button-offset-y": button.offsetY
 									? `${button.offsetY}px`
-									: "0",
+									: "",
 							}}
 						/>
 					</div>

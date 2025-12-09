@@ -297,8 +297,8 @@ const View = () => {
                     '--button-bg': currentPreset?.button?.bgColor,
                     '--button-padding': currentPreset?.button?.padding,
                     '--button-radius': currentPreset?.button?.borderRadius,
-                    '--button-offset-x': currentPreset?.button?.offsetX ? `${currentPreset?.button?.offsetX}px` : '0',
-                    '--button-offset-y': currentPreset?.button?.offsetY ? `${currentPreset?.button?.offsetY}px` : '0',
+                    '--button-offset-x': currentPreset?.button?.offsetX ? `${currentPreset?.button?.offsetX}px` : '',
+                    '--button-offset-y': currentPreset?.button?.offsetY ? `${currentPreset?.button?.offsetY}px` : '',
                 }}
                 onClick={() => setIsOpen(true)}
                 onFocus={(e) => e.preventDefault()}
