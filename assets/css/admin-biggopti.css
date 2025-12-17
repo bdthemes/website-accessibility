@@ -50,7 +50,7 @@
     gap: 10px;
 }
 
-.bdt-button {
+.one-accessibility-biggopti .bdt-button {
     padding: 12px 16px;
     border-radius: 3px;
     line-height: 1;
@@ -59,25 +59,25 @@
     text-decoration: none;
 }
 
-.bdt-button-allow {
+.one-accessibility-biggopti .bdt-button-allow {
     color: #fff;
     --primaryColor: #646cff;
     --secondaryColor: #4854ff;
     background: linear-gradient(313deg, var(--primaryColor), var(--secondaryColor) 100%);
 }
 
-.bdt-button-allow:hover {
+.one-accessibility-biggopti .bdt-button-allow:hover {
     --primaryColor: #4854ff;
     --secondaryColor: #646cff;
 }
 
-.bdt-button-skip {
+.one-accessibility-biggopti .bdt-button-skip {
     border: 0;
     color: #0D3B54;
     background-color: rgba(100, 108, 255, 0.15);
 }
 
-.bdt-button-skip:hover {
+.one-accessibility-biggopti .bdt-button-skip:hover {
     background-color: rgba(100, 108, 255, 0.2);
 }
 
