@@ -38,7 +38,7 @@ final class WebsiteAccessibility
 	 *
 	 * @var string
 	 */
-	const VERSION = '1.2.1';
+	const VERSION = '1.2.2';
 
 	/**
 	 * Private constructor for singleton pattern.
