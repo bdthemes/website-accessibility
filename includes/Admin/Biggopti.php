@@ -36,11 +36,11 @@ class Biggopti {
 	private function get_api_biggoptis_data() {
 
 		// 6-hour transient cache for API response
-		$transient_key = 'oa_api_biggoptis_one_accessibility';
-		$cached = get_transient($transient_key);
-		if ($cached !== false && is_array($cached)) {
-			return $cached;
-		}
+		// $transient_key = 'oa_api_biggoptis_one_accessibility';
+		// $cached = get_transient($transient_key);
+		// if ($cached !== false && is_array($cached)) {
+		// 	return $cached;
+		// }
 
 		// API endpoint for biggoptis
 		$api_url = 'https://api.sigmative.io/prod/store/api/biggopti/api-data-records';
@@ -65,8 +65,8 @@ class Biggopti {
 		if( isset($biggoptis) && isset($biggoptis->{'one-accessibility'}) ) {
 			$data = $biggoptis->{'one-accessibility'};
 			if (is_array($data)) {
-				$ttl = apply_filters('oa_api_biggoptis_cache_ttl', 6 * HOUR_IN_SECONDS);
-				set_transient($transient_key, $data, $ttl);
+				// $ttl = apply_filters('oa_api_biggoptis_cache_ttl', 6 * HOUR_IN_SECONDS);
+				// set_transient($transient_key, $data, $ttl);
 				return $data;
 			}
 		}
@@ -320,23 +320,59 @@ class Biggopti {
 			wp_send_json_error([ 'message' => 'forbidden' ]);
 		}
 
+		// Don't show biggopties on plugin/theme install and upload pages
+		$current_url = isset($_POST['current_url']) ? sanitize_text_field($_POST['current_url']) : '';
+
+		if (!empty($current_url)) {
+			$excluded_patterns = [
+				'plugin-install.php',
+				'theme-install.php',
+				'action=upload-plugin',
+				'action=upload-theme'
+			];
+
+			foreach ($excluded_patterns as $pattern) {
+				if (strpos($current_url, $pattern) !== false) {
+					wp_send_json_success([ 'html' => '' ]);
+				}
+			}
+		}
+
+		// Don't show biggopties on plugin/theme install and upload pages
+		$current_url = isset($_POST['current_url']) ? sanitize_text_field($_POST['current_url']) : '';
+
+		if (!empty($current_url)) {
+			$excluded_patterns = [
+				'plugin-install.php',
+				'theme-install.php',
+				'action=upload-plugin',
+				'action=upload-theme'
+			];
+
+			foreach ($excluded_patterns as $pattern) {
+				if (strpos($current_url, $pattern) !== false) {
+					wp_send_json_success([ 'html' => '' ]);
+				}
+			}
+		}
+
 		$biggoptis = $this->get_api_biggoptis_data();
 		$grouped_biggoptis = [];
 
 		if (is_array($biggoptis)) {
 			foreach ($biggoptis as $index => $biggopti) {
 				if ($this->should_show_biggopti($biggopti)) {
-					$biggopti_class = isset($biggopti->biggopti_class) ? $biggopti->biggopti_class : 'default-' . $index;
-					if (!isset($grouped_biggoptis[$biggopti_class])) {
-						$grouped_biggoptis[$biggopti_class] = $biggopti;
+					$display_id = isset($biggopti->display_id) ? $biggopti->display_id : 'default-' . $index;
+					if (!isset($grouped_biggoptis[$display_id])) {
+						$grouped_biggoptis[$display_id] = $biggopti;
 					}
 				}
 			}
 		}
 
 		// Build biggoptis using the same pipeline as synchronous rendering
-		foreach ($grouped_biggoptis as $biggopti_class => $biggopti) {
-			$biggopti_id = isset($biggopti->id) ? $biggopti_class : $biggopti->id;
+		foreach ($grouped_biggoptis as $display_id => $biggopti) {
+			$biggopti_id = isset($biggopti->id) ? $display_id : $biggopti->id;
 
 			self::add_biggopti([
 				'id' => 'api-biggopti-' . $biggopti_id,
@@ -377,11 +413,20 @@ class Biggopti {
 		 * Valid inputs?
 		 */
 		if (!empty($id)) {
-			// Handle regular biggoptis
+			// Handle regular biggopti
 			if ('user' === $meta) {
 				update_user_meta(get_current_user_id(), $id, true);
 			} else {
+				// Store in transient for backward compatibility
 				set_transient($id, true, $time);
+				
+				// Also store in options table for persistence
+				$dismissals_option = get_option('bdt_biggopti_dismissals', []);
+				$dismissals_option[$id] = [
+					'dismissed_at' => time(),
+					'expires_at' => time() + intval($time),
+				];
+				update_option('bdt_biggopti_dismissals', $dismissals_option, false);
 			}
 
 			wp_send_json_success();
@@ -451,7 +496,24 @@ class Biggopti {
 			if ('user' === $biggopti['dismissible-meta']) {
 				$expired = get_user_meta(get_current_user_id(), $biggopti_id, true);
 			} elseif ('transient' === $biggopti['dismissible-meta']) {
+				// Check transient first
 				$expired = get_transient($biggopti_id);
+
+				// If transient not found, check options table for persistent dismissal
+				if (false === $expired || empty($expired)) {
+					$dismissals_option = get_option('bdt_biggopti_dismissals', []);
+					if (isset($dismissals_option[$biggopti_id])) {
+						$dismissal = $dismissals_option[$biggopti_id];
+						// Check if dismissal is still valid (not expired)
+						if (isset($dismissal['expires_at']) && time() < $dismissal['expires_at']) {
+							$expired = true;
+						} else {
+							// Clean up expired dismissal from options
+							unset($dismissals_option[$biggopti_id]);
+							update_option('bdt_biggopti_dismissals', $dismissals_option, false);
+						}
+					}
+				}
 			}
 
 			// Biggoptis visible after transient expire.
