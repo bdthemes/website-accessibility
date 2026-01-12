@@ -108,7 +108,8 @@ jQuery(document).ready(function ($) {
             dataType: 'json',
             data: {
                 action: 'oa_fetch_api_biggoptis',
-                _wpnonce: OneAccessibilityBiggoptiConfig.nonce
+                _wpnonce: OneAccessibilityBiggoptiConfig.nonce,
+                current_url: window.location.href
             }
         })
         .done(function (res) {
