@@ -33,6 +33,8 @@ class FontManipulator {
         const validProps = properties.filter(p => this.validProperties.includes(p));
 
         for (let el of textElements) {
+            if (el.hasAttribute(this.dataAttribute)) continue;
+
             const computed = window.getComputedStyle(el);
             const stored = {};
 
@@ -50,7 +52,7 @@ class FontManipulator {
             });
 
             // Store original values as JSON
-            if (Object.keys(stored).length > 0 && !el.hasAttribute(this.dataAttribute)) {
+            if (Object.keys(stored).length > 0) {
                 el.setAttribute(this.dataAttribute, JSON.stringify(stored));
             }
         }
