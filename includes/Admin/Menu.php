@@ -84,7 +84,7 @@ class Menu
             add_submenu_page(
                 'website-accessibility',
                 __('Black Friday Limited Offer Up To 87%', 'website-accessibility'),
-                '<span style="color:#ff9800;font-weight:bold;">' . __('Black Friday Limited Offer Up To 87%', 'website-accessibility') . '</span>',
+                '<span style="color:#ff9800;font-weight:bold;">' . __('Get Pro', 'website-accessibility') . '</span>',
                 'manage_options',
                 'websac-bfcm-deal',
                 [$this, 'redirect_to_bfcm_deal'],
@@ -137,7 +137,7 @@ class Menu
     public function redirect_to_bfcm_deal()
     {
         // This page won't be displayed as we're using JavaScript redirect
-        echo '<script>window.open("https://bdthemes.com/deals/?utm_source=WordPress_org&utm_medium=bfcm_cta&utm_campaign=one_accessibility", "_blank"); window.history.back();</script>';
+        echo '<script>window.open("https://oneaccessibility.com/#pricing", "_blank"); window.history.back();</script>';
         exit;
     }
 
@@ -148,7 +148,7 @@ class Menu
         jQuery(document).ready(function($) {
             $('a[href="admin.php?page=websac-bfcm-deal"]').on('click', function(e) {
                 e.preventDefault();
-                window.open('https://bdthemes.com/deals/?utm_source=WordPress_org&utm_medium=bfcm_cta&utm_campaign=one_accessibility', '_blank');
+                window.open('https://oneaccessibility.com/#pricing', '_blank');
                 return false;
             });
         });
