@@ -4,7 +4,7 @@ Tags:              accessibility, a11y, wcag, ada-compliance, screen-reader
 Requires at least: 6.1  
 Tested up to:      6.9
 Requires PHP:      7.4  
-Stable tag:        1.2.3
+Stable tag:        1.2.5
 License:           GPL-2.0-or-later  
 License URI:       https://www.gnu.org/licenses/gpl-2.0.html  
 
@@ -16,7 +16,7 @@ Make your site accessible to everyone with advanced tools, WCAG compliance, and 
 
 In today's digital world, creating inclusive web experiences isn't just good practice—it's essential. **One Accessibility Website Accessibility** is a comprehensive WordPress plugin designed to help website owners, developers, and businesses effortlessly achieve WCAG 2.1, ADA, and Section 508 compliance while providing an exceptional user experience for visitors with diverse accessibility needs.
 
-### [🎉 Black Friday Offer: Upgrade to Pro and Save up to 87% on All Plugins! 🎊](https://bdthemes.com/deals/?utm_source=WordPress_org&utm_medium=bfcm_cta&utm_campaign=one_accessibility)
+https://youtu.be/4w8lmkMgt9M?si=Z7gvhREYTVML7f1V
 
 ### ✨ Why Choose One Accessibility Website Accessibility?
 
@@ -127,6 +127,27 @@ While the current version focuses on providing accessibility tools rather than d
 
 Please report security bugs found in the source code of the Sigmally Website Accessibility plugin through the [Patchstack Vulnerability Disclosure  Program](https://patchstack.com/database/vdp/e9ff4b57-776a-4327-88d4-030a5a33d186). The Patchstack team will assist you with verification, CVE assignment, and notify the developers of this plugin.
 
+== Check out our other Addons 👑 ==
+
+Explore the best free addons for Elementor and Gutenberg to boost your site with advanced blocks, sliders and eCommerce tools.
+
+* **[ZoloBlocks](https://wordpress.org/plugins/zoloblocks/)** 🆕☀️ - Mind-blowing dynamic block plugin for Gutenberg with powerful and advanced features offering greater web design experience.
+
+* **[Element Pack](https://wordpress.org/plugins/bdthemes-element-pack-lite/)** - Element Pack Lite Build responsive website from scratch with an all-rounder package for Elementor
+
+* **[Prime Slider](https://wordpress.org/plugins/bdthemes-prime-slider-lite/)** - The revolutionary slider builder addon for Elementor with next-gen superb interface.
+
+* **[Ultimate Post Kit](https://wordpress.org/plugins/ultimate-post-kit/)** - Best blogging addon for building quality blogging website with fine-tuned features and widgets.
+
+* **[Ultimate Store Kit](https://wordpress.org/plugins/ultimate-store-kit/)** - The only eCommmerce addon for answering all your online store design problems in one package.
+
+* **[Live Copy Paste](https://wordpress.org/plugins/live-copy-paste/)** - Superfast cross-domain copy-paste mechanism for WordPress websites with true UI copy experience.
+
+* **[Pixel Gallery](https://wordpress.org/plugins/pixel-gallery/)** - Pixel Gallery is the first Elementor based WordPress gallery addon that provides the easiest image gallery making experience.
+
+
+Visit [BdThemes](https://bdthemes.com/) to learn about our services, Elementor page builder based products, informative blogs and documentations.
+
 == Screenshots ==
 
 1. Accessibility toolbar on the frontend with customizable layout  
@@ -159,6 +180,9 @@ This plugin uses the following open-source libraries and third-party tools. We a
 - [OpenDyslexic Font](https://opendyslexic.org/) – Open-source font designed to increase readability for readers with dyslexia (SIL Open Font License)
 
 == Changelog ==
+
+= 1.2.5 - February 18, 2026 =
+Update: System Improved
 
 = 1.2.4 - January 21, 2026 =
 * Fix: WP Plugin Conflict Issue
