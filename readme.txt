@@ -182,7 +182,7 @@ This plugin uses the following open-source libraries and third-party tools. We a
 == Changelog ==
 
 = 1.2.5 - February 18, 2026 =
-Update: System Improved
+* Update: System Improved
 
 = 1.2.4 - January 21, 2026 =
 * Fix: WP Plugin Conflict Issue
