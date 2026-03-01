@@ -24,7 +24,6 @@ class Enqueue {
      */
     private function __construct() {
         add_action('admin_enqueue_scripts', [$this, 'enqueue_scripts']);
-        add_action('admin_enqueue_scripts', [$this, 'enqueue_biggopti_scripts']);
     }
 
     /**
@@ -55,41 +54,6 @@ class Enqueue {
                 $admin_assets['version']
             );
         }
-    }
-
-    /**
-     * Enqueue biggopti scripts and styles
-     *
-     * @param string $hook_suffix The current admin page.
-     */
-    public function enqueue_biggopti_scripts($hook_suffix) {
-        
-        // Enqueue biggopti script
-        wp_enqueue_script(
-            'one-accessibility-biggopti',
-            WEBSAC_URL . 'assets/js/admin-biggopti.js',
-            ['jquery'],
-            WEBSAC_VERSION,
-            true
-        );
-
-        // Enqueue biggopti styles
-        wp_enqueue_style(
-            'one-accessibility-biggopti',
-            WEBSAC_URL . 'assets/css/admin-biggopti.css',
-            [],
-            WEBSAC_VERSION
-        );
-
-        // Localize script with nonce and ajaxurl
-        wp_localize_script(
-            'one-accessibility-biggopti',
-            'OneAccessibilityBiggoptiConfig',
-            [
-                'ajaxurl' => admin_url('admin-ajax.php'),
-                'nonce' => wp_create_nonce('one-accessibility'),
-            ]
-        );
     }
 
     /**

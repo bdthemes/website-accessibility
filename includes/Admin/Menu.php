@@ -79,19 +79,6 @@ class Menu
             $license = \bdthemes\websiteaccessibilitypro\Admin\License::get_instance();
         }
 
-        $has_pro_active = $license && method_exists($license, 'is_license_valid') ? $license->is_license_valid() : false;
-        if(!$has_pro_active) {
-            add_submenu_page(
-                'website-accessibility',
-                __('Black Friday Limited Offer Up To 87%', 'website-accessibility'),
-                '<span style="color:#ff9800;font-weight:bold;">' . __('Get Pro', 'website-accessibility') . '</span>',
-                'manage_options',
-                'websac-bfcm-deal',
-                [$this, 'redirect_to_bfcm_deal'],
-                999
-            );
-        }
-
         add_submenu_page(
             'website-accessibility-presets-create', // parent slug
             __('Create Preset', 'website-accessibility'),             // page title
