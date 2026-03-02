@@ -1,10 +1,10 @@
 === One Accessibility – Making Your Site Accessible to Everyone ===
-Contributors:      bdthemes, mizan42047, abutalib, mohammaadfarid, muhammadasik, syedfarhanreza
+Contributors:      bdthemes, selimmw, mizan42047, abutalib, muhammadasik, mohammaadfarid, syedfarhanreza
 Tags:              accessibility, a11y, wcag, ada-compliance, screen-reader
 Requires at least: 6.1  
 Tested up to:      6.9
 Requires PHP:      7.4  
-Stable tag:        1.2.5
+Stable tag:        1.2.6
 License:           GPL-2.0-or-later  
 License URI:       https://www.gnu.org/licenses/gpl-2.0.html  
 
@@ -180,6 +180,9 @@ This plugin uses the following open-source libraries and third-party tools. We a
 - [OpenDyslexic Font](https://opendyslexic.org/) – Open-source font designed to increase readability for readers with dyslexia (SIL Open Font License)
 
 == Changelog ==
+
+= 1.2.6 - March 02, 2026 =
+* Update: System Improved
 
 = 1.2.5 - February 18, 2026 =
 * Update: System Improved
