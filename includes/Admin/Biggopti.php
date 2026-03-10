@@ -19,7 +19,7 @@ class Biggopti {
 	}
 
 	public function __construct() {
-		add_action('wp_ajax_bdt_admin_api_biggopti_dismiss', [$this, 'bdt_admin_api_biggopti_dismiss']);
+		add_action('wp_ajax_oa_admin_api_biggopti_dismiss', [$this, 'oa_admin_api_biggopti_dismiss']);
 
 		add_action( 'admin_enqueue_scripts', [ $this, 'load_assets' ] );
 	}
@@ -27,7 +27,7 @@ class Biggopti {
 	/**
 	 * Dismiss Admin API Biggopti.
 	 */
-	public function bdt_admin_api_biggopti_dismiss() {
+	public function oa_admin_api_biggopti_dismiss() {
 		$nonce = (isset($_POST['_wpnonce'])) ? sanitize_text_field($_POST['_wpnonce']) : '';
 		$display_id = (isset($_POST['display_id'])) ? sanitize_text_field($_POST['display_id']) : '';
 		$id   = (isset($_POST['id'])) ? esc_attr($_POST['id']) : '';
@@ -72,7 +72,7 @@ class Biggopti {
 	}
 
 	function load_assets(){
-		wp_enqueue_style( 'oa-admin-api-biggopti', WEBSAC_URL . 'assets/css/admin-biggopti.css', [], WEBSAC_VERSION );
+		wp_enqueue_style( 'bdt-admin-api-biggopti', WEBSAC_URL . 'assets/css/admin-biggopti.css', [], WEBSAC_VERSION );
 		
 		// Enqueue biggopti JavaScript for admin
 		wp_enqueue_script( 'oa-admin-api-biggopti', WEBSAC_URL . 'assets/js/admin-biggopti.js', ['jquery'], WEBSAC_VERSION, true );

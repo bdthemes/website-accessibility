@@ -168,6 +168,33 @@ final class WebsiteAccessibility
 		// Initialize admin biggopti system
 		\bdthemes\websiteaccessibility\Admin\Biggopti::get_instance();
 
+		// Initialize dashboard product feed widget
+		new \bdthemes\websiteaccessibility\Admin\Admin_Feeds( [
+			'feed_title'       => 'One Accessibility News & Updates',
+			'transient_key'    => 'websac_product_feeds',
+			'feed_link'        => 'https://bdthemes.com/feed',
+			'remote_feed_link' => 'https://dashboard.bdthemes.io/wp-json/bdthemes/v1/product-feed/?product_category=website-accessibility',
+			'text_domain'      => 'website-accessibility',
+			'footer_links'     => [
+				[
+					'url'   => 'https://bdthemes.com/blog/',
+					'title' => 'Blog',
+				],
+				[
+					'url'   => 'https://bdthemes.com/knowledge-base/',
+					'title' => 'Docs',
+				],
+				[
+					'url'   => 'https://oneaccessibility.com/#pricing',
+					'title' => 'Get Pro',
+				],
+				[
+					'url'   => 'https://feedback.elementpack.pro/announcements/',
+					'title' => 'Changelog',
+				],
+			],
+		] );
+
 		// Initialize frontend assets
 		\bdthemes\websiteaccessibility\View\Frontend::get_instance();
 
