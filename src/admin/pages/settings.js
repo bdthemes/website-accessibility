@@ -6,8 +6,7 @@ import StatementSetting from "../components/statement-setting";
 
 
 const Settings = () => {
-    const  { WapCard, WapTypography, WapSpin, WapMessage, ExportImportSettings } = window?.wapComponents;
-    const { Title } = WapTypography;
+    const { WapSpin, WapMessage, ExportImportSettings } = window?.wapComponents;
     const { isProActive } = window?.websacPro || {};
     const [settings, setSettings] = useState({});
     const [loading, setLoading] = useState(true);
@@ -69,14 +68,6 @@ const Settings = () => {
 
     return (
         <div className="wap-settings">
-            <WapCard className="wap-settings-card wap-header-card">
-                <div className="wap-settings-card-content">
-                    <Title level={2} className="wap-header-card-title">
-                        {__("One Accessibility Settings", "website-accessibility")}
-                    </Title>
-                </div>
-            </WapCard>
-
             {/* Export/Import Settings - Only available in Pro version */}
             {isProActive && ExportImportSettings && <ExportImportSettings />}
 

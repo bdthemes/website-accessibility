@@ -1,13 +1,17 @@
+// Page header card — MUST match Settings / General (.wap-settings-row) typography
+// Single source so Presets, Create/Edit Preset, Create/Edit Profile headers look identical.
 .wap-header-card {
-    background: linear-gradient(135deg, #1677ff 0%, #135e96 100%);
-    border-radius: 6px;
-    margin-bottom: 32px;
+    background: #fff;
+    border: 1px solid #eef0f2;
+    border-radius: 10px;
+    margin-bottom: 16px;
+    box-shadow: none !important;
 
     .ant-card-body {
-        padding: 30px;
+        padding: 16px 18px !important;
         display: flex;
-        align-items: center;
-        gap: 20px;
+        align-items: flex-start;
+        gap: 16px 20px;
         justify-content: space-between;
         flex-wrap: wrap;
 
@@ -17,40 +21,57 @@
         }
     }
 
-    .wap-header-card-title {
-        margin: 0;
-        color: #fff;
+    // Same as .wap-settings-row + _settings-page: 14px title, 13px secondary
+    .wap-header-card-title,
+    h1.wap-header-card-title,
+    h2.wap-header-card-title,
+    h3.wap-header-card-title,
+    h4.wap-header-card-title,
+    h5.wap-header-card-title {
+        margin: 0 0 4px !important;
+        color: #1f2937 !important;
+        font-weight: 600 !important;
+        font-size: 20px !important;
+        line-height: 1.4 !important;
     }
 
-    .wap-header-card-description {
-        margin: 10px 0 0;
-        color: #dee5ee;
+    .wap-header-card-description,
+    .ant-typography-secondary.wap-header-card-description {
+        margin: 0 !important;
         display: block;
+        font-size: 13px !important;
+        line-height: 1.5 !important;
+        color: #6b7280 !important;
     }
 
     .ant-btn {
-        background: rgba(255, 255, 255, 0.11);
-        backdrop-filter: blur(10px);
-        border: 1px solid rgba(255, 255, 255, 0.11);
-
-        &:hover {
-            background: rgba(255, 255, 255, 0.188);
-            border: 1px solid rgba(255, 255, 255, 0.11);
-        }
+        border-radius: 6px;
     }
 }
 
+// When header is also a settings row, no double margin
+.wap-header-card.wap-settings-row {
+    margin-bottom: 0;
+}
+
 .wap-preset-editor {
-  .wap-preset-steps, .wap-get-started-preset-card {
-    max-width: 50%;
-    margin: 0 auto;
-  }
-  .wap-preset-form-card {
-    margin: 16px 0;
-  }
-  .wap-preset-form-actions {
-    text-align: right;
-  }
+    > .wap-settings-row:first-child {
+        margin-top: 0 !important;
+    }
+
+    // .wap-preset-steps,
+    // .wap-get-started-preset-card {
+    //     max-width: 50%;
+    //     margin: 0 auto;
+    // }
+
+    .wap-preset-form-card {
+        margin: 16px 0;
+    }
+
+    .wap-preset-form-actions {
+        text-align: right;
+    }
 }
 
 .wap-control-wrapper {

@@ -8,6 +8,7 @@ import ProfilesFallback from '../components/profiles-fallback';
 
 const Profiles = () => {
   const { WapCard, WapButton, WapSpace, WapDropdown, WapTypography } = window?.wapComponents;
+  const { Title, Text } = WapTypography;
   const isProActive = window?.websacPro?.isProActive || false;
   const history = useHistory();
   const profiles = useSelect((select) => select(STORE_NAME).getProfiles());
@@ -110,23 +111,29 @@ const Profiles = () => {
   }
 
   return (
-    <div className="wap-profiles">
-      <WapCard className='wap-header-card'>
-        <WapTypography.Title level={2} className='wap-header-card-title'>
-          {__('User Accessibility Profiles', 'website-accessibility')}
-        </WapTypography.Title>
-        <WapButton
-          type="primary"
-          onClick={handleCreateProfile}
-          size='large'
-        >
-          <WapSpace>
-            <span className="dashicons dashicons-plus-alt2" />
-            {__('Add New Profile', 'website-accessibility')}
-          </WapSpace>
-        </WapButton>
+    <div className="wap-settings wap-profiles">
+      <WapCard className="wap-settings-row wap-header-card wap-profiles-header">
+        <div className="wap-profiles-header__inner">
+          <div className="wap-header-card-content">
+            <Title level={4} className="wap-header-card-title">
+              {__('Custom Profiles', 'website-accessibility')}
+            </Title>
+            <Text type="secondary" className="wap-header-card-description">
+              {__('Create and manage accessibility profiles for different user needs.', 'website-accessibility')}
+            </Text>
+          </div>
+          <div className="wap-profiles-header__actions">
+            <WapButton type="primary" onClick={handleCreateProfile}>
+              <WapSpace size="small">
+                <span className="dashicons dashicons-plus-alt2" />
+                {__('Add New Profile', 'website-accessibility')}
+              </WapSpace>
+            </WapButton>
+          </div>
+        </div>
       </WapCard>
-      <WapCard >
+
+      <WapCard className="wap-settings-row wap-profiles-table-card">
         <div>
           <PostTable
             columns={columns}

@@ -16,21 +16,19 @@ const ProfilesFallback = () => {
   return (
     <div className="wap-pro-landing">
       {/* Hero Section */}
-      <WapCard className="wap-welcome-card wap-header-card">
+      <WapCard className="wap-header-card">
         <div className="wap-welcome-card-content">
-          <Title level={2} className="wap-header-card-title">
+          <Title level={4} className="wap-header-card-title">
             {__('Accessibility Custom Profiles', 'website-accessibility')}
           </Title>
-          <Text className="wap-header-card-description">
+          <Text type="secondary" className="wap-header-card-description">
             {__('Apply pre-configured settings in one click. Create your own custom profiles with Pro.', 'website-accessibility')}
           </Text>
         </div>
         <div>
           <WapButton
-            type="primary"
-            size="large"
+            type="default"
             onClick={openPricingPage}
-
           >
             {__('Upgrade to Pro', 'website-accessibility')}
             <span className="dashicons dashicons-arrow-right-alt" />
@@ -38,13 +36,14 @@ const ProfilesFallback = () => {
         </div>
       </WapCard>
 
-      {/* About Custom Profiles / Step Grid */}
-      <div className="profiles-steps">
-        <Title level={4} className="profiles-steps-title">
-          {__('How Custom Profiles Work', 'website-accessibility')}
-        </Title>
-        <WapRow gutter={[16, 16]} className="profiles-steps-row">
-          <WapCol xs={24} sm={8}>
+      {/* About Custom Profiles / Step Grid — wrapped as one card */}
+      <WapCard className="wap-settings-row profiles-steps-wrap">
+        <div className="profiles-steps">
+          <Title level={4} className="profiles-steps-title">
+            {__('How Custom Profiles Work', 'website-accessibility')}
+          </Title>
+          <WapRow gutter={[16, 16]} className="profiles-steps-row">
+            <WapCol xs={24} sm={8}>
             <WapCard
               cover={
                 <img
@@ -100,9 +99,10 @@ const ProfilesFallback = () => {
                 {__('Your custom profile appears with default profiles. Users can apply it instantly for an improved experience.', 'website-accessibility')}
               </Paragraph>
             </WapCard>
-          </WapCol>
-        </WapRow>
-      </div>
+            </WapCol>
+          </WapRow>
+        </div>
+      </WapCard>
     </div>
   );
 };

@@ -35,7 +35,6 @@ const Pages = () => {
 
     const RouteElement = useMemo(() => {
         switch (page) {
-
             case 'website-accessibilityfiles':
                 return <Profiles />;
             case 'website-accessibilityfiles-edit':
@@ -80,10 +79,13 @@ const Pages = () => {
                 <div className={clsx('wap-admin-page', { [page]: page })}>
                     {RouteElement}
                 </div>
-            </div>
-            {page === 'website-accessibility' && settings && settings?.show_usage_statistics && (
-                <UsageStatistics />
+                {page === 'website-accessibility' && settings && settings?.show_usage_statistics && (
+                    <div className="wap-admin-usage-statistics">
+                        <UsageStatistics />
+                    </div>
             )}
+            </div>
+
         </>
     );
 };

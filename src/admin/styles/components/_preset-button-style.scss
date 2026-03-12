@@ -4,7 +4,7 @@
 
     &__left {
         width: 250px;
-        max-height: 325px;
+        // max-height: 325px;
         overflow-y: auto;
         border-right: 1px solid #eee;
         padding: 20px;
@@ -28,7 +28,7 @@
         align-items: center;
         justify-content: center;
         position: relative;
-        min-height: 300px;
+        min-height: calc(100vh - 450px);
     }
 
     &__preview-wrapper {

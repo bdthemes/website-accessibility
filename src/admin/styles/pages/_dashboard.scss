@@ -1,4 +1,8 @@
+// Dashboard — compact, aligned with Settings rows (#eef0f2)
 .wap-dashboard {
+    > .wap-settings-row:first-of-type {
+        margin-top: 0 !important;
+    }
 
     .coming-soon-badge {
         background: linear-gradient(135deg, #fe5f55 0%, #ee0979 100%);
@@ -20,23 +24,30 @@
         justify-content: space-between;
         cursor: not-allowed;
         opacity: .5;
+
         .coming-soon-badge {
             position: unset;
         }
     }
 
-    .wap-header-card {
-        background: linear-gradient(135deg, #1677ff 0%, #135e96 100%);
-        border-radius: 6px;
-        margin-bottom: 32px;
+    // Welcome row — same as Presets header: grid, tight padding
+    .wap-welcome-card--simple {
+        margin-bottom: 12px !important;
+
+        &.wap-settings-row {
+            margin-top: 0 !important;
+        }
 
         .ant-card-body {
-            padding: 30px;
-            display: flex;
+            padding: 14px 16px !important;
+            display: grid;
+            grid-template-columns: minmax(0, 1fr) auto;
             align-items: center;
-            gap: 20px;
-            justify-content: space-between;
-            flex-wrap: wrap;
+            gap: 12px 16px;
+
+            @media (max-width: 576px) {
+                grid-template-columns: 1fr;
+            }
 
             &:before,
             &:after {
@@ -44,182 +55,178 @@
             }
         }
 
-        .wap-header-card-title {
-            margin: 0;
+        .wap-welcome-card-title {
+            margin: 0 0 4px !important;
+        }
+
+        // Primary button: white icon on blue
+        .ant-btn-primary .wap-dashboard-svg-icon {
             color: #fff;
         }
 
-        .wap-header-card-description {
-            margin: 10px 0 0;
-            color: #dee5ee;
-            display: block;
-        }
+        .wap-welcome-card-actions {
+            justify-self: end;
 
-        .ant-btn {
-            background: rgba(255, 255, 255, 0.11);
-            backdrop-filter: blur(10px);
-            border: 1px solid rgba(255, 255, 255, 0.11);
-
-            &:hover {
-                background: rgba(255, 255, 255, 0.188);
-                border: 1px solid rgba(255, 255, 255, 0.11);
+            @media (max-width: 576px) {
+                justify-self: start;
             }
         }
     }
 
+    // Stat cards grid — compact height, no min-height stretch
     .statistics-grid {
-        margin-bottom: 32px;
+        margin-bottom: 16px;
 
         .ant-col {
             height: 100%;
         }
-
-        .ant-card {
-            .ant-card-body {
-                display: flex;
-                flex-direction: column;
-                justify-content: space-between;
-                min-height: 220px;
-
-                &:before,
-                &:after {
-                    display: none;
-                }
-            }
-        }
     }
 
     .wap-statistics-grid {
-        .ant-card {
-            transition: all 0.3s ease;
+        .wap-dashboard-stat-card.ant-card {
+            border: 1px solid #eef0f2;
+            border-radius: 10px;
+            box-shadow: none !important;
+            height: 100%;
+            transition: border-color 0.15s ease;
 
             &:hover {
-                border: 1px solid #2196F3;
-                transform: translateY(-2px);
+                border-color: #dce3e8;
             }
         }
 
-        .ant-card-body {
-            gap: 20px;
+        .wap-dashboard-stat-card .ant-card-body {
+            display: flex;
+            flex-direction: column;
+            gap: 10px;
+            padding: 14px 16px !important;
+            min-height: auto;
 
-            .stat-icon-wrapper {
-                .dashicons {
-                    border-radius: 50%;
-                    padding: 10px;
-                    font-size: 20px;
-                    width: 20px;
-                    height: 20px;
-                    display: flex;
-                    align-items: center;
-                    justify-content: center;
-                }
-
-                .dashicons-universal-access {
-                    color: #4CAF50; // Green for accessibility
-                    background: rgba(76, 175, 80, 0.1);
-                }
-
-                .dashicons-admin-users {
-                    color: #9C27B0; // Purple for users/profiles
-                    background: rgba(156, 39, 176, 0.1);
-                }
-
-                .dashicons-visibility {
-                    color: #2196F3; // Blue for visibility
-                    background: rgba(33, 150, 243, 0.1);
-                }
-
-                h4 {
-                    margin: 0;
-                }
+            &:before,
+            &:after {
+                display: none;
             }
+        }
 
-            .stat-icon-wrapper {
-                display: flex;
+        .stat-icon-wrapper {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+
+            .dashicons,
+            .wap-dashboard-svg-icon {
+                border-radius: 8px;
+                padding: 6px;
+                width: 28px;
+                height: 28px;
+                display: inline-flex;
                 align-items: center;
-                gap: 15px;
-            }
+                justify-content: center;
+                color: #4b5563;
+                background: #f3f4f6;
+                flex-shrink: 0;
 
-            .stat-content {
-                display: flex;
-                gap: 4px;
-                justify-content: space-between;
-                align-items: center;
-                width: 100%;
-
-                .stat-value,
-                .stat-title {
-                    font-weight: 600;
-                    font-size: 18px;
-                }
-
-                .stat-value {
-                    color: #1677ff;
+                svg {
+                    display: block;
                 }
             }
+        }
 
-            .stat-content-footer {
-                display: flex;
-                flex-direction: column;
-                gap: 14px;
-            }
-
-            .stat-description {
-                color: #565963;
+        // View All + button: SVG aligns with label
+        .wap-dashboard-viewall {
+            .wap-dashboard-svg-icon {
+                width: auto;
+                height: auto;
+                padding: 0;
+                background: transparent;
+                color: #1890ff;
+                vertical-align: middle;
             }
         }
 
-        .ant-col:nth-child(1) {
+        .stat-content {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            gap: 8px;
+            flex: 1;
+            min-width: 0;
+
+            .stat-title {
+                margin: 0 !important;
+                font-size: 14px !important;
+                font-weight: 600 !important;
+                color: #1f2937 !important;
+            }
+
             .stat-value {
-                color: #4CAF50;
+                margin: 0 !important;
+                font-size: 14px !important;
+                font-weight: 700 !important;
+                color: #1890ff !important;
+                flex-shrink: 0;
             }
         }
 
-        .ant-col:nth-child(2) {
-            .stat-value {
-                color: #9C27B0;
-            }
+        .stat-content-footer {
+            display: flex;
+            flex-direction: column;
+            gap: 8px;
         }
 
-        .ant-col:nth-child(3) {
-            .stat-value {
-                color: #2196F3;
-            }
+        .stat-description {
+            margin: 0 !important;
+            font-size: 12px !important;
+            line-height: 1.45 !important;
+            color: #6b7280 !important;
+            display: -webkit-box;
+            -webkit-line-clamp: 2;
+            -webkit-box-orient: vertical;
+            overflow: hidden;
+        }
+
+        .ant-progress {
+            margin-bottom: 0;
         }
 
         .ant-btn {
             border: 0 !important;
             box-shadow: none !important;
             padding: 0 !important;
-        }
-
-    }
-
-    // Quick actions
-    .quick-actions {
-        .ant-card {
-            margin-bottom: 0;
-        }
-
-        .ant-btn {
-            width: 100%;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-        }
-
-        .quick-action-btn-wrapper {
-            display: grid;
-            place-items: center;
-            width: 100%;
+            height: auto !important;
+            font-size: 12px !important;
+            color: #1890ff !important;
         }
     }
 
-    // WordPress icon adjustments
     .dashicon {
-        inline-size: 1.5rem;
-        block-size: 1.5rem;
-        font-size: 1.5rem;
+        inline-size: 1.25rem;
+        block-size: 1.25rem;
+        font-size: 1.25rem;
         vertical-align: middle;
+    }
+}
+
+// Disclaimer — match settings row border
+.wap-disclaimer--simple {
+    margin-bottom: 12px;
+
+    .ant-alert {
+        border: 1px solid #eef0f2;
+        background: #fff;
+        border-radius: 10px;
+        padding: 14px 16px;
+    }
+
+    .ant-alert-message {
+        font-size: 14px;
+        font-weight: 600;
+        color: #1f2937;
+    }
+
+    .ant-alert-description {
+        font-size: 13px;
+        color: #6b7280;
+        margin-top: 6px;
     }
 }

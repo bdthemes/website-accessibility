@@ -51,8 +51,12 @@
 
     .wap-admin-page {
         &.website-accessibility-presets-preview {
-            min-height: 70vh;
+            min-height: calc(100vh - 170px);
             position: relative;
+            background: #fff;
+            border-radius: 10px;
+            overflow: hidden;
+            border: 1px solid #f0f0f0;
         }
     }
 }
