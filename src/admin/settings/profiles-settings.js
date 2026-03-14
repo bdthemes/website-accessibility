@@ -102,18 +102,6 @@ const ProfilesSettings = () => {
             </ControlWrapper>
 
             <ControlWrapper
-                label={__('Layout', 'website-accessibility')}
-            >
-                <WapRadio.Group
-                    value={attributes.layout || 'collapse'}
-                    onChange={(e) => updateAttr({ layout: e.target.value })}
-                >
-                    <WapRadio value="collapse">{__('With Collapse', 'website-accessibility')}</WapRadio>
-                    <WapRadio value="simple">{__('Simple List', 'website-accessibility')}</WapRadio>
-                </WapRadio.Group>
-            </ControlWrapper>
-
-            <ControlWrapper
                 label={__('Title', 'website-accessibility')}
             >
                 <WapInput

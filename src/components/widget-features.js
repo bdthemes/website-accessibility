@@ -123,39 +123,8 @@ const WidgetFeatures = ({
 		}
 	};
 
-	// Handle oversized toggle
-	const handleOversizedToggle = (checked) => {
-		if (!isFrontend) return;
-
-		accessibilityDispatch({
-			type: "SET_OVERSIZED",
-			payload: checked,
-		});
-	};
-
 	return (
 		<WapCard className="wap-widget-features">
-			{!attributes?.hideOversizedWidget && (
-				<WapRow
-					align="middle"
-					className="wap-widget-features__row wap-widget-features__row--oversized"
-				>
-					<WapCol span={18}>
-						{!attributes?.hideHeaderIcon && (
-							<span className="wap-widget-features__badge">XL</span>
-						)}
-						{!attributes?.hideHeaderTitle && (
-							<span className="wap-widget-features__label">
-								{attributes?.oversizedTitle || "Oversized Widget"}
-							</span>
-						)}
-					</WapCol>
-					<WapCol span={6} style={{ textAlign: "right" }}>
-						<WapSwitch checked={isOverSized} onChange={handleOversizedToggle} />
-					</WapCol>
-				</WapRow>
-			)}
-
 			<WapRow gutter={[10, 10]} className="wap-widget-features__grid">
 				{features.map((feature) => {
 					const key = feature.key;
@@ -176,9 +145,9 @@ const WidgetFeatures = ({
 							})}
 							xs={24}
 							sm={12}
-							md={colSpan}
-							lg={colSpan}
-							xl={colSpan}
+							md={12}
+							lg={12}
+							xl={12}
 						>
 							{/* Top active checkmark */}
 							{isActive && (

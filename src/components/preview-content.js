@@ -34,7 +34,6 @@ const PreviewContent = ({ panel, allProfiles, setIsOpen = () => { }, accessibili
 
     // Create components with accessibility context
     const itemComponents = {
-        language: Translation,
         profiles: <AccessibilityProfiles
             value={panel}
             allProfiles={allProfiles}

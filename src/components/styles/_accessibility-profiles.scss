@@ -2,27 +2,9 @@
 	margin-bottom: 8px;
 	background: transparent;
 
-	&__collapse {
-		background: transparent;
-
-		.ant-collapse-item {
-			border: none;
-			background: transparent;
-		}
-
-		.ant-collapse-content {
-			background: transparent;
-			border: none;
-			padding: 0;
-		}
-	}
-
-	&--simple {
-
-		.wap-accessibility-profiles__header,
-		.wap-accessibility-profiles__grid {
-			padding: 12px 24px;
-		}
+	.wap-accessibility-profiles__header,
+	.wap-accessibility-profiles__grid {
+		padding: 12px 24px;
 	}
 
 	&__header {
@@ -43,17 +25,6 @@
 		font-weight: 600;
 		font-size: 14px;
 		color: #222;
-	}
-
-	&__info-icon {
-		width: 14px;
-		height: 14px;
-		color: #888;
-		background: #e5e7eb;
-		border-radius: 50%;
-		display: flex;
-		align-items: center;
-		justify-content: center;
 	}
 
 	&__panel {
