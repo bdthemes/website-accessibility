@@ -84,6 +84,7 @@ final class WebsiteAccessibility
 	{
 		// Update plugin version in the options table.
 		update_option('websac_version', WEBSAC_VERSION);
+		update_option('websac_data_schema_version', \bdthemes\websiteaccessibility\Core\Migrations::LATEST_DATA_SCHEMA_VERSION);
 
 		// Set installed time if it doesn't exist.
 		if (! get_option('websac_installed_time')) {
@@ -147,6 +148,9 @@ final class WebsiteAccessibility
 	 */
 	public function plugins_loaded()
 	{
+		// Run DB/content migrations for plugin updates.
+		\bdthemes\websiteaccessibility\Core\Migrations::get_instance()->maybe_run_migrations();
+
 		// Add a custom class to the admin body tag.
 		add_filter('admin_body_class', fn($classes) => $classes . ' wap-admin');
 

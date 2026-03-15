@@ -2,13 +2,14 @@ import clsx from "clsx";
 import { useMemo } from "@wordpress/element";
 import { __ } from "@wordpress/i18n";
 import { InfoCircleOutlined } from "@ant-design/icons";
+import { getFeatureCategories, getFeatureStateIndex } from "../utils/feature-categories";
 
 const WidgetFeatures = ({
 	value,
 	accessibilityContext,
 	accessibilityDispatch,
 }) => {
-	const {WapCard, WapRow, WapCol, WapSwitch, WapBadge, WapTooltip} = window?.wapComponents;
+	const {WapCard, WapRow, WapCol, WapBadge, WapTooltip} = window?.wapComponents;
 	const { items } = value;
 	const featureItem = items.find((item) => item.slug === "features");
 	const attributes = featureItem?.attributes || {};
@@ -18,22 +19,23 @@ const WidgetFeatures = ({
 
 	const features = useMemo(() => {
 		let allFeatures = window.wapHelpers?.features || [];
-		if (isFrontend) [
+		if (isFrontend) {
 			allFeatures = allFeatures.filter((feature) => {
 				if (!feature?.isDummy) return feature;
 			})
-		]
+		}
+
+		const featureStateIndex = getFeatureStateIndex(attributes, allFeatures);
 
 		return allFeatures.filter((feature) => {
-			const currentItem = attributes?.widgets?.find(item => item[feature?.key]);
-			const isCurrentActive = currentItem ? currentItem[feature?.key]?.active : true;
-			if (isCurrentActive) return feature;
-		})
-	}, [attributes?.widgets]);
+			return featureStateIndex?.[feature?.key]?.active ?? true;
+		});
+	}, [attributes?.widgets, attributes?.widgetCategories, isFrontend]);
 
-	// Calculate column span based on items per row
-	const itemsPerRow = parseInt(attributes?.itemsPerRow) || 2;
-	const colSpan = 24 / itemsPerRow;
+	const categorizedFeatures = useMemo(() => {
+		return getFeatureCategories(attributes, features);
+	}, [attributes?.widgets, attributes?.widgetCategories, features]);
+
 	// Handle feature click
 	const handleFeatureClick = (feature) => {
 		if (!isFrontend) return;
@@ -125,108 +127,108 @@ const WidgetFeatures = ({
 
 	return (
 		<WapCard className="wap-widget-features">
-			<WapRow gutter={[10, 10]} className="wap-widget-features__grid">
-				{features.map((feature) => {
-					const key = feature.key;
-					const setting = currentSettings?.[key] || {};
-					const currentStep = setting.currentStep || 0;
-					const currentAttribute = setting.currentAttribute;
-					const allAttributes = feature.attributes || [];
-					const isActive = currentStep > 0;
-					const showSteps = currentStep > 0 && allAttributes[0]?.value !== "enable";
-					const totalSteps = allAttributes.length;
-					const isDummy = feature?.isDummy || false;
+			{categorizedFeatures.map((category) => (
+				<div className="wap-widget-features__category" key={category.slug}>
+					<div className="wap-widget-features__category-header">
+						<span className="wap-widget-features__category-title">{category.title}</span>
+					</div>
+					<WapRow gutter={[10, 10]} className="wap-widget-features__grid">
+						{category.features.map((feature) => {
+							const key = feature.key;
+							const setting = currentSettings?.[key] || {};
+							const currentStep = setting.currentStep || 0;
+							const currentAttribute = setting.currentAttribute;
+							const allAttributes = feature.attributes || [];
+							const isActive = currentStep > 0;
+							const showSteps = currentStep > 0 && allAttributes[0]?.value !== "enable";
+							const totalSteps = allAttributes.length;
+							const isDummy = feature?.isDummy || false;
 
-					return (
-						<WapCol
-							key={key}
-							className={clsx(`wap-feature-${key}`, {
-								"wap-feature--active": isActive,
-							})}
-							xs={24}
-							sm={12}
-							md={12}
-							lg={12}
-							xl={12}
-						>
-							{/* Top active checkmark */}
-							{isActive && (
-								<span className="wap-widget-features-top-indicator wap-widget-features-top-indicator--active">
-									<svg width="16" height="16" viewBox="0 0 24 24" fill="none">
-										<path
-											d="M9 16.17L4.83 12l-1.42 1.41L9 19 21 7l-1.41-1.41z"
-											fill="currentColor"
-										/>
-									</svg>
-								</span>
-							)}
+							return (
+								<WapCol
+									key={key}
+									className={clsx(`wap-feature-${key}`, {
+										"wap-feature--active": isActive,
+									})}
+									xs={24}
+									sm={12}
+									md={12}
+									lg={12}
+									xl={12}
+								>
+									{isActive && (
+										<span className="wap-widget-features-top-indicator wap-widget-features-top-indicator--active">
+											<svg width="16" height="16" viewBox="0 0 24 24" fill="none">
+												<path
+													d="M9 16.17L4.83 12l-1.42 1.41L9 19 21 7l-1.41-1.41z"
+													fill="currentColor"
+												/>
+											</svg>
+										</span>
+									)}
 
-							{
-								isDummy && (
-									<WapBadge count={__("PRO", "website-accessibility")} color="gold" className="wap-widget-features-dummy"/>
-								)
-							}
+									{isDummy && (
+										<WapBadge count={__("PRO", "website-accessibility")} color="gold" className="wap-widget-features-dummy"/>
+									)}
 
-							{
-								feature?.description && (
-									<WapTooltip 
-										title={feature?.description} 
-										placement="top" 
-										mouseEnterDelay={0}
-										styles={{
-											root: { zIndex: 9999999999 } 
+									{feature?.description && (
+										<WapTooltip
+											title={feature?.description}
+											placement="top"
+											mouseEnterDelay={0}
+											styles={{
+												root: { zIndex: 9999999999 }
+											}}
+										>
+											<InfoCircleOutlined className="wap-widget-features__feature-tooltip" />
+										</WapTooltip>
+									)}
+
+									<div
+										className={clsx("wap-widget-features__feature-btn", {
+											"wap-widget-features__feature-btn--active": isActive,
+										})}
+										onClick={() => handleFeatureClick(feature)}
+										style={{ cursor: "pointer" }}
+										aria-label={
+											currentAttribute?.description || feature?.description
+										}
+										role="button"
+										tabIndex={0}
+										onKeyDown={(e) => {
+											if (e.key === "Enter" || e.key === " ") {
+												handleFeatureClick(feature);
+											}
 										}}
 									>
-										<InfoCircleOutlined className="wap-widget-features__feature-tooltip" />
-									</WapTooltip>
-								)
-							}
+										{!attributes?.hideItemIcons && (
+											<span className="wap-widget-features__feature-icon">
+												{feature.icon}
+											</span>
+										)}
+										{!attributes?.hideItemLabels && (
+											<span className="wap-widget-features__feature-label">
+												{feature.label}
+											</span>
+										)}
+									</div>
 
-							{/* Feature button */}
-							<div
-								className={clsx("wap-widget-features__feature-btn", {
-									"wap-widget-features__feature-btn--active": isActive,
-								})}
-								onClick={() => handleFeatureClick(feature)}
-								style={{ cursor: "pointer" }}
-								aria-label={
-									currentAttribute?.description || feature?.description
-								}
-								role="button"
-								tabIndex={0}
-								onKeyDown={(e) => {
-									if (e.key === "Enter" || e.key === " ") {
-										handleFeatureClick(feature);
-									}
-								}}
-							>
-								{!attributes?.hideItemIcons && (
-									<span className="wap-widget-features__feature-icon">
-										{feature.icon}
-									</span>
-								)}
-								{!attributes?.hideItemLabels && (
-									<span className="wap-widget-features__feature-label">
-										{feature.label}
-									</span>
-								)}
-							</div>
-
-							{/* Bottom step indicator */}
-							{showSteps && isActive && currentAttribute && (
-								<span className="wap-widget-features-bottom-indicator wap-widget-features-bottom-indicator--active">
-									<span className="wap-widget-features-bottom-indicator__text">
-										{currentAttribute.name}
-										<span className="wap-widget-features-bottom-indicator__step">
-											({currentStep}/{totalSteps})
+									{showSteps && isActive && currentAttribute && (
+										<span className="wap-widget-features-bottom-indicator wap-widget-features-bottom-indicator--active">
+											<span className="wap-widget-features-bottom-indicator__text">
+												{currentAttribute.name}
+												<span className="wap-widget-features-bottom-indicator__step">
+													({currentStep}/{totalSteps})
+												</span>
+											</span>
 										</span>
-									</span>
-								</span>
-							)}
-						</WapCol>
-					);
-				})}
-			</WapRow>
+									)}
+								</WapCol>
+							);
+						})}
+					</WapRow>
+				</div>
+			))}
 		</WapCard>
 	);
 };

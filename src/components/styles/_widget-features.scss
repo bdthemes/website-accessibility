@@ -53,6 +53,27 @@
 		min-height: 100px;
 	}
 
+	&__category {
+		margin-bottom: 18px;
+	}
+
+	&__category-header {
+		display: flex;
+		align-items: center;
+		justify-content: space-between;
+		margin-bottom: 10px;
+		padding-bottom: 8px;
+		border-bottom: 1px solid #e7ebf3;
+	}
+
+	&__category-title {
+		font-size: 13px;
+		font-weight: 700;
+		letter-spacing: 0.03em;
+		text-transform: uppercase;
+		color: #1d3f8f;
+	}
+
 	&__feature-btn {
 		background: #ffffff;
 		border-radius: 6px;

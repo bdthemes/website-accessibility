@@ -1,36 +1,16 @@
 
-import { useEffect, useState, useMemo, useRef, cloneElement } from "@wordpress/element";
+import { useRef, cloneElement } from "@wordpress/element";
 import clsx from "clsx";
 
 
 const PreviewContent = ({ panel, allProfiles, setIsOpen = () => { }, accessibilityContext, accessibilityDispatch, isOpen }) => {
-    const { LanguageSelector = () => null, AccessibilityProfiles, WidgetFeatures, PanelHeader, PanelFooter } = window?.wapComponents;
-    const { getCookie, useDrawerScrollControl } = window.wapHelpers;
+    const { AccessibilityProfiles, WidgetFeatures, PanelHeader, PanelFooter } = window?.wapComponents;
+    const { useDrawerScrollControl } = window.wapHelpers;
     const isProActive = window?.websacPro?.isProActive || false;
     const { isOverSized } = accessibilityContext || {};
-    const { settings } = window?.websiteAccessibility || {};
-    const [consent, setConsent] = useState(false);
-
-    useEffect(() => {
-        const consent = getCookie("wapGoogleTranslateConsent");
-        setConsent(consent === "true");
-    }, []);
 
     const scrollRef = useRef(null);
     useDrawerScrollControl(scrollRef, isOpen);
-
-    const Translation = useMemo(() => {
-        const showConsent = settings?.show_translations_consent;
-        if (showConsent && !consent) return null;
-
-        return (
-            <LanguageSelector
-                value={panel}
-                accessibilityContext={accessibilityContext}
-                accessibilityDispatch={accessibilityDispatch}
-            />
-        );
-    }, [consent, settings?.show_translations_consent, accessibilityContext, accessibilityDispatch, panel]);
 
     // Create components with accessibility context
     const itemComponents = {
@@ -74,6 +54,7 @@ const PreviewContent = ({ panel, allProfiles, setIsOpen = () => { }, accessibili
                             value={panel}
                             setIsOpen={setIsOpen}
                             accessibilityContext={accessibilityContext}
+                            accessibilityDispatch={accessibilityDispatch}
                         />
                     )
                 }
