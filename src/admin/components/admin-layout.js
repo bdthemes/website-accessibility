@@ -36,8 +36,10 @@ const AdminLayout = ({ children }) => {
 		{ key: 'website-accessibility-settings', icon: <IconSettings />, label: __('Settings', 'website-accessibility') },
 	];
 
+	const isProPluginActive = typeof window !== 'undefined' && window.websacAdmin?.isProPluginActive;
+	const isLicenseValid = typeof window !== 'undefined' && window.websacAdmin?.isLicenseValid;
 	const supportItems = [
-		{ key: 'website-accessibility-tools', icon: <IconTools />, label: __('Tools & Backup', 'website-accessibility') },
+		...(isProPluginActive ? [{ key: 'website-accessibility-tools', icon: <IconTools />, label: __('Tools & Backup', 'website-accessibility'), disabled: !isLicenseValid }] : []),
 		{ key: 'website-accessibility-about', icon: <IconInfo />, label: __('About & Info', 'website-accessibility') },
 	];
 

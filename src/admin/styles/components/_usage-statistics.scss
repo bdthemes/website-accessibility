@@ -1,14 +1,16 @@
-// Widget Usage Statistics — 4-column grid + header fix
+// Widget Usage Statistics — compact, clean stat cards
 .wap-usage-statistics {
     .wap-statistics-card.ant-card {
         border-radius: 10px;
+        border: 1px solid #eef0f2;
     }
 }
 
 .wap-statistics-card {
     .ant-card-head {
         min-height: auto;
-        padding: 20px;
+        padding: 14px 16px;
+        border-bottom: 1px solid #f0f0f0;
 
         .ant-card-head-title {
             overflow: visible !important;
@@ -18,17 +20,16 @@
     }
 
     .ant-card-body {
-        padding: 12px 16px 16px !important;
+        padding: 14px 16px !important;
     }
 }
 
-// Header: title left, filter right — full width, no overlap
 .wap-statistics-card__head {
     display: flex;
     align-items: center;
     justify-content: space-between;
     flex-wrap: wrap;
-    gap: 10px 12px;
+    gap: 8px 10px;
     width: 100%;
     min-width: 0;
 }
@@ -37,21 +38,24 @@
     margin: 0 !important;
     font-size: 15px !important;
     font-weight: 600 !important;
+    color: #1f2937;
     flex: 1;
     min-width: 0;
 }
 
 .wap-statistics-card__filter {
-    width: 130px !important;
+    width: 120px !important;
     flex-shrink: 0;
 
     .ant-select-selector {
-        min-height: 32px !important;
-        padding: 2px 8px !important;
+        min-height: 30px !important;
+        padding: 0 8px !important;
+        border-radius: 6px !important;
+        font-size: 13px !important;
     }
 }
 
-// 4-column grid of list items
+// Grid — compact horizontal cards
 .wap-statistics-list {
     display: grid;
     grid-template-columns: repeat(4, 1fr);
@@ -74,74 +78,187 @@
 }
 
 .wap-statistics-list__item {
+    position: relative;
     display: flex;
-    flex-direction: column;
-    align-items: stretch;
-    gap: 6px;
-    padding: 10px 12px;
-    border: 1px solid #f0f2f5;
-    border-radius: 8px;
-    transition: background 0.15s ease, border-color 0.15s ease;
+    flex-direction: row;
+    align-items: center;
+    gap: 12px;
+    padding: 12px 14px;
+    background: #fff;
+    border: 1px solid #eef0f2;
+    border-radius: 10px;
+    transition: border-color 0.2s ease, background 0.2s ease;
 
     &:hover {
-        background: #f3f6f9;
-        border-color: #e6e8eb;
+        border-color: #e0e3e7;
+        background: #fafafa;
     }
 }
 
-// Row 1: icon + value (value top-right feel)
-.wap-statistics-list__item-top {
+// Icon — meaningful colors per feature (pastel bg + icon color)
+.wap-statistics-list__icon-wrap {
     display: flex;
     align-items: center;
-    justify-content: space-between;
-    gap: 8px;
-    min-height: 28px;
+    justify-content: center;
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
+    flex-shrink: 0;
+    background: #f1f5f9; // default so every icon has a visible bg
 }
 
 .wap-statistics-list__icon {
     display: inline-flex;
     align-items: center;
     justify-content: center;
-    flex-shrink: 0;
-    width: 24px;
-    height: 24px;
-    font-size: 16px;
-    color: rgba(0, 0, 0, 0.65);
 
     svg {
         display: block;
-        width: 18px;
-        height: 18px;
+        width: 20px;
+        height: 20px;
     }
 }
 
+// Vision / contrast — violet
+.wap-statistics-list__item--contrast .wap-statistics-list__icon-wrap,
+.wap-statistics-list__item--smartContrast .wap-statistics-list__icon-wrap,
+.wap-statistics-list__item--grayscale .wap-statistics-list__icon-wrap {
+    background: #ede9fe;
+}
+.wap-statistics-list__item--contrast .wap-statistics-list__icon,
+.wap-statistics-list__item--smartContrast .wap-statistics-list__icon,
+.wap-statistics-list__item--grayscale .wap-statistics-list__icon {
+    color: #6d28d9;
+}
+
+// Typography / text — blue
+.wap-statistics-list__item--biggerText .wap-statistics-list__icon-wrap,
+.wap-statistics-list__item--textSpacing .wap-statistics-list__icon-wrap,
+.wap-statistics-list__item--lineHeight .wap-statistics-list__icon-wrap,
+.wap-statistics-list__item--textAlign .wap-statistics-list__icon-wrap {
+    background: #dbeafe;
+}
+.wap-statistics-list__item--biggerText .wap-statistics-list__icon,
+.wap-statistics-list__item--textSpacing .wap-statistics-list__icon,
+.wap-statistics-list__item--lineHeight .wap-statistics-list__icon,
+.wap-statistics-list__item--textAlign .wap-statistics-list__icon {
+    color: #2563eb;
+}
+
+// Light / color — orange
+.wap-statistics-list__item--brightness .wap-statistics-list__icon-wrap,
+.wap-statistics-list__item--saturation .wap-statistics-list__icon-wrap {
+    background: #ffedd5;
+}
+.wap-statistics-list__item--brightness .wap-statistics-list__icon,
+.wap-statistics-list__item--saturation .wap-statistics-list__icon {
+    color: #ea580c;
+}
+
+// Interaction / pointer — green
+.wap-statistics-list__item--highlightLinks .wap-statistics-list__icon-wrap,
+.wap-statistics-list__item--cursor .wap-statistics-list__icon-wrap {
+    background: #dcfce7;
+}
+.wap-statistics-list__item--highlightLinks .wap-statistics-list__icon,
+.wap-statistics-list__item--cursor .wap-statistics-list__icon {
+    color: #16a34a;
+}
+
+// Audio / speech — teal
+.wap-statistics-list__item--screenReader .wap-statistics-list__icon-wrap,
+.wap-statistics-list__item--muteSounds .wap-statistics-list__icon-wrap {
+    background: #ccfbf1;
+}
+.wap-statistics-list__item--screenReader .wap-statistics-list__icon,
+.wap-statistics-list__item--muteSounds .wap-statistics-list__icon {
+    color: #0d9488;
+}
+
+// Input / keyboard — indigo
+.wap-statistics-list__item--keyboardNavigation .wap-statistics-list__icon-wrap {
+    background: #e0e7ff;
+}
+.wap-statistics-list__item--keyboardNavigation .wap-statistics-list__icon {
+    color: #4f46e5;
+}
+
+// Reduce motion / media — slate
+.wap-statistics-list__item--pauseAnimations .wap-statistics-list__icon-wrap,
+.wap-statistics-list__item--hideImages .wap-statistics-list__icon-wrap {
+    background: #f1f5f9;
+}
+.wap-statistics-list__item--pauseAnimations .wap-statistics-list__icon,
+.wap-statistics-list__item--hideImages .wap-statistics-list__icon {
+    color: #475569;
+}
+
+// Reading aid — purple
+.wap-statistics-list__item--dyslexiaFriendly .wap-statistics-list__icon-wrap {
+    background: #f3e8ff;
+}
+.wap-statistics-list__item--dyslexiaFriendly .wap-statistics-list__icon {
+    color: #7c3aed;
+}
+
+// Help / reference — amber
+.wap-statistics-list__item--tooltips .wap-statistics-list__icon-wrap,
+.wap-statistics-list__item--dictionary .wap-statistics-list__icon-wrap {
+    background: #fef3c7;
+}
+.wap-statistics-list__item--tooltips .wap-statistics-list__icon,
+.wap-statistics-list__item--dictionary .wap-statistics-list__icon {
+    color: #d97706;
+}
+
+// Fallback for any unknown key
+.wap-statistics-list__item--default .wap-statistics-list__icon-wrap {
+    background: #eef2ff;
+}
+.wap-statistics-list__item--default .wap-statistics-list__icon {
+    color: #6366f1;
+}
+
+// Content: value + label, tight
+.wap-statistics-list__content {
+    display: flex;
+    flex-direction: column;
+    gap: 0;
+    min-width: 0;
+    flex: 1;
+}
+
 .wap-statistics-list__value {
-    font-size: 16px;
+    font-size: 20px;
     font-weight: 700;
     font-variant-numeric: tabular-nums;
-    color: #1890ff;
-    line-height: 1.2;
+    color: #1f2937;
+    line-height: 1.25;
+    letter-spacing: -0.02em;
 }
 
 .wap-statistics-list__name {
-    font-size: 14px;
+    font-size: 12px;
     font-weight: 500;
-    color: #374151;
-    line-height: 1.35;
+    color: #6b7280;
+    line-height: 1.3;
     display: -webkit-box;
     -webkit-line-clamp: 2;
     -webkit-box-orient: vertical;
     overflow: hidden;
+    margin: 0;
 }
 
 .wap-statistics-list__badge {
-    align-self: flex-start;
+    position: absolute;
+    top: 6px;
+    right: 8px;
 
     .ant-badge-count {
-        font-size: 9px;
-        padding: 0 5px;
-        line-height: 16px;
-        min-width: 28px;
+        font-size: 8px;
+        padding: 0 4px;
+        // line-height: 16px;
+        min-width: 24px;
         border-radius: 4px;
     }
 }
