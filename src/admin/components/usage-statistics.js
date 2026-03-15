@@ -17,10 +17,11 @@ const UsageStatistics = () => {
             const res = await apiFetch({
                 path: `/one-accessibility/v1/usage-statistics?range=${range}`,
             });
-            if (res?.data) {
+                if (res?.data) {
                 const response = [];
                 features && features.forEach((feature) => {
                     response.push({
+                        key: feature.key,
                         title: feature.label,
                         value: res.data[feature.key],
                         icon: feature?.icon,
@@ -77,16 +78,19 @@ const UsageStatistics = () => {
                 ) : (
                     <ul className="wap-statistics-list">
                         {stats.map((stat, index) => (
-                            <li key={index} className="wap-statistics-list__item">
-                                <div className="wap-statistics-list__item-top">
-                                    <span className="wap-statistics-list__icon" aria-hidden="true">
-                                        {stat.icon}
-                                    </span>
-                                    <span className="wap-statistics-list__value">{stat.value ?? 0}</span>
+                            <li
+                                key={index}
+                                className={`wap-statistics-list__item wap-statistics-list__item--${stat.key || 'default'}`}
+                            >
+                                <div className="wap-statistics-list__icon-wrap" aria-hidden="true">
+                                    <span className="wap-statistics-list__icon">{stat.icon}</span>
                                 </div>
-                                <span className="wap-statistics-list__name" title={stat.title}>
-                                    {stat.title}
-                                </span>
+                                <div className="wap-statistics-list__content">
+                                    <span className="wap-statistics-list__value">{stat.value ?? 0}</span>
+                                    <span className="wap-statistics-list__name" title={stat.title}>
+                                        {stat.title}
+                                    </span>
+                                </div>
                                 {stat.isDummy && (
                                     <WapBadge
                                         color="gold"

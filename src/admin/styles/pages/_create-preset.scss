@@ -10,7 +10,7 @@
     .ant-card-body {
         padding: 16px 18px !important;
         display: flex;
-        align-items: flex-start;
+        align-items: center;
         gap: 16px 20px;
         justify-content: space-between;
         flex-wrap: wrap;
@@ -28,7 +28,7 @@
     h3.wap-header-card-title,
     h4.wap-header-card-title,
     h5.wap-header-card-title {
-        margin: 0 0 4px !important;
+        margin: 0 !important;
         color: #1f2937 !important;
         font-weight: 600 !important;
         font-size: 20px !important;
@@ -37,7 +37,7 @@
 
     .wap-header-card-description,
     .ant-typography-secondary.wap-header-card-description {
-        margin: 0 !important;
+        margin: 4px 0 0 !important;
         display: block;
         font-size: 13px !important;
         line-height: 1.5 !important;
@@ -58,12 +58,6 @@
     > .wap-settings-row:first-child {
         margin-top: 0 !important;
     }
-
-    // .wap-preset-steps,
-    // .wap-get-started-preset-card {
-    //     max-width: 50%;
-    //     margin: 0 auto;
-    // }
 
     .wap-preset-form-card {
         margin: 16px 0;

@@ -6,7 +6,7 @@ import StatementSetting from "../components/statement-setting";
 
 
 const Settings = () => {
-    const { WapSpin, WapMessage, ExportImportSettings } = window?.wapComponents;
+    const { WapSpin, WapMessage } = window?.wapComponents;
     const { isProActive } = window?.websacPro || {};
     const [settings, setSettings] = useState({});
     const [loading, setLoading] = useState(true);
@@ -68,9 +68,6 @@ const Settings = () => {
 
     return (
         <div className="wap-settings">
-            {/* Export/Import Settings - Only available in Pro version */}
-            {isProActive && ExportImportSettings && <ExportImportSettings />}
-
             {/* General Statement Section */}
             <StatementSetting />
 

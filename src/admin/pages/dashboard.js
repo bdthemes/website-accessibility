@@ -119,6 +119,7 @@ const Dashboard = () => {
 
     const stats = [
         {
+            cardKey: 'presets',
             title: __('Active Presets', 'website-accessibility'),
             value: activePresetsCount,
             description: __('Presets help you quickly apply accessibility settings across your website.', 'website-accessibility'),
@@ -126,6 +127,7 @@ const Dashboard = () => {
             action: viewAllBtn('website-accessibility-presets'),
         },
         {
+            cardKey: 'profiles',
             title: __('Custom Profiles', 'website-accessibility'),
             value: profilesCount,
             description: __('Create profiles for different user needs and preferences.', 'website-accessibility'),
@@ -133,6 +135,7 @@ const Dashboard = () => {
             action: viewAllBtn('website-accessibilityfiles'),
         },
         {
+            cardKey: 'preferences',
             title: __('Saved Preferences', 'website-accessibility'),
             value: `${statsData.users_with_data || 0}/${statsData.total_users || 0}`,
             description: __('Users who have saved their accessibility preferences.', 'website-accessibility'),
@@ -180,7 +183,7 @@ const Dashboard = () => {
                 <WapRow gutter={[12, 12]} align="stretch" className="statistics-grid wap-statistics-grid">
                     {stats.map((stat) => (
                         <WapCol xs={24} md={8} key={stat.title} className="stat-card">
-                            <WapCard className="wap-settings-row wap-dashboard-stat-card" size="small">
+                            <WapCard className={`wap-settings-row wap-dashboard-stat-card wap-dashboard-stat-card--${stat.cardKey || 'default'}`} size="small">
                                 <div className="stat-icon-wrapper">
                                     {stat.icon}
                                     <div className="stat-content">

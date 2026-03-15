@@ -30,6 +30,12 @@
         }
     }
 
+    .wap-dashboard-svg-icon {
+        svg {
+            display: block;
+        }
+    }
+
     // Welcome row — same as Presets header: grid, tight padding
     .wap-welcome-card--simple {
         margin-bottom: 12px !important;
@@ -115,21 +121,39 @@
 
             .dashicons,
             .wap-dashboard-svg-icon {
-                border-radius: 8px;
-                padding: 6px;
-                width: 28px;
-                height: 28px;
+                border-radius: 50%;
+                padding: 0;
+                width: 40px;
+                height: 40px;
                 display: inline-flex;
                 align-items: center;
                 justify-content: center;
-                color: #4b5563;
-                background: #f3f4f6;
                 flex-shrink: 0;
 
                 svg {
                     display: block;
+                    width: 20px;
+                    height: 20px;
                 }
             }
+        }
+
+        // Meaningful icon bg + color per card
+        .wap-dashboard-stat-card--presets .stat-icon-wrapper .wap-dashboard-svg-icon {
+            background: #dbeafe;
+            color: #2563eb;
+        }
+        .wap-dashboard-stat-card--profiles .stat-icon-wrapper .wap-dashboard-svg-icon {
+            background: #dcfce7;
+            color: #16a34a;
+        }
+        .wap-dashboard-stat-card--preferences .stat-icon-wrapper .wap-dashboard-svg-icon {
+            background: #fef3c7;
+            color: #d97706;
+        }
+        .wap-dashboard-stat-card--default .stat-icon-wrapper .wap-dashboard-svg-icon {
+            background: #f1f5f9;
+            color: #475569;
         }
 
         // View All + button: SVG aligns with label
@@ -213,7 +237,7 @@
 
     .ant-alert {
         border: 1px solid #eef0f2;
-        background: #fff;
+        background: rgba(94, 167, 255, 0.09);
         border-radius: 10px;
         padding: 14px 16px;
     }

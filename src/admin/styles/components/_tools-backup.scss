@@ -1,0 +1,112 @@
+// Tools & Backup page — header card (same design as Custom Profiles) + two cards (Export + Import)
+.wap-tools-backup {
+    > .wap-settings-row:first-child {
+        margin-top: 0 !important;
+    }
+
+    // Header card — same structure as .wap-profiles-header / Custom Profiles
+    .wap-tools-header {
+        .ant-card-body {
+            display: block;
+            padding: 16px 18px !important;
+        }
+
+        .wap-tools-header__inner {
+            display: grid;
+            grid-template-columns: minmax(0, 1fr) auto;
+            align-items: center;
+            gap: 16px 20px;
+            width: 100%;
+
+            @media (max-width: 576px) {
+                grid-template-columns: 1fr;
+            }
+        }
+    }
+
+    .wap-tools-backup__cards {
+        display: grid;
+        grid-template-columns: repeat(2, 1fr);
+        gap: 20px;
+
+        @media (max-width: 768px) {
+            grid-template-columns: 1fr;
+        }
+    }
+
+    .wap-tools-card {
+        display: flex;
+        flex-direction: column;
+        align-items: flex-start;
+        padding: 24px !important;
+        border-radius: 10px;
+        border: 1px solid #eef0f2;
+        box-shadow: none !important;
+
+        .ant-card-body {
+            padding: 0 !important;
+            width: 100%;
+        }
+
+        .wap-tools-card__icon {
+            width: 48px;
+            height: 48px;
+            border-radius: 10px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin-bottom: 16px;
+
+            svg {
+                display: block;
+            }
+        }
+
+        .wap-tools-card__icon--export {
+            background: #e6f4ff;
+            color: #1890ff;
+        }
+
+        .wap-tools-card__icon--import {
+            background: #f6ffed;
+            color: #52c41a;
+        }
+
+        .wap-tools-card__title {
+            margin: 0 0 8px !important;
+            font-size: 16px;
+            font-weight: 600;
+            color: rgba(0, 0, 0, 0.88);
+        }
+
+        .wap-tools-card__desc {
+            margin: 0 0 20px;
+            font-size: 13px;
+            line-height: 1.5;
+            color: rgba(0, 0, 0, 0.65);
+            flex: 1;
+        }
+
+        .wap-tools-card__btn {
+            margin-top: 20px;
+            min-width: 140px;
+
+            &.wap-tools-card__btn--import {
+                border-color: #52c41a;
+                color: #52c41a;
+
+                &:hover {
+                    color: #73d13d;
+                    border-color: #73d13d;
+                    background: #f6ffed;
+                }
+            }
+        }
+    }
+
+    .wap-tools-backup__pro-required {
+        .ant-card-body {
+            padding: 20px 18px !important;
+        }
+    }
+}

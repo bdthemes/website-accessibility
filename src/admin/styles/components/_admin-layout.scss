@@ -2,7 +2,7 @@
 .wap-admin-layout {
 	min-height: calc(100vh - 100px);
     background: #f8fafc;
-	max-width: 1300px;
+	max-width: 1200px;
 	margin: 0 auto;
 	border-radius: 10px;
 	overflow: hidden;
@@ -33,11 +33,10 @@
 
 	.wap-admin-header-icon {
 		svg {
-			width: 50px;
-			height: 50px;
+			width: 60px;
+			height: 60px;
 			display: block;
 		}
-
 	}
 
 	.wap-admin-header-brand {
@@ -51,24 +50,24 @@
 		.wap-admin-header-title {
 			margin: 0;
 			padding: 0;
-			font-size: 22px;
-			font-weight: 600;
+			font-size: 24px;
+			font-weight: 700;
 			color: rgba(0, 0, 0, 0.88);
 		}
 
 		.wap-admin-header-version {
 			display: inline-block;
-			padding: 2px 8px;
+			padding: 5px 10px;
 			font-size: 12px;
-			color: rgb(0 0 0 / 67%);
-			background: #f5f5f5;
-			border-radius: 10px;
+			color: rgba(0, 0, 0, 0.67);
+			background: #e9e9e9;
+			border-radius: 30px;
 			font-weight: 700;
 		}
 
 		.wap-admin-header-tagline {
 			margin: 0;
-			font-size: 13px;
+			font-size: 14px;
 			color: rgba(0, 0, 0, 0.598);
 			line-height: 1.4;
 		}
@@ -83,6 +82,7 @@
 			color: rgba(0, 0, 0, 0.68);
 			text-decoration: none;
 			transition: color 0.2s;
+			font-weight: 600;
 
 			.wap-admin-header-help-icon {
 				display: inline-flex;
@@ -108,6 +108,7 @@
 	background: #fff !important;
 	border: 1px solid #f0f0f0;
 	border-radius: 10px;
+	min-height: calc(100vh - 100px);
 
 	.ant-menu-item-group {
 		margin-bottom: 18px;
@@ -146,7 +147,16 @@
 		}
 	}
 
-	.ant-menu-item:hover:not(.ant-menu-item-selected),
+	.ant-menu-item-disabled {
+		opacity: 0.6;
+		cursor: not-allowed;
+
+		&:hover {
+			background: transparent !important;
+		}
+	}
+
+	.ant-menu-item:hover:not(.ant-menu-item-selected):not(.ant-menu-item-disabled),
 	.ant-menu-submenu-title:hover {
 		background: rgba(0, 0, 0, 0.04);
 		color: rgba(0, 0, 0, 0.88);
@@ -173,6 +183,8 @@
 		svg {
 			display: block;
 			flex-shrink: 0;
+			width: 20px;
+			height: 20px;
 		}
 	}
 
@@ -454,6 +466,13 @@
 	border-radius: 0 10px 10px 0;
 	overflow: hidden;
 	padding: 0 !important;
+}
+
+// Edit/create/preview pages (with back button): sidebar hidden so content uses full width
+.wap-admin-layout--no-sidebar {
+	.wap-admin-main-column {
+		border-radius: 10px;
+	}
 }
 
 .wap-admin-footer.ant-layout-footer {
