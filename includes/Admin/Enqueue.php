@@ -63,6 +63,8 @@ class Enqueue {
                 'websacAdmin',
                 [
                     'version'           => WEBSAC_VERSION,
+                    'apiUrl'            => rest_url(),
+                    'nonce'             => wp_create_nonce('wp_rest'),
                     'isProActive'       => $is_pro_active,
                     'isProPluginActive' => $is_pro_plugin_active,
                     'isLicenseValid'    => $is_license_valid,

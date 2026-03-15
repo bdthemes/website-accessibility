@@ -12,7 +12,7 @@ import CreateProfiles from './create-profiles';
 import EditProfile from './edit-profile';
 import Settings from './settings';
 import UsageStatistics from '../components/usage-statistics';
-
+import LicenseManager from '../components/License/LicenseManager';
 
 const Pages = () => {
     const location = useLocation();
@@ -51,6 +51,8 @@ const Pages = () => {
                 return <CreatePreset />;
             case 'website-accessibility-settings':
                 return <Settings />;
+            case 'website-accessibility-license':
+                return <LicenseManager pluginName="One Accessibility" />;
             default:
                 return <Dashboard />;
         }
