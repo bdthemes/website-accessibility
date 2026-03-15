@@ -53,15 +53,12 @@ const Pages = () => {
                 return <CreatePreset />;
             case 'website-accessibility-settings':
                 return <Settings />;
-<<<<<<< HEAD
             case 'website-accessibility-tools':
                 return <ToolsBackup />;
             case 'website-accessibility-about':
                 return <AboutInfo />;
-=======
             case 'website-accessibility-license':
                 return <LicenseManager pluginName="One Accessibility" />;
->>>>>>> license/added
             default:
                 return <Dashboard />;
         }
