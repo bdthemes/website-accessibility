@@ -11,6 +11,8 @@ import Profiles from './profiles';
 import CreateProfiles from './create-profiles';
 import EditProfile from './edit-profile';
 import Settings from './settings';
+import ToolsBackup from './tools-backup';
+import AboutInfo from './about-info';
 import UsageStatistics from '../components/usage-statistics';
 
 
@@ -51,6 +53,10 @@ const Pages = () => {
                 return <CreatePreset />;
             case 'website-accessibility-settings':
                 return <Settings />;
+            case 'website-accessibility-tools':
+                return <ToolsBackup />;
+            case 'website-accessibility-about':
+                return <AboutInfo />;
             default:
                 return <Dashboard />;
         }

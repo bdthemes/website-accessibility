@@ -9,7 +9,8 @@ import {
 	IconPresets,
 	IconProfiles,
 	IconSettings,
-	IconHelp,
+	IconTools,
+	IconInfo,
 } from './admin-menu-icons';
 
 const { Header, Sider, Content, Footer } = Layout;
@@ -25,10 +26,6 @@ const AdminLayout = ({ children }) => {
 	const currentPage = location?.params?.page || 'website-accessibility';
 
 	const handleMenuClick = ({ key }) => {
-		if (key === 'websac-help') {
-			window.open(HELP_URL, '_blank');
-			return;
-		}
 		history.push({ page: key });
 	};
 
@@ -40,7 +37,8 @@ const AdminLayout = ({ children }) => {
 	];
 
 	const supportItems = [
-		{ key: 'websac-help', icon: <IconHelp />, label: __('Help & Support', 'website-accessibility') },
+		{ key: 'website-accessibility-tools', icon: <IconTools />, label: __('Tools & Backup', 'website-accessibility') },
+		{ key: 'website-accessibility-about', icon: <IconInfo />, label: __('About & Info', 'website-accessibility') },
 	];
 
 	const menuItems = [
@@ -56,6 +54,16 @@ const AdminLayout = ({ children }) => {
 		},
 	];
 
+	// Pages that show a back button (edit/create/preview) — hide sidebar for more space
+	const backButtonPages = [
+		'website-accessibility-presets-edit',
+		'website-accessibility-presets-create',
+		'website-accessibility-presets-preview',
+		'website-accessibilityfiles-edit',
+		'website-accessibilityfiles-create',
+	];
+	const hideSidebar = backButtonPages.includes(currentPage);
+
 	// For sub-pages (edit, create, preview) highlight the parent menu
 	const selectedKey = ['website-accessibility-presets-edit', 'website-accessibility-presets-create', 'website-accessibility-presets-preview'].includes(currentPage)
 		? 'website-accessibility-presets'
@@ -64,7 +72,7 @@ const AdminLayout = ({ children }) => {
 			: currentPage;
 
 	return (
-		<Layout className="wap-admin-layout">
+		<Layout className={`wap-admin-layout${hideSidebar ? ' wap-admin-layout--no-sidebar' : ''}`}>
 			<Header className="wap-admin-header">
 				<div className="wap-admin-header-left">
 					<span className="wap-admin-header-icon">
@@ -146,7 +154,8 @@ const AdminLayout = ({ children }) => {
 				</div>
 			</Header>
 			<Layout>
-				<Sider width={260} className="wap-admin-sider" theme="light">
+				{!hideSidebar && (
+				<Sider width={280} className="wap-admin-sider" theme="light">
 					<Menu
 						mode="inline"
 						selectedKeys={[selectedKey]}
@@ -275,6 +284,7 @@ const AdminLayout = ({ children }) => {
 						</div>
 					)}
 				</Sider>
+				)}
 				<Layout className="wap-admin-main-column">
 					<Content className="wap-admin-content">
 						{children}

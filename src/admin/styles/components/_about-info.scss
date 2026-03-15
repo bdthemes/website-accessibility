@@ -1,0 +1,184 @@
+// About & Info page — header + System Information + About section
+.wap-about-info {
+    > .wap-settings-row:first-child {
+        margin-top: 0 !important;
+    }
+
+    .wap-about-info-header {
+        margin-bottom: 0 !important;
+
+        .ant-card-body {
+            display: block;
+            padding: 16px 18px !important;
+        }
+
+        .wap-about-info-header__inner {
+            display: grid;
+            grid-template-columns: minmax(0, 1fr) auto;
+            align-items: center;
+            width: 100%;
+        }
+    }
+
+    .wap-about-info__section {
+        margin-top: 24px;
+
+        &:first-of-type {
+            margin-top: 24px;
+        }
+    }
+
+    .wap-about-info__section-title {
+        margin: 0 0 4px !important;
+        font-size: 16px;
+        font-weight: 600;
+        color: #1f2937;
+    }
+
+    .wap-about-info__section-desc,
+    .wap-about-info__about-desc {
+        margin: 0 0 16px;
+        font-size: 13px;
+        line-height: 1.5;
+        color: #6b7280;
+        display: block;
+    }
+
+    .wap-about-info__about-desc {
+        margin-bottom: 20px;
+    }
+
+    .wap-about-info__loading {
+        padding: 20px 0;
+        font-size: 14px;
+        color: #6b7280;
+    }
+
+    // Stat cards row (Plugin Version, Presets, Profiles, Max Upload)
+    .wap-about-info__stats {
+        display: grid;
+        grid-template-columns: repeat(4, 1fr);
+        gap: 16px;
+        margin-bottom: 24px;
+
+        @media (max-width: 900px) {
+            grid-template-columns: repeat(2, 1fr);
+        }
+
+        @media (max-width: 480px) {
+            grid-template-columns: 1fr;
+        }
+    }
+
+    .wap-about-info-stat {
+        padding: 16px;
+        border-radius: 10px;
+        border: 1px solid rgba(0, 0, 0, 0.06);
+        background: #fff;
+        display: flex;
+        flex-direction: column;
+        gap: 6px;
+
+        &__label {
+            font-size: 11px;
+            font-weight: 600;
+            letter-spacing: 0.04em;
+            color: rgba(0, 0, 0, 0.5);
+            text-transform: uppercase;
+        }
+
+        &__value {
+            font-size: 18px;
+            font-weight: 700;
+            color: rgba(0, 0, 0, 0.88);
+            line-height: 1.2;
+        }
+
+        &--purple {
+            background: linear-gradient(135deg, #f5f3ff 0%, #ede9fe 100%);
+            border-color: rgba(139, 92, 246, 0.2);
+            .wap-about-info-stat__value { color: #6d28d9; }
+        }
+
+        &--blue {
+            background: linear-gradient(135deg, #eff6ff 0%, #dbeafe 100%);
+            border-color: rgba(59, 130, 246, 0.2);
+            .wap-about-info-stat__value { color: #1d4ed8; }
+        }
+
+        &--green {
+            background: linear-gradient(135deg, #f0fdf4 0%, #dcfce7 100%);
+            border-color: rgba(34, 197, 94, 0.2);
+            .wap-about-info-stat__value { color: #15803d; }
+        }
+
+        &--orange {
+            background: linear-gradient(135deg, #fff7ed 0%, #ffedd5 100%);
+            border-color: rgba(249, 115, 22, 0.2);
+            .wap-about-info-stat__value { color: #c2410c; }
+        }
+    }
+
+    // System details list (WordPress, PHP, MySQL)
+    .wap-about-info__details {
+        display: flex;
+        flex-direction: column;
+        gap: 10px;
+        padding: 16px 0;
+    }
+
+    .wap-about-info-detail {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        padding: 10px 0;
+        border-bottom: 1px solid #f0f0f0;
+        font-size: 14px;
+
+        &:last-child {
+            border-bottom: 0;
+        }
+
+        &__label {
+            color: rgba(0, 0, 0, 0.65);
+            font-weight: 500;
+        }
+
+        &__value {
+            color: rgba(0, 0, 0, 0.88);
+            font-family: monospace;
+            font-size: 13px;
+        }
+    }
+
+    // Documentation + Support buttons
+    .wap-about-info__actions {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 12px;
+    }
+
+    .wap-about-info__btn {
+        display: inline-flex;
+        align-items: center;
+        gap: 8px;
+        min-height: 40px;
+
+        .wap-about-info__btn-icon {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+
+            svg {
+                display: block;
+            }
+        }
+    }
+
+    .wap-about-info__section {
+        background: #fff;
+        padding: 20px;
+        border-radius: 10px;
+        border: 1px solid #f5f5f6;
+    }
+}
