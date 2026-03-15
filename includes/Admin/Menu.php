@@ -93,6 +93,15 @@ class Menu
             'website-accessibility-about',
             [$this, 'render_menu_page']
         );
+        
+        add_submenu_page(
+            'website-accessibility',
+            __('License', 'website-accessibility'),
+            __('License', 'website-accessibility'),
+            'manage_options',
+            'website-accessibility-license',
+            [$this, 'render_menu_page']
+        );
 
         // Add BFCM Deal Menu
         $license = null;

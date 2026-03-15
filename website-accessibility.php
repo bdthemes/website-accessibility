@@ -68,6 +68,9 @@ final class WebsiteAccessibility
 	{
 		define('WEBSAC_VERSION', self::VERSION);
 		define('WEBSAC_NAME', 'One Accessibility');
+		define('WEBSAC_PLUGIN_FILE', __FILE__);
+		define('WEBSA_PLUGIN_FILE', __FILE__);
+		define('PLUGIN_FILE', __FILE__);
 		define('WEBSAC_URL', trailingslashit(plugin_dir_url(__FILE__)));
 		define('WEBSAC_DIR', trailingslashit(plugin_dir_path(__FILE__)));
 		define('WEBSAC_INCLUDES_DIR', WEBSAC_DIR . 'includes/');
@@ -203,6 +206,11 @@ final class WebsiteAccessibility
 	\bdthemes\websiteaccessibility\Routes\SettingsRouteV1::get_instance();
 	\bdthemes\websiteaccessibility\Routes\UsageStatisticsRouteV1::get_instance();
 	\bdthemes\websiteaccessibility\Routes\SystemInfoRouteV1::get_instance();
+	
+	// Initialize the license controller
+	\bdthemes\websiteaccessibility\Admin\License\LicenseController::get_instance();
+	\bdthemes\websiteaccessibility\Admin\License\LicenseBase::get_instance(WEBSAC_PLUGIN_FILE);
+
 	}
 
 	/**

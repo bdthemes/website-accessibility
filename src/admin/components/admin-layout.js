@@ -34,6 +34,7 @@ const AdminLayout = ({ children }) => {
 		{ key: 'website-accessibility-presets', icon: <IconPresets />, label: __('Presets', 'website-accessibility') },
 		{ key: 'website-accessibilityfiles', icon: <IconProfiles />, label: __('Custom Profiles', 'website-accessibility') },
 		{ key: 'website-accessibility-settings', icon: <IconSettings />, label: __('Settings', 'website-accessibility') },
+		{ key: 'website-accessibility-license', icon: <IconSettings />, label: __('License', 'website-accessibility') },
 	];
 
 	const isProPluginActive = typeof window !== 'undefined' && window.websacAdmin?.isProPluginActive;

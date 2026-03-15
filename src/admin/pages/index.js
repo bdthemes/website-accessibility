@@ -14,7 +14,7 @@ import Settings from './settings';
 import ToolsBackup from './tools-backup';
 import AboutInfo from './about-info';
 import UsageStatistics from '../components/usage-statistics';
-
+import LicenseManager from '../components/License/LicenseManager';
 
 const Pages = () => {
     const location = useLocation();
@@ -53,10 +53,15 @@ const Pages = () => {
                 return <CreatePreset />;
             case 'website-accessibility-settings':
                 return <Settings />;
+<<<<<<< HEAD
             case 'website-accessibility-tools':
                 return <ToolsBackup />;
             case 'website-accessibility-about':
                 return <AboutInfo />;
+=======
+            case 'website-accessibility-license':
+                return <LicenseManager pluginName="One Accessibility" />;
+>>>>>>> license/added
             default:
                 return <Dashboard />;
         }
