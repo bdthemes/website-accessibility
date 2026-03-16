@@ -47,14 +47,10 @@ class Enqueue {
 
             wp_set_script_translations('website-accessibility-admin', 'website-accessibility', WEBSAC_DIR . 'languages/');
 
-            $is_pro_plugin_active = class_exists('\bdthemes\websiteaccessibilitypro\Admin\License');
             $is_license_valid       = false;
-            if ($is_pro_plugin_active) {
-                $license = \bdthemes\websiteaccessibilitypro\Admin\License::get_instance();
-                $is_license_valid = method_exists($license, 'is_license_valid') ? $license->is_license_valid() : false;
+            if (class_exists('\bdthemes\websiteaccessibilitypro\Admin\License\LicenseHelper')) {
+                $is_license_valid = \bdthemes\websiteaccessibilitypro\Admin\License\LicenseHelper::is_license_active();
             }
-            // Backward compat: isProActive = license valid (unlocks features)
-            $is_pro_active = $is_license_valid;
 
             $license_page_url = admin_url('admin.php?page=website-accessibility-pro_license');
 
@@ -65,8 +61,7 @@ class Enqueue {
                     'version'           => WEBSAC_VERSION,
                     'apiUrl'            => rest_url(),
                     'nonce'             => wp_create_nonce('wp_rest'),
-                    'isProActive'       => $is_pro_active,
-                    'isProPluginActive' => $is_pro_plugin_active,
+                    'isProPluginActive' => function_exists('website_accessibility_pro'),
                     'isLicenseValid'    => $is_license_valid,
                     'licensePageUrl'    => $license_page_url,
                     'proUpgradeUrl'     => 'https://oneaccessibility.com#pricing',

@@ -20,6 +20,8 @@ const BDTHEMES_URL = 'https://bdthemes.com';
 const PLUGIN_VERSION = typeof window !== 'undefined' && window.websacAdmin?.version ? window.websacAdmin.version : '1.2.7';
 const HELP_URL = 'https://bdthemes.com/contact/';
 
+const IS_PRO_PLUGIN_ACTIVE = typeof window !== 'undefined' && !!window.websacAdmin?.isProPluginActive;
+
 const AdminLayout = ({ children }) => {
 	const location = useLocation();
 	const history = useHistory();
@@ -34,8 +36,8 @@ const AdminLayout = ({ children }) => {
 		{ key: 'website-accessibility-presets', icon: <IconPresets />, label: __('Presets', 'website-accessibility') },
 		{ key: 'website-accessibilityfiles', icon: <IconProfiles />, label: __('Custom Profiles', 'website-accessibility') },
 		{ key: 'website-accessibility-settings', icon: <IconSettings />, label: __('Settings', 'website-accessibility') },
-		{ key: 'website-accessibility-license', icon: <IconSettings />, label: __('License', 'website-accessibility') },
-	];
+		IS_PRO_PLUGIN_ACTIVE ? { key: 'website-accessibility-license', icon: <IconSettings />, label: __('License', 'website-accessibility') } : null,
+	].filter(Boolean);
 
 	const isProPluginActive = typeof window !== 'undefined' && window.websacAdmin?.isProPluginActive;
 	const isLicenseValid = typeof window !== 'undefined' && window.websacAdmin?.isLicenseValid;
