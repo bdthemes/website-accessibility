@@ -21,6 +21,7 @@ const Pages = () => {
     const page = location?.params?.page;
     const [settings, setSettings] = useState();
     const API_NAMESPACE = "/sigmally/v1/settings";
+    const isProPluginActive = typeof window !== 'undefined' && !!window.websacAdmin?.isProPluginActive;
 
     const fetchSettings = async () => {
         try {
@@ -58,11 +59,11 @@ const Pages = () => {
             case 'website-accessibility-about':
                 return <AboutInfo />;
             case 'website-accessibility-license':
-                return <LicenseManager pluginName="One Accessibility" />;
+                return isProPluginActive ? <LicenseManager pluginName="One Accessibility" /> : <Dashboard />;
             default:
                 return <Dashboard />;
         }
-    }, [page]);
+    }, [page, isProPluginActive]);
 
     useEffect(() => {
         const subMenuItems = document.querySelectorAll('.toplevel_page_website-accessibility ul li');
