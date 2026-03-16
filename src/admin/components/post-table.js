@@ -12,6 +12,7 @@ import { useState } from '@wordpress/element';
  * @param {function} onSearch - Optional search handler
  * @param {object} rowSelectionProps - Optional row selection props
  * @param {object} statusMap - Optional status color/label map
+ * @param {React.ReactNode} extra - Optional node on the right of the toolbar (e.g. Add button)
  */
 
 const PostTable = ({
@@ -23,6 +24,7 @@ const PostTable = ({
   pagination = { pageSize: 10 },
   onSearch,
   rowSelectionProps = {},
+  extra = null,
 }) => {
   const { WapInput, WapTable, WapButton, WapDropdown, WapSpace } = window?.wapComponents;
   const [selectedRowKeys, setSelectedRowKeys] = useState([]);
@@ -88,7 +90,9 @@ const PostTable = ({
 
   return (
     <div>
-      <WapSpace className="wap-post-table__searchbar">
+      <div className="wap-post-table__toolbar">
+        <div className="wap-post-table__search-wrap">
+        <WapSpace className="wap-post-table__searchbar" size="middle" wrap>
         <WapInput
           placeholder="Search posts"
           value={searchText}
@@ -118,6 +122,9 @@ const PostTable = ({
           </WapDropdown>
         )}
       </WapSpace>
+        </div>
+        {extra ? <div className="wap-post-table__extra">{extra}</div> : null}
+      </div>
       <WapTable
         rowSelection={rowSelection}
         columns={extendedColumns}

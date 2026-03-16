@@ -78,11 +78,7 @@ const StatementSetting = () => {
     };
 
     return (
-        <WapCard
-            style={{
-                marginTop: 20,
-            }}
-        >
+        <WapCard className="wap-settings-row">
             <WapSpace
                 align="start"
                 style={{

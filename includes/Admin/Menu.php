@@ -73,6 +73,36 @@ class Menu
             [$this, 'render_menu_page']
         );
 
+        // Tools & Backup — only when Pro plugin is active
+        if (class_exists('\bdthemes\websiteaccessibilitypro\Admin\License')) {
+            add_submenu_page(
+                'website-accessibility',
+                __('Tools & Backup', 'website-accessibility'),
+                __('Tools & Backup', 'website-accessibility'),
+                'manage_options',
+                'website-accessibility-tools',
+                [$this, 'render_menu_page']
+            );
+        }
+
+        add_submenu_page(
+            'website-accessibility',
+            __('About & Info', 'website-accessibility'),
+            __('About & Info', 'website-accessibility'),
+            'manage_options',
+            'website-accessibility-about',
+            [$this, 'render_menu_page']
+        );
+        
+        add_submenu_page(
+            'website-accessibility',
+            __('License', 'website-accessibility'),
+            __('License', 'website-accessibility'),
+            'manage_options',
+            'website-accessibility-license',
+            [$this, 'render_menu_page']
+        );
+
         // Add BFCM Deal Menu
         $license = null;
 		if (class_exists('\bdthemes\websiteaccessibilitypro\Admin\License')) {

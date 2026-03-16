@@ -1,5 +1,28 @@
-.wap-post-table__searchbar {
+// Toolbar: search left, actions right (same row as table top)
+.wap-post-table__toolbar {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    justify-content: space-between;
+    gap: 12px;
     margin-bottom: 16px;
+}
+
+.wap-post-table__search-wrap {
+    flex: 1;
+    min-width: 0;
+}
+
+.wap-post-table__extra {
+    display: flex;
+    align-items: center;
+    flex-shrink: 0;
+}
+
+.wap-post-table__searchbar {
+    margin-bottom: 0;
+    width: 100%;
+    max-width: 320px;
     .ant-input {
         min-height: unset !important;
         border: 0 !important;
@@ -22,4 +45,121 @@
     .ant-dropdown-trigger {
         height: 42px;
     }
+}
+
+// Presets page — header block + table card stack (matches Settings rows)
+.wap-presets {
+    > .wap-settings-row:first-child {
+        margin-top: 0 !important;
+    }
+
+    // Header: title left, Add New Preset button right (same pattern as Export/Import)
+    .wap-presets-header {
+        // Typography inherited from _create-preset .wap-header-card — reinforce if Ant wins
+        // .wap-header-card-title,
+        // h4.ant-typography.wap-header-card-title {
+        //     font-size: 14px !important;
+        //     font-weight: 600 !important;
+        //     color: #1f2937 !important;
+        // }
+
+        // .wap-header-card-description {
+        //     font-size: 13px !important;
+        //     color: #6b7280 !important;
+        // }
+
+        .ant-card-body {
+            display: block;
+            padding: 16px 18px !important;
+        }
+
+        .wap-presets-header__inner {
+            display: grid;
+            grid-template-columns: minmax(0, 1fr) auto;
+            align-items: center;
+            gap: 16px 20px;
+            width: 100%;
+
+            @media (max-width: 576px) {
+                grid-template-columns: 1fr;
+            }
+        }
+
+        .wap-presets-header__actions {
+            flex-shrink: 0;
+            justify-self: end;
+
+            @media (max-width: 576px) {
+                justify-self: start;
+            }
+
+            .ant-btn {
+                height: 40px;
+            }
+        }
+    }
+
+    .wap-presets-table-card {
+        box-shadow: none !important;
+
+        .ant-card-body {
+            padding: 16px 18px !important;
+        }
+    }
+}
+
+// Custom Profiles page — same layout as Presets: header + table card
+.wap-profiles {
+    > .wap-settings-row:first-child {
+        margin-top: 0 !important;
+    }
+
+    .wap-profiles-header {
+        .ant-card-body {
+            display: block;
+            padding: 16px 18px !important;
+        }
+
+        .wap-profiles-header__inner {
+            display: grid;
+            grid-template-columns: minmax(0, 1fr) auto;
+            align-items: center;
+            gap: 16px 20px;
+            width: 100%;
+
+            @media (max-width: 576px) {
+                grid-template-columns: 1fr;
+            }
+        }
+
+        .wap-profiles-header__actions {
+            flex-shrink: 0;
+            justify-self: end;
+
+            @media (max-width: 576px) {
+                justify-self: start;
+            }
+
+            .ant-btn {
+                height: 40px;
+            }
+        }
+    }
+
+    .wap-profiles-table-card {
+        box-shadow: none !important;
+
+        .ant-card-body {
+            padding: 16px 18px !important;
+        }
+    }
+}
+
+// Table column headers — smaller, calmer
+.wap-admin-pages .ant-table-thead > tr > th,
+.wap-presets .ant-table-thead > tr > th,
+.wap-profiles .ant-table-thead > tr > th {
+    font-size: 12px;
+    font-weight: 600;
+    padding: 10px 12px;
 }

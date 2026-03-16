@@ -11,8 +11,10 @@ import Profiles from './profiles';
 import CreateProfiles from './create-profiles';
 import EditProfile from './edit-profile';
 import Settings from './settings';
+import ToolsBackup from './tools-backup';
+import AboutInfo from './about-info';
 import UsageStatistics from '../components/usage-statistics';
-
+import LicenseManager from '../components/License/LicenseManager';
 
 const Pages = () => {
     const location = useLocation();
@@ -35,7 +37,6 @@ const Pages = () => {
 
     const RouteElement = useMemo(() => {
         switch (page) {
-
             case 'website-accessibilityfiles':
                 return <Profiles />;
             case 'website-accessibilityfiles-edit':
@@ -52,6 +53,12 @@ const Pages = () => {
                 return <CreatePreset />;
             case 'website-accessibility-settings':
                 return <Settings />;
+            case 'website-accessibility-tools':
+                return <ToolsBackup />;
+            case 'website-accessibility-about':
+                return <AboutInfo />;
+            case 'website-accessibility-license':
+                return <LicenseManager pluginName="One Accessibility" />;
             default:
                 return <Dashboard />;
         }
@@ -80,10 +87,13 @@ const Pages = () => {
                 <div className={clsx('wap-admin-page', { [page]: page })}>
                     {RouteElement}
                 </div>
-            </div>
-            {page === 'website-accessibility' && settings && settings?.show_usage_statistics && (
-                <UsageStatistics />
+                {page === 'website-accessibility' && settings && settings?.show_usage_statistics && (
+                    <div className="wap-admin-usage-statistics">
+                        <UsageStatistics />
+                    </div>
             )}
+            </div>
+
         </>
     );
 };
