@@ -2,7 +2,7 @@ import { useEffect, useState } from "@wordpress/element";
 import { EyeOutlined, EyeInvisibleOutlined, ReloadOutlined } from "@ant-design/icons";
 import { __ } from "@wordpress/i18n";
 
-const PanelHeader = ({ value, setIsOpen = () => {}, accessibilityContext, accessibilityDispatch }) => {
+const PanelHeader = ({ value, setIsOpen = () => { }, accessibilityContext, accessibilityDispatch }) => {
     const siteLanguage = window?.websiteAccessibility?.siteLanguage?.split("-")?.[0] || "en";
     const [openLanguageDropdown, setOpenLanguageDropdown] = useState(false);
     const [editorTranslationEnabled, setEditorTranslationEnabled] = useState(false);
@@ -181,37 +181,35 @@ const PanelHeader = ({ value, setIsOpen = () => {}, accessibilityContext, access
                             </WapTooltip>
                         )}
 
-                        {isTranslationEnabled && (
-                            <TranslationLanguageDropdown
-                                open={openLanguageDropdown}
-                                onOpenChange={setOpenLanguageDropdown}
-                                value={selectedLanguage}
-                                onChange={handleLanguageChange}
-                                dropdownWidth={panelWidth}
-                                portalTarget={headerElement}
-                                trigger={
-                                    <WapTooltip
+                        <TranslationLanguageDropdown
+                            open={openLanguageDropdown}
+                            onOpenChange={setOpenLanguageDropdown}
+                            value={selectedLanguage}
+                            onChange={handleLanguageChange}
+                            dropdownWidth={panelWidth}
+                            portalTarget={headerElement}
+                            trigger={
+                                <WapTooltip
+                                    title={__("Choose translation language", "website-accessibility")}
+                                    {...tooltipProps}
+                                >
+                                    <button
+                                        type="button"
+                                        className="wap-panel-customization__header-action-btn wap-panel-customization__header-action-btn--language"
                                         title={__("Choose translation language", "website-accessibility")}
-                                        {...tooltipProps}
                                     >
-                                        <button
-                                            type="button"
-                                            className="wap-panel-customization__header-action-btn wap-panel-customization__header-action-btn--language"
-                                            title={__("Choose translation language", "website-accessibility")}
-                                        >
-                                            {selectedLanguageData?.flag && (
-                                                <span className="wap-panel-customization__header-action-flag">
-                                                    {selectedLanguageData.flag}
-                                                </span>
-                                            )}
-                                            <span className="wap-panel-customization__header-action-language">
-                                                {getTranslationLanguageLabel(selectedLanguage)}
+                                        {selectedLanguageData?.flag && (
+                                            <span className="wap-panel-customization__header-action-flag">
+                                                {selectedLanguageData.flag}
                                             </span>
-                                        </button>
-                                    </WapTooltip>
-                                }
-                            />
-                        )}
+                                        )}
+                                        <span className="wap-panel-customization__header-action-language">
+                                            {getTranslationLanguageLabel(selectedLanguage)}
+                                        </span>
+                                    </button>
+                                </WapTooltip>
+                            }
+                        />
                     </>
                 )}
 
