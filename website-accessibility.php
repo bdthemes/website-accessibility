@@ -210,10 +210,7 @@ final class WebsiteAccessibility
 	\bdthemes\websiteaccessibility\Routes\SettingsRouteV1::get_instance();
 	\bdthemes\websiteaccessibility\Routes\UsageStatisticsRouteV1::get_instance();
 	\bdthemes\websiteaccessibility\Routes\SystemInfoRouteV1::get_instance();
-	
-	// Initialize the license controller
-	\bdthemes\websiteaccessibility\Admin\License\LicenseController::get_instance();
-	\bdthemes\websiteaccessibility\Admin\License\LicenseBase::get_instance(WEBSAC_PLUGIN_FILE);
+
 
 	}
 

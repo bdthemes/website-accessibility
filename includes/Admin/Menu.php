@@ -84,6 +84,17 @@ class Menu
                 [$this, 'render_menu_page']
             );
         }
+        
+        if (class_exists('\bdthemes\websiteaccessibilitypro\Admin\License\LicenseBase')) {
+            add_submenu_page(
+                'website-accessibility',
+                __('License', 'website-accessibility'),
+                __('License', 'website-accessibility'),
+                'manage_options',
+                'website-accessibility-license',
+                [$this, 'render_menu_page']
+            );
+        }
 
         add_submenu_page(
             'website-accessibility',
@@ -93,21 +104,6 @@ class Menu
             'website-accessibility-about',
             [$this, 'render_menu_page']
         );
-        
-        add_submenu_page(
-            'website-accessibility',
-            __('License', 'website-accessibility'),
-            __('License', 'website-accessibility'),
-            'manage_options',
-            'website-accessibility-license',
-            [$this, 'render_menu_page']
-        );
-
-        // Add BFCM Deal Menu
-        $license = null;
-		if (class_exists('\bdthemes\websiteaccessibilitypro\Admin\License')) {
-            $license = \bdthemes\websiteaccessibilitypro\Admin\License::get_instance();
-        }
 
         add_submenu_page(
             'website-accessibility-presets-create', // parent slug
