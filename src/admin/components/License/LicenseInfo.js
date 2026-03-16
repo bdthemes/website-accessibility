@@ -48,26 +48,20 @@ const LicenseInfo = ({
   };
 
   return (
-    <div className="bg-white border border-gray-100 rounded-lg">
-      {/* {showHeader && ( */}
-
+    <div className="wap-license-card">
       <LicenseHeader
         title={`${pluginName} License Info`}
         subtitle="Your license is active. View details and manage your subscription below."
       />
-      {/* // )} */}
-      <div className="p-6 space-y-4">
+      <div className="wap-license-info__body">
         {/* Status */}
-        <div className="pb-6 border-b border-gray-100">
-          <span className="block mb-2 text-sm font-medium text-gray-700">
-            Status
-          </span>
+        <div className="wap-license-info__row">
+          <span className="wap-license-info__label">Status</span>
           {is_valid ? (
-            <span className="inline-flex items-center gap-2 px-3 py-1 text-sm font-medium text-green-800 bg-green-100 rounded-lg">
+            <span className="wap-license-info__badge wap-license-info__badge--valid">
               <svg
+                className="wap-license-info__badge-icon"
                 xmlns="http://www.w3.org/2000/svg"
-                width="16"
-                height="16"
                 viewBox="0 0 24 24"
                 fill="none"
                 stroke="currentColor"
@@ -80,32 +74,28 @@ const LicenseInfo = ({
               Valid
             </span>
           ) : (
-            <span className="inline-flex items-center gap-2 px-3 py-1 text-sm font-medium text-red-800 bg-red-100 rounded-lg">
+            <span className="wap-license-info__badge wap-license-info__badge--invalid">
               Invalid
             </span>
           )}
         </div>
 
         {/* License Type */}
-        <div className="pb-6 border-b border-gray-100">
-          <span className="block mb-2 text-sm font-medium text-gray-700">
-            License Type
-          </span>
-          <span className="text-sm text-gray-900">{license_title}</span>
+        <div className="wap-license-info__row">
+          <span className="wap-license-info__label">License Type</span>
+          <span className="wap-license-info__value">{license_title}</span>
         </div>
 
         {/* License Expiry */}
-        <div className="pb-6 border-b border-gray-100">
-          <span className="block mb-2 text-sm font-medium text-gray-700">
-            License Expired on
-          </span>
-          <div className="flex items-center gap-3">
+        <div className="wap-license-info__row">
+          <span className="wap-license-info__label">License Expired on</span>
+          <div className="wap-license-info__expiry-row">
             <span
-              className={`text-sm ${
+              className={
                 isExpiringSoon(expire_date)
-                  ? "text-orange-600 font-medium"
-                  : "text-gray-900"
-              }`}
+                  ? "wap-license-info__value wap-license-info__value--expiring"
+                  : "wap-license-info__value"
+              }
             >
               {expire_date}
             </span>
@@ -114,7 +104,7 @@ const LicenseInfo = ({
                 href={expire_renew_link}
                 target="_blank"
                 rel="noopener noreferrer"
-                className="text-xs font-medium text-teal-900 hover:text-teal-950 hover:underline"
+                className="wap-license-info__renew-link"
               >
                 Renew License
               </a>
@@ -123,17 +113,15 @@ const LicenseInfo = ({
         </div>
 
         {/* Support Expiry */}
-        <div className="pb-6 border-b border-gray-100">
-          <span className="block mb-2 text-sm font-medium text-gray-700">
-            Support Expired on
-          </span>
-          <div className="flex items-center gap-3">
+        <div className="wap-license-info__row">
+          <span className="wap-license-info__label">Support Expired on</span>
+          <div className="wap-license-info__expiry-row">
             <span
-              className={`text-sm ${
+              className={
                 isExpiringSoon(support_end)
-                  ? "text-orange-600 font-medium"
-                  : "text-gray-900"
-              }`}
+                  ? "wap-license-info__value wap-license-info__value--expiring"
+                  : "wap-license-info__value"
+              }
             >
               {support_end}
             </span>
@@ -142,7 +130,7 @@ const LicenseInfo = ({
                 href={support_renew_link}
                 target="_blank"
                 rel="noopener noreferrer"
-                className="text-xs font-medium text-teal-900 hover:text-teal-950 hover:underline"
+                className="wap-license-info__renew-link"
               >
                 Renew Support
               </a>
@@ -151,45 +139,43 @@ const LicenseInfo = ({
         </div>
 
         {/* License Key */}
-        <div>
-          <span className="block mb-2 text-sm font-medium text-gray-700">
-            Your License Key
-          </span>
-          <code className="inline-block px-3 py-2 text-sm font-mono font-semibold text-gray-700 bg-gray-100 border border-gray-100 rounded-lg">
+        <div className="wap-license-info__row">
+          <span className="wap-license-info__label">Your License Key</span>
+          <code className="wap-license-info__key">
             {maskLicenseKey(license_key)}
           </code>
         </div>
       </div>
 
       {/* Actions */}
-      <div className=" p-6">
+      <div className="wap-license-info__actions">
         <button
           type="button"
           onClick={onDeactivate}
           disabled={isDeactivating}
-          className="min-w-[140px] px-6 py-2.5 bg-white hover:bg-gray-50 text-gray-700 text-sm font-medium border border-gray-300 rounded-lg transition-colors disabled:opacity-50 disabled:cursor-not-allowed flex items-center justify-center gap-2 cursor-pointer"
+          className="wap-license-info__btn"
         >
           {isDeactivating ? (
             <>
               <svg
-                className="animate-spin h-4 w-4"
+                className="wap-license-info__btn-spinner"
                 xmlns="http://www.w3.org/2000/svg"
                 fill="none"
                 viewBox="0 0 24 24"
               >
                 <circle
-                  className="opacity-25"
+                  style={{ opacity: 0.25 }}
                   cx="12"
                   cy="12"
                   r="10"
                   stroke="currentColor"
                   strokeWidth="4"
-                ></circle>
+                />
                 <path
-                  className="opacity-75"
+                  style={{ opacity: 0.75 }}
                   fill="currentColor"
                   d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"
-                ></path>
+                />
               </svg>
               Deactivating...
             </>
