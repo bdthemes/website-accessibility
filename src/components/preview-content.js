@@ -33,11 +33,13 @@ const PreviewContent = ({ panel, allProfiles, setIsOpen = () => { }, accessibili
             className={
                 clsx(
                     "wap-panel-customization__panel",
+                    "notranslate",
                     {
                         "wap-panel-customization__panel--oversized": isOverSized
                     }
                 )
             }
+            translate="no"
             style={{
                 '--panel-width': panel?.wrapper?.width && `${panel.wrapper.width}px`,
                 '--panel-background': panel?.wrapper?.background,

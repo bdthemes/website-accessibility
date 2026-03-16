@@ -87,6 +87,13 @@
 		font-size: 12px;
 	}
 
+	&-action-flag {
+		font-size: 16px;
+		line-height: 1;
+		display: inline-flex;
+		align-items: center;
+	}
+
 	&-close {
 		display: flex;
 		align-items: center;
@@ -121,7 +128,9 @@
 }
 
 .wap-translation-dropdown {
-	width: min(520px, calc(100vw - 32px));
+	width: 100%;
+	max-width: calc(100vw - 32px);
+	box-sizing: border-box;
 	padding: 16px;
 	background: #f5f7fc;
 	border-radius: 16px;
@@ -194,6 +203,14 @@
 		overflow: hidden;
 		text-overflow: ellipsis;
 	}
+}
+
+.wap-translation-dropdown-overlay {
+	position: absolute;
+	top: calc(100% + 10px);
+	right: 0;
+	z-index: 10000010 !important;
+	max-width: calc(100vw - 32px);
 }
 
 @media (max-width: 640px) {

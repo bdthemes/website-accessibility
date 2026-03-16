@@ -19,7 +19,8 @@ const PreviewButton = ({
       icon={icon}
       onClick={onClick}
       disabled={disabled}
-      className={`wap-preview-button ${className}`}
+      className={`wap-preview-button notranslate ${className}`}
+      translate="no"
       style={style}
       {...props}
     >

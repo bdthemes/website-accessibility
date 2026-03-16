@@ -77,7 +77,6 @@ window.wapComponents = {
     WapMessage,
     WapSwitch,
     WapTabs
-    
 }
 
 window.wapHelpers = {

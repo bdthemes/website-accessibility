@@ -16,9 +16,7 @@ class Migrations
     const DATA_SCHEMA_OPTION_KEY = 'websac_data_schema_version';
     const LATEST_DATA_SCHEMA_VERSION = 2;
 
-    private function __construct()
-    {
-    }
+    private function __construct(){}
 
     /**
      * Run pending migrations after plugin updates.

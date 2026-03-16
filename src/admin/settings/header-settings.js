@@ -5,7 +5,8 @@ import { STORE_NAME } from "../store";
 import ColorPicker from "../controls/color-picker";
 
 const ContentTab = ({ presetsFormData, setPresetsFormData }) => {
-    const { WapInput, WapSwitch } = window?.wapComponents;
+    const { WapInput, WapSwitch, WapBadge } = window?.wapComponents;
+    const isProActive = window?.websacPro?.isProActive || false;
     const { items } = presetsFormData?.panel || {};
     const headerItem = items?.find((item) => item.slug === "header");
     const attributes = headerItem?.attributes || {};
@@ -39,11 +40,15 @@ const ContentTab = ({ presetsFormData, setPresetsFormData }) => {
                 />
             </ControlWrapper>
 
-            <ControlWrapper label={__("Show Close Button", "website-accessibility")}>
-                <WapSwitch
-                    checked={attributes.showClose !== false}
-                    onChange={(checked) => updateAttr({ showClose: checked })}
-                />
+            <ControlWrapper label={__("Show Translator", "website-accessibility")} inline>
+                {isProActive ? (
+                    <WapSwitch
+                        checked={attributes.showTranslator !== false}
+                        onChange={(checked) => updateAttr({ showTranslator: checked })}
+                    />
+                ) : (
+                    <WapBadge color="gold" count={__("PRO", "website-accessibility")} />
+                )}
             </ControlWrapper>
         </>
     );
@@ -156,69 +161,6 @@ const StyleTab = ({ presetsFormData, setPresetsFormData }) => {
                                 { value: "line-through", label: "Line Through" },
                                 { value: "overline", label: "Overline" },
                             ]}
-                        />
-                    </ControlWrapper>
-                </>
-            )
-        },
-        {
-            key: "2",
-            label: __("Close Button", "website-accessibility"),
-            children: (
-                <>
-                    <ControlWrapper label={__("Background", "website-accessibility")}>
-                        <ColorPicker
-                            value={attributes.closeButtonBackground}
-                            onChange={(value) => updateAttr({ closeButtonBackground: value })}
-                        />
-                    </ControlWrapper>
-
-                    <ControlWrapper label={__("Color", "website-accessibility")}>
-                        <ColorPicker
-                            value={attributes.closeButtonColor}
-                            onChange={(value) => updateAttr({ closeButtonColor: value })}
-                        />
-                    </ControlWrapper>
-
-                    <ControlWrapper label={__("Size", "website-accessibility")}>
-                        <WapInput
-                            value={attributes?.closeButtonSize}
-                            onChange={(e) => updateAttr({ closeButtonSize: e.target.value })}
-                            placeholder="24px"
-                        />
-                    </ControlWrapper>
-
-                    <ControlWrapper label={__("Border", "website-accessibility")}>
-                        <WapInput
-                            value={attributes?.closeButtonBorder}
-                            onChange={(e) => updateAttr({ closeButtonBorder: e.target.value })}
-                            placeholder="1px solid #ff0000"
-                        />
-                    </ControlWrapper>
-
-                    <ControlWrapper label={__("Border Radius", "website-accessibility")}>
-                        <WapInput
-                            value={attributes.closeButtonBorderRadius}
-                            onChange={(e) =>
-                                updateAttr({ closeButtonBorderRadius: e.target.value })
-                            }
-                            placeholder="6px"
-                        />
-                    </ControlWrapper>
-
-                    <ControlWrapper label={__("Top", "website-accessibility")}>
-                        <WapInput
-                            value={attributes.closeButtonTop}
-                            onChange={(e) => updateAttr({ closeButtonTop: e.target.value })}
-                            placeholder="10px"
-                        />
-                    </ControlWrapper>
-
-                    <ControlWrapper label={__("Right", "website-accessibility")}>
-                        <WapInput
-                            value={attributes.closeButtonRight}
-                            onChange={(e) => updateAttr({ closeButtonRight: e.target.value })}
-                            placeholder="10px"
                         />
                     </ControlWrapper>
                 </>

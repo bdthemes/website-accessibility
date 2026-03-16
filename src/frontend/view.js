@@ -25,6 +25,11 @@ const View = () => {
         return footerAttribiutes?.activePreference || false;
     }, [currentPreset]);
 
+    const isTranslatorEnabled = useMemo(() => {
+        const headerAttributes = currentPreset?.panel?.items?.find((item) => item.slug === 'header')?.attributes;
+        return headerAttributes?.showTranslator !== false;
+    }, [currentPreset]);
+
     function validProfile(currentProfile) {
         if (!currentProfile?.id) return null;
 
@@ -279,13 +284,14 @@ const View = () => {
     if (!currentPreset) return null;
 
     return (
-        <div className="wap-accessibility-view">
+        <div className="wap-accessibility-view notranslate" translate="no">
 
             <PreviewButton
                 type="default"
                 text={currentPreset?.button?.buttonType !== 'icon' ? currentPreset?.button?.text : null}
                 icon={currentPreset?.button?.buttonType !== 'text' ? <Icon name={currentPreset?.button?.icon} /> : null}
                 className={clsx(
+                    'notranslate',
                     'wap-button-style-preset__preview-btn',
                     currentPreset?.button?.position,
                     currentPreset?.button?.buttonType && `wap-button-style-preset__preview-btn--${currentPreset?.button?.buttonType}`
@@ -313,8 +319,8 @@ const View = () => {
                     }
                 }}
                 placement={currentPreset?.panel?.wrapper?.position || "right"}
-                className={`wap-preset__preview-drawer wap-preset__preview-drawer--${currentPreset?.panel?.wrapper?.position || 'right'}`}
-                rootClassName={`wap-preset__preview-drawer-root wap-preset__preview-drawer-root--${currentPreset?.panel?.wrapper?.position || 'right'}`}
+                className={`wap-preset__preview-drawer notranslate wap-preset__preview-drawer--${currentPreset?.panel?.wrapper?.position || 'right'}`}
+                rootClassName={`wap-preset__preview-drawer-root notranslate wap-preset__preview-drawer-root--${currentPreset?.panel?.wrapper?.position || 'right'}`}
                 width={Number(currentPreset?.panel?.wrapper?.width) || 400}
             >
                 <PreviewContent
@@ -326,7 +332,11 @@ const View = () => {
                     accessibilityDispatch={dispatch}
                 />
             </WapDrawer>
-            <GoogleTranslateConsent showModal={settings?.show_translations_consent} translateSiteLang={settings?.force_translate_site_language} accessibilityContext={state} />
+            <GoogleTranslateConsent
+                showModal={settings?.show_translations_consent && isTranslatorEnabled}
+                translateSiteLang={settings?.force_translate_site_language}
+                accessibilityContext={state}
+            />
         </div>
     );
 };

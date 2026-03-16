@@ -9,13 +9,13 @@ const WidgetFeatures = ({
 	accessibilityContext,
 	accessibilityDispatch,
 }) => {
-	const {WapCard, WapRow, WapCol, WapBadge, WapTooltip} = window?.wapComponents;
+	const { WapCard, WapRow, WapCol, WapBadge, WapTooltip } = window?.wapComponents;
 	const { items } = value;
 	const featureItem = items.find((item) => item.slug === "features");
 	const attributes = featureItem?.attributes || {};
 	// Check if we're in frontend context
 	const isFrontend = !!accessibilityContext && !!accessibilityDispatch;
-	const { currentSettings, isOverSized } = accessibilityContext || {};
+	const { currentSettings } = accessibilityContext || {};
 
 	const features = useMemo(() => {
 		let allFeatures = window.wapHelpers?.features || [];
@@ -156,19 +156,8 @@ const WidgetFeatures = ({
 									lg={12}
 									xl={12}
 								>
-									{isActive && (
-										<span className="wap-widget-features-top-indicator wap-widget-features-top-indicator--active">
-											<svg width="16" height="16" viewBox="0 0 24 24" fill="none">
-												<path
-													d="M9 16.17L4.83 12l-1.42 1.41L9 19 21 7l-1.41-1.41z"
-													fill="currentColor"
-												/>
-											</svg>
-										</span>
-									)}
-
 									{isDummy && (
-										<WapBadge count={__("PRO", "website-accessibility")} color="gold" className="wap-widget-features-dummy"/>
+										<WapBadge count={__("PRO", "website-accessibility")} color="gold" className="wap-widget-features-dummy" />
 									)}
 
 									{feature?.description && (
@@ -208,18 +197,37 @@ const WidgetFeatures = ({
 										)}
 										{!attributes?.hideItemLabels && (
 											<span className="wap-widget-features__feature-label">
-												{feature.label}
+												{
+													(!isActive || !showSteps)  && feature?.label
+												}
+												{
+													isActive && currentAttribute && showSteps && currentAttribute?.name
+												}
 											</span>
 										)}
 									</div>
 
 									{showSteps && isActive && currentAttribute && (
 										<span className="wap-widget-features-bottom-indicator wap-widget-features-bottom-indicator--active">
-											<span className="wap-widget-features-bottom-indicator__text">
-												{currentAttribute.name}
-												<span className="wap-widget-features-bottom-indicator__step">
-													({currentStep}/{totalSteps})
-												</span>
+											<span className="wap-widget-features-bottom-indicator__step">
+												{
+													[
+														...Array(totalSteps).keys(),
+													].map((step) => {
+														return (
+															<span
+																key={step}
+																className={clsx(
+																	"wap-widget-features-bottom-indicator__step-item",
+																	{
+																		"wap-widget-features-bottom-indicator__step-item--active":
+																			step === currentStep,
+																	}
+																)}
+															/>
+														);
+													})
+												}
 											</span>
 										</span>
 									)}

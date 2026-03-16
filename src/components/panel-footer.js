@@ -21,18 +21,6 @@ const PanelFooter = ({ value, accessibilityContext, accessibilityDispatch }) => 
   const [hasSavedPreference, setHasSavedPreference] = useState(false);
   const [savePreference, setSavePreference] = useState();
   const [loadingPreference, setLoadingPreference] = useState(false);
-  const [showConsent, setShowConsent] = useState(false);
-  const { getCookie, removeCookie } = window.wapHelpers;
-
-  const isLanguageActive = useMemo(() => {
-    return value?.items?.find(item => item.slug === 'language')?.active || false;
-  }, []);
-
-  useEffect(() => {
-    const consent = getCookie("wapGoogleTranslateConsent");
-    setShowConsent(consent);
-  }, []);
-
   // ✅ Ant Design message
   const [messageApi, contextHolder] = WapMessage.useMessage();
 
@@ -126,12 +114,6 @@ const PanelFooter = ({ value, accessibilityContext, accessibilityDispatch }) => 
       content: __('All accessibility settings have been reset to default.', 'website-accessibility'),
       style: { marginBlockStart: 20 },
     });
-  };
-
-  const handleClearConsent = () => {
-    if (!isFrontend) return;
-    removeCookie('wapGoogleTranslateConsent');
-    window.location.reload();
   };
 
   // Save
@@ -253,20 +235,6 @@ const PanelFooter = ({ value, accessibilityContext, accessibilityDispatch }) => 
         >
           {resetBtnText}
         </WapButton>
-
-        {
-          (isProActive && showConsent && isLanguageActive) && (
-            <WapButton
-              className="wap-panel-footer__reset-btn"
-              type="primary"
-              size="large"
-              block
-              onClick={handleClearConsent}
-            >
-              {__('Clear consent', 'website-accessibility')}
-            </WapButton>
-          )
-        }
       </WapFlex>
 
       {(showBranding || showStatement) && (
