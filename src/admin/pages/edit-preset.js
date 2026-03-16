@@ -76,37 +76,39 @@ const EditPreset = () => {
 
   return (
     <div className="wap-preset-editor">
-      <WapCard className='wap-header-card'>
+      <div className="wap-preset-editor-content">
+        <WapCard className='wap-header-card'>
 
-        <Title level={2} className='wap-header-card-title'>
-          {__('Edit Preset', 'website-accessibility')}
-        </Title>
-        <WapButton
-          type="primary"
-          onClick={handleBack}
-          size='large'
-        >
-          <WapSpace>
-            <span className='dashicons dashicons-arrow-left-alt' />
-            {__('Back to Presets', 'website-accessibility')}
-          </WapSpace>
-        </WapButton>
+          <Title level={2} className='wap-header-card-title'>
+            {__('Edit Preset', 'website-accessibility')}
+          </Title>
+          <WapButton
+            type="primary"
+            onClick={handleBack}
+            size='large'
+          >
+            <WapSpace>
+              <span className='dashicons dashicons-arrow-left-alt' />
+              {__('Back to Presets', 'website-accessibility')}
+            </WapSpace>
+          </WapButton>
 
-      </WapCard>
+        </WapCard>
 
-      <WapSteps
-        current={current}
-        size="small"
-        className="wap-preset-steps"
-        style={{ padding: '24px 0', marginBottom: 24 }}
-        items={steps.map((step) => ({ title: step.title }))}
-        onChange={(value) => {
-          if (current === 0 && !presetsFormData?.title) return;
-          setCurrent(value);
-        }}
-      />
+        <WapSteps
+          current={current}
+          size="small"
+          className="wap-preset-steps"
+          style={{ padding: '24px 0', marginBottom: 24 }}
+          items={steps.map((step) => ({ title: step.title }))}
+          onChange={(value) => {
+            if (current === 0 && !presetsFormData?.title) return;
+            setCurrent(value);
+          }}
+        />
 
-      <StepContent />
+        <StepContent />
+      </div>
 
       {/* <Card className="wap-preset-form-actions-card" style={{ marginTop: 24 }}> */}
       <div className="wap-preset-form-actions" style={{ marginTop: 24 }}>
