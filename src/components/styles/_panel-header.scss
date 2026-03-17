@@ -128,15 +128,6 @@
 }
 
 .wap-translation-dropdown {
-	width: 100%;
-	max-width: calc(100vw - 32px);
-	box-sizing: border-box;
-	padding: 16px;
-	background: #f5f7fc;
-	border-radius: 16px;
-	border: 1px solid #dce4f5;
-	box-shadow: 0 16px 40px rgba(15, 36, 84, 0.22);
-
 	&__head {
 		margin-bottom: 12px;
 	}
@@ -149,6 +140,11 @@
 
 	&__search {
 		margin-bottom: 14px;
+		border-radius: 30px;
+		background: #eceff5;
+		border-color: #eceff5;
+		flex-direction: row-reverse;
+		padding: 0 12px 0 0;
 
 		.ant-input-affix-wrapper {
 			border-radius: 999px;
@@ -159,11 +155,12 @@
 	}
 
 	&__list {
-		max-height: 360px;
+		max-height: 400px;
 		overflow-y: auto;
 		display: grid;
 		grid-template-columns: repeat(2, minmax(0, 1fr));
 		gap: 10px;
+		padding-right: 6px;
 	}
 
 	&__item {
@@ -206,11 +203,20 @@
 }
 
 .wap-translation-dropdown-overlay {
-	position: absolute;
-	top: calc(100% + 10px);
-	right: 0;
-	z-index: 10000010 !important;
-	max-width: calc(100vw - 32px);
+    position: absolute;
+    top: calc(100% + 10px);
+    right: 16px;
+    z-index: 10000010 !important;
+    /* max-width: calc(100vw - 100px); */
+    left: 16px;
+    width: calc(min(100%, var(--panel-width, 400px)) - 32px) !important;
+    /* margin: 20px; */
+    box-sizing: border-box;
+    background: #fff;
+    padding: 16px;
+    /* z-index: 11111111; */
+    box-shadow: 0 16px 40px rgba(15, 36, 84, 0.22);
+	border-radius: 16px;
 }
 
 @media (max-width: 640px) {

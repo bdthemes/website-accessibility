@@ -1,16 +1,16 @@
 .wap-accessibility-profiles {
-	margin-bottom: 8px;
-	background: transparent;
 
-	.wap-accessibility-profiles__header,
-	.wap-accessibility-profiles__grid {
-		padding: 12px 24px;
-	}
+	background: #fff;
+	margin: 16px;
+	padding: 16px;
+	border-radius: 10px;
+	border: 1px solid #ebebeb;
 
 	&__header {
 		display: flex;
 		align-items: center;
 		gap: 12px;
+		margin-bottom: 10px;
 	}
 
 	&__header-icon {
@@ -34,35 +34,28 @@
 	}
 
 	&__item {
-		background: #fff;
-		border-radius: 6px;
+		background: #F1F3F8;
+		border-radius: 10px;
 		padding: 14px 10px;
 		display: flex;
 		align-items: center;
 		gap: 5px;
 		cursor: pointer;
-		transition: all 0.2s;
-		border: 1px solid #e5e7eb;
-
-		&:hover {
-			border-color: #1a4cd8;
-			box-shadow: 0 2px 8px rgba(26, 76, 216, 0.1);
-		}
 	}
 
 	&__item-icon {
 		line-height: 1;
 
 		svg {
-			width: 20px;
-			height: 20px;
+			width: 24px;
+			height: 24px;
 			color: #1a4cd8;
 			display: block;
 		}
 	}
 
 	&__item-label {
-		font-size: 13px;
+		font-size: 14px;
 		color: #222;
 		font-weight: 500;
 	}

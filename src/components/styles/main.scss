@@ -16,7 +16,7 @@
 
 .wap-panel-customization__panel {
 	width: min(100%, var(--panel-width, 400px));
-	background: var(--panel-background, #fff);
+	background: var(--panel-background, #F1F3F8);
 	border: var(--panel-border, none);
 	border-radius: var(--panel-border-radius, 6px);
 	box-shadow: var(--panel-box-shadow, 0 4px 24px rgba(0, 0, 0, 0.08));
@@ -101,7 +101,7 @@
 
 	input.ant-input {
 		min-height: 40px;
-		border: 1px solid #ddd;
+		border: none;
 		border-radius: 6px;
 		font-size: 13px;
 	}
