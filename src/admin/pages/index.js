@@ -6,7 +6,6 @@ import Dashboard from './dashboard';
 import CreatePreset from './create-preset';
 import Presets from './presets';
 import EditPreset from './edit-preset';
-import PreviewPreset from './preview-preset';
 import Profiles from './profiles';
 import CreateProfiles from './create-profiles';
 import EditProfile from './edit-profile';
@@ -44,8 +43,6 @@ const Pages = () => {
                 return <EditProfile />;
             case 'website-accessibilityfiles-create':
                 return <CreateProfiles />;
-            case 'website-accessibility-presets-preview':
-                return <PreviewPreset />;
             case 'website-accessibility-presets-edit':
                 return <EditPreset />;
             case 'website-accessibility-presets':

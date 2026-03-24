@@ -4,10 +4,11 @@ import { steps } from '../../utils';
 import { useDispatch, useSelect } from "@wordpress/data";
 import { DEFAULT_STATE, STORE_NAME } from "../store";
 import { useHistory } from '../router';
+import PresetEditorPreview from '../components/preset-editor-preview';
 
 
 const CreatePreset = () => {
-  const { WapCard, WapButton, WapSpace, WapTypography, WapSteps } = window?.wapComponents;
+  const { WapCard, WapButton, WapSpace, WapTypography } = window?.wapComponents;
   const [current, setCurrent] = useState(0);
   const { presetsFormData } = useSelect((select) => select(STORE_NAME).getPresetsFormData());
   const { setPresetsFormData, createPreset } = useDispatch(STORE_NAME);
@@ -32,6 +33,7 @@ const CreatePreset = () => {
 
   return (
     <div className="wap-preset-editor">
+      <PresetEditorPreview />
       <div className="wap-preset-editor-content">
         <WapCard className='wap-header-card'>
           <Title level={2} className='wap-header-card-title'>
@@ -48,18 +50,6 @@ const CreatePreset = () => {
             </WapSpace>
           </WapButton>
         </WapCard>
-
-        <WapSteps
-          current={current}
-          size="small"
-          className="wap-preset-steps"
-          style={{ padding: '24px 0', marginBottom: 24 }}
-          items={steps.map((step) => ({ title: step.title }))}
-          onChange={(value) => {
-            if(current === 0 && !presetsFormData?.title) return;
-            setCurrent(value);
-          }}
-        />
 
         <StepContent />
       </div>
@@ -103,7 +93,6 @@ const CreatePreset = () => {
           )}
         </WapSpace>
       </div>
-      {/* </Card> */}
     </div>
   );
 };

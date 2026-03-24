@@ -4,10 +4,11 @@ import { steps } from '../../utils';
 import { useDispatch, useSelect } from "@wordpress/data";
 import { STORE_NAME } from "../store";
 import { useHistory, useLocation } from '../router';
+import PresetEditorPreview from '../components/preset-editor-preview';
 
 
 const EditPreset = () => {
-  const { WapCard, WapButton, WapSpace, WapTypography, WapSteps } = window?.wapComponents;
+  const { WapCard, WapButton, WapSpace, WapTypography } = window?.wapComponents;
   const [current, setCurrent] = useState(0);
   const { updatePreset, saveEditedPreset, setPresetsFormData } = useDispatch(STORE_NAME);
   const history = useHistory();
@@ -76,6 +77,7 @@ const EditPreset = () => {
 
   return (
     <div className="wap-preset-editor">
+      <PresetEditorPreview />
       <div className="wap-preset-editor-content">
         <WapCard className='wap-header-card'>
 
@@ -94,18 +96,6 @@ const EditPreset = () => {
           </WapButton>
 
         </WapCard>
-
-        <WapSteps
-          current={current}
-          size="small"
-          className="wap-preset-steps"
-          style={{ padding: '24px 0', marginBottom: 24 }}
-          items={steps.map((step) => ({ title: step.title }))}
-          onChange={(value) => {
-            if (current === 0 && !presetsFormData?.title) return;
-            setCurrent(value);
-          }}
-        />
 
         <StepContent />
       </div>

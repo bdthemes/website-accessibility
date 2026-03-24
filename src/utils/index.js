@@ -1,6 +1,5 @@
 import { __ } from "@wordpress/i18n";
 import GetStartedPreset from "../admin/components/preset-get-started";
-import ButtonStylePreset from "../admin/components/preset-button-style";
 import PanelCustomizationPreset from "../admin/components/preset-panel-customization";
 import features from "./features";
 import panelItems from "./panel-items";
@@ -50,12 +49,7 @@ export const steps = [
         content: GetStartedPreset,
     },
     {
-        title: __("Button Style", "website-accessibility"),
-        fields: [],
-        content: ButtonStylePreset,
-    },
-    {
-        title: __("Panel Customization", "website-accessibility"),
+        title: __("Customization", "website-accessibility"),
         fields: [],
         content: PanelCustomizationPreset,
     },

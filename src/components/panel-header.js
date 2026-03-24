@@ -1,8 +1,8 @@
-import { useEffect, useState } from "@wordpress/element";
+import { useEffect, useMemo, useState } from "@wordpress/element";
 import { EyeOutlined, EyeInvisibleOutlined, ReloadOutlined } from "@ant-design/icons";
 import { __ } from "@wordpress/i18n";
 
-const PanelHeader = ({ value, setIsOpen = () => { }, accessibilityContext, accessibilityDispatch }) => {
+const PanelHeader = ({ value, setIsOpen = () => { }, accessibilityContext, accessibilityDispatch, isEditorPreview = false }) => {
     const siteLanguage = window?.websiteAccessibility?.siteLanguage?.split("-")?.[0] || "en";
     const [openLanguageDropdown, setOpenLanguageDropdown] = useState(false);
     const [editorTranslationEnabled, setEditorTranslationEnabled] = useState(false);
@@ -22,10 +22,12 @@ const PanelHeader = ({ value, setIsOpen = () => { }, accessibilityContext, acces
         removeCookie = (() => null),
     } = window?.wapHelpers || {};
     const { settings } = window?.websiteAccessibility || {};
-    const isFrontend = !!accessibilityContext && !!accessibilityDispatch;
+    const isFrontend = !isEditorPreview && !!accessibilityContext && !!accessibilityDispatch;
     const isTranslationForced = !!settings?.always_on_translations;
     const showTranslator = attributes?.showTranslator !== false;
-    const translateConsent = getCookie("wapGoogleTranslateConsent");
+    const translateConsent = useMemo(() => (
+        isFrontend ? getCookie("wapGoogleTranslateConsent") : null
+    ), [getCookie, isFrontend]);
     const isConsentDeclined = isFrontend && translateConsent === "false";
     const isConsentAccepted = isFrontend && translateConsent === "true";
     const hasTranslateConsent = isFrontend && !!translateConsent;

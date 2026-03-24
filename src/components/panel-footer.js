@@ -14,7 +14,7 @@ const debounce = (fn, delay = 1000) => {
 };
 
 
-const PanelFooter = ({ value, accessibilityContext, accessibilityDispatch }) => {
+const PanelFooter = ({ value, accessibilityContext, accessibilityDispatch, isEditorPreview = false }) => {
   const { WapMessage, WapButton, WapFlex } = window?.wapComponents;
   const [savingPreference, setSavingPreference] = useState(false);
   const [deletingPreference, setDeletingPreference] = useState(false);
@@ -28,7 +28,7 @@ const PanelFooter = ({ value, accessibilityContext, accessibilityDispatch }) => 
   const attributes = footerItem?.attributes || {};
   const isProActive = window?.websacPro?.isProActive || false;
   const { currentPresetId, isUserLoggedIn, statementLink, settings } = window?.websiteAccessibility || {};
-  const isFrontend = !!accessibilityContext && !!accessibilityDispatch;
+  const isFrontend = !isEditorPreview && !!accessibilityContext && !!accessibilityDispatch;
 
   const resetBtnText = attributes.resetBtnText || 'Reset All';
   const showStatement = attributes.showStatement !== false;

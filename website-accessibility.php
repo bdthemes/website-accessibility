@@ -112,7 +112,7 @@ final class WebsiteAccessibility
 			global $wp_filesystem;
 		}
 
-		if(empty($existing_presets)) {
+		if (empty($existing_presets)) {
 			$json_path = WEBSAC_DIR . 'default-posts/preset.json';
 			$data = json_decode($wp_filesystem->get_contents($json_path), true);
 
@@ -125,7 +125,7 @@ final class WebsiteAccessibility
 			}
 		}
 
-		if(empty($existing_statement)) {
+		if (empty($existing_statement)) {
 			$json_path = WEBSAC_DIR . 'default-posts/statement.json';
 			$data = json_decode($wp_filesystem->get_contents($json_path), true);
 
@@ -176,7 +176,7 @@ final class WebsiteAccessibility
 		\bdthemes\websiteaccessibility\Admin\Biggopti::get_instance();
 
 		// Initialize dashboard product feed widget
-		new \bdthemes\websiteaccessibility\Admin\Admin_Feeds( [
+		new \bdthemes\websiteaccessibility\Admin\Admin_Feeds([
 			'feed_title'       => 'One Accessibility News & Updates',
 			'transient_key'    => 'websac_product_feeds',
 			'feed_link'        => 'https://bdthemes.com/feed',
@@ -200,18 +200,18 @@ final class WebsiteAccessibility
 					'title' => 'Changelog',
 				],
 			],
-		] );
+		]);
 
 		// Initialize frontend assets
 		\bdthemes\websiteaccessibility\View\Frontend::get_instance();
 
-	// Initialize the routes
-	\bdthemes\websiteaccessibility\Routes\PreferenceRouteV1::get_instance();
-	\bdthemes\websiteaccessibility\Routes\SettingsRouteV1::get_instance();
-	\bdthemes\websiteaccessibility\Routes\UsageStatisticsRouteV1::get_instance();
-	\bdthemes\websiteaccessibility\Routes\SystemInfoRouteV1::get_instance();
+		// Initialize the routes
+		\bdthemes\websiteaccessibility\Routes\PreferenceRouteV1::get_instance();
+		\bdthemes\websiteaccessibility\Routes\SettingsRouteV1::get_instance();
+		\bdthemes\websiteaccessibility\Routes\UsageStatisticsRouteV1::get_instance();
+		\bdthemes\websiteaccessibility\Routes\SystemInfoRouteV1::get_instance();
 
-
+		\bdthemes\websiteaccessibility\Routes\ExportImportRouteV1::get_instance();
 	}
 
 	/**

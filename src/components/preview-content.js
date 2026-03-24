@@ -1,9 +1,16 @@
-
 import { useRef, cloneElement } from "@wordpress/element";
 import clsx from "clsx";
 
 
-const PreviewContent = ({ panel, allProfiles, setIsOpen = () => { }, accessibilityContext, accessibilityDispatch, isOpen }) => {
+const PreviewContent = ({
+    panel,
+    allProfiles,
+    setIsOpen = () => { },
+    accessibilityContext,
+    accessibilityDispatch,
+    isOpen,
+    isEditorPreview = false,
+}) => {
     const { AccessibilityProfiles, WidgetFeatures, PanelHeader, PanelFooter } = window?.wapComponents;
     const { useDrawerScrollControl } = window.wapHelpers;
     const isProActive = window?.websacPro?.isProActive || false;
@@ -57,6 +64,7 @@ const PreviewContent = ({ panel, allProfiles, setIsOpen = () => { }, accessibili
                             setIsOpen={setIsOpen}
                             accessibilityContext={accessibilityContext}
                             accessibilityDispatch={accessibilityDispatch}
+                            isEditorPreview={isEditorPreview}
                         />
                     )
                 }
@@ -85,6 +93,7 @@ const PreviewContent = ({ panel, allProfiles, setIsOpen = () => { }, accessibili
                         value={panel}
                         accessibilityContext={accessibilityContext}
                         accessibilityDispatch={accessibilityDispatch}
+                        isEditorPreview={isEditorPreview}
                     />
                 )
             }

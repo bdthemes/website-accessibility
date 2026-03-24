@@ -55,8 +55,69 @@
 }
 
 .wap-preset-editor {
+    --wap-preview-drawer-width: 400px;
+
     > .wap-settings-row:first-child {
         margin-top: 0 !important;
+    }
+
+    .wap-preset-editor-content,
+    .wap-preset-form-actions {
+        transition: padding 0.24s ease, max-width 0.24s ease;
+    }
+
+    @media (min-width: 1280px) {
+        &.wap-preset-editor--preview-right.wap-preset-editor--preview-overlap {
+            .wap-preset-editor-content,
+            .wap-preset-form-actions {
+                padding-right: calc(min(var(--wap-preview-drawer-width), 40vw) + 24px);
+            }
+        }
+
+        &.wap-preset-editor--preview-left.wap-preset-editor--preview-overlap {
+            .wap-preset-editor-content,
+            .wap-preset-form-actions {
+                padding-left: calc(min(var(--wap-preview-drawer-width), 40vw) + 24px);
+            }
+        }
+    }
+
+    .wap-preset-editor__floating-preview {
+        z-index: 999999;
+
+        .wap-button-style-preset__preview-btn {
+            position: fixed;
+            pointer-events: auto;
+            z-index: 1000002;
+        }
+
+        .wap-button-style-preset__preview-btn.top-right {
+            top: var(--button-offset-y, 30px);
+            right: var(--button-offset-x, 30px);
+        }
+
+        .wap-button-style-preset__preview-btn.top-left {
+            top: var(--button-offset-y, 30px);
+            left: var(--button-offset-x, 30px);
+        }
+
+        .wap-preset-editor__preview-drawer-root {
+            z-index: 1000000 !important;
+        }
+
+        .wap-preset-editor__preview-drawer-root .ant-drawer-content-wrapper {
+            pointer-events: auto;
+        }
+
+        .wap-preset-editor__preview-drawer-root .wap-panel-customization__panel * {
+            pointer-events: none;
+        }
+
+        .wap-preset-editor__preview-drawer-root .wap-panel-customization__header-close,
+        .wap-preset-editor__preview-drawer-root .wap-panel-customization__header-close * {
+            pointer-events: auto;
+            cursor: pointer;
+        }
     }
 
     .wap-preset-form-card {
