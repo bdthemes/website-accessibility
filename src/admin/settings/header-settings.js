@@ -76,105 +76,95 @@ const StyleTab = ({ presetsFormData, setPresetsFormData }) => {
         });
     };
 
-    const collapseItems = [
-        {
-            key: "1",
-            label: __("Header", "website-accessibility"),
-            children: (
-                <>
-                    <ControlWrapper label={__("Background", "website-accessibility")}>
-                        <ColorPicker
-                            value={attributes.background}
-                            onChange={(value) => updateAttr({ background: value })}
-                        />
-                    </ControlWrapper>
-
-                    <ControlWrapper label={__("Border", "website-accessibility")}>
-                        <WapInput
-                            value={attributes.border}
-                            onChange={(e) => updateAttr({ border: e.target.value })}
-                            placeholder="1px solid #2e6cf6"
-                        />
-                    </ControlWrapper>
-
-                    <ControlWrapper label={__("Border Radius", "website-accessibility")}>
-                        <WapInput
-                            value={attributes.borderRadius}
-                            onChange={(e) => updateAttr({ borderRadius: e.target.value })}
-                            placeholder="6px"
-                        />
-                    </ControlWrapper>
-
-                    <ControlWrapper label={__("Box Shadow", "website-accessibility")}>
-                        <WapInput
-                            value={attributes.boxShadow}
-                            onChange={(e) => updateAttr({ boxShadow: e.target.value })}
-                            placeholder="0 4px 24px rgba(0,0,0,0.08)"
-                        />
-                    </ControlWrapper>
-
-                    <ControlWrapper label={__("Padding", "website-accessibility")}>
-                        <WapInput
-                            value={attributes.padding}
-                            onChange={(e) => updateAttr({ padding: e.target.value })}
-                            placeholder="10px 20px"
-                        />
-                    </ControlWrapper>
-
-                    <ControlWrapper label={__("Text Color", "website-accessibility")}>
-                        <ColorPicker
-                            value={attributes.color}
-                            onChange={(value) => updateAttr({ color: value })}
-                        />
-                    </ControlWrapper>
-
-                    <ControlWrapper label={__("Font Size", "website-accessibility")}>
-                        <WapInput
-                            value={attributes.fontSize}
-                            onChange={(e) => updateAttr({ fontSize: e.target.value })}
-                            placeholder="16px"
-                        />
-                    </ControlWrapper>
-
-                    <ControlWrapper label={__("Font Weight", "website-accessibility")}>
-                        <WapSelect
-                            value={attributes.fontWeight || "600"}
-                            onChange={(value) => updateAttr({ fontWeight: value })}
-                            options={[
-                                { value: "400", label: "Normal (400)" },
-                                { value: "500", label: "Medium (500)" },
-                                { value: "600", label: "Semi Bold (600)" },
-                                { value: "700", label: "Bold (700)" },
-                                { value: "800", label: "Extra Bold (800)" },
-                                { value: "900", label: "Black (900)" },
-                            ]}
-                        />
-                    </ControlWrapper>
-
-                    <ControlWrapper label={__("Text Decoration", "website-accessibility")}>
-                        <WapSelect
-                            value={attributes?.textDecoration || "none"}
-                            onChange={(value) => updateAttr({ textDecoration: value })}
-                            options={[
-                                { value: "none", label: "None" },
-                                { value: "underline", label: "Underline" },
-                                { value: "line-through", label: "Line Through" },
-                                { value: "overline", label: "Overline" },
-                            ]}
-                        />
-                    </ControlWrapper>
-                </>
-            )
-        }
-    ];
-
     return (
-        <WapCollapse accordion items={collapseItems} />
+        <>
+            <ControlWrapper label={__("Background", "website-accessibility")}>
+                <ColorPicker
+                    value={attributes.background}
+                    onChange={(value) => updateAttr({ background: value })}
+                />
+            </ControlWrapper>
+
+            <ControlWrapper label={__("Border", "website-accessibility")}>
+                <WapInput
+                    value={attributes.border}
+                    onChange={(e) => updateAttr({ border: e.target.value })}
+                    placeholder="1px solid #2e6cf6"
+                />
+            </ControlWrapper>
+
+            <ControlWrapper label={__("Border Radius", "website-accessibility")}>
+                <WapInput
+                    value={attributes.borderRadius}
+                    onChange={(e) => updateAttr({ borderRadius: e.target.value })}
+                    placeholder="6px"
+                />
+            </ControlWrapper>
+
+            <ControlWrapper label={__("Box Shadow", "website-accessibility")}>
+                <WapInput
+                    value={attributes.boxShadow}
+                    onChange={(e) => updateAttr({ boxShadow: e.target.value })}
+                    placeholder="0 4px 24px rgba(0,0,0,0.08)"
+                />
+            </ControlWrapper>
+
+            <ControlWrapper label={__("Padding", "website-accessibility")}>
+                <WapInput
+                    value={attributes.padding}
+                    onChange={(e) => updateAttr({ padding: e.target.value })}
+                    placeholder="10px 20px"
+                />
+            </ControlWrapper>
+
+            <ControlWrapper label={__("Text Color", "website-accessibility")}>
+                <ColorPicker
+                    value={attributes.color}
+                    onChange={(value) => updateAttr({ color: value })}
+                />
+            </ControlWrapper>
+
+            <ControlWrapper label={__("Font Size", "website-accessibility")}>
+                <WapInput
+                    value={attributes.fontSize}
+                    onChange={(e) => updateAttr({ fontSize: e.target.value })}
+                    placeholder="16px"
+                />
+            </ControlWrapper>
+
+            <ControlWrapper label={__("Font Weight", "website-accessibility")}>
+                <WapSelect
+                    value={attributes.fontWeight || "600"}
+                    onChange={(value) => updateAttr({ fontWeight: value })}
+                    options={[
+                        { value: "400", label: "Normal (400)" },
+                        { value: "500", label: "Medium (500)" },
+                        { value: "600", label: "Semi Bold (600)" },
+                        { value: "700", label: "Bold (700)" },
+                        { value: "800", label: "Extra Bold (800)" },
+                        { value: "900", label: "Black (900)" },
+                    ]}
+                />
+            </ControlWrapper>
+
+            <ControlWrapper label={__("Text Decoration", "website-accessibility")}>
+                <WapSelect
+                    value={attributes?.textDecoration || "none"}
+                    onChange={(value) => updateAttr({ textDecoration: value })}
+                    options={[
+                        { value: "none", label: "None" },
+                        { value: "underline", label: "Underline" },
+                        { value: "line-through", label: "Line Through" },
+                        { value: "overline", label: "Overline" },
+                    ]}
+                />
+            </ControlWrapper>
+        </>
     );
 };
 
 const HeaderSettings = () => {
-    const {WapTabs} = window?.wapComponents;
+    const { WapTabs } = window?.wapComponents;
     const { presetsFormData } = useSelect((select) =>
         select(STORE_NAME).getPresetsFormData(),
     );
