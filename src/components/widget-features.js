@@ -221,7 +221,7 @@ const WidgetFeatures = ({
 																	"wap-widget-features-bottom-indicator__step-item",
 																	{
 																		"wap-widget-features-bottom-indicator__step-item--active":
-																			step === currentStep,
+																			(step + 1) === currentStep,
 																	}
 																)}
 															/>
