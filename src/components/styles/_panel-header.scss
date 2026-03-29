@@ -13,9 +13,8 @@
 	display: flex;
 	align-items: center;
 	justify-content: space-between;
-	gap: 12px;
+	gap: 10px;
 	min-height: 60px;
-	position: relative;
 	transition:
 		background 0.3s ease,
 		color 0.3s ease,
@@ -25,6 +24,12 @@
 	top: 0;
 	z-index: 999;
 
+	.wap-panel-customization__header-icon {
+		width: 28px;
+		height: 28px;
+		display: block;
+	}
+
 	&--flipped {
 		flex-direction: row-reverse;
 		gap: 16px;
@@ -32,7 +37,7 @@
 
 	&-title {
 		color: var(--wap-header-color, #fff);
-		font-size: var(--wap-header-font-size, 16px);
+		font-size: var(--wap-header-font-size, 20px);
 		font-weight: var(--wap-header-font-weight, 600);
 		text-decoration: var(--wap-header-text-decoration, none);
 		flex: 1;
@@ -46,16 +51,15 @@
 	&-actions {
 		display: inline-flex;
 		align-items: center;
-		gap: 8px;
+		gap: 14px;
 	}
 
 	&-action-btn {
-		border: 1px solid rgba(255, 255, 255, 0.24);
-		background: rgba(255, 255, 255, 0.1);
+		border: none;
+		background: transparent;
 		color: #eaf1ff;
 		height: 34px;
-		padding: 0 10px;
-		border-radius: 8px;
+		padding: 0;
 		cursor: pointer;
 		display: inline-flex;
 		align-items: center;
@@ -63,14 +67,9 @@
 		font-size: 14px;
 		transition: all 0.2s ease;
 
-		&:hover {
-			background: rgba(255, 255, 255, 0.18);
-			border-color: rgba(255, 255, 255, 0.34);
-		}
-
-		&.is-active {
-			background: rgba(255, 255, 255, 0.24);
-			color: #ffffff;
+		svg {
+			width: 17px;
+			height: 17px;
 		}
 
 		&:disabled {
@@ -99,11 +98,11 @@
 		align-items: center;
 		justify-content: center;
 		cursor: pointer;
-		background: var(--wap-close-button-bg, rgba(255, 255, 255, 0.1));
+		// background: var(--wap-close-button-bg, rgba(255, 255, 255, 0.1));
 		color: var(--wap-close-button-color, #d6ddea);
-		width: var(--wap-close-button-size, 32px);
-		height: var(--wap-close-button-size, 32px);
-		border: var(--wap-close-button-border, 1px solid rgba(255, 255, 255, 0.2));
+		width: var(--wap-close-button-size, 26px);
+		height: var(--wap-close-button-size, 26px);
+		// border: var(--wap-close-button-border, 1px solid rgba(255, 255, 255, 0.2));
 		border-radius: var(--wap-close-button-border-radius, 6px);
 		transition: all 0.3s ease;
 
@@ -157,6 +156,8 @@
 	&__list {
 		max-height: 400px;
 		overflow-y: auto;
+		-webkit-overflow-scrolling: touch;
+		overscroll-behavior: contain;
 		display: grid;
 		grid-template-columns: repeat(2, minmax(0, 1fr));
 		gap: 10px;
@@ -165,8 +166,8 @@
 
 	&__item {
 		min-height: 44px;
-		border: 1px solid #d7dfef;
-		background: #e8ecf5;
+		border: 0;
+		background: #f0f2f8;
 		border-radius: 999px;
 		padding: 0 14px;
 		display: inline-flex;
@@ -191,7 +192,6 @@
 
 	&__item-flag {
 		font-size: 20px;
-		line-height: 1;
 	}
 
 	&__item-label {
@@ -200,6 +200,43 @@
 		overflow: hidden;
 		text-overflow: ellipsis;
 	}
+}
+
+@keyframes wap-translation-dropdown-enter {
+	from {
+		opacity: 0;
+		transform: translateY(-10px) scale(0.98);
+	}
+	to {
+		opacity: 1;
+		transform: translateY(0) scale(1);
+	}
+}
+
+@keyframes wap-language-panel-overlay-enter {
+	from {
+		opacity: 0;
+	}
+	to {
+		opacity: 1;
+	}
+}
+
+/* Inside .wap-panel-customization__body — covers .main + .wap-panel-footer; never portaled to body */
+.wap-language-panel-overlay {
+	position: absolute;
+	inset: 0;
+	z-index: 2;
+	box-sizing: border-box;
+	background: rgba(15, 23, 42, 0.48);
+	cursor: pointer;
+	pointer-events: auto;
+	animation: wap-language-panel-overlay-enter 0.28s ease-out forwards;
+	border-radius: 0 0 6px 6px;
+}
+
+.wap-panel-customization__panel--language-dropdown-open .wap-translation-dropdown-overlay {
+	z-index: 10000020 !important;
 }
 
 .wap-translation-dropdown-overlay {
@@ -217,6 +254,8 @@
     /* z-index: 11111111; */
     box-shadow: 0 16px 40px rgba(15, 36, 84, 0.22);
 	border-radius: 16px;
+	transform-origin: top center;
+	animation: wap-translation-dropdown-enter 0.32s cubic-bezier(0.22, 1, 0.36, 1) forwards;
 }
 
 @media (max-width: 640px) {

@@ -468,13 +468,6 @@
 	padding: 0 !important;
 }
 
-// Edit/create/preview pages (with back button): sidebar hidden so content uses full width
-.wap-admin-layout--no-sidebar {
-	.wap-admin-main-column {
-		border-radius: 10px;
-	}
-}
-
 .wap-admin-footer.ant-layout-footer {
 	margin: 0;
 	padding: 20px !important;

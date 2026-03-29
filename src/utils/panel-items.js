@@ -6,7 +6,7 @@ const panelItems = [
         active: true,
         disableDrag: true,
         attributes: {
-            text: 'Accessibility Menu (CTRL+U)',
+            text: 'Accessibility',
             showClose: true,
             background: '#2e6cf6',
             border: '1px solid #2e6cf6',

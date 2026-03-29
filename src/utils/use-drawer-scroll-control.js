@@ -12,7 +12,38 @@ export default function useDrawerScrollLock(contentRef, isOpen) {
 
         let startY = 0;
 
+        /**
+         * If wheel targets a nested scrollable (e.g. translation language list) that can still
+         * move in this direction, do not preventDefault on the panel — otherwise atTop on the
+         * panel blocks scrolling up inside the list when the panel itself is scrolled to top.
+         */
+        const canNestedScrollAbsorbWheel = (e) => {
+            let el = e.target;
+            if (el && el.nodeType === 3) {
+                el = el.parentElement;
+            }
+            while (el && el !== content) {
+                if (el.scrollHeight > el.clientHeight + 1) {
+                    const st = el.scrollTop;
+                    const maxScroll = Math.max(0, el.scrollHeight - el.clientHeight);
+                    const goingDown = e.deltaY > 0;
+                    if (goingDown && st < maxScroll - 0.5) {
+                        return true;
+                    }
+                    if (!goingDown && st > 0.5) {
+                        return true;
+                    }
+                }
+                el = el.parentElement;
+            }
+            return false;
+        };
+
         const onWheel = (e) => {
+            if (canNestedScrollAbsorbWheel(e)) {
+                return;
+            }
+
             const { scrollTop, scrollHeight, clientHeight } = content;
 
             const isDown = e.deltaY > 0;
@@ -31,9 +62,35 @@ export default function useDrawerScrollLock(contentRef, isOpen) {
             startY = e.touches[0].clientY;
         };
 
+        const canNestedScrollAbsorbTouch = (e, diffY) => {
+            let el = e.target;
+            if (el && el.nodeType === 3) {
+                el = el.parentElement;
+            }
+            while (el && el !== content) {
+                if (el.scrollHeight > el.clientHeight + 1) {
+                    const st = el.scrollTop;
+                    const maxScroll = Math.max(0, el.scrollHeight - el.clientHeight);
+                    const goingDown = diffY > 0;
+                    if (goingDown && st < maxScroll - 0.5) {
+                        return true;
+                    }
+                    if (!goingDown && st > 0.5) {
+                        return true;
+                    }
+                }
+                el = el.parentElement;
+            }
+            return false;
+        };
+
         const onTouchMove = (e) => {
             const currentY = e.touches[0].clientY;
             const diffY = startY - currentY;
+
+            if (canNestedScrollAbsorbTouch(e, diffY)) {
+                return;
+            }
 
             const { scrollTop, scrollHeight, clientHeight } = content;
 

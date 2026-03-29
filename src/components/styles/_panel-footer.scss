@@ -27,8 +27,7 @@
 		display: flex;
 		align-items: center;
 		gap: 10px;
-		padding: var(--wap-footer-general-padding, 10px 24px);
-		margin-bottom: 10px;
+		padding: var(--wap-footer-general-padding, 10px 16px);
 
 		@media screen and (max-width: 768px) {
 			padding: var(--wap-footer-general-padding, 0);
@@ -84,12 +83,15 @@
 		position: relative;
 		z-index: 1;
 		border-top: 1px solid #ededef;
-		padding: var(--wap-footer-general-padding, 16px 24px);
+		padding: var(--wap-footer-general-padding, 16px 16px);
 		margin-top: 10px;
 		display: flex;
 		align-items: center;
 		justify-content: space-between;
 		gap: 8px;
+		background: #fff;
+		margin: 0 16px 10px 16px;
+		border-radius: 8px;
 
 		@media screen and (max-width: 768px) {
 			padding: var(--wap-footer-general-padding, 0);
