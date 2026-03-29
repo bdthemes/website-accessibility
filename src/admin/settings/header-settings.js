@@ -34,7 +34,7 @@ const ContentTab = ({ presetsFormData, setPresetsFormData }) => {
                     value={attributes.text || ""}
                     onChange={(e) => updateAttr({ text: e.target.value })}
                     placeholder={__(
-                        "Accessibility Menu (CTRL+U)",
+                        "Accessibility",
                         "website-accessibility",
                     )}
                 />

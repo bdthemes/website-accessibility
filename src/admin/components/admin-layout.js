@@ -59,16 +59,6 @@ const AdminLayout = ({ children }) => {
 		},
 	];
 
-	// Pages that show a back button (edit/create/preview) — hide sidebar for more space
-	const backButtonPages = [
-		'website-accessibility-presets-edit',
-		'website-accessibility-presets-create',
-		'website-accessibility-presets-preview',
-		'website-accessibilityfiles-edit',
-		'website-accessibilityfiles-create',
-	];
-	const hideSidebar = backButtonPages.includes(currentPage);
-
 	// For sub-pages (edit, create, preview) highlight the parent menu
 	const selectedKey = ['website-accessibility-presets-edit', 'website-accessibility-presets-create', 'website-accessibility-presets-preview'].includes(currentPage)
 		? 'website-accessibility-presets'
@@ -77,7 +67,7 @@ const AdminLayout = ({ children }) => {
 			: currentPage;
 
 	return (
-		<Layout className={`wap-admin-layout${hideSidebar ? ' wap-admin-layout--no-sidebar' : ''}`}>
+		<Layout className="wap-admin-layout">
 			<Header className="wap-admin-header">
 				<div className="wap-admin-header-left">
 					<span className="wap-admin-header-icon">
@@ -159,7 +149,6 @@ const AdminLayout = ({ children }) => {
 				</div>
 			</Header>
 			<Layout>
-				{!hideSidebar && (
 				<Sider width={280} className="wap-admin-sider" theme="light">
 					<Menu
 						mode="inline"
@@ -289,7 +278,6 @@ const AdminLayout = ({ children }) => {
 						</div>
 					)}
 				</Sider>
-				)}
 				<Layout className="wap-admin-main-column">
 					<Content className="wap-admin-content">
 						{children}

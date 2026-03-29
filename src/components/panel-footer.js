@@ -194,7 +194,7 @@ const PanelFooter = ({ value, accessibilityContext, accessibilityDispatch, isEdi
       {contextHolder}
 
       {(isUserLoggedIn || !isFrontend) && showPreference && (
-        <WapFlex align="center" justify="space-between" gap={10} style={{ marginBottom: '10px', padding: '0 24px' }}>
+        <WapFlex align="center" justify="space-between" gap={10} style={{ padding: '0 16px' }}>
           <WapButton
             type="primary"
             icon={<SaveOutlined />}
