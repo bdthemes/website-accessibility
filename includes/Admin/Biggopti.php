@@ -94,11 +94,8 @@ class Biggopti {
 		}
 
 		// Check pro status
-		$is_pro = false;
-		if (class_exists('\bdthemes\websiteaccessibilitypro\Admin\License')) {
-			$license = \bdthemes\websiteaccessibilitypro\Admin\License::get_instance();
-			$is_pro = $license && method_exists($license, 'is_license_valid') ? $license->is_license_valid() : false;
-		}
+		$is_pro = class_exists('\bdthemes\websiteaccessibilitypro\Admin\License\LicenseHelper')
+			&& \bdthemes\websiteaccessibilitypro\Admin\License\LicenseHelper::is_license_active();
 		
 		// Localize script with necessary data
 		wp_localize_script( 'oa-admin-api-biggopti', 'OneAccessibilityAdminApiBiggoptiConfig', [

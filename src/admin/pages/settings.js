@@ -6,7 +6,8 @@ import StatementSetting from "../components/statement-setting";
 
 
 const Settings = () => {
-    const { WapSpin, WapMessage } = window?.wapComponents;
+    const { WapSpin, WapMessage, WapCard, WapSpace, WapTypography, WapInputNumber, WapSelect } = window?.wapComponents;
+    const { Title, Text } = WapTypography;
     const { isProActive } = window?.websacPro || {};
     const [settings, setSettings] = useState({});
     const [loading, setLoading] = useState(true);
@@ -124,6 +125,43 @@ const Settings = () => {
                 loading={saving}
                 onChange={(checked) => updateSetting("show_usage_statistics", checked)}
             />
+            {settings?.show_usage_statistics && (
+                <WapCard className="wap-settings-row">
+                    <WapSpace
+                        align="center"
+                        style={{
+                            width: "100%",
+                            justifyContent: "space-between",
+                        }}
+                    >
+                        <WapSpace direction="vertical" size={0}>
+                            <Title level={5} style={{ margin: 0 }}>
+                                {__("Statistics Save Frequency", "website-accessibility")}
+                            </Title>
+                            <Text type="secondary">
+                                {__("Choose how often usage statistics are saved.", "website-accessibility")}
+                            </Text>
+                        </WapSpace>
+
+                        <WapSpace>
+                            <WapInputNumber
+                                min={1}
+                                value={Number(settings?.usage_statistics_interval_value) || 12}
+                                onChange={(value) => updateSetting("usage_statistics_interval_value", Math.max(1, Number(value) || 1))}
+                                style={{ width: 90 }}
+                            />
+                            <WapSelect
+                                value={settings?.usage_statistics_interval_unit || "hour"}
+                                onChange={(value) => updateSetting("usage_statistics_interval_unit", value)}
+                                style={{ width: 120 }}
+                            >
+                                <WapSelect.Option value="minute">{__("Minute(s)", "website-accessibility")}</WapSelect.Option>
+                                <WapSelect.Option value="hour">{__("Hour(s)", "website-accessibility")}</WapSelect.Option>
+                            </WapSelect>
+                        </WapSpace>
+                    </WapSpace>
+                </WapCard>
+            )}
 
         </div>
     );

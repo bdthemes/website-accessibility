@@ -18,20 +18,17 @@ class Frontend
 
     private function get_profiles()
     {
-        // Check if the Pro plugin class exists
-        if (class_exists('\bdthemes\websiteaccessibilitypro\Admin\License')) {
-            $license = \bdthemes\websiteaccessibilitypro\Admin\License::get_instance();
-
-            // Check if the license method exists and is valid
-            if (method_exists($license, 'is_license_valid') && $license->is_license_valid()) {
-                return get_posts([
-                    'post_type'      => 'websac_profile',
-                    'posts_per_page' => -1,
-                ]);
-            }
+        if (
+            class_exists('\bdthemes\websiteaccessibilitypro\Admin\License\LicenseHelper') &&
+            \bdthemes\websiteaccessibilitypro\Admin\License\LicenseHelper::is_license_active()
+        ) {
+            return get_posts([
+                'post_type'      => 'websac_profile',
+                'posts_per_page' => -1,
+            ]);
         }
 
-        // If class or license method not found, or license is invalid — return empty array
+        // Pro is missing or license inactive.
         return [];
     }
 
@@ -161,8 +158,8 @@ class Frontend
         // Admin View Container - Will be used by the admin view script
         if (
             current_user_can('manage_options') &&
-            class_exists('\bdthemes\websiteaccessibilitypro\Admin\License') &&
-            \bdthemes\websiteaccessibilitypro\Admin\License::get_instance()->is_license_valid()
+            class_exists('\bdthemes\websiteaccessibilitypro\Admin\License\LicenseHelper') &&
+            \bdthemes\websiteaccessibilitypro\Admin\License\LicenseHelper::is_license_active()
         ) {
             echo '<div id="website-accessibility-checker"></div>';
         }
