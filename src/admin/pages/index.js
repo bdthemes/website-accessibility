@@ -14,6 +14,7 @@ import ToolsBackup from './tools-backup';
 import AboutInfo from './about-info';
 import UsageStatistics from '../components/usage-statistics';
 import LicenseManager from '../components/License/LicenseManager';
+import Disclaimer from '../components/disclaimer';
 
 const Pages = () => {
     const location = useLocation();
@@ -86,10 +87,13 @@ const Pages = () => {
                     {RouteElement}
                 </div>
                 {page === 'website-accessibility' && settings && settings?.show_usage_statistics && (
-                    <div className="wap-admin-usage-statistics">
-                        <UsageStatistics />
-                    </div>
-            )}
+                    <>
+                        <div className="wap-admin-usage-statistics">
+                            <UsageStatistics />
+                        </div>
+                        <Disclaimer />
+                    </>
+                )}
             </div>
 
         </>

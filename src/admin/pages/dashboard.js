@@ -3,7 +3,6 @@ import { useHistory } from "../router";
 import { useSelect } from '@wordpress/data';
 import { STORE_NAME } from '../store';
 import { useEffect, useState } from '@wordpress/element';
-import Disclaimer from '../components/disclaimer';
 
 // Inline SVG icons (replace dashicons) — currentColor via CSS
 const svgProps = {
@@ -154,7 +153,6 @@ const Dashboard = () => {
 
     return (
         <>
-            <Disclaimer />
             <div className="wap-settings wap-dashboard">
                 <WapCard
                     className="wap-settings-row wap-welcome-card wap-welcome-card--simple"
@@ -199,7 +197,6 @@ const Dashboard = () => {
                         </WapCol>
                     ))}
                 </WapRow>
-
             </div>
         </>
     );
