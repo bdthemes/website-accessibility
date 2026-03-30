@@ -12,7 +12,7 @@ class PreferenceRouteV1
 
     const META_KEY = 'websac_preferences';
     const CACHE_KEY = 'websac_preference_stats';
-    const CACHE_DURATION = 10 * MINUTE_IN_SECONDS;
+    const CACHE_DURATION = 1 * MINUTE_IN_SECONDS;
 
     private function __construct()
     {
@@ -123,7 +123,7 @@ class PreferenceRouteV1
                 'timestamp'       => current_time('mysql'),
             ];
 
-            // Cache the result for 10 minutes
+            // Cache briefly so dashboard changes are reflected quickly.
             set_transient(self::CACHE_KEY, $data, self::CACHE_DURATION);
 
             return rest_ensure_response([

@@ -1,4 +1,4 @@
-import { useState, useMemo, useEffect } from "@wordpress/element";
+import { useState, useMemo, useEffect, useRef } from "@wordpress/element";
 import clsx from "clsx";
 import useFrontendAccessibility from "./context/useAccessibility";
 import accessibilityManager from "../accessibilty-manager";
@@ -12,6 +12,7 @@ const View = () => {
     const { dispatch, ...state } = useFrontendAccessibility();
     const [isOpen, setIsOpen] = useState(false);
     const browserKey = useBrowserKey();
+    const isSavingStatisticsRef = useRef(false);
 
 
     const allProfiles = useMemo(() => [
@@ -214,6 +215,9 @@ const View = () => {
     }, [isOpen]);
 
     const saveStatistics = async (data = {}) => {
+        if (isSavingStatisticsRef.current) return;
+        console.log(data);
+        
         let dailyTimestamp = getCookie('one_accessibility_daily_timestamp');
 
         // Check if browserKey exists
@@ -227,24 +231,54 @@ const View = () => {
         if (!restUrl) return;
 
         const now = Date.now();
-        const twelveHours = 12 * 60 * 60 * 1000;
+        const intervalValue = Math.max(1, Number(settings?.usage_statistics_interval_value) || 12);
+        const intervalUnit = settings?.usage_statistics_interval_unit === 'minute' ? 'minute' : 'hour';
+        const intervalMs = intervalUnit === 'minute'
+            ? intervalValue * 60 * 1000
+            : intervalValue * 60 * 60 * 1000;
+        const intervalDays = intervalMs / (24 * 60 * 60 * 1000);
         const statistics = {};
+        const activeFeatureKeys = [];
+        const trackedStateKey = `one_accessibility_tracked_features_${browserKey}_${currentPresetId || "default"}`;
 
         for (const key in data) {
             if (data?.[key]?.currentStep == 0) {
                 continue;
             }
 
-            statistics[key] = 1
+            activeFeatureKeys.push(key);
         }
 
-        // Throttle by daily timestamp (12h)
-        if (dailyTimestamp && now - dailyTimestamp < twelveHours) {
+        // Count only newly enabled features to avoid incrementing already-counted ones.
+        let previouslyTracked = [];
+        try {
+            previouslyTracked = JSON.parse(localStorage.getItem(trackedStateKey) || "[]");
+            if (!Array.isArray(previouslyTracked)) previouslyTracked = [];
+        } catch (e) {
+            previouslyTracked = [];
+        }
+
+        activeFeatureKeys.forEach((key) => {
+            if (!previouslyTracked.includes(key)) {
+                statistics[key] = 1;
+            }
+        });
+
+        // Throttle by configured settings interval.
+        if (dailyTimestamp && now - Number(dailyTimestamp) < intervalMs) {
+            // Keep tracked state in sync even when throttled.
+            localStorage.setItem(trackedStateKey, JSON.stringify(activeFeatureKeys));
+            return;
+        }
+
+        if (Object.keys(statistics).length === 0) {
+            localStorage.setItem(trackedStateKey, JSON.stringify(activeFeatureKeys));
             return;
         }
         const apiURL = `${restUrl}one-accessibility/v1/usage-statistics`;
 
         try {
+            isSavingStatisticsRef.current = true;
             const response = await fetch(apiURL, {
                 method: 'POST',
                 headers: {
@@ -257,12 +291,21 @@ const View = () => {
             const result = await response.json();
 
             if (result.success) {
-                setCookie('one_accessibility_daily_timestamp', now, 0.5); // 12 hours
+                setCookie('one_accessibility_daily_timestamp', now, intervalDays);
+                localStorage.setItem(trackedStateKey, JSON.stringify(activeFeatureKeys));
+                console.info('Usage statistics saved successfully.', {
+                    timestamp: now,
+                    intervalValue,
+                    intervalUnit,
+                    statistics,
+                });
             } else {
                 console.warn('Failed to save statistics', result.message);
             }
         } catch (err) {
             console.error('Error sending statistics', err);
+        } finally {
+            isSavingStatisticsRef.current = false;
         }
     };
 

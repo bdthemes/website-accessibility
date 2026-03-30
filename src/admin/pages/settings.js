@@ -6,12 +6,13 @@ import StatementSetting from "../components/statement-setting";
 
 
 const Settings = () => {
-    const { WapSpin, WapMessage, WapCard, WapSpace, WapTypography, WapInputNumber, WapSelect } = window?.wapComponents;
+    const { WapSpin, WapMessage, WapCard, WapSpace, WapTypography, WapInputNumber, WapSelect, WapButton } = window?.wapComponents;
     const { Title, Text } = WapTypography;
     const { isProActive } = window?.websacPro || {};
     const [settings, setSettings] = useState({});
     const [loading, setLoading] = useState(true);
     const [saving, setSaving] = useState(false);
+    const [resettingStats, setResettingStats] = useState(false);
 
     const API_NAMESPACE = "/sigmally/v1/settings";
 
@@ -51,6 +52,32 @@ const Settings = () => {
             });
         } finally {
             setSaving(false);
+        }
+    };
+
+    const resetUsageStatistics = async () => {
+        const confirmed = window.confirm(__("Are you sure you want to clear all usage statistics?", "website-accessibility"));
+        if (!confirmed) return;
+
+        setResettingStats(true);
+        try {
+            await apiFetch({
+                path: "/one-accessibility/v1/usage-statistics",
+                method: "DELETE",
+            });
+
+            WapMessage.success({
+                content: __("Usage statistics cleared successfully.", "website-accessibility"),
+                style: { marginBlockStart: 20 },
+            });
+        } catch (error) {
+            console.error("Failed to clear usage statistics:", error);
+            WapMessage.error({
+                content: __("Failed to clear usage statistics.", "website-accessibility"),
+                style: { marginBlockStart: 20 },
+            });
+        } finally {
+            setResettingStats(false);
         }
     };
 
@@ -146,11 +173,13 @@ const Settings = () => {
                         <WapSpace>
                             <WapInputNumber
                                 min={1}
+                                size="large"
                                 value={Number(settings?.usage_statistics_interval_value) || 12}
                                 onChange={(value) => updateSetting("usage_statistics_interval_value", Math.max(1, Number(value) || 1))}
-                                style={{ width: 90 }}
+                                style={{ width: 120 }}
                             />
                             <WapSelect
+                                size="large"
                                 value={settings?.usage_statistics_interval_unit || "hour"}
                                 onChange={(value) => updateSetting("usage_statistics_interval_unit", value)}
                                 style={{ width: 120 }}
@@ -159,6 +188,30 @@ const Settings = () => {
                                 <WapSelect.Option value="hour">{__("Hour(s)", "website-accessibility")}</WapSelect.Option>
                             </WapSelect>
                         </WapSpace>
+                    </WapSpace>
+                </WapCard>
+            )}
+            {settings?.show_usage_statistics && (
+                <WapCard className="wap-settings-row">
+                    <WapSpace
+                        align="center"
+                        style={{
+                            width: "100%",
+                            justifyContent: "space-between",
+                        }}
+                    >
+                        <WapSpace direction="vertical" size={0}>
+                            <Title level={5} style={{ margin: 0 }}>
+                                {__("Clear Usage Statistics", "website-accessibility")}
+                            </Title>
+                            <Text type="secondary">
+                                {__("Remove all saved usage statistics data.", "website-accessibility")}
+                            </Text>
+                        </WapSpace>
+
+                        <WapButton danger onClick={resetUsageStatistics} loading={resettingStats}>
+                            {__("Clear Statistics", "website-accessibility")}
+                        </WapButton>
                     </WapSpace>
                 </WapCard>
             )}
