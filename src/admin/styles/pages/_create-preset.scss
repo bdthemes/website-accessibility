@@ -70,14 +70,14 @@
         &.wap-preset-editor--preview-right.wap-preset-editor--preview-overlap {
             .wap-preset-editor-content,
             .wap-preset-form-actions {
-                padding-right: calc(min(var(--wap-preview-drawer-width), 40vw) + 24px);
+                padding-right: var(--wap-preview-overlap-right-pad, 0px);
             }
         }
 
         &.wap-preset-editor--preview-left.wap-preset-editor--preview-overlap {
             .wap-preset-editor-content,
             .wap-preset-form-actions {
-                padding-left: calc(min(var(--wap-preview-drawer-width), 40vw) + 24px);
+                padding-left: var(--wap-preview-overlap-left-pad, 0px);
             }
         }
     }

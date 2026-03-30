@@ -1,15 +1,14 @@
-import { useState, useEffect } from '@wordpress/element';
+import { useEffect } from '@wordpress/element';
 import { __ } from '@wordpress/i18n';
-import { steps } from '../../utils';
 import { useDispatch, useSelect } from "@wordpress/data";
 import { STORE_NAME } from "../store";
 import { useHistory, useLocation } from '../router';
 import PresetEditorPreview from '../components/preset-editor-preview';
+import PanelCustomizationPreset from '../components/preset-panel-customization';
 
 
 const EditPreset = () => {
   const { WapCard, WapButton, WapSpace, WapTypography } = window?.wapComponents;
-  const [current, setCurrent] = useState(0);
   const { updatePreset, saveEditedPreset, setPresetsFormData } = useDispatch(STORE_NAME);
   const history = useHistory();
   const location = useLocation();
@@ -19,16 +18,6 @@ const EditPreset = () => {
 
   const handleBack = () => {
     history.push({ page: 'website-accessibility-presets' });
-  };
-
-  const next = async () => {
-    setCurrent((prev) => prev + 1);
-    window.scrollTo({ top: 0, behavior: 'smooth' });
-  };
-
-  const prev = () => {
-    setCurrent((prev) => prev - 1);
-    window.scrollTo({ top: 0, behavior: 'smooth' });
   };
 
   useEffect(() => {
@@ -61,8 +50,6 @@ const EditPreset = () => {
   }, [preset]);
 
   if (!preset) return null;
-
-  const StepContent = steps[current].content;
 
   const handleSave = async () => {
     await updatePreset(id, {
@@ -97,46 +84,23 @@ const EditPreset = () => {
 
         </WapCard>
 
-        <StepContent />
+        <PanelCustomizationPreset />
       </div>
 
       {/* <Card className="wap-preset-form-actions-card" style={{ marginTop: 24 }}> */}
       <div className="wap-preset-form-actions" style={{ marginTop: 24 }}>
         <WapSpace>
-          {current > 0 && (
-            <WapButton onClick={prev} htmlType='button' size='large'>
-              <WapSpace>
-                <span className='dashicons dashicons-arrow-left-alt' />
-                {__('Previous', 'website-accessibility')}
-              </WapSpace>
-            </WapButton>
-          )}
-          {current < steps.length - 1 && (
-            <WapButton
-              size='large'
-              type="primary"
-              onClick={next}
-              htmlType='button'
-              disabled={current === 0 && !presetsFormData?.title}
-            >
-              <WapSpace>
-                {__('Next', 'website-accessibility')}
-                <span className='dashicons dashicons-arrow-right-alt' />
-              </WapSpace>
-            </WapButton>
-          )}
-          {current === steps.length - 1 && (
-            <WapButton
-              type="primary"
-              onClick={handleSave}
-              size='large'
-            >
-              <WapSpace>
-                {__('Update Preset', 'website-accessibility')}
-                <span className='dashicons dashicons-arrow-right-alt' />
-              </WapSpace>
-            </WapButton>
-          )}
+          <WapButton
+            type="primary"
+            onClick={handleSave}
+            size='large'
+            disabled={!presetsFormData?.title}
+          >
+            <WapSpace>
+              {__('Update Preset', 'website-accessibility')}
+              <span className='dashicons dashicons-arrow-right-alt' />
+            </WapSpace>
+          </WapButton>
         </WapSpace>
       </div>
       {/* </Card> */}

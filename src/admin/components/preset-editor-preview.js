@@ -24,25 +24,29 @@ const PresetEditorPreview = () => {
     useEffect(() => {
         const editor = document.querySelector(".wap-preset-editor");
         const editorContent = editor?.querySelector(".wap-preset-editor-content");
+        const adminContainer = document.getElementById("website-accessibility-admin");
         if (!editor) return undefined;
 
         const syncOverlapState = () => {
             if (!editorContent || !isOpen) {
                 editor.classList.remove("wap-preset-editor--preview-overlap");
+                editor.style.setProperty("--wap-preview-overlap-right-pad", "0px");
+                editor.style.setProperty("--wap-preview-overlap-left-pad", "0px");
                 return;
             }
 
+            const adminRect = (adminContainer || editor).getBoundingClientRect();
             const contentRect = editorContent.getBoundingClientRect();
-            const viewportWidth = window.innerWidth;
-            const drawerBoundary =
-                panelPosition === "right"
-                    ? viewportWidth - panelWidth - 24
-                    : panelWidth + 24;
+            const requiredDrawerSpace = Math.min(panelWidth, window.innerWidth * 0.4) + 24;
+            const rightGap = Math.max(0, adminRect.right - contentRect.right);
+            const leftGap = Math.max(0, contentRect.left - adminRect.left);
+            const extraRightPad = Math.max(0, requiredDrawerSpace - rightGap);
+            const extraLeftPad = Math.max(0, requiredDrawerSpace - leftGap);
 
-            const hasOverlap =
-                panelPosition === "right"
-                    ? contentRect.right > drawerBoundary
-                    : contentRect.left < drawerBoundary;
+            const hasOverlap = panelPosition === "right" ? extraRightPad > 0 : extraLeftPad > 0;
+
+            editor.style.setProperty("--wap-preview-overlap-right-pad", `${extraRightPad}px`);
+            editor.style.setProperty("--wap-preview-overlap-left-pad", `${extraLeftPad}px`);
 
             editor.classList.toggle("wap-preset-editor--preview-overlap", hasOverlap);
         };
@@ -72,6 +76,8 @@ const PresetEditorPreview = () => {
             editor.classList.remove("wap-preset-editor--preview-left");
             editor.classList.remove("wap-preset-editor--preview-overlap");
             editor.style.removeProperty("--wap-preview-drawer-width");
+            editor.style.removeProperty("--wap-preview-overlap-right-pad");
+            editor.style.removeProperty("--wap-preview-overlap-left-pad");
             resizeObserver?.disconnect();
             window.removeEventListener("resize", syncOverlapState);
         };

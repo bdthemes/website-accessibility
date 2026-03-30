@@ -1,6 +1,7 @@
 import { __ } from "@wordpress/i18n";
 import { useDispatch, useSelect } from "@wordpress/data";
 import { STORE_NAME } from "../store";
+import GetStartedPreset from "./preset-get-started";
 import PresetButtonStyle from "./preset-button-style";
 import PresetPanelRightSidebar from "./preset-panel-right-sidebar";
 import HeaderSettings from "../settings/header-settings";
@@ -68,7 +69,7 @@ const PanelSectionTab = ({ item, component }) => {
 };
 
 const PanelCustomizationPreset = () => {
-    const { WapCard, WapTabs } = window?.wapComponents;
+    const { WapCard, WapCollapse } = window?.wapComponents;
     const isProActive = window?.websacPro?.isProActive || false;
     const { presetsFormData } = useSelect((select) =>
         select(STORE_NAME).getPresetsFormData(),
@@ -85,7 +86,12 @@ const PanelCustomizationPreset = () => {
         footer: <FooterSettings />,
     };
 
-    const tabItems = [
+    const topLevelCollapseItems = [
+        {
+            key: "preset",
+            label: __("Preset", "website-accessibility"),
+            children: <GetStartedPreset />,
+        },
         {
             key: "button",
             label: __("Button", "website-accessibility"),
@@ -96,36 +102,27 @@ const PanelCustomizationPreset = () => {
             label: __("Panel Wrapper", "website-accessibility"),
             children: <PresetPanelRightSidebar />,
         },
-        ...sectionItems.map((item) => ({
-            key: item.slug,
-            label: (
-                <div className={`wap-preset-sections__tab-label${item.active === false ? " wap-preset-sections__tab-label--disabled" : ""}`}>
-                    <span>{item.title}</span>
-                    {item?.isPro && !isProActive ? (
-                        <span className="wap-preset-sections__pro">
-                            {__("PRO", "website-accessibility")}
-                        </span>
-                    ) : null}
-                </div>
-            ),
-            children: (
-                <PanelSectionTab
-                    item={item}
-                    component={sectionComponents[item.slug] || null}
-                />
-            ),
-        })),
     ];
 
     return (
         <WapCard className="wap-panel-customization-card">
             <div className="wap-panel-customization">
-                <WapTabs
-                    defaultActiveKey="button"
-                    tabPosition="left"
-                    items={tabItems}
-                    className="wap-panel-customization__tabs"
-                />
+                {topLevelCollapseItems.map((collapseItem) => (
+                    <WapCollapse
+                        key={collapseItem.key}
+                        defaultActiveKey={[collapseItem.key]}
+                        bordered={false}
+                        className="wap-panel-customization__collapse"
+                        items={[collapseItem]}
+                    />
+                ))}
+                {sectionItems.map((item) => (
+                    <PanelSectionTab
+                        key={item.slug}
+                        item={item}
+                        component={sectionComponents[item.slug] || null}
+                    />
+                ))}
             </div>
         </WapCard>
     );

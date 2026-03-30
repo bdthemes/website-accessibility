@@ -180,23 +180,14 @@ class UsageStatisticsRouteV1
             $stats[$browser_key] = [];
         }
 
-        // Make sure today’s entry exists
-        if (! isset($stats[$browser_key][$today])) {
-            $stats[$browser_key][$today] = [];
-        }
+        // Reset today's state for this browser, then apply incoming values.
+        $stats[$browser_key][$today] = $this->empty_counts();
 
-        // Loop through features and update counts
+        // Loop through features and set today's values from current request
         foreach ($this->features as $feature) {
             $count = isset($incoming[$feature]) ? absint($incoming[$feature]) : 0;
             if ($count > 0) {
-                // Initialize if not exists
-                if (! isset($stats[$browser_key][$today][$feature])) {
-                    $stats[$browser_key][$today][$feature] = 0;
-                }
-                // Increment
-                $stats[$browser_key][$today][$feature] += $count;
-            } else {
-                $stats[$browser_key][$today][$feature] = 0;
+                $stats[$browser_key][$today][$feature] = $count;
             }
         }
 
@@ -205,7 +196,7 @@ class UsageStatisticsRouteV1
 
         // Save back to options
         update_option(self::OPTION_KEY, $stats, false);
-
+        error_log( print_r( $stats, true ) );
         return rest_ensure_response([
             'success' => true,
             'message' => __('Statistics updated successfully.', 'website-accessibility'),

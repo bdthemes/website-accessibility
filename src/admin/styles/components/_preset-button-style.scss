@@ -1,30 +1,49 @@
 .wap-button-style-preset {
-    &__collapse {
-        .ant-collapse-item {
-            margin-bottom: 8px;
-            padding: 0 16px;
-            background: #f7f9fc;
-            border-radius: 12px;
+    --wap-button-control-height: 44px;
+
+    .wap-button-style-preset-card {
+        &:not(:last-child) {
+            margin-bottom: 12px;
         }
 
-        .ant-collapse-header {
-            padding: 14px 0 !important;
+        > .ant-card-head {
+            min-height: 48px;
+        }
+
+        > .ant-card-head .ant-card-head-title {
             font-weight: 600;
+            padding: 12px 0;
         }
 
-        .ant-collapse-content-box {
-            padding: 8px 0 14px !important;
+        > .ant-card-body {
+            padding: 12px 16px 16px;
         }
+    }
+
+    .ant-radio-group {
+        min-height: var(--wap-button-control-height);
+    }
+
+    .ant-radio-group .ant-radio-button-wrapper {
+        min-height: var(--wap-button-control-height);
+        line-height: calc(var(--wap-button-control-height) - 2px);
+    }
+
+    .wap-icon-picker.ant-select .ant-select-selector,
+    .ant-select .ant-select-selector {
+        min-height: var(--wap-button-control-height) !important;
+        height: var(--wap-button-control-height) !important;
+        display: flex;
+        align-items: center;
+    }
+
+    .wap-icon-picker.ant-select .ant-select-selection-item,
+    .ant-select .ant-select-selection-item {
+        line-height: calc(var(--wap-button-control-height) - 2px) !important;
     }
 
     .ant-input-number-group-addon {
         padding: 0 8px;
         background: #f5f5f5;
-    }
-}
-
-.wap-button-style-preset-card {
-    > .ant-card-body {
-        padding: 0;
     }
 }
