@@ -62,6 +62,14 @@ export const DEFAULT_STATE = {
     },
 };
 
+export const getDefaultProfilesFormData = () => ({
+    ...DEFAULT_STATE.profilesFormData,
+    name: generateUniqueTitle('New Profile'),
+    features: {
+        ...DEFAULT_STATE.profilesFormData.features,
+    },
+});
+
 const store = createReduxStore(STORE_NAME, {
     reducer(state = DEFAULT_STATE, action) {
         switch (action.type) {

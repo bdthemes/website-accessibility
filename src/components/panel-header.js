@@ -44,9 +44,10 @@ const PanelHeader = ({
     const isConsentDeclined = isFrontend && translateConsent === "false";
     const isConsentAccepted = isFrontend && translateConsent === "true";
     const hasTranslateConsent = isFrontend && !!translateConsent;
-    const isTranslationEnabled = isFrontend
-        ? (isTranslationForced || !!accessibilityContext?.enableTranslations)
+    const isTranslationToggleEnabled = isFrontend
+        ? !!accessibilityContext?.enableTranslations
         : editorTranslationEnabled;
+    const isTranslationEnabled = isTranslationForced || isTranslationToggleEnabled;
     const selectedLanguage = isFrontend
         ? (accessibilityContext?.selectedLanguage || accessibilityContext?.siteLanguage || siteLanguage)
         : editorSelectedLanguage;
@@ -113,7 +114,7 @@ const PanelHeader = ({
             return;
         }
 
-        const nextValue = !isTranslationEnabled;
+        const nextValue = !isTranslationToggleEnabled;
         accessibilityDispatch({
             type: "SET_ENABLE_TRANSLATIONS",
             payload: nextValue,
@@ -184,50 +185,52 @@ const PanelHeader = ({
                     <>
                         {!isTranslationForced && (
                             <WapTooltip
-                                title={isTranslationEnabled ? __("Disable translation", "website-accessibility") : __("Enable translation", "website-accessibility")}
+                                title={isTranslationToggleEnabled ? __("Disable translation", "website-accessibility") : __("Enable translation", "website-accessibility")}
                                 {...tooltipProps}
                             >
                                 <button
                                     type="button"
-                                    className={`wap-panel-customization__header-action-btn ${isTranslationEnabled ? "is-active" : ""}`}
+                                    className={`wap-panel-customization__header-action-btn ${isTranslationToggleEnabled ? "is-active" : ""}`}
                                     onClick={handleToggleTranslation}
-                                    aria-pressed={isTranslationEnabled}
-                                    title={isTranslationEnabled ? __("Disable translation", "website-accessibility") : __("Enable translation", "website-accessibility")}
+                                    aria-pressed={isTranslationToggleEnabled}
+                                    title={isTranslationToggleEnabled ? __("Disable translation", "website-accessibility") : __("Enable translation", "website-accessibility")}
                                 >
-                                    {isTranslationEnabled ? <EyeInvisibleOutlined /> : <EyeOutlined />}
+                                    {isTranslationToggleEnabled ? <EyeInvisibleOutlined /> : <EyeOutlined />}
                                 </button>
                             </WapTooltip>
                         )}
 
-                        <TranslationLanguageDropdown
-                            open={openLanguageDropdown}
-                            onOpenChange={setOpenLanguageDropdown}
-                            value={selectedLanguage}
-                            onChange={handleLanguageChange}
-                            dropdownWidth={panelWidth}
-                            portalTarget={headerElement}
-                            trigger={
-                                <WapTooltip
-                                    title={__("Choose translation language", "website-accessibility")}
-                                    {...tooltipProps}
-                                >
-                                    <button
-                                        type="button"
-                                        className="wap-panel-customization__header-action-btn wap-panel-customization__header-action-btn--language"
+                        {isTranslationToggleEnabled && (
+                            <TranslationLanguageDropdown
+                                open={openLanguageDropdown}
+                                onOpenChange={setOpenLanguageDropdown}
+                                value={selectedLanguage}
+                                onChange={handleLanguageChange}
+                                dropdownWidth={panelWidth}
+                                portalTarget={headerElement}
+                                trigger={
+                                    <WapTooltip
                                         title={__("Choose translation language", "website-accessibility")}
+                                        {...tooltipProps}
                                     >
-                                        {selectedLanguageData?.flag && (
-                                            <span className="wap-panel-customization__header-action-flag">
-                                                {selectedLanguageData.flag}
+                                        <button
+                                            type="button"
+                                            className="wap-panel-customization__header-action-btn wap-panel-customization__header-action-btn--language"
+                                            title={__("Choose translation language", "website-accessibility")}
+                                        >
+                                            {selectedLanguageData?.flag && (
+                                                <span className="wap-panel-customization__header-action-flag">
+                                                    {selectedLanguageData.flag}
+                                                </span>
+                                            )}
+                                            <span className="wap-panel-customization__header-action-language">
+                                                {getTranslationLanguageLabel(selectedLanguage)}
                                             </span>
-                                        )}
-                                        <span className="wap-panel-customization__header-action-language">
-                                            {getTranslationLanguageLabel(selectedLanguage)}
-                                        </span>
-                                    </button>
-                                </WapTooltip>
-                            }
-                        />
+                                        </button>
+                                    </WapTooltip>
+                                }
+                            />
+                        )}
                     </>
                 )}
 

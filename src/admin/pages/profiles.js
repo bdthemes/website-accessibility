@@ -2,7 +2,7 @@ import { __ } from '@wordpress/i18n';
 import PostTable from '../components/post-table';
 import { useHistory } from '../router';
 import { useSelect, useDispatch } from '@wordpress/data';
-import { STORE_NAME } from '../store';
+import { getDefaultProfilesFormData, STORE_NAME } from '../store';
 import ProfilesFallback from '../components/profiles-fallback';
 
 
@@ -12,9 +12,10 @@ const Profiles = () => {
   const isProActive = window?.websacPro?.isProActive || false;
   const history = useHistory();
   const profiles = useSelect((select) => select(STORE_NAME).getProfiles());
-  const { deleteProfile } = useDispatch(STORE_NAME);
+  const { deleteProfile, setProfilesFormData } = useDispatch(STORE_NAME);
 
   const handleCreateProfile = () => {
+    setProfilesFormData(getDefaultProfilesFormData());
     history.push({
       page: 'website-accessibilityfiles-create'
     });
