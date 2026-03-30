@@ -214,7 +214,7 @@ const View = () => {
         }
     }, [isOpen]);
 
-    const saveStatistics = async (data = {}) => {
+    const saveStatistics = async (data) => {
         if (isSavingStatisticsRef.current) return;
 
         // Check if browserKey exists
@@ -228,6 +228,7 @@ const View = () => {
         if (!restUrl) return;
 
         const lastSavedAt = Number(getCookie?.('one_accessibility_daily_timestamp') || 0);
+
         const now = Date.now();
         const intervalValue = Math.max(1, Number(settings?.usage_statistics_interval_value) || 12);
         const intervalUnit = settings?.usage_statistics_interval_unit === 'minute' ? 'minute' : 'hour';
@@ -247,7 +248,7 @@ const View = () => {
 
             statistics[key] = 1;
         }
-
+        
         const apiURL = `${restUrl}one-accessibility/v1/usage-statistics`;
 
         try {
@@ -323,10 +324,9 @@ const View = () => {
                 open={isOpen}
                 onClose={() => {
                     setIsOpen(false)
-                    console.log(saveablePreference?.data?.settings);
                     
-                    if (settings?.show_usage_statistics && saveablePreference?.data?.settings) {
-                        saveStatistics(saveablePreference?.data?.settings);
+                    if (settings?.show_usage_statistics) {
+                        saveStatistics(saveablePreference?.data?.settings || {});
                     }
                 }}
                 placement={currentPreset?.panel?.wrapper?.position || "right"}
