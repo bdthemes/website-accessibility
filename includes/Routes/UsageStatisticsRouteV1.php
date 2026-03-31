@@ -196,7 +196,7 @@ class UsageStatisticsRouteV1
 
         // Save back to options
         update_option(self::OPTION_KEY, $stats, false);
-        error_log( print_r( $stats, true ) );
+
         return rest_ensure_response([
             'success' => true,
             'message' => __('Statistics updated successfully.', 'website-accessibility'),
