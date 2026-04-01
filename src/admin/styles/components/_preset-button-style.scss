@@ -1,22 +1,47 @@
 .wap-button-style-preset {
-    --wap-button-control-height: 44px;
+    --wap-button-control-height: 40px;
 
+    /* Section titles (Content / Style / Position): between collapse header (16px) and field labels (14px) */
     .wap-button-style-preset-card {
+        &.ant-card {
+            border: none;
+            box-shadow: none;
+            background: transparent;
+        }
+
         &:not(:last-child) {
-            margin-bottom: 12px;
+            margin-bottom: 16px;
         }
 
         > .ant-card-head {
-            min-height: 48px;
+            min-height: 0;
+            padding: 0;
+            border-bottom: none;
+            background: transparent;
         }
 
         > .ant-card-head .ant-card-head-title {
             font-weight: 600;
-            padding: 12px 0;
+            font-size: 15px;
+            line-height: 1.4;
+            padding: 0;
+            color: #1f2937;
         }
 
         > .ant-card-body {
-            padding: 12px 16px 16px;
+            padding: 14px 0 0;
+            background: transparent;
+        }
+    }
+
+    /* Breathing room between fields; labels stay 14px (global) — section titles above stay 15px */
+    .wap-control-wrapper {
+        &:not(:last-child) {
+            margin-bottom: 18px;
+        }
+
+        &:not(.wap-control-wrapper--inline) .wap-control-wrapper__head {
+            margin-bottom: 0;
         }
     }
 

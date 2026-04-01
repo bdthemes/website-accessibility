@@ -105,7 +105,7 @@ const PanelCustomizationPreset = () => {
     ];
 
     return (
-        <WapCard className="wap-panel-customization-card">
+        <div className="wap-panel-customization-card">
             <div className="wap-panel-customization">
                 {topLevelCollapseItems.map((collapseItem) => (
                     <WapCollapse
@@ -124,7 +124,7 @@ const PanelCustomizationPreset = () => {
                     />
                 ))}
             </div>
-        </WapCard>
+        </div>
     );
 };
 

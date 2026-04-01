@@ -27,7 +27,7 @@ const ButtonStylePreset = () => {
 
 	return (
 		<div className="wap-button-style-preset">
-			<WapCard className="wap-button-style-preset-card" title={__("Content", "website-accessibility")}>
+			<WapCard bordered={false} className="wap-button-style-preset-card" title={__("Content", "website-accessibility")}>
 				<WapRow gutter={[16, 16]}>
 					<WapCol span={12}>
 						<ControlWrapper label={__("Button Type", "website-accessibility")}>
@@ -74,7 +74,7 @@ const ButtonStylePreset = () => {
 				</WapRow>
 			</WapCard>
 
-			<WapCard className="wap-button-style-preset-card" title={__("Style", "website-accessibility")}>
+			<WapCard bordered={false} className="wap-button-style-preset-card" title={__("Style", "website-accessibility")}>
 				<WapRow gutter={[16, 16]}>
 					<WapCol xs={12} md={8}>
 						<ControlWrapper label={__("Font Size", "website-accessibility")}>
@@ -131,7 +131,7 @@ const ButtonStylePreset = () => {
 				</WapRow>
 			</WapCard>
 
-			<WapCard className="wap-button-style-preset-card" title={__("Position", "website-accessibility")}>
+			<WapCard bordered={false} className="wap-button-style-preset-card" title={__("Position", "website-accessibility")}>
 				<WapRow gutter={[16, 16]}>
 					<WapCol xs={12} md={8}>
 						<ControlWrapper label={__("Button Position", "website-accessibility")}>

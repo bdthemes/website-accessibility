@@ -31,7 +31,7 @@ const FeatureSettings = () => {
 
     return (
         <>
-            <WapTypography.Title level={5}>{__('Feature Customization', 'website-accessibility')}</WapTypography.Title>
+            {/* <WapTypography.Title level={5}>{__('Feature Customization', 'website-accessibility')}</WapTypography.Title> */}
             <FeaturesCustomization updateAttr={updateAttr} attributes={attributes} />
             <WapTypography.Title level={5}>{__('Items', 'website-accessibility')}</WapTypography.Title>
             <ControlWrapper

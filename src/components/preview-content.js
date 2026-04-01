@@ -20,7 +20,9 @@ const PreviewContent = ({
     const [languageDropdownOpen, setLanguageDropdownOpen] = useState(false);
     const lockedPanelScrollTopRef = useRef(0);
 
-    useDrawerScrollControl(panelRef, isOpen);
+    // In preset editor preview, body scroll lock on mouseenter/mouseleave causes admin layout jitter.
+    // Keep drawer scroll lock for real frontend panel only.
+    useDrawerScrollControl(panelRef, isOpen && !isEditorPreview);
 
     /**
      * True if the event is inside the translation language UI (inner list must keep wheel/touch scroll).
