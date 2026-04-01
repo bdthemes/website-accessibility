@@ -14,8 +14,15 @@
 		}
 		.wap-widget-features__feature-icon,
 		.wap-widget-features__feature-label {
-			transform: translateY(-10px);
 			color: #1677ff;
+		}
+
+		/* Move icon/label up only when bottom step indicator exists */
+		&:has(.wap-widget-features-bottom-indicator__step) {
+			.wap-widget-features__feature-icon,
+			.wap-widget-features__feature-label {
+				transform: translateY(-10px);
+			}
 		}
 
 		.wap-widget-features__feature-icon {

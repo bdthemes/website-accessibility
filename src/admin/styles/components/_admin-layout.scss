@@ -1,6 +1,6 @@
 // Admin layout: header + sidebar (Sigma-style with Ant Design)
 .wap-admin-layout {
-	min-height: calc(100vh - 100px);
+	// min-height: calc(100vh - 100px);
     background: #f8fafc;
 	max-width: 1200px;
 	// margin: 0 auto;
@@ -108,7 +108,7 @@
 	background: #fff !important;
 	border: 1px solid #f0f0f0;
 	border-radius: 10px;
-	min-height: calc(100vh - 100px);
+	// min-height: calc(100vh - 100px);
 
 	.ant-menu-item-group {
 		margin-bottom: 18px;

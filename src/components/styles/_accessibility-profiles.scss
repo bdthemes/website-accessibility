@@ -41,6 +41,9 @@
 		align-items: center;
 		gap: 5px;
 		cursor: pointer;
+		&.wap-accessibility-profiles__item--active {
+			box-shadow: 0 0 0 2px #1677ff, 0 2px 8px rgba(22, 119, 255, 0.25);
+		}
 	}
 
 	&__item-icon {

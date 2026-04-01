@@ -256,6 +256,20 @@
 }
 
 .wap-footer-settings {
+    .wap-control-wrapper--inline {
+        .wap-control-wrapper__head {
+            justify-content: flex-start !important;
+            flex-direction: column;
+            align-items: flex-start;
+            gap: 6px;
+        }
+
+        .wap-control-wrapper__inline-content {
+            justify-content: flex-start;
+            margin-left: 0;
+        }
+    }
+
     &__section-title {
         margin: 12px 0 8px !important;
         font-size: 14px !important;
