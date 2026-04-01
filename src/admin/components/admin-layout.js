@@ -2,6 +2,7 @@
  * AdminLayout - Header + Sidebar layout (Ant Design) like Sigma Media Manager
  */
 import { __ } from '@wordpress/i18n';
+import { useState, useEffect } from '@wordpress/element';
 import { Layout, Menu } from 'antd';
 import { useLocation, useHistory } from '../router';
 import {
@@ -40,7 +41,19 @@ const AdminLayout = ({ children }) => {
 	].filter(Boolean);
 
 	const isProPluginActive = typeof window !== 'undefined' && window.websacAdmin?.isProPluginActive;
-	const isLicenseValid = typeof window !== 'undefined' && window.websacAdmin?.isLicenseValid;
+	const [isLicenseValid, setIsLicenseValid] = useState(
+		typeof window !== 'undefined' && !!window.websacAdmin?.isLicenseValid
+	);
+
+	useEffect(() => {
+		const handleLicenseChange = (e) => {
+			setIsLicenseValid(!!e.detail?.isLicenseValid);
+		};
+		window.addEventListener('websac-license-changed', handleLicenseChange);
+		return () => {
+			window.removeEventListener('websac-license-changed', handleLicenseChange);
+		};
+	}, []);
 	const supportItems = [
 		...(IS_PRO_PLUGIN_ACTIVE ? [{ key: 'website-accessibility-license', icon: <IconLicense />, label: __('License', 'website-accessibility') }] : []),
 		...(isProPluginActive ? [{ key: 'website-accessibility-tools', icon: <IconTools />, label: __('Tools & Backup', 'website-accessibility'), disabled: !isLicenseValid }] : []),
