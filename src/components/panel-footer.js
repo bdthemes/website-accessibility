@@ -55,7 +55,7 @@ const PanelFooter = ({ value, accessibilityContext, accessibilityDispatch, isEdi
 
   const saveablePreference = useMemo(() => {
     if (!isFrontend || !currentPresetId || !isUserLoggedIn) return null;
-    const { currentProfile, currentSettings, isOverSized, enableTranslations, selectedLanguage } = accessibilityContext;
+    const { currentProfile, currentSettings, isOverSized, selectedLanguage } = accessibilityContext;
 
     const serializableProfile = {
       id: currentProfile?.id,
@@ -77,13 +77,12 @@ const PanelFooter = ({ value, accessibilityContext, accessibilityDispatch, isEdi
     }
 
     if (isOverSized) data.oversized = isOverSized;
-    if (enableTranslations || settings?.always_on_translations) {
-      data.enableTranslations = enableTranslations;
+    if (selectedLanguage) {
       data.selectedLanguage = selectedLanguage;
     }
 
     return { post_id: currentPresetId, data };
-  }, [accessibilityContext?.currentProfile, accessibilityContext?.currentSettings, accessibilityContext?.isOverSized, accessibilityContext?.enableTranslations, accessibilityContext?.selectedLanguage, currentPresetId, isFrontend, isUserLoggedIn, settings?.always_on_translations]);
+  }, [accessibilityContext?.currentProfile, accessibilityContext?.currentSettings, accessibilityContext?.isOverSized, accessibilityContext?.selectedLanguage, currentPresetId, isFrontend, isUserLoggedIn]);
 
   // Fetch preference state
   useEffect(() => {

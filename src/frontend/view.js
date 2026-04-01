@@ -53,13 +53,21 @@ const View = () => {
         }
         dispatch({ type: 'SET_CURRENT_PROFILE', payload: validCurrentProfile });
         dispatch({ type: 'SET_OVERSIZED', payload: preferenceData.oversized || false });
-        dispatch({ type: 'SET_ENABLE_TRANSLATIONS', payload: preferenceData.enableTranslations || false });
-        dispatch({ type: 'SET_SELECTED_LANGUAGE', payload: preferenceData.selectedLanguage || null });
+        const selectedLanguage = preferenceData.selectedLanguage || null;
+        dispatch({ type: 'SET_SELECTED_LANGUAGE', payload: selectedLanguage });
+        dispatch({
+            type: 'SET_ENABLE_TRANSLATIONS',
+            payload: !!selectedLanguage
+                && (
+                    selectedLanguage !== state?.siteLanguage
+                    || !!settings?.force_translate_site_language
+                ),
+        });
     }
 
     const saveablePreference = useMemo(() => {
         if (!currentPresetId) return null;
-        const { currentProfile, currentSettings, isOverSized, enableTranslations, selectedLanguage } = state;
+        const { currentProfile, currentSettings, isOverSized, selectedLanguage } = state;
 
         const serializableProfile = {
             id: currentProfile?.id,
@@ -81,13 +89,12 @@ const View = () => {
         }
 
         if (isOverSized) data.oversized = isOverSized;
-        if (enableTranslations || settings?.always_on_translations) {
-            data.enableTranslations = enableTranslations;
+        if (selectedLanguage) {
             data.selectedLanguage = selectedLanguage;
         }
 
         return { post_id: currentPresetId, data };
-    }, [state?.currentProfile, state?.currentSettings, state?.isOverSized, state?.enableTranslations, state?.selectedLanguage]);
+    }, [state?.currentProfile, state?.currentSettings, state?.isOverSized, state?.selectedLanguage, state?.siteLanguage]);
 
     useEffect(() => {
         if (!currentPresetId || !isUserLoggedIn) return;
@@ -171,7 +178,12 @@ const View = () => {
             addBodyClasses([`one-accessibility-feature-${key}-${attr?.value}`]);
         }
 
-        if (state?.enableTranslations && state?.selectedLanguage) {
+        const shouldTranslate = !!state?.selectedLanguage
+            && (
+                state?.selectedLanguage !== state?.siteLanguage
+                || !!settings?.force_translate_site_language
+            );
+        if (shouldTranslate) {
             addBodyClasses(['one-accessibility-feature-enable-translations', `one-accessibility-feature-language-${state?.selectedLanguage}`]);
         }
 
@@ -179,7 +191,7 @@ const View = () => {
             addBodyClasses([`one-accessibility-feature-profile-${state?.currentProfile?.id}`]);
         }
         
-    }, [state?.currentSettings, currentPresetId, state?.currentProfile, state?.isOverSized, state?.enableTranslations, state?.selectedLanguage]);
+    }, [state?.currentSettings, currentPresetId, state?.currentProfile, state?.isOverSized, state?.selectedLanguage, state?.siteLanguage, settings?.force_translate_site_language]);
 
     /**
      * Keyboard shortcuts: ESC to close, Ctrl+U to open
