@@ -78,7 +78,7 @@ const ProfileEditorPreview = ({ formData, profileId = null }) => {
         return {
             wrapper: {
                 width: 420,
-                background: "#ffffff",
+                background: "#F1F3F8",
                 border: "none",
                 borderRadius: "12px",
                 padding: "0",
