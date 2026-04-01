@@ -30,7 +30,7 @@ const PresetPanelRightSidebar = () => {
 
 	return (
 		<div className="wap-panel-right-sidebar">
-			<WapCard className="wap-panel-right-sidebar__card" title={__("Layout", "website-accessibility")}>
+			<WapCard bordered={false} className="wap-panel-right-sidebar__card" title={__("Layout", "website-accessibility")}>
 				<WapRow gutter={[16, 0]}>
 					<WapCol xs={24} md={12}>
 						<ControlWrapper label={__("Panel Position", "website-accessibility")}>
@@ -58,7 +58,7 @@ const PresetPanelRightSidebar = () => {
 				</WapRow>
 			</WapCard>
 
-			<WapCard className="wap-panel-right-sidebar__card" title={__("Style", "website-accessibility")}>
+			<WapCard bordered={false} className="wap-panel-right-sidebar__card" title={__("Style", "website-accessibility")}>
 				<WapRow gutter={[16, 16]}>
 					<WapCol xs={12} md={8}>
 						<ControlWrapper label={__("Background Color", "website-accessibility")}>

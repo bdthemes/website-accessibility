@@ -1,5 +1,4 @@
 .wap-panel-customization {
-    padding: 20px 24px 24px;
 
     &__tabs {
         width: 100%;
@@ -54,18 +53,36 @@
 .wap-panel-customization__collapse,
 .wap-preset-sections__collapse {
     .ant-collapse-item {
-        padding: 0 16px;
-        background: #f7f9fc;
-        border-radius: 12px;
+        // padding: 0 16px;
+        background: #fff;
+        border-radius: 8px !important;
+        border: 1px solid #eef2f7;
     }
 
     .ant-collapse-header {
-        padding: 14px 0 !important;
+        padding: 14px 16px !important;
         font-weight: 600;
+        font-size: 16px;
+        line-height: 1.35;
+        color: #111827;
+    }
+
+    .ant-collapse-content {
+        padding: 16px !important;
+        .ant-typography {
+            margin: 0 0 8px;
+        }
+    }
+
+
+    /* Separator under title row when panel is open (matches header / content split) */
+    .ant-collapse-item-active > .ant-collapse-header {
+        border-bottom: 1px solid #e5e9f0;
+        margin-bottom: 0;
     }
 
     .ant-collapse-content-box {
-        padding: 8px 0 14px !important;
+        padding: 0 !important;
     }
 }
 
@@ -132,18 +149,18 @@
 }
 
 .wap-features-customization {
-    background: #f8fafc;
-    border-radius: 14px;
-    border: 1px solid #eef2f7;
-    box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.8);
+    background: transparent;
+    border-radius: 0;
+    border: 0;
+    box-shadow: none;
 
     .ant-card-body {
-        padding: 16px;
+        padding: 0;
     }
 
     &__category {
         &:not(:last-child) {
-            margin-bottom: 16px;
+            margin-bottom: 14px;
         }
     }
 
@@ -151,12 +168,13 @@
         display: flex;
         align-items: center;
         justify-content: space-between;
-        gap: 12px;
-        margin-bottom: 10px;
-        padding: 10px 12px;
-        background: linear-gradient(180deg, #ffffff 0%, #f4f7fb 100%);
-        border: 1px solid #e7edf5;
-        border-radius: 12px;
+        gap: 10px;
+        margin-bottom: 6px;
+        padding: 0 2px 8px;
+        background: transparent;
+        border: 0;
+        border-bottom: 1px solid #edf1f5;
+        border-radius: 0;
     }
 
     &__category-title {
@@ -171,40 +189,82 @@
         display: inline-flex;
         align-items: center;
         justify-content: center;
-        min-width: 28px;
-        height: 28px;
-        padding: 0 10px;
+        min-width: 24px;
+        height: 24px;
+        padding: 0 8px;
         border-radius: 999px;
-        background: #e8f1ff;
-        color: #1d4ed8;
-        font-size: 12px;
-        font-weight: 700;
+        background: #f3f6fb;
+        color: #4b5563;
+        font-size: 11px;
+        font-weight: 600;
         line-height: 1;
-        box-shadow: inset 0 0 0 1px rgba(29, 78, 216, 0.08);
+        box-shadow: none;
+    }
+
+    .ant-input-affix-wrapper {
+        border-radius: 8px;
+        padding: 0px 11px !important;
+        .ant-input {
+           border: none !important;
+           box-shadow: none !important;
+           outline: none !important;
+        }
+    }
+
+    .ant-list-item {
+        padding: 4px 2px;
+        border-bottom: none;
     }
 }
 
 .wap-panel-right-sidebar {
     &__card {
+        &.ant-card {
+            border: none;
+            box-shadow: none;
+            background: transparent;
+        }
+
         &:not(:last-child) {
-            margin-bottom: 12px;
+            margin-bottom: 16px;
         }
 
         > .ant-card-head {
-            min-height: 48px;
+            min-height: 0;
+            padding: 0;
+            border-bottom: none;
+            background: transparent;
         }
 
         > .ant-card-head .ant-card-head-title {
             font-weight: 600;
-            padding: 12px 0;
+            font-size: 15px;
+            line-height: 1.4;
+            padding: 0;
+            color: #1f2937;
         }
 
         > .ant-card-body {
-            padding: 12px 16px 16px;
+            padding:14px 0 0;
+            background: transparent;
         }
     }
 }
 
 .ant-select-dropdown{
     z-index: 999999 !important;
+}
+
+.wap-footer-settings {
+    &__section-title {
+        margin: 12px 0 8px !important;
+        font-size: 14px !important;
+        font-weight: 600 !important;
+        line-height: 1.35 !important;
+        color: #1f2937 !important;
+    }
+
+    &__section-title:first-child {
+        margin-top: 0 !important;
+    }
 }

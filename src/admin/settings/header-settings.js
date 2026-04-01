@@ -33,7 +33,7 @@ const HeaderSettings = () => {
 
     return (
         <div className="wap-header-settings">
-            <WapCard className="wap-panel-right-sidebar__card" title={__("Content", "website-accessibility")}>
+            <WapCard bordered={false} className="wap-panel-right-sidebar__card" title={__("Content", "website-accessibility")}>
                 <WapRow gutter={[16, 16]}>
                     <WapCol xs={24} md={12}>
                         <ControlWrapper label={__("Header Text", "website-accessibility")}>
@@ -59,7 +59,7 @@ const HeaderSettings = () => {
                 </WapRow>
             </WapCard>
 
-            <WapCard className="wap-panel-right-sidebar__card" title={__("Style", "website-accessibility")}>
+            <WapCard bordered={false} className="wap-panel-right-sidebar__card" title={__("Style", "website-accessibility")}>
                 <WapRow gutter={[16, 16]}>
                     <WapCol xs={24} md={12}>
                         <ControlWrapper label={__("Background", "website-accessibility")}>

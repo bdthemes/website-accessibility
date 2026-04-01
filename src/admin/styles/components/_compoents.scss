@@ -29,7 +29,27 @@
     }
 }
 
+/* Root + inner rows: no chrome — spacing between fields comes from margin rules in page SCSS */
 .wap-control-wrapper {
+    border: none;
+    box-shadow: none;
+    background: transparent;
+    padding: 0;
+
+    &__head {
+        border: none;
+        box-shadow: none;
+        background: transparent;
+        padding: 0;
+    }
+
+    &__inline-content {
+        border: none;
+        box-shadow: none;
+        background: transparent;
+        padding: 0;
+    }
+
     &--inline {
         .wap-control-wrapper__head {
             width: 100%;
@@ -52,7 +72,7 @@
 .wap-color-picker {
     &__trigger {
         width: 100%;
-        min-height: 36px;
+        min-height: 40px;
         display: inline-flex;
         align-items: center;
         gap: 10px;
