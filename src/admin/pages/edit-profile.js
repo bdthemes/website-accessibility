@@ -4,6 +4,7 @@ import { useDispatch, useSelect } from '@wordpress/data';
 import { DEFAULT_STATE, STORE_NAME } from '../store';
 import { useHistory, useLocation } from '../router';
 import ProfileForm from '../components/profile-form';
+import ProfileEditorPreview from '../components/profile-editor-preview';
 
 
 
@@ -93,12 +94,18 @@ const EditProfile = () => {
                     </WapButton>
                 </WapCard>
 
-                <ProfileForm
+                <div className="wap-profile-editor-content">
+                    <ProfileForm
+                        formData={profilesFormData}
+                        onFormChange={setProfilesFormData}
+                    />
+                </div>
+                <ProfileEditorPreview
                     formData={profilesFormData}
-                    onFormChange={setProfilesFormData}
+                    profileId={id}
                 />
 
-                <div style={{ marginTop: 24, textAlign: 'right' }}>
+                <div className="wap-profile-form-actions" style={{ marginTop: 24, textAlign: 'right' }}>
                     <WapSpace>
                         <WapButton onClick={handleBack} size='large'>
                             <WapSpace>

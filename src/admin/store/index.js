@@ -53,6 +53,7 @@ export const DEFAULT_STATE = {
             hideImages: '',
             dyslexiaFriendly: '',
             cursor: '',
+            keyboardNavigation: '',
             tooltips: '',
             lineHeight: '',
             textAlign: '',

@@ -70,6 +70,22 @@
 .wap-create-profiles,
 .wap-edit-profile {
     --wap-profile-info-control-height: 100px;
+    --wap-profile-preview-width: 420px;
+    --wap-profile-preview-overlap-right-pad: 0px;
+
+    .wap-profile-editor-content,
+    .wap-profile-form-actions {
+        transition: padding 0.24s ease, max-width 0.24s ease;
+    }
+
+    @media (min-width: 1280px) {
+        &.wap-profile-editor--preview-overlap {
+            .wap-profile-editor-content,
+            .wap-profile-form-actions {
+                padding-right: var(--wap-profile-preview-overlap-right-pad, 0px);
+            }
+        }
+    }
 
     .wap-profile-info-field--description .ant-input-textarea textarea {
         min-height: var(--wap-profile-info-control-height) !important;
@@ -207,6 +223,22 @@
         background: #1677ff;
     }
 
+}
+
+.wap-profile-editor__floating-preview {
+    z-index: 999999;
+}
+
+.wap-profile-editor__preview-drawer-root {
+    z-index: 1000000 !important;
+}
+
+.wap-profile-editor__preview-drawer-root .ant-drawer-content-wrapper {
+    pointer-events: auto;
+}
+
+.wap-profile-editor__preview-drawer-root .wap-panel-customization__panel * {
+    pointer-events: none;
 }
 
 // Keep preview sizing global because modal content is portaled outside page wrappers.

@@ -1,7 +1,8 @@
 import { __ } from '@wordpress/i18n';
 import clsx from 'clsx';
-import { useState } from '@wordpress/element';
+import { useMemo, useState } from '@wordpress/element';
 import ControlWrapper from './control-wrapper';
+import { DEFAULT_FEATURE_CATEGORY_DEFINITIONS } from '../../utils/feature-categories';
 
 
 // Widget features with their control options
@@ -207,6 +208,20 @@ const widgetFeatures = [
         ],
     },
     {
+        key: 'keyboardNavigation',
+        label: __('Keyboard Navigation', 'website-accessibility'),
+        icon: (
+            <svg width="24" height="24" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 48 48">
+                <defs>
+                    <style>{`.cls-1{fill:none;stroke:#000;stroke-linecap:round;stroke-linejoin:round}`}</style>
+                </defs>
+                <path d="M8.14 14.94v4.53h4.53v-4.53Zm6.8 0v4.53h4.53v-4.53Zm6.79 0v4.53h4.54v-4.53Zm6.8 0v4.53h4.53v-4.53Zm6.8 0v4.53h4.53v-4.53ZM8.14 21.73v4.54h4.53v-4.54Zm6.8 0v4.54h4.53v-4.54Zm6.79 0v4.54h4.54v-4.54Zm6.8 0v4.54h4.53v-4.54Zm6.8 0v4.54h4.53v-4.54Zm-27.19 6.8v4.53h4.53v-4.53Zm6.8 0v4.53h18.12v-4.53Zm20.39 0v4.53h4.53v-4.53Z" className="cls-1" />
+                <path d="M43.5 35.5v-23a2 2 0 0 0-2-2h-35a2 2 0 0 0-2 2v23a2 2 0 0 0 2 2h35a2 2 0 0 0 2-2Z" className="cls-1" />
+            </svg>
+        ),
+        control: 'switch',
+    },
+    {
         key: 'tooltips',
         label: __('Tooltips', 'website-accessibility'),
         icon: (
@@ -389,6 +404,43 @@ const ProfileForm = ({ formData, onFormChange }) => {
         }
     };
 
+    const categorizedWidgetFeatures = useMemo(() => {
+        const featureByKey = widgetFeatures.reduce((acc, feature) => {
+            acc[feature.key] = feature;
+            return acc;
+        }, {});
+
+        const used = new Set();
+        const categories = DEFAULT_FEATURE_CATEGORY_DEFINITIONS
+            .map((category) => {
+                const featuresInCategory = category.keys
+                    .map((key) => featureByKey[key])
+                    .filter(Boolean);
+
+                featuresInCategory.forEach((feature) => used.add(feature.key));
+
+                if (!featuresInCategory.length) return null;
+
+                return {
+                    slug: category.slug,
+                    title: category.title,
+                    features: featuresInCategory,
+                };
+            })
+            .filter(Boolean);
+
+        const uncategorized = widgetFeatures.filter((feature) => !used.has(feature.key));
+        if (uncategorized.length) {
+            categories.push({
+                slug: 'other',
+                title: __('Other', 'website-accessibility'),
+                features: uncategorized,
+            });
+        }
+
+        return categories;
+    }, []);
+
     return (
         <div>
             <WapCard className='wap-profile-form-left-card' title={__('Profile Information', 'website-accessibility')}>
@@ -449,58 +501,65 @@ const ProfileForm = ({ formData, onFormChange }) => {
             </WapCard>
 
             <WapCard title={__('Accessibility Features', 'website-accessibility')} style={{ marginTop: 16 }}>
-                <WapRow gutter={[12, 12]} className="wap-profile-widget-features">
-                    {widgetFeatures.map((feature) => {
-                        const active = isFeatureActive(feature);
-                        const currentStep = getCurrentStep(feature);
-                        const totalSteps = getTotalSteps(feature);
-                        return (
-                            <WapCol xs={24} sm={12} lg={6} key={feature.key}>
-                                <div
-                                    className={clsx('wap-profile-widget-features__item', {
-                                        'wap-profile-widget-features__item--active': active,
-                                    })}
-                                >
-                                    <div
-                                        className="wap-profile-widget-features__feature-btn"
-                                        role="button"
-                                        tabIndex={0}
-                                        onClick={() => handleFeatureCardClick(feature)}
-                                        onKeyDown={(event) => {
-                                            if (event.key === 'Enter' || event.key === ' ') {
-                                                event.preventDefault();
-                                                handleFeatureCardClick(feature);
-                                            }
-                                        }}
-                                    >
-                                        <span className="wap-profile-widget-features__feature-icon">
-                                            {feature.icon}
-                                        </span>
-                                        <span className="wap-profile-widget-features__feature-label">
-                                            {getFeatureLabel(feature)}
-                                        </span>
+                {categorizedWidgetFeatures.map((category) => (
+                    <div key={category.slug} style={{ marginTop: category.slug === categorizedWidgetFeatures[0]?.slug ? 0 : 16 }}>
+                        <h4 style={{ margin: '0 0 10px', fontSize: 14, fontWeight: 600 }}>
+                            {category.title}
+                        </h4>
+                        <WapRow gutter={[12, 12]} className="wap-profile-widget-features">
+                            {category.features.map((feature) => {
+                                const active = isFeatureActive(feature);
+                                const currentStep = getCurrentStep(feature);
+                                const totalSteps = getTotalSteps(feature);
+                                return (
+                                    <WapCol xs={24} sm={12} lg={8} key={feature.key}>
+                                        <div
+                                            className={clsx('wap-profile-widget-features__item', {
+                                                'wap-profile-widget-features__item--active': active,
+                                            })}
+                                        >
+                                            <div
+                                                className="wap-profile-widget-features__feature-btn"
+                                                role="button"
+                                                tabIndex={0}
+                                                onClick={() => handleFeatureCardClick(feature)}
+                                                onKeyDown={(event) => {
+                                                    if (event.key === 'Enter' || event.key === ' ') {
+                                                        event.preventDefault();
+                                                        handleFeatureCardClick(feature);
+                                                    }
+                                                }}
+                                            >
+                                                <span className="wap-profile-widget-features__feature-icon">
+                                                    {feature.icon}
+                                                </span>
+                                                <span className="wap-profile-widget-features__feature-label">
+                                                    {getFeatureLabel(feature)}
+                                                </span>
 
-                                        {feature.control === 'select' && active && totalSteps > 0 && (
-                                            <span className="wap-profile-widget-features__steps">
-                                                {[...Array(totalSteps).keys()].map((step) => (
-                                                    <span
-                                                        key={step}
-                                                        className={clsx(
-                                                            'wap-profile-widget-features__steps-item',
-                                                            {
-                                                                'wap-profile-widget-features__steps-item--active': step + 1 === currentStep,
-                                                            },
-                                                        )}
-                                                    />
-                                                ))}
-                                            </span>
-                                        )}
-                                    </div>
-                                </div>
-                            </WapCol>
-                        );
-                    })}
-                </WapRow>
+                                                {feature.control === 'select' && active && totalSteps > 0 && (
+                                                    <span className="wap-profile-widget-features__steps">
+                                                        {[...Array(totalSteps).keys()].map((step) => (
+                                                            <span
+                                                                key={step}
+                                                                className={clsx(
+                                                                    'wap-profile-widget-features__steps-item',
+                                                                    {
+                                                                        'wap-profile-widget-features__steps-item--active': step + 1 === currentStep,
+                                                                    },
+                                                                )}
+                                                            />
+                                                        ))}
+                                                    </span>
+                                                )}
+                                            </div>
+                                        </div>
+                                    </WapCol>
+                                );
+                            })}
+                        </WapRow>
+                    </div>
+                ))}
             </WapCard>
 
             <WapModal
