@@ -48,7 +48,7 @@ const FooterSettings = () => {
 
                     <WapTypography.Title level={5} className="wap-footer-settings__section-title">{__('Preference Button', 'website-accessibility')}</WapTypography.Title>
                     <WapRow gutter={[16, 12]}>
-                        <WapCol xs={24} md={24}>
+                        <WapCol xs={24} md={24} style={{ marginBottom: '10px' }}>
                             <ControlWrapper label={__('Active Preference', 'website-accessibility')} inline>
                                 <WapSwitch checked={attributes.activePreference || false} onChange={checked => updateAttr({ activePreference: checked })} />
                             </ControlWrapper>

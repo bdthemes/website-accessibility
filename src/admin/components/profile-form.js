@@ -512,7 +512,7 @@ const ProfileForm = ({ formData, onFormChange }) => {
                                 const currentStep = getCurrentStep(feature);
                                 const totalSteps = getTotalSteps(feature);
                                 return (
-                                    <WapCol xs={24} sm={12} lg={8} key={feature.key}>
+                                    <WapCol xs={24} sm={12} lg={6} key={feature.key}>
                                         <div
                                             className={clsx('wap-profile-widget-features__item', {
                                                 'wap-profile-widget-features__item--active': active,
