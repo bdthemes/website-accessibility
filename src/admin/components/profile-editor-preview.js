@@ -1,4 +1,4 @@
-import { useEffect, useMemo } from "@wordpress/element";
+import { useEffect, useMemo, useState } from "@wordpress/element";
 import clsx from "clsx";
 import PreviewContent from "../../components/preview-content";
 import panelItems from "../../utils/panel-items";
@@ -6,8 +6,9 @@ import panelItems from "../../utils/panel-items";
 const PREVIEW_PROFILE_ID = "__wap_preview_profile__";
 
 const ProfileEditorPreview = ({ formData, profileId = null }) => {
-    const { WapDrawer } = window?.wapComponents || {};
+    const { PreviewButton, Icon, WapDrawer } = window?.wapComponents || {};
     const { defaultProfiles = [], features = [] } = window?.wapHelpers || {};
+    const [isOpen, setIsOpen] = useState(true);
 
     const previewProfile = useMemo(() => {
         const safeId = profileId || PREVIEW_PROFILE_ID;
@@ -41,10 +42,20 @@ const ProfileEditorPreview = ({ formData, profileId = null }) => {
             if (currentIndex < 0) continue;
 
             const isMultiStep = feature.attributes.length !== 2 && feature.attributes[0]?.value !== "enable";
+            if (isMultiStep) {
+                settings[key] = {
+                    currentStep: currentIndex + 1,
+                    currentAttribute: feature.attributes[currentIndex],
+                    isMultiStep: true,
+                };
+                continue;
+            }
+
+            const isEnabled = value === "enable";
             settings[key] = {
-                currentStep: isMultiStep ? currentIndex + 1 : 1,
-                currentAttribute: isMultiStep ? feature.attributes[currentIndex] : feature.attributes[0],
-                isMultiStep,
+                currentStep: isEnabled ? 1 : 0,
+                currentAttribute: isEnabled ? feature.attributes[0] : null,
+                isMultiStep: false,
             };
         }
 
@@ -117,7 +128,7 @@ const ProfileEditorPreview = ({ formData, profileId = null }) => {
         if (!editor) return undefined;
 
         const syncOverlapState = () => {
-            if (!editorContent) {
+            if (!editorContent || !isOpen) {
                 editor.classList.remove("wap-profile-editor--preview-overlap");
                 editor.style.setProperty("--wap-profile-preview-overlap-right-pad", "0px");
                 return;
@@ -149,15 +160,34 @@ const ProfileEditorPreview = ({ formData, profileId = null }) => {
             resizeObserver?.disconnect();
             window.removeEventListener("resize", syncOverlapState);
         };
-    }, []);
+    }, [isOpen]);
 
-    if (!WapDrawer) return null;
+    if (!PreviewButton || !WapDrawer) return null;
 
     return (
         <div className="wap-profile-editor__floating-preview">
+            <PreviewButton
+                type="default"
+                text={null}
+                icon={<Icon name="accessibility1" />}
+                className={clsx(
+                    "wap-button-style-preset__preview-btn",
+                    "bottom-right",
+                    "wap-button-style-preset__preview-btn--icon",
+                )}
+                style={{
+                    "--button-color": "#ffffff",
+                    "--button-bg": "#1677ff",
+                    "--button-offset-x": "30px",
+                    "--button-offset-y": "30px",
+                }}
+                onClick={() => setIsOpen((prev) => !prev)}
+                aria-expanded={isOpen}
+                aria-label="Accessibility Menu Preview"
+            />
             <WapDrawer
-                open
-                onClose={() => null}
+                open={isOpen}
+                onClose={() => setIsOpen(false)}
                 placement="right"
                 className={clsx(
                     "wap-preset__preview-drawer",
@@ -174,14 +204,14 @@ const ProfileEditorPreview = ({ formData, profileId = null }) => {
                 width={420}
                 mask={false}
                 closable={false}
-                keyboard={false}
+                keyboard
                 maskClosable={false}
             >
                 <PreviewContent
                     panel={previewPanelWithProfiles}
                     allProfiles={allProfiles}
-                    setIsOpen={() => null}
-                    isOpen
+                    setIsOpen={setIsOpen}
+                    isOpen={isOpen}
                     accessibilityContext={{
                         currentProfile: previewProfile,
                         currentSettings: previewSettings,

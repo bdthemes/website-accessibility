@@ -222,6 +222,12 @@
 
 .wap-profile-editor__floating-preview {
     z-index: 999999;
+
+    .wap-button-style-preset__preview-btn {
+        position: fixed;
+        pointer-events: auto;
+        z-index: 999998;
+    }
 }
 
 .wap-profile-editor__preview-drawer-root {
@@ -234,6 +240,12 @@
 
 .wap-profile-editor__preview-drawer-root .wap-panel-customization__panel * {
     pointer-events: none;
+}
+
+.wap-profile-editor__preview-drawer-root .wap-panel-customization__header-close,
+.wap-profile-editor__preview-drawer-root .wap-panel-customization__header-close * {
+    pointer-events: auto;
+    cursor: pointer;
 }
 
 // Keep preview sizing global because modal content is portaled outside page wrappers.

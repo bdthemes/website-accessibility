@@ -356,6 +356,7 @@ const View = () => {
                 />
             </WapDrawer>
             <GoogleTranslateConsent
+                key={`gtc-${settings?.force_translate_site_language ? "force" : "normal"}-${state?.siteLanguage || "none"}`}
                 showModal={settings?.show_translations_consent && isTranslatorEnabled}
                 translateSiteLang={settings?.force_translate_site_language}
                 accessibilityContext={state}

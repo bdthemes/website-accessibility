@@ -141,13 +141,21 @@ const AccessibilityProfiles = ({
 				const isMultiStep =
 					feature.attributes.length !== 2 &&
 					feature.attributes[0]?.value !== "enable";
-				const currentAttribute = isMultiStep
-					? feature.attributes[currentIndex]
-					: feature.attributes[0];
+
+				if (isMultiStep) {
+					updatedSettings[key] = {
+						currentStep: currentIndex + 1,
+						currentAttribute: feature.attributes[currentIndex],
+						isMultiStep: true,
+					};
+					continue;
+				}
+
+				const isEnabled = setting === "enable";
 				updatedSettings[key] = {
-					currentStep: isMultiStep ? currentIndex + 1 : 1,
-					currentAttribute,
-					isMultiStep,
+					currentStep: isEnabled ? 1 : 0,
+					currentAttribute: isEnabled ? feature.attributes[0] : null,
+					isMultiStep: false,
 				};
 			}
 		}

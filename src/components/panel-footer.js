@@ -109,6 +109,19 @@ const PanelFooter = ({ value, accessibilityContext, accessibilityDispatch, isEdi
   const handleReset = () => {
     if (!isFrontend) return;
     accessibilityDispatch({ type: 'RESET_ACCESSIBILITY' });
+
+    if (settings?.force_translate_site_language) {
+      const fallbackLanguage = accessibilityContext?.siteLanguage || null;
+      accessibilityDispatch({
+        type: 'SET_SELECTED_LANGUAGE',
+        payload: fallbackLanguage,
+      });
+      accessibilityDispatch({
+        type: 'SET_ENABLE_TRANSLATIONS',
+        payload: !!fallbackLanguage,
+      });
+    }
+
     messageApi.info({
       content: __('All accessibility settings have been reset to default.', 'website-accessibility'),
       style: { marginBlockStart: 20 },

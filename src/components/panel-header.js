@@ -130,24 +130,19 @@ const PanelHeader = ({
 
         clearTranslationCacheState();
 
-        // Force a clean re-apply cycle to avoid stale translated fragments.
-        accessibilityDispatch({ type: "SET_ENABLE_TRANSLATIONS", payload: false });
-        accessibilityDispatch({ type: "SET_SELECTED_LANGUAGE", payload: null });
+        // Apply immediately so first-time translation is not blocked by async toggles.
+        accessibilityDispatch({
+            type: "SET_SELECTED_LANGUAGE",
+            payload: languageCode,
+        });
 
-        window.setTimeout(() => {
-            accessibilityDispatch({
-                type: "SET_SELECTED_LANGUAGE",
-                payload: languageCode,
-            });
-
-            accessibilityDispatch({
-                type: "SET_ENABLE_TRANSLATIONS",
-                payload: !!languageCode && (
-                    languageCode !== (accessibilityContext?.siteLanguage || siteLanguage)
-                    || isForceTranslateSiteLanguage
-                ),
-            });
-        }, 30);
+        accessibilityDispatch({
+            type: "SET_ENABLE_TRANSLATIONS",
+            payload: !!languageCode && (
+                languageCode !== (accessibilityContext?.siteLanguage || siteLanguage)
+                || isForceTranslateSiteLanguage
+            ),
+        });
     };
 
     const handleClearConsent = () => {
