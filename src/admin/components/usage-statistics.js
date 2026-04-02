@@ -1,7 +1,7 @@
 import { useState, useEffect, useMemo } from "@wordpress/element";
 import { __ } from "@wordpress/i18n";
 import apiFetch from "@wordpress/api-fetch";
-
+import { useLicense } from "../context/LicenseContext";
 const HIGHLIGHT_COUNT = 4;
 
 const UsageStatistics = () => {
@@ -12,6 +12,7 @@ const UsageStatistics = () => {
     const [loading, setLoading] = useState(false);
     const [filter, setFilter] = useState("daily");
     const { features } = window?.wapHelpers || {};
+    const { isProActive } = useLicense();
 
     const fetchStats = async (range) => {
         setLoading(true);
@@ -106,45 +107,68 @@ const UsageStatistics = () => {
                                 const pct = sharePercent(stat.num);
                                 const mod = stat.key || "default";
                                 return (
-                                    <WapCol xs={24} sm={12} lg={6} key={stat.key || mod}>
-                                        <div
-                                            className={`wap-statistics-highlight__card wap-statistics-highlight__card--${mod}`}
-                                        >
-                                            <div className="wap-statistics-highlight__top">
-                                                <div className="wap-statistics-highlight__icon-wrap" aria-hidden="true">
-                                                    <span className="wap-statistics-highlight__icon">{stat.icon}</span>
-                                                </div>
-                                                <div
-                                                    className="wap-statistics-highlight__stat-pill"
-                                                    title={
-                                                        totalUses > 0 && pct > 0
-                                                            ? `${__("Share of total uses in this period", "website-accessibility")}: ${pct}%`
-                                                            : undefined
-                                                    }
-                                                >
-                                                    <span className="wap-statistics-highlight__stat-num">{stat.num}</span>
-                                                    {totalUses > 0 && pct > 0 && (
-                                                        <span className="wap-statistics-highlight__stat-pct">{pct}%</span>
-                                                    )}
-                                                </div>
-                                            </div>
-                                            <div className="wap-statistics-highlight__bottom">
-                                                <div className="wap-statistics-highlight__label-row">
-                                                    <span className="wap-statistics-highlight__label" title={stat.title}>
-                                                        {stat.title}
-                                                    </span>
-                                                    {stat.isDummy && (
-                                                        <WapBadge
-                                                            color="gold"
-                                                            count={__("PRO", "website-accessibility")}
-                                                            className="wap-statistics-highlight__badge"
-                                                        />
-                                                    )}
-                                                </div>
-                                            </div>
-                                        </div>
-                                    </WapCol>
-                                );
+																	<WapCol
+																		xs={24}
+																		sm={12}
+																		lg={6}
+																		key={stat.key || mod}
+																	>
+																		<div
+																			className={`wap-statistics-highlight__card wap-statistics-highlight__card--${mod}`}
+																		>
+																			<div className="wap-statistics-highlight__top">
+																				<div
+																					className="wap-statistics-highlight__icon-wrap"
+																					aria-hidden="true"
+																				>
+																					<span className="wap-statistics-highlight__icon">
+																						{stat.icon}
+																					</span>
+																				</div>
+																				<div
+																					className="wap-statistics-highlight__stat-pill"
+																					title={
+																						totalUses > 0 && pct > 0
+																							? `${__(
+																									"Share of total uses in this period",
+																									"website-accessibility",
+																							  )}: ${pct}%`
+																							: undefined
+																					}
+																				>
+																					<span className="wap-statistics-highlight__stat-num">
+																						{stat.num}
+																					</span>
+																					{totalUses > 0 && pct > 0 && (
+																						<span className="wap-statistics-highlight__stat-pct">
+																							{pct}%
+																						</span>
+																					)}
+																				</div>
+																			</div>
+																			<div className="wap-statistics-highlight__bottom">
+																				<div className="wap-statistics-highlight__label-row">
+																					<span
+																						className="wap-statistics-highlight__label"
+																						title={stat.title}
+																					>
+																						{stat.title}
+																					</span>
+																					{stat.isDummy && !isProActive && (
+																						<WapBadge
+																							color="gold"
+																							count={__(
+																								"PRO",
+																								"website-accessibility",
+																							)}
+																							className="wap-statistics-highlight__badge"
+																						/>
+																					)}
+																				</div>
+																			</div>
+																		</div>
+																	</WapCol>
+																);
                             })}
                         </WapRow>
 
@@ -168,7 +192,7 @@ const UsageStatistics = () => {
                                                     {stat.title}
                                                 </span>
                                             </div>
-                                            {stat.isDummy && (
+                                            {stat.isDummy &&  !isProActive && (
                                                 <WapBadge
                                                     color="gold"
                                                     count={__("PRO", "website-accessibility")}

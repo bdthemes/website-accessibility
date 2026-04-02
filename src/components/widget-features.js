@@ -10,6 +10,7 @@ const WidgetFeatures = ({
 	accessibilityDispatch,
 }) => {
 	const { WapCard, WapRow, WapCol, WapBadge, WapTooltip } = window?.wapComponents;
+	const isProActive = window?.websacPro?.isProActive || false;
 	const { items } = value;
 	const featureItem = items.find((item) => item.slug === "features");
 	const attributes = featureItem?.attributes || {};
@@ -156,7 +157,7 @@ const WidgetFeatures = ({
 									lg={12}
 									xl={12}
 								>
-									{isDummy && (
+									{isDummy && !isProActive && (
 										<WapBadge count={__("PRO", "website-accessibility")} color="gold" className="wap-widget-features-dummy" />
 									)}
 

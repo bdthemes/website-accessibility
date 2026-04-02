@@ -2,12 +2,14 @@ import { useMemo, useState } from "@wordpress/element";
 import { SearchOutlined } from "@ant-design/icons";
 import { __ } from "@wordpress/i18n";
 import { buildFeatureWidgetPayload, getFeatureCategories, getFeatureStateIndex } from "../../utils/feature-categories";
+import { useLicense } from "../context/LicenseContext";
 
 
 const FeaturesCustomization = ({ attributes, updateAttr }) => {
     const { WapCard, WapInput, WapSwitch, WapBadge } = window?.wapComponents;
     const features = window?.wapHelpers?.features || [];
     const [searchTerm, setSearchTerm] = useState("");
+    const { isProActive } = useLicense();
 
     const featureStateIndex = useMemo(() => {
         return getFeatureStateIndex(attributes, features);
@@ -78,7 +80,7 @@ const FeaturesCustomization = ({ attributes, updateAttr }) => {
                                             <div className="wap-feature-toggle-card__label">{feature?.label}</div>
                                         </div>
                                         <div className="wap-feature-toggle-card__right">
-                                            {!isDummy ? (
+                                            {(!isDummy || isProActive) ? (
                                                 <WapSwitch
                                                     checked={isCurrentActive}
                                                     onChange={(checked) => updateFeatureState(feature?.key, checked)}
