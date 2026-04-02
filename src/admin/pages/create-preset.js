@@ -1,3 +1,4 @@
+import { useEffect } from '@wordpress/element';
 import { __ } from '@wordpress/i18n';
 import { useDispatch, useSelect } from "@wordpress/data";
 import { DEFAULT_STATE, STORE_NAME } from "../store";
@@ -12,6 +13,25 @@ const CreatePreset = () => {
   const { setPresetsFormData, createPreset } = useDispatch(STORE_NAME);
   const history = useHistory();
   const { Title } = WapTypography;
+
+  useEffect(() => {
+    setPresetsFormData({
+      ...DEFAULT_STATE?.presetsFormData,
+      panel: {
+        ...DEFAULT_STATE?.presetsFormData?.panel,
+        wrapper: {
+          ...DEFAULT_STATE?.presetsFormData?.panel?.wrapper,
+        },
+        items: [...(DEFAULT_STATE?.presetsFormData?.panel?.items || [])],
+      },
+      button: {
+        ...DEFAULT_STATE?.presetsFormData?.button,
+      },
+      preset: {
+        ...DEFAULT_STATE?.presetsFormData?.preset,
+      },
+    });
+  }, []);
 
   const handleBack = () => {
     history.push({ page: 'website-accessibility-presets' });
