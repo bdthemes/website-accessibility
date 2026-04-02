@@ -99,7 +99,11 @@ const Pages = () => {
                  <div className={clsx('wap-admin-page', { [page]: page })}>
                     {RouteElement}
                 </div>
-                <Disclaimer />
+                {
+                    page === 'website-accessibility' && (
+                        <Disclaimer />
+                    )
+                }
             </div>
 
         </>
