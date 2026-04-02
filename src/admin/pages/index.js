@@ -12,6 +12,7 @@ import EditProfile from './edit-profile';
 import Settings from './settings';
 import ToolsBackup from './tools-backup';
 import AboutInfo from './about-info';
+import GetPro from './get-pro';
 import UsageStatistics from '../components/usage-statistics';
 import LicenseManager from '../components/License/LicenseManager';
 import Disclaimer from '../components/disclaimer';
@@ -57,6 +58,8 @@ const Pages = () => {
                 return <ToolsBackup />;
             case 'website-accessibility-about':
                 return <AboutInfo />;
+            case 'website-accessibility-get-pro':
+                return <GetPro />;
             case 'website-accessibility-license':
                 return isProPluginActive ? <LicenseManager pluginName="One Accessibility" /> : <Dashboard />;
             default:

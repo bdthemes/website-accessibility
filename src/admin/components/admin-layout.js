@@ -12,6 +12,7 @@ import {
 	IconSettings,
 	IconLicense,
 	IconTools,
+	IconPro,
 	IconInfo,
 } from './admin-menu-icons';
 
@@ -95,6 +96,7 @@ const AdminLayout = ({ children }) => {
 	/** Pro installed + license active → “Coming soon”; otherwise Pro upsell list (free or Pro without license) */
 	const showComingSoonCard = isProPluginActive && isLicenseValid;
 	const supportItems = [
+		...(!isLicenseValid ? [{ key: 'website-accessibility-get-pro', icon: <IconPro />, label: __('Get Pro', 'website-accessibility') }] : []),
 		...(isProPluginActive ? [{ key: 'website-accessibility-license', icon: <IconLicense />, label: __('License', 'website-accessibility') }] : []),
 		...(isProPluginActive ? [{ key: 'website-accessibility-tools', icon: <IconTools />, label: __('Tools & Backup', 'website-accessibility'), disabled: !isLicenseValid }] : []),
 		{ key: 'website-accessibility-about', icon: <IconInfo />, label: __('About & Info', 'website-accessibility') },
@@ -257,9 +259,7 @@ const AdminLayout = ({ children }) => {
 									</a>
 								) : (
 									<a
-										href={window.websacAdmin?.proUpgradeUrl || 'https://oneaccessibility.com#pricing'}
-										target="_blank"
-										rel="noopener noreferrer"
+										href="admin.php?page=website-accessibility-get-pro"
 										className="wap-admin-pro-features-card__btn"
 									>
 										{__('Get Pro', 'website-accessibility')}

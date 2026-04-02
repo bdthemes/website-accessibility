@@ -178,6 +178,20 @@ export const IconInfo = () =>
 
 	);
 
+/** Get Pro — sparkles */
+export const IconPro = () =>
+	wrap(
+		<svg
+			xmlns="http://www.w3.org/2000/svg"
+			{...baseProps}
+			className="lucide lucide-sparkles-icon lucide-sparkles"
+		>
+			<path d="M12 2l1.4 4.6L18 8l-4.6 1.4L12 14l-1.4-4.6L6 8l4.6-1.4L12 2z" />
+			<path d="M5 13l.9 2.9L9 17l-3.1 1.1L5 21l-.9-2.9L1 17l3.1-1.1L5 13z" />
+			<path d="M19 13l.9 2.9L23 17l-3.1 1.1L19 21l-.9-2.9L15 17l3.1-1.1L19 13z" />
+		</svg>
+	);
+
 /** Help & Support — life ring */
 export const IconHelp = () =>
 	wrap(

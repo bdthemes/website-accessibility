@@ -96,6 +96,22 @@ class Menu
             );
         }
 
+        // Get Pro — show for free users and unlicensed installs (hide when license is active)
+        $is_license_active = (
+            class_exists('\bdthemes\websiteaccessibilitypro\Admin\License\LicenseHelper') &&
+            \bdthemes\websiteaccessibilitypro\Admin\License\LicenseHelper::is_license_active()
+        );
+        if (! $is_license_active) {
+            add_submenu_page(
+                'website-accessibility',
+                __('Get Pro', 'website-accessibility'),
+                __('Get Pro', 'website-accessibility'),
+                'manage_options',
+                'website-accessibility-get-pro',
+                [$this, 'render_menu_page']
+            );
+        }
+
         add_submenu_page(
             'website-accessibility',
             __('About & Info', 'website-accessibility'),
