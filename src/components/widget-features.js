@@ -8,6 +8,7 @@ const WidgetFeatures = ({
 	value,
 	accessibilityContext,
 	accessibilityDispatch,
+	onFeatureInteraction = () => {},
 }) => {
 	const { WapCard, WapRow, WapCol, WapBadge, WapTooltip, WapNotification } = window?.wapComponents;
 	const isProActive = window?.websacPro?.isProActive || false;
@@ -67,18 +68,20 @@ const WidgetFeatures = ({
 		if (allAttributes.length === 2 && allAttributes[0]?.value === "enable") {
 			const nextStep = prevStep === 1 ? 0 : 1;
 			const currentAttribute = allAttributes[nextStep - 1] || null;
+			const nextSettings = {
+				...currentSettings,
+				[key]: {
+					currentStep: nextStep,
+					currentAttribute,
+					isMultiStep: false,
+				},
+			};
 
 			accessibilityDispatch({
 				type: "SET_CURRENT_SETTINGS",
-				payload: {
-					...currentSettings,
-					[key]: {
-						currentStep: nextStep,
-						currentAttribute,
-						isMultiStep: false,
-					},
-				},
+				payload: nextSettings,
 			});
+			onFeatureInteraction(nextSettings);
 
 			if (isScreenReaderActive(currentSettings)) {
 				const enableAnnouncement = currentAttribute?.enableAnnouncement;
@@ -98,18 +101,20 @@ const WidgetFeatures = ({
 
 		// For multi-step attributes
 		const nextStep = prevStep >= allAttributes.length ? 0 : prevStep + 1;
+		const nextSettings = {
+			...currentSettings,
+			[key]: {
+				currentStep: nextStep,
+				currentAttribute: nextStep === 0 ? null : allAttributes[nextStep - 1],
+				isMultiStep: allAttributes.length > 1,
+			},
+		};
 
 		accessibilityDispatch({
 			type: "SET_CURRENT_SETTINGS",
-			payload: {
-				...currentSettings,
-				[key]: {
-					currentStep: nextStep,
-					currentAttribute: nextStep === 0 ? null : allAttributes[nextStep - 1],
-					isMultiStep: allAttributes.length > 1,
-				},
-			},
+			payload: nextSettings,
 		});
+		onFeatureInteraction(nextSettings);
 
 		if (isScreenReaderActive(currentSettings)) {
 			const enableAnnouncement =

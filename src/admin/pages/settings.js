@@ -16,6 +16,17 @@ const Settings = () => {
     const [resettingStats, setResettingStats] = useState(false);
 
     const API_NAMESPACE = "/sigmally/v1/settings";
+    const clearUsageStatisticsTimestamp = () => {
+        const { removeCookie = null } = window?.wapHelpers || {};
+        if (typeof removeCookie === "function") {
+            removeCookie("one_accessibility_daily_timestamp");
+            return;
+        }
+
+        if (typeof document !== "undefined") {
+            document.cookie = "one_accessibility_daily_timestamp=; expires=Thu, 01 Jan 1970 00:00:00 GMT; path=/;";
+        }
+    };
 
     // Fetch all settings from REST API
     const fetchSettings = async () => {
@@ -41,6 +52,9 @@ const Settings = () => {
                 data: { [key]: value },
             });
             setSettings((prev) => ({ ...prev, [key]: value }));
+            if (key === "usage_statistics_interval_value" || key === "usage_statistics_interval_unit") {
+                clearUsageStatisticsTimestamp();
+            }
             WapMessage.success({
                 content: __("Settings saved successfully.", "website-accessibility"),
                 style: { marginBlockStart: 20 },
@@ -66,6 +80,7 @@ const Settings = () => {
                 path: "/one-accessibility/v1/usage-statistics",
                 method: "DELETE",
             });
+            clearUsageStatisticsTimestamp();
 
             WapMessage.success({
                 content: __("Usage statistics cleared successfully.", "website-accessibility"),

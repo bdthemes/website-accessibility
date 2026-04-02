@@ -289,6 +289,11 @@ const View = () => {
         }
     };
 
+    const handleFeatureInteraction = (nextSettings = {}) => {
+        if (!settings?.show_usage_statistics) return;
+        saveStatistics(nextSettings || {});
+    };
+
     /**
      * Body class toggle for drawer open state
      */
@@ -337,10 +342,6 @@ const View = () => {
                 open={isOpen}
                 onClose={() => {
                     setIsOpen(false)
-                    
-                    if (settings?.show_usage_statistics) {
-                        saveStatistics(saveablePreference?.data?.settings || {});
-                    }
                 }}
                 placement={currentPreset?.panel?.wrapper?.position || "right"}
                 className={`wap-preset__preview-drawer notranslate wap-preset__preview-drawer--${currentPreset?.panel?.wrapper?.position || 'right'}`}
@@ -354,6 +355,7 @@ const View = () => {
                     isOpen={isOpen}
                     accessibilityContext={state}
                     accessibilityDispatch={dispatch}
+                    onFeatureInteraction={handleFeatureInteraction}
                 />
             </WapDrawer>
             <GoogleTranslateConsent

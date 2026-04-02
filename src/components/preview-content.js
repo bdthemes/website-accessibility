@@ -8,6 +8,7 @@ const PreviewContent = ({
     setIsOpen = () => { },
     accessibilityContext,
     accessibilityDispatch,
+    onFeatureInteraction = () => {},
     isOpen,
     isEditorPreview = false,
 }) => {
@@ -119,6 +120,7 @@ const PreviewContent = ({
             value={panel}
             accessibilityContext={accessibilityContext}
             accessibilityDispatch={accessibilityDispatch}
+            onFeatureInteraction={onFeatureInteraction}
         />,
     }
 
