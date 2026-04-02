@@ -153,31 +153,7 @@ const Dashboard = () => {
 
     return (
         <>
-            <div className="wap-settings wap-dashboard">
-                <WapCard
-                    className="wap-settings-row wap-welcome-card wap-welcome-card--simple"
-                >
-                    <div className="wap-welcome-card-content">
-                        <Title level={4} className="wap-welcome-card-title">
-                            {__('Welcome to One Accessibility', 'website-accessibility')}
-                        </Title>
-                        <Text type="secondary" className="wap-welcome-card-description">
-                            {__('Make your website accessible to everyone with our comprehensive accessibility tools.', 'website-accessibility')}
-                        </Text>
-                    </div>
-                    <div className="wap-welcome-card-actions">
-                        <WapButton
-                            type="primary"
-                            onClick={() => navigateTo('website-accessibility-presets-create')}
-                        >
-                            <WapSpace size="small">
-                                <IconPlus />
-                                {__('Create New Preset', 'website-accessibility')}
-                            </WapSpace>
-                        </WapButton>
-                    </div>
-                </WapCard>
-
+            <div className="wap-settings wap-dashboard" style={{ marginTop: 20 }}>
                 <WapRow gutter={[12, 12]} align="stretch" className="statistics-grid wap-statistics-grid">
                     {stats.map((stat) => (
                         <WapCol xs={24} md={8} key={stat.title} className="stat-card">

@@ -8,11 +8,11 @@
 
 // One row = one setting — light border, no heavy shadow
 .wap-settings-row {
-    margin-top: 12px !important;
     border: 1px solid #eef0f2;
     border-radius: 10px;
     background: #fff;
     box-shadow: none !important;
+    margin-top: 20px;
 
     .ant-card-body {
         padding: 16px 18px !important;
@@ -22,12 +22,6 @@
         margin-bottom: 0 !important;
     }
 
-    // h4.ant-typography {
-    //     font-size: 14px !important;
-    //     font-weight: 600;
-    //     color: #1f2937;
-    //     line-height: 1.4;
-    // }
 
     .ant-typography-secondary {
         font-size: 13px;

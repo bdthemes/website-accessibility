@@ -76,7 +76,7 @@ const ButtonStylePreset = () => {
 
 			<WapCard bordered={false} className="wap-button-style-preset-card" title={__("Style", "website-accessibility")}>
 				<WapRow gutter={[16, 16]}>
-					<WapCol xs={12} md={8}>
+					<WapCol xs={12} md={6}>
 						<ControlWrapper label={__("Font Size", "website-accessibility")}>
 							<WapInput
 								value={button?.fontSize || ""}
@@ -85,7 +85,7 @@ const ButtonStylePreset = () => {
 							/>
 						</ControlWrapper>
 					</WapCol>
-					<WapCol xs={12} md={8}>
+					<WapCol xs={12} md={6}>
 						<ControlWrapper label={__("Icon Size", "website-accessibility")}>
 							<WapInput
 								value={button?.iconSize || ""}
@@ -94,7 +94,7 @@ const ButtonStylePreset = () => {
 							/>
 						</ControlWrapper>
 					</WapCol>
-					<WapCol xs={12} md={8}>
+					<WapCol xs={12} md={6}>
 						<ControlWrapper label={__("Text Color", "website-accessibility")}>
 							<ColorPicker
 								value={button.color}
@@ -102,7 +102,7 @@ const ButtonStylePreset = () => {
 							/>
 						</ControlWrapper>
 					</WapCol>
-					<WapCol xs={12} md={8}>
+					<WapCol xs={12} md={6}>
 						<ControlWrapper label={__("Background Color", "website-accessibility")}>
 							<ColorPicker
 								value={button.bgColor}
@@ -110,7 +110,7 @@ const ButtonStylePreset = () => {
 							/>
 						</ControlWrapper>
 					</WapCol>
-					<WapCol xs={12} md={8}>
+					<WapCol xs={12} md={6}>
 						<ControlWrapper label={__("Padding", "website-accessibility")}>
 							<WapInput
 								value={button.padding || ""}
@@ -119,7 +119,7 @@ const ButtonStylePreset = () => {
 							/>
 						</ControlWrapper>
 					</WapCol>
-					<WapCol xs={12} md={8}>
+					<WapCol xs={12} md={6}>
 						<ControlWrapper label={__("Border Radius", "website-accessibility")}>
 							<WapInput
 								value={button.borderRadius || ""}
@@ -133,7 +133,7 @@ const ButtonStylePreset = () => {
 
 			<WapCard bordered={false} className="wap-button-style-preset-card" title={__("Position", "website-accessibility")}>
 				<WapRow gutter={[16, 16]}>
-					<WapCol xs={12} md={8}>
+					<WapCol xs={12} md={6}>
 						<ControlWrapper label={__("Button Position", "website-accessibility")}>
 							<WapSelect
 								value={position}
@@ -159,7 +159,7 @@ const ButtonStylePreset = () => {
 							/>
 						</ControlWrapper>
 					</WapCol>
-					<WapCol xs={12} md={8}>
+					<WapCol xs={12} md={6}>
 						<ControlWrapper label={__("Horizontal Offset", "website-accessibility")}>
 							<WapInput
 								type="number"
@@ -170,7 +170,7 @@ const ButtonStylePreset = () => {
 							/>
 						</ControlWrapper>
 					</WapCol>
-					<WapCol xs={12} md={8}>
+					<WapCol xs={12} md={6}>
 						<ControlWrapper label={__("Vertical Offset", "website-accessibility")}>
 							<WapInput
 								type="number"

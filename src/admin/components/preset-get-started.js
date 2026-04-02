@@ -106,12 +106,6 @@ const GetStartedPreset = () => {
                     </>
                 )
             }
-            <ControlWrapper label={__('Active', 'website-accessibility')}>
-                <WapSwitch
-                    checked={presetsFormData?.preset?.active}
-                    onChange={(value) => setPresetsFormData({ ...presetsFormData, preset: { ...presetsFormData.preset, active: value } })}
-                    value={presetsFormData?.preset?.active} />
-            </ControlWrapper>
         </div>
     )
 };
