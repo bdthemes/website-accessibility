@@ -6,7 +6,7 @@ import FeaturesCustomization from './features-customization';
 
 
 const FeatureSettings = () => {
-    const { WapSwitch, WapTypography, WapSelect, WapRow, WapCol } = window?.wapComponents;
+    const { WapSwitch, WapTypography, WapSelect } = window?.wapComponents;
     const { presetsFormData } = useSelect((select) => select(STORE_NAME).getPresetsFormData());
     const { setPresetsFormData } = useDispatch(STORE_NAME);
     const featureItem = presetsFormData.panel.items.find(item => item.slug === 'features');
@@ -32,25 +32,22 @@ const FeatureSettings = () => {
     return (
         <>
             <FeaturesCustomization updateAttr={updateAttr} attributes={attributes} />
-            <WapTypography.Title level={5}>{__('Items', 'website-accessibility')}</WapTypography.Title>
-            <WapRow gutter={[16, 16]}>
-                <WapCol md={12}>
+            <WapTypography.Title level={5} className="wap-features-items-settings__title">{__('Items', 'website-accessibility')}</WapTypography.Title>
+            <div className="wap-features-items-settings">
                     <ControlWrapper
                         label={__('Hide Item Icons', 'website-accessibility')}
                         inline
                     >
                         <WapSwitch checked={attributes.hideItemIcons} onChange={(checked) => updateAttr({ hideItemIcons: checked })} />
                     </ControlWrapper>
-                </WapCol>
-                <WapCol md={12}>
+
                     <ControlWrapper
                         label={__('Hide Item Labels', 'website-accessibility')}
                         inline
                     >
                         <WapSwitch checked={attributes.hideItemLabels} onChange={(checked) => updateAttr({ hideItemLabels: checked })} />
                     </ControlWrapper>
-                </WapCol>
-                <WapCol md={12}>
+
                     <ControlWrapper
                         label={__('Columns', 'website-accessibility')}
                         inline
@@ -67,8 +64,7 @@ const FeatureSettings = () => {
                             ))}
                         </WapSelect>
                     </ControlWrapper>
-                </WapCol>
-            </WapRow>
+            </div>
         </>
     );
 };

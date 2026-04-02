@@ -36,12 +36,16 @@
             border-radius: 999px;
         }
     }
+}
 
-    &__collapse {
-        &:not(:last-child) {
-            margin-bottom: 12px;
-        }
-    }
+.wap-preset-editor-header-card-input input {
+    border: none !important;
+    box-shadow: unset !IMPORTANT;
+    outline: none !important;
+}
+
+.wap-preset-editor-header-card-input {
+    padding: 0 8px;
 }
 
 .wap-panel-customization-card {
@@ -49,6 +53,7 @@
         padding: 0;
     }
 }
+
 
 .wap-panel-customization__collapse,
 .wap-preset-sections__collapse {
@@ -353,6 +358,59 @@
 .wap-feature-toggle-card__icon-wrap {
     background: transparent !important; // user request: remove icon background
     display: flex;
+}
+
+// Features -> Items controls
+.wap-features-items-settings__title {
+    margin: 14px 0 10px !important;
+}
+
+.wap-features-items-settings {
+    display: grid;
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+    gap: 12px 14px;
+
+    .wap-control-wrapper {
+        margin-bottom: 0 !important;
+    }
+
+    .wap-control-wrapper--inline {
+        .wap-control-wrapper__head {
+            justify-content: space-between !important;
+            align-items: center;
+            gap: 10px;
+            width: 100%;
+        }
+
+        .wap-control-wrapper__head .ant-typography {
+            margin-bottom: 0 !important;
+            font-size: 13px !important;
+            font-weight: 600;
+            color: #1f2937;
+            min-width: 0;
+            white-space: nowrap;
+        }
+
+        .wap-control-wrapper__inline-content {
+            margin-left: auto;
+            display: inline-flex;
+            align-items: center;
+            justify-content: flex-end;
+            flex-shrink: 0;
+        }
+
+        .ant-select {
+            min-width: 110px;
+        }
+    }
+
+    @media (max-width: 900px) {
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+    }
+
+    @media (max-width: 560px) {
+        grid-template-columns: 1fr;
+    }
 }
 
 .wap-panel-right-sidebar {

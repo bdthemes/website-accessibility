@@ -95,6 +95,7 @@ const EditPreset = () => {
             {__('Edit Preset', 'website-accessibility')}
           </Title>
           <WapInput
+            className='wap-preset-editor-header-card-input'
             size="large"
             value={searchTerm}
             onChange={(e) => setSearchTerm(e.target.value)}

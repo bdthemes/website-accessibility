@@ -125,16 +125,6 @@ const PanelCustomizationPreset = () => {
             ),
             children: <div data-control-category={__("Preset", "website-accessibility")}><GetStartedPreset /></div>
         },
-        {
-            key: "button",
-            label: __("Button", "website-accessibility"),
-            children: <div data-control-category={__("Button", "website-accessibility")}><PresetButtonStyle /></div>,
-        },
-        {
-            key: "panel",
-            label: __("Panel Wrapper", "website-accessibility"),
-            children: <div data-control-category={__("Panel Wrapper", "website-accessibility")}><PresetPanelRightSidebar /></div>,
-        },
     ];
     return (
         <div className="wap-panel-customization-card">
@@ -160,6 +150,7 @@ const PanelCustomizationPreset = () => {
 
                 {/* Panel Wrapper (right sidebar controls) */}
                 <WapCollapse
+                    style={{ marginTop: "20px" }}
                     key="panel"
                     defaultActiveKey={["panel"]}
                     bordered={false}
