@@ -491,7 +491,7 @@
 
 .wap-statistics-list__badge {
     position: absolute;
-    top: 6px;
+    top: 14px;
     right: 8px;
 
     .ant-badge-count {
@@ -505,9 +505,28 @@
 
 // "Other features" — text/number left, plain icon on the right (no pastel plate)
 .wap-statistics-list--remainder {
+    // 2 columns layout for Other features
+    grid-template-columns: repeat(2, 1fr);
+
     .wap-statistics-list__item {
-        flex-direction: row-reverse;
-        justify-content: flex-start;
+        flex-direction: row;
+        justify-content: space-between;
+        gap: 12px;
+    }
+
+    .wap-statistics-list__left {
+        display: flex;
+        align-items: center;
+        gap: 10px;
+        flex: 1;
+        min-width: 0;
+    }
+
+    .wap-statistics-list__right {
+        display: flex;
+        align-items: center;
+        justify-content: flex-end;
+        flex-shrink: 0;
     }
 
     .wap-statistics-list__icon-wrap {
@@ -520,9 +539,7 @@
         flex-shrink: 0;
     }
 
-    .wap-statistics-list__content {
-        flex: 1;
-        min-width: 0;
-        text-align: left;
+    @media (max-width: 520px) {
+        grid-template-columns: 1fr;
     }
 }
