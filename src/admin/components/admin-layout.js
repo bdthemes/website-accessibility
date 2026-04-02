@@ -2,7 +2,7 @@
  * AdminLayout - Header + Sidebar layout (Ant Design) like Sigma Media Manager
  */
 import { __ } from '@wordpress/i18n';
-import { useState, useEffect } from '@wordpress/element';
+import { useLicense } from '../context/LicenseContext';
 import { Layout, Menu } from 'antd';
 import { useLocation, useHistory } from '../router';
 import {
@@ -22,7 +22,6 @@ const BDTHEMES_URL = 'https://bdthemes.com';
 const PLUGIN_VERSION = typeof window !== 'undefined' && window.websacAdmin?.version ? window.websacAdmin.version : '1.2.7';
 const HELP_URL = 'https://bdthemes.com/contact/';
 
-const IS_PRO_PLUGIN_ACTIVE = typeof window !== 'undefined' && !!window.websacAdmin?.isProPluginActive;
 
 const AdminLayout = ({ children }) => {
 	const location = useLocation();
@@ -40,22 +39,9 @@ const AdminLayout = ({ children }) => {
 		{ key: 'website-accessibility-settings', icon: <IconSettings />, label: __('Settings', 'website-accessibility') },
 	].filter(Boolean);
 
-	const isProPluginActive = typeof window !== 'undefined' && window.websacAdmin?.isProPluginActive;
-	const [isLicenseValid, setIsLicenseValid] = useState(
-		typeof window !== 'undefined' && !!window.websacAdmin?.isLicenseValid
-	);
-
-	useEffect(() => {
-		const handleLicenseChange = (e) => {
-			setIsLicenseValid(!!e.detail?.isLicenseValid);
-		};
-		window.addEventListener('websac-license-changed', handleLicenseChange);
-		return () => {
-			window.removeEventListener('websac-license-changed', handleLicenseChange);
-		};
-	}, []);
+	const { isProActive: isLicenseValid, isProPluginActive } = useLicense();
 	const supportItems = [
-		...(IS_PRO_PLUGIN_ACTIVE ? [{ key: 'website-accessibility-license', icon: <IconLicense />, label: __('License', 'website-accessibility') }] : []),
+		...(isProPluginActive ? [{ key: 'website-accessibility-license', icon: <IconLicense />, label: __('License', 'website-accessibility') }] : []),
 		...(isProPluginActive ? [{ key: 'website-accessibility-tools', icon: <IconTools />, label: __('Tools & Backup', 'website-accessibility'), disabled: !isLicenseValid }] : []),
 		{ key: 'website-accessibility-about', icon: <IconInfo />, label: __('About & Info', 'website-accessibility') },
 	];
@@ -172,7 +158,7 @@ const AdminLayout = ({ children }) => {
 						className="wap-admin-menu"
 						style={{ borderRight: 0, height: '100%' }}
 					/>
-					{typeof window !== 'undefined' && !window.websacAdmin?.isProPluginActive && (
+					{!isProPluginActive && (
 						<div className="wap-admin-pro-features-card">
 							<div className="wap-admin-pro-features-card__ribbon" aria-hidden="true">
 								{__('PRO', 'website-accessibility')}
@@ -224,7 +210,7 @@ const AdminLayout = ({ children }) => {
 							</div>
 						</div>
 					)}
-					{typeof window !== 'undefined' && window.websacAdmin?.isProPluginActive && !window.websacAdmin?.isLicenseValid && (
+					{isProPluginActive && !isLicenseValid && (
 						<div className="wap-admin-license-card wap-admin-license-card--required">
 							<div className="wap-admin-license-card__ribbon" aria-hidden="true">
 								{__('LICENSE REQUIRED!', 'website-accessibility')}
@@ -261,7 +247,7 @@ const AdminLayout = ({ children }) => {
 							</div>
 						</div>
 					)}
-					{typeof window !== 'undefined' && window.websacAdmin?.isLicenseValid && (
+					{isLicenseValid && (
 						<div className="wap-admin-pro-card">
 							<div className="wap-admin-pro-card__ribbon" aria-hidden="true">
 								{__('PRO ACTIVATED!', 'website-accessibility')}

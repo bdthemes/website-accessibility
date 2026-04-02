@@ -8,6 +8,7 @@ import Pages from './pages';
 import AdminLayout from './components/admin-layout';
 import { register } from '@wordpress/data';
 import store from './store';
+import { LicenseProvider } from './context/LicenseContext';
 
 register(store);
 /**
@@ -15,11 +16,13 @@ register(store);
  */
 const Admin = () => {
     return (
-        <RouterProvider>
-            <AdminLayout>
-                <Pages />
-            </AdminLayout>
-        </RouterProvider>
+        <LicenseProvider>
+            <RouterProvider>
+                <AdminLayout>
+                    <Pages />
+                </AdminLayout>
+            </RouterProvider>
+        </LicenseProvider>
     );
 };
 

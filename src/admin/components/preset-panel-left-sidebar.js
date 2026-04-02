@@ -9,6 +9,7 @@ import { useState, useRef, useEffect } from "@wordpress/element";
 import { __ } from "@wordpress/i18n";
 import { useSelect, useDispatch } from "@wordpress/data";
 import { STORE_NAME } from "../store";
+import { useLicense } from "../context/LicenseContext";
 import HeaderSettings from "../settings/header-settings";
 import ProfilesSettings from "../settings/profiles-settings";
 import FeatureSettings from "../settings/feature-settings";
@@ -19,14 +20,14 @@ const PresetPanelLeftSidebar = () => {
   const { WapCard, WapRow, WapCol, WapDrawer, WapBadge } = window?.wapComponents;
   const [drawerVisible, setDrawerVisible] = useState(false);
   const [selectedItem, setSelectedItem] = useState(null);
-  const isProActive = window?.websacPro?.isProActive || false;
+  const { isProActive } = useLicense();
   const timerRef = useRef(null);
 
   const { presetsFormData } = useSelect((select) => select(STORE_NAME).getPresetsFormData());
   const { setPresetsFormData } = useDispatch(STORE_NAME);
 
   let items = (presetsFormData?.panel?.items || []).filter((item) => item.slug !== 'language');
-  
+
 
   const handleVisibilityToggle = (slug) => {
     const updatedItems = items.map((item) =>
