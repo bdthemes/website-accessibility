@@ -29,7 +29,7 @@ const UsageStatistics = () => {
                             title: feature.label,
                             value: res.data[feature.key],
                             icon: feature?.icon,
-                            isDummy: feature?.isDummy === true,
+                            isDummy: feature?.isDummy || false,
                         });
                     });
                 setStats(response);
