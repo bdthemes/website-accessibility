@@ -81,7 +81,6 @@
 
     // Stat cards grid — compact height, no min-height stretch
     .statistics-grid {
-        margin-bottom: 16px;
 
         .ant-col {
             height: 100%;
@@ -121,7 +120,7 @@
 
             .dashicons,
             .wap-dashboard-svg-icon {
-                border-radius: 50%;
+                border-radius: 8px;
                 padding: 0;
                 width: 40px;
                 height: 40px;

@@ -5,7 +5,7 @@ import { buildFeatureWidgetPayload, getFeatureCategories, getFeatureStateIndex }
 
 
 const FeaturesCustomization = ({ attributes, updateAttr }) => {
-    const { WapCard, WapInput, WapList, WapSwitch, WapBadge } = window?.wapComponents;
+    const { WapCard, WapInput, WapSwitch, WapBadge } = window?.wapComponents;
     const features = window?.wapHelpers?.features || [];
     const [searchTerm, setSearchTerm] = useState("");
 
@@ -61,35 +61,41 @@ const FeaturesCustomization = ({ attributes, updateAttr }) => {
                             <h4 className="wap-features-customization__category-title">{category.title}</h4>
                             <span className="wap-features-customization__category-count">{category.features.length}</span>
                         </div>
-                        <WapList
-                            dataSource={category.features}
-                            itemLayout="horizontal"
-                            renderItem={(feature) => {
+                        <div className="wap-features-customization__feature-grid">
+                            {category.features.map((feature) => {
                                 const isCurrentActive = featureStateIndex?.[feature?.key]?.active ?? true;
                                 const isDummy = feature?.isDummy;
 
                                 return (
-                                    <WapList.Item
+                                    <div
                                         key={feature?.key}
-                                        actions={[
-                                            !isDummy ? (
+                                        className={`wap-feature-toggle-card wap-feature-toggle-card--${feature?.key || "default"}`}
+                                    >
+                                        <div className="wap-feature-toggle-card__left">
+                                            <div className="wap-feature-toggle-card__icon-wrap" aria-hidden="true">
+                                                <span className="wap-feature-toggle-card__icon">{feature?.icon}</span>
+                                            </div>
+                                            <div className="wap-feature-toggle-card__label">{feature?.label}</div>
+                                        </div>
+                                        <div className="wap-feature-toggle-card__right">
+                                            {!isDummy ? (
                                                 <WapSwitch
                                                     checked={isCurrentActive}
                                                     onChange={(checked) => updateFeatureState(feature?.key, checked)}
+                                                    size="small"
                                                 />
                                             ) : (
-                                                <WapBadge color="gold" count={__('PRO', 'website-accessibility')} />
-                                            ),
-                                        ]}
-                                    >
-                                        <WapList.Item.Meta
-                                            avatar={feature?.icon}
-                                            title={feature?.label}
-                                        />
-                                    </WapList.Item>
+                                                <WapBadge
+                                                    color="gold"
+                                                    count={__("PRO", "website-accessibility")}
+                                                    className="wap-feature-toggle-card__badge"
+                                                />
+                                            )}
+                                        </div>
+                                    </div>
                                 );
-                            }}
-                        />
+                            })}
+                        </div>
                     </div>
                 ))}
             </div>

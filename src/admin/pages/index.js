@@ -83,17 +83,19 @@ const Pages = () => {
     return (
         <>
             <div className="wap-admin-pages">
-                <div className={clsx('wap-admin-page', { [page]: page })}>
-                    {RouteElement}
-                </div>
+
                 {page === 'website-accessibility' && settings && settings?.show_usage_statistics && (
                     <>
                         <div className="wap-admin-usage-statistics">
                             <UsageStatistics />
                         </div>
-                        <Disclaimer />
+                      
                     </>
                 )}
+                 <div className={clsx('wap-admin-page', { [page]: page })}>
+                    {RouteElement}
+                </div>
+                <Disclaimer />
             </div>
 
         </>

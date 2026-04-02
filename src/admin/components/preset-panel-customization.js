@@ -69,11 +69,12 @@ const PanelSectionTab = ({ item, component }) => {
 };
 
 const PanelCustomizationPreset = () => {
-    const { WapCard, WapCollapse } = window?.wapComponents;
+    const { WapCard, WapCollapse, WapSwitch } = window?.wapComponents;
     const isProActive = window?.websacPro?.isProActive || false;
     const { presetsFormData } = useSelect((select) =>
         select(STORE_NAME).getPresetsFormData(),
     );
+    const { setPresetsFormData } = useDispatch(STORE_NAME);
 
     const sectionItems = (presetsFormData?.panel?.items || []).filter(
         (item) => item.slug !== "language",
@@ -89,7 +90,29 @@ const PanelCustomizationPreset = () => {
     const topLevelCollapseItems = [
         {
             key: "preset",
-            label: __("Preset", "website-accessibility"),
+            label: (
+                <div className="wap-preset-collapse-header">
+                    <span>{__("Preset", "website-accessibility")}</span>
+                    <div
+                        className="wap-preset-collapse-header__switch"
+                        onClick={(event) => event.stopPropagation()}
+                        onMouseDown={(event) => event.stopPropagation()}
+                    >
+                        <WapSwitch
+                            checked={!!presetsFormData?.preset?.active}
+                            onChange={(checked) =>
+                                setPresetsFormData({
+                                    ...presetsFormData,
+                                    preset: {
+                                        ...presetsFormData?.preset,
+                                        active: checked,
+                                    },
+                                })
+                            }
+                        />
+                    </div>
+                </div>
+            ),
             children: <GetStartedPreset />,
         },
         {

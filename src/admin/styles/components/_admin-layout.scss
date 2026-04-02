@@ -211,142 +211,7 @@
 		letter-spacing: 0.5px;
 	}
 
-	// Pro activated — Sigma-style green card (ribbon + check + title + subtitle)
-	.wap-admin-pro-card {
-		position: relative;
-		margin: 16px 14px 18px;
-		padding: 20px 16px 18px;
-		border-radius: 12px;
-		background: linear-gradient(165deg, #3d9e42 0%, #237d2e 55%, #1a5c22 100%);
-		box-shadow: 0 4px 14px rgba(34, 125, 46, 0.35);
-		overflow: visible;
-		flex-shrink: 0;
-	}
-
-	.wap-admin-pro-card__ribbon {
-		position: absolute;
-		top: -6px;
-		right: -4px;
-		padding: 6px 12px;
-		font-size: 10px;
-		font-weight: 800;
-		letter-spacing: 0.06em;
-		color: #fff;
-		background: linear-gradient(180deg, #5fcf65 0%, #3cb342 100%);
-		border-radius: 6px;
-		transform: rotate(8deg);
-		box-shadow: 0 2px 8px rgba(0, 0, 0, 0.15);
-	}
-
-	.wap-admin-pro-card__body {
-		text-align: center;
-	}
-
-	.wap-admin-pro-card__check {
-		display: inline-flex;
-		align-items: center;
-		justify-content: center;
-		width: 48px;
-		height: 48px;
-		margin: 0 auto 12px;
-		border-radius: 50%;
-		background: rgba(255, 255, 255, 0.22);
-		color: #fff;
-	}
-
-	.wap-admin-pro-card__title {
-		font-size: 15px;
-		font-weight: 700;
-		color: #fff;
-		line-height: 1.35;
-		margin-bottom: 6px;
-	}
-
-	.wap-admin-pro-card__subtitle {
-		font-size: 12px;
-		font-weight: 500;
-		color: rgba(255, 255, 255, 0.92);
-		line-height: 1.4;
-	}
-
-	// License required — Pro plugin active but license not valid (red card like Sigma)
-	.wap-admin-license-card--required {
-		position: relative;
-		margin: 16px 14px 18px;
-		padding: 20px 16px 18px;
-		border-radius: 12px;
-		background: linear-gradient(165deg, #e85353 0%, #c92a2a 50%, #a61e1e 100%);
-		box-shadow: 0 4px 14px rgba(201, 42, 42, 0.4);
-		overflow: visible;
-		flex-shrink: 0;
-	}
-
-	.wap-admin-license-card__ribbon {
-		position: absolute;
-		top: -6px;
-		right: -4px;
-		padding: 6px 10px;
-		font-size: 9px;
-		font-weight: 800;
-		letter-spacing: 0.05em;
-		color: #fff;
-		background: linear-gradient(180deg, #ff6b6b 0%, #e03131 100%);
-		border-radius: 6px;
-		transform: rotate(8deg);
-		box-shadow: 0 2px 8px rgba(0, 0, 0, 0.2);
-	}
-
-	.wap-admin-license-card__body {
-		text-align: center;
-	}
-
-	.wap-admin-license-card__lock {
-		display: inline-flex;
-		align-items: center;
-		justify-content: center;
-		width: 48px;
-		height: 48px;
-		margin: 0 auto 12px;
-		border-radius: 50%;
-		background: rgba(255, 255, 255, 0.2);
-		color: #fff;
-	}
-
-	.wap-admin-license-card__title {
-		font-size: 15px;
-		font-weight: 700;
-		color: #fff;
-		line-height: 1.35;
-		margin-bottom: 8px;
-	}
-
-	.wap-admin-license-card__subtitle {
-		font-size: 12px;
-		font-weight: 500;
-		color: rgba(255, 255, 255, 0.95);
-		line-height: 1.45;
-		margin-bottom: 14px;
-	}
-
-	.wap-admin-license-card__btn {
-		display: inline-block;
-		padding: 10px 18px;
-		font-size: 13px;
-		font-weight: 700;
-		color: #c92a2a;
-		background: #fff;
-		border-radius: 8px;
-		text-decoration: none;
-		transition: transform 0.15s ease, box-shadow 0.15s ease;
-
-		&:hover {
-			color: #a61e1e;
-			box-shadow: 0 2px 10px rgba(0, 0, 0, 0.12);
-			transform: translateY(-1px);
-		}
-	}
-
-	// Pro plugin not installed — feature list + ribbon like PRO ACTIVATED card (blue theme)
+	// Sidebar promo card — free: Pro upsell; Pro plugin active: same layout, “coming soon” list
 	.wap-admin-pro-features-card {
 		position: relative;
 		margin: 16px 14px 18px;
@@ -442,6 +307,16 @@
 			opacity: 0.95;
 			transform: translateY(-1px);
 		}
+	}
+
+	.wap-admin-pro-features-card__footnote {
+		margin: 0;
+		font-size: 12px;
+		font-weight: 500;
+		color: #1e3a4c;
+		line-height: 1.45;
+		text-align: center;
+		opacity: 0.88;
 	}
 }
 

@@ -52,7 +52,8 @@ class Enqueue {
                 $is_license_valid = \bdthemes\websiteaccessibilitypro\Admin\License\LicenseHelper::is_license_active();
             }
 
-            $license_page_url = admin_url('admin.php?page=website-accessibility-pro_license');
+            // Must match Menu.php submenu slug `website-accessibility-license` (not pro_license).
+            $license_page_url = admin_url('admin.php?page=website-accessibility-license');
 
             wp_localize_script(
                 'website-accessibility-admin',

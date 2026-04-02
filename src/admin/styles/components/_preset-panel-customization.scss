@@ -148,6 +148,38 @@
     }
 }
 
+// Preset section card ("Preset" collapse content)
+.wap-get-started-preset-card {
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 16px 12px;
+
+    > .wap-control-wrapper {
+        margin-bottom: 0 !important; // controlled by grid spacing
+    }
+
+    // Keep layout clean (no forced full-width item)
+
+    @media (max-width: 768px) {
+        grid-template-columns: 1fr;
+    }
+}
+
+// Preset collapse header: label on left, switch on the right
+.wap-preset-collapse-header {
+    width: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 12px;
+}
+
+.wap-preset-collapse-header__switch {
+    display: inline-flex;
+    align-items: center;
+    justify-content: flex-end;
+}
+
 .wap-features-customization {
     background: transparent;
     border-radius: 0;
@@ -215,6 +247,102 @@
         padding: 4px 2px;
         border-bottom: none;
     }
+
+    // Feature toggle cards grid (4 columns)
+    &__feature-grid {
+        display: grid;
+        grid-template-columns: repeat(4, minmax(0, 1fr));
+        gap: 12px;
+
+        @media (max-width: 1024px) {
+            grid-template-columns: repeat(3, minmax(0, 1fr));
+        }
+
+        @media (max-width: 768px) {
+            grid-template-columns: repeat(2, minmax(0, 1fr));
+        }
+
+        @media (max-width: 480px) {
+            grid-template-columns: 1fr;
+        }
+    }
+}
+
+// --- Feature toggle card ---
+.wap-feature-toggle-card {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 10px;
+    padding: 10px 12px;
+    background: #fff;
+    border: 1px solid #eef0f2;
+    border-radius: 10px;
+    transition: border-color 0.15s ease;
+    min-height: 42px;
+}
+
+.wap-feature-toggle-card__left {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    min-width: 0;
+}
+
+.wap-feature-toggle-card__icon-wrap {
+    // width: 34px;
+    // height: 34px;
+    // border-radius: 10px;
+    // display: flex;
+    // align-items: center;
+    // justify-content: center;
+    // flex-shrink: 0;
+    background: transparent;
+}
+
+.wap-feature-toggle-card__icon {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+
+    svg {
+        width: 18px;
+        height: 18px;
+        display: block;
+    }
+}
+
+.wap-feature-toggle-card__label {
+    font-size: 13px;
+    font-weight: 600;
+    color: #111827;
+    line-height: 1.25;
+    min-width: 0;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+}
+
+.wap-feature-toggle-card__right {
+    display: flex;
+    align-items: center;
+    justify-content: flex-end;
+    flex-shrink: 0;
+}
+
+.wap-feature-toggle-card__badge {
+    .ant-badge-count {
+        font-size: 10px;
+        padding: 0 6px;
+        min-width: 30px;
+        border-radius: 999px;
+    }
+}
+
+// Icon color themes (match usage-statistics palette)
+.wap-feature-toggle-card__icon-wrap {
+    background: transparent !important; // user request: remove icon background
+    display: flex;
 }
 
 .wap-panel-right-sidebar {
@@ -248,6 +376,53 @@
             padding:14px 0 0;
             background: transparent;
         }
+    }
+}
+
+// Panel Wrapper → Style card uses a fixed 5-column grid.
+// AntD WapRow/WapCol is based on 24 spans, so exact “5 columns” isn't possible there.
+.wap-panel-wrapper-style-grid {
+    display: grid;
+    grid-template-columns: repeat(5, minmax(0, 1fr));
+    gap: 16px;
+
+    .wap-control-wrapper {
+        margin-bottom: 0 !important; // grid handles spacing
+    }
+
+    @media (max-width: 1200px) {
+        grid-template-columns: repeat(3, minmax(0, 1fr));
+    }
+
+    @media (max-width: 900px) {
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+    }
+
+    @media (max-width: 560px) {
+        grid-template-columns: 1fr;
+    }
+}
+
+// Header Settings → Style grid: fixed 5 columns on desktop
+.wap-header-style-grid {
+    display: grid;
+    grid-template-columns: repeat(5, minmax(0, 1fr));
+    gap: 16px 16px;
+
+    .wap-control-wrapper {
+        margin-bottom: 0 !important; // grid provides spacing
+    }
+
+    @media (max-width: 1200px) {
+        grid-template-columns: repeat(3, minmax(0, 1fr));
+    }
+
+    @media (max-width: 900px) {
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+    }
+
+    @media (max-width: 560px) {
+        grid-template-columns: 1fr;
     }
 }
 
