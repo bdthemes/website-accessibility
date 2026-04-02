@@ -15,13 +15,14 @@ import AboutInfo from './about-info';
 import UsageStatistics from '../components/usage-statistics';
 import LicenseManager from '../components/License/LicenseManager';
 import Disclaimer from '../components/disclaimer';
+import { useLicense } from '../context/LicenseContext';
 
 const Pages = () => {
     const location = useLocation();
     const page = location?.params?.page;
     const [settings, setSettings] = useState();
     const API_NAMESPACE = "/sigmally/v1/settings";
-    const isProPluginActive = typeof window !== 'undefined' && !!window.websacAdmin?.isProPluginActive;
+    const { isProPluginActive } = useLicense();
 
     const fetchSettings = async () => {
         try {
