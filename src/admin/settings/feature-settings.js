@@ -6,7 +6,7 @@ import FeaturesCustomization from './features-customization';
 
 
 const FeatureSettings = () => {
-    const { WapSwitch, WapTypography } = window?.wapComponents;
+    const { WapSwitch, WapTypography, WapSelect, WapRow, WapCol } = window?.wapComponents;
     const { presetsFormData } = useSelect((select) => select(STORE_NAME).getPresetsFormData());
     const { setPresetsFormData } = useDispatch(STORE_NAME);
     const featureItem = presetsFormData.panel.items.find(item => item.slug === 'features');
@@ -31,19 +31,44 @@ const FeatureSettings = () => {
 
     return (
         <>
-            {/* <WapTypography.Title level={5}>{__('Feature Customization', 'website-accessibility')}</WapTypography.Title> */}
             <FeaturesCustomization updateAttr={updateAttr} attributes={attributes} />
             <WapTypography.Title level={5}>{__('Items', 'website-accessibility')}</WapTypography.Title>
-            <ControlWrapper
-                label={__('Hide Item Icons', 'website-accessibility')}
-            >
-                <WapSwitch checked={attributes.hideItemIcons} onChange={(checked) => updateAttr({ hideItemIcons: checked })} />
-            </ControlWrapper>
-            <ControlWrapper
-                label={__('Hide Item Labels', 'website-accessibility')}
-            >
-                <WapSwitch checked={attributes.hideItemLabels} onChange={(checked) => updateAttr({ hideItemLabels: checked })} />
-            </ControlWrapper>
+            <WapRow gutter={[16, 16]}>
+                <WapCol md={12}>
+                    <ControlWrapper
+                        label={__('Hide Item Icons', 'website-accessibility')}
+                        inline
+                    >
+                        <WapSwitch checked={attributes.hideItemIcons} onChange={(checked) => updateAttr({ hideItemIcons: checked })} />
+                    </ControlWrapper>
+                </WapCol>
+                <WapCol md={12}>
+                    <ControlWrapper
+                        label={__('Hide Item Labels', 'website-accessibility')}
+                        inline
+                    >
+                        <WapSwitch checked={attributes.hideItemLabels} onChange={(checked) => updateAttr({ hideItemLabels: checked })} />
+                    </ControlWrapper>
+                </WapCol>
+                <WapCol md={12}>
+                    <ControlWrapper
+                        label={__('Columns', 'website-accessibility')}
+                        inline
+                    >
+                        <WapSelect
+                            value={String(attributes.columns || 2)}
+                            onChange={(value) => updateAttr({ columns: Number(value) })}
+                            style={{ minWidth: 120 }}
+                        >
+                            {[1, 2, 3, 4, 5, 6].map((count) => (
+                                <WapSelect.Option key={count} value={String(count)}>
+                                    {count}
+                                </WapSelect.Option>
+                            ))}
+                        </WapSelect>
+                    </ControlWrapper>
+                </WapCol>
+            </WapRow>
         </>
     );
 };

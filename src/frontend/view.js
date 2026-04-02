@@ -30,6 +30,7 @@ const View = () => {
         const headerAttributes = currentPreset?.panel?.items?.find((item) => item.slug === 'header')?.attributes;
         return headerAttributes?.showTranslator !== false;
     }, [currentPreset]);
+    const translateConsentCookie = getCookie?.("wapGoogleTranslateConsent") || "none";
 
     function validProfile(currentProfile) {
         if (!currentProfile?.id) return null;
@@ -356,7 +357,7 @@ const View = () => {
                 />
             </WapDrawer>
             <GoogleTranslateConsent
-                key={`gtc-${settings?.force_translate_site_language ? "force" : "normal"}-${state?.siteLanguage || "none"}`}
+                key={`gtc-${settings?.force_translate_site_language ? "force" : "normal"}-${state?.siteLanguage || "none"}-${translateConsentCookie}`}
                 showModal={settings?.show_translations_consent && isTranslatorEnabled}
                 translateSiteLang={settings?.force_translate_site_language}
                 accessibilityContext={state}

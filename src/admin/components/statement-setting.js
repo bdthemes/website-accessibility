@@ -4,6 +4,7 @@ import {
     ReloadOutlined,
     ExclamationCircleOutlined,
     CheckCircleOutlined,
+    EditOutlined,
 } from "@ant-design/icons";
 import { __ } from "@wordpress/i18n";
 import { addQueryArgs } from "@wordpress/url";
@@ -115,24 +116,24 @@ const StatementSetting = () => {
                     )}
                 </WapSpace>
 
-                {
-                    !page ? (
+                {!page ? (
+                    <WapTooltip
+                        title={__("Click to generate a statement page", "website-accessibility")}
+                    >
+                        <WapButton
+                            type="primary"
+                            shape="circle"
+                            icon={<ReloadOutlined spin={creating || loading} />}
+                            onClick={handleGenerate}
+                            style={{
+                                height: 32,
+                            }}
+                        />
+                    </WapTooltip>
+                ) : (
+                    <WapSpace>
                         <WapTooltip
-                            title={__("Click to generate a statement page", "website-accessibility")}
-                        >
-                            <WapButton
-                                type="primary"
-                                shape="circle"
-                                icon={<ReloadOutlined spin={creating || loading} />}
-                                onClick={handleGenerate}
-                                style={{
-                                    height: 32,
-                                }}
-                            />
-                        </WapTooltip>
-                    ) : (
-                        <WapTooltip
-                            title={__("Hurray! We have a statement page!", "website-accessibility")}
+                            title={__("Preview statement page", "website-accessibility")}
                         >
                             <WapButton
                                 type="primary"
@@ -143,8 +144,20 @@ const StatementSetting = () => {
                                 size="large"
                             />
                         </WapTooltip>
-                    )
-                }
+                        <WapTooltip
+                            title={__("Edit statement page", "website-accessibility")}
+                        >
+                            <WapButton
+                                type="default"
+                                shape="circle"
+                                icon={<EditOutlined />}
+                                href={`/wp-admin/post.php?post=${page?.id}&action=edit`}
+                                target="_blank"
+                                size="large"
+                            />
+                        </WapTooltip>
+                    </WapSpace>
+                )}
             </WapSpace>
         </WapCard>
     );

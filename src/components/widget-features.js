@@ -9,11 +9,13 @@ const WidgetFeatures = ({
 	accessibilityContext,
 	accessibilityDispatch,
 }) => {
-	const { WapCard, WapRow, WapCol, WapBadge, WapTooltip } = window?.wapComponents;
+	const { WapCard, WapRow, WapCol, WapBadge, WapTooltip, WapNotification } = window?.wapComponents;
 	const isProActive = window?.websacPro?.isProActive || false;
 	const { items } = value;
 	const featureItem = items.find((item) => item.slug === "features");
 	const attributes = featureItem?.attributes || {};
+	const featureColumns = Math.min(6, Math.max(1, Number(attributes?.columns) || 2));
+	const featureColumnWidth = `${100 / featureColumns}%`;
 	// Check if we're in frontend context
 	const isFrontend = !!accessibilityContext && !!accessibilityDispatch;
 	const { currentSettings } = accessibilityContext || {};
@@ -43,6 +45,15 @@ const WidgetFeatures = ({
 		const { isScreenReaderActive = (() => false), screenReader = () => null } = window?.wapHelpers;
 		const allAttributes = feature.attributes || [];
 		const key = feature?.key;
+		const notify = (content) => {
+			const text = content || `${feature?.label || __("Feature", "website-accessibility")} ${__("updated", "website-accessibility")}`;
+			WapNotification?.open?.({
+				key: "wap-feature-notification",
+				message: text,
+				placement: "topLeft",
+				duration: 1.8,
+			});
+		};
 
 		const prevState = currentSettings[key] || {};
 		const prevStep = prevState?.currentStep || 0;
@@ -72,11 +83,14 @@ const WidgetFeatures = ({
 			if (isScreenReaderActive(currentSettings)) {
 				const enableAnnouncement = currentAttribute?.enableAnnouncement;
 				const disableAnnouncement = feature?.disableAnnouncement;
+				notify(currentAttribute ? enableAnnouncement : disableAnnouncement);
 				if (currentAttribute) {
 					screenReader()?.speak(enableAnnouncement);
 				} else {
 					screenReader()?.speak(disableAnnouncement);
 				}
+			} else {
+				notify(currentAttribute?.enableAnnouncement || feature?.disableAnnouncement);
 			}
 
 			return;
@@ -101,6 +115,7 @@ const WidgetFeatures = ({
 			const enableAnnouncement =
 				allAttributes[nextStep - 1]?.enableAnnouncement;
 			const disableAnnouncement = feature?.disableAnnouncement;
+			notify(allAttributes[nextStep - 1] ? enableAnnouncement : disableAnnouncement);
 			if (allAttributes[nextStep - 1]) {
 				if (key === "screenReader") {
 					screenReader().screenReaderConfig = {
@@ -116,6 +131,7 @@ const WidgetFeatures = ({
 			}
 		} else if (key === "screenReader") {
 			const enableAnnouncement = allAttributes[0]?.enableAnnouncement;
+			notify(enableAnnouncement);
 			screenReader().screenReaderConfig = {
 				rate: allAttributes[0]?.rate || 1,
 				pitch: allAttributes[0]?.pitch || 1,
@@ -123,6 +139,10 @@ const WidgetFeatures = ({
 				voiceURI: allAttributes[0]?.voiceURI || null,
 			};
 			screenReader()?.speak(enableAnnouncement);
+		} else {
+			const enableAnnouncement = allAttributes[nextStep - 1]?.enableAnnouncement;
+			const disableAnnouncement = feature?.disableAnnouncement;
+			notify(allAttributes[nextStep - 1] ? enableAnnouncement : disableAnnouncement);
 		}
 	};
 
@@ -153,9 +173,11 @@ const WidgetFeatures = ({
 									})}
 									xs={24}
 									sm={12}
-									md={12}
-									lg={12}
-									xl={12}
+									md={24}
+									lg={24}
+									xl={24}
+									flex={`0 0 ${featureColumnWidth}`}
+									style={{ maxWidth: featureColumnWidth }}
 								>
 									{isDummy && !isProActive && (
 										<WapBadge count={__("PRO", "website-accessibility")} color="gold" className="wap-widget-features-dummy" />

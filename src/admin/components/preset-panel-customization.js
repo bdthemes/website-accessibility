@@ -60,7 +60,7 @@ const PanelSectionTab = ({ item, component }) => {
                                 )}
                             </div>
                         ),
-                        children: component,
+                        children: <div data-control-category={item.title}>{component}</div>,
                         collapsible: item?.isPro && !isProActive ? "disabled" : undefined,
                     },
                 ]}
@@ -70,8 +70,7 @@ const PanelSectionTab = ({ item, component }) => {
 };
 
 const PanelCustomizationPreset = () => {
-    const { isProActive } = useLicense();
-    const { WapCard, WapCollapse, WapSwitch } = window?.wapComponents;
+    const { WapCollapse, WapSwitch } = window?.wapComponents;
     const { presetsFormData } = useSelect((select) =>
         select(STORE_NAME).getPresetsFormData(),
     );
@@ -114,20 +113,19 @@ const PanelCustomizationPreset = () => {
                     </div>
                 </div>
             ),
-            children: <GetStartedPreset />,
+            children: <div data-control-category={__("Preset", "website-accessibility")}><GetStartedPreset /></div>
         },
         {
             key: "button",
             label: __("Button", "website-accessibility"),
-            children: <PresetButtonStyle />,
+            children: <div data-control-category={__("Button", "website-accessibility")}><PresetButtonStyle /></div>,
         },
         {
             key: "panel",
             label: __("Panel Wrapper", "website-accessibility"),
-            children: <PresetPanelRightSidebar />,
+            children: <div data-control-category={__("Panel Wrapper", "website-accessibility")}><PresetPanelRightSidebar /></div>,
         },
     ];
-
     return (
         <div className="wap-panel-customization-card">
             <div className="wap-panel-customization">
