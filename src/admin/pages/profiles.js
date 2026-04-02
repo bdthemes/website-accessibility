@@ -4,12 +4,13 @@ import { useHistory } from '../router';
 import { useSelect, useDispatch } from '@wordpress/data';
 import { getDefaultProfilesFormData, STORE_NAME } from '../store';
 import ProfilesFallback from '../components/profiles-fallback';
+import { useLicense } from '../context/LicenseContext';
 
 
 const Profiles = () => {
   const { WapCard, WapButton, WapSpace, WapDropdown, WapTypography } = window?.wapComponents;
   const { Title, Text } = WapTypography;
-  const isProActive = window?.websacPro?.isProActive || false;
+  const { isProActive } = useLicense();
   const history = useHistory();
   const profiles = useSelect((select) => select(STORE_NAME).getProfiles());
   const { deleteProfile, setProfilesFormData } = useDispatch(STORE_NAME);
@@ -149,4 +150,4 @@ const Profiles = () => {
   );
 };
 
-export default Profiles; 
+export default Profiles;

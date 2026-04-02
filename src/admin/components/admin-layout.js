@@ -2,6 +2,7 @@
  * AdminLayout - Header + Sidebar layout (Ant Design) like Sigma Media Manager
  */
 import { __ } from '@wordpress/i18n';
+import { useLicense } from '../context/LicenseContext';
 import { Layout, Menu } from 'antd';
 import { useLocation, useHistory } from '../router';
 import {
@@ -21,7 +22,6 @@ const BDTHEMES_URL = 'https://bdthemes.com';
 const PLUGIN_VERSION = typeof window !== 'undefined' && window.websacAdmin?.version ? window.websacAdmin.version : '1.2.7';
 const HELP_URL = 'https://bdthemes.com/contact/';
 
-const IS_PRO_PLUGIN_ACTIVE = typeof window !== 'undefined' && !!window.websacAdmin?.isProPluginActive;
 
 const IconComingSoonBullet = () => (
 	<span className="wap-admin-pro-features-card__icon" aria-hidden="true">
@@ -83,9 +83,8 @@ const AdminLayout = ({ children }) => {
 		{ key: 'website-accessibilityfiles', icon: <IconProfiles />, label: __('Custom Profiles', 'website-accessibility') },
 		{ key: 'website-accessibility-settings', icon: <IconSettings />, label: __('Settings', 'website-accessibility') },
 	].filter(Boolean);
+	const { isProActive: isLicenseValid, isProPluginActive } = useLicense();
 
-	const isProPluginActive = typeof window !== 'undefined' && window.websacAdmin?.isProPluginActive;
-	const isLicenseValid = typeof window !== 'undefined' && window.websacAdmin?.isLicenseValid;
 	const comingSoonFeatureLabels = [
 		__('Enhanced analytics & usage insights', 'website-accessibility'),
 		__('New preset packs & panel styles', 'website-accessibility'),
@@ -96,7 +95,7 @@ const AdminLayout = ({ children }) => {
 	/** Pro installed + license active → “Coming soon”; otherwise Pro upsell list (free or Pro without license) */
 	const showComingSoonCard = isProPluginActive && isLicenseValid;
 	const supportItems = [
-		...(IS_PRO_PLUGIN_ACTIVE ? [{ key: 'website-accessibility-license', icon: <IconLicense />, label: __('License', 'website-accessibility') }] : []),
+		...(isProPluginActive ? [{ key: 'website-accessibility-license', icon: <IconLicense />, label: __('License', 'website-accessibility') }] : []),
 		...(isProPluginActive ? [{ key: 'website-accessibility-tools', icon: <IconTools />, label: __('Tools & Backup', 'website-accessibility'), disabled: !isLicenseValid }] : []),
 		{ key: 'website-accessibility-about', icon: <IconInfo />, label: __('About & Info', 'website-accessibility') },
 	];

@@ -3,12 +3,13 @@ import apiFetch from "@wordpress/api-fetch";
 import { __ } from "@wordpress/i18n";
 import SettingsItem from "../components/settings-item";
 import StatementSetting from "../components/statement-setting";
+import { useLicense } from "../context/LicenseContext";
 
 
 const Settings = () => {
     const { WapSpin, WapMessage, WapCard, WapSpace, WapTypography, WapInputNumber, WapSelect, WapButton } = window?.wapComponents;
     const { Title, Text } = WapTypography;
-    const { isProActive } = window?.websacPro || {};
+    const { isProActive } = useLicense();
     const [settings, setSettings] = useState({});
     const [loading, setLoading] = useState(true);
     const [saving, setSaving] = useState(false);

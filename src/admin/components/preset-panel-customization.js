@@ -1,6 +1,7 @@
 import { __ } from "@wordpress/i18n";
 import { useDispatch, useSelect } from "@wordpress/data";
 import { STORE_NAME } from "../store";
+import { useLicense } from "../context/LicenseContext";
 import GetStartedPreset from "./preset-get-started";
 import PresetButtonStyle from "./preset-button-style";
 import PresetPanelRightSidebar from "./preset-panel-right-sidebar";
@@ -15,7 +16,7 @@ const PanelSectionTab = ({ item, component }) => {
         select(STORE_NAME).getPresetsFormData(),
     );
     const { setPresetsFormData } = useDispatch(STORE_NAME);
-    const isProActive = window?.websacPro?.isProActive || false;
+    const { isProActive } = useLicense();
 
     const handleVisibilityToggle = (checked) => {
         const updatedItems = (presetsFormData?.panel?.items || []).map((currentItem) =>
@@ -69,8 +70,8 @@ const PanelSectionTab = ({ item, component }) => {
 };
 
 const PanelCustomizationPreset = () => {
+    const { isProActive } = useLicense();
     const { WapCard, WapCollapse, WapSwitch } = window?.wapComponents;
-    const isProActive = window?.websacPro?.isProActive || false;
     const { presetsFormData } = useSelect((select) =>
         select(STORE_NAME).getPresetsFormData(),
     );

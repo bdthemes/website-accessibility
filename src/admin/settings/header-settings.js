@@ -3,6 +3,7 @@ import ControlWrapper from "../components/control-wrapper";
 import { useSelect, useDispatch } from "@wordpress/data";
 import { STORE_NAME } from "../store";
 import ColorPicker from "../controls/color-picker";
+import { useLicense } from "../context/LicenseContext";
 
 const HeaderSettings = () => {
     const { WapInput, WapSwitch, WapBadge, WapSelect, WapCard, WapRow, WapCol } = window?.wapComponents;
@@ -10,7 +11,7 @@ const HeaderSettings = () => {
         select(STORE_NAME).getPresetsFormData(),
     );
     const { setPresetsFormData } = useDispatch(STORE_NAME);
-    const isProActive = window?.websacPro?.isProActive || false;
+    const { isProActive } = useLicense();
     const { items } = presetsFormData?.panel || {};
     const headerItem = items?.find((item) => item.slug === "header");
     const attributes = headerItem?.attributes || {};

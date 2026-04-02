@@ -36,14 +36,25 @@ const LicenseManager = ({
     setIsLoading(true);
     try {
       const data = await licenseService.checkLicenseStatus();
+      const isActive = data?.is_active || false;
       setLicenseState({
-        isActive: data?.is_active || false,
+        isActive,
         licenseData: data?.license_data || null,
         errorMessage: data?.error_message || "",
       });
 
+      if (!window.websacPro) {
+        window.websacPro = {};
+      }
+      window.websacPro.isProActive = isActive;
+      window.dispatchEvent(
+        new CustomEvent("websac-license-changed", {
+          detail: { isLicenseValid: isActive },
+        })
+      );
+
       if (onLicenseChange) {
-        onLicenseChange(data?.is_active || false, data?.license_data || null);
+        onLicenseChange(isActive, data?.license_data || null);
       }
     } catch (e) {
       setLicenseState((prev) => ({

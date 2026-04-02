@@ -3,6 +3,7 @@ import { STORE_NAME } from '../store';
 import ControlWrapper from '../components/control-wrapper';
 import { __ } from '@wordpress/i18n';
 import ColorPicker from '../controls/color-picker';
+import { useLicense } from '../context/LicenseContext';
 
 const FooterSettings = () => {
     const { WapTabs, WapInput, WapSwitch, WapTypography, WapRow, WapCol } = window?.wapComponents;
@@ -10,7 +11,7 @@ const FooterSettings = () => {
     const { setPresetsFormData } = useDispatch(STORE_NAME);
     const footerItem = presetsFormData.panel.items.find(item => item.slug === 'footer');
     const attributes = footerItem?.attributes || {};
-    const isProActive = window?.websacPro?.isProActive || false;
+    const { isProActive } = useLicense();
 
     const updateAttr = (updates) => {
         const updatedItems = presetsFormData.panel.items.map((item) =>

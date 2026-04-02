@@ -1,13 +1,14 @@
 import { useState, useRef } from '@wordpress/element';
 import apiFetch from '@wordpress/api-fetch';
 import { __ } from '@wordpress/i18n';
+import { useLicense } from '../context/LicenseContext';
 
 const API_NAMESPACE = '/sigmally/v1';
 
 const ToolsBackup = () => {
 	const { WapButton, WapMessage, WapCard, WapTypography } = window?.wapComponents;
 	const { Title, Text } = WapTypography;
-	const { isProActive } = window?.websacPro || {};
+	const { isProActive } = useLicense();
 	const [exportLoading, setExportLoading] = useState(false);
 	const [importLoading, setImportLoading] = useState(false);
 	const fileInputRef = useRef(null);
