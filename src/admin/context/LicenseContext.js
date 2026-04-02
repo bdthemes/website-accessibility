@@ -4,7 +4,7 @@ const LicenseContext = createContext(null);
 
 export const LicenseProvider = ({ children }) => {
 	const [isProActive, setIsProActive] = useState(() => {
-		return !!(window?.websacAdmin?.isLicenseValid);
+		return !!(window?.websacPro?.isProActive);
 	});
 
 	const isProPluginActive = !!(window?.websacAdmin?.isProPluginActive);
@@ -15,9 +15,10 @@ export const LicenseProvider = ({ children }) => {
 			setIsProActive(active);
 
 			// Sync window global so non-context consumers read the latest value
-			if (window.websacAdmin) {
-				window.websacAdmin.isLicenseValid = active;
+			if (!window.websacPro) {
+				window.websacPro = {};
 			}
+			window.websacPro.isProActive = active;
 		};
 
 		window.addEventListener('websac-license-changed', handleLicenseChange);
@@ -40,7 +41,7 @@ export const useLicense = () => {
 	const context = useContext(LicenseContext);
 	if (!context) {
 		return {
-			isProActive: !!(window?.websacAdmin?.isLicenseValid),
+			isProActive: !!(window?.websacPro?.isProActive),
 			isProPluginActive: !!(window?.websacAdmin?.isProPluginActive),
 		};
 	}

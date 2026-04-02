@@ -43,9 +43,10 @@ const LicenseManager = ({
         errorMessage: data?.error_message || "",
       });
 
-      if (window.websacAdmin) {
-        window.websacAdmin.isLicenseValid = isActive;
+      if (!window.websacPro) {
+        window.websacPro = {};
       }
+      window.websacPro.isProActive = isActive;
       window.dispatchEvent(
         new CustomEvent("websac-license-changed", {
           detail: { isLicenseValid: isActive },
