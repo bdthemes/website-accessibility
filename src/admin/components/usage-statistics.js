@@ -191,6 +191,11 @@ const UsageStatistics = () => {
                                                     {stat.title}
                                                 </span>
                                             </div>
+                                            <div className="wap-statistics-list__right">
+                                                <span className="wap-statistics-list__value">
+                                                    {stat.value ?? 0}
+                                                </span>
+                                            </div>
                                             {stat.isDummy &&  !isProActive && (
                                                 <WapBadge
                                                     color="gold"
