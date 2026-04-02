@@ -159,14 +159,16 @@ const UsageStatistics = () => {
                                             key={stat.key || index}
                                             className={`wap-statistics-list__item wap-statistics-list__item--${stat.key || "default"}`}
                                         >
-                                            <div className="wap-statistics-list__icon-wrap" aria-hidden="true">
-                                                <span className="wap-statistics-list__icon">{stat.icon}</span>
-                                            </div>
-                                            <div className="wap-statistics-list__content">
-                                                <span className="wap-statistics-list__value">{stat.value ?? 0}</span>
+                                            <div className="wap-statistics-list__left">
+                                                <div className="wap-statistics-list__icon-wrap" aria-hidden="true">
+                                                    <span className="wap-statistics-list__icon">{stat.icon}</span>
+                                                </div>
                                                 <span className="wap-statistics-list__name" title={stat.title}>
                                                     {stat.title}
                                                 </span>
+                                            </div>
+                                            <div className="wap-statistics-list__right">
+                                                <span className="wap-statistics-list__value">{stat.value ?? 0}</span>
                                             </div>
                                             {stat.isDummy && (
                                                 <WapBadge

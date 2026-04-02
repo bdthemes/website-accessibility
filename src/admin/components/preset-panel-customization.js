@@ -81,6 +81,16 @@ const PanelCustomizationPreset = () => {
         (item) => item.slug !== "language",
     );
 
+    // Re-order sections:
+    // - Header should be above Panel Wrapper
+    // - Button should be below Features (and above Footer)
+    const headerItem = sectionItems.find((item) => item.slug === "header");
+    const featuresItem = sectionItems.find((item) => item.slug === "features");
+    const footerItem = sectionItems.find((item) => item.slug === "footer");
+    const otherSectionItems = sectionItems.filter(
+        (item) => !["header", "features", "footer"].includes(item.slug),
+    );
+
     const sectionComponents = {
         header: <HeaderSettings />,
         profiles: <ProfilesSettings />,
@@ -116,16 +126,6 @@ const PanelCustomizationPreset = () => {
             ),
             children: <GetStartedPreset />,
         },
-        {
-            key: "button",
-            label: __("Button", "website-accessibility"),
-            children: <PresetButtonStyle />,
-        },
-        {
-            key: "panel",
-            label: __("Panel Wrapper", "website-accessibility"),
-            children: <PresetPanelRightSidebar />,
-        },
     ];
 
     return (
@@ -140,13 +140,74 @@ const PanelCustomizationPreset = () => {
                         items={[collapseItem]}
                     />
                 ))}
-                {sectionItems.map((item) => (
+
+                {/* Header should be above Panel Wrapper */}
+                {headerItem && (
+                    <PanelSectionTab
+                        key={headerItem.slug}
+                        item={headerItem}
+                        component={sectionComponents[headerItem.slug] || null}
+                    />
+                )}
+
+                {/* Panel Wrapper (right sidebar controls) */}
+                <WapCollapse
+                    key="panel"
+                    defaultActiveKey={["panel"]}
+                    bordered={false}
+                    className="wap-panel-customization__collapse"
+                    items={[
+                        {
+                            key: "panel",
+                            label: __("Panel Wrapper", "website-accessibility"),
+                            children: <PresetPanelRightSidebar />,
+                        },
+                    ]}
+                />
+
+
+                {/* Other sections (Profiles etc.) */}
+                {otherSectionItems.map((item) => (
                     <PanelSectionTab
                         key={item.slug}
                         item={item}
                         component={sectionComponents[item.slug] || null}
                     />
                 ))}
+
+                {/* Features */}
+                {featuresItem && (
+                    <PanelSectionTab
+                        key={featuresItem.slug}
+                        item={featuresItem}
+                        component={sectionComponents[featuresItem.slug] || null}
+                    />
+                )}
+
+
+                {/* Button should be below Features */}
+                <WapCollapse style={{ marginTop: 20 }}
+                    key="button"
+                    defaultActiveKey={["button"]}
+                    bordered={false}
+                    className="wap-panel-customization__collapse"
+                    items={[
+                        {
+                            key: "button",
+                            label: __("Button", "website-accessibility"),
+                            children: <PresetButtonStyle />,
+                        },
+                    ]}
+                />
+
+                {/* Footer */}
+                {footerItem && (
+                    <PanelSectionTab
+                        key={footerItem.slug}
+                        item={footerItem}
+                        component={sectionComponents[footerItem.slug] || null}
+                    />
+                )}
             </div>
         </div>
     );
