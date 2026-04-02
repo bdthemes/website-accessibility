@@ -75,60 +75,48 @@ const ButtonStylePreset = () => {
 			</WapCard>
 
 			<WapCard bordered={false} className="wap-button-style-preset-card" title={__("Style", "website-accessibility")}>
-				<WapRow gutter={[16, 16]}>
-					<WapCol xs={12} md={6}>
-						<ControlWrapper label={__("Font Size", "website-accessibility")}>
-							<WapInput
-								value={button?.fontSize || ""}
-								onChange={(e) => handleButtonChange("fontSize", e.target.value)}
-								placeholder="e.g., 14px"
-							/>
-						</ControlWrapper>
-					</WapCol>
-					<WapCol xs={12} md={6}>
-						<ControlWrapper label={__("Icon Size", "website-accessibility")}>
-							<WapInput
-								value={button?.iconSize || ""}
-								onChange={(e) => handleButtonChange("iconSize", e.target.value)}
-								placeholder="e.g., 14px"
-							/>
-						</ControlWrapper>
-					</WapCol>
-					<WapCol xs={12} md={6}>
-						<ControlWrapper label={__("Text Color", "website-accessibility")}>
-							<ColorPicker
-								value={button.color}
-								onChange={(value) => handleButtonChange("color", value)}
-							/>
-						</ControlWrapper>
-					</WapCol>
-					<WapCol xs={12} md={6}>
-						<ControlWrapper label={__("Background Color", "website-accessibility")}>
-							<ColorPicker
-								value={button.bgColor}
-								onChange={(value) => handleButtonChange("bgColor", value)}
-							/>
-						</ControlWrapper>
-					</WapCol>
-					<WapCol xs={12} md={6}>
-						<ControlWrapper label={__("Padding", "website-accessibility")}>
-							<WapInput
-								value={button.padding || ""}
-								onChange={(e) => handleButtonChange("padding", e.target.value)}
-								placeholder="e.g., 10px 20px"
-							/>
-						</ControlWrapper>
-					</WapCol>
-					<WapCol xs={12} md={6}>
-						<ControlWrapper label={__("Border Radius", "website-accessibility")}>
-							<WapInput
-								value={button.borderRadius || ""}
-								onChange={(e) => handleButtonChange("borderRadius", e.target.value)}
-								placeholder="e.g., 6px"
-							/>
-						</ControlWrapper>
-					</WapCol>
-				</WapRow>
+				<div className="wap-button-style-grid">
+					<ControlWrapper label={__("Font Size", "website-accessibility")}>
+						<WapInput
+							value={button?.fontSize || ""}
+							onChange={(e) => handleButtonChange("fontSize", e.target.value)}
+							placeholder="e.g., 14px"
+						/>
+					</ControlWrapper>
+					<ControlWrapper label={__("Icon Size", "website-accessibility")}>
+						<WapInput
+							value={button?.iconSize || ""}
+							onChange={(e) => handleButtonChange("iconSize", e.target.value)}
+							placeholder="e.g., 14px"
+						/>
+					</ControlWrapper>
+					<ControlWrapper label={__("Text Color", "website-accessibility")}>
+						<ColorPicker
+							value={button.color}
+							onChange={(value) => handleButtonChange("color", value)}
+						/>
+					</ControlWrapper>
+					<ControlWrapper label={__("Background Color", "website-accessibility")}>
+						<ColorPicker
+							value={button.bgColor}
+							onChange={(value) => handleButtonChange("bgColor", value)}
+						/>
+					</ControlWrapper>
+					<ControlWrapper label={__("Padding", "website-accessibility")}>
+						<WapInput
+							value={button.padding || ""}
+							onChange={(e) => handleButtonChange("padding", e.target.value)}
+							placeholder="e.g., 10px 20px"
+						/>
+					</ControlWrapper>
+					<ControlWrapper label={__("Border Radius", "website-accessibility")}>
+						<WapInput
+							value={button.borderRadius || ""}
+							onChange={(e) => handleButtonChange("borderRadius", e.target.value)}
+							placeholder="e.g., 6px"
+						/>
+					</ControlWrapper>
+				</div>
 			</WapCard>
 
 			<WapCard bordered={false} className="wap-button-style-preset-card" title={__("Position", "website-accessibility")}>
