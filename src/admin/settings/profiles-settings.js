@@ -1,5 +1,4 @@
 import { useMemo } from '@wordpress/element';
-import { UserOutlined } from '@ant-design/icons';
 import { useSelect, useDispatch } from '@wordpress/data';
 import { STORE_NAME } from '../store';
 import ControlWrapper from '../components/control-wrapper';
@@ -7,7 +6,7 @@ import { __ } from '@wordpress/i18n';
 
 
 const ProfilesSettings = () => {
-    const { WapSpace, WapAvatar, WapInput, WapSwitch } = window?.wapComponents;
+    const { WapInput, WapSwitch } = window?.wapComponents;
     const profilesRaw = useSelect((select) => {
         const { getProfiles } = select(STORE_NAME);
         return getProfiles(true);
@@ -111,7 +110,7 @@ const ProfilesSettings = () => {
                                 >
                                     <div className="wap-feature-toggle-card__left">
                                         <div className="wap-feature-toggle-card__icon-wrap" aria-hidden="true">
-                                            {profile.icon || <UserOutlined />}
+                                            {profile.icon}
                                         </div>
                                         <div className="wap-feature-toggle-card__label">{profile.name}</div>
                                     </div>
