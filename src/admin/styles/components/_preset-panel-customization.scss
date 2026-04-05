@@ -155,7 +155,7 @@
 
 .wap-get-started-preset-card {
     display: grid;
-    grid-template-columns: repeat(auto-fill, minmax(180px, 1fr));
+    grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
     gap: 16px 12px;
 
     > .wap-control-wrapper {
@@ -248,7 +248,7 @@
 
     &__feature-grid {
         display: grid;
-        grid-template-columns: repeat(auto-fill, minmax(120px, 1fr));
+        grid-template-columns: repeat(auto-fill, minmax(180px, 1fr));
         gap: 12px;
     }
 }
@@ -285,13 +285,6 @@
 }
 
 .wap-feature-toggle-card__icon-wrap {
-    // width: 34px;
-    // height: 34px;
-    // border-radius: 10px;
-    // display: flex;
-    // align-items: center;
-    // justify-content: center;
-    // flex-shrink: 0;
     background: transparent;
 }
 
