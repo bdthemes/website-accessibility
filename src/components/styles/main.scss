@@ -19,9 +19,10 @@
 	background: var(--panel-background, #F1F3F8);
 	border: var(--panel-border, none);
 	border-radius: var(--panel-border-radius, 6px);
-	box-shadow: var(--panel-box-shadow, 0 4px 24px rgba(0, 0, 0, 0.08));
+	// box-shadow: var(--panel-box-shadow, 0 4px 24px rgba(0, 0, 0, 0.08));
+	// box-shadow: -6px 0 16px 0 rgba(0, 0, 0, 0.08), -3px 0 6px -4px rgba(0, 0, 0, 0.12), -9px 0 28px 8px rgba(0, 0, 0, 0.05);
 	font-family: inherit;
-	padding: var(--panel-padding);
+
 	margin: auto;
 	display: flex;
 	flex-direction: column;
@@ -38,7 +39,7 @@
 		max-height: calc(100vh - 125px);
 	}
 
-	
+
 
 	.wap-panel-customization__header-info {
 		display: flex;
@@ -74,6 +75,10 @@
 
 		> .wap-panel-footer {
 			flex-shrink: 0;
+		}
+
+		.wap-panel-customization__main {
+			padding: var(--panel-padding, 16px);
 		}
 	}
 
@@ -214,6 +219,7 @@
 
 	.ant-drawer-content-wrapper {
 		top: unset;
+		border-radius: var(--panel-border-radius, 6px);
 
 		@media only screen and (min-device-width: 768px) and (max-device-width: 1366px) and (orientation: landscape) {
 			top: 0;

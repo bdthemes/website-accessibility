@@ -71,7 +71,7 @@ const FooterSettings = () => {
                                 />
                             </ControlWrapper>
                         </WapCol>
-                        <WapCol xs={24} md={8}>
+                        {/* <WapCol xs={24} md={8}>
                             <ControlWrapper label={__('Padding', 'website-accessibility')}>
                                 <WapInput
                                     value={attributes.generalPadding}
@@ -79,15 +79,15 @@ const FooterSettings = () => {
                                     placeholder="10px 20px"
                                 />
                             </ControlWrapper>
-                        </WapCol>
-                        <WapCol xs={24} md={8}>
+                        </WapCol> */}
+                        {/* <WapCol xs={24} md={8}>
                             <ControlWrapper label={__('Border Radius', 'website-accessibility')}>
                                 <WapInput value={attributes.generalRadius || `0 0 16px 16px`} onChange={e => updateAttr({ generalRadius: e.target.value })} />
                             </ControlWrapper>
-                        </WapCol>
+                        </WapCol> */}
                     </WapRow>
 
-                    <WapTypography.Title level={5} className="wap-footer-settings__section-title">{__('Reset Button', 'website-accessibility')}</WapTypography.Title>
+                    {/* <WapTypography.Title level={5} className="wap-footer-settings__section-title">{__('Reset Button', 'website-accessibility')}</WapTypography.Title>
                     <WapRow gutter={[16, 8]}>
                         <WapCol xs={24} md={8}>
                             <ControlWrapper label={__('Background Color', 'website-accessibility')}>
@@ -105,7 +105,7 @@ const FooterSettings = () => {
                                 />
                             </ControlWrapper>
                         </WapCol>
-                        <WapCol xs={24} md={8}>
+                        {/* <WapCol xs={24} md={8}>
                             <ControlWrapper label={__('Border Radius', 'website-accessibility')}>
                                 <WapInput value={attributes.resetBtnRadius} onChange={e => updateAttr({ resetBtnRadius: e.target.value })} placeholder="6px" />
                             </ControlWrapper>
@@ -119,8 +119,8 @@ const FooterSettings = () => {
                             <ControlWrapper label={__('Font Weight', 'website-accessibility')}>
                                 <WapInput value={attributes.resetBtnFontWeight} onChange={e => updateAttr({ resetBtnFontWeight: e.target.value })} placeholder="500" />
                             </ControlWrapper>
-                        </WapCol>
-                    </WapRow>
+                        </WapCol> */}
+                    {/* </WapRow> */}
 
                     <WapTypography.Title level={5} className="wap-footer-settings__section-title">{__('Footer Text', 'website-accessibility')}</WapTypography.Title>
                     <WapRow gutter={[16, 8]}>
