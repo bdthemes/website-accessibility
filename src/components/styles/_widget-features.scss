@@ -130,17 +130,84 @@
 		}
 	}
 
-		&__feature-tooltip {
-			position: absolute;
+	&__feature-tooltip {
+		position: absolute;
+		font-size: 14px;
+		z-index: 99;
+
+		&--topLeft {
 			left: 12px;
 			top: 6px;
-			font-size: 14px;
-			z-index: 99;
 		}
+
+		&--topRight {
+			right: 12px;
+			top: 6px;
+		}
+
+		&--bottomLeft {
+			left: 12px;
+			bottom: 8px;
+		}
+
+		&--bottomRight {
+			right: 12px;
+			bottom: 8px;
+		}
+	}
 
 	&__feature-label {
 		line-height: 1.4;
 		transition: all 0.2s ease;
+	}
+
+	&__item-wrap {
+		.wap-widget-features__feature-btn {
+			width: 100%;
+		}
+	}
+
+	&__item-wrap--default {
+		.wap-widget-features__feature-btn {
+			flex-direction: column;
+			align-items: center;
+			justify-content: center;
+			text-align: center;
+		}
+	}
+
+	&__item-wrap--inline {
+		.wap-widget-features__feature-btn {
+			flex-direction: row;
+			align-items: center;
+			justify-content: flex-start;
+			text-align: left;
+			gap: 10px;
+			padding: 10px 12px;
+			min-height: 58px;
+		}
+
+		.wap-widget-features__feature-icon {
+			margin-bottom: 0;
+			flex-shrink: 0;
+
+			svg {
+				width: 22px;
+				height: 22px;
+			}
+		}
+
+		.wap-widget-features__feature-label {
+			flex: 1;
+			min-width: 0;
+		}
+
+		.wap-widget-features-bottom-indicator {
+			left: auto;
+			right: 10px;
+			bottom: 8px;
+			transform: none;
+		}
 	}
 
 	// Top indicator - shows check mark when active

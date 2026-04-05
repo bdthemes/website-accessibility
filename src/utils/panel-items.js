@@ -48,6 +48,9 @@ const panelItems = [
         active: true,
         close: true,
         attributes: {
+            layout: 'default',
+            tooltipPosition: 'topLeft',
+            columns: 2,
             widgets: [
                 {
                     contrast: {

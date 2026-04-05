@@ -15,6 +15,8 @@ const WidgetFeatures = ({
 	const { items } = value;
 	const featureItem = items.find((item) => item.slug === "features");
 	const attributes = featureItem?.attributes || {};
+	const layout = isProActive && attributes?.layout === "inline" ? "inline" : "default";
+	const tooltipPosition = isProActive ? (attributes?.tooltipPosition || "topLeft") : "topLeft";
 	const featureColumns = Math.min(6, Math.max(1, Number(attributes?.columns) || 2));
 	const featureColumnWidth = `${100 / featureColumns}%`;
 	// Check if we're in frontend context
@@ -173,9 +175,14 @@ const WidgetFeatures = ({
 							return (
 								<WapCol
 									key={key}
-									className={clsx(`wap-feature-${key}`, {
+									className={clsx(
+										`wap-feature-${key}`,
+										`wap-widget-features__item-wrap`,
+										`wap-widget-features__item-wrap--${layout}`,
+										{
 										"wap-feature--active": isActive,
-									})}
+										}
+									)}
 									xs={24}
 									sm={12}
 									md={24}
@@ -192,12 +199,19 @@ const WidgetFeatures = ({
 										<WapTooltip
 											title={feature?.description}
 											placement="top"
+											autoAdjustOverflow={false}
+											getPopupContainer={() => document.body}
 											mouseEnterDelay={0}
 											styles={{
 												root: { zIndex: 9999999999 }
 											}}
 										>
-											<InfoCircleOutlined className="wap-widget-features__feature-tooltip" />
+											<InfoCircleOutlined
+												className={clsx(
+													"wap-widget-features__feature-tooltip",
+													`wap-widget-features__feature-tooltip--${tooltipPosition}`
+												)}
+											/>
 										</WapTooltip>
 									)}
 
