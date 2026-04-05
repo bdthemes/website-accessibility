@@ -1,6 +1,6 @@
 import { __ } from '@wordpress/i18n';
 import clsx from 'clsx';
-import { useMemo, useState } from '@wordpress/element';
+import { useMemo } from '@wordpress/element';
 import ControlWrapper from './control-wrapper';
 import { DEFAULT_FEATURE_CATEGORY_DEFINITIONS } from '../../utils/feature-categories';
 
@@ -312,12 +312,10 @@ const widgetFeatures = [
 
 const ProfileForm = ({ formData, onFormChange }) => {
 
-    const { WapInput, WapCard, WapTypography, WapRow, WapCol, WapModal, WapButton, WapSpace } = window?.wapComponents;
+    const { WapInput, WapCard, WapRow, WapCol, WapMessage, WapUpload } = window?.wapComponents;
+    const uploadIgnoreToken = WapUpload?.LIST_IGNORE ?? false;
 
     const { TextArea } = WapInput;
-    const { Text } = WapTypography;
-    const [isIconModalOpen, setIsIconModalOpen] = useState(false);
-    const [draftIcon, setDraftIcon] = useState(formData?.icon || '');
 
     const handleFeatureChange = (featureKey, value) => {
         onFormChange({
@@ -336,14 +334,36 @@ const ProfileForm = ({ formData, onFormChange }) => {
         });
     };
 
-    const openIconModal = () => {
-        setDraftIcon(formData?.icon || '');
-        setIsIconModalOpen(true);
+    const extractSvgMarkupFromText = (text = '') => {
+        if (!text || typeof text !== 'string') return null;
+        const svgMatch = text.match(/<svg[\s\S]*<\/svg>/i);
+        return svgMatch ? svgMatch[0] : null;
     };
 
-    const saveIconFromModal = () => {
-        handleFieldChange('icon', draftIcon);
-        setIsIconModalOpen(false);
+    const handleIconUpload = (file) => {
+        const isSvg = file?.type === 'image/svg+xml' || /\.svg$/i.test(file?.name || '');
+        if (!isSvg) {
+            WapMessage?.error?.(__('Please upload a valid SVG file.', 'website-accessibility'));
+            return uploadIgnoreToken;
+        }
+
+        const reader = new FileReader();
+        reader.onload = () => {
+            const text = typeof reader.result === 'string' ? reader.result : '';
+            const svgMarkup = extractSvgMarkupFromText(text);
+            if (!svgMarkup) {
+                WapMessage?.error?.(__('Uploaded file is not a valid SVG.', 'website-accessibility'));
+                return;
+            }
+            handleFieldChange('icon', svgMarkup);
+            WapMessage?.success?.(__('SVG icon uploaded successfully.', 'website-accessibility'));
+        };
+        reader.onerror = () => {
+            WapMessage?.error?.(__('Failed to read uploaded SVG file.', 'website-accessibility'));
+        };
+        reader.readAsText(file);
+
+        return uploadIgnoreToken;
     };
 
     const isFeatureActive = (feature) => {
@@ -475,25 +495,43 @@ const ProfileForm = ({ formData, onFormChange }) => {
                         <div className="wap-profile-info-field wap-profile-info-field--icon">
                             <ControlWrapper
                                 label={__('Profile Icon (SVG)', 'website-accessibility')}
-                                tooltip={__('Paste your SVG markup here. Optional.', 'website-accessibility')}
+                                tooltip={__('Upload an SVG file for the profile icon.', 'website-accessibility')}
                             >
-                                <button
-                                    type="button"
-                                    className="wap-profile-icon-preview__button"
-                                    onClick={openIconModal}
-                                    title={__('Edit profile icon SVG', 'website-accessibility')}
-                                >
-                                    {formData?.icon ? (
-                                        <div
-                                            className="wap-profile-icon-preview__box"
-                                            dangerouslySetInnerHTML={{ __html: formData.icon }}
-                                        />
-                                    ) : (
-                                        <div className="wap-profile-icon-preview__empty">
-                                            {__('No icon selected', 'website-accessibility')}
-                                        </div>
+                                <div style={{ display: 'flex', alignItems: 'center', gap: 8 }}>
+                                    <WapUpload
+                                        accept=".svg,image/svg+xml"
+                                        showUploadList={false}
+                                        maxCount={1}
+                                        beforeUpload={handleIconUpload}
+                                    >
+                                        <button
+                                            type="button"
+                                            className="wap-profile-icon-preview__button"
+                                            title={__('Upload profile icon SVG', 'website-accessibility')}
+                                        >
+                                            {formData?.icon ? (
+                                                <div
+                                                    className="wap-profile-icon-preview__box"
+                                                    dangerouslySetInnerHTML={{ __html: formData.icon }}
+                                                />
+                                            ) : (
+                                                <div className="wap-profile-icon-preview__empty">
+                                                    {__('Upload', 'website-accessibility')}
+                                                </div>
+                                            )}
+                                        </button>
+                                    </WapUpload>
+                                    {formData?.icon && (
+                                        <button
+                                            type="button"
+                                            className="components-button is-secondary"
+                                            onClick={() => handleFieldChange('icon', '')}
+                                            title={__('Clear selected icon', 'website-accessibility')}
+                                        >
+                                            {__('Clear', 'website-accessibility')}
+                                        </button>
                                     )}
-                                </button>
+                                </div>
                             </ControlWrapper>
                         </div>
                     </WapCol>
@@ -561,47 +599,6 @@ const ProfileForm = ({ formData, onFormChange }) => {
                     </div>
                 ))}
             </WapCard>
-
-            <WapModal
-                title={__('Profile Icon (SVG)', 'website-accessibility')}
-                open={isIconModalOpen}
-                onCancel={() => setIsIconModalOpen(false)}
-                footer={(
-                    <WapSpace>
-                        <WapButton onClick={() => setIsIconModalOpen(false)}>
-                            {__('Cancel', 'website-accessibility')}
-                        </WapButton>
-                        <WapButton type="primary" onClick={saveIconFromModal}>
-                            {__('Apply Icon', 'website-accessibility')}
-                        </WapButton>
-                    </WapSpace>
-                )}
-            >
-                <ControlWrapper
-                    label={__('SVG Markup', 'website-accessibility')}
-                    tooltip={__('Paste your SVG markup here. Optional.', 'website-accessibility')}
-                >
-                    <TextArea
-                        value={draftIcon}
-                        onChange={(e) => setDraftIcon(e.target.value)}
-                        placeholder={__('Paste SVG markup here', 'website-accessibility')}
-                        rows={8}
-                    />
-                </ControlWrapper>
-                <div className="wap-profile-icon-preview" style={{ marginTop: 8 }}>
-                    <Text type="secondary">{__('Preview:', 'website-accessibility')}</Text>
-                    {draftIcon ? (
-                        <div
-                            className="wap-profile-icon-preview__box"
-                            dangerouslySetInnerHTML={{ __html: draftIcon }}
-                        />
-                    ) : (
-                        <div className="wap-profile-icon-preview__empty">
-                            {__('No icon selected', 'website-accessibility')}
-                        </div>
-                    )}
-                </div>
-            </WapModal>
         </div>
     );
 };
