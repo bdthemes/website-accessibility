@@ -495,43 +495,53 @@ const ProfileForm = ({ formData, onFormChange }) => {
                         <div className="wap-profile-info-field wap-profile-info-field--icon">
                             <ControlWrapper
                                 label={__('Profile Icon (SVG)', 'website-accessibility')}
-                                tooltip={__('Upload an SVG file for the profile icon.', 'website-accessibility')}
                             >
-                                <div style={{ display: 'flex', alignItems: 'center', gap: 8 }}>
-                                    <WapUpload
-                                        accept=".svg,image/svg+xml"
-                                        showUploadList={false}
-                                        maxCount={1}
-                                        beforeUpload={handleIconUpload}
-                                    >
-                                        <button
-                                            type="button"
-                                            className="wap-profile-icon-preview__button"
-                                            title={__('Upload profile icon SVG', 'website-accessibility')}
-                                        >
-                                            {formData?.icon ? (
-                                                <div
-                                                    className="wap-profile-icon-preview__box"
-                                                    dangerouslySetInnerHTML={{ __html: formData.icon }}
-                                                />
-                                            ) : (
-                                                <div className="wap-profile-icon-preview__empty">
-                                                    {__('Upload', 'website-accessibility')}
-                                                </div>
-                                            )}
-                                        </button>
-                                    </WapUpload>
-                                    {formData?.icon && (
-                                        <button
-                                            type="button"
-                                            className="components-button is-secondary"
-                                            onClick={() => handleFieldChange('icon', '')}
-                                            title={__('Clear selected icon', 'website-accessibility')}
-                                        >
-                                            {__('Clear', 'website-accessibility')}
-                                        </button>
-                                    )}
-                                </div>
+                                <WapUpload
+                                    accept=".svg,image/svg+xml"
+                                    showUploadList={false}
+                                    maxCount={1}
+                                    beforeUpload={handleIconUpload}
+                                >
+                                    <div className={`wap-svg-upload-zone${formData?.icon ? ' wap-svg-upload-zone--has-icon' : ''}`}>
+                                        {formData?.icon && (
+                                            <button
+                                                type="button"
+                                                className="wap-svg-upload-zone__remove"
+                                                onClick={(e) => {
+                                                    e.stopPropagation();
+                                                    e.preventDefault();
+                                                    handleFieldChange('icon', '');
+                                                }}
+                                                aria-label={__('Remove icon', 'website-accessibility')}
+                                                title={__('Remove icon', 'website-accessibility')}
+                                            >
+                                                <svg width="14" height="14" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden>
+                                                    <path d="M18 6L6 18M6 6L18 18" stroke="currentColor" strokeWidth="2" strokeLinecap="round" />
+                                                </svg>
+                                            </button>
+                                        )}
+                                        {formData?.icon ? (
+                                            <div className="wap-svg-upload-zone__empty">
+                                                <span className="wap-svg-upload-zone__upload-icon wap-svg-upload-zone__upload-icon--preview">
+                                                    <div dangerouslySetInnerHTML={{ __html: formData.icon }} />
+                                                </span>
+                                                <span className="wap-svg-upload-zone__label wap-svg-upload-zone__label--uploaded">{__('Icon uploaded', 'website-accessibility')}</span>
+                                                <span className="wap-svg-upload-zone__hint">{__('Click to replace', 'website-accessibility')}</span>
+                                            </div>
+                                        ) : (
+                                            <div className="wap-svg-upload-zone__empty">
+                                                <span className="wap-svg-upload-zone__upload-icon" aria-hidden>
+                                                    <svg width="28" height="28" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                                        <path d="M12 15V3M12 3L8.5 6.5M12 3L15.5 6.5" stroke="currentColor" strokeWidth="1.6" strokeLinecap="round" strokeLinejoin="round" />
+                                                        <path d="M4 17V19C4 20.1046 4.89543 21 6 21H18C19.1046 21 20 20.1046 20 19V17" stroke="currentColor" strokeWidth="1.6" strokeLinecap="round" />
+                                                    </svg>
+                                                </span>
+                                                <span className="wap-svg-upload-zone__label">{__('Click to upload SVG icon', 'website-accessibility')}</span>
+                                                <span className="wap-svg-upload-zone__hint">{__('SVG only · Recommended: 24×24px viewBox', 'website-accessibility')}</span>
+                                            </div>
+                                        )}
+                                    </div>
+                                </WapUpload>
                             </ControlWrapper>
                         </div>
                     </WapCol>

@@ -57,7 +57,7 @@
 	&-action-btn {
 		border: none;
 		background: transparent;
-		color: #eaf1ff;
+		color: #e5e7ea;
 		height: 34px;
 		padding: 0;
 		cursor: pointer;
@@ -76,6 +76,10 @@
 		&:disabled {
 			opacity: 0.6;
 			cursor: not-allowed;
+		}
+
+		&:hover {
+			color: #ffffff;
 		}
 	}
 
@@ -106,6 +110,7 @@
 		// border: var(--wap-close-button-border, 1px solid rgba(255, 255, 255, 0.2));
 		border-radius: var(--wap-close-button-border-radius, 6px);
 		transition: all 0.3s ease;
+		position: relative;
 
 		&:hover {
 			color: var(--wap-close-button-hover-color, #ffffff);
@@ -120,10 +125,17 @@
 
 		svg {
 			display: block;
-			width: 16px;
-			height: 16px;
+			width: 20px;
+			height: 20px;
 			transition: transform 0.3s ease;
 		}
+	}
+
+	&-close-separator {
+		width: 1px;
+		height: 20px;
+		background: rgba(255, 255, 255, 0.33);
+		margin-left: 10px;
 	}
 }
 
@@ -141,8 +153,8 @@
 	&__search {
 		margin-bottom: 14px;
 		border-radius: 30px;
-		background: #eceff5;
-		border-color: #eceff5;
+		background: #F1F3F8;
+		border-color: #F1F3F8;
 		flex-direction: row-reverse;
 		padding: 0 12px 0 0;
 
@@ -151,6 +163,9 @@
 			padding: 10px 14px;
 			background: #e8ecf5;
 			border: 1px solid #d7dfef;
+		}
+		.ant-input {
+			min-height: 44px !important;
 		}
 	}
 
@@ -168,7 +183,7 @@
 	&__item {
 		min-height: 44px;
 		border: 0;
-		background: #f0f2f8;
+		background: #F1F3F8;
 		border-radius: 999px;
 		padding: 0 14px;
 		display: inline-flex;
@@ -176,9 +191,10 @@
 		gap: 10px;
 		cursor: pointer;
 		transition: all 0.2s ease;
-		font-size: 15px;
+		font-size: 14px;
 		color: #1c2136;
 		text-align: left;
+		font-weight: 500;
 
 		&:hover {
 			background: #dde5f5;

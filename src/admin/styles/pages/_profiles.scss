@@ -93,47 +93,182 @@
         resize: vertical;
     }
 
-    .wap-profile-info-field--icon .wap-profile-icon-preview__button {
-        min-height: var(--wap-profile-info-control-height);
+    // Match Description textarea height (same --wap-profile-info-control-height)
+    .wap-profile-info-field--icon {
+        .ant-upload {
+            display: block;
+            width: 100%;
+        }
+
+        .wap-svg-upload-zone {
+            height: var(--wap-profile-info-control-height);
+            min-height: var(--wap-profile-info-control-height);
+            max-height: var(--wap-profile-info-control-height);
+            box-sizing: border-box;
+            display: flex;
+            flex-direction: column;
+            align-items: stretch;
+            justify-content: center;
+            overflow: hidden;
+        }
+
+        .wap-svg-upload-zone__empty {
+            padding: 4px 8px;
+            gap: 2px;
+            min-height: 0;
+            flex: 1 1 auto;
+            justify-content: center;
+        }
+
+        .wap-svg-upload-zone__upload-icon {
+            width: 28px;
+            height: 28px;
+            margin-bottom: 0;
+            border-radius: 8px;
+
+            svg {
+                width: 18px;
+                height: 18px;
+            }
+        }
+
+        .wap-svg-upload-zone__upload-icon--preview svg {
+            width: 20px !important;
+            height: 20px !important;
+            max-width: 20px !important;
+            max-height: 20px !important;
+        }
+
+        .wap-svg-upload-zone__label {
+            font-size: 13px;
+            line-height: 1.25;
+        }
+
+        .wap-svg-upload-zone__hint {
+            font-size: 10px;
+            line-height: 1.25;
+            max-width: none;
+        }
+
+        .wap-svg-upload-zone__remove {
+            top: 4px;
+            right: 4px;
+            width: 24px;
+            height: 24px;
+        }
     }
 
-    .wap-profile-icon-preview {
-        margin-top: 8px;
-    }
-
-    .wap-profile-icon-preview__button {
+    .wap-svg-upload-zone {
         width: 100%;
+        border: 1.5px dashed #d1d5db;
+        border-radius: 10px;
+        background: #f9fafb;
+        cursor: pointer;
+        transition: border-color 0.2s ease, background 0.2s ease, box-shadow 0.2s ease;
+
+        &:hover {
+            border-color: #1677ff;
+            background: #f0f5ff;
+            box-shadow: 0 0 0 3px rgba(22, 119, 255, 0.08);
+        }
+
+        &--has-icon {
+            position: relative;
+            border-style: solid;
+            border-color: #e5e7eb;
+            background: #fff;
+
+            &:hover {
+                border-color: #1677ff;
+            }
+        }
+    }
+
+    .wap-svg-upload-zone__remove {
+        position: absolute;
+        top: 8px;
+        right: 8px;
+        z-index: 2;
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+        width: 28px;
+        height: 28px;
         padding: 0;
-        border: 1px solid #e5e7eb;
+        margin: 0;
+        border: 1px solid #fecaca;
         border-radius: 8px;
         background: #fff;
+        color: #ef4444;
         cursor: pointer;
-        overflow: hidden;
-        transition: border-color 0.2s ease, box-shadow 0.2s ease;
+        box-shadow: 0 1px 3px rgba(0, 0, 0, 0.08);
+        transition: background 0.15s ease, border-color 0.15s ease, color 0.15s ease;
+
+        &:hover {
+            background: #fff1f0;
+            border-color: #ef4444;
+            color: #dc2626;
+        }
+
+        &:focus-visible {
+            outline: 2px solid #1677ff;
+            outline-offset: 2px;
+        }
     }
 
-    .wap-profile-icon-preview__button:hover {
-        border-color: #b9d0ff;
-        box-shadow: 0 0 0 2px rgba(22, 119, 255, 0.1);
+    .wap-svg-upload-zone__empty {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;
+        gap: 6px;
+        padding: 16px 14px;
+        text-align: center;
+        min-height: inherit;
+        box-sizing: border-box;
     }
 
-    .wap-profile-icon-preview__box {
-        min-height: 52px;
-        padding: 10px 12px;
+    .wap-svg-upload-zone__upload-icon {
         display: flex;
         align-items: center;
         justify-content: center;
+        width: 44px;
+        height: 44px;
+        border-radius: 10px;
+        background: #e8f0fe;
+        color: #1677ff;
+        margin-bottom: 2px;
+        flex-shrink: 0;
+
+        &--preview {
+            background: #f3f6fb;
+            border: 1px solid #e5e7eb;
+            color: #111827;
+
+            svg {
+                width: 26px !important;
+                height: 26px !important;
+                display: block;
+            }
+        }
     }
 
-    .wap-profile-icon-preview__empty {
-        min-height: 52px;
-        padding: 10px 12px;
-        display: flex;
-        align-items: center;
-        justify-content: center;
-        color: #6b7280;
+    .wap-svg-upload-zone__label {
         font-size: 13px;
-        background: #fafafa;
+        font-weight: 600;
+        color: #1677ff;
+        line-height: 1.4;
+
+        &--uploaded {
+            color: #111827;
+        }
+    }
+
+    .wap-svg-upload-zone__hint {
+        font-size: 11.5px;
+        color: #9ca3af;
+        line-height: 1.45;
+        max-width: 220px;
     }
 
     .wap-profile-widget-features__item {
@@ -248,11 +383,11 @@
     cursor: pointer;
 }
 
-// Keep preview sizing global because modal content is portaled outside page wrappers.
-.wap-profile-icon-preview__box svg {
-    width: 36px !important;
-    height: 36px !important;
-    max-width: 36px !important;
-    max-height: 36px !important;
+// Portaled preview: keep SVG sizing consistent
+.wap-svg-upload-zone__upload-icon--preview svg {
+    width: 26px !important;
+    height: 26px !important;
+    max-width: 26px !important;
+    max-height: 26px !important;
     display: block;
 }
