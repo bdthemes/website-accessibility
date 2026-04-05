@@ -87,6 +87,28 @@
         }
     }
 
+    .wap-profile-form-fields {
+        display: flex;
+        flex-direction: column;
+        gap: 12px;
+    }
+
+    .wap-profile-form-fields__name {
+        width: 100%;
+        min-width: 0;
+    }
+
+    .wap-profile-form-fields__grid {
+        display: grid;
+        grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+        gap: 12px 16px;
+        align-items: stretch;
+    }
+
+    .wap-profile-form-fields__grid > .wap-profile-info-field {
+        min-width: 0;
+    }
+
     .wap-profile-info-field--description .ant-input-textarea textarea {
         min-height: var(--wap-profile-info-control-height) !important;
         height: var(--wap-profile-info-control-height);
@@ -271,10 +293,17 @@
         max-width: 220px;
     }
 
+    .wap-profile-widget-features {
+        display: grid;
+        grid-template-columns: repeat(auto-fill, minmax(130px, 1fr));
+        gap: 12px;
+    }
+
     .wap-profile-widget-features__item {
         border: 1px solid #f1f3f8;
         border-radius: 10px;
         transition: all 0.2s ease;
+        min-width: 0;
     }
 
     .wap-profile-widget-features__item--active {

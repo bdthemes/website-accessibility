@@ -96,6 +96,10 @@
         display: block;
         width: 26px;
         height: 26px;
+
+        rect {
+            fill: transparent;
+        }
     }
 }
 

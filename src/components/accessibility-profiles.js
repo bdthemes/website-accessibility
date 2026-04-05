@@ -1,15 +1,31 @@
-import { useMemo } from "@wordpress/element";
+import { useMemo, useRef, useState } from "@wordpress/element";
 import clsx from "clsx";
 import { __ } from "@wordpress/i18n";
 
 /* -------------------- 🔹 ProfileItem Component -------------------- */
 const ProfileItem = ({ profile, isActive, handleClick, attributes }) => {
+	const labelWrapRef = useRef(null);
+	const [labelShift, setLabelShift] = useState("0px");
+
+	const measureLabelOverflow = () => {
+		const wrap = labelWrapRef.current;
+		if (!wrap) return;
+		const inner = wrap.querySelector(".wap-accessibility-profiles__item-label-text");
+		if (!inner) return;
+		const extra = inner.scrollWidth - wrap.clientWidth;
+		setLabelShift(extra > 0 ? `${extra}px` : "0px");
+	};
+
+	const clearLabelOverflow = () => setLabelShift("0px");
+
 	return (
 		<div
 			className={clsx("wap-accessibility-profiles__item", {
 				"wap-accessibility-profiles__item--active": isActive,
 			})}
 			onClick={() => handleClick(profile)}
+			onMouseEnter={measureLabelOverflow}
+			onMouseLeave={clearLabelOverflow}
 			style={{ cursor: "pointer", position: "relative" }}
 		>
 			{!attributes?.hideBodyAvatar && profile.icon && (
@@ -18,9 +34,17 @@ const ProfileItem = ({ profile, isActive, handleClick, attributes }) => {
 				</span>
 			)}
 			{!attributes?.hideBodyProfileName && (
-				<span className="wap-accessibility-profiles__item-label">
-					{profile.name}
-				</span>
+				<div
+					ref={labelWrapRef}
+					className={clsx("wap-accessibility-profiles__item-label", {
+						"wap-accessibility-profiles__item-label--can-scroll": labelShift !== "0px",
+					})}
+					style={{ "--wap-label-shift": labelShift }}
+				>
+					<span className="wap-accessibility-profiles__item-label-text" title={profile.name}>
+						{profile.name}
+					</span>
+				</div>
 			)}
 		</div>
 	);

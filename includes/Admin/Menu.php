@@ -19,7 +19,63 @@ class Menu
     private function __construct()
     {
         add_action('admin_menu', [$this, 'register_menu']);
+        add_action('admin_menu', [$this, 'add_toplevel_menu_li_class'], 999);
+        add_action('admin_head', [$this, 'menu_icon_styles']);
         add_action('admin_footer', [$this, 'bfcm_menu_redirect_script']);
+    }
+
+    /**
+     * Append a class on the top-level admin menu li (WordPress stores it in $menu[ $i ][4]).
+     */
+    public function add_toplevel_menu_li_class()
+    {
+        global $menu;
+        if (!is_array($menu)) {
+            return;
+        }
+        foreach ($menu as $key => $item) {
+            if (isset($item[2], $item[4]) && $item[2] === 'website-accessibility') {
+                $menu[$key][4] .= ' wap-admin-root-menu';
+                break;
+            }
+        }
+    }
+
+    /**
+     * Custom menu SVG: core fades .wp-menu-image img — keep brand icon at full opacity.
+     */
+    public function menu_icon_styles()
+    {
+        ?>
+        <style id="wap-admin-menu-icon">
+            /* Match core #adminmenu div.wp-menu-image (36×34) — do not shrink the hit box or icons sit high vs label */
+            #adminmenu .wap-admin-root-menu .wp-menu-image {
+                float: left;
+                width: 36px;
+                height: 34px;
+                margin: 0;
+                display: flex;
+                align-items: center;
+                justify-content: center;
+                text-align: center;
+            }
+            #adminmenu .wap-admin-root-menu .wp-menu-image img {
+                width: 20px !important;
+                height: 20px !important;
+                max-width: 20px;
+                max-height: 20px;
+                padding: 0 !important;
+                margin: 0 !important;
+                opacity: 1 !important;
+                object-fit: contain;
+                display: block;
+            }
+            .folded #adminmenu .wap-admin-root-menu .wp-menu-image {
+                width: 35px;
+                height: 30px;
+            }
+        </style>
+        <?php
     }
 
     public function register_menu()
@@ -31,7 +87,7 @@ class Menu
             'manage_options',
             'website-accessibility',
             null,
-            'dashicons-universal-access',
+            esc_url(WEBSAC_URL . 'assets/images/admin-menu-icon.svg'),
             30
         );
 
@@ -169,6 +225,7 @@ class Menu
         echo '<script>window.open("https://oneaccessibility.com/#pricing", "_blank"); window.history.back();</script>';
         exit;
     }
+    
 
     public function bfcm_menu_redirect_script()
     {
@@ -185,3 +242,4 @@ class Menu
         <?php
     }
 }
+
