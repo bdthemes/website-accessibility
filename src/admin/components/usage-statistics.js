@@ -195,7 +195,7 @@ const UsageStatistics = () => {
                                                     {stat.value ?? 0}
                                                 </span>
                                             </div>
-                                            {stat.isDummy &&  !isProActive && (
+                                            {stat.isDummy && !isProActive && (
                                                 <WapBadge
                                                     color="gold"
                                                     count={__("PRO", "website-accessibility")}

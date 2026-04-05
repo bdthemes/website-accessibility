@@ -153,20 +153,13 @@
     }
 }
 
-// Preset section card ("Preset" collapse content)
 .wap-get-started-preset-card {
     display: grid;
-    grid-template-columns: repeat(2, minmax(0, 1fr));
+    grid-template-columns: repeat(auto-fill, minmax(180px, 1fr));
     gap: 16px 12px;
 
     > .wap-control-wrapper {
-        margin-bottom: 0 !important; // controlled by grid spacing
-    }
-
-    // Keep layout clean (no forced full-width item)
-
-    @media (max-width: 768px) {
-        grid-template-columns: 1fr;
+        margin-bottom: 0 !important;
     }
 }
 
@@ -253,23 +246,10 @@
         border-bottom: none;
     }
 
-    // Feature toggle cards grid (4 columns)
     &__feature-grid {
         display: grid;
-        grid-template-columns: repeat(4, minmax(0, 1fr));
+        grid-template-columns: repeat(auto-fill, minmax(120px, 1fr));
         gap: 12px;
-
-        @media (max-width: 1024px) {
-            grid-template-columns: repeat(3, minmax(0, 1fr));
-        }
-
-        @media (max-width: 768px) {
-            grid-template-columns: repeat(2, minmax(0, 1fr));
-        }
-
-        @media (max-width: 480px) {
-            grid-template-columns: 1fr;
-        }
     }
 }
 
@@ -447,50 +427,23 @@
     }
 }
 
-// Panel Wrapper → Style card uses a fixed 5-column grid.
-// AntD WapRow/WapCol is based on 24 spans, so exact “5 columns” isn't possible there.
 .wap-panel-wrapper-style-grid {
     display: grid;
-    grid-template-columns: repeat(5, minmax(0, 1fr));
+    grid-template-columns: repeat(auto-fill, minmax(130px, 1fr));
     gap: 16px;
 
     .wap-control-wrapper {
-        margin-bottom: 0 !important; // grid handles spacing
-    }
-
-    @media (max-width: 1200px) {
-        grid-template-columns: repeat(3, minmax(0, 1fr));
-    }
-
-    @media (max-width: 900px) {
-        grid-template-columns: repeat(2, minmax(0, 1fr));
-    }
-
-    @media (max-width: 560px) {
-        grid-template-columns: 1fr;
+        margin-bottom: 0 !important;
     }
 }
 
-// Header Settings → Style grid: fixed 5 columns on desktop
 .wap-header-style-grid {
     display: grid;
-    grid-template-columns: repeat(5, minmax(0, 1fr));
-    gap: 16px 16px;
+    grid-template-columns: repeat(auto-fill, minmax(130px, 1fr));
+    gap: 16px;
 
     .wap-control-wrapper {
-        margin-bottom: 0 !important; // grid provides spacing
-    }
-
-    @media (max-width: 1200px) {
-        grid-template-columns: repeat(3, minmax(0, 1fr));
-    }
-
-    @media (max-width: 900px) {
-        grid-template-columns: repeat(2, minmax(0, 1fr));
-    }
-
-    @media (max-width: 560px) {
-        grid-template-columns: 1fr;
+        margin-bottom: 0 !important;
     }
 }
 
