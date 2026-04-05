@@ -32,8 +32,6 @@ const FooterSettings = () => {
             label: __('Content', 'website-accessibility'),
             children: (
                 <div className="wap-footer-settings">
-                    <WapTypography.Title level={5} className="wap-footer-settings__section-title">{__('Reset Button', 'website-accessibility')}</WapTypography.Title>
-
                     <WapTypography.Title level={5} className="wap-footer-settings__section-title">{__('Preference Button', 'website-accessibility')}</WapTypography.Title>
                     <WapRow gutter={[16, 12]}>
                         <WapCol xs={24} md={24} style={{ marginBottom: '10px' }}>
@@ -48,11 +46,13 @@ const FooterSettings = () => {
                             <ControlWrapper label={__('Show Accessibility Statement', 'website-accessibility')} inline>
                                 <WapSwitch checked={attributes.showStatement !== false} onChange={checked => updateAttr({ showStatement: checked })} />
                             </ControlWrapper>
+                        </WapCol>
+                        <WapCol xs={24} md={12}>
                             <ControlWrapper label={__('Show Branding', 'website-accessibility')} inline>
-                                    <WapSwitch checked={attributes.showBranding !== false} onChange={checked => updateAttr({ showBranding: checked })} />
-                                </ControlWrapper>
-                            </WapCol>
-                        </WapRow>
+                                <WapSwitch checked={attributes.showBranding !== false} onChange={checked => updateAttr({ showBranding: checked })} />
+                            </ControlWrapper>
+                        </WapCol>
+                    </WapRow>
                 </div>
             )
         },
