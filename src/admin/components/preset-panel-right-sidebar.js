@@ -55,24 +55,17 @@ const PresetPanelRightSidebar = () => {
 							/>
 						</ControlWrapper>
 					</WapCol>
-				</WapRow>
-			</WapCard>
 
-			<WapCard bordered={false} className="wap-panel-right-sidebar__card" title={__("Style", "website-accessibility")}>
-				<div className="wap-panel-wrapper-style-grid">
+					<WapCol xs={24} md={6}>
 					<ControlWrapper label={__("Background Color", "website-accessibility")}>
 						<ColorPicker
 							value={wrapper.background}
 							onChange={(value) => handleWrapperChange("background", value)}
 						/>
 					</ControlWrapper>
-					<ControlWrapper label={__("Border", "website-accessibility")}>
-						<WapInput
-							value={wrapper.border || ""}
-							onChange={(e) => handleWrapperChange("border", e.target.value)}
-							placeholder="e.g., 1px solid #e0e0e0"
-						/>
-					</ControlWrapper>
+					</WapCol>
+
+					<WapCol xs={24} md={6}>
 					<ControlWrapper label={__("Padding", "website-accessibility")}>
 						<WapInput
 							value={wrapper.padding || ""}
@@ -80,21 +73,8 @@ const PresetPanelRightSidebar = () => {
 							placeholder="e.g., 20px"
 						/>
 					</ControlWrapper>
-					<ControlWrapper label={__("Border Radius", "website-accessibility")}>
-						<WapInput
-							value={wrapper.borderRadius || ""}
-							onChange={(e) => handleWrapperChange("borderRadius", e.target.value)}
-							placeholder="e.g., 8px"
-						/>
-					</ControlWrapper>
-					<ControlWrapper label={__("Box Shadow", "website-accessibility")}>
-						<WapInput
-							value={wrapper.boxShadow || ""}
-							onChange={(e) => handleWrapperChange("boxShadow", e.target.value)}
-							placeholder="e.g., 0 4px 24px rgba(0,0,0,0,0.1)"
-						/>
-					</ControlWrapper>
-				</div>
+					</WapCol>
+				</WapRow>
 			</WapCard>
 		</div>
 	);

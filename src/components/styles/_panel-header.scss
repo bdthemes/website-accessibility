@@ -1,9 +1,6 @@
 .wap-panel-customization__header {
-	background: var(
-		--wap-header-bg,
-		linear-gradient(135deg, #2e6cf6 0%, #1a4fb8 100%)
-	);
-	border: var(--wap-header-border, none);
+	background: var(--wap-header-bg, #2e6cf6);
+	// border: var(--wap-header-border, none);
 	border-top-left-radius: var(--wap-header-radius, 8px);
 	border-top-right-radius: var(--wap-header-radius, 8px);
 	border-bottom-left-radius: 0;

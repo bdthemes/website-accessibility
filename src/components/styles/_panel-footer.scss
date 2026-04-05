@@ -1,7 +1,7 @@
 // Panel Footer Styles
 .wap-panel-footer {
 	border-radius: var(--wap-footer-general-radius, 0 0 16px 16px);
-	background: var(--wap-footer-general-bg, #f1f3f8);
+	
 	position: sticky;
 	bottom: 0;
 	animation: wapSlideUpFade 0.6s ease-out;
@@ -89,7 +89,7 @@
 		align-items: center;
 		justify-content: space-between;
 		gap: 8px;
-		background: #fff;
+		background: var(--wap-footer-general-bg, #fff);
 		margin: 0 16px 10px 16px;
 		border-radius: 8px;
 
