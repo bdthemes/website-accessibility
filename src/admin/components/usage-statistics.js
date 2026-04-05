@@ -107,68 +107,68 @@ const UsageStatistics = () => {
                                 const pct = sharePercent(stat.num);
                                 const mod = stat.key || "default";
                                 return (
-																	<WapCol
-																		xs={24}
-																		sm={12}
-																		lg={6}
-																		key={stat.key || mod}
-																	>
-																		<div
-																			className={`wap-statistics-highlight__card wap-statistics-highlight__card--${mod}`}
-																		>
-																			<div className="wap-statistics-highlight__top">
-																				<div
-																					className="wap-statistics-highlight__icon-wrap"
-																					aria-hidden="true"
-																				>
-																					<span className="wap-statistics-highlight__icon">
-																						{stat.icon}
-																					</span>
-																				</div>
-																				<div
-																					className="wap-statistics-highlight__stat-pill"
-																					title={
-																						totalUses > 0 && pct > 0
-																							? `${__(
-																									"Share of total uses in this period",
-																									"website-accessibility",
-																							  )}: ${pct}%`
-																							: undefined
-																					}
-																				>
-																					<span className="wap-statistics-highlight__stat-num">
-																						{stat.num}
-																					</span>
-																					{totalUses > 0 && pct > 0 && (
-																						<span className="wap-statistics-highlight__stat-pct">
-																							{pct}%
-																						</span>
-																					)}
-																				</div>
-																			</div>
-																			<div className="wap-statistics-highlight__bottom">
-																				<div className="wap-statistics-highlight__label-row">
-																					<span
-																						className="wap-statistics-highlight__label"
-																						title={stat.title}
-																					>
-																						{stat.title}
-																					</span>
-																					{stat.isDummy && !isProActive && (
-																						<WapBadge
-																							color="gold"
-																							count={__(
-																								"PRO",
-																								"website-accessibility",
-																							)}
-																							className="wap-statistics-highlight__badge"
-																						/>
-																					)}
-																				</div>
-																			</div>
-																		</div>
-																	</WapCol>
-																);
+                                    <WapCol
+                                        xs={24}
+                                        sm={12}
+                                        lg={6}
+                                        key={stat.key || mod}
+                                    >
+                                        <div
+                                            className={`wap-statistics-highlight__card wap-statistics-highlight__card--${mod}`}
+                                        >
+                                            <div className="wap-statistics-highlight__top">
+                                                <div
+                                                    className="wap-statistics-highlight__icon-wrap"
+                                                    aria-hidden="true"
+                                                >
+                                                    <span className="wap-statistics-highlight__icon">
+                                                        {stat.icon}
+                                                    </span>
+                                                </div>
+                                                <div
+                                                    className="wap-statistics-highlight__stat-pill"
+                                                    title={
+                                                        totalUses > 0 && pct > 0
+                                                            ? `${__(
+                                                                "Share of total uses in this period",
+                                                                "website-accessibility",
+                                                            )}: ${pct}%`
+                                                            : undefined
+                                                    }
+                                                >
+                                                    <span className="wap-statistics-highlight__stat-num">
+                                                        {stat.num}
+                                                    </span>
+                                                    {totalUses > 0 && pct > 0 && (
+                                                        <span className="wap-statistics-highlight__stat-pct">
+                                                            {pct}%
+                                                        </span>
+                                                    )}
+                                                </div>
+                                            </div>
+                                            <div className="wap-statistics-highlight__bottom">
+                                                <div className="wap-statistics-highlight__label-row">
+                                                    <span
+                                                        className="wap-statistics-highlight__label"
+                                                        title={stat.title}
+                                                    >
+                                                        {stat.title}
+                                                    </span>
+                                                    {stat.isDummy && !isProActive && (
+                                                        <WapBadge
+                                                            color="gold"
+                                                            count={__(
+                                                                "PRO",
+                                                                "website-accessibility",
+                                                            )}
+                                                            className="wap-statistics-highlight__badge"
+                                                        />
+                                                    )}
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </WapCol>
+                                );
                             })}
                         </WapRow>
 
@@ -196,7 +196,7 @@ const UsageStatistics = () => {
                                                     {stat.value ?? 0}
                                                 </span>
                                             </div>
-                                            {stat.isDummy &&  !isProActive && (
+                                            {stat.isDummy && !isProActive && (
                                                 <WapBadge
                                                     color="gold"
                                                     count={__("PRO", "website-accessibility")}
