@@ -3,7 +3,6 @@ import { STORE_NAME } from '../store';
 import ControlWrapper from '../components/control-wrapper';
 import { __ } from '@wordpress/i18n';
 import ColorPicker from '../controls/color-picker';
-import { useLicense } from '../context/LicenseContext';
 
 const FooterSettings = () => {
     const { WapTabs, WapInput, WapSwitch, WapTypography, WapRow, WapCol } = window?.wapComponents;
@@ -11,7 +10,6 @@ const FooterSettings = () => {
     const { setPresetsFormData } = useDispatch(STORE_NAME);
     const footerItem = presetsFormData.panel.items.find(item => item.slug === 'footer');
     const attributes = footerItem?.attributes || {};
-    const { isProActive } = useLicense();
 
     const updateAttr = (updates) => {
         const updatedItems = presetsFormData.panel.items.map((item) =>
@@ -35,17 +33,6 @@ const FooterSettings = () => {
             children: (
                 <div className="wap-footer-settings">
                     <WapTypography.Title level={5} className="wap-footer-settings__section-title">{__('Reset Button', 'website-accessibility')}</WapTypography.Title>
-                    <WapRow gutter={[16, 8]}>
-                        <WapCol xs={24} md={24}>
-                            <ControlWrapper label={__('Reset Button Text', 'website-accessibility')}>
-                                <WapInput
-                                    value={attributes.resetBtnText || ''}
-                                    onChange={e => updateAttr({ resetBtnText: e.target.value })}
-                                    placeholder={__('Reset All', 'website-accessibility')}
-                                />
-                            </ControlWrapper>
-                        </WapCol>
-                    </WapRow>
 
                     <WapTypography.Title level={5} className="wap-footer-settings__section-title">{__('Preference Button', 'website-accessibility')}</WapTypography.Title>
                     <WapRow gutter={[16, 12]}>
@@ -55,38 +42,6 @@ const FooterSettings = () => {
                             </ControlWrapper>
                         </WapCol>
                     </WapRow>
-                    {attributes?.activePreference && (
-                        <WapRow gutter={[16, 12]}>
-                            <WapCol xs={24} md={12}>
-                                <ControlWrapper label={__('Save button text', 'website-accessibility')}>
-                                    <WapInput
-                                        value={attributes.saveBtnText || ''}
-                                        onChange={e => updateAttr({ saveBtnText: e.target.value })}
-                                        placeholder={__('Save Pref.', 'website-accessibility')}
-                                    />
-                                </ControlWrapper>
-                            </WapCol>
-                            <WapCol xs={24} md={12}>
-                                <ControlWrapper label={__('Update button text', 'website-accessibility')}>
-                                    <WapInput
-                                        value={attributes.updateBtnText || ''}
-                                        onChange={e => updateAttr({ updateBtnText: e.target.value })}
-                                        placeholder={__('Update Preference', 'website-accessibility')}
-                                    />
-                                </ControlWrapper>
-                            </WapCol>
-                            <WapCol xs={24} md={24}>
-                                <ControlWrapper label={__('Delete button text', 'website-accessibility')}>
-                                    <WapInput
-                                        value={attributes.deleteBtnText || ''}
-                                        onChange={e => updateAttr({ deleteBtnText: e.target.value })}
-                                        placeholder={__('Delete Preference', 'website-accessibility')}
-                                    />
-                                </ControlWrapper>
-                            </WapCol>
-                        </WapRow>
-                    )}
-
                     <WapTypography.Title level={5} className="wap-footer-settings__section-title">{__('Footer Text', 'website-accessibility')}</WapTypography.Title>
                     <WapRow gutter={[16, 12]}>
                         <WapCol xs={24} md={12}>
@@ -96,24 +51,6 @@ const FooterSettings = () => {
                             <ControlWrapper label={__('Show Branding', 'website-accessibility')} inline>
                                     <WapSwitch checked={attributes.showBranding !== false} onChange={checked => updateAttr({ showBranding: checked })} />
                                 </ControlWrapper>
-                            </WapCol>
-                            <WapCol xs={24} md={12}>
-                                <ControlWrapper label={__('Accessibility Statement Text', 'website-accessibility')}>
-                                    <WapInput
-                                        value={attributes.statementText}
-                                        onChange={e => updateAttr({ statementText: e.target.value })}
-                                        placeholder={__('Accessibility Statement', 'website-accessibility')}
-                                    />
-                                </ControlWrapper>
-                                {isProActive && attributes.showBranding !== false && (
-                                    <ControlWrapper label={__('Branding Text', 'website-accessibility')}>
-                                        <WapInput
-                                            value={attributes.brandingText}
-                                            onChange={e => updateAttr({ brandingText: e.target.value })}
-                                            placeholder={__('Proudly Powered by One Accessibility', 'website-accessibility')}
-                                        />
-                                    </ControlWrapper>
-                                )}
                             </WapCol>
                         </WapRow>
                 </div>

@@ -65,7 +65,7 @@ const AccessibilityProfiles = ({
 	const profileItem = items.find((item) => item.slug === "profiles");
 	const attributes = profileItem?.attributes || {};
 	const profiles = attributes.profiles || [];
-	const collapseTitle = attributes.collapseTitle || "Accessibility Profiles";
+	const collapseTitle = __("Accessibility Profiles", "website-accessibility");
 	const { isScreenReaderActive = (() => false), screenReader = () => null } = window?.wapHelpers;
 
 	const isFrontend = !!accessibilityContext && !!accessibilityDispatch;

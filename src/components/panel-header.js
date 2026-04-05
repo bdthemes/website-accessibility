@@ -197,7 +197,7 @@ const PanelHeader = ({
             <span
                 className="wap-panel-customization__header-title"
             >
-                {attributes.text || 'Accessibility'}
+                {__('Accessibility', 'website-accessibility')}
             </span>
             <div className="wap-panel-customization__header-actions">
                 <WapTooltip

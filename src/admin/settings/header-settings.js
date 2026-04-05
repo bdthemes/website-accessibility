@@ -37,15 +37,6 @@ const HeaderSettings = () => {
             <WapCard bordered={false} className="wap-panel-right-sidebar__card" title={__("Content", "website-accessibility")}>
                 <WapRow gutter={[16, 16]}>
                     <WapCol xs={24} md={6}>
-                        <ControlWrapper label={__("Header Text", "website-accessibility")}>
-                            <WapInput
-                                value={attributes.text || ""}
-                                onChange={(e) => updateAttr({ text: e.target.value })}
-                                placeholder={__("Accessibility", "website-accessibility")}
-                            />
-                        </ControlWrapper>
-                    </WapCol>
-                    <WapCol xs={24} md={6}>
                         <ControlWrapper label={__("Show Translator", "website-accessibility")} inline>
                             {isProActive ? (
                                 <WapSwitch

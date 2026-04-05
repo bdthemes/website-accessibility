@@ -6,7 +6,7 @@ import { __ } from '@wordpress/i18n';
 
 
 const ProfilesSettings = () => {
-    const { WapInput, WapSwitch } = window?.wapComponents;
+    const { WapSwitch } = window?.wapComponents;
     const profilesRaw = useSelect((select) => {
         const { getProfiles } = select(STORE_NAME);
         return getProfiles(true);
@@ -130,16 +130,6 @@ const ProfilesSettings = () => {
                 </div>
             </ControlWrapper>
 
-            <ControlWrapper
-                label={__('Title', 'website-accessibility')}
-            >
-                <WapInput
-                    placeholder={__('Accessibility Profiles', 'website-accessibility')}
-                    value={attributes?.collapseTitle || ''}
-                    onChange={(e) => updateAttr({ collapseTitle: e.target.value })}
-                    style={{ width: '100%' }}
-                />
-            </ControlWrapper>
         </>
     );
 };

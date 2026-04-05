@@ -31,13 +31,13 @@ const PanelFooter = ({ value, accessibilityContext, accessibilityDispatch, isEdi
   const isFrontend = !isEditorPreview && !!accessibilityContext && !!accessibilityDispatch;
 
   const showStatement = attributes.showStatement !== false;
-  const statementText = attributes.statementText || 'Statement';
+  const statementText = __('Accessibility Statement', 'website-accessibility');
   const showBranding = isProActive ? attributes.showBranding !== false : true;
-  const brandingText = isProActive ? attributes.brandingText || 'Powered by One Accessibility' : 'Powered by One Accessibility';
+  const brandingText = __('Powered by One Accessibility', 'website-accessibility');
   const showPreference = attributes?.activePreference || false;
-  const savePreferenceText = attributes.saveBtnText || __('Save Pref.', 'website-accessibility');
-  const updatePreferenceText = attributes.updateBtnText || __('Update Pref.', 'website-accessibility');
-  const deletePreferenceText = attributes.deleteBtnText || __('Delete Pref.', 'website-accessibility');
+  const savePreferenceText = __('Save Preference', 'website-accessibility');
+  const updatePreferenceText = __('Update Preference', 'website-accessibility');
+  const deletePreferenceText = __('Delete Preference', 'website-accessibility');
 
   const footerStyle = {
     '--wap-footer-general-bg': attributes.generalBg,
