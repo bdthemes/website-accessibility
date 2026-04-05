@@ -331,6 +331,12 @@
 .wap-feature-toggle-card__icon-wrap {
     background: transparent !important; // user request: remove icon background
     display: flex;
+
+    svg {
+        width: 100%;
+        height: 100%;
+        display: block;
+    }
 }
 
 // Features -> Items controls
