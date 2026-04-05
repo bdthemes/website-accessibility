@@ -25,9 +25,10 @@
 	margin: auto;
 	display: flex;
 	flex-direction: column;
-	justify-content: space-between;
+	justify-content: flex-start;
+	min-height: 0;
 	max-height: 100vh;
-	overflow-y: auto;
+	overflow: hidden;
 
 	@media only screen and (min-device-width: 768px) and (max-device-width: 1366px) and (orientation: landscape) {
 		max-height: calc(100vh - 125px);
@@ -41,22 +42,13 @@
 
 	.wap-panel-customization__header-info {
 		display: flex;
+		flex: 1 1 auto;
 		flex-direction: column;
+		min-height: 0;
+		overflow: hidden;
 
-		&::-webkit-scrollbar {
-			width: 5px;
-		}
-
-		/* Track */
-		&::-webkit-scrollbar-track {
-			background: #f1f1f1;
-			border-radius: 6px;
-		}
-
-		/* Handle */
-		&::-webkit-scrollbar-thumb {
-			background: rgb(138, 138, 175);
-			border-radius: 6px;
+		> .wap-panel-customization__header {
+			flex-shrink: 0;
 		}
 	}
 
@@ -75,18 +67,27 @@
 		position: relative;
 		z-index: 0;
 		display: flex;
+		flex: 1 1 auto;
 		flex-direction: column;
+		min-height: 0;
+		overflow: hidden;
+
+		> .wap-panel-footer {
+			flex-shrink: 0;
+		}
 	}
 
-	/* Scroll lock is handled in JS (overflow:hidden clips the language UI). Hide the outer scrollbar while the language menu is open. */
+	/* Scroll lock is handled in JS (overflow:hidden clips the language UI). Hide main scrollbar while the language menu is open. */
 	&.wap-panel-customization__panel--language-dropdown-open {
-		scrollbar-width: none;
-		-ms-overflow-style: none;
+		.wap-panel-customization__main {
+			scrollbar-width: none;
+			-ms-overflow-style: none;
 
-		&::-webkit-scrollbar {
-			display: none;
-			width: 0;
-			height: 0;
+			&::-webkit-scrollbar {
+				display: none;
+				width: 0;
+				height: 0;
+			}
 		}
 
 		.wap-panel-footer {
@@ -98,16 +99,35 @@
 		}
 	}
 
-	/* position: relative only — avoid flex:1 here or the info block stretches and leaves a huge empty gap */
+	/* Scrollable content region (panel header/footer stay outside; fade mask at bottom of this area) */
 	.wap-panel-customization__main {
 		position: relative;
 		z-index: 0;
+		flex: 1 1 auto;
+		min-height: 0;
+		overflow-x: hidden;
+		overflow-y: auto;
+		-webkit-overflow-scrolling: touch;
 		mask-image: linear-gradient(#000 96%, transparent);
 		-webkit-mask-image: linear-gradient(#000 96%, transparent);
 		mask-size: 100% 100%;
 		-webkit-mask-size: 100% 100%;
 		mask-repeat: no-repeat;
 		-webkit-mask-repeat: no-repeat;
+
+		&::-webkit-scrollbar {
+			width: 5px;
+		}
+
+		&::-webkit-scrollbar-track {
+			background: #f1f1f1;
+			border-radius: 6px;
+		}
+
+		&::-webkit-scrollbar-thumb {
+			background: rgb(138, 138, 175);
+			border-radius: 6px;
+		}
 	}
 
 	&.wap-panel-customization__panel--language-dropdown-open .wap-panel-customization__main {

@@ -70,9 +70,9 @@
 		vertical-align: middle;
 	}
 
-	&__grid {
-		min-height: 100px;
-	}
+	// &__grid {
+	// 	min-height: 100px;
+	// }
 
 	&__category {
 		background: #fff;
@@ -161,8 +161,52 @@
 	}
 
 	&__feature-label {
-		line-height: 1.4;
-		transition: all 0.2s ease;
+		line-height: 1.25;
+		transition: color 0.2s ease, transform 0.2s ease;
+		min-width: 0;
+		overflow: hidden;
+
+		&--default {
+			width: 100%;
+			text-align: center;
+		}
+
+		&--inline {
+			flex: 1;
+			text-align: left;
+		}
+	}
+
+	&__feature-label-text {
+		display: block;
+		white-space: nowrap;
+		overflow: hidden;
+		text-overflow: ellipsis;
+	}
+
+	/* Long labels: horizontal scroll on hover (matches accessibility profiles) */
+	&__feature-btn:hover &__feature-label--can-scroll &__feature-label-text {
+		overflow: visible;
+		text-overflow: clip;
+		animation: wap-widget-features-label-scroll 1.4s linear infinite alternate;
+	}
+
+	@keyframes wap-widget-features-label-scroll {
+		from {
+			transform: translateX(0);
+		}
+		to {
+			transform: translateX(calc(-1 * var(--wap-label-shift, 0px)));
+		}
+	}
+
+	@media (prefers-reduced-motion: reduce) {
+		&__feature-btn:hover &__feature-label--can-scroll &__feature-label-text {
+			animation: none;
+			overflow: hidden;
+			text-overflow: ellipsis;
+			transform: none;
+		}
 	}
 
 	&__item-wrap {
@@ -187,8 +231,8 @@
 			justify-content: flex-start;
 			text-align: left;
 			gap: 10px;
-			padding: 10px 12px;
-			min-height: 58px;
+			padding: 14px 10px;
+			min-height: auto !important;
 		}
 
 		.wap-widget-features__feature-icon {
@@ -199,11 +243,6 @@
 				width: 22px;
 				height: 22px;
 			}
-		}
-
-		.wap-widget-features__feature-label {
-			flex: 1;
-			min-width: 0;
 		}
 
 		.wap-widget-features-bottom-indicator {
