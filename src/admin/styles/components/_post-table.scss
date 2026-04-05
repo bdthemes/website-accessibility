@@ -163,3 +163,39 @@
     font-weight: 600;
     padding: 10px 12px;
 }
+
+// Row action buttons layout
+.wap-post-table__row-actions {
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    flex-wrap: wrap;
+}
+
+// Status tags + row actions: same compact pill metrics (Ant Design + scoped tweaks)
+.wap-presets .ant-table-tbody,
+.wap-profiles .ant-table-tbody {
+    .ant-tag {
+        margin-inline-end: 0;
+        height: 22px;
+        line-height: 20px;
+        padding: 0 8px;
+        font-size: 12px;
+        font-weight: 500;
+        border-radius: 4px;
+        display: inline-flex;
+        align-items: center;
+    }
+
+    .wap-post-table__row-actions .ant-btn.ant-btn-sm {
+        height: 22px !important;
+        min-width: auto !important;
+        padding: 0 8px !important;
+        font-size: 12px !important;
+        font-weight: 500 !important;
+        line-height: 20px !important;
+        border-radius: 4px !important;
+        display: inline-flex !important;
+        align-items: center !important;
+    }
+}

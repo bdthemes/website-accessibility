@@ -87,7 +87,7 @@ const ProfilesSettings = () => {
                 label={__('Profiles', 'website-accessibility')}
             >
                 <div
-                    style={{ maxHeight: 220, overflow: 'auto' }}
+                    // style={{ maxHeight: 220, overflow: 'auto' }}
                     onWheel={(e) => e.stopPropagation()} // prevent parent/page scroll
                 >
                     <div className="wap-profiles-settings__grid">
