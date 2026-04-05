@@ -132,6 +132,18 @@
     letter-spacing: 0.02em;
 }
 
+.wap-statistics-highlight__stat-pct--up {
+    color: #15803d;
+}
+
+.wap-statistics-highlight__stat-pct--down {
+    color: #b91c1c;
+}
+
+.wap-statistics-highlight__stat-pct--flat {
+    color: rgba(15, 23, 42, 0.5);
+}
+
 .wap-statistics-highlight__bottom {
     margin-top: auto;
     padding-top: 12px;

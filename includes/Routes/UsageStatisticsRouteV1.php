@@ -29,6 +29,7 @@ class UsageStatisticsRouteV1
         'highlightLinks',
         'lineHeight',
         'muteSounds',
+        'keyboardNavigation',
         'pauseAnimations',
         'saturation',
         'screenReader',
@@ -80,6 +81,7 @@ class UsageStatisticsRouteV1
 
         // Initialize target counts
         $target = $this->empty_counts();
+        $previous = $this->empty_counts();
 
         // Remove metadata
         unset($stats['last_updated']);
@@ -87,26 +89,31 @@ class UsageStatisticsRouteV1
         switch ($range) {
             case 'daily':
                 $date = $request->get_param('date') ?? current_time('Y-m-d');
+                $prev_date = gmdate('Y-m-d', strtotime($date . ' -1 day'));
 
                 foreach ($stats as $browser_key => $dates) {
-                    if (! is_array($dates) || ! isset($dates[$date])) continue;
+                    if (! is_array($dates)) continue;
 
                     foreach ($this->features as $feature) {
                         $target[$feature] += absint($dates[$date][$feature] ?? 0);
+                        $previous[$feature] += absint($dates[$prev_date][$feature] ?? 0);
                     }
                 }
                 break;
 
             case 'last7days':
                 $this->aggregate_last_n_days($stats, 7, $target, $today_ts);
+                $this->aggregate_day_window($stats, 8, 14, $previous, $today_ts);
                 break;
 
             case 'last30days':
                 $this->aggregate_last_n_days($stats, 30, $target, $today_ts);
+                $this->aggregate_day_window($stats, 31, 60, $previous, $today_ts);
                 break;
 
             case 'totals':
                 $this->aggregate_last_n_days($stats, PHP_INT_MAX, $target, $today_ts);
+                // No meaningful "previous totals" window for all-time aggregation.
                 break;
 
             default:
@@ -119,6 +126,7 @@ class UsageStatisticsRouteV1
         return rest_ensure_response([
             'success' => true,
             'data' => $target,
+            'previous_data' => $previous,
             'last_updated' => $stats['last_updated'] ?? current_time('mysql'),
         ]);
     }
@@ -137,6 +145,29 @@ class UsageStatisticsRouteV1
 
                 $diff_days = ($today_ts - $date_ts) / DAY_IN_SECONDS;
                 if ($diff_days > $days) continue;
+
+                foreach ($this->features as $feat) {
+                    $target[$feat] += absint($features[$feat] ?? 0);
+                }
+            }
+        }
+    }
+
+    /**
+     * Helper: Aggregate counts for an inclusive day offset window.
+     * Example: 8..14 means from 8 days ago through 14 days ago.
+     */
+    private function aggregate_day_window(array $stats, int $from_days, int $to_days, array &$target, int $today_ts)
+    {
+        foreach ($stats as $browser_key => $dates) {
+            if (! is_array($dates)) continue;
+
+            foreach ($dates as $date => $features) {
+                $date_ts = strtotime($date);
+                if (! $date_ts) continue;
+
+                $diff_days = ($today_ts - $date_ts) / DAY_IN_SECONDS;
+                if ($diff_days < $from_days || $diff_days > $to_days) continue;
 
                 foreach ($this->features as $feat) {
                     $target[$feat] += absint($features[$feat] ?? 0);
