@@ -10,7 +10,7 @@ import ProfilesSettings from "../settings/profiles-settings";
 import FeatureSettings from "../settings/feature-settings";
 import FooterSettings from "../settings/footer-settings";
 
-const PanelSectionTab = ({ item, component }) => {
+const PanelSectionTab = ({ item, component, hideExpandIcon }) => {
     const { WapCollapse, WapSwitch } = window?.wapComponents;
     const { presetsFormData } = useSelect((select) =>
         select(STORE_NAME).getPresetsFormData(),
@@ -40,7 +40,12 @@ const PanelSectionTab = ({ item, component }) => {
                 activeKey={isDisabled ? [] : ["settings"]}
                 bordered={false}
                 ghost
-                className="wap-preset-sections__collapse"
+                className={
+                    hideExpandIcon
+                        ? "wap-preset-sections__collapse wap-preset-sections__collapse--no-expand-icon"
+                        : "wap-preset-sections__collapse"
+                }
+                expandIcon={hideExpandIcon ? () => null : undefined}
                 items={[
                     {
                         key: "settings",
@@ -145,6 +150,7 @@ const PanelCustomizationPreset = () => {
                         key={headerItem.slug}
                         item={headerItem}
                         component={sectionComponents[headerItem.slug] || null}
+                        hideExpandIcon
                     />
                 )}
 
@@ -171,6 +177,7 @@ const PanelCustomizationPreset = () => {
                         key={item.slug}
                         item={item}
                         component={sectionComponents[item.slug] || null}
+                        hideExpandIcon={item.slug === "profiles"}
                     />
                 ))}
 
@@ -180,6 +187,7 @@ const PanelCustomizationPreset = () => {
                         key={featuresItem.slug}
                         item={featuresItem}
                         component={sectionComponents[featuresItem.slug] || null}
+                        hideExpandIcon
                     />
                 )}
 
@@ -205,6 +213,7 @@ const PanelCustomizationPreset = () => {
                         key={footerItem.slug}
                         item={footerItem}
                         component={sectionComponents[footerItem.slug] || null}
+                        hideExpandIcon
                     />
                 )}
             </div>

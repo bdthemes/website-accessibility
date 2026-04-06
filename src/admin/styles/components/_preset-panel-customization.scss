@@ -55,6 +55,16 @@
 }
 
 
+.wap-preset-sections__collapse--no-expand-icon {
+    .ant-collapse-expand-icon {
+        display: none !important;
+    }
+
+    .ant-collapse-header {
+        padding-inline-start: 16px !important;
+    }
+}
+
 .wap-panel-customization__collapse,
 .wap-preset-sections__collapse {
     .ant-collapse-item {
@@ -346,8 +356,8 @@
 
 .wap-features-items-settings {
     display: grid;
-    grid-template-columns: repeat(3, minmax(0, 1fr));
-    gap: 12px 14px;
+    grid-template-columns: repeat(auto-fill, minmax(130px, 1fr));
+    gap: 16px;
 
     .wap-control-wrapper {
         margin-bottom: 0 !important;
@@ -382,14 +392,6 @@
             min-width: 110px;
         }
     }
-
-    @media (max-width: 900px) {
-        grid-template-columns: repeat(2, minmax(0, 1fr));
-    }
-
-    @media (max-width: 560px) {
-        grid-template-columns: 1fr;
-    }
 }
 
 .wap-panel-right-sidebar {
@@ -422,6 +424,17 @@
         > .ant-card-body {
             padding:14px 0 0;
             background: transparent;
+        }
+    }
+
+    &__layout-grid {
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(min(100%, 180px), 1fr));
+        gap: 16px;
+        align-items: start;
+
+        .wap-control-wrapper {
+            margin-bottom: 0 !important;
         }
     }
 }
