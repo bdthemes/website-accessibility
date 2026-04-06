@@ -1,10 +1,8 @@
 import {
   EditOutlined,
   EyeOutlined,
-  EyeInvisibleOutlined,
-  MenuOutlined,
+  EyeInvisibleOutlined
 } from "@ant-design/icons";
-import { ReactSortable } from "react-sortablejs";
 import { useState, useRef, useEffect } from "@wordpress/element";
 import { __ } from "@wordpress/i18n";
 import { useSelect, useDispatch } from "@wordpress/data";
@@ -13,7 +11,6 @@ import { useLicense } from "../context/LicenseContext";
 import HeaderSettings from "../settings/header-settings";
 import ProfilesSettings from "../settings/profiles-settings";
 import FeatureSettings from "../settings/feature-settings";
-import LanguageSelectorSettings from "../settings/language-selector-settings";
 import FooterSettings from "../settings/footer-settings";
 
 const PresetPanelLeftSidebar = () => {
