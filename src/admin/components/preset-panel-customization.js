@@ -10,7 +10,7 @@ import ProfilesSettings from "../settings/profiles-settings";
 import FeatureSettings from "../settings/feature-settings";
 import FooterSettings from "../settings/footer-settings";
 
-const PanelSectionTab = ({ item, component }) => {
+const PanelSectionTab = ({ item, component, hideExpandIcon }) => {
     const { WapCollapse, WapSwitch } = window?.wapComponents;
     const { presetsFormData } = useSelect((select) =>
         select(STORE_NAME).getPresetsFormData(),
@@ -40,7 +40,12 @@ const PanelSectionTab = ({ item, component }) => {
                 activeKey={isDisabled ? [] : ["settings"]}
                 bordered={false}
                 ghost
-                className="wap-preset-sections__collapse"
+                className={
+                    hideExpandIcon
+                        ? "wap-preset-sections__collapse wap-preset-sections__collapse--no-expand-icon"
+                        : "wap-preset-sections__collapse"
+                }
+                expandIcon={hideExpandIcon ? () => null : undefined}
                 items={[
                     {
                         key: "settings",
@@ -60,7 +65,7 @@ const PanelSectionTab = ({ item, component }) => {
                                 )}
                             </div>
                         ),
-                        children: component,
+                        children: <div data-control-category={item.title}>{component}</div>,
                         collapsible: item?.isPro && !isProActive ? "disabled" : undefined,
                     },
                 ]}
@@ -70,8 +75,7 @@ const PanelSectionTab = ({ item, component }) => {
 };
 
 const PanelCustomizationPreset = () => {
-    const { isProActive } = useLicense();
-    const { WapCard, WapCollapse, WapSwitch } = window?.wapComponents;
+    const { WapCollapse, WapSwitch } = window?.wapComponents;
     const { presetsFormData } = useSelect((select) =>
         select(STORE_NAME).getPresetsFormData(),
     );
@@ -79,6 +83,16 @@ const PanelCustomizationPreset = () => {
 
     const sectionItems = (presetsFormData?.panel?.items || []).filter(
         (item) => item.slug !== "language",
+    );
+
+    // Re-order sections:
+    // - Header should be above Panel Wrapper
+    // - Button should be below Features (and above Footer)
+    const headerItem = sectionItems.find((item) => item.slug === "header");
+    const featuresItem = sectionItems.find((item) => item.slug === "features");
+    const footerItem = sectionItems.find((item) => item.slug === "footer");
+    const otherSectionItems = sectionItems.filter(
+        (item) => !["header", "features", "footer"].includes(item.slug),
     );
 
     const sectionComponents = {
@@ -114,20 +128,9 @@ const PanelCustomizationPreset = () => {
                     </div>
                 </div>
             ),
-            children: <GetStartedPreset />,
-        },
-        {
-            key: "button",
-            label: __("Button", "website-accessibility"),
-            children: <PresetButtonStyle />,
-        },
-        {
-            key: "panel",
-            label: __("Panel Wrapper", "website-accessibility"),
-            children: <PresetPanelRightSidebar />,
+            children: <div data-control-category={__("Preset", "website-accessibility")}><GetStartedPreset /></div>
         },
     ];
-
     return (
         <div className="wap-panel-customization-card">
             <div className="wap-panel-customization">
@@ -140,13 +143,79 @@ const PanelCustomizationPreset = () => {
                         items={[collapseItem]}
                     />
                 ))}
-                {sectionItems.map((item) => (
+
+                {/* Header should be above Panel Wrapper */}
+                {headerItem && (
+                    <PanelSectionTab
+                        key={headerItem.slug}
+                        item={headerItem}
+                        component={sectionComponents[headerItem.slug] || null}
+                        hideExpandIcon
+                    />
+                )}
+
+                {/* Panel Wrapper (right sidebar controls) */}
+                <WapCollapse
+                    style={{ marginTop: "20px" }}
+                    key="panel"
+                    defaultActiveKey={["panel"]}
+                    bordered={false}
+                    className="wap-panel-customization__collapse"
+                    items={[
+                        {
+                            key: "panel",
+                            label: __("Panel Wrapper", "website-accessibility"),
+                            children: <PresetPanelRightSidebar />,
+                        },
+                    ]}
+                />
+
+
+                {/* Other sections (Profiles etc.) */}
+                {otherSectionItems.map((item) => (
                     <PanelSectionTab
                         key={item.slug}
                         item={item}
                         component={sectionComponents[item.slug] || null}
+                        hideExpandIcon={item.slug === "profiles"}
                     />
                 ))}
+
+                {/* Features */}
+                {featuresItem && (
+                    <PanelSectionTab
+                        key={featuresItem.slug}
+                        item={featuresItem}
+                        component={sectionComponents[featuresItem.slug] || null}
+                        hideExpandIcon
+                    />
+                )}
+
+
+                {/* Button should be below Features */}
+                <WapCollapse style={{ marginTop: 20 }}
+                    key="button"
+                    defaultActiveKey={["button"]}
+                    bordered={false}
+                    className="wap-panel-customization__collapse"
+                    items={[
+                        {
+                            key: "button",
+                            label: __("Button", "website-accessibility"),
+                            children: <PresetButtonStyle />,
+                        },
+                    ]}
+                />
+
+                {/* Footer */}
+                {footerItem && (
+                    <PanelSectionTab
+                        key={footerItem.slug}
+                        item={footerItem}
+                        component={sectionComponents[footerItem.slug] || null}
+                        hideExpandIcon
+                    />
+                )}
             </div>
         </div>
     );

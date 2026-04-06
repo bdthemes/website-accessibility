@@ -36,17 +36,32 @@
             border-radius: 999px;
         }
     }
+}
 
-    &__collapse {
-        &:not(:last-child) {
-            margin-bottom: 12px;
-        }
-    }
+.wap-preset-editor-header-card-input input {
+    border: none !important;
+    box-shadow: unset !IMPORTANT;
+    outline: none !important;
+}
+
+.wap-preset-editor-header-card-input {
+    padding: 5px 8px;
 }
 
 .wap-panel-customization-card {
     >.ant-card-body {
         padding: 0;
+    }
+}
+
+
+.wap-preset-sections__collapse--no-expand-icon {
+    .ant-collapse-expand-icon {
+        display: none !important;
+    }
+
+    .ant-collapse-header {
+        padding-inline-start: 16px !important;
     }
 }
 
@@ -116,7 +131,7 @@
     }
 
     &__content {
-        padding-top: 8px;
+        padding-top: 20px;
     }
 
     &__collapse-label {
@@ -148,20 +163,13 @@
     }
 }
 
-// Preset section card ("Preset" collapse content)
 .wap-get-started-preset-card {
     display: grid;
-    grid-template-columns: repeat(2, minmax(0, 1fr));
+    grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
     gap: 16px 12px;
 
     > .wap-control-wrapper {
-        margin-bottom: 0 !important; // controlled by grid spacing
-    }
-
-    // Keep layout clean (no forced full-width item)
-
-    @media (max-width: 768px) {
-        grid-template-columns: 1fr;
+        margin-bottom: 0 !important;
     }
 }
 
@@ -199,13 +207,10 @@
     &__category-header {
         display: flex;
         align-items: center;
-        justify-content: space-between;
         gap: 10px;
-        margin-bottom: 6px;
-        padding: 0 2px 8px;
+        margin-bottom: 12px;
         background: transparent;
         border: 0;
-        border-bottom: 1px solid #edf1f5;
         border-radius: 0;
     }
 
@@ -235,6 +240,8 @@
 
     .ant-input-affix-wrapper {
         border-radius: 8px;
+        min-height: 40px;
+        height: 40px;
         padding: 0px 11px !important;
         .ant-input {
            border: none !important;
@@ -248,23 +255,10 @@
         border-bottom: none;
     }
 
-    // Feature toggle cards grid (4 columns)
     &__feature-grid {
         display: grid;
-        grid-template-columns: repeat(4, minmax(0, 1fr));
+        grid-template-columns: repeat(auto-fill, minmax(180px, 1fr));
         gap: 12px;
-
-        @media (max-width: 1024px) {
-            grid-template-columns: repeat(3, minmax(0, 1fr));
-        }
-
-        @media (max-width: 768px) {
-            grid-template-columns: repeat(2, minmax(0, 1fr));
-        }
-
-        @media (max-width: 480px) {
-            grid-template-columns: 1fr;
-        }
     }
 }
 
@@ -280,6 +274,16 @@
     border-radius: 10px;
     transition: border-color 0.15s ease;
     min-height: 42px;
+    cursor: pointer;
+}
+
+.wap-feature-toggle-card[role="button"][tabIndex="0"] {
+    outline: none;
+}
+
+.wap-feature-toggle-card[aria-disabled="true"] {
+    cursor: not-allowed;
+    opacity: 0.65;
 }
 
 .wap-feature-toggle-card__left {
@@ -290,13 +294,6 @@
 }
 
 .wap-feature-toggle-card__icon-wrap {
-    // width: 34px;
-    // height: 34px;
-    // border-radius: 10px;
-    // display: flex;
-    // align-items: center;
-    // justify-content: center;
-    // flex-shrink: 0;
     background: transparent;
 }
 
@@ -343,6 +340,60 @@
 .wap-feature-toggle-card__icon-wrap {
     background: transparent !important; // user request: remove icon background
     display: flex;
+
+    svg {
+        width: 100%;
+        height: 100%;
+        display: block;
+    }
+}
+
+// Features -> Items controls
+.wap-features-items-settings__title {
+    margin: 14px 0 10px !important;
+}
+
+.wap-features-items-settings {
+    // display: grid;
+    // grid-template-columns: repeat(auto-fit, minmax(min(100%, 190px), 1fr));
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-between;
+    gap: 16px;
+
+    .wap-control-wrapper {
+        margin-bottom: 0 !important;
+    }
+
+    .wap-control-wrapper--inline {
+        .wap-control-wrapper__head {
+            justify-content: space-between !important;
+            align-items: center;
+            gap: 10px;
+            width: 100%;
+        }
+
+        .wap-control-wrapper__head .ant-typography {
+            margin-bottom: 0 !important;
+            font-size: 13px !important;
+            font-weight: 600;
+            color: #1f2937;
+            min-width: 0;
+            white-space: nowrap;
+        }
+
+        .wap-control-wrapper__inline-content {
+            margin-left: auto;
+            display: inline-flex;
+            align-items: center;
+            justify-content: flex-end;
+            flex-shrink: 0;
+        }
+
+        .ant-select {
+            min-width: 110px;
+        }
+    }
 }
 
 .wap-panel-right-sidebar {
@@ -377,52 +428,36 @@
             background: transparent;
         }
     }
+
+    &__layout-grid {
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(min(100%, 180px), 1fr));
+        gap: 16px;
+        align-items: start;
+
+        .wap-control-wrapper {
+            margin-bottom: 0 !important;
+        }
+    }
 }
 
-// Panel Wrapper → Style card uses a fixed 5-column grid.
-// AntD WapRow/WapCol is based on 24 spans, so exact “5 columns” isn't possible there.
 .wap-panel-wrapper-style-grid {
     display: grid;
-    grid-template-columns: repeat(5, minmax(0, 1fr));
+    grid-template-columns: repeat(auto-fit, minmax(min(100%, 190px), 1fr));
     gap: 16px;
 
     .wap-control-wrapper {
-        margin-bottom: 0 !important; // grid handles spacing
-    }
-
-    @media (max-width: 1200px) {
-        grid-template-columns: repeat(3, minmax(0, 1fr));
-    }
-
-    @media (max-width: 900px) {
-        grid-template-columns: repeat(2, minmax(0, 1fr));
-    }
-
-    @media (max-width: 560px) {
-        grid-template-columns: 1fr;
+        margin-bottom: 0 !important;
     }
 }
 
-// Header Settings → Style grid: fixed 5 columns on desktop
 .wap-header-style-grid {
     display: grid;
-    grid-template-columns: repeat(5, minmax(0, 1fr));
-    gap: 16px 16px;
+    grid-template-columns: repeat(auto-fit, minmax(min(100%, 190px), 1fr));
+    gap: 16px;
 
     .wap-control-wrapper {
-        margin-bottom: 0 !important; // grid provides spacing
-    }
-
-    @media (max-width: 1200px) {
-        grid-template-columns: repeat(3, minmax(0, 1fr));
-    }
-
-    @media (max-width: 900px) {
-        grid-template-columns: repeat(2, minmax(0, 1fr));
-    }
-
-    @media (max-width: 560px) {
-        grid-template-columns: 1fr;
+        margin-bottom: 0 !important;
     }
 }
 
@@ -431,6 +466,13 @@
 }
 
 .wap-footer-settings {
+    &__grid {
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(min(100%, 190px), 1fr));
+        gap: 16px;
+        align-items: start;
+    }
+
     .wap-control-wrapper--inline {
         .wap-control-wrapper__head {
             justify-content: flex-start !important;
@@ -443,6 +485,10 @@
             justify-content: flex-start;
             margin-left: 0;
         }
+    }
+
+    &__grid .wap-control-wrapper {
+        margin-bottom: 0 !important;
     }
 
     &__section-title {

@@ -94,6 +94,7 @@
             box-shadow: none !important;
             height: 100%;
             transition: border-color 0.15s ease;
+            margin: 0 !important;
 
             &:hover {
                 border-color: #dce3e8;
@@ -104,7 +105,7 @@
             display: flex;
             flex-direction: column;
             gap: 10px;
-            padding: 14px 16px !important;
+            padding: 16px !important;
             min-height: auto;
 
             &:before,
@@ -120,14 +121,14 @@
 
             .dashicons,
             .wap-dashboard-svg-icon {
-                border-radius: 8px;
-                padding: 0;
-                width: 40px;
-                height: 40px;
-                display: inline-flex;
-                align-items: center;
-                justify-content: center;
-                flex-shrink: 0;
+                // border-radius: 8px;
+                // padding: 0;
+                // width: 40px;
+                // height: 40px;
+                // display: inline-flex;
+                // align-items: center;
+                // justify-content: center;
+                // flex-shrink: 0;
 
                 svg {
                     display: block;
@@ -138,22 +139,22 @@
         }
 
         // Meaningful icon bg + color per card
-        .wap-dashboard-stat-card--presets .stat-icon-wrapper .wap-dashboard-svg-icon {
-            background: #dbeafe;
-            color: #2563eb;
-        }
-        .wap-dashboard-stat-card--profiles .stat-icon-wrapper .wap-dashboard-svg-icon {
-            background: #dcfce7;
-            color: #16a34a;
-        }
-        .wap-dashboard-stat-card--preferences .stat-icon-wrapper .wap-dashboard-svg-icon {
-            background: #fef3c7;
-            color: #d97706;
-        }
-        .wap-dashboard-stat-card--default .stat-icon-wrapper .wap-dashboard-svg-icon {
-            background: #f1f5f9;
-            color: #475569;
-        }
+        // .wap-dashboard-stat-card--presets .stat-icon-wrapper .wap-dashboard-svg-icon {
+        //     background: #dbeafe;
+        //     color: #2563eb;
+        // }
+        // .wap-dashboard-stat-card--profiles .stat-icon-wrapper .wap-dashboard-svg-icon {
+        //     background: #dcfce7;
+        //     color: #16a34a;
+        // }
+        // .wap-dashboard-stat-card--preferences .stat-icon-wrapper .wap-dashboard-svg-icon {
+        //     background: #fef3c7;
+        //     color: #d97706;
+        // }
+        // .wap-dashboard-stat-card--default .stat-icon-wrapper .wap-dashboard-svg-icon {
+        //     background: #f1f5f9;
+        //     color: #475569;
+        // }
 
         // View All + button: SVG aligns with label
         .wap-dashboard-viewall {
@@ -162,7 +163,7 @@
                 height: auto;
                 padding: 0;
                 background: transparent;
-                color: #1890ff;
+                color: #1f2937;
                 vertical-align: middle;
             }
         }
@@ -186,7 +187,7 @@
                 margin: 0 !important;
                 font-size: 14px !important;
                 font-weight: 700 !important;
-                color: #1890ff !important;
+                color: #000 !important;
                 flex-shrink: 0;
             }
         }
@@ -218,7 +219,8 @@
             padding: 0 !important;
             height: auto !important;
             font-size: 12px !important;
-            color: #1890ff !important;
+            color: #1f2937 !important;
+            font-weight: 500 !important;
         }
     }
 

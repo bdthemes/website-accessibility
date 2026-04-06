@@ -6,13 +6,14 @@ import { __ } from "@wordpress/i18n";
 import apiFetch from "@wordpress/api-fetch";
 
 const View = () => {
-    const { screenReader = () => null, defaultProfiles = [], useBrowserKey, getCookie, setCookie } = window.wapHelpers || {};
+    const { screenReader = () => null, defaultProfiles = [], useBrowserKey, getCookie } = window.wapHelpers || {};
     const { PreviewButton, PreviewContent, Icon, WapDrawer, GoogleTranslateConsent = () => null } = window?.wapComponents;
     const { profiles, currentPreset, currentPresetId, settings, nonce, restUrl, isUserLoggedIn } = window?.websiteAccessibility;
     const { dispatch, ...state } = useFrontendAccessibility();
     const [isOpen, setIsOpen] = useState(false);
     const browserKey = useBrowserKey();
     const isSavingStatisticsRef = useRef(false);
+    const statisticsDebounceRef = useRef(null);
 
 
     const allProfiles = useMemo(() => [
@@ -30,6 +31,7 @@ const View = () => {
         const headerAttributes = currentPreset?.panel?.items?.find((item) => item.slug === 'header')?.attributes;
         return headerAttributes?.showTranslator !== false;
     }, [currentPreset]);
+    const translateConsentCookie = getCookie?.("wapGoogleTranslateConsent") || "none";
 
     function validProfile(currentProfile) {
         if (!currentProfile?.id) return null;
@@ -55,14 +57,6 @@ const View = () => {
         dispatch({ type: 'SET_OVERSIZED', payload: preferenceData.oversized || false });
         const selectedLanguage = preferenceData.selectedLanguage || null;
         dispatch({ type: 'SET_SELECTED_LANGUAGE', payload: selectedLanguage });
-        dispatch({
-            type: 'SET_ENABLE_TRANSLATIONS',
-            payload: !!selectedLanguage
-                && (
-                    selectedLanguage !== state?.siteLanguage
-                    || !!settings?.force_translate_site_language
-                ),
-        });
     }
 
     const saveablePreference = useMemo(() => {
@@ -97,13 +91,13 @@ const View = () => {
     }, [state?.currentProfile, state?.currentSettings, state?.isOverSized, state?.selectedLanguage, state?.siteLanguage]);
 
     useEffect(() => {
-        if (!currentPresetId || !isUserLoggedIn) return;
+        if (!currentPresetId) return;
 
         const localKey = `${state?.localStorageKeyPrefix}-${currentPresetId}`;
         const localData = localStorage.getItem(localKey);
 
-        // ✅ Use API only if activePreference is true
-        if (isPreferenceActive) {
+        // ✅ Use API only if activePreference is true and user is logged in
+        if (isPreferenceActive && isUserLoggedIn) {
             apiFetch({ path: `/sigmally/v1/preference?post_id=${currentPresetId}`, method: 'GET' })
                 .then((response) => {
                     if (response?.success && response.data && Object.keys(response.data).length > 0) {
@@ -127,7 +121,7 @@ const View = () => {
                 applyPreferenceData(JSON.parse(localData));
             }
         }
-    }, [currentPresetId, isPreferenceActive]);
+    }, [currentPresetId, isPreferenceActive, isUserLoggedIn]);
 
     /**
      * Sync preferences to localStorage on change
@@ -239,18 +233,6 @@ const View = () => {
 
         if (!restUrl) return;
 
-        const lastSavedAt = Number(getCookie?.('one_accessibility_daily_timestamp') || 0);
-
-        const now = Date.now();
-        const intervalValue = Math.max(1, Number(settings?.usage_statistics_interval_value) || 12);
-        const intervalUnit = settings?.usage_statistics_interval_unit === 'minute' ? 'minute' : 'hour';
-        const intervalMs = intervalUnit === 'minute'
-            ? intervalValue * 60 * 1000
-            : intervalValue * 60 * 60 * 1000;
-        const intervalDays = intervalMs / (24 * 60 * 60 * 1000);
-
-        if (lastSavedAt && (now - lastSavedAt) < intervalMs) return;
-        
         const statistics = {};
 
         for (const key in data) {
@@ -276,9 +258,7 @@ const View = () => {
 
             const result = await response.json();
 
-            if (result.success) {
-                setCookie?.('one_accessibility_daily_timestamp', now, intervalDays);
-            } else {
+            if (!result.success) {
                 console.warn('Failed to save statistics', result.message);
             }
         } catch (err) {
@@ -287,6 +267,25 @@ const View = () => {
             isSavingStatisticsRef.current = false;
         }
     };
+
+    const handleFeatureInteraction = (nextSettings = {}) => {
+        if (!settings?.show_usage_statistics) return;
+        if (statisticsDebounceRef.current) {
+            clearTimeout(statisticsDebounceRef.current);
+        }
+        
+        statisticsDebounceRef.current = setTimeout(() => {
+            saveStatistics(nextSettings || {});
+        }, 1000);
+    };
+
+    useEffect(() => {
+        return () => {
+            if (statisticsDebounceRef.current) {
+                clearTimeout(statisticsDebounceRef.current);
+            }
+        };
+    }, []);
 
     /**
      * Body class toggle for drawer open state
@@ -336,10 +335,6 @@ const View = () => {
                 open={isOpen}
                 onClose={() => {
                     setIsOpen(false)
-                    
-                    if (settings?.show_usage_statistics) {
-                        saveStatistics(saveablePreference?.data?.settings || {});
-                    }
                 }}
                 placement={currentPreset?.panel?.wrapper?.position || "right"}
                 className={`wap-preset__preview-drawer notranslate wap-preset__preview-drawer--${currentPreset?.panel?.wrapper?.position || 'right'}`}
@@ -353,10 +348,11 @@ const View = () => {
                     isOpen={isOpen}
                     accessibilityContext={state}
                     accessibilityDispatch={dispatch}
+                    onFeatureInteraction={handleFeatureInteraction}
                 />
             </WapDrawer>
             <GoogleTranslateConsent
-                key={`gtc-${settings?.force_translate_site_language ? "force" : "normal"}-${state?.siteLanguage || "none"}`}
+                key={`gtc-${settings?.force_translate_site_language ? "force" : "normal"}-${state?.siteLanguage || "none"}-${translateConsentCookie}`}
                 showModal={settings?.show_translations_consent && isTranslatorEnabled}
                 translateSiteLang={settings?.force_translate_site_language}
                 accessibilityContext={state}

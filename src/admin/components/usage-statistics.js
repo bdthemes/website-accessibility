@@ -28,6 +28,7 @@ const UsageStatistics = () => {
                             key: feature.key,
                             title: feature.label,
                             value: res.data[feature.key],
+                            previousValue: res?.previous_data?.[feature.key] ?? 0,
                             icon: feature?.icon,
                             isDummy: feature?.isDummy || false,
                         });
@@ -41,30 +42,37 @@ const UsageStatistics = () => {
             setLoading(false);
         }
     };
-
+    
     useEffect(() => {
         fetchStats(filter);
     }, [filter]);
 
-    const { totalUses, topHighlights, listRest } = useMemo(() => {
+    const { topHighlights, listRest } = useMemo(() => {
         const withNum = stats.map((s) => ({
             ...s,
             num: Number(s.value) || 0,
+            prevNum: Number(s.previousValue) || 0,
         }));
-        const total = withNum.reduce((acc, s) => acc + s.num, 0);
         const sorted = [...withNum].sort((a, b) => b.num - a.num);
         return {
-            totalUses: total,
             topHighlights: sorted.slice(0, HIGHLIGHT_COUNT),
             listRest: sorted.slice(HIGHLIGHT_COUNT),
         };
     }, [stats]);
 
-    const sharePercent = (num) => {
-        if (!totalUses || num <= 0) {
-            return 0;
+    const getChangeMeta = (num, prevNum) => {
+        const diff = num - prevNum;
+        const percentChange = prevNum > 0
+            ? Math.round((Math.abs(diff) / prevNum) * 100)
+            : (num > 0 ? 100 : 0);
+
+        if (diff > 0) {
+            return { label: `+${percentChange}% ${__("increase", "website-accessibility")}`, tone: "up" };
         }
-        return Math.round((num / totalUses) * 100);
+        if (diff < 0) {
+            return { label: `-${percentChange}% ${__("decrease", "website-accessibility")}`, tone: "down" };
+        }
+        return { label: __("No change", "website-accessibility"), tone: "flat" };
     };
 
     return (
@@ -80,13 +88,13 @@ const UsageStatistics = () => {
                             value={filter}
                             onChange={(value) => setFilter(value)}
                             className="wap-statistics-card__filter"
-                            popupClassName="wap-statistics-card__filter-dropdown"
+                            classNames={{ popup: { root: "wap-statistics-card__filter-dropdown" } }}
                             size="small"
                         >
                             <Option value="daily">{__("Today", "website-accessibility")}</Option>
-                            <Option value="7days">{__("Last 7 Days", "website-accessibility")}</Option>
-                            <Option value="30days">{__("Last 30 Days", "website-accessibility")}</Option>
-                            <Option value="all">{__("All Time", "website-accessibility")}</Option>
+                            <Option value="last7days">{__("Last 7 Days", "website-accessibility")}</Option>
+                            <Option value="last30days">{__("Last 30 Days", "website-accessibility")}</Option>
+                            <Option value="totals">{__("All Time", "website-accessibility")}</Option>
                         </WapSelect>
                     </div>
                 }
@@ -104,7 +112,7 @@ const UsageStatistics = () => {
                     <>
                         <WapRow gutter={[12, 12]} className="wap-statistics-highlight">
                             {topHighlights.map((stat) => {
-                                const pct = sharePercent(stat.num);
+                                const change = getChangeMeta(stat.num, stat.prevNum);
                                 const mod = stat.key || "default";
                                 return (
 																	<WapCol
@@ -127,23 +135,14 @@ const UsageStatistics = () => {
 																				</div>
 																				<div
 																					className="wap-statistics-highlight__stat-pill"
-																					title={
-																						totalUses > 0 && pct > 0
-																							? `${__(
-																									"Share of total uses in this period",
-																									"website-accessibility",
-																							  )}: ${pct}%`
-																							: undefined
-																					}
+																					title={change.label}
 																				>
 																					<span className="wap-statistics-highlight__stat-num">
 																						{stat.num}
 																					</span>
-																					{totalUses > 0 && pct > 0 && (
-																						<span className="wap-statistics-highlight__stat-pct">
-																							{pct}%
-																						</span>
-																					)}
+																					<span className={`wap-statistics-highlight__stat-pct wap-statistics-highlight__stat-pct--${change.tone}`}>
+																						{change.label}
+																					</span>
 																				</div>
 																			</div>
 																			<div className="wap-statistics-highlight__bottom">
@@ -183,16 +182,20 @@ const UsageStatistics = () => {
                                             key={stat.key || index}
                                             className={`wap-statistics-list__item wap-statistics-list__item--${stat.key || "default"}`}
                                         >
-                                            <div className="wap-statistics-list__icon-wrap" aria-hidden="true">
-                                                <span className="wap-statistics-list__icon">{stat.icon}</span>
-                                            </div>
-                                            <div className="wap-statistics-list__content">
-                                                <span className="wap-statistics-list__value">{stat.value ?? 0}</span>
+                                            <div className="wap-statistics-list__left">
+                                                <div className="wap-statistics-list__icon-wrap" aria-hidden="true">
+                                                    <span className="wap-statistics-list__icon">{stat.icon}</span>
+                                                </div>
                                                 <span className="wap-statistics-list__name" title={stat.title}>
                                                     {stat.title}
                                                 </span>
                                             </div>
-                                            {stat.isDummy &&  !isProActive && (
+                                            <div className="wap-statistics-list__right">
+                                                <span className="wap-statistics-list__value">
+                                                    {stat.value ?? 0}
+                                                </span>
+                                            </div>
+                                            {stat.isDummy && !isProActive && (
                                                 <WapBadge
                                                     color="gold"
                                                     count={__("PRO", "website-accessibility")}

@@ -96,6 +96,10 @@
         display: block;
         width: 26px;
         height: 26px;
+
+        rect {
+            fill: transparent;
+        }
     }
 }
 
@@ -130,6 +134,18 @@
     color: rgba(15, 23, 42, 0.5);
     line-height: 1.2;
     letter-spacing: 0.02em;
+}
+
+.wap-statistics-highlight__stat-pct--up {
+    color: #15803d;
+}
+
+.wap-statistics-highlight__stat-pct--down {
+    color: #b91c1c;
+}
+
+.wap-statistics-highlight__stat-pct--flat {
+    color: rgba(15, 23, 42, 0.5);
 }
 
 .wap-statistics-highlight__bottom {
@@ -237,8 +253,8 @@
 
     svg {
         display: block;
-        width: 20px;
-        height: 20px;
+        width: 22px;
+        height: 22px;
     }
 }
 
@@ -477,9 +493,9 @@
 }
 
 .wap-statistics-list__name {
-    font-size: 12px;
+    font-size: 14px;
     font-weight: 500;
-    color: #6b7280;
+    color: #1f2937;
     line-height: 1.3;
     display: -webkit-box;
     -webkit-line-clamp: 2;
@@ -491,7 +507,7 @@
 
 .wap-statistics-list__badge {
     position: absolute;
-    top: 6px;
+    top: 14px;
     right: 8px;
 
     .ant-badge-count {
@@ -505,9 +521,29 @@
 
 // "Other features" — text/number left, plain icon on the right (no pastel plate)
 .wap-statistics-list--remainder {
+    // 3 columns layout for Other features
+    grid-template-columns: repeat(3, 1fr);
+
     .wap-statistics-list__item {
-        flex-direction: row-reverse;
-        justify-content: flex-start;
+        flex-direction: row;
+        justify-content: space-between;
+        gap: 12px;
+        margin: 0;
+    }
+
+    .wap-statistics-list__left {
+        display: flex;
+        align-items: center;
+        gap: 10px;
+        flex: 1;
+        min-width: 0;
+    }
+
+    .wap-statistics-list__right {
+        display: flex;
+        align-items: center;
+        justify-content: flex-end;
+        flex-shrink: 0;
     }
 
     .wap-statistics-list__icon-wrap {
@@ -520,9 +556,7 @@
         flex-shrink: 0;
     }
 
-    .wap-statistics-list__content {
-        flex: 1;
-        min-width: 0;
-        text-align: left;
+    @media (max-width: 520px) {
+        grid-template-columns: 1fr;
     }
 }

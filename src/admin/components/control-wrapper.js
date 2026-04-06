@@ -1,21 +1,32 @@
-
 const ControlWrapper = ({ children, label, required, tooltip, noLabel = false, description = '', inline = false }) => {
     const { WapFlex, WapTypography, WapTooltip } = window?.wapComponents;
+    const normalizedLabel = typeof label === "string" ? label.trim() : "";
+
     return (
-        <div className={`wap-control-wrapper${inline ? ' wap-control-wrapper--inline' : ''}`}>
+        <div
+            className={`wap-control-wrapper${inline ? ' wap-control-wrapper--inline' : ''}`}
+            data-search-control-label={normalizedLabel}
+        >
             <WapFlex
-                align={inline ? "center" : "baseline"}
-                justify={inline ? "space-between" : undefined}
-                gap={2}
+                gap={6}
                 className="wap-control-wrapper__head"
+                style={{
+                    display: 'flex',
+                    flexDirection: 'column',
+                    alignItems: 'flex-start',
+                }}
             >
                 <WapFlex align={inline ? "center" : "baseline"} gap={2}>
-                    {!noLabel && <WapTypography.Title level={5}>
+                    {!noLabel && <WapTypography.Title level={5} data-search-control-label={normalizedLabel}>
                         {label}
                     </WapTypography.Title>}
                     {required && <WapTypography.Text type="danger">*</WapTypography.Text>}
                 </WapFlex>
-                {inline && <div className="wap-control-wrapper__inline-content">{children}</div>}
+                {inline && <div className="wap-control-wrapper__inline-content" 
+                style={{
+                    margin: 'unset !important',
+                }}
+                >{children}</div>}
             </WapFlex>
             {tooltip && <WapTooltip title={tooltip}></WapTooltip>}
             {!inline && children}

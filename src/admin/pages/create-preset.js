@@ -1,4 +1,4 @@
-import { useEffect } from '@wordpress/element';
+import { useEffect, useState } from '@wordpress/element';
 import { __ } from '@wordpress/i18n';
 import { useDispatch, useSelect } from "@wordpress/data";
 import { DEFAULT_STATE, STORE_NAME } from "../store";
@@ -8,11 +8,12 @@ import PanelCustomizationPreset from '../components/preset-panel-customization';
 
 
 const CreatePreset = () => {
-  const { WapCard, WapButton, WapSpace, WapTypography } = window?.wapComponents;
+  const { WapCard, WapButton, WapSpace, WapTypography, WapInput } = window?.wapComponents;
   const { presetsFormData } = useSelect((select) => select(STORE_NAME).getPresetsFormData());
   const { setPresetsFormData, createPreset } = useDispatch(STORE_NAME);
   const history = useHistory();
   const { Title } = WapTypography;
+  const [searchTerm, setSearchTerm] = useState('');
 
   useEffect(() => {
     setPresetsFormData({
@@ -33,9 +34,31 @@ const CreatePreset = () => {
     });
   }, []);
 
-  const handleBack = () => {
-    history.push({ page: 'website-accessibility-presets' });
-  };
+  useEffect(() => {
+    const keyword = searchTerm.trim().toLowerCase();
+    const categoryNodes = Array.from(document.querySelectorAll('[data-control-category]'));
+
+    categoryNodes.forEach((categoryNode) => {
+      const controlNodes = Array.from(
+        categoryNode.querySelectorAll('.wap-control-wrapper[data-search-control-label]'),
+      );
+
+      let hasMatchInCategory = false;
+      controlNodes.forEach((controlNode) => {
+        const controlLabel = (controlNode.getAttribute('data-search-control-label') || '').toLowerCase();
+        const matched = !keyword || controlLabel.includes(keyword);
+        controlNode.style.display = matched ? '' : 'none';
+        if (matched) hasMatchInCategory = true;
+      });
+
+      const categoryBlock = categoryNode.closest('.wap-preset-sections__content, .wap-panel-customization__collapse');
+      const shouldShow = !keyword || hasMatchInCategory;
+      categoryNode.style.display = shouldShow ? '' : 'none';
+      if (categoryBlock) {
+        categoryBlock.style.display = shouldShow ? '' : 'none';
+      }
+    });
+  }, [searchTerm, presetsFormData]);
 
   return (
     <div className="wap-preset-editor">
@@ -45,16 +68,15 @@ const CreatePreset = () => {
           <Title level={2} className='wap-header-card-title'>
             {__('Create New Preset', 'website-accessibility')}
           </Title>
-          <WapButton
-            type="primary"
-            onClick={handleBack}
-            size='large'
-          >
-            <WapSpace>
-              <span className='dashicons dashicons-arrow-left-alt' />
-              {__('Back to Presets', 'website-accessibility')}
-            </WapSpace>
-          </WapButton>
+          <WapInput
+            size="large"
+            value={searchTerm}
+            onChange={(e) => setSearchTerm(e.target.value)}
+            placeholder={__('Search controls...', 'website-accessibility')}
+            prefix={<span className='dashicons dashicons-search' />}
+            style={{ width: 300 }}
+            allowClear
+          />
         </WapCard>
 
         <PanelCustomizationPreset />

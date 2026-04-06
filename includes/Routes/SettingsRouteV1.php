@@ -23,8 +23,6 @@ class SettingsRouteV1
         'show_translations_consent'     => true,
         'force_translate_site_language' => false,
         'show_usage_statistics'         => true,
-        'usage_statistics_interval_value' => 12,
-        'usage_statistics_interval_unit'  => 'hour',
         'enable_accessibility_checker'  => true,
         'always_on_translations'         => false,
     ];
@@ -139,14 +137,6 @@ class SettingsRouteV1
         $clean['show_usage_statistics'] = isset($settings['show_usage_statistics'])
             ? (bool) $settings['show_usage_statistics']
             : $this->defaults['show_usage_statistics'];
-
-        $clean['usage_statistics_interval_value'] = isset($settings['usage_statistics_interval_value'])
-            ? max(1, absint($settings['usage_statistics_interval_value']))
-            : $this->defaults['usage_statistics_interval_value'];
-
-        $clean['usage_statistics_interval_unit'] = (isset($settings['usage_statistics_interval_unit']) && in_array($settings['usage_statistics_interval_unit'], ['minute', 'hour'], true))
-            ? $settings['usage_statistics_interval_unit']
-            : $this->defaults['usage_statistics_interval_unit'];
 
         $clean['enable_accessibility_checker'] = isset($settings['enable_accessibility_checker'])
             ? (bool) $settings['enable_accessibility_checker']

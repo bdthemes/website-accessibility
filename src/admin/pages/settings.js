@@ -7,7 +7,7 @@ import { useLicense } from "../context/LicenseContext";
 
 
 const Settings = () => {
-    const { WapSpin, WapMessage, WapCard, WapSpace, WapTypography, WapInputNumber, WapSelect, WapButton } = window?.wapComponents;
+    const { WapSpin, WapMessage, WapCard, WapSpace, WapTypography, WapButton } = window?.wapComponents;
     const { Title, Text } = WapTypography;
     const { isProActive } = useLicense();
     const [settings, setSettings] = useState({});
@@ -16,6 +16,17 @@ const Settings = () => {
     const [resettingStats, setResettingStats] = useState(false);
 
     const API_NAMESPACE = "/sigmally/v1/settings";
+    const clearUsageStatisticsTimestamp = () => {
+        const { removeCookie = null } = window?.wapHelpers || {};
+        if (typeof removeCookie === "function") {
+            removeCookie("one_accessibility_daily_timestamp");
+            return;
+        }
+
+        if (typeof document !== "undefined") {
+            document.cookie = "one_accessibility_daily_timestamp=; expires=Thu, 01 Jan 1970 00:00:00 GMT; path=/;";
+        }
+    };
 
     // Fetch all settings from REST API
     const fetchSettings = async () => {
@@ -66,6 +77,7 @@ const Settings = () => {
                 path: "/one-accessibility/v1/usage-statistics",
                 method: "DELETE",
             });
+            clearUsageStatisticsTimestamp();
 
             WapMessage.success({
                 content: __("Usage statistics cleared successfully.", "website-accessibility"),
@@ -143,45 +155,6 @@ const Settings = () => {
                 loading={saving}
                 onChange={(checked) => updateSetting("show_usage_statistics", checked)}
             />
-            {settings?.show_usage_statistics && (
-                <WapCard className="wap-settings-row">
-                    <WapSpace
-                        align="center"
-                        style={{
-                            width: "100%",
-                            justifyContent: "space-between",
-                        }}
-                    >
-                        <WapSpace direction="vertical" size={0}>
-                            <Title level={5} style={{ margin: 0 }}>
-                                {__("Statistics Save Frequency", "website-accessibility")}
-                            </Title>
-                            <Text type="secondary">
-                                {__("Choose how often usage statistics are saved.", "website-accessibility")}
-                            </Text>
-                        </WapSpace>
-
-                        <WapSpace>
-                            <WapInputNumber
-                                min={1}
-                                size="large"
-                                value={Number(settings?.usage_statistics_interval_value) || 12}
-                                onChange={(value) => updateSetting("usage_statistics_interval_value", Math.max(1, Number(value) || 1))}
-                                style={{ width: 120 }}
-                            />
-                            <WapSelect
-                                size="large"
-                                value={settings?.usage_statistics_interval_unit || "hour"}
-                                onChange={(value) => updateSetting("usage_statistics_interval_unit", value)}
-                                style={{ width: 120 }}
-                            >
-                                <WapSelect.Option value="minute">{__("Minute(s)", "website-accessibility")}</WapSelect.Option>
-                                <WapSelect.Option value="hour">{__("Hour(s)", "website-accessibility")}</WapSelect.Option>
-                            </WapSelect>
-                        </WapSpace>
-                    </WapSpace>
-                </WapCard>
-            )}
             {settings?.show_usage_statistics && (
                 <WapCard className="wap-settings-row">
                     <WapSpace

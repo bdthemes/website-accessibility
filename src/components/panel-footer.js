@@ -1,4 +1,4 @@
-import { DeleteOutlined, ReloadOutlined, SaveOutlined } from '@ant-design/icons';
+import { DeleteOutlined, SaveOutlined } from '@ant-design/icons';
 import { __ } from '@wordpress/i18n';
 import { useState, useEffect, useCallback, useMemo } from '@wordpress/element';
 import apiFetch from '@wordpress/api-fetch';
@@ -27,18 +27,17 @@ const PanelFooter = ({ value, accessibilityContext, accessibilityDispatch, isEdi
   const footerItem = value?.items?.find(item => item.slug === 'footer');
   const attributes = footerItem?.attributes || {};
   const isProActive = window?.websacPro?.isProActive || false;
-  const { currentPresetId, isUserLoggedIn, statementLink, settings } = window?.websiteAccessibility || {};
+  const { currentPresetId, isUserLoggedIn, statementLink } = window?.websiteAccessibility || {};
   const isFrontend = !isEditorPreview && !!accessibilityContext && !!accessibilityDispatch;
 
-  const resetBtnText = attributes.resetBtnText || 'Reset All';
   const showStatement = attributes.showStatement !== false;
-  const statementText = attributes.statementText || 'Statement';
+  const statementText = __('Accessibility Statement', 'website-accessibility');
   const showBranding = isProActive ? attributes.showBranding !== false : true;
-  const brandingText = isProActive ? attributes.brandingText || 'Powered by One Accessibility' : 'Powered by One Accessibility';
+  const brandingText = __('Powered by One Accessibility', 'website-accessibility');
   const showPreference = attributes?.activePreference || false;
-  const savePreferenceText = attributes.saveBtnText || __('Save Pref.', 'website-accessibility');
-  const updatePreferenceText = attributes.updateBtnText || __('Update Pref.', 'website-accessibility');
-  const deletePreferenceText = attributes.deleteBtnText || __('Delete Pref.', 'website-accessibility');
+  const savePreferenceText = __('Save Preference', 'website-accessibility');
+  const updatePreferenceText = __('Update Preference', 'website-accessibility');
+  const deletePreferenceText = __('Delete Preference', 'website-accessibility');
 
   const footerStyle = {
     '--wap-footer-general-bg': attributes.generalBg,
@@ -104,29 +103,6 @@ const PanelFooter = ({ value, accessibilityContext, accessibilityDispatch, isEdi
       })
       .finally(() => setLoadingPreference(false));
   }, [currentPresetId, isUserLoggedIn, isFrontend, saveablePreference, savingPreference]);
-
-  // Reset
-  const handleReset = () => {
-    if (!isFrontend) return;
-    accessibilityDispatch({ type: 'RESET_ACCESSIBILITY' });
-
-    if (settings?.force_translate_site_language) {
-      const fallbackLanguage = accessibilityContext?.siteLanguage || null;
-      accessibilityDispatch({
-        type: 'SET_SELECTED_LANGUAGE',
-        payload: fallbackLanguage,
-      });
-      accessibilityDispatch({
-        type: 'SET_ENABLE_TRANSLATIONS',
-        payload: !!fallbackLanguage,
-      });
-    }
-
-    messageApi.info({
-      content: __('All accessibility settings have been reset to default.', 'website-accessibility'),
-      style: { marginBlockStart: 20 },
-    });
-  };
 
   // Save
   const handleSave = useCallback(
@@ -206,7 +182,7 @@ const PanelFooter = ({ value, accessibilityContext, accessibilityDispatch, isEdi
       {contextHolder}
 
       {(isUserLoggedIn || !isFrontend) && showPreference && (
-        <WapFlex align="center" justify="space-between" gap={10} style={{ padding: '0 16px' }}>
+        <WapFlex align="center" justify="space-between" gap={10} style={{ padding: '0 16px', marginBottom: '10px' }}>
           <WapButton
             type="primary"
             icon={<SaveOutlined />}
@@ -235,19 +211,6 @@ const PanelFooter = ({ value, accessibilityContext, accessibilityDispatch, isEdi
           </WapButton>
         </WapFlex>
       )}
-
-      <WapFlex className="wap-panel-footer__actions">
-        <WapButton
-          className="wap-panel-footer__reset-btn"
-          type="primary"
-          icon={<ReloadOutlined />}
-          size="large"
-          block
-          onClick={handleReset}
-        >
-          {resetBtnText}
-        </WapButton>
-      </WapFlex>
 
       {(showBranding || showStatement) && (
         <div className="wap-panel-footer__links">

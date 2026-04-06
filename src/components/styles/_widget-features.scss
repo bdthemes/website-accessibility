@@ -70,16 +70,19 @@
 		vertical-align: middle;
 	}
 
-	&__grid {
-		min-height: 100px;
-	}
+	// &__grid {
+	// 	min-height: 100px;
+	// }
 
 	&__category {
 		background: #fff;
-		margin: 16px;
+		margin-bottom: 16px;
 		padding: 16px;
 		border-radius: 10px;
 		border: 1px solid #ebebeb;
+		&:last-child {
+			margin-bottom: 0;
+		}
 	}
 
 	&__category-header {
@@ -127,20 +130,129 @@
 			width: 30px;
 			height: 30px;
 			transition: filter 0.2s ease;
+
+			rect {
+				fill: transparent;
+			}
 		}
 	}
 
-		&__feature-tooltip {
-			position: absolute;
+	&__feature-tooltip {
+		position: absolute;
+		font-size: 14px;
+		z-index: 99;
+
+		&--topLeft {
 			left: 12px;
 			top: 6px;
-			font-size: 14px;
-			z-index: 99;
 		}
 
+		&--topRight {
+			right: 12px;
+			top: 6px;
+		}
+
+		&--bottomLeft {
+			left: 12px;
+			bottom: 8px;
+		}
+
+		&--bottomRight {
+			right: 12px;
+			bottom: 8px;
+		}
+	}
+
 	&__feature-label {
-		line-height: 1.4;
-		transition: all 0.2s ease;
+		line-height: 1.25;
+		transition: color 0.2s ease, transform 0.2s ease;
+		min-width: 0;
+		overflow: hidden;
+
+		&--default {
+			width: 100%;
+			text-align: center;
+		}
+
+		&--inline {
+			flex: 1;
+			text-align: left;
+		}
+	}
+
+	&__feature-label-text {
+		display: block;
+		white-space: nowrap;
+		overflow: hidden;
+		text-overflow: ellipsis;
+	}
+
+	/* Long labels: horizontal scroll on hover (matches accessibility profiles) */
+	&__feature-btn:hover &__feature-label--can-scroll &__feature-label-text {
+		overflow: visible;
+		text-overflow: clip;
+		animation: wap-widget-features-label-scroll 1.4s linear infinite alternate;
+	}
+
+	@keyframes wap-widget-features-label-scroll {
+		from {
+			transform: translateX(0);
+		}
+		to {
+			transform: translateX(calc(-1 * var(--wap-label-shift, 0px)));
+		}
+	}
+
+	@media (prefers-reduced-motion: reduce) {
+		&__feature-btn:hover &__feature-label--can-scroll &__feature-label-text {
+			animation: none;
+			overflow: hidden;
+			text-overflow: ellipsis;
+			transform: none;
+		}
+	}
+
+	&__item-wrap {
+		.wap-widget-features__feature-btn {
+			width: 100%;
+		}
+	}
+
+	&__item-wrap--default {
+		.wap-widget-features__feature-btn {
+			flex-direction: column;
+			align-items: center;
+			justify-content: center;
+			text-align: center;
+		}
+	}
+
+	&__item-wrap--inline {
+		.wap-widget-features__feature-btn {
+			flex-direction: row;
+			align-items: center;
+			justify-content: flex-start;
+			text-align: left;
+			gap: 10px;
+			padding: 14px 10px;
+			min-height: auto !important;
+		}
+
+		.wap-widget-features__feature-icon {
+			margin-bottom: 0;
+			flex-shrink: 0;
+
+			svg {
+				width: 22px;
+				height: 22px;
+			}
+		}
+
+		.wap-widget-features-bottom-indicator {
+			left: 50px;
+			bottom: 8px;
+			transform: none;
+		}
 	}
 
 	// Top indicator - shows check mark when active

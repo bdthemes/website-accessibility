@@ -54,19 +54,9 @@ const PostTable = ({
       onClick: record => onRowAction && onRowAction('edit', record),
     },
     {
-      key: 'quick_edit',
-      label: 'Quick Edit',
-      onClick: record => onRowAction && onRowAction('quick_edit', record),
-    },
-    {
       key: 'trash',
       label: 'Trash',
       onClick: record => onRowAction && onRowAction('trash', record),
-    },
-    {
-      key: 'view',
-      label: 'View',
-      onClick: record => onRowAction && onRowAction('view', record),
     },
   ];
 
@@ -84,14 +74,20 @@ const PostTable = ({
           }));
 
           return (
-            <WapDropdown
-              menu={{
-                items: actionItems,
-              }}
-              trigger={['click']}
-            >
-              <WapButton icon={<span className="dashicons dashicons-ellipsis" />} />
-            </WapDropdown>
+            <div className="wap-post-table__row-actions">
+              {actionItems.map((action) => (
+                <WapButton
+                  key={action.key}
+                  size="small"
+                  type={action.key === 'trash' ? 'default' : 'primary'}
+                  ghost={action.key === 'edit'}
+                  danger={action.key === 'trash'}
+                  onClick={action.onClick}
+                >
+                  {action.label}
+                </WapButton>
+              ))}
+            </div>
           );
         },
       },

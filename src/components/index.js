@@ -33,8 +33,10 @@ import WapTypography from './wap-typography';
 import WapEmpty from './wap-empty';
 import WapInputNumber from './wap-input-number';
 import WapMessage from './wap-message';
+import WapNotification from './wap-notification';
 import WapSwitch from './wap-switch';
 import WapTabs from './wap-tabs';
+import WapUpload from './wap-upload';
 import './styles/main.scss';
 
 import { helpers } from '../utils';
@@ -75,8 +77,10 @@ window.wapComponents = {
     WapEmpty,
     WapInputNumber,
     WapMessage,
+    WapNotification,
     WapSwitch,
-    WapTabs
+    WapTabs,
+    WapUpload
 }
 
 window.wapHelpers = {

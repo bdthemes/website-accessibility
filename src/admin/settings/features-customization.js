@@ -67,11 +67,26 @@ const FeaturesCustomization = ({ attributes, updateAttr }) => {
                             {category.features.map((feature) => {
                                 const isCurrentActive = featureStateIndex?.[feature?.key]?.active ?? true;
                                 const isDummy = feature?.isDummy;
+                                const canToggle = !isDummy || isProActive;
 
                                 return (
                                     <div
                                         key={feature?.key}
                                         className={`wap-feature-toggle-card wap-feature-toggle-card--${feature?.key || "default"}`}
+                                        role="button"
+                                        tabIndex={0}
+                                        aria-disabled={!canToggle}
+                                        onClick={() => {
+                                            if (!canToggle) return;
+                                            updateFeatureState(feature?.key, !isCurrentActive);
+                                        }}
+                                        onKeyDown={(e) => {
+                                            if (!canToggle) return;
+                                            if (e.key === "Enter" || e.key === " ") {
+                                                e.preventDefault();
+                                                updateFeatureState(feature?.key, !isCurrentActive);
+                                            }
+                                        }}
                                     >
                                         <div className="wap-feature-toggle-card__left">
                                             <div className="wap-feature-toggle-card__icon-wrap" aria-hidden="true">
@@ -85,6 +100,8 @@ const FeaturesCustomization = ({ attributes, updateAttr }) => {
                                                     checked={isCurrentActive}
                                                     onChange={(checked) => updateFeatureState(feature?.key, checked)}
                                                     size="small"
+                                                    onClick={(e) => e.stopPropagation()}
+                                                    onMouseDown={(e) => e.stopPropagation()}
                                                 />
                                             ) : (
                                                 <WapBadge
