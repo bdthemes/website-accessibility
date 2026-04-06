@@ -11,19 +11,20 @@
     border-radius: 6px;
     position: relative;
 
-    input.ant-input:not(.wap-license-input input.ant-input) {
+    // input.ant-input:not(.wap-license-input input.ant-input) {
         min-height: 40px;
-        border: 1px solid #ddd;
+    //     // border: 1px solid #ddd;
         font-size: 13px;
+        box-shadow: none;
 
-        &:focus,
-        &:hover {
-            box-shadow: 0 0 0 2px rgba(5, 145, 255, 0.1);
-            outline: 0;
-            border: 1px solid #1677ff;
-            background-color: #ffffff;
-        }
-    }
+    //     &:focus,
+    //     &:hover {
+    //         box-shadow: 0 0 0 2px rgba(5, 145, 255, 0.1);
+    //         outline: 0;
+    //         border: 1px solid #1677ff;
+    //         background-color: #ffffff;
+    //     }
+    // }
 
     .wap-license-input input.ant-input {
         font-size: 13px;

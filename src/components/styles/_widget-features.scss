@@ -80,6 +80,9 @@
 		padding: 16px;
 		border-radius: 10px;
 		border: 1px solid #ebebeb;
+		&:last-child {
+			margin-bottom: 0;
+		}
 	}
 
 	&__category-header {

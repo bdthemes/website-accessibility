@@ -67,48 +67,48 @@ const FeatureSettings = () => {
                     </WapSelect>
                 </ControlWrapper>
 
-                    <ControlWrapper
-                        label={__('Layout', 'website-accessibility')}
-                        inline
-                    >
-                        {isProActive ? (
-                            <WapFlex vertical gap="middle" style={{ width: "100%" }}>
-                                <WapRadio.Group
-                                    block
-                                    options={[
-                                        { label: __('Default', 'website-accessibility'), value: 'default' },
-                                        { label: __('Inline', 'website-accessibility'), value: 'inline' },
-                                    ]}
-                                    value={attributes.layout || 'default'}
-                                    onChange={(e) => updateAttr({ layout: e.target.value })}
-                                    optionType="button"
-                                    buttonStyle="solid"
-                                />
-                            </WapFlex>
-                        ) : (
-                            <WapBadge color="gold" count={__("PRO", "website-accessibility")} />
-                        )}
-                    </ControlWrapper>
+                <ControlWrapper
+                    label={__('Layout', 'website-accessibility')}
+                    inline
+                >
+                    {isProActive ? (
+                        <WapFlex vertical gap="middle" style={{ width: "100%" }}>
+                            <WapRadio.Group
+                                block
+                                options={[
+                                    { label: __('Default', 'website-accessibility'), value: 'default' },
+                                    { label: __('Inline', 'website-accessibility'), value: 'inline' },
+                                ]}
+                                value={attributes.layout || 'default'}
+                                onChange={(e) => updateAttr({ layout: e.target.value })}
+                                optionType="button"
+                                buttonStyle="solid"
+                            />
+                        </WapFlex>
+                    ) : (
+                        <WapBadge color="gold" count={__("PRO", "website-accessibility")} />
+                    )}
+                </ControlWrapper>
 
-                    <ControlWrapper
-                        label={__('Tooltip Position', 'website-accessibility')}
-                        inline
-                    >
-                        {isProActive ? (
-                            <WapSelect
-                                value={attributes.tooltipPosition || 'topLeft'}
-                                onChange={(value) => updateAttr({ tooltipPosition: value })}
-                                style={{ minWidth: 160 }}
-                            >
-                                <WapSelect.Option value="topLeft">{__('Top Left', 'website-accessibility')}</WapSelect.Option>
-                                <WapSelect.Option value="topRight">{__('Top Right', 'website-accessibility')}</WapSelect.Option>
-                                <WapSelect.Option value="bottomLeft">{__('Bottom Left', 'website-accessibility')}</WapSelect.Option>
-                                <WapSelect.Option value="bottomRight">{__('Bottom Right', 'website-accessibility')}</WapSelect.Option>
-                            </WapSelect>
-                        ) : (
-                            <WapBadge color="gold" count={__("PRO", "website-accessibility")} />
-                        )}
-                    </ControlWrapper>
+                <ControlWrapper
+                    label={__('Tooltip Position', 'website-accessibility')}
+                    inline
+                >
+                    {isProActive ? (
+                        <WapSelect
+                            value={attributes.tooltipPosition || 'topLeft'}
+                            onChange={(value) => updateAttr({ tooltipPosition: value })}
+                            style={{ minWidth: 160 }}
+                        >
+                            <WapSelect.Option value="topLeft">{__('Top Left', 'website-accessibility')}</WapSelect.Option>
+                            <WapSelect.Option value="topRight">{__('Top Right', 'website-accessibility')}</WapSelect.Option>
+                            <WapSelect.Option value="bottomLeft">{__('Bottom Left', 'website-accessibility')}</WapSelect.Option>
+                            <WapSelect.Option value="bottomRight">{__('Bottom Right', 'website-accessibility')}</WapSelect.Option>
+                        </WapSelect>
+                    ) : (
+                        <WapBadge color="gold" count={__("PRO", "website-accessibility")} />
+                    )}
+                </ControlWrapper>
             </div>
         </>
     );
