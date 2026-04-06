@@ -78,7 +78,6 @@ export const initialState = {
     isLoading: false,
     isOverSized: false,
     localStorageKeyPrefix: 'websiteAccessibilityLocalPreferences',
-    enableTranslations: false,
     selectedLanguage: null,
     languageSearchInput: '',
     siteLanguage: getSiteLanguage(),
@@ -111,10 +110,12 @@ export const accessibilityReducer = (state, action) => {
             return {
                 ...initialState,
             };
-        case 'SET_ENABLE_TRANSLATIONS':
+        case 'RESET_PROFILE_SETTINGS':
+            accessibilityManager().removeAllFeatures();
             return {
                 ...state,
-                enableTranslations: action.payload,
+                currentProfile: null,
+                currentSettings: initialState.currentSettings,
             };
         case 'SET_SELECTED_LANGUAGE':
             return {

@@ -137,14 +137,6 @@ const PanelHeader = ({
             type: "SET_SELECTED_LANGUAGE",
             payload: languageCode,
         });
-
-        accessibilityDispatch({
-            type: "SET_ENABLE_TRANSLATIONS",
-            payload: !!languageCode && (
-                languageCode !== (accessibilityContext?.siteLanguage || siteLanguage)
-                || isForceTranslateSiteLanguage
-            ),
-        });
     };
 
     const handleResetAll = () => {
@@ -156,21 +148,11 @@ const PanelHeader = ({
         // 2) Reset all accessibility states (previous footer behavior)
         accessibilityDispatch({ type: "RESET_ACCESSIBILITY" });
 
-        // Hide translation behavior until consent is accepted again.
-        accessibilityDispatch({
-            type: "SET_ENABLE_TRANSLATIONS",
-            payload: false,
-        });
-
         if (settings?.force_translate_site_language) {
             const fallbackLanguage = accessibilityContext?.siteLanguage || null;
             accessibilityDispatch({
                 type: "SET_SELECTED_LANGUAGE",
                 payload: fallbackLanguage,
-            });
-            accessibilityDispatch({
-                type: "SET_ENABLE_TRANSLATIONS",
-                payload: !!fallbackLanguage,
             });
         }
 

@@ -179,7 +179,7 @@ const AccessibilityProfiles = ({
 		}
 
 		accessibilityDispatch({
-			type: "RESET_ACCESSIBILITY",
+			type: "RESET_PROFILE_SETTINGS",
 		});
 
 		setTimeout(() => {
@@ -197,7 +197,7 @@ const AccessibilityProfiles = ({
 			} else {
 				reader?.speak(`Accessibility profile reset.`);
 				accessibilityDispatch({
-					type: "RESET_ACCESSIBILITY",
+					type: "RESET_PROFILE_SETTINGS",
 				});
 			}
 		}, 200);

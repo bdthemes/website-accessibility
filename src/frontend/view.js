@@ -57,14 +57,6 @@ const View = () => {
         dispatch({ type: 'SET_OVERSIZED', payload: preferenceData.oversized || false });
         const selectedLanguage = preferenceData.selectedLanguage || null;
         dispatch({ type: 'SET_SELECTED_LANGUAGE', payload: selectedLanguage });
-        dispatch({
-            type: 'SET_ENABLE_TRANSLATIONS',
-            payload: !!selectedLanguage
-                && (
-                    selectedLanguage !== state?.siteLanguage
-                    || !!settings?.force_translate_site_language
-                ),
-        });
     }
 
     const saveablePreference = useMemo(() => {
