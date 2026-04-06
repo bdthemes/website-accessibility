@@ -120,56 +120,50 @@ const ButtonStylePreset = () => {
 			</WapCard>
 
 			<WapCard bordered={false} className="wap-button-style-preset-card" title={__("Position", "website-accessibility")}>
-				<WapRow gutter={[16, 16]}>
-					<WapCol xs={12} md={6}>
-						<ControlWrapper label={__("Button Position", "website-accessibility")}>
-							<WapSelect
-								value={position}
-								onChange={(value) => handleButtonChange("position", value)}
-								options={[
-									{
-										value: "bottom-right",
-										label: __("Bottom Right", "website-accessibility"),
-									},
-									{
-										value: "bottom-left",
-										label: __("Bottom Left", "website-accessibility"),
-									},
-									{
-										value: "top-right",
-										label: __("Top Right", "website-accessibility"),
-									},
-									{
-										value: "top-left",
-										label: __("Top Left", "website-accessibility"),
-									},
-								]}
-							/>
-						</ControlWrapper>
-					</WapCol>
-					<WapCol xs={12} md={6}>
-						<ControlWrapper label={__("Horizontal Offset", "website-accessibility")}>
-							<WapInput
-								type="number"
-								value={button.offsetX || ""}
-								onChange={(e) => handleButtonChange("offsetX", e.target.value)}
-								placeholder="e.g., 20"
-								addonAfter="px"
-							/>
-						</ControlWrapper>
-					</WapCol>
-					<WapCol xs={12} md={6}>
-						<ControlWrapper label={__("Vertical Offset", "website-accessibility")}>
-							<WapInput
-								type="number"
-								value={button.offsetY || ""}
-								onChange={(e) => handleButtonChange("offsetY", e.target.value)}
-								placeholder="e.g., 20"
-								addonAfter="px"
-							/>
-						</ControlWrapper>
-					</WapCol>
-				</WapRow>
+				<div className="wap-button-style-position-grid">
+					<ControlWrapper label={__("Button Position", "website-accessibility")}>
+						<WapSelect
+							value={position}
+							onChange={(value) => handleButtonChange("position", value)}
+							options={[
+								{
+									value: "bottom-right",
+									label: __("Bottom Right", "website-accessibility"),
+								},
+								{
+									value: "bottom-left",
+									label: __("Bottom Left", "website-accessibility"),
+								},
+								{
+									value: "top-right",
+									label: __("Top Right", "website-accessibility"),
+								},
+								{
+									value: "top-left",
+									label: __("Top Left", "website-accessibility"),
+								},
+							]}
+						/>
+					</ControlWrapper>
+					<ControlWrapper label={__("Horizontal Offset", "website-accessibility")}>
+						<WapInput
+							type="number"
+							value={button.offsetX || ""}
+							onChange={(e) => handleButtonChange("offsetX", e.target.value)}
+							placeholder="e.g., 20"
+							addonAfter="px"
+						/>
+					</ControlWrapper>
+					<ControlWrapper label={__("Vertical Offset", "website-accessibility")}>
+						<WapInput
+							type="number"
+							value={button.offsetY || ""}
+							onChange={(e) => handleButtonChange("offsetY", e.target.value)}
+							placeholder="e.g., 20"
+							addonAfter="px"
+						/>
+					</ControlWrapper>
+				</div>
 			</WapCard>
 		</div>
 	);

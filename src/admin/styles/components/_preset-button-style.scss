@@ -81,4 +81,15 @@
             margin-bottom: 0 !important;
         }
     }
+
+    .wap-button-style-position-grid {
+        display: grid;
+        grid-template-columns: repeat(auto-fill, minmax(130px, 1fr));
+        gap: 16px;
+
+        .wap-control-wrapper {
+            margin-bottom: 0 !important;
+        }
+    }
+
 }
