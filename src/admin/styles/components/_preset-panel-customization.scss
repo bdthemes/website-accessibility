@@ -207,13 +207,10 @@
     &__category-header {
         display: flex;
         align-items: center;
-        justify-content: space-between;
         gap: 10px;
-        margin-bottom: 6px;
-        padding: 0 2px 8px;
+        margin-bottom: 12px;
         background: transparent;
         border: 0;
-        border-bottom: 1px solid #edf1f5;
         border-radius: 0;
     }
 
@@ -243,6 +240,8 @@
 
     .ant-input-affix-wrapper {
         border-radius: 8px;
+        min-height: 40px;
+        height: 40px;
         padding: 0px 11px !important;
         .ant-input {
            border: none !important;
@@ -355,8 +354,11 @@
 }
 
 .wap-features-items-settings {
-    display: grid;
-    grid-template-columns: repeat(auto-fill, minmax(130px, 1fr));
+    // display: grid;
+    // grid-template-columns: repeat(auto-fit, minmax(min(100%, 190px), 1fr));
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-between;
     gap: 16px;
 
     .wap-control-wrapper {
@@ -441,7 +443,7 @@
 
 .wap-panel-wrapper-style-grid {
     display: grid;
-    grid-template-columns: repeat(auto-fill, minmax(130px, 1fr));
+    grid-template-columns: repeat(auto-fit, minmax(min(100%, 190px), 1fr));
     gap: 16px;
 
     .wap-control-wrapper {
@@ -451,7 +453,7 @@
 
 .wap-header-style-grid {
     display: grid;
-    grid-template-columns: repeat(auto-fill, minmax(130px, 1fr));
+    grid-template-columns: repeat(auto-fit, minmax(min(100%, 190px), 1fr));
     gap: 16px;
 
     .wap-control-wrapper {
@@ -464,6 +466,13 @@
 }
 
 .wap-footer-settings {
+    &__grid {
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(min(100%, 190px), 1fr));
+        gap: 16px;
+        align-items: start;
+    }
+
     .wap-control-wrapper--inline {
         .wap-control-wrapper__head {
             justify-content: flex-start !important;
@@ -476,6 +485,10 @@
             justify-content: flex-start;
             margin-left: 0;
         }
+    }
+
+    &__grid .wap-control-wrapper {
+        margin-bottom: 0 !important;
     }
 
     &__section-title {
