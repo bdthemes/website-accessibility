@@ -1,56 +1,95 @@
 .wap-button-style-preset {
-    display: flex;
-    flex-direction: row;
+    --wap-button-control-height: 40px;
 
-    &__left {
-        width: 250px;
-        max-height: 325px;
-        overflow-y: auto;
-        border-right: 1px solid #eee;
-        padding: 20px;
-
-        &::-webkit-scrollbar {
-            width: 5px;
+    /* Section titles (Content / Style / Position): between collapse header (16px) and field labels (14px) */
+    .wap-button-style-preset-card {
+        &.ant-card {
+            border: none;
+            box-shadow: none;
+            background: transparent;
         }
 
-        &::-webkit-scrollbar-thumb {
-            background: #d9d9d9;
+        &:not(:last-child) {
+            margin-bottom: 16px;
         }
 
-        &::-webkit-scrollbar-track {
-            background: #f5f5f5;
+        > .ant-card-head {
+            min-height: 0;
+            padding: 0;
+            border-bottom: none;
+            background: transparent;
+        }
+
+        > .ant-card-head .ant-card-head-title {
+            font-weight: 600;
+            font-size: 15px;
+            line-height: 1.4;
+            padding: 0;
+            color: #1f2937;
+        }
+
+        > .ant-card-body {
+            padding: 14px 0 0;
+            background: transparent;
         }
     }
 
-    &__center {
-        flex: 1;
+    /* Breathing room between fields; labels stay 14px (global) — section titles above stay 15px */
+    .wap-control-wrapper {
+        &:not(:last-child) {
+            margin-bottom: 18px;
+        }
+
+        &:not(.wap-control-wrapper--inline) .wap-control-wrapper__head {
+            margin-bottom: 0;
+        }
+    }
+
+    .ant-radio-group {
+        min-height: var(--wap-button-control-height);
+    }
+
+    .ant-radio-group .ant-radio-button-wrapper {
+        min-height: var(--wap-button-control-height);
+        line-height: calc(var(--wap-button-control-height) - 2px);
+    }
+
+    .wap-icon-picker.ant-select .ant-select-selector,
+    .ant-select .ant-select-selector {
+        min-height: var(--wap-button-control-height) !important;
+        height: var(--wap-button-control-height) !important;
         display: flex;
         align-items: center;
-        justify-content: center;
-        position: relative;
-        min-height: 300px;
     }
 
-    &__preview-wrapper {
-        position: relative;
-        width: 100%;
-        height: 100%;
+    .wap-icon-picker.ant-select .ant-select-selection-item,
+    .ant-select .ant-select-selection-item {
+        line-height: calc(var(--wap-button-control-height) - 2px) !important;
     }
 
-    &__right {
-        width: 200px;
-        border-left: 1px solid #eee;
-        padding: 20px;
+    .ant-input-number-group-addon {
+        padding: 0 8px;
+        background: #f5f5f5;
+    }
 
-        .ant-input-number-group-addon {
-            padding: 0 8px;
-            background: #f5f5f5;
+    .wap-button-style-grid {
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(min(100%, 190px), 1fr));;
+        gap: 16px;
+
+        .wap-control-wrapper {
+            margin-bottom: 0 !important;
         }
     }
-}
 
-.wap-button-style-preset-card {
-    > .ant-card-body {
-        padding: 0;
+    .wap-button-style-position-grid {
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(min(100%, 190px), 1fr));;
+        gap: 16px;
+
+        .wap-control-wrapper {
+            margin-bottom: 0 !important;
+        }
     }
+
 }

@@ -1,4 +1,5 @@
 <?php
+
 /**
  * Handle admin assets enqueuing
  *
@@ -32,7 +33,7 @@ class Enqueue {
      * @param string $hook_suffix The current admin page.
      */
     public function enqueue_scripts($hook_suffix) {
-        
+
         $admin_assets = WEBSAC_BUILD_DIR . 'admin/index.asset.php';
         if (file_exists($admin_assets)) {
             $admin_assets = require $admin_assets;
@@ -46,6 +47,21 @@ class Enqueue {
             );
 
             wp_set_script_translations('website-accessibility-admin', 'website-accessibility', WEBSAC_DIR . 'languages/');
+
+            $license_page_url = admin_url('admin.php?page=website-accessibility-pro_license');
+
+            wp_localize_script(
+                'website-accessibility-admin',
+                'websacAdmin',
+                [
+                    'version'           => WEBSAC_VERSION,
+                    'apiUrl'            => rest_url(),
+                    'nonce'             => wp_create_nonce('wp_rest'),
+                    'isProPluginActive' => function_exists('website_accessibility_pro'),
+                    'licensePageUrl'    => $license_page_url,
+                    'proUpgradeUrl'     => 'https://oneaccessibility.com#pricing',
+                ]
+            );
 
             wp_enqueue_style(
                 'website-accessibility-admin',
@@ -87,4 +103,4 @@ class Enqueue {
 
         return isset($page_map[$hook_suffix]) ? $page_map[$hook_suffix] : 'website-accessibility-dashboard';
     }
-} 
+}

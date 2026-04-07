@@ -3,7 +3,7 @@
 @forward './dashboard-feed';
 
 #website-accessibility-admin {
-    padding: 50px 0;
+    margin-top: 30px;
 
     #ehe-admin-cb, .notice, .error {
         display: none !important;
@@ -61,21 +61,30 @@
 }
 
 .wap-admin {
-    &:not(.wap-pro-admin) {
-        .toplevel_page_website-accessibility {
-            &>.wp-submenu-wrap {
-                li:nth-last-child(3) {
-                    @include profile-pro-badge;
-                }
-            }
-        }
-    }
-
+    // Badge the "Custom Profiles" submenu item without relying on submenu order
+    &:not(.wap-pro-admin),
     &.not-licensed {
         .toplevel_page_website-accessibility {
-            &>.wp-submenu-wrap {
-                li:nth-last-child(4) {
-                    @include profile-pro-badge;
+            & > .wp-submenu-wrap {
+                a[href*="admin.php?page=website-accessibilityfiles"] {
+                    position: relative;
+
+                    &::after {
+                        content: "Pro";
+                        background: #ff5e3a;
+                        color: #fff;
+                        font-size: 10px;
+                        font-weight: 600;
+                        border-radius: 14px;
+                        position: absolute;
+                        width: 26px;
+                        height: 16px;
+                        top: 7px;
+                        right: 15px;
+                        display: inline-flex;
+                        justify-content: center;
+                        align-items: center;
+                    }
                 }
             }
         }

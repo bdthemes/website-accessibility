@@ -1,4 +1,4 @@
-import { useState, useMemo, useEffect } from "@wordpress/element";
+import { useState, useMemo, useEffect, useRef } from "@wordpress/element";
 import clsx from "clsx";
 import useFrontendAccessibility from "./context/useAccessibility";
 import accessibilityManager from "../accessibilty-manager";
@@ -6,12 +6,14 @@ import { __ } from "@wordpress/i18n";
 import apiFetch from "@wordpress/api-fetch";
 
 const View = () => {
-    const { screenReader = () => null, defaultProfiles = [], useBrowserKey, getCookie, setCookie } = window.wapHelpers || {};
+    const { screenReader = () => null, defaultProfiles = [], useBrowserKey, getCookie } = window.wapHelpers || {};
     const { PreviewButton, PreviewContent, Icon, WapDrawer, GoogleTranslateConsent = () => null } = window?.wapComponents;
     const { profiles, currentPreset, currentPresetId, settings, nonce, restUrl, isUserLoggedIn } = window?.websiteAccessibility;
     const { dispatch, ...state } = useFrontendAccessibility();
     const [isOpen, setIsOpen] = useState(false);
     const browserKey = useBrowserKey();
+    const isSavingStatisticsRef = useRef(false);
+    const statisticsDebounceRef = useRef(null);
 
 
     const allProfiles = useMemo(() => [
@@ -24,6 +26,12 @@ const View = () => {
 
         return footerAttribiutes?.activePreference || false;
     }, [currentPreset]);
+
+    const isTranslatorEnabled = useMemo(() => {
+        const headerAttributes = currentPreset?.panel?.items?.find((item) => item.slug === 'header')?.attributes;
+        return headerAttributes?.showTranslator !== false;
+    }, [currentPreset]);
+    const translateConsentCookie = getCookie?.("wapGoogleTranslateConsent") || "none";
 
     function validProfile(currentProfile) {
         if (!currentProfile?.id) return null;
@@ -47,13 +55,13 @@ const View = () => {
         }
         dispatch({ type: 'SET_CURRENT_PROFILE', payload: validCurrentProfile });
         dispatch({ type: 'SET_OVERSIZED', payload: preferenceData.oversized || false });
-        dispatch({ type: 'SET_ENABLE_TRANSLATIONS', payload: preferenceData.enableTranslations || false });
-        dispatch({ type: 'SET_SELECTED_LANGUAGE', payload: preferenceData.selectedLanguage || null });
+        const selectedLanguage = preferenceData.selectedLanguage || null;
+        dispatch({ type: 'SET_SELECTED_LANGUAGE', payload: selectedLanguage });
     }
 
     const saveablePreference = useMemo(() => {
         if (!currentPresetId) return null;
-        const { currentProfile, currentSettings, isOverSized, enableTranslations, selectedLanguage } = state;
+        const { currentProfile, currentSettings, isOverSized, selectedLanguage } = state;
 
         const serializableProfile = {
             id: currentProfile?.id,
@@ -75,22 +83,21 @@ const View = () => {
         }
 
         if (isOverSized) data.oversized = isOverSized;
-        if (enableTranslations || settings?.always_on_translations) {
-            data.enableTranslations = enableTranslations;
+        if (selectedLanguage) {
             data.selectedLanguage = selectedLanguage;
         }
 
         return { post_id: currentPresetId, data };
-    }, [state?.currentProfile, state?.currentSettings, state?.isOverSized, state?.enableTranslations, state?.selectedLanguage]);
+    }, [state?.currentProfile, state?.currentSettings, state?.isOverSized, state?.selectedLanguage, state?.siteLanguage]);
 
     useEffect(() => {
-        if (!currentPresetId || !isUserLoggedIn) return;
+        if (!currentPresetId) return;
 
         const localKey = `${state?.localStorageKeyPrefix}-${currentPresetId}`;
         const localData = localStorage.getItem(localKey);
 
-        // ✅ Use API only if activePreference is true
-        if (isPreferenceActive) {
+        // ✅ Use API only if activePreference is true and user is logged in
+        if (isPreferenceActive && isUserLoggedIn) {
             apiFetch({ path: `/sigmally/v1/preference?post_id=${currentPresetId}`, method: 'GET' })
                 .then((response) => {
                     if (response?.success && response.data && Object.keys(response.data).length > 0) {
@@ -114,7 +121,7 @@ const View = () => {
                 applyPreferenceData(JSON.parse(localData));
             }
         }
-    }, [currentPresetId, isPreferenceActive]);
+    }, [currentPresetId, isPreferenceActive, isUserLoggedIn]);
 
     /**
      * Sync preferences to localStorage on change
@@ -165,7 +172,12 @@ const View = () => {
             addBodyClasses([`one-accessibility-feature-${key}-${attr?.value}`]);
         }
 
-        if (state?.enableTranslations && state?.selectedLanguage) {
+        const shouldTranslate = !!state?.selectedLanguage
+            && (
+                state?.selectedLanguage !== state?.siteLanguage
+                || !!settings?.force_translate_site_language
+            );
+        if (shouldTranslate) {
             addBodyClasses(['one-accessibility-feature-enable-translations', `one-accessibility-feature-language-${state?.selectedLanguage}`]);
         }
 
@@ -173,7 +185,7 @@ const View = () => {
             addBodyClasses([`one-accessibility-feature-profile-${state?.currentProfile?.id}`]);
         }
         
-    }, [state?.currentSettings, currentPresetId, state?.currentProfile, state?.isOverSized, state?.enableTranslations, state?.selectedLanguage]);
+    }, [state?.currentSettings, currentPresetId, state?.currentProfile, state?.isOverSized, state?.selectedLanguage, state?.siteLanguage, settings?.force_translate_site_language]);
 
     /**
      * Keyboard shortcuts: ESC to close, Ctrl+U to open
@@ -208,8 +220,8 @@ const View = () => {
         }
     }, [isOpen]);
 
-    const saveStatistics = async (data = {}) => {
-        let dailyTimestamp = getCookie('one_accessibility_daily_timestamp');
+    const saveStatistics = async (data) => {
+        if (isSavingStatisticsRef.current) return;
 
         // Check if browserKey exists
         if (!browserKey) return;
@@ -221,8 +233,6 @@ const View = () => {
 
         if (!restUrl) return;
 
-        const now = Date.now();
-        const twelveHours = 12 * 60 * 60 * 1000;
         const statistics = {};
 
         for (const key in data) {
@@ -230,16 +240,13 @@ const View = () => {
                 continue;
             }
 
-            statistics[key] = 1
+            statistics[key] = 1;
         }
-
-        // Throttle by daily timestamp (12h)
-        if (dailyTimestamp && now - dailyTimestamp < twelveHours) {
-            return;
-        }
+        
         const apiURL = `${restUrl}one-accessibility/v1/usage-statistics`;
 
         try {
+            isSavingStatisticsRef.current = true;
             const response = await fetch(apiURL, {
                 method: 'POST',
                 headers: {
@@ -251,15 +258,34 @@ const View = () => {
 
             const result = await response.json();
 
-            if (result.success) {
-                setCookie('one_accessibility_daily_timestamp', now, 0.5); // 12 hours
-            } else {
+            if (!result.success) {
                 console.warn('Failed to save statistics', result.message);
             }
         } catch (err) {
             console.error('Error sending statistics', err);
+        } finally {
+            isSavingStatisticsRef.current = false;
         }
     };
+
+    const handleFeatureInteraction = (nextSettings = {}) => {
+        if (!settings?.show_usage_statistics) return;
+        if (statisticsDebounceRef.current) {
+            clearTimeout(statisticsDebounceRef.current);
+        }
+        
+        statisticsDebounceRef.current = setTimeout(() => {
+            saveStatistics(nextSettings || {});
+        }, 1000);
+    };
+
+    useEffect(() => {
+        return () => {
+            if (statisticsDebounceRef.current) {
+                clearTimeout(statisticsDebounceRef.current);
+            }
+        };
+    }, []);
 
     /**
      * Body class toggle for drawer open state
@@ -279,13 +305,14 @@ const View = () => {
     if (!currentPreset) return null;
 
     return (
-        <div className="wap-accessibility-view">
+        <div className="wap-accessibility-view notranslate" translate="no">
 
             <PreviewButton
                 type="default"
                 text={currentPreset?.button?.buttonType !== 'icon' ? currentPreset?.button?.text : null}
                 icon={currentPreset?.button?.buttonType !== 'text' ? <Icon name={currentPreset?.button?.icon} /> : null}
                 className={clsx(
+                    'notranslate',
                     'wap-button-style-preset__preview-btn',
                     currentPreset?.button?.position,
                     currentPreset?.button?.buttonType && `wap-button-style-preset__preview-btn--${currentPreset?.button?.buttonType}`
@@ -308,13 +335,10 @@ const View = () => {
                 open={isOpen}
                 onClose={() => {
                     setIsOpen(false)
-                    if (settings?.show_usage_statistics && saveablePreference?.data?.settings) {
-                        saveStatistics(saveablePreference?.data?.settings);
-                    }
                 }}
                 placement={currentPreset?.panel?.wrapper?.position || "right"}
-                className={`wap-preset__preview-drawer wap-preset__preview-drawer--${currentPreset?.panel?.wrapper?.position || 'right'}`}
-                rootClassName={`wap-preset__preview-drawer-root wap-preset__preview-drawer-root--${currentPreset?.panel?.wrapper?.position || 'right'}`}
+                className={`wap-preset__preview-drawer notranslate wap-preset__preview-drawer--${currentPreset?.panel?.wrapper?.position || 'right'}`}
+                rootClassName={`wap-preset__preview-drawer-root notranslate wap-preset__preview-drawer-root--${currentPreset?.panel?.wrapper?.position || 'right'}`}
                 width={Number(currentPreset?.panel?.wrapper?.width) || 400}
             >
                 <PreviewContent
@@ -324,9 +348,15 @@ const View = () => {
                     isOpen={isOpen}
                     accessibilityContext={state}
                     accessibilityDispatch={dispatch}
+                    onFeatureInteraction={handleFeatureInteraction}
                 />
             </WapDrawer>
-            <GoogleTranslateConsent showModal={settings?.show_translations_consent} translateSiteLang={settings?.force_translate_site_language} accessibilityContext={state} />
+            <GoogleTranslateConsent
+                key={`gtc-${settings?.force_translate_site_language ? "force" : "normal"}-${state?.siteLanguage || "none"}-${translateConsentCookie}`}
+                showModal={settings?.show_translations_consent && isTranslatorEnabled}
+                translateSiteLang={settings?.force_translate_site_language}
+                accessibilityContext={state}
+            />
         </div>
     );
 };

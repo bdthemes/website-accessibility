@@ -36,7 +36,7 @@ const Disclaimer = () => {
     };
 
     return visible ? (
-        <div className="wap-disclaimer">
+        <div className="wap-disclaimer wap-disclaimer--simple" style={{ marginTop: 20 }}>
             <WapAlert
                 message={__("Disclaimer for Site Administrators", "website-accessibility")}
                 description={ <Description /> }
@@ -44,7 +44,6 @@ const Disclaimer = () => {
                 closable
                 onClose={handleClose}
                 showIcon
-                style={{ marginBottom: 20 }}
             />
         </div>
     ) : null;

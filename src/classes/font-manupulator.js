@@ -39,14 +39,25 @@ class FontManipulator {
             const stored = {};
 
             validProps.forEach(prop => {
-                const originalValue = computed.getPropertyValue(prop);
-                if (!originalValue) return;
+                const computedValue = (computed.getPropertyValue(prop) || '').trim();
+                if (!computedValue) return;
 
-                const numeric = parseFloat(originalValue);
-                const unit = originalValue.replace(/[0-9.\s]/g, '') || 'px';
+                const match = computedValue.match(/^(-?\d*\.?\d+)([a-z%]*)$/i);
+                if (!match) return;
 
+                const numeric = parseFloat(match[1]);
+                if (!Number.isFinite(numeric)) return;
+
+                const unit = match[2] || '';
                 const newValue = numeric * (1 + percent / 100);
-                stored[prop] = originalValue;
+                const inlineValue = el.style.getPropertyValue(prop);
+                const hasInline = inlineValue !== '';
+
+                // Store inline original so remove() can restore true baseline.
+                stored[prop] = {
+                    inlineValue,
+                    hasInline
+                };
 
                 el.style.setProperty(prop, `${newValue}${unit}`);
             });
@@ -71,7 +82,17 @@ class FontManipulator {
             try {
                 const original = JSON.parse(storedData);
                 Object.entries(original).forEach(([prop, value]) => {
-                    el.style.setProperty(prop, value);
+                    // Backward compatibility with old stored format (string value).
+                    if (typeof value === 'string') {
+                        el.style.setProperty(prop, value);
+                        return;
+                    }
+
+                    if (value?.hasInline) {
+                        el.style.setProperty(prop, value.inlineValue || '');
+                    } else {
+                        el.style.removeProperty(prop);
+                    }
                 });
             } catch (e) {
                 console.warn('Invalid font-manipulator data:', e);

@@ -1,31 +1,30 @@
 import {
   EditOutlined,
   EyeOutlined,
-  EyeInvisibleOutlined,
-  MenuOutlined,
+  EyeInvisibleOutlined
 } from "@ant-design/icons";
-import { ReactSortable } from "react-sortablejs";
 import { useState, useRef, useEffect } from "@wordpress/element";
 import { __ } from "@wordpress/i18n";
 import { useSelect, useDispatch } from "@wordpress/data";
 import { STORE_NAME } from "../store";
+import { useLicense } from "../context/LicenseContext";
 import HeaderSettings from "../settings/header-settings";
 import ProfilesSettings from "../settings/profiles-settings";
 import FeatureSettings from "../settings/feature-settings";
-import LanguageSelectorSettings from "../settings/language-selector-settings";
 import FooterSettings from "../settings/footer-settings";
 
 const PresetPanelLeftSidebar = () => {
   const { WapCard, WapRow, WapCol, WapDrawer, WapBadge } = window?.wapComponents;
   const [drawerVisible, setDrawerVisible] = useState(false);
   const [selectedItem, setSelectedItem] = useState(null);
-  const isProActive = window?.websacPro?.isProActive || false;
+  const { isProActive } = useLicense();
   const timerRef = useRef(null);
 
   const { presetsFormData } = useSelect((select) => select(STORE_NAME).getPresetsFormData());
   const { setPresetsFormData } = useDispatch(STORE_NAME);
 
-  let items = presetsFormData?.panel?.items || [];
+  let items = (presetsFormData?.panel?.items || []).filter((item) => item.slug !== 'language');
+
 
   const handleVisibilityToggle = (slug) => {
     const updatedItems = items.map((item) =>
@@ -75,84 +74,55 @@ const PresetPanelLeftSidebar = () => {
 
   return (
     <div className="wap-panel-left-sidebar">
-      <ReactSortable
-        list={items}
-        setList={(newItems) => {
-          // Keep first and last items in place
-          const fixedFirst = items[0];
-          const fixedLast = items[items.length - 1];
+      {items.map((item) => {
+        return (
+          <WapCard key={item.id} className="wap-panel-left-sidebar__row">
+            <WapRow justify="space-between" align="middle">
+              <WapCol>
+                <span>{item.title}</span>
+              </WapCol>
+              <WapCol className="wap-panel-left-sidebar__actions">
+                {(!item?.isPro || isProActive) && (
+                  <EditOutlined
+                    className="wap-panel-left-sidebar__icon-action"
+                    onClick={(e) => {
+                      e.stopPropagation();
+                      handleEditClick(item);
+                    }}
+                  />
+                )}
+                {item?.isPro && !isProActive ? (
+                  <WapBadge
+                    count="Pro"
+                    style={{
+                      backgroundColor: '#f5222d',
+                      fontSize: '12px',
+                      padding: '0 6px',
+                    }}
+                  />
+                ) : item.active ? (
+                  <EyeOutlined
+                    className="wap-panel-left-sidebar__icon-action"
+                    onClick={(e) => {
+                      e.stopPropagation();
+                      handleVisibilityToggle(item.slug);
+                    }}
+                  />
+                ) : (
+                  <EyeInvisibleOutlined
+                    className="wap-panel-left-sidebar__icon-action"
+                    onClick={(e) => {
+                      e.stopPropagation();
+                      handleVisibilityToggle(item.slug);
+                    }}
+                  />
+                )}
 
-          const middleItems = newItems.filter(
-            (item) => item.id !== fixedFirst.id && item.id !== fixedLast.id
-          );
-
-          setPresetsFormData({
-            ...presetsFormData,
-            panel: {
-              ...presetsFormData.panel,
-              items: [fixedFirst, ...middleItems, fixedLast],
-            }
-          });
-        }}
-        handle=".wap-panel-left-sidebar__drag-handle"
-        animation={150}
-        ghostClass="wap-panel-left-sidebar__ghost"
-      >
-        {items.map((item) => {
-          return (
-            <WapCard key={item.id} className="wap-panel-left-sidebar__row">
-              <WapRow justify="space-between" align="middle">
-                <WapCol>
-                  {
-                    !item?.disableDrag && (
-                      <MenuOutlined className="wap-panel-left-sidebar__drag-handle" />
-                    )
-                  }
-                  <span>{item.title}</span>
-                </WapCol>
-                <WapCol className="wap-panel-left-sidebar__actions">
-                  {(!item?.isPro || isProActive) && (
-                    <EditOutlined
-                      className="wap-panel-left-sidebar__icon-action"
-                      onClick={(e) => {
-                        e.stopPropagation();
-                        handleEditClick(item);
-                      }}
-                    />
-                  )}
-                  {item?.isPro && !isProActive ? (
-                    <WapBadge
-                      count="Pro"
-                      style={{
-                        backgroundColor: '#f5222d',
-                        fontSize: '12px',
-                        padding: '0 6px',
-                      }}
-                    />
-                  ) : item.active ? (
-                    <EyeOutlined
-                      className="wap-panel-left-sidebar__icon-action"
-                      onClick={(e) => {
-                        e.stopPropagation();
-                        handleVisibilityToggle(item.slug);
-                      }}
-                    />
-                  ) : (
-                    <EyeInvisibleOutlined
-                      className="wap-panel-left-sidebar__icon-action"
-                      onClick={(e) => {
-                        e.stopPropagation();
-                        handleVisibilityToggle(item.slug);
-                      }}
-                    />
-                  )}
-
-                </WapCol>
-              </WapRow>
-            </WapCard>
-          )
-        })}
-      </ReactSortable>
+              </WapCol>
+            </WapRow>
+          </WapCard>
+        )
+      })}
 
       <WapDrawer
         title={`Edit ${selectedItem?.title || 'Item'}`}
@@ -165,11 +135,6 @@ const PresetPanelLeftSidebar = () => {
       >
         {selectedItem?.slug === 'header' && (
           <HeaderSettings
-            item={selectedItem}
-          />
-        )}
-        {selectedItem?.slug === 'language' && isProActive && (
-          <LanguageSelectorSettings
             item={selectedItem}
           />
         )}

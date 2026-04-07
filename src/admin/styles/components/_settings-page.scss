@@ -1,0 +1,66 @@
+// Settings page — no big header, simple flat rows
+.wap-settings {
+    // First row no extra top margin
+    > .wap-settings-row:first-child {
+        margin-top: 0 !important;
+    }
+}
+
+.wap-profiles-settings__grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(180px, 1fr));
+    gap: 12px;
+
+    .wap-feature-toggle-card {
+        margin: 0;
+        min-height: 46px;
+    }
+}
+
+// One row = one setting — light border, no heavy shadow
+.wap-settings-row {
+    border: 1px solid #eef0f2;
+    border-radius: 10px;
+    background: #fff;
+    box-shadow: none !important;
+    margin-top: 20px;
+
+    .ant-card-body {
+        padding: 16px 18px !important;
+    }
+
+    .ant-typography {
+        margin-bottom: 0 !important;
+    }
+
+
+    .ant-typography-secondary {
+        font-size: 13px;
+        line-height: 1.5;
+        color: #6b7280;
+        margin-top: 4px;
+        display: block;
+    }
+}
+
+// Export/Import block — aligned with _export-import-settings (tighter right padding)
+.wap-export-import-card.wap-settings-row {
+    .ant-card-body {
+        padding: 16px 14px 16px 18px !important;
+    }
+
+    .wap-export-import-header {
+        margin-bottom: 12px;
+
+        .ant-typography {
+            font-size: 14px;
+            font-weight: 600;
+            color: #1f2937;
+        }
+    }
+
+    .ant-typography + .ant-space,
+    p + .ant-space {
+        margin-top: 0;
+    }
+}

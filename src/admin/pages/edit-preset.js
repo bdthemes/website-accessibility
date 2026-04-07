@@ -1,34 +1,21 @@
-import { useState, useEffect } from '@wordpress/element';
+import { useEffect, useState } from '@wordpress/element';
 import { __ } from '@wordpress/i18n';
-import { steps } from '../../utils';
 import { useDispatch, useSelect } from "@wordpress/data";
 import { STORE_NAME } from "../store";
 import { useHistory, useLocation } from '../router';
+import PresetEditorPreview from '../components/preset-editor-preview';
+import PanelCustomizationPreset from '../components/preset-panel-customization';
 
 
 const EditPreset = () => {
-  const { WapCard, WapButton, WapSpace, WapTypography, WapSteps } = window?.wapComponents;
-  const [current, setCurrent] = useState(0);
+  const { WapCard, WapButton, WapSpace, WapTypography, WapInput } = window?.wapComponents;
   const { updatePreset, saveEditedPreset, setPresetsFormData } = useDispatch(STORE_NAME);
   const history = useHistory();
   const location = useLocation();
   const id = location?.params?.id;
   const page = location?.params?.page;
   const { Title } = WapTypography;
-
-  const handleBack = () => {
-    history.push({ page: 'website-accessibility-presets' });
-  };
-
-  const next = async () => {
-    setCurrent((prev) => prev + 1);
-    window.scrollTo({ top: 0, behavior: 'smooth' });
-  };
-
-  const prev = () => {
-    setCurrent((prev) => prev - 1);
-    window.scrollTo({ top: 0, behavior: 'smooth' });
-  };
+  const [searchTerm, setSearchTerm] = useState('');
 
   useEffect(() => {
     if (!id || !page) {
@@ -59,9 +46,33 @@ const EditPreset = () => {
     }
   }, [preset]);
 
-  if (!preset) return null;
+  useEffect(() => {
+    const keyword = searchTerm.trim().toLowerCase();
+    const categoryNodes = Array.from(document.querySelectorAll('[data-control-category]'));
 
-  const StepContent = steps[current].content;
+    categoryNodes.forEach((categoryNode) => {
+      const controlNodes = Array.from(
+        categoryNode.querySelectorAll('.wap-control-wrapper[data-search-control-label]'),
+      );
+
+      let hasMatchInCategory = false;
+      controlNodes.forEach((controlNode) => {
+        const controlLabel = (controlNode.getAttribute('data-search-control-label') || '').toLowerCase();
+        const matched = !keyword || controlLabel.includes(keyword);
+        controlNode.style.display = matched ? '' : 'none';
+        if (matched) hasMatchInCategory = true;
+      });
+
+      const categoryBlock = categoryNode.closest('.wap-preset-sections__content, .wap-panel-customization__collapse');
+      const shouldShow = !keyword || hasMatchInCategory;
+      categoryNode.style.display = shouldShow ? '' : 'none';
+      if (categoryBlock) {
+        categoryBlock.style.display = shouldShow ? '' : 'none';
+      }
+    });
+  }, [searchTerm, presetsFormData]);
+
+  if (!preset) return null;
 
   const handleSave = async () => {
     await updatePreset(id, {
@@ -76,75 +87,43 @@ const EditPreset = () => {
 
   return (
     <div className="wap-preset-editor">
-      <WapCard className='wap-header-card'>
+      <PresetEditorPreview />
+      <div className="wap-preset-editor-content">
+        <WapCard className='wap-header-card'>
 
-        <Title level={2} className='wap-header-card-title'>
-          {__('Edit Preset', 'website-accessibility')}
-        </Title>
-        <WapButton
-          type="primary"
-          onClick={handleBack}
-          size='large'
-        >
-          <WapSpace>
-            <span className='dashicons dashicons-arrow-left-alt' />
-            {__('Back to Presets', 'website-accessibility')}
-          </WapSpace>
-        </WapButton>
+          <Title level={2} className='wap-header-card-title'>
+            {__('Edit Preset', 'website-accessibility')}
+          </Title>
+          <WapInput
+            className='wap-preset-editor-header-card-input'
+            size="large"
+            value={searchTerm}
+            onChange={(e) => setSearchTerm(e.target.value)}
+            placeholder={__('Search controls...', 'website-accessibility')}
+            prefix={<span className='dashicons dashicons-search' />}
+            style={{ width: 300 }}
+            allowClear
+          />
 
-      </WapCard>
+        </WapCard>
 
-      <WapSteps
-        current={current}
-        size="small"
-        className="wap-preset-steps"
-        style={{ padding: '24px 0', marginBottom: 24 }}
-        items={steps.map((step) => ({ title: step.title }))}
-        onChange={(value) => {
-          if (current === 0 && !presetsFormData?.title) return;
-          setCurrent(value);
-        }}
-      />
-
-      <StepContent />
+        <PanelCustomizationPreset />
+      </div>
 
       {/* <Card className="wap-preset-form-actions-card" style={{ marginTop: 24 }}> */}
       <div className="wap-preset-form-actions" style={{ marginTop: 24 }}>
         <WapSpace>
-          {current > 0 && (
-            <WapButton onClick={prev} htmlType='button' size='large'>
-              <WapSpace>
-                <span className='dashicons dashicons-arrow-left-alt' />
-                {__('Previous', 'website-accessibility')}
-              </WapSpace>
-            </WapButton>
-          )}
-          {current < steps.length - 1 && (
-            <WapButton
-              size='large'
-              type="primary"
-              onClick={next}
-              htmlType='button'
-              disabled={current === 0 && !presetsFormData?.title}
-            >
-              <WapSpace>
-                {__('Next', 'website-accessibility')}
-                <span className='dashicons dashicons-arrow-right-alt' />
-              </WapSpace>
-            </WapButton>
-          )}
-          {current === steps.length - 1 && (
-            <WapButton
-              type="primary"
-              onClick={handleSave}
-              size='large'
-            >
-              <WapSpace>
-                {__('Update Preset', 'website-accessibility')}
-                <span className='dashicons dashicons-arrow-right-alt' />
-              </WapSpace>
-            </WapButton>
-          )}
+          <WapButton
+            type="primary"
+            onClick={handleSave}
+            size='large'
+            disabled={!presetsFormData?.title}
+          >
+            <WapSpace>
+              {__('Update Preset', 'website-accessibility')}
+              <span className='dashicons dashicons-arrow-right-alt' />
+            </WapSpace>
+          </WapButton>
         </WapSpace>
       </div>
       {/* </Card> */}

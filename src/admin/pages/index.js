@@ -6,19 +6,24 @@ import Dashboard from './dashboard';
 import CreatePreset from './create-preset';
 import Presets from './presets';
 import EditPreset from './edit-preset';
-import PreviewPreset from './preview-preset';
 import Profiles from './profiles';
 import CreateProfiles from './create-profiles';
 import EditProfile from './edit-profile';
 import Settings from './settings';
+import ToolsBackup from './tools-backup';
+import AboutInfo from './about-info';
+import GetPro from './get-pro';
 import UsageStatistics from '../components/usage-statistics';
-
+import LicenseManager from '../components/License/LicenseManager';
+import Disclaimer from '../components/disclaimer';
+import { useLicense } from '../context/LicenseContext';
 
 const Pages = () => {
     const location = useLocation();
     const page = location?.params?.page;
     const [settings, setSettings] = useState();
     const API_NAMESPACE = "/sigmally/v1/settings";
+    const { isProPluginActive } = useLicense();
 
     const fetchSettings = async () => {
         try {
@@ -35,15 +40,12 @@ const Pages = () => {
 
     const RouteElement = useMemo(() => {
         switch (page) {
-
             case 'website-accessibilityfiles':
                 return <Profiles />;
             case 'website-accessibilityfiles-edit':
                 return <EditProfile />;
             case 'website-accessibilityfiles-create':
                 return <CreateProfiles />;
-            case 'website-accessibility-presets-preview':
-                return <PreviewPreset />;
             case 'website-accessibility-presets-edit':
                 return <EditPreset />;
             case 'website-accessibility-presets':
@@ -52,10 +54,18 @@ const Pages = () => {
                 return <CreatePreset />;
             case 'website-accessibility-settings':
                 return <Settings />;
+            case 'website-accessibility-tools':
+                return <ToolsBackup />;
+            case 'website-accessibility-about':
+                return <AboutInfo />;
+            case 'website-accessibility-get-pro':
+                return <GetPro />;
+            case 'website-accessibility-license':
+                return isProPluginActive ? <LicenseManager pluginName="One Accessibility" /> : <Dashboard />;
             default:
                 return <Dashboard />;
         }
-    }, [page]);
+    }, [page, isProPluginActive]);
 
     useEffect(() => {
         const subMenuItems = document.querySelectorAll('.toplevel_page_website-accessibility ul li');
@@ -77,13 +87,25 @@ const Pages = () => {
     return (
         <>
             <div className="wap-admin-pages">
-                <div className={clsx('wap-admin-page', { [page]: page })}>
+
+                {page === 'website-accessibility' && settings && settings?.show_usage_statistics && (
+                    <>
+                        <div className="wap-admin-usage-statistics">
+                            <UsageStatistics />
+                        </div>
+                      
+                    </>
+                )}
+                 <div className={clsx('wap-admin-page', { [page]: page })}>
                     {RouteElement}
                 </div>
+                {
+                    page === 'website-accessibility' && (
+                        <Disclaimer />
+                    )
+                }
             </div>
-            {page === 'website-accessibility' && settings && settings?.show_usage_statistics && (
-                <UsageStatistics />
-            )}
+
         </>
     );
 };

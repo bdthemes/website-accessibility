@@ -1,13 +1,17 @@
+// Page header card — MUST match Settings / General (.wap-settings-row) typography
+// Single source so Presets, Create/Edit Preset, Create/Edit Profile headers look identical.
 .wap-header-card {
-    background: linear-gradient(135deg, #1677ff 0%, #135e96 100%);
-    border-radius: 6px;
-    margin-bottom: 32px;
+    background: #fff;
+    border: 1px solid #eef0f2;
+    border-radius: 10px;
+    margin-bottom: 16px;
+    box-shadow: none !important;
 
     .ant-card-body {
-        padding: 30px;
+        padding: 16px 18px !important;
         display: flex;
         align-items: center;
-        gap: 20px;
+        gap: 16px 20px;
         justify-content: space-between;
         flex-wrap: wrap;
 
@@ -17,40 +21,112 @@
         }
     }
 
-    .wap-header-card-title {
-        margin: 0;
-        color: #fff;
+    // Same as .wap-settings-row + _settings-page: 14px title, 13px secondary
+    .wap-header-card-title,
+    h1.wap-header-card-title,
+    h2.wap-header-card-title,
+    h3.wap-header-card-title,
+    h4.wap-header-card-title,
+    h5.wap-header-card-title {
+        margin: 0 !important;
+        color: #1f2937 !important;
+        font-weight: 600 !important;
+        font-size: 20px !important;
+        line-height: 1.4 !important;
     }
 
-    .wap-header-card-description {
-        margin: 10px 0 0;
-        color: #dee5ee;
+    .wap-header-card-description,
+    .ant-typography-secondary.wap-header-card-description {
+        margin: 4px 0 0 !important;
         display: block;
+        font-size: 13px !important;
+        line-height: 1.5 !important;
+        color: #6b7280 !important;
     }
 
     .ant-btn {
-        background: rgba(255, 255, 255, 0.11);
-        backdrop-filter: blur(10px);
-        border: 1px solid rgba(255, 255, 255, 0.11);
-
-        &:hover {
-            background: rgba(255, 255, 255, 0.188);
-            border: 1px solid rgba(255, 255, 255, 0.11);
-        }
+        border-radius: 6px;
     }
 }
 
+// When header is also a settings row, no double margin
+.wap-header-card.wap-settings-row {
+    margin-bottom: 20px;
+}
+
 .wap-preset-editor {
-  .wap-preset-steps, .wap-get-started-preset-card {
-    max-width: 50%;
-    margin: 0 auto;
-  }
-  .wap-preset-form-card {
-    margin: 16px 0;
-  }
-  .wap-preset-form-actions {
-    text-align: right;
-  }
+    --wap-preview-drawer-width: 400px;
+
+    > .wap-settings-row:first-child {
+        margin-top: 0 !important;
+    }
+
+    .wap-preset-editor-content,
+    .wap-preset-form-actions {
+        transition: padding 0.24s ease, max-width 0.24s ease;
+    }
+
+    @media (min-width: 1280px) {
+        &.wap-preset-editor--preview-right.wap-preset-editor--preview-overlap {
+            .wap-preset-editor-content,
+            .wap-preset-form-actions {
+                padding-right: var(--wap-preview-overlap-right-pad, 0px);
+            }
+        }
+
+        &.wap-preset-editor--preview-left.wap-preset-editor--preview-overlap {
+            .wap-preset-editor-content,
+            .wap-preset-form-actions {
+                padding-left: var(--wap-preview-overlap-left-pad, 0px);
+            }
+        }
+    }
+
+    .wap-preset-editor__floating-preview {
+        z-index: 999999;
+
+        .wap-button-style-preset__preview-btn {
+            position: fixed;
+            pointer-events: auto;
+            z-index: 1000002;
+        }
+
+        .wap-button-style-preset__preview-btn.top-right {
+            top: var(--button-offset-y, 30px);
+            right: var(--button-offset-x, 30px);
+        }
+
+        .wap-button-style-preset__preview-btn.top-left {
+            top: var(--button-offset-y, 30px);
+            left: var(--button-offset-x, 30px);
+        }
+
+        .wap-preset-editor__preview-drawer-root {
+            z-index: 1000000 !important;
+        }
+
+        .wap-preset-editor__preview-drawer-root .ant-drawer-content-wrapper {
+            pointer-events: auto;
+        }
+
+        .wap-preset-editor__preview-drawer-root .wap-panel-customization__panel * {
+            pointer-events: none;
+        }
+
+        .wap-preset-editor__preview-drawer-root .wap-panel-customization__header-close,
+        .wap-preset-editor__preview-drawer-root .wap-panel-customization__header-close * {
+            pointer-events: auto;
+            cursor: pointer;
+        }
+    }
+
+    .wap-preset-form-card {
+        margin: 16px 0;
+    }
+
+    .wap-preset-form-actions {
+        text-align: right;
+    }
 }
 
 .wap-control-wrapper {
@@ -59,9 +135,9 @@
     }
 
     h5.ant-typography {
-        margin-top: 0;
+        margin: 0 0 8px;
         font-weight: 500;
-        font-size: 14px;
+        font-size: 13px;
     }
 
     .ant-select {

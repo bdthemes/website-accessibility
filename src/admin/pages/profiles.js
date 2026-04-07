@@ -2,18 +2,21 @@ import { __ } from '@wordpress/i18n';
 import PostTable from '../components/post-table';
 import { useHistory } from '../router';
 import { useSelect, useDispatch } from '@wordpress/data';
-import { STORE_NAME } from '../store';
+import { getDefaultProfilesFormData, STORE_NAME } from '../store';
 import ProfilesFallback from '../components/profiles-fallback';
+import { useLicense } from '../context/LicenseContext';
 
 
 const Profiles = () => {
-  const { WapCard, WapButton, WapSpace, WapDropdown, WapTypography } = window?.wapComponents;
-  const isProActive = window?.websacPro?.isProActive || false;
+  const { WapCard, WapButton, WapSpace, WapTypography } = window?.wapComponents;
+  const { Title, Text } = WapTypography;
+  const { isProActive } = useLicense();
   const history = useHistory();
   const profiles = useSelect((select) => select(STORE_NAME).getProfiles());
-  const { deleteProfile } = useDispatch(STORE_NAME);
+  const { deleteProfile, setProfilesFormData } = useDispatch(STORE_NAME);
 
   const handleCreateProfile = () => {
+    setProfilesFormData(getDefaultProfilesFormData());
     history.push({
       page: 'website-accessibilityfiles-create'
     });
@@ -88,17 +91,24 @@ const Profiles = () => {
       title: __('Actions', 'website-accessibility'),
       key: 'actions',
       render: (_, record) => (
-        <WapDropdown
-          menu={{
-            items: [
-              { key: 'edit', label: 'Edit', onClick: () => handleRowAction('edit', record) },
-              { key: 'trash', label: 'Trash', onClick: () => handleRowAction('trash', record) },
-            ]
-          }}
-          trigger={['click']}
-        >
-          <WapButton icon={<span className="dashicons dashicons-ellipsis" />} />
-        </WapDropdown>
+        <div className="wap-post-table__row-actions">
+          <WapButton
+            size="small"
+            type="primary"
+            ghost
+            onClick={() => handleRowAction('edit', record)}
+          >
+            {__('Edit', 'website-accessibility')}
+          </WapButton>
+          <WapButton
+            size="small"
+            type="default"
+            danger
+            onClick={() => handleRowAction('trash', record)}
+          >
+            {__('Trash', 'website-accessibility')}
+          </WapButton>
+        </div>
       ),
     }
   ];
@@ -110,23 +120,29 @@ const Profiles = () => {
   }
 
   return (
-    <div className="wap-profiles">
-      <WapCard className='wap-header-card'>
-        <WapTypography.Title level={2} className='wap-header-card-title'>
-          {__('User Accessibility Profiles', 'website-accessibility')}
-        </WapTypography.Title>
-        <WapButton
-          type="primary"
-          onClick={handleCreateProfile}
-          size='large'
-        >
-          <WapSpace>
-            <span className="dashicons dashicons-plus-alt2" />
-            {__('Add New Profile', 'website-accessibility')}
-          </WapSpace>
-        </WapButton>
+    <div className="wap-settings wap-profiles">
+      <WapCard className="wap-settings-row wap-header-card wap-profiles-header">
+        <div className="wap-profiles-header__inner">
+          <div className="wap-header-card-content">
+            <Title level={4} className="wap-header-card-title">
+              {__('Custom Profiles', 'website-accessibility')}
+            </Title>
+            <Text type="secondary" className="wap-header-card-description">
+              {__('Create and manage accessibility profiles for different user needs.', 'website-accessibility')}
+            </Text>
+          </div>
+          <div className="wap-profiles-header__actions">
+            <WapButton type="primary" onClick={handleCreateProfile}>
+              <WapSpace size="small">
+                <span className="dashicons dashicons-plus-alt2" />
+                {__('Add New Profile', 'website-accessibility')}
+              </WapSpace>
+            </WapButton>
+          </div>
+        </div>
       </WapCard>
-      <WapCard >
+
+      <WapCard className="wap-settings-row wap-profiles-table-card">
         <div>
           <PostTable
             columns={columns}
@@ -141,4 +157,4 @@ const Profiles = () => {
   );
 };
 
-export default Profiles; 
+export default Profiles;

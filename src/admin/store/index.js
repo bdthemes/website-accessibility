@@ -53,6 +53,7 @@ export const DEFAULT_STATE = {
             hideImages: '',
             dyslexiaFriendly: '',
             cursor: '',
+            keyboardNavigation: '',
             tooltips: '',
             lineHeight: '',
             textAlign: '',
@@ -61,6 +62,14 @@ export const DEFAULT_STATE = {
         },
     },
 };
+
+export const getDefaultProfilesFormData = () => ({
+    ...DEFAULT_STATE.profilesFormData,
+    name: generateUniqueTitle('New Profile'),
+    features: {
+        ...DEFAULT_STATE.profilesFormData.features,
+    },
+});
 
 const store = createReduxStore(STORE_NAME, {
     reducer(state = DEFAULT_STATE, action) {
@@ -294,7 +303,7 @@ const store = createReduxStore(STORE_NAME, {
                         features: profileFormData.features,
                         icon: profileFormData?.icon,
                     }),
-                });             
+                });
                 await dispatch({ type: 'UPDATE_PROFILE', profile });
             };
         },

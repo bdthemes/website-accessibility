@@ -60,7 +60,7 @@ const GetStartedPreset = () => {
 
 
     return (
-        <WapCard className="wap-get-started-preset-card">
+        <div className="wap-get-started-preset-card">
             <ControlWrapper label={__('Preset Name', 'website-accessibility')} required>
                 <WapInput
                     onChange={(e) => setPresetsFormData({ ...presetsFormData, title: e.target.value })}
@@ -106,13 +106,7 @@ const GetStartedPreset = () => {
                     </>
                 )
             }
-            <ControlWrapper label={__('Active', 'website-accessibility')}>
-                <WapSwitch
-                    checked={presetsFormData?.preset?.active}
-                    onChange={(value) => setPresetsFormData({ ...presetsFormData, preset: { ...presetsFormData.preset, active: value } })}
-                    value={presetsFormData?.preset?.active} />
-            </ControlWrapper>
-        </WapCard>
+        </div>
     )
 };
 

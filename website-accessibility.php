@@ -68,6 +68,9 @@ final class WebsiteAccessibility
 	{
 		define('WEBSAC_VERSION', self::VERSION);
 		define('WEBSAC_NAME', 'One Accessibility');
+		define('WEBSAC_PLUGIN_FILE', __FILE__);
+		define('WEBSA_PLUGIN_FILE', __FILE__);
+		define('PLUGIN_FILE', __FILE__);
 		define('WEBSAC_URL', trailingslashit(plugin_dir_url(__FILE__)));
 		define('WEBSAC_DIR', trailingslashit(plugin_dir_path(__FILE__)));
 		define('WEBSAC_INCLUDES_DIR', WEBSAC_DIR . 'includes/');
@@ -84,6 +87,7 @@ final class WebsiteAccessibility
 	{
 		// Update plugin version in the options table.
 		update_option('websac_version', WEBSAC_VERSION);
+		update_option('websac_data_schema_version', \bdthemes\websiteaccessibility\Core\Migrations::LATEST_DATA_SCHEMA_VERSION);
 
 		// Set installed time if it doesn't exist.
 		if (! get_option('websac_installed_time')) {
@@ -108,7 +112,7 @@ final class WebsiteAccessibility
 			global $wp_filesystem;
 		}
 
-		if(empty($existing_presets)) {
+		if (empty($existing_presets)) {
 			$json_path = WEBSAC_DIR . 'default-posts/preset.json';
 			$data = json_decode($wp_filesystem->get_contents($json_path), true);
 
@@ -121,7 +125,7 @@ final class WebsiteAccessibility
 			}
 		}
 
-		if(empty($existing_statement)) {
+		if (empty($existing_statement)) {
 			$json_path = WEBSAC_DIR . 'default-posts/statement.json';
 			$data = json_decode($wp_filesystem->get_contents($json_path), true);
 
@@ -147,6 +151,9 @@ final class WebsiteAccessibility
 	 */
 	public function plugins_loaded()
 	{
+		// Run DB/content migrations for plugin updates.
+		\bdthemes\websiteaccessibility\Core\Migrations::get_instance()->maybe_run_migrations();
+
 		// Add a custom class to the admin body tag.
 		add_filter('admin_body_class', fn($classes) => $classes . ' wap-admin');
 
@@ -169,7 +176,7 @@ final class WebsiteAccessibility
 		\bdthemes\websiteaccessibility\Admin\Biggopti::get_instance();
 
 		// Initialize dashboard product feed widget
-		new \bdthemes\websiteaccessibility\Admin\Admin_Feeds( [
+		new \bdthemes\websiteaccessibility\Admin\Admin_Feeds([
 			'feed_title'       => 'One Accessibility News & Updates',
 			'transient_key'    => 'websac_product_feeds',
 			'feed_link'        => 'https://bdthemes.com/feed',
@@ -193,15 +200,18 @@ final class WebsiteAccessibility
 					'title' => 'Changelog',
 				],
 			],
-		] );
+		]);
 
 		// Initialize frontend assets
 		\bdthemes\websiteaccessibility\View\Frontend::get_instance();
 
-	// Initialize the routes
-	\bdthemes\websiteaccessibility\Routes\PreferenceRouteV1::get_instance();
-	\bdthemes\websiteaccessibility\Routes\SettingsRouteV1::get_instance();
-	\bdthemes\websiteaccessibility\Routes\UsageStatisticsRouteV1::get_instance();
+		// Initialize the routes
+		\bdthemes\websiteaccessibility\Routes\PreferenceRouteV1::get_instance();
+		\bdthemes\websiteaccessibility\Routes\SettingsRouteV1::get_instance();
+		\bdthemes\websiteaccessibility\Routes\UsageStatisticsRouteV1::get_instance();
+		\bdthemes\websiteaccessibility\Routes\SystemInfoRouteV1::get_instance();
+
+		\bdthemes\websiteaccessibility\Routes\ExportImportRouteV1::get_instance();
 	}
 
 	/**

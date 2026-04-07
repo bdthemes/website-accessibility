@@ -3,17 +3,30 @@ import apiFetch from "@wordpress/api-fetch";
 import { __ } from "@wordpress/i18n";
 import SettingsItem from "../components/settings-item";
 import StatementSetting from "../components/statement-setting";
+import { useLicense } from "../context/LicenseContext";
 
 
 const Settings = () => {
-    const  { WapCard, WapTypography, WapSpin, WapMessage, ExportImportSettings } = window?.wapComponents;
-    const { Title } = WapTypography;
-    const { isProActive } = window?.websacPro || {};
+    const { WapSpin, WapMessage, WapCard, WapSpace, WapTypography, WapButton } = window?.wapComponents;
+    const { Title, Text } = WapTypography;
+    const { isProActive } = useLicense();
     const [settings, setSettings] = useState({});
     const [loading, setLoading] = useState(true);
     const [saving, setSaving] = useState(false);
+    const [resettingStats, setResettingStats] = useState(false);
 
     const API_NAMESPACE = "/sigmally/v1/settings";
+    const clearUsageStatisticsTimestamp = () => {
+        const { removeCookie = null } = window?.wapHelpers || {};
+        if (typeof removeCookie === "function") {
+            removeCookie("one_accessibility_daily_timestamp");
+            return;
+        }
+
+        if (typeof document !== "undefined") {
+            document.cookie = "one_accessibility_daily_timestamp=; expires=Thu, 01 Jan 1970 00:00:00 GMT; path=/;";
+        }
+    };
 
     // Fetch all settings from REST API
     const fetchSettings = async () => {
@@ -54,6 +67,33 @@ const Settings = () => {
         }
     };
 
+    const resetUsageStatistics = async () => {
+        const confirmed = window.confirm(__("Are you sure you want to clear all usage statistics?", "website-accessibility"));
+        if (!confirmed) return;
+
+        setResettingStats(true);
+        try {
+            await apiFetch({
+                path: "/one-accessibility/v1/usage-statistics",
+                method: "DELETE",
+            });
+            clearUsageStatisticsTimestamp();
+
+            WapMessage.success({
+                content: __("Usage statistics cleared successfully.", "website-accessibility"),
+                style: { marginBlockStart: 20 },
+            });
+        } catch (error) {
+            console.error("Failed to clear usage statistics:", error);
+            WapMessage.error({
+                content: __("Failed to clear usage statistics.", "website-accessibility"),
+                style: { marginBlockStart: 20 },
+            });
+        } finally {
+            setResettingStats(false);
+        }
+    };
+
     useEffect(() => {
         fetchSettings();
     }, []);
@@ -69,17 +109,6 @@ const Settings = () => {
 
     return (
         <div className="wap-settings">
-            <WapCard className="wap-settings-card wap-header-card">
-                <div className="wap-settings-card-content">
-                    <Title level={2} className="wap-header-card-title">
-                        {__("One Accessibility Settings", "website-accessibility")}
-                    </Title>
-                </div>
-            </WapCard>
-
-            {/* Export/Import Settings - Only available in Pro version */}
-            {isProActive && ExportImportSettings && <ExportImportSettings />}
-
             {/* General Statement Section */}
             <StatementSetting />
 
@@ -107,16 +136,6 @@ const Settings = () => {
                         onChange={(checked) => updateSetting("force_translate_site_language", checked)}
                     />
                     <SettingsItem
-                        title={__("Always on Translation", "website-accessibility")}
-                        description={__(
-                            "This will remove the translation toggle button and ensure that the frontend content is always translated according to the selected language.",
-                            "website-accessibility"
-                        )}
-                        checked={!!settings.always_on_translations}
-                        loading={saving}
-                        onChange={(checked) => updateSetting("always_on_translations", checked)}
-                    />
-                    <SettingsItem
                         title={__("Enable Accessibility Checker", "website-accessibility")}
                         description={__(
                             "Show a Accessibility Checker button in the frontend for admin",
@@ -136,6 +155,30 @@ const Settings = () => {
                 loading={saving}
                 onChange={(checked) => updateSetting("show_usage_statistics", checked)}
             />
+            {settings?.show_usage_statistics && (
+                <WapCard className="wap-settings-row">
+                    <WapSpace
+                        align="center"
+                        style={{
+                            width: "100%",
+                            justifyContent: "space-between",
+                        }}
+                    >
+                        <WapSpace direction="vertical" size={0}>
+                            <Title level={5} style={{ margin: 0 }}>
+                                {__("Clear Usage Statistics", "website-accessibility")}
+                            </Title>
+                            <Text type="secondary">
+                                {__("Remove all saved usage statistics data.", "website-accessibility")}
+                            </Text>
+                        </WapSpace>
+
+                        <WapButton danger onClick={resetUsageStatistics} loading={resettingStats}>
+                            {__("Clear Statistics", "website-accessibility")}
+                        </WapButton>
+                    </WapSpace>
+                </WapCard>
+            )}
 
         </div>
     );

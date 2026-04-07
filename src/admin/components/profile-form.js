@@ -1,5 +1,8 @@
 import { __ } from '@wordpress/i18n';
+import clsx from 'clsx';
+import { useMemo } from '@wordpress/element';
 import ControlWrapper from './control-wrapper';
+import { DEFAULT_FEATURE_CATEGORY_DEFINITIONS } from '../../utils/feature-categories';
 
 
 // Widget features with their control options
@@ -205,6 +208,20 @@ const widgetFeatures = [
         ],
     },
     {
+        key: 'keyboardNavigation',
+        label: __('Keyboard Navigation', 'website-accessibility'),
+        icon: (
+            <svg width="24" height="24" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 48 48">
+                <defs>
+                    <style>{`.cls-1{fill:none;stroke:#000;stroke-linecap:round;stroke-linejoin:round}`}</style>
+                </defs>
+                <path d="M8.14 14.94v4.53h4.53v-4.53Zm6.8 0v4.53h4.53v-4.53Zm6.79 0v4.53h4.54v-4.53Zm6.8 0v4.53h4.53v-4.53Zm6.8 0v4.53h4.53v-4.53ZM8.14 21.73v4.54h4.53v-4.54Zm6.8 0v4.54h4.53v-4.54Zm6.79 0v4.54h4.54v-4.54Zm6.8 0v4.54h4.53v-4.54Zm6.8 0v4.54h4.53v-4.54Zm-27.19 6.8v4.53h4.53v-4.53Zm6.8 0v4.53h18.12v-4.53Zm20.39 0v4.53h4.53v-4.53Z" className="cls-1" />
+                <path d="M43.5 35.5v-23a2 2 0 0 0-2-2h-35a2 2 0 0 0-2 2v23a2 2 0 0 0 2 2h35a2 2 0 0 0 2-2Z" className="cls-1" />
+            </svg>
+        ),
+        control: 'switch',
+    },
+    {
         key: 'tooltips',
         label: __('Tooltips', 'website-accessibility'),
         icon: (
@@ -295,10 +312,10 @@ const widgetFeatures = [
 
 const ProfileForm = ({ formData, onFormChange }) => {
 
-    const { WapInput, WapRow, WapCol, WapCard, WapSpace, WapTypography } = window?.wapComponents;
+    const { WapInput, WapCard, WapMessage, WapUpload } = window?.wapComponents;
+    const uploadIgnoreToken = WapUpload?.LIST_IGNORE ?? false;
 
     const { TextArea } = WapInput;
-    const { Text } = WapTypography;
 
     const handleFeatureChange = (featureKey, value) => {
         onFormChange({
@@ -317,42 +334,138 @@ const ProfileForm = ({ formData, onFormChange }) => {
         });
     };
 
-    const renderFeatureControl = (feature) => {
-        const { WapSelect, WapSwitch } = window?.wapComponents;
-        const value = formData?.features?.[feature.key];
+    const extractSvgMarkupFromText = (text = '') => {
+        if (!text || typeof text !== 'string') return null;
+        const svgMatch = text.match(/<svg[\s\S]*<\/svg>/i);
+        return svgMatch ? svgMatch[0] : null;
+    };
 
-        switch (feature.control) {
-            case 'select':
-                return (
-                    <WapSelect
-                        key={feature.key}
-                        value={value || ''}
-                        onChange={(val) => handleFeatureChange(feature.key, val)}
-                        options={feature?.options}
-                        style={{ width: '100%' }}
-                    />
-                );
-            case 'switch':
-                return (
-                    <WapSwitch
-                        key={feature.key}
-                        checked={value == 'enable' || false}
-                        onChange={(checked) => {
-                            let newValue = checked ? 'enable' : 'disable';
-                            handleFeatureChange(feature.key, newValue);
-                        }}
-                    />
-                );
-            default:
-                return null;
+    const handleIconUpload = (file) => {
+        const isSvg = file?.type === 'image/svg+xml' || /\.svg$/i.test(file?.name || '');
+        if (!isSvg) {
+            WapMessage?.error?.(__('Please upload a valid SVG file.', 'website-accessibility'));
+            return uploadIgnoreToken;
+        }
+
+        const reader = new FileReader();
+        reader.onload = () => {
+            const text = typeof reader.result === 'string' ? reader.result : '';
+            const svgMarkup = extractSvgMarkupFromText(text);
+            if (!svgMarkup) {
+                WapMessage?.error?.(__('Uploaded file is not a valid SVG.', 'website-accessibility'));
+                return;
+            }
+            handleFieldChange('icon', svgMarkup);
+            WapMessage?.success?.(__('SVG icon uploaded successfully.', 'website-accessibility'));
+        };
+        reader.onerror = () => {
+            WapMessage?.error?.(__('Failed to read uploaded SVG file.', 'website-accessibility'));
+        };
+        reader.readAsText(file);
+
+        return uploadIgnoreToken;
+    };
+
+    const isFeatureActive = (feature) => {
+        const value = formData?.features?.[feature.key];
+        if (feature.control === 'switch') return value === 'enable';
+        return !!value;
+    };
+
+    const getFeatureLabel = (feature) => {
+        const value = formData?.features?.[feature.key];
+        if (!value || feature.control !== 'select') return feature.label;
+        return feature.options?.find((option) => option.value === value)?.label || feature.label;
+    };
+
+    const getCurrentStep = (feature) => {
+        if (feature.control !== 'select') return 0;
+        const value = formData?.features?.[feature.key];
+        const selectableOptions = (feature.options || []).filter((option) => option.value !== '');
+        const index = selectableOptions.findIndex((option) => option.value === value);
+        return index >= 0 ? index + 1 : 0;
+    };
+
+    const getTotalSteps = (feature) => {
+        if (feature.control !== 'select') return 0;
+        return (feature.options || []).filter((option) => option.value !== '').length;
+    };
+
+    const handleFeatureCardClick = (feature) => {
+        const currentValue = formData?.features?.[feature.key];
+
+        if (feature.control === 'switch') {
+            const nextValue = currentValue === 'enable' ? 'disable' : 'enable';
+            handleFeatureChange(feature.key, nextValue);
+            return;
+        }
+
+        if (feature.control === 'select') {
+            const selectableValues = (feature.options || [])
+                .map((option) => option.value)
+                .filter((value) => value !== '');
+
+            if (selectableValues.length === 0) return;
+
+            if (!currentValue) {
+                handleFeatureChange(feature.key, selectableValues[0]);
+                return;
+            }
+
+            const currentIndex = selectableValues.indexOf(currentValue);
+            const nextIndex = currentIndex >= 0 ? currentIndex + 1 : 0;
+
+            if (nextIndex >= selectableValues.length) {
+                handleFeatureChange(feature.key, '');
+                return;
+            }
+
+            handleFeatureChange(feature.key, selectableValues[nextIndex]);
         }
     };
 
+    const categorizedWidgetFeatures = useMemo(() => {
+        const featureByKey = widgetFeatures.reduce((acc, feature) => {
+            acc[feature.key] = feature;
+            return acc;
+        }, {});
+
+        const used = new Set();
+        const categories = DEFAULT_FEATURE_CATEGORY_DEFINITIONS
+            .map((category) => {
+                const featuresInCategory = category.keys
+                    .map((key) => featureByKey[key])
+                    .filter(Boolean);
+
+                featuresInCategory.forEach((feature) => used.add(feature.key));
+
+                if (!featuresInCategory.length) return null;
+
+                return {
+                    slug: category.slug,
+                    title: category.title,
+                    features: featuresInCategory,
+                };
+            })
+            .filter(Boolean);
+
+        const uncategorized = widgetFeatures.filter((feature) => !used.has(feature.key));
+        if (uncategorized.length) {
+            categories.push({
+                slug: 'other',
+                title: __('Other', 'website-accessibility'),
+                features: uncategorized,
+            });
+        }
+
+        return categories;
+    }, []);
+
     return (
-        <WapRow gutter={[24, 24]}>
-            <WapCol xs={24} lg={6}>
-                <WapCard className='wap-profile-form-left-card' title={__('Profile Information', 'website-accessibility')}>
-                    <WapSpace direction="vertical" style={{ width: '100%' }} size="large">
+        <div>
+            <WapCard className='wap-profile-form-left-card' title={__('Profile Information', 'website-accessibility')}>
+                <div className="wap-profile-form-fields">
+                    <div className="wap-profile-form-fields__name">
                         <ControlWrapper
                             label={__('Profile Name', 'website-accessibility')}
                             required
@@ -363,64 +476,137 @@ const ProfileForm = ({ formData, onFormChange }) => {
                                 placeholder={__('Enter profile name', 'website-accessibility')}
                             />
                         </ControlWrapper>
-
-                        <ControlWrapper
-                            label={__('Description', 'website-accessibility')}
-                        >
-                            <TextArea
-                                value={formData?.description || ''}
-                                onChange={(e) => handleFieldChange('description', e.target.value)}
-                                placeholder={__('Enter profile description', 'website-accessibility')}
-                                rows={4}
-                            />
-                        </ControlWrapper>
-                        <ControlWrapper
-                            label={__('Profile Icon (SVG)', 'website-accessibility')}
-                            tooltip={__('Paste your SVG markup here. Optional.', 'website-accessibility')}
-                        >
-                            <TextArea
-                                value={formData?.icon || ''}
-                                onChange={e => handleFieldChange('icon', e.target.value)}
-                                placeholder={__('Paste SVG markup here', 'website-accessibility')}
-                                rows={3}
-                            />
-                            {formData?.icon && (
-                                <div style={{ marginTop: 8 }}>
-                                    <Text type="secondary">{__('Preview:', 'website-accessibility')}</Text>
-                                    <div style={{ border: '1px solid #eee', padding: 8, marginTop: 4, minHeight: 32 }}
-                                        dangerouslySetInnerHTML={{ __html: formData.icon }}
-                                    />
-                                </div>
-                            )}
-                        </ControlWrapper>
-                    </WapSpace>
-                </WapCard>
-            </WapCol>
-
-            <WapCol xs={24} lg={18}>
-                <WapCard title={__('Accessibility Features', 'website-accessibility')}>
-                    <WapRow gutter={[16, 16]}>
-                        {widgetFeatures.map(feature => (
-                            <WapCol xs={24} sm={12} md={8} key={feature.key}>
-                                <div className="wap-feature-item">
-                                    <div className="wap-feature-header">
-                                        <span className="wap-feature-icon">
-                                            {feature.icon}
-                                        </span>
-                                        <span className="wap-feature-label">
-                                            {feature.label}
-                                        </span>
+                    </div>
+                    <div className="wap-profile-form-fields__grid">
+                        <div className="wap-profile-info-field wap-profile-info-field--description">
+                            <ControlWrapper
+                                label={__('Description', 'website-accessibility')}
+                            >
+                                <TextArea
+                                    value={formData?.description || ''}
+                                    onChange={(e) => handleFieldChange('description', e.target.value)}
+                                    placeholder={__('Enter profile description', 'website-accessibility')}
+                                    rows={4}
+                                />
+                            </ControlWrapper>
+                        </div>
+                        <div className="wap-profile-info-field wap-profile-info-field--icon">
+                            <ControlWrapper
+                                label={__('Profile Icon (SVG)', 'website-accessibility')}
+                            >
+                                <WapUpload
+                                    accept=".svg,image/svg+xml"
+                                    showUploadList={false}
+                                    maxCount={1}
+                                    beforeUpload={handleIconUpload}
+                                >
+                                    <div className={`wap-svg-upload-zone${formData?.icon ? ' wap-svg-upload-zone--has-icon' : ''}`}>
+                                        {formData?.icon && (
+                                            <button
+                                                type="button"
+                                                className="wap-svg-upload-zone__remove"
+                                                onClick={(e) => {
+                                                    e.stopPropagation();
+                                                    e.preventDefault();
+                                                    handleFieldChange('icon', '');
+                                                }}
+                                                aria-label={__('Remove icon', 'website-accessibility')}
+                                                title={__('Remove icon', 'website-accessibility')}
+                                            >
+                                                <svg width="14" height="14" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden>
+                                                    <path d="M18 6L6 18M6 6L18 18" stroke="currentColor" strokeWidth="2" strokeLinecap="round" />
+                                                </svg>
+                                            </button>
+                                        )}
+                                        {formData?.icon ? (
+                                            <div className="wap-svg-upload-zone__empty">
+                                                <span className="wap-svg-upload-zone__upload-icon wap-svg-upload-zone__upload-icon--preview">
+                                                    <div dangerouslySetInnerHTML={{ __html: formData.icon }} />
+                                                </span>
+                                                <span className="wap-svg-upload-zone__label wap-svg-upload-zone__label--uploaded">{__('Icon uploaded', 'website-accessibility')}</span>
+                                                <span className="wap-svg-upload-zone__hint">{__('Click to replace', 'website-accessibility')}</span>
+                                            </div>
+                                        ) : (
+                                            <div className="wap-svg-upload-zone__empty">
+                                                <span className="wap-svg-upload-zone__upload-icon" aria-hidden>
+                                                    <svg width="28" height="28" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                                        <path d="M12 15V3M12 3L8.5 6.5M12 3L15.5 6.5" stroke="currentColor" strokeWidth="1.6" strokeLinecap="round" strokeLinejoin="round" />
+                                                        <path d="M4 17V19C4 20.1046 4.89543 21 6 21H18C19.1046 21 20 20.1046 20 19V17" stroke="currentColor" strokeWidth="1.6" strokeLinecap="round" />
+                                                    </svg>
+                                                </span>
+                                                <span className="wap-svg-upload-zone__label">{__('Click to upload SVG icon', 'website-accessibility')}</span>
+                                                <span className="wap-svg-upload-zone__hint">{__('SVG only · Recommended: 24×24px viewBox', 'website-accessibility')}</span>
+                                            </div>
+                                        )}
                                     </div>
-                                    <div className="wap-feature-control">
-                                        {renderFeatureControl(feature)}
+                                </WapUpload>
+                            </ControlWrapper>
+                        </div>
+                    </div>
+                </div>
+            </WapCard>
+
+            <WapCard title={__('Accessibility Features', 'website-accessibility')} style={{ marginTop: 16 }}>
+                {categorizedWidgetFeatures.map((category) => (
+                    <div key={category.slug} style={{ marginTop: category.slug === categorizedWidgetFeatures[0]?.slug ? 0 : 16 }}>
+                        <h4 style={{ margin: '0 0 10px', fontSize: 14, fontWeight: 600 }}>
+                            {category.title}
+                        </h4>
+                        <div className="wap-profile-widget-features">
+                            {category.features.map((feature) => {
+                                const active = isFeatureActive(feature);
+                                const currentStep = getCurrentStep(feature);
+                                const totalSteps = getTotalSteps(feature);
+                                return (
+                                    <div
+                                        key={feature.key}
+                                        className={clsx('wap-profile-widget-features__item', {
+                                            'wap-profile-widget-features__item--active': active,
+                                        })}
+                                    >
+                                        <div
+                                            className="wap-profile-widget-features__feature-btn"
+                                            role="button"
+                                            tabIndex={0}
+                                            onClick={() => handleFeatureCardClick(feature)}
+                                            onKeyDown={(event) => {
+                                                if (event.key === 'Enter' || event.key === ' ') {
+                                                    event.preventDefault();
+                                                    handleFeatureCardClick(feature);
+                                                }
+                                            }}
+                                        >
+                                            <span className="wap-profile-widget-features__feature-icon">
+                                                {feature.icon}
+                                            </span>
+                                            <span className="wap-profile-widget-features__feature-label">
+                                                {getFeatureLabel(feature)}
+                                            </span>
+
+                                            {feature.control === 'select' && active && totalSteps > 0 && (
+                                                <span className="wap-profile-widget-features__steps">
+                                                    {[...Array(totalSteps).keys()].map((step) => (
+                                                        <span
+                                                            key={step}
+                                                            className={clsx(
+                                                                'wap-profile-widget-features__steps-item',
+                                                                {
+                                                                    'wap-profile-widget-features__steps-item--active': step + 1 === currentStep,
+                                                                },
+                                                            )}
+                                                        />
+                                                    ))}
+                                                </span>
+                                            )}
+                                        </div>
                                     </div>
-                                </div>
-                            </WapCol>
-                        ))}
-                    </WapRow>
-                </WapCard>
-            </WapCol>
-        </WapRow>
+                                );
+                            })}
+                        </div>
+                    </div>
+                ))}
+            </WapCard>
+        </div>
     );
 };
 

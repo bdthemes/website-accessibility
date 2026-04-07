@@ -1,19 +1,57 @@
-// Export/Import Settings Card Styles
-
+// Export/Import Settings Card Styles — text left, buttons right (tight spacing)
 .wap-export-import-card {
-    margin-top: 20px;
-    
     .wap-settings-card-content {
         padding: 0;
     }
 
+    // Less horizontal padding so buttons don’t sit in a large empty band on the right
     .ant-card-body {
-        padding: 24px;
+        padding: 16px 14px 16px 18px !important;
+    }
+
+    // Grid: text + actions as second column (auto width) — no space-between gap
+    .wap-export-import-card__inner {
+        display: grid;
+        grid-template-columns: minmax(0, 1fr) auto;
+        align-items: start;
+        gap: 16px 20px;
+        width: 100%;
+
+        @media (max-width: 576px) {
+            grid-template-columns: 1fr;
+        }
+    }
+
+    .wap-export-import-card__text {
+        min-width: 0;
+
+        .ant-typography {
+            margin-bottom: 0;
+        }
+
+        .ant-typography-secondary {
+            display: block;
+            margin-top: 6px;
+        }
+    }
+
+    .wap-export-import-card__actions {
+        display: flex;
+        align-items: center;
+        justify-content: flex-end;
+        flex-shrink: 0;
+
+        // Tighter gap between Export / Import (was middle ~16px)
+        .ant-space {
+            flex-wrap: wrap;
+            justify-content: flex-end;
+            gap: 8px !important;
+        }
     }
 
     .wap-export-import-header {
         margin-bottom: 16px;
-        
+
         .ant-typography {
             margin-bottom: 0;
         }
@@ -21,35 +59,28 @@
 
     .ant-btn {
         height: 40px;
-        min-width: 140px;
+        min-width: 120px;
         font-size: 14px;
         font-weight: 500;
-    }
-
-    .ant-space {
-        display: flex;
-        flex-wrap: wrap;
     }
 }
 
 // Settings Cards General Styles
 .wap-settings {
     .wap-settings-card {
-        margin-bottom: 16px;
-        border-radius: 8px;
-        box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+        margin-bottom: 0;
+        border-radius: 10px;
+        box-shadow: none;
 
         &.wap-header-card {
-            background: linear-gradient(135deg, #1677ff 0%, #0958d9 100%);
-            color: #fff;
+            // Inherits simple .wap-header-card from _create-preset.scss
             margin-bottom: 24px;
 
             .wap-settings-card-content {
-                padding: 24px;
+                padding: 0;
             }
 
             .wap-header-card-title {
-                color: #fff;
                 margin: 0;
             }
         }

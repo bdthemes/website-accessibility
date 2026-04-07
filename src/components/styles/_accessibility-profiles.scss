@@ -1,34 +1,16 @@
 .wap-accessibility-profiles {
-	margin-bottom: 8px;
-	background: transparent;
 
-	&__collapse {
-		background: transparent;
-
-		.ant-collapse-item {
-			border: none;
-			background: transparent;
-		}
-
-		.ant-collapse-content {
-			background: transparent;
-			border: none;
-			padding: 0;
-		}
-	}
-
-	&--simple {
-
-		.wap-accessibility-profiles__header,
-		.wap-accessibility-profiles__grid {
-			padding: 12px 24px;
-		}
-	}
+	background: #fff;
+	padding: 16px;
+	margin-bottom: 16px;
+	border-radius: 10px;
+	border: 1px solid #ebebeb;
 
 	&__header {
 		display: flex;
 		align-items: center;
 		gap: 12px;
+		margin-bottom: 10px;
 	}
 
 	&__header-icon {
@@ -45,17 +27,6 @@
 		color: #222;
 	}
 
-	&__info-icon {
-		width: 14px;
-		height: 14px;
-		color: #888;
-		background: #e5e7eb;
-		border-radius: 50%;
-		display: flex;
-		align-items: center;
-		justify-content: center;
-	}
-
 	&__panel {
 		border: none !important;
 		background: transparent !important;
@@ -63,37 +34,70 @@
 	}
 
 	&__item {
-		background: #fff;
-		border-radius: 6px;
+		background: #F1F3F8;
+		border-radius: 10px;
 		padding: 14px 10px;
 		display: flex;
 		align-items: center;
 		gap: 5px;
 		cursor: pointer;
-		transition: all 0.2s;
-		border: 1px solid #e5e7eb;
-
-		&:hover {
-			border-color: #1a4cd8;
-			box-shadow: 0 2px 8px rgba(26, 76, 216, 0.1);
+		&.wap-accessibility-profiles__item--active {
+			box-shadow: 0 0 0 2px #1677ff, 0 2px 8px rgba(22, 119, 255, 0.25);
 		}
 	}
 
 	&__item-icon {
 		line-height: 1;
+		flex-shrink: 0;
 
 		svg {
-			width: 20px;
-			height: 20px;
+			width: 24px;
+			height: 24px;
 			color: #1a4cd8;
 			display: block;
 		}
 	}
 
 	&__item-label {
-		font-size: 13px;
+		flex: 1;
+		min-width: 0;
+		overflow: hidden;
+		font-size: 14px;
 		color: #222;
 		font-weight: 500;
+		line-height: 1.25;
+	}
+
+	&__item-label-text {
+		display: block;
+		white-space: nowrap;
+		overflow: hidden;
+		text-overflow: ellipsis;
+	}
+
+	/* Long names: horizontal scroll on hover (linear = steady speed, less “jittery” than ease) */
+	&__item:hover &__item-label--can-scroll &__item-label-text {
+		overflow: visible;
+		text-overflow: clip;
+		animation: wap-accessibility-profile-label-scroll 1.4s linear infinite alternate;
+	}
+
+	@keyframes wap-accessibility-profile-label-scroll {
+		from {
+			transform: translateX(0);
+		}
+		to {
+			transform: translateX(calc(-1 * var(--wap-label-shift, 0px)));
+		}
+	}
+
+	@media (prefers-reduced-motion: reduce) {
+		&__item:hover &__item-label--can-scroll &__item-label-text {
+			animation: none;
+			overflow: hidden;
+			text-overflow: ellipsis;
+			transform: none;
+		}
 	}
 
 	&__item-active-indicator {

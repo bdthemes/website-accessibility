@@ -12,6 +12,8 @@ import { useState } from '@wordpress/element';
  * @param {function} onSearch - Optional search handler
  * @param {object} rowSelectionProps - Optional row selection props
  * @param {object} statusMap - Optional status color/label map
+ * @param {React.ReactNode} extra - Optional node on the right of the toolbar (e.g. Add button)
+ * @param {Array} rowActions - Optional custom row actions for the default actions menu
  */
 
 const PostTable = ({
@@ -23,6 +25,8 @@ const PostTable = ({
   pagination = { pageSize: 10 },
   onSearch,
   rowSelectionProps = {},
+  extra = null,
+  rowActions = null,
 }) => {
   const { WapInput, WapTable, WapButton, WapDropdown, WapSpace } = window?.wapComponents;
   const [selectedRowKeys, setSelectedRowKeys] = useState([]);
@@ -43,6 +47,18 @@ const PostTable = ({
 
   // Add status and actions columns if not present
   const hasActionsColumn = columns.some(col => col.key === 'actions');
+  const defaultRowActions = [
+    {
+      key: 'edit',
+      label: 'Edit',
+      onClick: record => onRowAction && onRowAction('edit', record),
+    },
+    {
+      key: 'trash',
+      label: 'Trash',
+      onClick: record => onRowAction && onRowAction('trash', record),
+    },
+  ];
 
   const extendedColumns = hasActionsColumn
     ? columns
@@ -51,44 +67,38 @@ const PostTable = ({
       {
         title: 'Actions',
         key: 'actions',
-        render: (_, record) => (
-          <WapDropdown
-            menu={{
-              items: [
-                {
-                  key: 'edit',
-                  label: 'Edit',
-                  onClick: () => onRowAction && onRowAction('edit', record),
-                },
-                {
-                  key: 'quick_edit',
-                  label: 'Quick Edit',
-                  onClick: () => onRowAction && onRowAction('quick_edit', record),
-                },
-                {
-                  key: 'trash',
-                  label: 'Trash',
-                  onClick: () => onRowAction && onRowAction('trash', record),
-                },
-                {
-                  key: 'view',
-                  label: 'View',
-                  onClick: () => onRowAction && onRowAction('view', record),
-                },
-              ],
-            }}
-            trigger={['click']}
-          >
-            <WapButton icon={<span className="dashicons dashicons-ellipsis" />} />
-          </WapDropdown>
-        ),
+        render: (_, record) => {
+          const actionItems = (rowActions || defaultRowActions).map(action => ({
+            ...action,
+            onClick: () => action.onClick(record),
+          }));
+
+          return (
+            <div className="wap-post-table__row-actions">
+              {actionItems.map((action) => (
+                <WapButton
+                  key={action.key}
+                  size="small"
+                  type={action.key === 'trash' ? 'default' : 'primary'}
+                  ghost={action.key === 'edit'}
+                  danger={action.key === 'trash'}
+                  onClick={action.onClick}
+                >
+                  {action.label}
+                </WapButton>
+              ))}
+            </div>
+          );
+        },
       },
     ];
 
 
   return (
     <div>
-      <WapSpace className="wap-post-table__searchbar">
+      <div className="wap-post-table__toolbar">
+        <div className="wap-post-table__search-wrap">
+        <WapSpace className="wap-post-table__searchbar" size="middle" wrap>
         <WapInput
           placeholder="Search posts"
           value={searchText}
@@ -118,6 +128,9 @@ const PostTable = ({
           </WapDropdown>
         )}
       </WapSpace>
+        </div>
+        {extra ? <div className="wap-post-table__extra">{extra}</div> : null}
+      </div>
       <WapTable
         rowSelection={rowSelection}
         columns={extendedColumns}

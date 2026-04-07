@@ -1,20 +1,16 @@
-import {
-    EditOutlined,
-} from "@ant-design/icons";
-import { useState } from '@wordpress/element';
 import { useSelect, useDispatch } from '@wordpress/data';
 import { STORE_NAME } from '../store';
 import ControlWrapper from '../components/control-wrapper';
 import { __ } from '@wordpress/i18n';
 import FeaturesCustomization from './features-customization';
+import { useLicense } from '../context/LicenseContext';
 
 
 const FeatureSettings = () => {
-    const { WapSwitch, WapInput, WapModal, WapButton, WapFlex, WapCollapse ,WapTypography} = window?.wapComponents;
-    const { Title } = WapTypography;
-    const [openCustomizationModal, setOpenCustomizationModal] = useState(false);
+    const { WapSwitch, WapTypography, WapSelect, WapRadio, WapFlex, WapBadge } = window?.wapComponents;
     const { presetsFormData } = useSelect((select) => select(STORE_NAME).getPresetsFormData());
     const { setPresetsFormData } = useDispatch(STORE_NAME);
+    const { isProActive } = useLicense();
     const featureItem = presetsFormData.panel.items.find(item => item.slug === 'features');
     const attributes = featureItem?.attributes || {};
 
@@ -35,110 +31,86 @@ const FeatureSettings = () => {
         });
     };
 
-    const collapseItems = [
-        {
-            key: '1',
-            label: __('General', 'website-accessibility'),
-            children: (
-                <>
-                    <ControlWrapper
-                        label={__('Hide Oversized Widget', 'website-accessibility')}
-                    >
-                        <WapSwitch
-                            checked={attributes?.hideOversizedWidget || false}
-                            onChange={(checked) => updateAttr({ hideOversizedWidget: checked })}
-                        />
-                    </ControlWrapper>
-
-                    {
-                        !attributes?.hideOversizedWidget && (
-                            <ControlWrapper
-                                label={__('Oversized Widget Title', 'website-accessibility')}
-                            >
-                                <WapInput
-                                    placeholder={__('Oversized Widget Title', 'website-accessibility')}
-                                    value={attributes?.oversizedTitle || ''}
-                                    onChange={(e) => updateAttr({ oversizedTitle: e.target.value })}
-                                    style={{ width: '100%' }}
-                                />
-                            </ControlWrapper>
-                        )
-                    }
-
-                    <ControlWrapper
-                        label={__('Items per Row', 'website-accessibility')}
-                    >
-                        <WapInput
-                            type="number"
-                            placeholder="3"
-                            value={attributes?.itemsPerRow || '3'}
-                            onChange={(e) => updateAttr({ itemsPerRow: e.target.value })}
-                            style={{ width: '100%' }}
-                            min={1}
-                            max={6}
-                        />
-                    </ControlWrapper>
-                    <WapFlex align="center" justify='space-between'>
-                        <Title level={5} style={{ margin: 0 }}>{__('Feature Customization', 'website-accessibility')}</Title>
-                        <WapFlex align="center" gap={5}>
-                            <WapButton type="primary" size="small" shape='circle' onClick={() => setOpenCustomizationModal(true)} icon={<EditOutlined />}></WapButton>
-                            <WapModal
-                                title={__('Feature Customization', 'website-accessibility')}
-                                open={openCustomizationModal}
-                                onCancel={() => {
-                                    setOpenCustomizationModal(false);
-                                }}
-                                zIndex={99999999999}
-                                footer={null}
-                                width={'60vw'}
-                            >
-                                <FeaturesCustomization updateAttr={updateAttr} attributes={attributes} />
-                            </WapModal>
-                        </WapFlex>
-                    </WapFlex>
-                </>
-            )
-        },
-        {
-            key: '2',
-            label: __('Header', 'website-accessibility'),
-            children: (
-                <>
-                    <ControlWrapper
-                        label={__('Hide Title', 'website-accessibility')}
-                    >
-                        <WapSwitch checked={attributes.hideHeaderTitle} onChange={(checked) => updateAttr({ hideHeaderTitle: checked })} />
-                    </ControlWrapper>
-                    <ControlWrapper
-                        label={__('Hide Icon', 'website-accessibility')}
-                    >
-                        <WapSwitch checked={attributes.hideHeaderIcon} onChange={(checked) => updateAttr({ hideHeaderIcon: checked })} />
-                    </ControlWrapper>
-                </>
-            )
-        },
-        {
-            key: '3',
-            label: __('Items', 'website-accessibility'),
-            children: (
-                <>
+    return (
+        <>
+            <FeaturesCustomization updateAttr={updateAttr} attributes={attributes} />
+            <WapTypography.Title level={5} className="wap-features-items-settings__title">{__('Items', 'website-accessibility')}</WapTypography.Title>
+                <div className="wap-features-items-settings">
                     <ControlWrapper
                         label={__('Hide Item Icons', 'website-accessibility')}
+                        inline
                     >
                         <WapSwitch checked={attributes.hideItemIcons} onChange={(checked) => updateAttr({ hideItemIcons: checked })} />
                     </ControlWrapper>
+
                     <ControlWrapper
                         label={__('Hide Item Labels', 'website-accessibility')}
+                        inline
                     >
                         <WapSwitch checked={attributes.hideItemLabels} onChange={(checked) => updateAttr({ hideItemLabels: checked })} />
                     </ControlWrapper>
-                </>
-            )
-        }
-    ];
 
-    return (
-        <WapCollapse items={collapseItems} />
+                    <ControlWrapper
+                        label={__('Columns', 'website-accessibility')}
+                        inline
+                    >
+                        <WapSelect
+                            value={String(attributes.columns || 2)}
+                            onChange={(value) => updateAttr({ columns: Number(value) })}
+                            style={{ minWidth: 120 }}
+                        >
+                            {[1, 2, 3, 4, 5, 6].map((count) => (
+                                <WapSelect.Option key={count} value={String(count)}>
+                                    {count}
+                                </WapSelect.Option>
+                            ))}
+                        </WapSelect>
+                    </ControlWrapper>
+
+                    <ControlWrapper
+                        label={__('Layout', 'website-accessibility')}
+                        inline
+                    >
+                        {isProActive ? (
+                            <WapFlex vertical gap="middle" style={{ width: "100%" }}>
+                                <WapRadio.Group
+                                    block
+                                    options={[
+                                        { label: __('Default', 'website-accessibility'), value: 'default' },
+                                        { label: __('Inline', 'website-accessibility'), value: 'inline' },
+                                    ]}
+                                    value={attributes.layout || 'default'}
+                                    onChange={(e) => updateAttr({ layout: e.target.value })}
+                                    optionType="button"
+                                    buttonStyle="solid"
+                                />
+                            </WapFlex>
+                        ) : (
+                            <WapBadge color="gold" count={__("PRO", "website-accessibility")} />
+                        )}
+                    </ControlWrapper>
+
+                    <ControlWrapper
+                        label={__('Tooltip Position', 'website-accessibility')}
+                        inline
+                    >
+                        {isProActive ? (
+                            <WapSelect
+                                value={attributes.tooltipPosition || 'topLeft'}
+                                onChange={(value) => updateAttr({ tooltipPosition: value })}
+                                style={{ minWidth: 160 }}
+                            >
+                                <WapSelect.Option value="topLeft">{__('Top Left', 'website-accessibility')}</WapSelect.Option>
+                                <WapSelect.Option value="topRight">{__('Top Right', 'website-accessibility')}</WapSelect.Option>
+                                <WapSelect.Option value="bottomLeft">{__('Bottom Left', 'website-accessibility')}</WapSelect.Option>
+                                <WapSelect.Option value="bottomRight">{__('Bottom Right', 'website-accessibility')}</WapSelect.Option>
+                            </WapSelect>
+                        ) : (
+                            <WapBadge color="gold" count={__("PRO", "website-accessibility")} />
+                        )}
+                    </ControlWrapper>
+                </div>
+        </>
     );
 };
 

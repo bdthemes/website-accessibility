@@ -4,34 +4,28 @@ namespace bdthemes\websiteaccessibility\View;
 
 use bdthemes\websiteaccessibility\Core\Utils;
 
-class Frontend
-{
+class Frontend {
     use \bdthemes\websiteaccessibility\Traits\Singleton;
 
-    public function __construct()
-    {
+    public function __construct() {
         add_action('wp_enqueue_scripts', [$this, 'enqueue_frontend_scripts']);
         add_action('wp_enqueue_scripts', [$this, 'enqueue_components_scripts'], 1);
         add_action('admin_enqueue_scripts', [$this, 'enqueue_components_scripts'], 1);
         add_action('wp_footer', [$this, 'render_preset_root']);
     }
 
-    private function get_profiles()
-    {
-        // Check if the Pro plugin class exists
-        if (class_exists('\bdthemes\websiteaccessibilitypro\Admin\License')) {
-            $license = \bdthemes\websiteaccessibilitypro\Admin\License::get_instance();
-
-            // Check if the license method exists and is valid
-            if (method_exists($license, 'is_license_valid') && $license->is_license_valid()) {
-                return get_posts([
-                    'post_type'      => 'websac_profile',
-                    'posts_per_page' => -1,
-                ]);
-            }
+    private function get_profiles() {
+        if (
+            class_exists('\bdthemes\websiteaccessibilitypro\Admin\License\LicenseHelper') &&
+            \bdthemes\websiteaccessibilitypro\Admin\License\LicenseHelper::is_license_active()
+        ) {
+            return get_posts([
+                'post_type'      => 'websac_profile',
+                'posts_per_page' => -1,
+            ]);
         }
 
-        // If class or license method not found, or license is invalid — return empty array
+        // Pro is missing or license inactive.
         return [];
     }
 
@@ -40,8 +34,7 @@ class Frontend
      *
      * @return string|null URL of the page or null if not found.
      */
-    private function get_statement_page_link()
-    {
+    private function get_statement_page_link() {
         $pages = get_posts([
             'post_type'      => 'page',
             'name'           => 'one-accessibility-statement-page', // slug of the page
@@ -57,8 +50,7 @@ class Frontend
         return null;
     }
 
-    public function get_preset_data()
-    {
+    public function get_preset_data() {
         $presets = get_posts([
             'post_type' => 'websac_preset',
             'posts_per_page' => -1,
@@ -73,14 +65,12 @@ class Frontend
         }, $presets);
     }
 
-    public function should_render_preset_assets()
-    {
+    public function should_render_preset_assets() {
         return is_admin() || !empty(Utils::get_current_preset($this->get_preset_data(), Utils::get_page_type()));
     }
 
 
-    public function enqueue_components_scripts($hook)
-    {
+    public function enqueue_components_scripts($hook) {
         if (!str_contains($hook, 'accessibility') && is_admin()) return;
 
         if (!$this->should_render_preset_assets() || Utils::is_builder_editor()) return;
@@ -105,8 +95,7 @@ class Frontend
         }
     }
 
-    public function enqueue_frontend_scripts()
-    {
+    public function enqueue_frontend_scripts() {
         if (!$this->should_render_preset_assets() || Utils::is_builder_editor()) return;
 
         $frontend_assets = WEBSAC_BUILD_DIR . 'frontend/frontend.asset.php';
@@ -147,10 +136,9 @@ class Frontend
         }
     }
 
-    public function render_preset_root()
-    {
+    public function render_preset_root() {
         if (Utils::is_builder_editor()) return;
-        
+
         if (wp_script_is('wap-accessibility-frontend')) {
             echo '<div id="website-accessibility-app"></div>';
             // Google Translate
@@ -161,8 +149,8 @@ class Frontend
         // Admin View Container - Will be used by the admin view script
         if (
             current_user_can('manage_options') &&
-            class_exists('\bdthemes\websiteaccessibilitypro\Admin\License') &&
-            \bdthemes\websiteaccessibilitypro\Admin\License::get_instance()->is_license_valid()
+            class_exists('\bdthemes\websiteaccessibilitypro\Admin\License\LicenseHelper') &&
+            \bdthemes\websiteaccessibilitypro\Admin\License\LicenseHelper::is_license_active()
         ) {
             echo '<div id="website-accessibility-checker"></div>';
         }

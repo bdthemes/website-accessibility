@@ -3,8 +3,65 @@ import { useHistory } from "../router";
 import { useSelect } from '@wordpress/data';
 import { STORE_NAME } from '../store';
 import { useEffect, useState } from '@wordpress/element';
-import Disclaimer from '../components/disclaimer';
 
+// Inline SVG icons (replace dashicons) — currentColor via CSS
+const svgProps = {
+    xmlns: "http://www.w3.org/2000/svg",
+    viewBox: "0 0 24 24",
+    width: "16",
+    height: "16",
+    fill: "none",
+    stroke: "currentColor",
+    strokeWidth: "2",
+    strokeLinecap: "round",
+    strokeLinejoin: "round",
+};
+
+// Active Presets — sliders metaphor (stroke icon, matches dashicon replacement)
+const IconSliders = () => (
+    <span className="wap-dashboard-svg-icon" aria-hidden="true">
+        <svg {...svgProps}>
+            <line x1="4" y1="21" x2="4" y2="14" />
+            <line x1="4" y1="10" x2="4" y2="3" />
+            <line x1="12" y1="21" x2="12" y2="12" />
+            <line x1="12" y1="8" x2="12" y2="3" />
+            <line x1="20" y1="21" x2="20" y2="16" />
+            <line x1="20" y1="12" x2="20" y2="3" />
+            <line x1="2" y1="14" x2="6" y2="14" />
+            <line x1="10" y1="8" x2="14" y2="8" />
+            <line x1="18" y1="16" x2="22" y2="16" />
+        </svg>
+    </span>
+);
+
+const IconUsers = () => (
+    <span className="wap-dashboard-svg-icon" aria-hidden="true">
+        <svg {...svgProps}>
+            <path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2" />
+            <circle cx="9" cy="7" r="4" />
+            <path d="M23 21v-2a4 4 0 0 0-3-3.87" />
+            <path d="M16 3.13a4 4 0 0 1 0 7.75" />
+        </svg>
+    </span>
+);
+
+const IconEye = () => (
+    <span className="wap-dashboard-svg-icon" aria-hidden="true">
+        <svg {...svgProps}>
+            <path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z" />
+            <circle cx="12" cy="12" r="3" />
+        </svg>
+    </span>
+);
+
+const IconPlus = () => (
+    <span className="wap-dashboard-svg-icon" aria-hidden="true">
+        <svg {...svgProps}>
+            <line x1="12" y1="5" x2="12" y2="19" />
+            <line x1="5" y1="12" x2="19" y2="12" />
+        </svg>
+    </span>
+);
 
 const Dashboard = () => {
     const { WapCard, WapButton, WapRow, WapCol, WapSpace, WapTypography, WapProgress } = window?.wapComponents;
@@ -17,7 +74,6 @@ const Dashboard = () => {
         history.push({ page: path });
     };
 
-    // Fetch stats from REST API
     useEffect(() => {
         const fetchStats = async () => {
             try {
@@ -51,40 +107,38 @@ const Dashboard = () => {
         };
     }, []);
 
+    const viewAllBtn = (path) => (
+        <WapButton size="small" onClick={() => navigateTo(path)} className="wap-dashboard-viewall">
+            <WapSpace size="small">
+                <IconEye />
+                {__('View All', 'website-accessibility')}
+            </WapSpace>
+        </WapButton>
+    );
+
     const stats = [
         {
+            cardKey: 'presets',
             title: __('Active Presets', 'website-accessibility'),
             value: activePresetsCount,
             description: __('Presets help you quickly apply accessibility settings across your website.', 'website-accessibility'),
-            icon: <span className="dashicons dashicons-universal-access" />,
-            action: (
-                <WapButton size="small" onClick={() => navigateTo('website-accessibility-presets')}>
-                    <WapSpace>
-                        <span className="dashicons dashicons-visibility" />
-                        {__('View All', 'website-accessibility')}
-                    </WapSpace>
-                </WapButton>
-            ),
+            icon: <IconSliders />,
+            action: viewAllBtn('website-accessibility-presets'),
         },
         {
+            cardKey: 'profiles',
             title: __('Custom Profiles', 'website-accessibility'),
             value: profilesCount,
             description: __('Create profiles for different user needs and preferences.', 'website-accessibility'),
-            icon: <span className="dashicons dashicons-admin-users" />,
-            action: (
-                <WapButton size="small" onClick={() => navigateTo('website-accessibilityfiles')}>
-                    <WapSpace>
-                        <span className="dashicons dashicons-visibility" />
-                        {__('View All', 'website-accessibility')}
-                    </WapSpace>
-                </WapButton>
-            ),
+            icon: <IconUsers />,
+            action: viewAllBtn('website-accessibilityfiles'),
         },
         {
+            cardKey: 'preferences',
             title: __('Saved Preferences', 'website-accessibility'),
             value: `${statsData.users_with_data || 0}/${statsData.total_users || 0}`,
             description: __('Users who have saved their accessibility preferences.', 'website-accessibility'),
-            icon: <span className="dashicons dashicons-visibility" />,
+            icon: <IconEye />,
             action: (
                 <WapProgress
                     percent={statsData.average_percent || 0}
@@ -99,37 +153,11 @@ const Dashboard = () => {
 
     return (
         <>
-            <Disclaimer />
-            <div className="wap-dashboard">
-                <WapCard
-                    className="wap-welcome-card wap-header-card"
-                >
-                    <div className="wap-welcome-card-content">
-                        <Title level={2} className='wap-header-card-title'>
-                            {__('Welcome to One Accessibility', 'website-accessibility')}
-                        </Title>
-                        <Text className='wap-header-card-description'>
-                            {__('Make your website accessible to everyone with our comprehensive accessibility tools.', 'website-accessibility')}
-                        </Text>
-                    </div>
-                    <div>
-                        <WapButton
-                            type="primary"
-                            size="large"
-                            onClick={() => navigateTo('website-accessibility-presets-create')}
-                        >
-                            <WapSpace>
-                                <span className="dashicons dashicons-plus-alt2" />
-                                {__('Create New Preset', 'website-accessibility')}
-                            </WapSpace>
-                        </WapButton>
-                    </div>
-                </WapCard>
-
-                <WapRow gutter={[24, 24]} align="stretch" className="statistics-grid wap-statistics-grid">
-                    {stats.map((stat, idx) => (
+            <div className="wap-settings wap-dashboard" style={{ marginTop: 20 }}>
+                <WapRow gutter={[12, 12]} align="stretch" className="statistics-grid wap-statistics-grid">
+                    {stats.map((stat) => (
                         <WapCol xs={24} md={8} key={stat.title} className="stat-card">
-                            <WapCard>
+                            <WapCard className={`wap-settings-row wap-dashboard-stat-card wap-dashboard-stat-card--${stat.cardKey || 'default'}`} size="small">
                                 <div className="stat-icon-wrapper">
                                     {stat.icon}
                                     <div className="stat-content">
@@ -145,43 +173,6 @@ const Dashboard = () => {
                         </WapCol>
                     ))}
                 </WapRow>
-
-                <Title level={4} className='wap-section-title'>
-                    {__('Quick Actions', 'website-accessibility')}
-                </Title>
-                <WapRow gutter={[16, 16]} justify="center">
-                    <WapCol xs={24} md={8}>
-                        <div className="quick-action-btn-wrapper">
-                            <WapButton block size="large" onClick={() => navigateTo('website-accessibility-presets')}>
-                                <WapSpace>
-                                    <span className="dashicons dashicons-universal-access" />
-                                    <span>{__('Manage Presets', 'website-accessibility')}</span>
-                                </WapSpace>
-                            </WapButton>
-                        </div>
-                    </WapCol>
-                    <WapCol xs={24} md={8}>
-                        <div className="quick-action-btn-wrapper">
-                            <WapButton block size="large" onClick={() => navigateTo('website-accessibilityfiles')}>
-                                <WapSpace>
-                                    <span className="dashicons dashicons-admin-users" />
-                                    <span>{__('Manage Profiles', 'website-accessibility')}</span>
-                                </WapSpace>
-                            </WapButton>
-                        </div>
-                    </WapCol>
-                    <WapCol xs={24} md={8}>
-                        <div className="quick-action-btn-wrapper">
-                            <WapButton block size="large" onClick={() => navigateTo('website-accessibility-settings')}>
-                                <WapSpace>
-                                    <span className="dashicons dashicons-admin-generic" />
-                                    <span>{__('Accessibility Settings', 'website-accessibility')}</span>
-                                </WapSpace>
-                            </WapButton>
-                        </div>
-                    </WapCol>
-                </WapRow>
-
             </div>
         </>
     );

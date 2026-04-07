@@ -1,4 +1,4 @@
-import { DeleteOutlined, ReloadOutlined, SaveOutlined } from '@ant-design/icons';
+import { DeleteOutlined, SaveOutlined } from '@ant-design/icons';
 import { __ } from '@wordpress/i18n';
 import { useState, useEffect, useCallback, useMemo } from '@wordpress/element';
 import apiFetch from '@wordpress/api-fetch';
@@ -14,43 +14,30 @@ const debounce = (fn, delay = 1000) => {
 };
 
 
-const PanelFooter = ({ value, accessibilityContext, accessibilityDispatch }) => {
+const PanelFooter = ({ value, accessibilityContext, accessibilityDispatch, isEditorPreview = false }) => {
   const { WapMessage, WapButton, WapFlex } = window?.wapComponents;
   const [savingPreference, setSavingPreference] = useState(false);
   const [deletingPreference, setDeletingPreference] = useState(false);
   const [hasSavedPreference, setHasSavedPreference] = useState(false);
   const [savePreference, setSavePreference] = useState();
   const [loadingPreference, setLoadingPreference] = useState(false);
-  const [showConsent, setShowConsent] = useState(false);
-  const { getCookie, removeCookie } = window.wapHelpers;
-
-  const isLanguageActive = useMemo(() => {
-    return value?.items?.find(item => item.slug === 'language')?.active || false;
-  }, []);
-
-  useEffect(() => {
-    const consent = getCookie("wapGoogleTranslateConsent");
-    setShowConsent(consent);
-  }, []);
-
   // ✅ Ant Design message
   const [messageApi, contextHolder] = WapMessage.useMessage();
 
   const footerItem = value?.items?.find(item => item.slug === 'footer');
   const attributes = footerItem?.attributes || {};
   const isProActive = window?.websacPro?.isProActive || false;
-  const { currentPresetId, isUserLoggedIn, statementLink, settings } = window?.websiteAccessibility || {};
-  const isFrontend = !!accessibilityContext && !!accessibilityDispatch;
+  const { currentPresetId, isUserLoggedIn, statementLink } = window?.websiteAccessibility || {};
+  const isFrontend = !isEditorPreview && !!accessibilityContext && !!accessibilityDispatch;
 
-  const resetBtnText = attributes.resetBtnText || 'Reset All';
   const showStatement = attributes.showStatement !== false;
-  const statementText = attributes.statementText || 'Statement';
+  const statementText = __('Accessibility Statement', 'website-accessibility');
   const showBranding = isProActive ? attributes.showBranding !== false : true;
-  const brandingText = isProActive ? attributes.brandingText || 'Powered by One Accessibility' : 'Powered by One Accessibility';
+  const brandingText = __('Powered by One Accessibility', 'website-accessibility');
   const showPreference = attributes?.activePreference || false;
-  const savePreferenceText = attributes.saveBtnText || __('Save Pref.', 'website-accessibility');
-  const updatePreferenceText = attributes.updateBtnText || __('Update Pref.', 'website-accessibility');
-  const deletePreferenceText = attributes.deleteBtnText || __('Delete Pref.', 'website-accessibility');
+  const savePreferenceText = __('Save Preference', 'website-accessibility');
+  const updatePreferenceText = __('Update Preference', 'website-accessibility');
+  const deletePreferenceText = __('Delete Preference', 'website-accessibility');
 
   const footerStyle = {
     '--wap-footer-general-bg': attributes.generalBg,
@@ -67,7 +54,7 @@ const PanelFooter = ({ value, accessibilityContext, accessibilityDispatch }) => 
 
   const saveablePreference = useMemo(() => {
     if (!isFrontend || !currentPresetId || !isUserLoggedIn) return null;
-    const { currentProfile, currentSettings, isOverSized, enableTranslations, selectedLanguage } = accessibilityContext;
+    const { currentProfile, currentSettings, isOverSized, selectedLanguage } = accessibilityContext;
 
     const serializableProfile = {
       id: currentProfile?.id,
@@ -89,13 +76,12 @@ const PanelFooter = ({ value, accessibilityContext, accessibilityDispatch }) => 
     }
 
     if (isOverSized) data.oversized = isOverSized;
-    if (enableTranslations || settings?.always_on_translations) {
-      data.enableTranslations = enableTranslations;
+    if (selectedLanguage) {
       data.selectedLanguage = selectedLanguage;
     }
 
     return { post_id: currentPresetId, data };
-  }, [accessibilityContext?.currentProfile, accessibilityContext?.currentSettings, accessibilityContext?.isOverSized, accessibilityContext?.enableTranslations, accessibilityContext?.selectedLanguage, currentPresetId, isFrontend, isUserLoggedIn, settings?.always_on_translations]);
+  }, [accessibilityContext?.currentProfile, accessibilityContext?.currentSettings, accessibilityContext?.isOverSized, accessibilityContext?.selectedLanguage, currentPresetId, isFrontend, isUserLoggedIn]);
 
   // Fetch preference state
   useEffect(() => {
@@ -117,22 +103,6 @@ const PanelFooter = ({ value, accessibilityContext, accessibilityDispatch }) => 
       })
       .finally(() => setLoadingPreference(false));
   }, [currentPresetId, isUserLoggedIn, isFrontend, saveablePreference, savingPreference]);
-
-  // Reset
-  const handleReset = () => {
-    if (!isFrontend) return;
-    accessibilityDispatch({ type: 'RESET_ACCESSIBILITY' });
-    messageApi.info({
-      content: __('All accessibility settings have been reset to default.', 'website-accessibility'),
-      style: { marginBlockStart: 20 },
-    });
-  };
-
-  const handleClearConsent = () => {
-    if (!isFrontend) return;
-    removeCookie('wapGoogleTranslateConsent');
-    window.location.reload();
-  };
 
   // Save
   const handleSave = useCallback(
@@ -212,7 +182,7 @@ const PanelFooter = ({ value, accessibilityContext, accessibilityDispatch }) => 
       {contextHolder}
 
       {(isUserLoggedIn || !isFrontend) && showPreference && (
-        <WapFlex align="center" justify="space-between" gap={10} style={{ marginBottom: '10px', padding: '0 24px' }}>
+        <WapFlex align="center" justify="space-between" gap={10} style={{ padding: '0 16px', marginBottom: '10px' }}>
           <WapButton
             type="primary"
             icon={<SaveOutlined />}
@@ -241,33 +211,6 @@ const PanelFooter = ({ value, accessibilityContext, accessibilityDispatch }) => 
           </WapButton>
         </WapFlex>
       )}
-
-      <WapFlex className="wap-panel-footer__actions">
-        <WapButton
-          className="wap-panel-footer__reset-btn"
-          type="primary"
-          icon={<ReloadOutlined />}
-          size="large"
-          block
-          onClick={handleReset}
-        >
-          {resetBtnText}
-        </WapButton>
-
-        {
-          (isProActive && showConsent && isLanguageActive) && (
-            <WapButton
-              className="wap-panel-footer__reset-btn"
-              type="primary"
-              size="large"
-              block
-              onClick={handleClearConsent}
-            >
-              {__('Clear consent', 'website-accessibility')}
-            </WapButton>
-          )
-        }
-      </WapFlex>
 
       {(showBranding || showStatement) && (
         <div className="wap-panel-footer__links">

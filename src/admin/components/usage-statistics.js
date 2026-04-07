@@ -1,18 +1,19 @@
-import { useState, useEffect } from "@wordpress/element";
+import { useState, useEffect, useMemo } from "@wordpress/element";
 import { __ } from "@wordpress/i18n";
 import apiFetch from "@wordpress/api-fetch";
+import { useLicense } from "../context/LicenseContext";
+const HIGHLIGHT_COUNT = 4;
 
 const UsageStatistics = () => {
-    const { WapCard, WapRow, WapCol, WapSelect, WapTypography, WapSkeleton, WapEmpty, WapFlex, WapBadge } = window?.wapComponents;
-    const { Meta } = WapCard;
+    const { WapCard, WapSelect, WapTypography, WapSkeleton, WapEmpty, WapBadge, WapRow, WapCol } = window?.wapComponents;
     const { Title } = WapTypography;
     const { Option } = WapSelect;
     const [stats, setStats] = useState([]);
     const [loading, setLoading] = useState(false);
     const [filter, setFilter] = useState("daily");
     const { features } = window?.wapHelpers || {};
+    const { isProActive } = useLicense();
 
-    // Fetch dynamic stats based on filter
     const fetchStats = async (range) => {
         setLoading(true);
         try {
@@ -20,15 +21,18 @@ const UsageStatistics = () => {
                 path: `/one-accessibility/v1/usage-statistics?range=${range}`,
             });
             if (res?.data) {
-                let response = [];
-                features && features.forEach((feature) => {
-                    response.push({
-                        title: feature.label,
-                        value: res.data[feature.key],
-                        icon: feature?.icon,
-                        isDummy: feature?.isDummy || false
-                    })
-                });
+                const response = [];
+                features &&
+                    features.forEach((feature) => {
+                        response.push({
+                            key: feature.key,
+                            title: feature.label,
+                            value: res.data[feature.key],
+                            previousValue: res?.previous_data?.[feature.key] ?? 0,
+                            icon: feature?.icon,
+                            isDummy: feature?.isDummy || false,
+                        });
+                    });
                 setStats(response);
             }
         } catch (err) {
@@ -38,69 +42,172 @@ const UsageStatistics = () => {
             setLoading(false);
         }
     };
-
+    
     useEffect(() => {
         fetchStats(filter);
     }, [filter]);
 
+    const { topHighlights, listRest } = useMemo(() => {
+        const withNum = stats.map((s) => ({
+            ...s,
+            num: Number(s.value) || 0,
+            prevNum: Number(s.previousValue) || 0,
+        }));
+        const sorted = [...withNum].sort((a, b) => b.num - a.num);
+        return {
+            topHighlights: sorted.slice(0, HIGHLIGHT_COUNT),
+            listRest: sorted.slice(HIGHLIGHT_COUNT),
+        };
+    }, [stats]);
+
+    const getChangeMeta = (num, prevNum) => {
+        const diff = num - prevNum;
+        const percentChange = prevNum > 0
+            ? Math.round((Math.abs(diff) / prevNum) * 100)
+            : (num > 0 ? 100 : 0);
+
+        if (diff > 0) {
+            return { label: `+${percentChange}% ${__("increase", "website-accessibility")}`, tone: "up" };
+        }
+        if (diff < 0) {
+            return { label: `-${percentChange}% ${__("decrease", "website-accessibility")}`, tone: "down" };
+        }
+        return { label: __("No change", "website-accessibility"), tone: "flat" };
+    };
 
     return (
-        <div style={{ marginTop: 40 }} className="wap-admin-pages">
+        <div className="wap-usage-statistics">
             <WapCard
                 className="wap-statistics-card"
                 title={
-                    <WapFlex justify="space-between" align="center">
-                        <Title level={4} style={{ margin: 0 }}>
+                    <div className="wap-statistics-card__head">
+                        <Title level={4} className="wap-statistics-card__head-title">
                             {__("Widget Usage Statistics", "website-accessibility")}
                         </Title>
-
                         <WapSelect
                             value={filter}
                             onChange={(value) => setFilter(value)}
-                            style={{ width: 160 }}
+                            className="wap-statistics-card__filter"
+                            classNames={{ popup: { root: "wap-statistics-card__filter-dropdown" } }}
+                            size="small"
                         >
                             <Option value="daily">{__("Today", "website-accessibility")}</Option>
-                            <Option value="7days">{__("Last 7 Days", "website-accessibility")}</Option>
-                            <Option value="30days">{__("Last 30 Days", "website-accessibility")}</Option>
-                            <Option value="all">{__("All Time", "website-accessibility")}</Option>
+                            <Option value="last7days">{__("Last 7 Days", "website-accessibility")}</Option>
+                            <Option value="last30days">{__("Last 30 Days", "website-accessibility")}</Option>
+                            <Option value="totals">{__("All Time", "website-accessibility")}</Option>
                         </WapSelect>
-                    </WapFlex>
+                    </div>
                 }
             >
                 {loading ? (
-                    <div style={{ textAlign: "center", padding: "40px 0" }}>
+                    <div style={{ textAlign: "center", padding: "24px 0" }}>
                         <WapSkeleton />
                     </div>
                 ) : stats?.length === 0 ? (
                     <WapEmpty
                         description={__("No statistics available yet.", "website-accessibility")}
-                        style={{ padding: "40px 0" }}
+                        style={{ padding: "24px 0" }}
                     />
                 ) : (
-                    <WapRow gutter={[16, 16]}>
-                        {stats && stats?.map((stat, index) => (
-                            <WapCol xs={24} sm={12} md={8} lg={6} key={index}>
-                                <WapCard
-                                    className="wap-statistics-card-item"
-                                    cover={
-                                        <Title level={4} className="stat-value" style={{ textAlign: "center", margin: 0 }}>
-                                            {stat.value || 0}
-                                        </Title>
-                                    }
-                                >
-                                    {
-                                        stat.isDummy && (
-                                            <WapBadge color="gold" count={__("PRO", "website-accessibility")} className="wap-statistics-card-dummy" />
-                                        )
-                                    }
-                                    <Meta
-                                        avatar={stat.icon}
-                                        title={stat.title}
-                                    />
-                                </WapCard>
-                            </WapCol>
-                        ))}
-                    </WapRow>
+                    <>
+                        <WapRow gutter={[12, 12]} className="wap-statistics-highlight">
+                            {topHighlights.map((stat) => {
+                                const change = getChangeMeta(stat.num, stat.prevNum);
+                                const mod = stat.key || "default";
+                                return (
+																	<WapCol
+																		xs={24}
+																		sm={12}
+																		lg={6}
+																		key={stat.key || mod}
+																	>
+																		<div
+																			className={`wap-statistics-highlight__card wap-statistics-highlight__card--${mod}`}
+																		>
+																			<div className="wap-statistics-highlight__top">
+																				<div
+																					className="wap-statistics-highlight__icon-wrap"
+																					aria-hidden="true"
+																				>
+																					<span className="wap-statistics-highlight__icon">
+																						{stat.icon}
+																					</span>
+																				</div>
+																				<div
+																					className="wap-statistics-highlight__stat-pill"
+																					title={change.label}
+																				>
+																					<span className="wap-statistics-highlight__stat-num">
+																						{stat.num}
+																					</span>
+																					<span className={`wap-statistics-highlight__stat-pct wap-statistics-highlight__stat-pct--${change.tone}`}>
+																						{change.label}
+																					</span>
+																				</div>
+																			</div>
+																			<div className="wap-statistics-highlight__bottom">
+																				<div className="wap-statistics-highlight__label-row">
+																					<span
+																						className="wap-statistics-highlight__label"
+																						title={stat.title}
+																					>
+																						{stat.title}
+																					</span>
+																					{stat.isDummy && !isProActive && (
+																						<WapBadge
+																							color="gold"
+																							count={__(
+																								"PRO",
+																								"website-accessibility",
+																							)}
+																							className="wap-statistics-highlight__badge"
+																						/>
+																					)}
+																				</div>
+																			</div>
+																		</div>
+																	</WapCol>
+																);
+                            })}
+                        </WapRow>
+
+                        {listRest.length > 0 && (
+                            <div className="wap-statistics-list-wrap">
+                                <Title level={5} className="wap-statistics-list-wrap__title">
+                                    {__("Other features", "website-accessibility")}
+                                </Title>
+                                <ul className="wap-statistics-list wap-statistics-list--remainder">
+                                    {listRest.map((stat, index) => (
+                                        <li
+                                            key={stat.key || index}
+                                            className={`wap-statistics-list__item wap-statistics-list__item--${stat.key || "default"}`}
+                                        >
+                                            <div className="wap-statistics-list__left">
+                                                <div className="wap-statistics-list__icon-wrap" aria-hidden="true">
+                                                    <span className="wap-statistics-list__icon">{stat.icon}</span>
+                                                </div>
+                                                <span className="wap-statistics-list__name" title={stat.title}>
+                                                    {stat.title}
+                                                </span>
+                                            </div>
+                                            <div className="wap-statistics-list__right">
+                                                <span className="wap-statistics-list__value">
+                                                    {stat.value ?? 0}
+                                                </span>
+                                            </div>
+                                            {stat.isDummy && !isProActive && (
+                                                <WapBadge
+                                                    color="gold"
+                                                    count={__("PRO", "website-accessibility")}
+                                                    className="wap-statistics-list__badge"
+                                                />
+                                            )}
+                                        </li>
+                                    ))}
+                                </ul>
+                            </div>
+                        )}
+                    </>
                 )}
             </WapCard>
         </div>

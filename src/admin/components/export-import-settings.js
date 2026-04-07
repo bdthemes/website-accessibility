@@ -122,50 +122,43 @@ const ExportImportSettings = () => {
     };
 
     return (
-        <WapCard className="wap-settings-card wap-export-import-card">
-            <WapSpace
-                align="center"
-                style={{
-                    width: "100%",
-                    justifyContent: "space-between",
-                }}
-            >
-                <WapSpace direction="vertical" size={0} style={{ flex: 1 }}>
+        <WapCard className="wap-settings-card wap-export-import-card wap-settings-row">
+            <div className="wap-export-import-card__inner">
+                <div className="wap-export-import-card__text">
                     <Title level={4} style={{ margin: 0 }}>
                         {__("Export / Import Settings", "website-accessibility")}
                     </Title>
                     <Text type="secondary">
                         {__("Export your settings to backup or migrate to another site, or import settings from a previously exported file.", "website-accessibility")}
                     </Text>
-                </WapSpace>
-                
-                <WapSpace size="middle">
-                    <WapButton 
-                        type="primary" 
-                        onClick={handleExport}
-                        loading={loading}
-                        disabled={importing}
-                    >
-                        {__("Export Settings", "website-accessibility")}
-                    </WapButton>
-                    
-                    <WapButton 
-                        onClick={triggerFileInput}
-                        loading={importing}
-                        disabled={loading}
-                    >
-                        {__("Import Settings", "website-accessibility")}
-                    </WapButton>
-                    
-                    <input
-                        ref={fileInputRef}
-                        type="file"
-                        accept=".json"
-                        onChange={handleImport}
-                        style={{ display: "none" }}
-                    />
-                </WapSpace>
-            </WapSpace>
+                </div>
+                <div className="wap-export-import-card__actions">
+                    <WapSpace size="small">
+                        <WapButton
+                            type="primary"
+                            onClick={handleExport}
+                            loading={loading}
+                            disabled={importing}
+                        >
+                            {__("Export Settings", "website-accessibility")}
+                        </WapButton>
+                        <WapButton
+                            onClick={triggerFileInput}
+                            loading={importing}
+                            disabled={loading}
+                        >
+                            {__("Import Settings", "website-accessibility")}
+                        </WapButton>
+                        <input
+                            ref={fileInputRef}
+                            type="file"
+                            accept=".json"
+                            onChange={handleImport}
+                            style={{ display: "none" }}
+                        />
+                    </WapSpace>
+                </div>
+            </div>
         </WapCard>
     );
 };

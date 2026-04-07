@@ -1,22 +1,67 @@
 // Profiles Fallback Component
 .wap-pro-landing {
+  > .wap-header-card {
+    margin-bottom: 12px;
+  }
+
+  // Wrapper = one card (same family as Settings rows)
+  .profiles-steps-wrap {
+    margin-top: 12px !important;
+    box-shadow: none !important;
+
+    .ant-card-body {
+      padding: 18px 20px 20px !important;
+    }
+  }
 
   .profiles-steps {
+    .profiles-steps-title {
+      margin: 0 0 16px !important;
+      font-size: 14px !important;
+      font-weight: 600 !important;
+      color: #1f2937 !important;
+    }
+
+    .profiles-steps-row {
+      margin-bottom: 0;
+    }
+
     .step-card {
-      transition: all 0.3s ease;
+      border: 1px solid #eef0f2;
+      border-radius: 10px;
+      overflow: hidden;
+      box-shadow: none !important;
+      background: #fff;
+      transition: border-color 0.2s ease, box-shadow 0.2s ease;
+
       &:hover {
-        box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
-        transform: translateY(-4px);
+        border-color: #e2e5e9;
+        box-shadow: 0 2px 10px rgba(0, 0, 0, 0.06);
+        transform: none;
+      }
+
+      .ant-card-body {
+        padding: 14px 16px 16px !important;
+      }
+
+      .step-image {
+        display: block;
+        width: 100%;
+        height: auto;
       }
 
       .step-title {
-        margin: 0 0 10px;
+        margin: 0 0 8px !important;
+        font-size: 14px !important;
         font-weight: 600;
+        color: #1f2937;
       }
 
       .step-description {
-        color: #666;
+        color: #6b7280;
         margin-bottom: 0;
+        font-size: 13px;
+        line-height: 1.5;
       }
     }
   }
@@ -24,68 +69,354 @@
 
 .wap-create-profiles,
 .wap-edit-profile {
-    .wap-feature-item {
-        background: #fff;
-        border: 1px solid #e5e7eb;
-        border-radius: 8px;
-        padding: 16px;
-        transition: all 0.2s ease;
+    --wap-profile-info-control-height: 100px;
+    --wap-profile-preview-width: 420px;
+    --wap-profile-preview-overlap-right-pad: 0px;
 
-        &:hover {
-            border-color: #1a4cd8;
-            box-shadow: 0 2px 8px rgba(26, 76, 216, 0.1);
+    .wap-profile-editor-content,
+    .wap-profile-form-actions {
+        transition: padding 0.24s ease, max-width 0.24s ease;
+    }
+
+    @media (min-width: 1280px) {
+        &.wap-profile-editor--preview-overlap {
+            .wap-profile-editor-content,
+            .wap-profile-form-actions {
+                padding-right: var(--wap-profile-preview-overlap-right-pad, 0px);
+            }
         }
     }
 
-    .wap-feature-header {
+    .wap-profile-form-fields {
         display: flex;
-        align-items: center;
+        flex-direction: column;
         gap: 12px;
-        margin-bottom: 12px;
     }
 
-    .wap-feature-icon {
+    .wap-profile-form-fields__name {
+        width: 100%;
+        min-width: 0;
+    }
+
+    .wap-profile-form-fields__grid {
+        display: grid;
+        grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+        gap: 12px 16px;
+        align-items: stretch;
+    }
+
+    .wap-profile-form-fields__grid > .wap-profile-info-field {
+        min-width: 0;
+    }
+
+    .wap-profile-info-field--description .ant-input-textarea textarea {
+        min-height: var(--wap-profile-info-control-height) !important;
+        height: var(--wap-profile-info-control-height);
+        resize: vertical;
+    }
+
+    // Match Description textarea height (same --wap-profile-info-control-height)
+    .wap-profile-info-field--icon {
+        .ant-upload {
+            display: block;
+            width: 100%;
+        }
+
+        .wap-svg-upload-zone {
+            height: var(--wap-profile-info-control-height);
+            min-height: var(--wap-profile-info-control-height);
+            max-height: var(--wap-profile-info-control-height);
+            box-sizing: border-box;
+            display: flex;
+            flex-direction: column;
+            align-items: stretch;
+            justify-content: center;
+            overflow: hidden;
+        }
+
+        .wap-svg-upload-zone__empty {
+            padding: 4px 8px;
+            gap: 2px;
+            min-height: 0;
+            flex: 1 1 auto;
+            justify-content: center;
+        }
+
+        .wap-svg-upload-zone__upload-icon {
+            width: 28px;
+            height: 28px;
+            margin-bottom: 0;
+            border-radius: 8px;
+
+            svg {
+                width: 18px;
+                height: 18px;
+            }
+        }
+
+        .wap-svg-upload-zone__upload-icon--preview svg {
+            width: 20px !important;
+            height: 20px !important;
+            max-width: 20px !important;
+            max-height: 20px !important;
+        }
+
+        .wap-svg-upload-zone__label {
+            font-size: 13px;
+            line-height: 1.25;
+        }
+
+        .wap-svg-upload-zone__hint {
+            font-size: 10px;
+            line-height: 1.25;
+            max-width: none;
+        }
+
+        .wap-svg-upload-zone__remove {
+            top: 4px;
+            right: 4px;
+            width: 24px;
+            height: 24px;
+        }
+    }
+
+    .wap-svg-upload-zone {
+        width: 100%;
+        border: 1.5px dashed #d1d5db;
+        border-radius: 10px;
+        background: #f9fafb;
+        cursor: pointer;
+        transition: border-color 0.2s ease, background 0.2s ease, box-shadow 0.2s ease;
+
+        &:hover {
+            border-color: #1677ff;
+            background: #f0f5ff;
+            box-shadow: 0 0 0 3px rgba(22, 119, 255, 0.08);
+        }
+
+        &--has-icon {
+            position: relative;
+            border-style: solid;
+            border-color: #e5e7eb;
+            background: #fff;
+
+            &:hover {
+                border-color: #1677ff;
+            }
+        }
+    }
+
+    .wap-svg-upload-zone__remove {
+        position: absolute;
+        top: 8px;
+        right: 8px;
+        z-index: 2;
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+        width: 28px;
+        height: 28px;
+        padding: 0;
+        margin: 0;
+        border: 1px solid #fecaca;
+        border-radius: 8px;
+        background: #fff;
+        color: #ef4444;
+        cursor: pointer;
+        box-shadow: 0 1px 3px rgba(0, 0, 0, 0.08);
+        transition: background 0.15s ease, border-color 0.15s ease, color 0.15s ease;
+
+        &:hover {
+            background: #fff1f0;
+            border-color: #ef4444;
+            color: #dc2626;
+        }
+
+        &:focus-visible {
+            outline: 2px solid #1677ff;
+            outline-offset: 2px;
+        }
+    }
+
+    .wap-svg-upload-zone__empty {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;
+        gap: 6px;
+        padding: 16px 14px;
+        text-align: center;
+        min-height: inherit;
+        box-sizing: border-box;
+    }
+
+    .wap-svg-upload-zone__upload-icon {
         display: flex;
         align-items: center;
         justify-content: center;
-        width: 32px;
-        height: 32px;
-        background: #f3f6fd;
-        border-radius: 6px;
-        color: transparent;
-        font-size: 20px;
-        line-height: 1;
+        width: 44px;
+        height: 44px;
+        border-radius: 10px;
+        background: #e8f0fe;
+        color: #1677ff;
+        margin-bottom: 2px;
+        flex-shrink: 0;
+
+        &--preview {
+            background: #f3f6fb;
+            border: 1px solid #e5e7eb;
+            color: #111827;
+
+            svg {
+                width: 26px !important;
+                height: 26px !important;
+                display: block;
+            }
+        }
     }
 
-    .wap-feature-label {
-        font-weight: 500;
-        font-size: 14px;
-        color: #374151;
-        flex: 1;
+    .wap-svg-upload-zone__label {
+        font-size: 13px;
+        font-weight: 600;
+        color: #1677ff;
+        line-height: 1.4;
+
+        &--uploaded {
+            color: #111827;
+        }
     }
 
-    .wap-feature-control {
+    .wap-svg-upload-zone__hint {
+        font-size: 11.5px;
+        color: #9ca3af;
+        line-height: 1.45;
+        max-width: 220px;
+    }
+
+    .wap-profile-widget-features {
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(min(100%, 190px), 1fr));;
+        gap: 12px;
+    }
+
+    .wap-profile-widget-features__item {
+        border: 1px solid #f1f3f8;
+        border-radius: 10px;
+        transition: all 0.2s ease;
+        min-width: 0;
+    }
+
+    .wap-profile-widget-features__item--active {
+        border-color: #1677ff;
+        box-shadow: 0 0 0 1px rgba(22, 119, 255, 0.28), 0 2px 10px rgba(22, 119, 255, 0.18);
+
+        .wap-profile-widget-features__feature-icon,
+        .wap-profile-widget-features__feature-label {
+            color: #1677ff;
+        }
+
+        /* Icon/label shift only when step dots exist (room above the steps row) */
+        &:has(.wap-profile-widget-features__steps) {
+            .wap-profile-widget-features__feature-icon,
+            .wap-profile-widget-features__feature-label {
+                transform: translateY(-4px);
+            }
+        }
+
+        .wap-profile-widget-features__feature-icon svg path {
+            fill: #1677ff;
+        }
+    }
+
+    .wap-profile-widget-features__feature-btn {
+        background: #f1f3f8;
+        border-radius: 10px;
+        min-height: 100px;
+        padding: 8px;
         display: flex;
-        justify-content: flex-end;
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;
+        text-align: center;
+        cursor: pointer;
+        position: relative;
+        transition: all 0.2s ease;
     }
 
-    // Responsive adjustments
-    @media (max-width: 768px) {
-        .wap-feature-item {
-            padding: 12px;
-        }
+    .wap-profile-widget-features__feature-icon {
+        display: block;
+        transition: all 0.2s ease;
 
-        .wap-feature-header {
-            margin-bottom: 8px;
-        }
-
-        .wap-feature-icon {
+        svg {
             width: 28px;
             height: 28px;
         }
-
-        .wap-feature-label {
-            font-size: 13px;
-        }
     }
+
+    .wap-profile-widget-features__feature-label {
+        font-size: 13px;
+        font-weight: 600;
+        color: #111827;
+        line-height: 1.35;
+        transition: all 0.2s ease;
+    }
+
+    .wap-profile-widget-features__steps {
+        position: absolute;
+        bottom: 10px;
+        left: 50%;
+        transform: translateX(-50%);
+        display: inline-flex;
+        gap: 4px;
+    }
+
+    .wap-profile-widget-features__steps-item {
+        width: 12px;
+        height: 6px;
+        border-radius: 999px;
+        background: #ced1df;
+        transition: background 0.2s ease;
+    }
+
+    .wap-profile-widget-features__steps-item--active {
+        background: #1677ff;
+    }
+
+}
+
+.wap-profile-editor__floating-preview {
+    z-index: 999999;
+
+    .wap-button-style-preset__preview-btn {
+        position: fixed;
+        pointer-events: auto;
+        z-index: 999998;
+    }
+}
+
+.wap-profile-editor__preview-drawer-root {
+    z-index: 1000000 !important;
+}
+
+.wap-profile-editor__preview-drawer-root .ant-drawer-content-wrapper {
+    pointer-events: auto;
+}
+
+.wap-profile-editor__preview-drawer-root .wap-panel-customization__panel * {
+    pointer-events: none;
+}
+
+.wap-profile-editor__preview-drawer-root .wap-panel-customization__header-close,
+.wap-profile-editor__preview-drawer-root .wap-panel-customization__header-close * {
+    pointer-events: auto;
+    cursor: pointer;
+}
+
+// Portaled preview: keep SVG sizing consistent
+.wap-svg-upload-zone__upload-icon--preview svg {
+    width: 26px !important;
+    height: 26px !important;
+    max-width: 26px !important;
+    max-height: 26px !important;
+    display: block;
 }

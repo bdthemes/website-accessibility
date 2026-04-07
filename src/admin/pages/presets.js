@@ -1,10 +1,9 @@
 import { __ } from '@wordpress/i18n';
 import PostTable from '../components/post-table';
-import PresetQuickEdit from '../components/preset-quick-edit';
 import { useHistory } from '../router';
 import { useSelect, useDispatch } from "@wordpress/data";
 import { STORE_NAME } from "../store";
-import { useMemo, useState } from '@wordpress/element';
+import { useMemo } from '@wordpress/element';
 
 
 const columns = [
@@ -15,12 +14,10 @@ const columns = [
 ];
 
 const Presets = () => {
-  const { WapCard, WapButton, WapSpace, WapTypography, WapTag } = window?.wapComponents;
-  const { Title } = WapTypography;
-  const [drawerVisible, setDrawerVisible] = useState(false);
-  const [selectedPreset, setSelectedPreset] = useState(null);
+  const { WapCard, WapButton, WapSpace, WapTag, WapTypography } = window?.wapComponents;
+  const { Title, Text } = WapTypography;
   const history = useHistory();
-  const { setPresetFilters, deletePreset, updatePreset } = useDispatch(STORE_NAME);
+  const { setPresetFilters, deletePreset } = useDispatch(STORE_NAME);
   const { filters: rawFilters, presets } = useSelect((select) => {
     const store = select(STORE_NAME);
     const filters = store.getPresetFilters();
@@ -77,16 +74,6 @@ const Presets = () => {
     };
   });
 
-  const handleQuickEdit = (record) => {
-    setSelectedPreset(record);
-    setDrawerVisible(true);
-  };
-
-  const handleDrawerClose = () => {
-    setDrawerVisible(false);
-    setSelectedPreset(null);
-  };
-
   const handleEdit = (record) => {
     history.push({
       page: 'website-accessibility-presets-edit',
@@ -94,28 +81,30 @@ const Presets = () => {
     });
   };
 
-  const handlePreview = (record) => {
-    history.push({
-      page: 'website-accessibility-presets-preview',
-      id: record?.id,
-    });
-  };
-
   return (
-    <div className="wap-presets">
-      <WapCard className='wap-header-card'>
-        <Title level={2} className='wap-header-card-title'>
-          {__('Accessibility Presets', 'website-accessibility')}
-        </Title>
-        <WapButton type="primary" size='large' onClick={() => navigate('website-accessibility-presets-create')}>
-          <WapSpace>
-            <span className="dashicons dashicons-plus-alt2" />
-            {__('Add New Preset', 'website-accessibility')}
-          </WapSpace>
-
-        </WapButton>
+    <div className="wap-settings wap-presets">
+      <WapCard className="wap-settings-row wap-header-card wap-presets-header">
+        <div className="wap-presets-header__inner">
+          <div className="wap-header-card-content">
+            <Title level={4} className="wap-header-card-title">
+              {__('Presets', 'website-accessibility')}
+            </Title>
+            <Text type="secondary" className="wap-header-card-description">
+              {__('Manage accessibility presets and where they apply across your site.', 'website-accessibility')}
+            </Text>
+          </div>
+          <div className="wap-presets-header__actions">
+            <WapButton type="primary" onClick={() => navigate('website-accessibility-presets-create')}>
+              <WapSpace size="small">
+                <span className="dashicons dashicons-plus-alt2" />
+                {__('Add New Preset', 'website-accessibility')}
+              </WapSpace>
+            </WapButton>
+          </div>
+        </div>
       </WapCard>
-      <WapCard>
+
+      <WapCard className="wap-settings-row wap-presets-table-card">
         <div>
           <PostTable
             columns={columns}
@@ -126,22 +115,18 @@ const Presets = () => {
               });
             }}
             loading={isResolving || isDeleting}
-            onRowAction={(action, record) => {
-              switch (action) {
-                case 'quick_edit':
-                  handleQuickEdit(record);
-                  break;
-                case 'trash':
-                  deletePreset(record.id);
-                  break;
-                case 'edit':
-                  handleEdit(record);
-                  break;
-                case 'view':
-                  handlePreview(record);
-                  break;
-              }
-            }}
+            rowActions={[
+              {
+                key: 'edit',
+                label: 'Edit',
+                onClick: handleEdit,
+              },
+              {
+                key: 'trash',
+                label: 'Trash',
+                onClick: (record) => deletePreset(record.id),
+              },
+            ]}
             onBulkAction={(action, selectedRowKeys) => {
               switch (action) {
                 case 'trash':
@@ -154,13 +139,6 @@ const Presets = () => {
           />
         </div>
       </WapCard>
-
-      <PresetQuickEdit
-        visible={drawerVisible}
-        onClose={handleDrawerClose}
-        preset={selectedPreset}
-        onUpdate={updatePreset}
-      />
     </div>
   );
 };
