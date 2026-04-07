@@ -45,7 +45,7 @@ class SystemInfoRouteV1
 
         return [
             'success'          => true,
-            'plugin_version'   => defined('WEBSAC_VERSION') ? WEBSAC_VERSION : '1.2.7',
+            'plugin_version'   => defined('WEBSAC_VERSION') ? WEBSAC_VERSION : '1.3.0',
             'wordpress_version'=> get_bloginfo('version'),
             'php_version'      => PHP_VERSION,
             'mysql_version'    => $wpdb->db_version(),

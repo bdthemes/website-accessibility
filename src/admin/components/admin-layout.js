@@ -20,7 +20,7 @@ const { Header, Sider, Content, Footer } = Layout;
 
 const BDTHEMES_URL = 'https://bdthemes.com';
 
-const PLUGIN_VERSION = typeof window !== 'undefined' && window.websacAdmin?.version ? window.websacAdmin.version : '1.2.7';
+const PLUGIN_VERSION = typeof window !== 'undefined' && window.websacAdmin?.version ? window.websacAdmin.version : '1.3.0';
 const HELP_URL = 'https://bdthemes.com/contact/';
 
 

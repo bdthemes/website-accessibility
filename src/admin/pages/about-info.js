@@ -8,7 +8,7 @@ const SUPPORT_URL = 'https://bdthemes.com/contact/';
 const AboutInfo = () => {
 	const { WapCard, WapButton, WapTypography } = window?.wapComponents;
 	const { Title, Text } = WapTypography;
-	const pluginVersion = typeof window !== 'undefined' && window.websacAdmin?.version ? window.websacAdmin.version : '1.2.7';
+	const pluginVersion = typeof window !== 'undefined' && window.websacAdmin?.version ? window.websacAdmin.version : '1.3.0';
 
 	const [systemInfo, setSystemInfo] = useState(null);
 	const [loading, setLoading] = useState(true);

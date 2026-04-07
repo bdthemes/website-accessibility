@@ -1,12 +1,12 @@
 === One Accessibility – Making Your Site Accessible to Everyone ===
 Contributors:      bdthemes, selimmw, mizan42047, abutalib, muhammadasik, mohammaadfarid, syedfarhanreza
 Tags:              accessibility, a11y, wcag, ada-compliance, screen-reader
-Requires at least: 6.1  
+Requires at least: 6.1
 Tested up to:      6.9
-Requires PHP:      7.4  
-Stable tag:        1.2.7
-License:           GPL-2.0-or-later  
-License URI:       https://www.gnu.org/licenses/gpl-2.0.html  
+Requires PHP:      7.4
+Stable tag:        1.3.0
+License:           GPL-2.0-or-later
+License URI:       https://www.gnu.org/licenses/gpl-2.0.html
 
 Make your site accessible to everyone with advanced tools, WCAG compliance, and customization for a truly inclusive experience.
 
@@ -166,9 +166,9 @@ Visit [BdThemes](https://bdthemes.com/) to learn about our services, Elementor p
 
 == Screenshots ==
 
-1. Accessibility toolbar on the frontend with customizable layout  
-2. Preset management screen with conditional assignments  
-3. Mini editor interface for toolbar customization  
+1. Accessibility toolbar on the frontend with customizable layout
+2. Preset management screen with conditional assignments
+3. Mini editor interface for toolbar customization
 4. Custom profile creation and management interface
 
 == Libraries and Credits ==
@@ -177,17 +177,17 @@ This plugin uses the following open-source libraries and third-party tools. We a
 
 **JavaScript Libraries:**
 
-- [React](https://reactjs.org/) – A JavaScript library for building user interfaces (MIT License)  
-- [Ant Design (antd)](https://ant.design/) – A modern React UI framework used for plugin interfaces (MIT License)  
-- [clsx](https://github.com/lukeed/clsx) – A utility for constructing conditional className strings (MIT License)  
-- [history](https://github.com/remix-run/history) – JavaScript library for managing session history (MIT License)  
-- [SortableJS](https://sortablejs.github.io/Sortable/) – Touch-friendly drag-and-drop sorting library (MIT License)  
-- [React SortableJS](https://github.com/SortableJS/react-sortablejs) – React bindings for SortableJS (MIT License)  
+- [React](https://reactjs.org/) – A JavaScript library for building user interfaces (MIT License)
+- [Ant Design (antd)](https://ant.design/) – A modern React UI framework used for plugin interfaces (MIT License)
+- [clsx](https://github.com/lukeed/clsx) – A utility for constructing conditional className strings (MIT License)
+- [history](https://github.com/remix-run/history) – JavaScript library for managing session history (MIT License)
+- [SortableJS](https://sortablejs.github.io/Sortable/) – Touch-friendly drag-and-drop sorting library (MIT License)
+- [React SortableJS](https://github.com/SortableJS/react-sortablejs) – React bindings for SortableJS (MIT License)
 
 **WordPress Packages:**
 
-- [@wordpress/scripts](https://developer.wordpress.org/block-editor/reference-guides/packages/packages-scripts/) – Official WordPress build toolchain (GPL-2.0-or-later)  
-- [@wordpress/icons](https://developer.wordpress.org/block-editor/reference-guides/packages/packages-icons/) – WordPress icon set used in admin UI (GPL-2.0-or-later)  
+- [@wordpress/scripts](https://developer.wordpress.org/block-editor/reference-guides/packages/packages-scripts/) – Official WordPress build toolchain (GPL-2.0-or-later)
+- [@wordpress/icons](https://developer.wordpress.org/block-editor/reference-guides/packages/packages-icons/) – WordPress icon set used in admin UI (GPL-2.0-or-later)
 
 **Third-Party Services:**
 
@@ -196,6 +196,11 @@ This plugin uses the following open-source libraries and third-party tools. We a
 - [OpenDyslexic Font](https://opendyslexic.org/) – Open-source font designed to increase readability for readers with dyslexia (SIL Open Font License)
 
 == Changelog ==
+
+= 1.3.0 - April 07, 2026 =
+* Improvement: Enhanced dashboard interface for better user experience
+* Improvement: Refined accessibility features UI for improved usability and clarity
+* Improvement: Optimized overall performance and code structure
 
 = 1.2.7 - March 10, 2026 =
 * Update: System Improved
@@ -276,10 +281,10 @@ This plugin uses the following open-source libraries and third-party tools. We a
 * New: Page/Post and Archive-specific conditions for presets.
 * New: Admin Disclaimer for better guidance and transparency.
 * Improvement: Enhanced Font Size widget functionality.
-* Improvement: Removed Blind and Dyslexic profiles for better clarity and 
+* Improvement: Removed Blind and Dyslexic profiles for better clarity and
   user experience.
 * Improvement: Optimized overall UI/UX and improved code structure.
-* Fix: Resolved issue where enabling the "Hide Flag" switch caused the app 
+* Fix: Resolved issue where enabling the "Hide Flag" switch caused the app
   to break.
 
 = 1.0.0 – Initial Release =

@@ -5,12 +5,12 @@
  * Description:       A comprehensive WordPress plugin to enhance website accessibility and ensure WCAG compliance.
  * Requires at least: 6.1
  * Requires PHP:      7.4
- * Version:           1.2.7
+ * Version:           1.3.0
  * Author:            bdthemes
  * Author URI:        https://oneaccessibility.com
  * License:           GPL-2.0-or-later
  * License URI:       https://www.gnu.org/licenses/gpl-2.0.html
- * Text Domain:       website-accessibility 
+ * Text Domain:       website-accessibility
  */
 
 use bdthemes\websiteaccessibility\Core\Utils;
@@ -38,7 +38,7 @@ final class WebsiteAccessibility
 	 *
 	 * @var string
 	 */
-	const VERSION = '1.2.7';
+	const VERSION = '1.3.0';
 
 	/**
 	 * Private constructor for singleton pattern.
