@@ -1,7 +1,7 @@
-import { useEffect } from "@wordpress/element";
+import { useLayoutEffect } from "@wordpress/element";
 
 export default function useDrawerScrollLock(contentRef, isOpen) {
-    useEffect(() => {
+    useLayoutEffect(() => {
         if (!isOpen) {
             document.body.style.overflow = "";
             return;
@@ -106,27 +106,14 @@ export default function useDrawerScrollLock(contentRef, isOpen) {
         };
         // --- END TOUCH SUPPORT ---
 
-        const handleEnter = () => {
-            document.body.style.overflow = "hidden";
-            content.addEventListener("wheel", onWheel, { passive: false });
-            content.addEventListener("touchstart", onTouchStart, { passive: false });
-            content.addEventListener("touchmove", onTouchMove, { passive: false });
-        };
-
-        const handleLeave = () => {
-            document.body.style.overflow = "";
-            content.removeEventListener("wheel", onWheel);
-            content.removeEventListener("touchstart", onTouchStart);
-            content.removeEventListener("touchmove", onTouchMove);
-        };
-
-        content.addEventListener("mouseenter", handleEnter);
-        content.addEventListener("mouseleave", handleLeave);
+        // Lock while the drawer is open (touch devices never get mouseenter; CSS may also lock body).
+        document.body.style.overflow = "hidden";
+        content.addEventListener("wheel", onWheel, { passive: false });
+        content.addEventListener("touchstart", onTouchStart, { passive: true });
+        content.addEventListener("touchmove", onTouchMove, { passive: false });
 
         return () => {
             document.body.style.overflow = "";
-            content.removeEventListener("mouseenter", handleEnter);
-            content.removeEventListener("mouseleave", handleLeave);
             content.removeEventListener("wheel", onWheel);
             content.removeEventListener("touchstart", onTouchStart);
             content.removeEventListener("touchmove", onTouchMove);

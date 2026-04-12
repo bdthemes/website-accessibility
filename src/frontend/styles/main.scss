@@ -33,11 +33,10 @@ html {
     saturate(var(--wap-saturation, 1)) !important;
 }
 
-.wap-frontend{
-  &.wap-accessibility-sidebar-open{
-    overflow-y: auto !important;
-    width: auto !important;
-  }
+// Lock page scroll while the accessibility panel is open (touch + wheel chaining).
+.wap-frontend.wap-accessibility-sidebar-open {
+  overflow: hidden !important;
+  overscroll-behavior: none;
 }
 
 #website-accessibility-app {

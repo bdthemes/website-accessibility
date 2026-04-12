@@ -1,37 +1,18 @@
 // Panel Footer Styles
 .wap-panel-footer {
 	border-radius: var(--wap-footer-general-radius, 0 0 16px 16px);
-	
-	position: sticky;
-	bottom: 0;
 	animation: wapSlideUpFade 0.6s ease-out;
 
-	@media only screen and (min-device-width: 768px) and (max-device-width: 1366px) and (orientation: landscape) {
-		position: absolute;
-		bottom: 0;
-		left: 0;
-		right: 0;
-	}
-
-	@media screen and (max-width: 768px) {
-		position: absolute;
-		bottom: 0;
-		left: 0;
-		right: 0;
-	}
-
-	// Actions Section
+	// Actions: plain flex (avoid ant Flex row + block buttons clipping under overflow-x:hidden on mobile)
 	&__actions {
-		position: relative;
-		z-index: 1;
 		display: flex;
-		align-items: center;
+		flex-direction: column;
+		align-items: stretch;
 		gap: 10px;
-		padding: var(--wap-footer-general-padding, 10px 16px);
-
-		@media screen and (max-width: 768px) {
-			padding: var(--wap-footer-general-padding, 0);
-		}
+		width: 100%;
+		box-sizing: border-box;
+		padding: 0 16px;
+		margin-bottom: 10px;
 
 		.ant-row {
 			margin: 0 !important;
@@ -87,14 +68,14 @@
 		margin-top: 10px;
 		display: flex;
 		align-items: center;
-		justify-content: space-between;
 		gap: 8px;
 		background: var(--wap-footer-general-bg, #fff);
 		margin: 0 16px 10px 16px;
 		border-radius: 8px;
+		flex-direction: column;
 
 		@media screen and (max-width: 768px) {
-			padding: var(--wap-footer-general-padding, 0);
+			padding: var(--wap-footer-general-padding, 10px);
 		}
 	}
 
@@ -108,7 +89,6 @@
 		position: relative;
 		overflow: hidden;
 		color: var(--wap-footer-link-color, #6f7286);
-		margin-left: auto;
 	}
 
 	&__brand-left-text {
@@ -154,42 +134,26 @@
 
 	// Responsive Design
 	@media (max-width: 480px) {
-		padding: 20px 16px;
-
 		&__reset-btn,
 		&__save-btn {
 			font-size: 14px !important;
 			height: 48px !important;
 		}
+	}
 
-		&__statement-link {
-			font-size: 13px;
-			padding: 6px 12px;
+	@media (min-width: 768px) {
+		&__actions {
+			flex-direction: row;
+			align-items: center;
+			justify-content: space-between;
 		}
 
-		&__branding {
-			font-size: 11px;
-			padding: 6px 10px;
-		}
-
-		&__brand-text {
-			font-size: 11px;
+		&__links {
+			justify-content: space-between;
+			flex-direction: row;
 		}
 	}
 
-	// Focus states for accessibility
-	&__reset-btn:focus,
-	&__save-btn:focus {
-		outline: 2px solid #0073ea;
-		outline-offset: 2px;
-	}
-
-	// Loading states
-	&__reset-btn.ant-btn-loading,
-	&__save-btn.ant-btn-loading {
-		pointer-events: none;
-		opacity: 0.7;
-	}
 
 	// Animation for initial load
 	@keyframes wapSlideUpFade {
