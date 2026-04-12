@@ -1,4 +1,4 @@
-import { useState, useMemo, useEffect, useRef } from "@wordpress/element";
+import { useState, useMemo, useEffect, useRef, useCallback } from "@wordpress/element";
 import clsx from "clsx";
 import useFrontendAccessibility from "./context/useAccessibility";
 import accessibilityManager from "../accessibilty-manager";
@@ -11,15 +11,49 @@ const View = () => {
     const { profiles, currentPreset, currentPresetId, settings, nonce, restUrl, isUserLoggedIn } = window?.websiteAccessibility;
     const { dispatch, ...state } = useFrontendAccessibility();
     const [isOpen, setIsOpen] = useState(false);
+    const justClosedRef = useRef(false);
+    const closeCooldownTimer = useRef(null);
     const browserKey = useBrowserKey();
     const isSavingStatisticsRef = useRef(false);
     const statisticsDebounceRef = useRef(null);
+
+    const closeAccessibilityDrawer = useCallback(() => {
+        justClosedRef.current = true;
+        setIsOpen(false);
+        if (closeCooldownTimer.current) clearTimeout(closeCooldownTimer.current);
+        closeCooldownTimer.current = setTimeout(() => {
+            justClosedRef.current = false;
+            closeCooldownTimer.current = null;
+        }, 600);
+    }, []);
+
+    const openAccessibilityDrawer = useCallback(() => {
+        if (justClosedRef.current) return;
+        setIsOpen(true);
+    }, []);
+
+    useEffect(() => () => {
+        if (closeCooldownTimer.current) clearTimeout(closeCooldownTimer.current);
+    }, []);
 
 
     const allProfiles = useMemo(() => [
         ...defaultProfiles,
         ...(profiles || []),
     ], [profiles]);
+
+    const drawerContentWrapperMaxHeightVh = useMemo(() => {
+        const raw = currentPreset?.panel?.wrapper?.maxHeight;
+        if (raw === undefined || raw === null || raw === '') {
+            return 80;
+        }
+        const n = Number(raw);
+        if (!Number.isFinite(n) || n <= 0) {
+            return 80;
+        }
+        if (n > 100) return 80;
+        return n;
+    }, [currentPreset?.panel?.wrapper?.maxHeight]);
 
     const isPreferenceActive = useMemo(() => {
         const footerAttribiutes = currentPreset?.panel?.items?.find((item) => item.slug === 'footer')?.attributes;
@@ -193,18 +227,18 @@ const View = () => {
     useEffect(() => {
         const handleKey = (e) => {
             if (e.key === 'Escape' && isOpen) {
-                setIsOpen(false);
+                closeAccessibilityDrawer();
             }
 
             if (e.ctrlKey && (e.key === 'u' || e.key === 'U')) {
                 e.preventDefault();
-                setIsOpen(true);
+                openAccessibilityDrawer();
             }
         };
 
         window.addEventListener('keydown', handleKey);
         return () => window.removeEventListener('keydown', handleKey);
-    }, [isOpen]);
+    }, [isOpen, closeAccessibilityDrawer, openAccessibilityDrawer]);
 
     /**
      * Screen reader announcements for drawer open/close
@@ -315,7 +349,8 @@ const View = () => {
                     'notranslate',
                     'wap-button-style-preset__preview-btn',
                     currentPreset?.button?.position,
-                    currentPreset?.button?.buttonType && `wap-button-style-preset__preview-btn--${currentPreset?.button?.buttonType}`
+                    currentPreset?.button?.buttonType && `wap-button-style-preset__preview-btn--${currentPreset?.button?.buttonType}`,
+                    isOpen && 'wap-accessibility-launcher--no-pointer'
                 )}
                 style={{
                     '--button-font-size': currentPreset?.button?.fontSize,
@@ -327,24 +362,29 @@ const View = () => {
                     '--button-offset-x': currentPreset?.button?.offsetX ? `${currentPreset?.button?.offsetX}px` : '',
                     '--button-offset-y': currentPreset?.button?.offsetY ? `${currentPreset?.button?.offsetY}px` : '',
                 }}
-                onClick={() => setIsOpen(true)}
+                onClick={() => openAccessibilityDrawer()}
                 onFocus={(e) => e.preventDefault()}
                 aria-label={__('Accessibility Menu', 'website-accessibility')}
             />
             <WapDrawer
                 open={isOpen}
-                onClose={() => {
-                    setIsOpen(false)
-                }}
+                onClose={closeAccessibilityDrawer}
                 placement={currentPreset?.panel?.wrapper?.position || "right"}
                 className={`wap-preset__preview-drawer notranslate wap-preset__preview-drawer--${currentPreset?.panel?.wrapper?.position || 'right'}`}
                 rootClassName={`wap-preset__preview-drawer-root notranslate wap-preset__preview-drawer-root--${currentPreset?.panel?.wrapper?.position || 'right'}`}
                 width={Number(currentPreset?.panel?.wrapper?.width) || 400}
+                styles={{
+                    wrapper: { maxHeight: `${drawerContentWrapperMaxHeightVh}vh` },
+                }}
+                mask={false}
+                keyboard
+                maskClosable={false}
+                autoFocus={false}
             >
                 <PreviewContent
                     panel={currentPreset?.panel}
                     allProfiles={allProfiles}
-                    setIsOpen={setIsOpen}
+                    setIsOpen={closeAccessibilityDrawer}
                     isOpen={isOpen}
                     accessibilityContext={state}
                     accessibilityDispatch={dispatch}

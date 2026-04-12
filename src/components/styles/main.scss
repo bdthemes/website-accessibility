@@ -33,15 +33,22 @@
 
 	/* One scroll column for main + footer: avoids footer clipped under mobile browser chrome / flex min-height issues */
 	@media screen and (max-width: 768px) {
-		max-height: calc(100vh - env(safe-area-inset-top, 0px) - env(safe-area-inset-bottom, 0px));
-		max-height: calc(100dvh - env(safe-area-inset-top, 0px) - env(safe-area-inset-bottom, 0px));
+		/* Fill drawer column; safe-area padding on panel (see mobile rules below) */
+		max-height: 100%;
+		margin-top: 0;
+		margin-bottom: 0;
+		margin-left: auto;
+		margin-right: auto;
+		flex: 1 1 auto;
+		min-height: 0;
+		align-self: stretch;
+		padding-bottom: env(safe-area-inset-bottom, 0px);
 
 		.wap-panel-customization__body {
 			overflow-y: auto;
 			overflow-x: hidden;
 			-webkit-overflow-scrolling: touch;
 			overscroll-behavior: contain;
-			padding-bottom: env(safe-area-inset-bottom, 0px);
 		}
 
 		.wap-panel-customization__main {
@@ -217,9 +224,31 @@
 		display: none;
 	}
 
+	/* Flex column + min-height:0 so wrapper max-height constrains children; desktop scrolls .wap-panel-customization__main */
+	.ant-drawer-content {
+		flex: 1 1 auto;
+		min-height: 0;
+		max-height: 100%;
+		display: flex;
+		flex-direction: column;
+		overflow: hidden;
+	}
+
 	.ant-drawer-body {
 		padding: 0 !important;
-		overflow: visible !important;
+		flex: 1 1 auto;
+		min-height: 0;
+		display: flex;
+		flex-direction: column;
+		align-items: stretch;
+		overflow: hidden !important;
+	}
+
+	.ant-drawer-body > .wap-panel-customization__panel {
+		flex: 1 1 auto;
+		min-height: 0;
+		max-height: 100%;
+		overflow: hidden;
 	}
 
 	.wap-preset__preview-drawer {
@@ -231,34 +260,26 @@
 	}
 
 	.ant-drawer-content-wrapper {
+		display: flex;
+		flex-direction: column;
 		top: unset;
+		max-height: 100dvh;
 		border-radius: var(--panel-border-radius, 6px);
 
-		@media only screen and (min-device-width: 768px) and (max-device-width: 1366px) and (orientation: landscape) {
-			top: 0;
+		&.ant-drawer-content-wrapper-hidden {
+			display: none !important;
 		}
-
 
 		@media screen and (max-width: 768px) {
 			top: 0;
-			max-height: calc(100vh - env(safe-area-inset-top, 0px) - env(safe-area-inset-bottom, 0px));
-			max-height: calc(100dvh - env(safe-area-inset-top, 0px) - env(safe-area-inset-bottom, 0px));
+			max-height: none !important;
+			box-sizing: border-box;
 		}
 	}
 
 	@media screen and (max-width: 768px) {
 		.ant-drawer-content {
-			display: flex;
-			flex-direction: column;
-			min-height: 0;
-			max-height: inherit;
-		}
-
-		.ant-drawer-body {
-			flex: 1 1 auto;
-			min-height: 0;
-			display: flex;
-			flex-direction: column;
+			max-height: none;
 		}
 	}
 }

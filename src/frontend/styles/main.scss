@@ -25,18 +25,18 @@
   }
 }
 
+// While the drawer is open or right after close, ignore hits on the launcher so the same
+// gesture cannot reopen the panel (mask is off, so the float button can sit under the drawer).
+.wap-accessibility-launcher--no-pointer {
+  pointer-events: none !important;
+}
+
 html {
   filter: 
     invert(var(--wap-invert, 0)) 
     brightness(var(--wap-brightness, 1)) 
     grayscale(var(--wap-grayscale, 0)) 
     saturate(var(--wap-saturation, 1)) !important;
-}
-
-// Lock page scroll while the accessibility panel is open (touch + wheel chaining).
-.wap-frontend.wap-accessibility-sidebar-open {
-  overflow: hidden !important;
-  overscroll-behavior: none;
 }
 
 #website-accessibility-app {
