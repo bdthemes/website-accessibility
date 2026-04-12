@@ -24,6 +24,7 @@ export const DEFAULT_STATE = {
         panel: {
             wrapper: {
                 width: '420',
+                maxHeight: '605',
             },
             items: panelItems,
         },

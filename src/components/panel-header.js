@@ -256,7 +256,39 @@ const PanelHeader = ({
                 )}
 
                 <span className="wap-panel-customization__header-close-separator"></span>
-                <span className="wap-panel-customization__header-close" onClick={() => setIsOpen(false)}>
+                <span
+                    className="wap-panel-customization__header-close"
+                    onPointerDown={(e) => {
+                        if (e.pointerType === 'mouse' && e.button !== 0) {
+                            return;
+                        }
+                        e.stopPropagation();
+                        try {
+                            e.currentTarget.setPointerCapture(e.pointerId);
+                        } catch {
+                            /* setPointerCapture unsupported or invalid id */
+                        }
+                    }}
+                    onPointerUp={(e) => {
+                        try {
+                            e.currentTarget.releasePointerCapture(e.pointerId);
+                        } catch {
+                            /* not capturing this pointer */
+                        }
+                    }}
+                    onPointerCancel={(e) => {
+                        try {
+                            e.currentTarget.releasePointerCapture(e.pointerId);
+                        } catch {
+                            /* not capturing this pointer */
+                        }
+                    }}
+                    onClick={(e) => {
+                        e.preventDefault();
+                        e.stopPropagation();
+                        setIsOpen(false);
+                    }}
+                >
                     <svg
                         width={24}
                         height={24}

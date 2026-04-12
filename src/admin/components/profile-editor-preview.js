@@ -202,6 +202,7 @@ const ProfileEditorPreview = ({ formData, profileId = null }) => {
                     "wap-profile-editor__preview-drawer-root",
                 )}
                 width={420}
+                styles={{ wrapper: { maxHeight: "80vh" } }}
                 mask={false}
                 closable={false}
                 keyboard

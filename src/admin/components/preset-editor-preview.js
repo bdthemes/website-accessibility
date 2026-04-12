@@ -1,5 +1,5 @@
 import clsx from "clsx";
-import { useEffect, useState } from "@wordpress/element";
+import { useEffect, useMemo, useState } from "@wordpress/element";
 import { useSelect } from "@wordpress/data";
 import { STORE_NAME } from "../store";
 import PreviewContent from "../../components/preview-content";
@@ -20,6 +20,19 @@ const PresetEditorPreview = () => {
     const panel = presetsFormData?.panel;
     const panelPosition = panel?.wrapper?.position || "right";
     const panelWidth = Number(panel?.wrapper?.width) || 400;
+
+    const drawerContentWrapperMaxHeightVh = useMemo(() => {
+        const raw = panel?.wrapper?.maxHeight;
+        if (raw === undefined || raw === null || raw === "") {
+            return 80;
+        }
+        const n = Number(raw);
+        if (!Number.isFinite(n) || n <= 0) {
+            return 80;
+        }
+        if (n > 100) return 80;
+        return n;
+    }, [panel?.wrapper?.maxHeight]);
 
     useEffect(() => {
         const editor = document.querySelector(".wap-preset-editor");
@@ -127,6 +140,9 @@ const PresetEditorPreview = () => {
                     "wap-preset-editor__preview-drawer-root",
                 )}
                 width={panelWidth}
+                styles={{
+                    wrapper: { maxHeight: `${drawerContentWrapperMaxHeightVh}vh` },
+                }}
                 mask={false}
                 closable={false}
                 keyboard

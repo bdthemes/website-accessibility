@@ -15,7 +15,7 @@ const debounce = (fn, delay = 1000) => {
 
 
 const PanelFooter = ({ value, accessibilityContext, accessibilityDispatch, isEditorPreview = false }) => {
-  const { WapMessage, WapButton, WapFlex } = window?.wapComponents;
+  const { WapMessage, WapButton } = window?.wapComponents;
   const [savingPreference, setSavingPreference] = useState(false);
   const [deletingPreference, setDeletingPreference] = useState(false);
   const [hasSavedPreference, setHasSavedPreference] = useState(false);
@@ -182,7 +182,7 @@ const PanelFooter = ({ value, accessibilityContext, accessibilityDispatch, isEdi
       {contextHolder}
 
       {(isUserLoggedIn || !isFrontend) && showPreference && (
-        <WapFlex align="center" justify="space-between" gap={10} style={{ padding: '0 16px', marginBottom: '10px' }}>
+        <div className="wap-panel-footer__actions">
           <WapButton
             type="primary"
             icon={<SaveOutlined />}
@@ -209,7 +209,7 @@ const PanelFooter = ({ value, accessibilityContext, accessibilityDispatch, isEdi
           >
             {deletePreferenceText}
           </WapButton>
-        </WapFlex>
+        </div>
       )}
 
       {(showBranding || showStatement) && (

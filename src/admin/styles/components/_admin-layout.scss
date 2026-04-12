@@ -1,6 +1,5 @@
 // Admin layout: header + sidebar (Sigma-style with Ant Design)
 .wap-admin-layout {
-	// min-height: calc(100vh - 100px);
     background: #f8fafc;
 	max-width: 1200px;
 	margin: 0 auto;
@@ -9,8 +8,8 @@
 
 	.ant-layout {
 		background: transparent;
-		padding: 25px;
-		gap: 25px;
+		padding: clamp(15px, 2vw, 20px);
+		gap: clamp(15px, 2vw, 20px);
 	}
 }
 
@@ -24,14 +23,20 @@
 	background: #fff !important;
 	border-bottom: 1px solid #f0f0f0;
 	line-height: 1.4;
+	flex-wrap: wrap;
+	gap: 12px;
 
 	.wap-admin-header-left {
 		display: flex;
 		align-items: flex-start;
 		gap: 14px;
+		min-width: 0;
+		flex: 1 1 0%;
 	}
 
 	.wap-admin-header-icon {
+		flex-shrink: 0;
+
 		svg {
 			width: 60px;
 			height: 60px;
@@ -40,11 +45,14 @@
 	}
 
 	.wap-admin-header-brand {
+		min-width: 0;
+
 		.wap-admin-header-title-row {
 			display: flex;
 			align-items: center;
 			gap: 10px;
 			margin-bottom: 4px;
+			flex-wrap: wrap;
 		}
 
 		.wap-admin-header-title {
@@ -74,6 +82,8 @@
 	}
 
 	.wap-admin-header-right {
+		flex-shrink: 0;
+
 		.wap-admin-header-help {
 			display: inline-flex;
 			align-items: center;
@@ -83,6 +93,7 @@
 			text-decoration: none;
 			transition: color 0.2s;
 			font-weight: 600;
+			white-space: nowrap;
 
 			.wap-admin-header-help-icon {
 				display: inline-flex;
@@ -101,6 +112,41 @@
 			}
 		}
 	}
+
+	@media screen and (max-width: 600px) {
+		padding: 14px 16px;
+		gap: 10px;
+
+		.wap-admin-header-icon svg {
+			width: 40px;
+			height: 40px;
+		}
+
+		.wap-admin-header-brand {
+			.wap-admin-header-title {
+				font-size: 18px;
+			}
+
+			.wap-admin-header-tagline {
+				font-size: 12px;
+			}
+
+			.wap-admin-header-version {
+				padding: 3px 8px;
+				font-size: 10px;
+			}
+		}
+
+		.wap-admin-header-right .wap-admin-header-help {
+			font-size: 0;
+			gap: 0;
+
+			.wap-admin-header-help-icon {
+				font-size: 14px;
+			}
+		}
+	}
+
 }
 
 .wap-admin-sider {

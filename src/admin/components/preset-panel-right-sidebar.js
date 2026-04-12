@@ -51,6 +51,16 @@ const PresetPanelRightSidebar = () => {
 							addonAfter="px"
 						/>
 					</ControlWrapper>
+					<ControlWrapper label={__("Max height (vh)", "website-accessibility")}>
+					<WapInput
+						type="number"
+						min={10}
+						max={100}
+						value={wrapper.maxHeight > 100 ? 80 : (wrapper.maxHeight ?? 80)}
+						onChange={(e) => handleWrapperChange("maxHeight", e.target.value)}
+						addonAfter="vh"
+					/>
+					</ControlWrapper>
 					<ControlWrapper label={__("Background Color", "website-accessibility")}>
 						<ColorPicker
 							value={wrapper.background}
