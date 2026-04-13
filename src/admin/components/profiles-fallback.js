@@ -1,21 +1,17 @@
 import { __ } from '@wordpress/i18n';
-import { RocketOutlined } from '@ant-design/icons';
-import createProfileImage from '../../assets/create-profile.gif';
-import addProileImage from '../../assets/add-profile.gif';
-import applyProfileImage from '../../assets/apply-profile.gif';
 
-
+const VIDEO_URL = 'https://www.youtube.com/embed/HEpilnKaVoE?start=175&autoplay=1&mute=1';
 
 const ProfilesFallback = () => {
-  const {WapCard, WapButton, WapRow, WapCol, WapTypography} = window?.wapComponents;
-  const { Title, Paragraph, Text } = WapTypography;
+  const { WapCard, WapButton, WapTypography } = window?.wapComponents;
+  const { Title, Text, Paragraph } = WapTypography;
+
   const openPricingPage = () => {
     window.open('https://oneaccessibility.com#pricing', '_blank');
   };
 
   return (
     <div className="wap-pro-landing">
-      {/* Hero Section */}
       <WapCard className="wap-header-card">
         <div className="wap-welcome-card-content">
           <Title level={4} className="wap-header-card-title">
@@ -26,81 +22,29 @@ const ProfilesFallback = () => {
           </Text>
         </div>
         <div>
-          <WapButton
-            type="default"
-            onClick={openPricingPage}
-          >
+          <WapButton type="default" onClick={openPricingPage}>
             {__('Upgrade to Pro', 'website-accessibility')}
             <span className="dashicons dashicons-arrow-right-alt" />
           </WapButton>
         </div>
       </WapCard>
 
-      {/* About Custom Profiles / Step Grid — wrapped as one card */}
       <WapCard className="wap-settings-row profiles-steps-wrap">
         <div className="profiles-steps">
           <Title level={4} className="profiles-steps-title">
             {__('How Custom Profiles Work', 'website-accessibility')}
           </Title>
-          <WapRow gutter={[16, 16]} className="profiles-steps-row">
-            <WapCol xs={24} sm={8}>
-            <WapCard
-              cover={
-                <img
-                  src={createProfileImage}
-                  alt={__('Create Profile Form', 'website-accessibility')}
-                  className="step-image"
-                />
-              }
-              className="step-card"
-            >
-              <Title level={5} className="step-title">
-                {__('Step 1: Create a Profile', 'website-accessibility')}
-              </Title>
-              <Paragraph className="step-description">
-                {__('Open the Custom Profiles form and configure your accessibility settings.', 'website-accessibility')}
-              </Paragraph>
-            </WapCard>
-          </WapCol>
-          <WapCol xs={24} sm={8}>
-            <WapCard
-              cover={
-                <img
-                  src={addProileImage}
-                  alt={__('Add Profile to Preset', 'website-accessibility')}
-                  className="step-image"
-                />
-              }
-              className="step-card"
-            >
-              <Title level={5} className="step-title">
-                {__('Step 2: Add to Preset', 'website-accessibility')}
-              </Title>
-              <Paragraph className="step-description">
-                {__('Save your profile and include it in a preset so it shows alongside default profiles.', 'website-accessibility')}
-              </Paragraph>
-            </WapCard>
-          </WapCol>
-          <WapCol xs={24} sm={8}>
-            <WapCard
-              cover={
-                <img
-                  src={applyProfileImage}
-                  alt={__('Frontend Profile View', 'website-accessibility')}
-                  className="step-image"
-                />
-              }
-              className="step-card"
-            >
-              <Title level={5} className="step-title">
-                {__('Step 3: Apply in Frontend', 'website-accessibility')}
-              </Title>
-              <Paragraph className="step-description">
-                {__('Your custom profile appears with default profiles. Users can apply it instantly for an improved experience.', 'website-accessibility')}
-              </Paragraph>
-            </WapCard>
-            </WapCol>
-          </WapRow>
+          <Paragraph className="profiles-steps-description">
+            {__('Watch the video below to learn how to create, add, and apply custom accessibility profiles on your website.', 'website-accessibility')}
+          </Paragraph>
+          <div className="profiles-video-wrapper">
+            <iframe
+              src={VIDEO_URL}
+              title={__('How Custom Profiles Work', 'website-accessibility')}
+              allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+              allowFullScreen
+            />
+          </div>
         </div>
       </WapCard>
     </div>
