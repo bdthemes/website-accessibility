@@ -70,6 +70,11 @@
             padding: var(--button-padding, 16px 16px);
             animation: wap-pulse 2s infinite;
 
+            &:focus {
+                color: var(--button-color) !important;
+                background: var(--button-bg) !important;
+            }
+
             svg {
                 fill: currentColor;
                 width: var(--button-icon-size, 2rem) !important;
