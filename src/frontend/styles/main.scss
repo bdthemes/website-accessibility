@@ -216,3 +216,38 @@ body {
   margin-top: 5px;
 }
 
+
+// Theme compatibility css overrides go here  
+
+.wap-frontend .ant-btn-variant-solid {
+  color: #fff !important;
+  background: #1677ff !important;
+  border: none !important;
+  display: inline-flex !important;
+
+  &:hover,
+  &:focus {
+    background: #4096ff !important;
+    color: #fff !important;
+  }
+}
+
+.wap-frontend .oachecker-drawer-footer__clear-btn {
+  border-radius: 8px !important;
+  height: 36px !important;
+}
+
+.wap-frontend .ant-btn-sm {
+  border-radius: 4px !important;
+}
+
+.wap-frontend .wap-google-translate-consent__button.ant-btn-variant-outlined {
+  color: #111 !important;
+  border-color: #d9d9d9 !important;
+  background: #ffffff !important;
+
+  &:hover,
+  &:focus {
+    color: #000 !important;
+  }
+}

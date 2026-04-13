@@ -1,14 +1,44 @@
 import { useEffect, useMemo, useState } from "@wordpress/element";
+import { useSelect } from "@wordpress/data";
 import clsx from "clsx";
 import PreviewContent from "../../components/preview-content";
 import panelItems from "../../utils/panel-items";
+import { STORE_NAME } from "../store";
 
 const PREVIEW_PROFILE_ID = "__wap_preview_profile__";
+
+const WRAPPER_DEFAULTS = {
+    width: 420,
+    background: "#F1F3F8",
+    border: "none",
+    borderRadius: "12px",
+    padding: "16px",
+    maxHeight: 80,
+    position: "right",
+    boxShadow: "0 16px 48px rgba(15, 23, 42, 0.12)",
+};
 
 const ProfileEditorPreview = ({ formData, profileId = null }) => {
     const { PreviewButton, Icon, WapDrawer } = window?.wapComponents || {};
     const { defaultProfiles = [], features = [] } = window?.wapHelpers || {};
     const [isOpen, setIsOpen] = useState(true);
+
+    const presets = useSelect((select) => select(STORE_NAME).getPresets(), []);
+
+    const activeWrapper = useMemo(() => {
+        if (!presets?.length) return WRAPPER_DEFAULTS;
+
+        for (const preset of presets) {
+            try {
+                const content = JSON.parse(preset?.content?.raw || preset?.content || "{}");
+                if (!content?.preset?.active) continue;
+                const w = content?.panel?.wrapper;
+                if (w) return { ...WRAPPER_DEFAULTS, ...w };
+            } catch { /* skip malformed */ }
+        }
+
+        return WRAPPER_DEFAULTS;
+    }, [presets]);
 
     const previewProfile = useMemo(() => {
         const safeId = profileId || PREVIEW_PROFILE_ID;
@@ -76,17 +106,10 @@ const ProfileEditorPreview = ({ formData, profileId = null }) => {
         });
 
         return {
-            wrapper: {
-                width: 420,
-                background: "#F1F3F8",
-                border: "none",
-                borderRadius: "12px",
-                padding: "0",
-                boxShadow: "0 16px 48px rgba(15, 23, 42, 0.12)",
-            },
+            wrapper: { ...activeWrapper },
             items: clonedItems,
         };
-    }, [previewProfile.id]);
+    }, [previewProfile.id, activeWrapper]);
 
     const allProfiles = useMemo(() => {
         return [...(defaultProfiles || []), previewProfile];
@@ -119,11 +142,19 @@ const ProfileEditorPreview = ({ formData, profileId = null }) => {
         };
     }, [previewPanel, showcaseProfileIds]);
 
+    const panelWidth = Number(activeWrapper.width) || 420;
+    const panelPosition = activeWrapper.position || "right";
+
+    const maxHeightVh = useMemo(() => {
+        const n = Number(activeWrapper.maxHeight);
+        if (!Number.isFinite(n) || n <= 0 || n > 100) return 80;
+        return n;
+    }, [activeWrapper.maxHeight]);
+
     useEffect(() => {
         const editor = document.querySelector(".wap-create-profiles, .wap-edit-profile");
         const editorContent = editor?.querySelector(".wap-profile-editor-content");
         const adminContainer = document.getElementById("website-accessibility-admin");
-        const panelWidth = 420;
 
         if (!editor) return undefined;
 
@@ -188,21 +219,21 @@ const ProfileEditorPreview = ({ formData, profileId = null }) => {
             <WapDrawer
                 open={isOpen}
                 onClose={() => setIsOpen(false)}
-                placement="right"
+                placement={panelPosition}
                 className={clsx(
                     "wap-preset__preview-drawer",
                     "notranslate",
-                    "wap-preset__preview-drawer--right",
+                    `wap-preset__preview-drawer--${panelPosition}`,
                     "wap-profile-editor__preview-drawer",
                 )}
                 rootClassName={clsx(
                     "wap-preset__preview-drawer-root",
                     "notranslate",
-                    "wap-preset__preview-drawer-root--right",
+                    `wap-preset__preview-drawer-root--${panelPosition}`,
                     "wap-profile-editor__preview-drawer-root",
                 )}
-                width={420}
-                styles={{ wrapper: { maxHeight: "80vh" } }}
+                width={panelWidth}
+                styles={{ wrapper: { maxHeight: `${maxHeightVh}vh` } }}
                 mask={false}
                 closable={false}
                 keyboard

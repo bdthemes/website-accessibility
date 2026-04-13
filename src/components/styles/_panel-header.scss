@@ -47,17 +47,17 @@
 	}
 
 	&-action-btn {
-		border: none;
+		border: none !important;
 		background: transparent;
-		color: #e5e7ea;
+		color: #e5e7ea !important;
 		height: 34px;
-		padding: 0;
-		cursor: pointer;
-		display: inline-flex;
+		padding: 0 !important;
+		cursor: pointer !important;
+		display: inline-flex !important;
 		align-items: center;
 		gap: 8px;
-		font-size: 14px;
-		transition: all 0.2s ease;
+		font-size: 14px !important;
+		transition: all 0.2s ease !important;
 
 		svg {
 			width: 18px;
@@ -70,8 +70,10 @@
 			cursor: not-allowed;
 		}
 
-		&:hover {
-			color: #ffffff;
+		&:hover,
+		&:focus {
+			color: #ffffff !important;
+			background: transparent !important;
 		}
 	}
 
@@ -186,13 +188,14 @@
 		font-weight: 500;
 
 		&:hover {
-			background: #dde5f5;
+			color: #1c2136 !important;
+			background: #dde5f5 !important;
 		}
 
 		&--active {
-			background: #d4e3ff;
-			border-color: #5d88e9;
-			color: #1b459b;
+			background: #d4e3ff !important;
+			border-color: #5d88e9 !important;
+			color: #1b459b !important;
 		}
 	}
 

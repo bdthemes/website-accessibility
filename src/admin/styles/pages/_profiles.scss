@@ -407,6 +407,12 @@
     pointer-events: none;
 }
 
+.wap-profile-editor__preview-drawer-root .wap-panel-customization__header-info,
+.wap-profile-editor__preview-drawer-root .wap-panel-customization__body,
+.wap-profile-editor__preview-drawer-root .wap-panel-customization__main {
+    pointer-events: auto;
+}
+
 .wap-profile-editor__preview-drawer-root .wap-panel-customization__header-close,
 .wap-profile-editor__preview-drawer-root .wap-panel-customization__header-close * {
     pointer-events: auto;

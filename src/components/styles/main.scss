@@ -215,6 +215,9 @@
 
 .wap-preset__preview-drawer-root {
 	z-index: 999999;
+	isolation: isolate;
+	overscroll-behavior: contain;
+	touch-action: auto;
 
 	.ant-drawer-mask {
 		background: transparent !important;

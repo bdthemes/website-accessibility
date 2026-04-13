@@ -113,6 +113,12 @@
             pointer-events: none;
         }
 
+        .wap-preset-editor__preview-drawer-root .wap-panel-customization__header-info,
+        .wap-preset-editor__preview-drawer-root .wap-panel-customization__body,
+        .wap-preset-editor__preview-drawer-root .wap-panel-customization__main {
+            pointer-events: auto;
+        }
+
         .wap-preset-editor__preview-drawer-root .wap-panel-customization__header-close,
         .wap-preset-editor__preview-drawer-root .wap-panel-customization__header-close * {
             pointer-events: auto;
