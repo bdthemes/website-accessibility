@@ -1,6 +1,6 @@
 import { __ } from '@wordpress/i18n';
 
-const VIDEO_URL = 'https://www.youtube.com/embed/HEpilnKaVoE?start=175&autoplay=1&mute=1';
+const VIDEO_URL = 'https://www.youtube.com/embed/U463yjkyCcA?autoplay=1&mute=1';
 
 const ProfilesFallback = () => {
   const { WapCard, WapButton, WapTypography } = window?.wapComponents;
