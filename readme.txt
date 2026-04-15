@@ -4,7 +4,7 @@ Tags:              accessibility, a11y, wcag, ada-compliance, screen-reader
 Requires at least: 6.1
 Tested up to:      6.9
 Requires PHP:      7.4
-Stable tag:        1.3.1
+Stable tag:        1.3.2
 License:           GPL-2.0-or-later
 License URI:       https://www.gnu.org/licenses/gpl-2.0.html
 
@@ -196,6 +196,12 @@ This plugin uses the following open-source libraries and third-party tools. We a
 - [OpenDyslexic Font](https://opendyslexic.org/) – Open-source font designed to increase readability for readers with dyslexia (SIL Open Font License)
 
 == Changelog ==
+
+= 1.3.2 - April 15, 2026 =
+* Fixed: Tools & Backup Page License Check Issue Fixed
+* Fixed: One Accessibility Theme Compatibility Issues Fixed
+* Fixed: Custom Profiles Edit Page — Resolved Customization Panel Scrolling and Spacing Issues
+* Improvement: Custom Profile Fallback Page UI Redesign
 
 = 1.3.1 - April 12, 2026 =
 * Fixed: Fixed mobile device issues in the One Accessibility customization panel.
