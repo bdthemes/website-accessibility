@@ -144,7 +144,7 @@ class Menu
         );
 
         // Tools & Backup — only when Pro plugin is active
-        if (class_exists('\bdthemes\websiteaccessibilitypro\Admin\License')) {
+        // if (class_exists('\bdthemes\websiteaccessibilitypro\Admin\License')) {
             add_submenu_page(
                 'website-accessibility',
                 __('Tools & Backup', 'website-accessibility'),
@@ -153,7 +153,7 @@ class Menu
                 'website-accessibility-tools',
                 [$this, 'render_menu_page']
             );
-        }
+        // }
         
         if (class_exists('\bdthemes\websiteaccessibilitypro\Admin\License\LicenseBase')) {
             add_submenu_page(
