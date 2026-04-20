@@ -7,13 +7,17 @@ import { useLicense } from "../context/LicenseContext";
 
 
 const Settings = () => {
-    const { WapSpin, WapMessage, WapCard, WapSpace, WapTypography, WapButton } = window?.wapComponents;
+    const { WapSpin, WapMessage, WapCard, WapSpace, WapTypography, WapButton, WapInput } = window?.wapComponents;
     const { Title, Text } = WapTypography;
     const { isProActive } = useLicense();
     const [settings, setSettings] = useState({});
     const [loading, setLoading] = useState(true);
     const [saving, setSaving] = useState(false);
     const [resettingStats, setResettingStats] = useState(false);
+    const [aiProvider, setAiProvider] = useState("openai");
+    const [openAiApiKey, setOpenAiApiKey] = useState("");
+    const [geminiApiKey, setGeminiApiKey] = useState("");
+    const [testingAiKey, setTestingAiKey] = useState(false);
 
     const API_NAMESPACE = "/sigmally/v1/settings";
     const clearUsageStatisticsTimestamp = () => {
@@ -34,6 +38,9 @@ const Settings = () => {
         try {
             const res = await apiFetch({ path: API_NAMESPACE });
             setSettings(res?.data || {});
+            setAiProvider(res?.data?.ai_provider || "openai");
+            setOpenAiApiKey(res?.data?.openai_api_key || "");
+            setGeminiApiKey(res?.data?.gemini_api_key || "");
         } catch (error) {
             console.error("Failed to load settings:", error);
             WapMessage.error(__("Failed to load settings.", "website-accessibility"));
@@ -94,6 +101,70 @@ const Settings = () => {
         }
     };
 
+    const saveOpenAiApiKey = async () => {
+        setSaving(true);
+        try {
+            await apiFetch({
+                path: API_NAMESPACE,
+                method: "POST",
+                data: {
+                    ai_provider: aiProvider,
+                    openai_api_key: openAiApiKey,
+                    gemini_api_key: geminiApiKey,
+                },
+            });
+            setSettings((prev) => ({
+                ...prev,
+                ai_provider: aiProvider,
+                openai_api_key: openAiApiKey,
+                gemini_api_key: geminiApiKey,
+            }));
+            WapMessage.success({
+                content: __("Settings saved successfully.", "website-accessibility"),
+                style: { marginBlockStart: 20 },
+            });
+        } catch (error) {
+            WapMessage.error({
+                content: __("Failed to save settings.", "website-accessibility"),
+                style: { marginBlockStart: 20 },
+            });
+        } finally {
+            setSaving(false);
+        }
+    };
+
+    const testOpenAiApiKey = async () => {
+        setTestingAiKey(true);
+        try {
+            const isGemini = aiProvider === "gemini";
+            const keyToTest = ((isGemini ? geminiApiKey : openAiApiKey) || "").trim();
+            if (!keyToTest) {
+                throw new Error("missing_key");
+            }
+
+            await apiFetch({
+                path: "/one-accessibility/v1/checker-ai-test",
+                method: "POST",
+                data: {
+                    provider: aiProvider,
+                    api_key: keyToTest,
+                },
+            });
+
+            WapMessage.success({
+                content: __("API key is working.", "website-accessibility"),
+                style: { marginBlockStart: 20 },
+            });
+        } catch (error) {
+            WapMessage.error({
+                content: __("API key test failed. Please verify and try again.", "website-accessibility"),
+                style: { marginBlockStart: 20 },
+            });
+        } finally {
+            setTestingAiKey(false);
+        }
+    };
+
     useEffect(() => {
         fetchSettings();
     }, []);
@@ -145,6 +216,61 @@ const Settings = () => {
                         loading={saving}
                         onChange={(checked) => updateSetting("enable_accessibility_checker", checked)}
                     />
+                    {!!settings.enable_accessibility_checker && (
+                        <WapCard className="wap-settings-row">
+                            <WapSpace
+                                direction="vertical"
+                                size={8}
+                                style={{ width: "100%" }}
+                            >
+                                <Title level={5} style={{ margin: 0 }}>
+                                    {__("Checker AI Provider", "website-accessibility")}
+                                </Title>
+                                <Text type="secondary">
+                                    {__("Used by 'Fix With AI' inside Accessibility Checker Pro. Keys are stored server-side.", "website-accessibility")}
+                                </Text>
+                                <div>
+                                    <label style={{ display: "block", marginBottom: 6 }}>
+                                        {__("AI Provider", "website-accessibility")}
+                                    </label>
+                                    <select
+                                        value={aiProvider}
+                                        onChange={(e) => setAiProvider(e?.target?.value || "openai")}
+                                        style={{ width: "100%", minHeight: 36 }}
+                                    >
+                                        <option value="openai">{__("OpenAI", "website-accessibility")}</option>
+                                        <option value="gemini">{__("Google Gemini", "website-accessibility")}</option>
+                                    </select>
+                                </div>
+                                {aiProvider === "openai" ? (
+                                    <WapInput
+                                        type="password"
+                                        value={openAiApiKey}
+                                        onChange={(e) => setOpenAiApiKey(e?.target?.value || "")}
+                                        placeholder={settings?.openai_api_key ? __("Key saved. Enter new key to replace.", "website-accessibility") : __("sk-...", "website-accessibility")}
+                                    />
+                                ) : (
+                                    <WapInput
+                                        type="password"
+                                        value={geminiApiKey}
+                                        onChange={(e) => setGeminiApiKey(e?.target?.value || "")}
+                                        placeholder={settings?.gemini_api_key ? __("Gemini key saved. Enter new key to replace.", "website-accessibility") : __("AIza...", "website-accessibility")}
+                                    />
+                                )}
+                                <WapSpace align="center">
+                                    <WapButton type="primary" onClick={saveOpenAiApiKey} loading={saving}>
+                                        {__("Save AI Settings", "website-accessibility")}
+                                    </WapButton>
+                                    <WapButton onClick={testOpenAiApiKey} loading={testingAiKey}>
+                                        {__("Test API Key", "website-accessibility")}
+                                    </WapButton>
+                                    {((aiProvider === "openai" && !!settings?.openai_api_key) || (aiProvider === "gemini" && !!settings?.gemini_api_key)) && (
+                                        <Text type="success">{__("Configured", "website-accessibility")}</Text>
+                                    )}
+                                </WapSpace>
+                            </WapSpace>
+                        </WapCard>
+                    )}
                 </>
             )}
 

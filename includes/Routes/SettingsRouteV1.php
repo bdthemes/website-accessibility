@@ -25,6 +25,9 @@ class SettingsRouteV1
         'show_usage_statistics'         => true,
         'enable_accessibility_checker'  => true,
         'always_on_translations'         => false,
+        'ai_provider'                   => 'openai',
+        'openai_api_key'                => '',
+        'gemini_api_key'                => '',
     ];
 
     /**
@@ -145,6 +148,19 @@ class SettingsRouteV1
         $clean['always_on_translations'] = isset($settings['always_on_translations'])
             ? (bool) $settings['always_on_translations']
             : $this->defaults['always_on_translations'];
+
+        $clean['openai_api_key'] = isset($settings['openai_api_key'])
+            ? sanitize_text_field((string) $settings['openai_api_key'])
+            : $this->defaults['openai_api_key'];
+
+        $provider = isset($settings['ai_provider'])
+            ? sanitize_key((string) $settings['ai_provider'])
+            : $this->defaults['ai_provider'];
+        $clean['ai_provider'] = in_array($provider, ['openai', 'gemini'], true) ? $provider : 'openai';
+
+        $clean['gemini_api_key'] = isset($settings['gemini_api_key'])
+            ? sanitize_text_field((string) $settings['gemini_api_key'])
+            : $this->defaults['gemini_api_key'];
 
         return $clean;
     }
