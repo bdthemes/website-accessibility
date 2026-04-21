@@ -165,6 +165,13 @@ const Settings = () => {
         }
     };
 
+    const handleOpenChecker = () => {
+        const homeUrl = window?.websacAdmin?.homeUrl || "/";
+        const targetUrl = new URL(homeUrl, window.location.origin);
+        targetUrl.searchParams.set("checker_open", "true");
+        window.open(targetUrl.toString(), "_blank", "noopener,noreferrer");
+    };
+
     useEffect(() => {
         fetchSettings();
     }, []);
@@ -219,9 +226,14 @@ const Settings = () => {
                     {!!settings.enable_accessibility_checker && (
                         <WapCard className="wap-settings-row wap-checker-ai-settings">
                             <div className="wap-checker-ai-settings__intro">
-                                <Title level={5} style={{ margin: 0 }}>
-                                    {__("Checker AI Provider", "website-accessibility")}
-                                </Title>
+                                <div className="wap-checker-ai-settings__intro-head">
+                                    <Title level={5} style={{ margin: 0 }}>
+                                        {__("Checker AI Provider", "website-accessibility")}
+                                    </Title>
+                                    <WapButton type="default" onClick={handleOpenChecker}>
+                                        {__("Open Checker", "website-accessibility")}
+                                    </WapButton>
+                                </div>
                                 <Text type="secondary">
                                     {__(
                                         "Used by 'Fix With AI' inside Accessibility Checker Pro. Keys are stored server-side.",

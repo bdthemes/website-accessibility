@@ -11,6 +11,14 @@
         padding-bottom: 16px;
         border-bottom: 1px solid #f3f4f6;
 
+        .wap-checker-ai-settings__intro-head {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            gap: 12px;
+            flex-wrap: wrap;
+        }
+
         .ant-typography-secondary {
             margin-top: 6px;
         }

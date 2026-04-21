@@ -13,6 +13,7 @@ import Settings from './settings';
 import ToolsBackup from './tools-backup';
 import AboutInfo from './about-info';
 import GetPro from './get-pro';
+import FixedAccessibilityIssues from './fixed-accessibility-issues';
 import UsageStatistics from '../components/usage-statistics';
 import LicenseManager from '../components/License/LicenseManager';
 import Disclaimer from '../components/disclaimer';
@@ -56,6 +57,8 @@ const Pages = () => {
                 return <Settings />;
             case 'website-accessibility-tools':
                 return <ToolsBackup />;
+            case 'website-accessibility-fixed-issues':
+                return <FixedAccessibilityIssues />;
             case 'website-accessibility-about':
                 return <AboutInfo />;
             case 'website-accessibility-get-pro':

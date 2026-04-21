@@ -14,6 +14,7 @@ import {
 	IconTools,
 	IconPro,
 	IconInfo,
+	IconHelp,
 } from './admin-menu-icons';
 
 const { Header, Sider, Content, Footer } = Layout;
@@ -73,6 +74,8 @@ const AdminLayout = ({ children }) => {
 	const location = useLocation();
 	const history = useHistory();
 	const currentPage = location?.params?.page || 'website-accessibility';
+	const { isProActive: isLicenseValid, isProPluginActive } = useLicense();
+	const hasFixedIssuesPage = !!window?.websacAdmin?.hasFixedIssuesPage;
 
 	const handleMenuClick = ({ key }) => {
 		history.push({ page: key });
@@ -82,9 +85,15 @@ const AdminLayout = ({ children }) => {
 		{ key: 'website-accessibility', icon: <IconGeneral />, label: __('General', 'website-accessibility') },
 		{ key: 'website-accessibility-presets', icon: <IconPresets />, label: __('Presets', 'website-accessibility') },
 		{ key: 'website-accessibilityfiles', icon: <IconProfiles />, label: __('Custom Profiles', 'website-accessibility') },
+		...(
+			isProPluginActive &&
+			isLicenseValid &&
+			(hasFixedIssuesPage || currentPage === 'website-accessibility-fixed-issues')
+				? [{ key: 'website-accessibility-fixed-issues', icon: <IconHelp />, label: __('Fixed Issues', 'website-accessibility') }]
+				: []
+		),
 		{ key: 'website-accessibility-settings', icon: <IconSettings />, label: __('Settings', 'website-accessibility') },
 	].filter(Boolean);
-	const { isProActive: isLicenseValid, isProPluginActive } = useLicense();
 
 	const comingSoonFeatureLabels = [
 		__('Enhanced analytics & usage insights', 'website-accessibility'),
