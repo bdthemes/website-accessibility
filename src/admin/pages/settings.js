@@ -7,7 +7,7 @@ import { useLicense } from "../context/LicenseContext";
 
 
 const Settings = () => {
-    const { WapSpin, WapMessage, WapCard, WapSpace, WapTypography, WapButton, WapInput } = window?.wapComponents;
+    const { WapSpin, WapMessage, WapCard, WapSpace, WapTypography, WapButton, WapInput, WapSelect } = window?.wapComponents;
     const { Title, Text } = WapTypography;
     const { isProActive } = useLicense();
     const [settings, setSettings] = useState({});
@@ -217,58 +217,117 @@ const Settings = () => {
                         onChange={(checked) => updateSetting("enable_accessibility_checker", checked)}
                     />
                     {!!settings.enable_accessibility_checker && (
-                        <WapCard className="wap-settings-row">
-                            <WapSpace
-                                direction="vertical"
-                                size={8}
-                                style={{ width: "100%" }}
-                            >
+                        <WapCard className="wap-settings-row wap-checker-ai-settings">
+                            <div className="wap-checker-ai-settings__intro">
                                 <Title level={5} style={{ margin: 0 }}>
                                     {__("Checker AI Provider", "website-accessibility")}
                                 </Title>
                                 <Text type="secondary">
-                                    {__("Used by 'Fix With AI' inside Accessibility Checker Pro. Keys are stored server-side.", "website-accessibility")}
-                                </Text>
-                                <div>
-                                    <label style={{ display: "block", marginBottom: 6 }}>
-                                        {__("AI Provider", "website-accessibility")}
-                                    </label>
-                                    <select
-                                        value={aiProvider}
-                                        onChange={(e) => setAiProvider(e?.target?.value || "openai")}
-                                        style={{ width: "100%", minHeight: 36 }}
-                                    >
-                                        <option value="openai">{__("OpenAI", "website-accessibility")}</option>
-                                        <option value="gemini">{__("Google Gemini", "website-accessibility")}</option>
-                                    </select>
-                                </div>
-                                {aiProvider === "openai" ? (
-                                    <WapInput
-                                        type="password"
-                                        value={openAiApiKey}
-                                        onChange={(e) => setOpenAiApiKey(e?.target?.value || "")}
-                                        placeholder={settings?.openai_api_key ? __("Key saved. Enter new key to replace.", "website-accessibility") : __("sk-...", "website-accessibility")}
-                                    />
-                                ) : (
-                                    <WapInput
-                                        type="password"
-                                        value={geminiApiKey}
-                                        onChange={(e) => setGeminiApiKey(e?.target?.value || "")}
-                                        placeholder={settings?.gemini_api_key ? __("Gemini key saved. Enter new key to replace.", "website-accessibility") : __("AIza...", "website-accessibility")}
-                                    />
-                                )}
-                                <WapSpace align="center">
-                                    <WapButton type="primary" onClick={saveOpenAiApiKey} loading={saving}>
-                                        {__("Save AI Settings", "website-accessibility")}
-                                    </WapButton>
-                                    <WapButton onClick={testOpenAiApiKey} loading={testingAiKey}>
-                                        {__("Test API Key", "website-accessibility")}
-                                    </WapButton>
-                                    {((aiProvider === "openai" && !!settings?.openai_api_key) || (aiProvider === "gemini" && !!settings?.gemini_api_key)) && (
-                                        <Text type="success">{__("Configured", "website-accessibility")}</Text>
+                                    {__(
+                                        "Used by 'Fix With AI' inside Accessibility Checker Pro. Keys are stored server-side.",
+                                        "website-accessibility"
                                     )}
-                                </WapSpace>
-                            </WapSpace>
+                                </Text>
+                            </div>
+
+                            <div className="wap-checker-ai-settings__row">
+                                <div className="wap-checker-ai-settings__row-text">
+                                    <Title level={5} style={{ margin: 0 }}>
+                                        {__("AI Provider", "website-accessibility")}
+                                    </Title>
+                                    <Text type="secondary">
+                                        {__(
+                                            "Choose which API powers automated fixes in the checker.",
+                                            "website-accessibility"
+                                        )}
+                                    </Text>
+                                </div>
+                                <div className="wap-checker-ai-settings__control">
+                                    <WapSelect
+                                        className="wap-checker-ai-settings__select"
+                                        value={aiProvider}
+                                        onChange={(value) => setAiProvider(value || "openai")}
+                                        popupMatchSelectWidth={false}
+                                    >
+                                        <WapSelect.Option value="openai">{__("OpenAI", "website-accessibility")}</WapSelect.Option>
+                                        <WapSelect.Option value="gemini">{__("Google Gemini", "website-accessibility")}</WapSelect.Option>
+                                    </WapSelect>
+                                </div>
+                            </div>
+
+                            <div className="wap-checker-ai-settings__row">
+                                <div className="wap-checker-ai-settings__row-text">
+                                    <Title level={5} style={{ margin: 0 }}>
+                                        {__("API key", "website-accessibility")}
+                                    </Title>
+                                    <Text type="secondary">
+                                        {aiProvider === "openai"
+                                            ? __(
+                                                  "Secret key from OpenAI (starts with sk-). Leave blank to keep the saved key.",
+                                                  "website-accessibility"
+                                              )
+                                            : __(
+                                                  "API key from Google AI Studio (AIza…). Leave blank to keep the saved key.",
+                                                  "website-accessibility"
+                                              )}
+                                    </Text>
+                                </div>
+                                <div className="wap-checker-ai-settings__control">
+                                    {aiProvider === "openai" ? (
+                                        <WapInput
+                                            className="wap-checker-ai-settings__input"
+                                            type="password"
+                                            value={openAiApiKey}
+                                            onChange={(e) => setOpenAiApiKey(e?.target?.value || "")}
+                                            placeholder={
+                                                settings?.openai_api_key
+                                                    ? __("Key saved. Enter new key to replace.", "website-accessibility")
+                                                    : __("sk-...", "website-accessibility")
+                                            }
+                                        />
+                                    ) : (
+                                        <WapInput
+                                            className="wap-checker-ai-settings__input"
+                                            type="password"
+                                            value={geminiApiKey}
+                                            onChange={(e) => setGeminiApiKey(e?.target?.value || "")}
+                                            placeholder={
+                                                settings?.gemini_api_key
+                                                    ? __("Gemini key saved. Enter new key to replace.", "website-accessibility")
+                                                    : __("AIza...", "website-accessibility")
+                                            }
+                                        />
+                                    )}
+                                </div>
+                            </div>
+
+                            <div className="wap-checker-ai-settings__row wap-checker-ai-settings__row--actions">
+                                <div className="wap-checker-ai-settings__row-text">
+                                    <Title level={5} style={{ margin: 0 }}>
+                                        {__("Save & test", "website-accessibility")}
+                                    </Title>
+                                    <Text type="secondary">
+                                        {__(
+                                            "Save your provider and key, then test the connection.",
+                                            "website-accessibility"
+                                        )}
+                                    </Text>
+                                </div>
+                                <div className="wap-checker-ai-settings__actions">
+                                    <WapSpace size="small" wrap align="center">
+                                        <WapButton type="primary" onClick={saveOpenAiApiKey} loading={saving}>
+                                            {__("Save AI Settings", "website-accessibility")}
+                                        </WapButton>
+                                        <WapButton onClick={testOpenAiApiKey} loading={testingAiKey}>
+                                            {__("Test API Key", "website-accessibility")}
+                                        </WapButton>
+                                        {((aiProvider === "openai" && !!settings?.openai_api_key) ||
+                                            (aiProvider === "gemini" && !!settings?.gemini_api_key)) && (
+                                            <Text type="success">{__("Configured", "website-accessibility")}</Text>
+                                        )}
+                                    </WapSpace>
+                                </div>
+                            </div>
                         </WapCard>
                     )}
                 </>
