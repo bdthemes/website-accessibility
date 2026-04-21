@@ -236,9 +236,10 @@ body {
   }
 }
 
-.wap-frontend .oachecker-drawer-footer__clear-btn {
+.wap-frontend .oachecker-drawer-header__clear-btn {
   border-radius: 8px !important;
-  height: 36px !important;
+  min-height: 32px !important;
+  height: 32px !important;
 }
 
 .wap-frontend .ant-btn-sm {
