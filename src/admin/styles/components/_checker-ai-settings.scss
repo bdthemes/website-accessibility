@@ -1,0 +1,151 @@
+// Checker AI Provider — same visual language as .wap-settings-row + export/import (text left, control right)
+.wap-checker-ai-settings {
+    &.wap-settings-row {
+        .ant-card-body {
+            padding: 16px 18px !important;
+        }
+    }
+
+    .wap-checker-ai-settings__intro {
+        margin-bottom: 16px;
+        padding-bottom: 16px;
+        border-bottom: 1px solid #f3f4f6;
+
+        .ant-typography-secondary {
+            margin-top: 6px;
+        }
+    }
+
+    .wap-checker-ai-settings__row {
+        display: flex;
+        align-items: flex-start;
+        justify-content: space-between;
+        gap: 16px 24px;
+        width: 100%;
+
+        & + .wap-checker-ai-settings__row {
+            margin-top: 14px;
+            padding-top: 14px;
+            border-top: 1px solid #f3f4f6;
+        }
+
+        .ant-typography-h5 {
+            font-size: 14px;
+            font-weight: 600;
+            color: #1f2937;
+        }
+
+        .ant-typography {
+            margin-bottom: 0 !important;
+        }
+
+        .ant-typography-secondary {
+            margin-top: 4px;
+            display: block;
+        }
+    }
+
+    .wap-checker-ai-settings__row-text {
+        flex: 1;
+        min-width: 0;
+    }
+
+    .wap-checker-ai-settings__control {
+        flex-shrink: 0;
+        width: min(100%, 320px);
+        display: flex;
+        justify-content: flex-end;
+    }
+
+    $field-border: #e6e6e6;
+    $field-border-hover: #d0d5dd;
+    $field-focus: #007bff;
+
+    .wap-checker-ai-settings__select {
+        width: 100%;
+        min-width: 200px;
+        max-width: 320px;
+
+        &.ant-select .ant-select-selector {
+            min-height: 42px;
+            border-radius: 6px;
+            border-color: $field-border !important;
+        }
+
+        &.ant-select:not(.ant-select-disabled):hover .ant-select-selector {
+            border-color: $field-border-hover !important;
+        }
+
+        &.ant-select-focused:not(.ant-select-disabled) .ant-select-selector {
+            border-color: $field-focus !important;
+            box-shadow: none !important;
+        }
+    }
+
+    // Match select: Ant Design 5 default input border (#d9d9d9) is darker than the select (#e6e6e6)
+    .wap-checker-ai-settings__control {
+        .wap-checker-ai-settings__input {
+            width: 100%;
+            min-height: 42px;
+            border-radius: 6px;
+        }
+
+        .wap-checker-ai-settings__input.ant-input-outlined,
+        .wap-checker-ai-settings__input.ant-input,
+        .wap-checker-ai-settings__input.ant-input-affix-wrapper {
+            border-color: $field-border !important;
+        }
+
+        .wap-checker-ai-settings__input.ant-input-outlined:hover:not(.ant-input-disabled),
+        .wap-checker-ai-settings__input.ant-input:hover:not(:disabled),
+        .wap-checker-ai-settings__input.ant-input-affix-wrapper:not(.ant-input-affix-wrapper-disabled):hover {
+            border-color: $field-border-hover !important;
+        }
+
+        .wap-checker-ai-settings__input.ant-input-outlined:focus-within,
+        .wap-checker-ai-settings__input.ant-input:focus,
+        .wap-checker-ai-settings__input.ant-input-affix-wrapper-focused {
+            border-color: $field-focus !important;
+            box-shadow: none !important;
+        }
+    }
+
+    .wap-checker-ai-settings__row--actions {
+        align-items: center;
+
+        .wap-checker-ai-settings__actions {
+            flex-shrink: 0;
+            display: flex;
+            justify-content: flex-end;
+
+            .ant-space {
+                flex-wrap: wrap;
+                justify-content: flex-end;
+            }
+
+            .ant-btn {
+                min-height: 40px;
+            }
+        }
+    }
+
+    @media (max-width: 576px) {
+        .wap-checker-ai-settings__row {
+            flex-direction: column;
+            align-items: stretch;
+        }
+
+        .wap-checker-ai-settings__control {
+            width: 100%;
+            justify-content: stretch;
+        }
+
+        .wap-checker-ai-settings__select {
+            max-width: none;
+        }
+
+        .wap-checker-ai-settings__row--actions .wap-checker-ai-settings__actions {
+            justify-content: flex-start;
+        }
+    }
+}
