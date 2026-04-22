@@ -97,7 +97,7 @@ class Menu
         // Add main menu
         add_menu_page(
             __('One Accessibility', 'website-accessibility'),
-            __('Accessibility', 'website-accessibility'),
+            __('One Accessibility', 'website-accessibility'),
             'manage_options',
             'website-accessibility',
             null,

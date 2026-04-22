@@ -2,10 +2,19 @@ import { useEffect, useMemo, useState } from '@wordpress/element';
 import { __ } from '@wordpress/i18n';
 import apiFetch from '@wordpress/api-fetch';
 import { useLicense } from '../context/LicenseContext';
-import { DeleteOutlined } from '@ant-design/icons';
+import { DeleteOutlined, InboxOutlined } from '@ant-design/icons';
 
 const FixedAccessibilityIssues = () => {
-  const { WapCard, WapTypography, WapAlert, WapSpace, WapButton, WapInput, WapMessage, WapSelect } = window?.wapComponents || {};
+  const {
+    WapCard,
+    WapTypography,
+    WapAlert,
+    WapButton,
+    WapInput,
+    WapMessage,
+    WapSelect,
+    WapSpin,
+  } = window?.wapComponents || {};
   const { Title, Text } = WapTypography || {};
   const { isProPluginActive, isProActive } = useLicense();
   const [items, setItems] = useState([]);
@@ -192,21 +201,6 @@ const FixedAccessibilityIssues = () => {
     }
   };
 
-  const toggleSelectItem = (id) => {
-    if (!id) return;
-    setSelectedIds((prev) => (prev.includes(id) ? prev.filter((x) => x !== id) : [...prev, id]));
-  };
-
-  const isAllCurrentPageSelected = pageItemIds.length > 0 && pageItemIds.every((id) => selectedIds.includes(id));
-
-  const toggleSelectAllCurrentPage = () => {
-    if (isAllCurrentPageSelected) {
-      setSelectedIds((prev) => prev.filter((id) => !pageItemIds.includes(id)));
-      return;
-    }
-    setSelectedIds((prev) => Array.from(new Set([...prev, ...pageItemIds])));
-  };
-
   const deleteSelected = async () => {
     if (selectedIds.length === 0) return;
     const selectedItems = sortedItems.filter((item) => selectedIds.includes(item?.id));
@@ -268,12 +262,29 @@ const FixedAccessibilityIssues = () => {
     }
   };
 
+  const toggleSelectItem = (id) => {
+    if (!id) return;
+    setSelectedIds((prev) => (prev.includes(id) ? prev.filter((x) => x !== id) : [...prev, id]));
+  };
+
+  const isAllCurrentPageSelected = pageItemIds.length > 0 && pageItemIds.every((id) => selectedIds.includes(id));
+
+  const toggleSelectAllCurrentPage = () => {
+    if (isAllCurrentPageSelected) {
+      setSelectedIds((prev) => prev.filter((id) => !pageItemIds.includes(id)));
+      return;
+    }
+    setSelectedIds((prev) => Array.from(new Set([...prev, ...pageItemIds])));
+  };
+
   if (!isProPluginActive || !isProActive) {
     return (
-      <div className="wap-settings">
-        <WapCard className="wap-settings-row">
-          <Title level={4}>{__('Fixed Accessibility Issues', 'website-accessibility')}</Title>
-          <Text type="secondary">
+      <div className="wap-settings wap-fixed-issues">
+        <WapCard className="wap-settings-row wap-fixed-issues__locked">
+          <Title level={4} className="wap-header-card-title">
+            {__('Fixed Issues', 'website-accessibility')}
+          </Title>
+          <Text type="secondary" className="wap-header-card-description">
             {__('This page is available in Pro with an active license.', 'website-accessibility')}
           </Text>
         </WapCard>
@@ -283,65 +294,75 @@ const FixedAccessibilityIssues = () => {
 
   return (
     <div className="wap-settings wap-fixed-issues">
-      <WapCard className="wap-settings-row wap-header-card">
-        <Title level={4} className="wap-header-card-title">
-          {__('Fixed Accessibility Issues', 'website-accessibility')}
-        </Title>
-        <Text type="secondary" className="wap-header-card-description">
-          {__('Recently saved fixes from Accessibility Checker.', 'website-accessibility')}
-        </Text>
+      <WapCard className="wap-settings-row wap-header-card wap-fixed-issues-header">
+        <div className="wap-fixed-issues-header__inner">
+          <div className="wap-header-card-content">
+            <Title level={4} className="wap-header-card-title">
+              {__('Fixed Issues', 'website-accessibility')}
+            </Title>
+            <Text type="secondary" className="wap-header-card-description">
+              {__('Recently saved fixes from Accessibility Checker.', 'website-accessibility')}
+            </Text>
+          </div>
+        </div>
       </WapCard>
 
-      <WapCard className="wap-settings-row">
+      <WapCard className="wap-settings-row wap-fixed-issues-list-card">
         {error ? (
           <WapAlert
             type="error"
             showIcon
             message={__('Could not load fixed issues.', 'website-accessibility')}
             description={error}
+            className="wap-fixed-issues__alert"
           />
         ) : null}
-        <div className="oachecker-recently-fixed">
-          <div className="oachecker-recently-fixed__toolbar oachecker-recently-fixed__toolbar--primary">
-            <div className="oachecker-recently-fixed__toolbar-left">
-              <WapInput
-                value={searchText}
-                onChange={(e) => setSearchText(e.target.value)}
-                placeholder={__('Search issue, value, xpath, page...', 'website-accessibility')}
-                allowClear
-                style={{ minWidth: 280 }}
+
+        <div className="wap-fixed-issues__toolbar">
+          <div className="wap-fixed-issues__toolbar-start">
+            <WapInput
+              className="wap-fixed-issues__search"
+              value={searchText}
+              onChange={(e) => setSearchText(e.target.value)}
+              placeholder={__('Search issue, value, xpath, page...', 'website-accessibility')}
+              allowClear
+            />
+            <WapSelect
+              className="wap-fixed-issues__filter"
+              value={issueFilter}
+              onChange={(value) => setIssueFilter(value || 'all')}
+            >
+              <WapSelect.Option value="all">{__('All issues', 'website-accessibility')}</WapSelect.Option>
+              {issueOptions.map((issueId) => (
+                <WapSelect.Option key={issueId} value={issueId}>{issueId}</WapSelect.Option>
+              ))}
+            </WapSelect>
+            <label className="wap-fixed-issues__select-all">
+              <input
+                type="checkbox"
+                checked={isAllCurrentPageSelected}
+                onChange={toggleSelectAllCurrentPage}
+                disabled={pagedItems.length === 0 || saving}
               />
+              <span>{__('Select page', 'website-accessibility')}</span>
+            </label>
+            {selectedCount > 0 ? (
+              <span className="wap-fixed-issues__selected-pill">
+                {selectedCount} {__('selected', 'website-accessibility')}
+              </span>
+            ) : null}
+          </div>
+          <div className="wap-fixed-issues__toolbar-end">
+            <div className="wap-fixed-issues__page-size-wrap">
+              <span className="wap-fixed-issues__per-page-label">{__('Per page', 'website-accessibility')}</span>
               <WapSelect
-                value={issueFilter}
-                onChange={(value) => setIssueFilter(value || 'all')}
-                style={{ minWidth: 220 }}
-              >
-                <WapSelect.Option value="all">{__('All issues', 'website-accessibility')}</WapSelect.Option>
-                {issueOptions.map((issueId) => (
-                  <WapSelect.Option key={issueId} value={issueId}>{issueId}</WapSelect.Option>
-                ))}
-              </WapSelect>
-              <label className="oachecker-recently-fixed__select-all">
-                <input
-                  type="checkbox"
-                  checked={isAllCurrentPageSelected}
-                  onChange={toggleSelectAllCurrentPage}
-                  disabled={pagedItems.length === 0 || saving}
-                />
-                <span>{__('Select page', 'website-accessibility')}</span>
-              </label>
-              {selectedCount > 0 && (
-                <Text>{selectedCount} {__('selected', 'website-accessibility')}</Text>
-              )}
-            </div>
-            <div className="oachecker-recently-fixed__toolbar-right">
-              <WapSelect
+                className="wap-fixed-issues__page-size"
                 value={String(pageSize)}
+                aria-label={__('Items per page', 'website-accessibility')}
                 onChange={(value) => {
                   setPageSize(Number(value) || 6);
                   setCurrentPage(1);
                 }}
-                style={{ minWidth: 120 }}
               >
                 <WapSelect.Option value="6">6</WapSelect.Option>
                 <WapSelect.Option value="10">10</WapSelect.Option>
@@ -349,42 +370,56 @@ const FixedAccessibilityIssues = () => {
                 <WapSelect.Option value="30">30</WapSelect.Option>
                 <WapSelect.Option value="40">40</WapSelect.Option>
                 <WapSelect.Option value="50">50</WapSelect.Option>
-                <WapSelect.Option value="60">60</WapSelect.Option>
-                <WapSelect.Option value="70">70</WapSelect.Option>
-                <WapSelect.Option value="80">80</WapSelect.Option>
-                <WapSelect.Option value="90">90</WapSelect.Option>
-                <WapSelect.Option value="100">100</WapSelect.Option>
               </WapSelect>
-              <WapButton
-                danger
-                ghost
-                disabled={selectedCount === 0 || saving}
-                onClick={deleteSelected}
-                icon={<DeleteOutlined />}
-              >
-                {__('Delete Selected', 'website-accessibility')}
-              </WapButton>
             </div>
+            <WapButton
+              type="default"
+              danger
+              className="wap-fixed-issues__bulk-delete"
+              disabled={selectedCount === 0 || saving}
+              onClick={deleteSelected}
+              icon={<DeleteOutlined />}
+            >
+              {__('Delete Selected', 'website-accessibility')}
+            </WapButton>
           </div>
         </div>
+
+        {loading ? (
+          <div className="wap-fixed-issues__loading">
+            <WapSpin size="large" />
+          </div>
+        ) : null}
+
         {!loading && !error && sortedItems.length === 0 ? (
-          <WapAlert
-            type="info"
-            showIcon
-            message={__('No fixed accessibility issues found yet.', 'website-accessibility')}
-          />
-        ) : (
-          <div className="oachecker-recently-fixed">
-            <WapSpace direction="vertical" gap={10} style={{ width: '100%' }}>
+          <div className="wap-fixed-issues__empty" role="status">
+            <div className="wap-fixed-issues__empty-visual" aria-hidden="true">
+              <InboxOutlined />
+            </div>
+            <Title level={5} className="wap-fixed-issues__empty-title">
+              {__('No fixed accessibility issues yet', 'website-accessibility')}
+            </Title>
+            <Text type="secondary" className="wap-fixed-issues__empty-text">
+              {__(
+                'Saved fixes from the Accessibility Checker will appear here so you can review or remove them.',
+                'website-accessibility',
+              )}
+            </Text>
+          </div>
+        ) : null}
+
+        {!loading && sortedItems.length > 0 ? (
+          <>
+            <ul className="wap-fixed-issues__list">
               {pagedItems.map((entry, index) => {
                 const key = entry?.id || `${entry?.issue_id || 'issue'}-${index}`;
                 const isEditing = editingId === entry?.id;
                 const updatedAt = entry?.updated_at || entry?.created_at || '';
                 const isSelected = selectedIds.includes(entry?.id);
                 return (
-                  <WapCard key={key} size="small" className="oachecker-recently-fixed__card">
-                    <div className="oachecker-recently-fixed__row">
-                      <label className="oachecker-recently-fixed__select-one">
+                  <li key={key} className="wap-fixed-issues__item">
+                    <div className="wap-fixed-issues__item-top">
+                      <label className="wap-fixed-issues__check">
                         <input
                           type="checkbox"
                           checked={!!isSelected}
@@ -392,48 +427,54 @@ const FixedAccessibilityIssues = () => {
                           disabled={saving}
                         />
                       </label>
-                      <Text strong>{entry?.issue_id || __('N/A', 'website-accessibility')}</Text>
+                      <div className="wap-fixed-issues__item-head">
+                        <code className="wap-fixed-issues__issue-id">{entry?.issue_id || __('N/A', 'website-accessibility')}</code>
+                        {updatedAt ? (
+                          <time className="wap-fixed-issues__time" dateTime={updatedAt}>{updatedAt}</time>
+                        ) : null}
+                      </div>
                     </div>
 
-                    <Text className="oachecker-recently-fixed__meta">
-                      {__('XPath:', 'website-accessibility')} {entry?.xpath || __('N/A', 'website-accessibility')}
-                    </Text>
-                    <Text className="oachecker-recently-fixed__meta">
-                      {__('Page Identifier:', 'website-accessibility')} {entry?.page_identifier || __('N/A', 'website-accessibility')}
-                    </Text>
-                    <Text className="oachecker-recently-fixed__meta">
-                      {__('Updated at:', 'website-accessibility')} {updatedAt || __('N/A', 'website-accessibility')}
-                    </Text>
+                    <dl className="wap-fixed-issues__meta">
+                      <div className="wap-fixed-issues__meta-row">
+                        <dt>{__('XPath', 'website-accessibility')}</dt>
+                        <dd title={entry?.xpath || ''}>{entry?.xpath || '—'}</dd>
+                      </div>
+                      <div className="wap-fixed-issues__meta-row">
+                        <dt>{__('Page ID', 'website-accessibility')}</dt>
+                        <dd>{entry?.page_identifier || '—'}</dd>
+                      </div>
+                    </dl>
 
                     {isEditing ? (
                       <WapInput.TextArea
-                        rows={3}
+                        className="wap-fixed-issues__textarea"
+                        rows={2}
                         value={editForm.value}
                         onChange={(e) => setEditForm((prev) => ({ ...prev, value: e.target.value }))}
                         placeholder={__('Value', 'website-accessibility')}
                       />
                     ) : (
-                      <Text className="oachecker-recently-fixed__meta">
-                        {__('Value:', 'website-accessibility')} {entry?.value || __('N/A', 'website-accessibility')}
-                      </Text>
+                      <div className="wap-fixed-issues__value-block">
+                        <span className="wap-fixed-issues__value-label">{__('Value', 'website-accessibility')}</span>
+                        <span className="wap-fixed-issues__value-text">{entry?.value || '—'}</span>
+                      </div>
                     )}
 
-                    <div className="oachecker-recently-fixed__actions">
+                    <div className="wap-fixed-issues__item-actions">
                       {isEditing ? (
                         <>
                           <WapButton
-                            size="middle"
                             type="primary"
-                            className="oachecker-recently-fixed__action-save"
+                            className="wap-fixed-issues__btn-save"
                             loading={saving}
                             onClick={() => saveEdit(entry)}
                           >
                             {__('Save', 'website-accessibility')}
                           </WapButton>
                           <WapButton
-                            size="middle"
                             type="default"
-                            className="oachecker-recently-fixed__action-edit"
+                            className="wap-fixed-issues__btn-secondary"
                             disabled={saving}
                             onClick={cancelEdit}
                           >
@@ -442,9 +483,8 @@ const FixedAccessibilityIssues = () => {
                         </>
                       ) : (
                         <WapButton
-                          size="middle"
                           type="default"
-                          className="oachecker-recently-fixed__action-edit"
+                          className="wap-fixed-issues__btn-secondary"
                           disabled={saving}
                           onClick={() => startEdit(entry)}
                         >
@@ -452,43 +492,45 @@ const FixedAccessibilityIssues = () => {
                         </WapButton>
                       )}
                       <WapButton
-                        size="middle"
                         danger
                         type="default"
-                        className="oachecker-recently-fixed__action-delete"
+                        className="wap-fixed-issues__btn-delete"
                         icon={<DeleteOutlined />}
                         loading={saving}
                         onClick={() => deleteItem(entry)}
                         aria-label={__('Delete', 'website-accessibility')}
                       />
                     </div>
-                  </WapCard>
+                  </li>
                 );
               })}
-            </WapSpace>
-            {sortedItems.length > pageSize && (
-              <div className="oachecker-recently-fixed__actions" style={{ justifyContent: 'space-between' }}>
+            </ul>
+
+            {sortedItems.length > pageSize ? (
+              <div className="wap-fixed-issues__pagination">
                 <WapButton
                   type="default"
+                  className="wap-fixed-issues__page-btn"
                   disabled={currentPage <= 1}
                   onClick={() => setCurrentPage((p) => Math.max(1, p - 1))}
                 >
                   {__('Previous', 'website-accessibility')}
                 </WapButton>
-                <Text>
+                <Text className="wap-fixed-issues__page-indicator">
                   {__('Page', 'website-accessibility')} {currentPage} {__('of', 'website-accessibility')} {totalPages}
                 </Text>
                 <WapButton
                   type="default"
+                  className="wap-fixed-issues__page-btn"
                   disabled={currentPage >= totalPages}
                   onClick={() => setCurrentPage((p) => Math.min(totalPages, p + 1))}
                 >
                   {__('Next', 'website-accessibility')}
                 </WapButton>
               </div>
-            )}
-          </div>
-        )}
+            ) : null}
+          </>
+        ) : null}
       </WapCard>
     </div>
   );
