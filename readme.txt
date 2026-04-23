@@ -4,7 +4,7 @@ Tags:              accessibility, a11y, wcag, ada-compliance, screen-reader
 Requires at least: 6.1
 Tested up to:      6.9
 Requires PHP:      7.4
-Stable tag:        1.3.2
+Stable tag:        1.3.3
 License:           GPL-2.0-or-later
 License URI:       https://www.gnu.org/licenses/gpl-2.0.html
 
@@ -197,7 +197,13 @@ This plugin uses the following open-source libraries and third-party tools. We a
 
 == Changelog ==
 
-= 1.3.2 - April 15, 2026 =
+= 1.3.3 – April 23, 2026 =
+* Improvement: Improved overall dashboard UI and user experience
+* Improvement: Enhanced settings panel design for better usability and clarity
+* Improvement: Optimized performance and internal code structure
+* Improvement: Minor UI refinements and consistency improvements across the plugin
+
+= 3 - April 15, 2026 =
 * Fixed: Tools & Backup Page License Check Issue Fixed
 * Fixed: One Accessibility Theme Compatibility Issues Fixed
 * Fixed: Custom Profiles Edit Page — Resolved Customization Panel Scrolling and Spacing Issues
