@@ -286,29 +286,55 @@ const Settings = () => {
                                 </div>
                                 <div className="wap-checker-ai-settings__control">
                                     {aiProvider === "openai" ? (
-                                        <WapInput
-                                            className="wap-checker-ai-settings__input"
-                                            type="password"
-                                            value={openAiApiKey}
-                                            onChange={(e) => setOpenAiApiKey(e?.target?.value || "")}
-                                            placeholder={
-                                                settings?.openai_api_key
-                                                    ? __("Key saved. Enter new key to replace.", "website-accessibility")
-                                                    : __("sk-...", "website-accessibility")
-                                            }
-                                        />
+                                        <div className="wap-checker-ai-settings__api-key-field">
+                                            <WapInput
+                                                className="wap-checker-ai-settings__input"
+                                                type="password"
+                                                value={openAiApiKey}
+                                                onChange={(e) => setOpenAiApiKey(e?.target?.value || "")}
+                                                placeholder={
+                                                    settings?.openai_api_key
+                                                        ? __("Key saved. Enter new key to replace.", "website-accessibility")
+                                                        : __("sk-...", "website-accessibility")
+                                                }
+                                            />
+                                            <a
+                                                className="wap-checker-ai-settings__key-link"
+                                                href="https://platform.openai.com/api-keys"
+                                                target="_blank"
+                                                rel="noopener noreferrer"
+                                            >
+                                                {__("Get or create an OpenAI API key", "website-accessibility")}
+                                                <span className="wap-checker-ai-settings__key-link-icon" aria-hidden="true">
+                                                    ↗
+                                                </span>
+                                            </a>
+                                        </div>
                                     ) : (
-                                        <WapInput
-                                            className="wap-checker-ai-settings__input"
-                                            type="password"
-                                            value={geminiApiKey}
-                                            onChange={(e) => setGeminiApiKey(e?.target?.value || "")}
-                                            placeholder={
-                                                settings?.gemini_api_key
-                                                    ? __("Gemini key saved. Enter new key to replace.", "website-accessibility")
-                                                    : __("AIza...", "website-accessibility")
-                                            }
-                                        />
+                                        <div className="wap-checker-ai-settings__api-key-field">
+                                            <WapInput
+                                                className="wap-checker-ai-settings__input"
+                                                type="password"
+                                                value={geminiApiKey}
+                                                onChange={(e) => setGeminiApiKey(e?.target?.value || "")}
+                                                placeholder={
+                                                    settings?.gemini_api_key
+                                                        ? __("Gemini key saved. Enter new key to replace.", "website-accessibility")
+                                                        : __("AIza...", "website-accessibility")
+                                                }
+                                            />
+                                            <a
+                                                className="wap-checker-ai-settings__key-link"
+                                                href="https://aistudio.google.com/apikey"
+                                                target="_blank"
+                                                rel="noopener noreferrer"
+                                            >
+                                                {__("Get or create a Google AI Studio (Gemini) API key", "website-accessibility")}
+                                                <span className="wap-checker-ai-settings__key-link-icon" aria-hidden="true">
+                                                    ↗
+                                                </span>
+                                            </a>
+                                        </div>
                                     )}
                                 </div>
                             </div>

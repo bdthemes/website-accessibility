@@ -63,21 +63,99 @@
         width: min(100%, 320px);
         display: flex;
         justify-content: flex-end;
+        align-items: flex-start;
+    }
+
+    // API key control uses same max width as AI Provider (.control = 320px)
+    .wap-checker-ai-settings__api-key-field {
+        display: flex;
+        flex-direction: column;
+        align-items: stretch;
+        gap: 10px;
+        width: 100%;
+        min-width: 0; // let flex child shrink; prevents input from overflowing 320px column
+
+        // Password / outlined: full width of column, no horizontal overflow
+        .wap-checker-ai-settings__input,
+        .wap-checker-ai-settings__input.ant-input-affix-wrapper {
+            width: 100% !important;
+            max-width: 100%;
+            box-sizing: border-box;
+        }
+    }
+
+    .wap-checker-ai-settings__key-link {
+        display: inline;
+        margin: 0;
+        padding: 0;
+        font-size: 12px;
+        line-height: 1.45;
+        font-weight: 500;
+        color: #007bff;
+        text-decoration: underline;
+        text-underline-offset: 2px;
+        background: none;
+        border: none;
+        border-radius: 0;
+        transition: color 0.15s ease;
+
+        &:hover {
+            color: #0056b3;
+        }
+
+        &:focus,
+        &:focus-visible,
+        &:active {
+            outline: none;
+            box-shadow: none;
+        }
+    }
+
+    .wap-checker-ai-settings__key-link-icon {
+        display: inline;
+        margin-left: 0.2em;
+        white-space: nowrap;
     }
 
     $field-border: #e6e6e6;
     $field-border-hover: #d0d5dd;
     $field-focus: #007bff;
+    $field-focus-ring: 0 0 0 3px rgba(0, 123, 255, 0.22);
 
     .wap-checker-ai-settings__select {
         width: 100%;
         min-width: 200px;
         max-width: 320px;
 
+        // Match control height; flex keeps label + chevron vertically centered
+        &.ant-select.ant-select-single {
+            display: inline-flex;
+            align-items: center;
+        }
+
         &.ant-select .ant-select-selector {
             min-height: 42px;
             border-radius: 6px;
             border-color: $field-border !important;
+            display: flex !important;
+            align-items: center !important;
+        }
+
+        // Ant’s chevron uses top:50% + margin-top; resets break centering — force middle like .wap-admin-pages
+        &.ant-select .ant-select-arrow {
+            top: 50% !important;
+            margin-top: 0 !important;
+            transform: translateY(-50%) !important;
+            display: flex !important;
+            align-items: center !important;
+            justify-content: center !important;
+        }
+
+        &.ant-select .ant-select-arrow .anticon {
+            display: inline-flex !important;
+            align-items: center !important;
+            justify-content: center !important;
+            line-height: 1 !important;
         }
 
         &.ant-select:not(.ant-select-disabled):hover .ant-select-selector {
@@ -86,7 +164,7 @@
 
         &.ant-select-focused:not(.ant-select-disabled) .ant-select-selector {
             border-color: $field-focus !important;
-            box-shadow: none !important;
+            box-shadow: $field-focus-ring !important;
         }
     }
 
@@ -102,6 +180,8 @@
         .wap-checker-ai-settings__input.ant-input,
         .wap-checker-ai-settings__input.ant-input-affix-wrapper {
             border-color: $field-border !important;
+            border-width: 1px !important;
+            transition: border-color 0.15s ease, box-shadow 0.15s ease;
         }
 
         .wap-checker-ai-settings__input.ant-input-outlined:hover:not(.ant-input-disabled),
@@ -110,11 +190,15 @@
             border-color: $field-border-hover !important;
         }
 
+        // Match AI Provider: border + soft ring (replaces box-shadow: none, which made focus look broken)
         .wap-checker-ai-settings__input.ant-input-outlined:focus-within,
+        .wap-checker-ai-settings__input.ant-input-outlined.ant-input-affix-wrapper-focused,
         .wap-checker-ai-settings__input.ant-input:focus,
+        .wap-checker-ai-settings__input.ant-input-affix-wrapper:focus-within,
         .wap-checker-ai-settings__input.ant-input-affix-wrapper-focused {
             border-color: $field-focus !important;
-            box-shadow: none !important;
+            box-shadow: $field-focus-ring !important;
+            outline: none !important;
         }
     }
 
