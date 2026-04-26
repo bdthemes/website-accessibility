@@ -197,7 +197,7 @@ This plugin uses the following open-source libraries and third-party tools. We a
 
 == Changelog ==
 
-= 1.3.3 – April 23, 2026 =
+= 1.3.3 – April 26, 2026 =
 * Improvement: Improved overall dashboard UI and user experience
 * Improvement: Enhanced settings panel design for better usability and clarity
 * Improvement: Optimized performance and internal code structure
