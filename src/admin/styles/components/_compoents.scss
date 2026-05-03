@@ -94,6 +94,28 @@
         flex-shrink: 0;
     }
 
+    &__swatch--unset {
+        background: repeating-conic-gradient(#e5e7eb 0% 25%, #f9fafb 0% 50%) 50% / 10px 10px;
+    }
+
+    &__clear {
+        display: block;
+        width: 100%;
+        margin-top: 10px;
+        padding: 6px 10px;
+        font-size: 13px;
+        border: 1px solid #d9d9d9;
+        border-radius: 6px;
+        background: #fff;
+        cursor: pointer;
+        color: #374151;
+
+        &:hover {
+            border-color: #1677ff;
+            color: #1677ff;
+        }
+    }
+
     &__value {
         font-size: 12px;
         line-height: 1.2;

@@ -4,7 +4,7 @@ Tags:              accessibility, a11y, wcag, ada-compliance, screen-reader
 Requires at least: 6.1
 Tested up to:      6.9
 Requires PHP:      7.4
-Stable tag:        1.3.3
+Stable tag:        1.3.4
 License:           GPL-2.0-or-later
 License URI:       https://www.gnu.org/licenses/gpl-2.0.html
 
@@ -196,6 +196,10 @@ This plugin uses the following open-source libraries and third-party tools. We a
 - [OpenDyslexic Font](https://opendyslexic.org/) – Open-source font designed to increase readability for readers with dyslexia (SIL Open Font License)
 
 == Changelog ==
+
+= 1.3.4 – May 03, 2026 =
+* Added: More panel/footer styling (card, section, header icons, feature info icon; save/delete preference buttons when preference is on).
+* Improvement: Cleaner footer settings when Active Preference is off; color picker and preset data handling fixes.
 
 = 1.3.3 – April 26, 2026 =
 * Improvement: Improved overall dashboard UI and user experience

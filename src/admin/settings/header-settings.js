@@ -66,6 +66,12 @@ const HeaderSettings = () => {
                         />
                     </ControlWrapper>
 
+                    <ControlWrapper label={__("Icon color", "website-accessibility")}>
+                        <ColorPicker
+                            value={attributes.iconColor}
+                            onChange={(value) => updateAttr({ iconColor: value })}
+                        />
+                    </ControlWrapper>
 
                     <ControlWrapper label={__("Padding", "website-accessibility")}>
                         <WapInput
