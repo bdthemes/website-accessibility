@@ -66,7 +66,7 @@
 	&__label {
 		font-size: 14px;
 		font-weight: 600;
-		color: #222;
+		color: var(--wap-section-title-color, #222);
 		vertical-align: middle;
 	}
 
@@ -75,11 +75,11 @@
 	// }
 
 	&__category {
-		background: #fff;
+		background: var(--wap-section-bg, #fff);
 		margin-bottom: 16px;
 		padding: 16px;
 		border-radius: 10px;
-		border: 1px solid #ebebeb;
+		border: 1px solid var(--wap-section-border-color, #ebebeb);
 		&:last-child {
 			margin-bottom: 0;
 		}
@@ -96,11 +96,11 @@
 		font-size: 14px;
 		font-weight: 700;
 		letter-spacing: 0.03em;
-		color: #222;
+		color: var(--wap-section-title-color, #222);
 	}
 
 	&__feature-btn {
-		background: #f1f3f8;
+		background: var(--wap-card-bg, #f1f3f8);
 		border-radius: 10px;
 		display: flex;
 		flex-direction: column;
@@ -112,17 +112,22 @@
 		transition: all 0.2s ease;
 		font-size: 14px;
 		font-weight: 600;
-		color: #111;
+		color: var(--wap-card-text, #111);
 		text-align: center;
 		position: relative;
 		padding: 7px;
-		box-shadow: 0 0 0 2px #f1f3f8;
+		box-shadow: 0 0 0 2px var(--wap-card-bg, #f1f3f8);
+	}
+
+	&__feature-btn:not(.wap-widget-features__feature-btn--active) .wap-widget-features__feature-icon svg path[fill]:not([fill="none"]):not([fill="transparent"]) {
+		fill: var(--wap-card-icon, #111111);
 	}
 
 	&__feature-icon {
 		display: block;
 		margin-bottom: 10px;
 		transition: all 0.2s ease;
+		color: var(--wap-card-icon, #111111);
 
 		svg {
 			display: block;
@@ -130,6 +135,7 @@
 			width: 30px;
 			height: 30px;
 			transition: filter 0.2s ease;
+			color: inherit;
 
 			rect {
 				fill: transparent;
@@ -141,6 +147,7 @@
 		position: absolute;
 		font-size: 14px;
 		z-index: 99;
+		color: var(--wap-feature-info-icon-color, rgba(0, 0, 0, 0.45));
 
 		&--topLeft {
 			left: 12px;

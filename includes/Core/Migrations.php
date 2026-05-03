@@ -14,7 +14,7 @@ class Migrations
 
     const VERSION_OPTION_KEY = 'websac_version';
     const DATA_SCHEMA_OPTION_KEY = 'websac_data_schema_version';
-    const LATEST_DATA_SCHEMA_VERSION = 2;
+    const LATEST_DATA_SCHEMA_VERSION = 4;
 
     private function __construct(){}
 
@@ -36,6 +36,16 @@ class Migrations
         if ($current_schema_version < 2) {
             $this->migrate_feature_widgets_to_categories();
             $current_schema_version = 2;
+        }
+
+        if ($current_schema_version < 3) {
+            $this->migrate_panel_wrapper_style_keys();
+            $current_schema_version = 3;
+        }
+
+        if ($current_schema_version < 4) {
+            $this->migrate_panel_wrapper_section_border_to_color();
+            $current_schema_version = 4;
         }
 
         update_option(self::DATA_SCHEMA_OPTION_KEY, $current_schema_version);
@@ -81,6 +91,177 @@ class Migrations
                 'post_content' => wp_json_encode($migrated_content, JSON_UNESCAPED_UNICODE | JSON_UNESCAPED_SLASHES),
             ]);
         }
+    }
+
+    /**
+     * Remove empty wrapper style keys and the accidental all-black card palette
+     * (legacy ColorPicker defaulted unset values to #000000 in the admin UI).
+     */
+    private function migrate_panel_wrapper_style_keys()
+    {
+        $presets = get_posts([
+            'post_type'      => 'websac_preset',
+            'post_status'    => 'any',
+            'posts_per_page' => -1,
+            'fields'         => 'ids',
+            'no_found_rows'  => true,
+        ]);
+
+        if (empty($presets)) {
+            return;
+        }
+
+        foreach ($presets as $preset_id) {
+            $post = get_post($preset_id);
+            if (! $post || empty($post->post_content)) {
+                continue;
+            }
+
+            $preset_content = json_decode($post->post_content, true);
+            if (json_last_error() !== JSON_ERROR_NONE || ! is_array($preset_content)) {
+                continue;
+            }
+
+            $changed = $this->sanitize_preset_wrapper_colors_in_place($preset_content);
+            if (! $changed) {
+                continue;
+            }
+
+            wp_update_post([
+                'ID'           => $preset_id,
+                'post_content' => wp_json_encode($preset_content, JSON_UNESCAPED_UNICODE | JSON_UNESCAPED_SLASHES),
+            ]);
+        }
+    }
+
+    /**
+     * Move legacy full-CSS "sectionBorder" string to sectionBorderColor (hex only) and drop the old key.
+     */
+    private function migrate_panel_wrapper_section_border_to_color()
+    {
+        $presets = get_posts([
+            'post_type'      => 'websac_preset',
+            'post_status'    => 'any',
+            'posts_per_page' => -1,
+            'fields'         => 'ids',
+            'no_found_rows'  => true,
+        ]);
+
+        if (empty($presets)) {
+            return;
+        }
+
+        foreach ($presets as $preset_id) {
+            $post = get_post($preset_id);
+            if (! $post || empty($post->post_content)) {
+                continue;
+            }
+
+            $preset_content = json_decode($post->post_content, true);
+            if (json_last_error() !== JSON_ERROR_NONE || ! is_array($preset_content)) {
+                continue;
+            }
+
+            $changed = $this->convert_section_border_string_to_color_key($preset_content);
+            if (! $changed) {
+                continue;
+            }
+
+            wp_update_post([
+                'ID'           => $preset_id,
+                'post_content' => wp_json_encode($preset_content, JSON_UNESCAPED_UNICODE | JSON_UNESCAPED_SLASHES),
+            ]);
+        }
+    }
+
+    /**
+     * @return bool True when preset JSON was modified.
+     */
+    private function convert_section_border_string_to_color_key(array &$content)
+    {
+        if (empty($content['panel']['wrapper']) || ! is_array($content['panel']['wrapper'])) {
+            return false;
+        }
+
+        $w = &$content['panel']['wrapper'];
+
+        if (! array_key_exists('sectionBorder', $w)) {
+            return false;
+        }
+
+        $raw = trim((string) $w['sectionBorder']);
+        unset($w['sectionBorder']);
+
+        if ('' === $raw) {
+            return true;
+        }
+
+        $has_color = isset($w['sectionBorderColor']) && '' !== trim((string) $w['sectionBorderColor']);
+        if ($has_color) {
+            return true;
+        }
+
+        if (preg_match('/#([0-9A-Fa-f]{3}|[0-9A-Fa-f]{6})\b/', $raw, $matches)) {
+            $w['sectionBorderColor'] = strtoupper($matches[0]);
+
+            return true;
+        }
+
+        return true;
+    }
+
+    /**
+     * @return bool True when preset JSON was modified.
+     */
+    private function sanitize_preset_wrapper_colors_in_place(array &$content)
+    {
+        if (empty($content['panel']['wrapper']) || ! is_array($content['panel']['wrapper'])) {
+            return false;
+        }
+
+        $w       = &$content['panel']['wrapper'];
+        $changed = false;
+
+        $norm_hex = static function ($v) {
+            if (! is_string($v)) {
+                return '';
+            }
+            $s = strtoupper(trim($v));
+            if ('' === $s) {
+                return '';
+            }
+            if (preg_match('/^#([0-9A-F]{3}|[0-9A-F]{6})$/', $s)) {
+                return $s;
+            }
+            if (preg_match('/^RGB\\(\\s*0\\s*,\\s*0\\s*,\\s*0\\s*\\)$/i', $s)) {
+                return '#000000';
+            }
+
+            return $s;
+        };
+
+        $cb = isset($w['cardBackground']) ? $norm_hex($w['cardBackground']) : '';
+        $ct = isset($w['cardTextColor']) ? $norm_hex($w['cardTextColor']) : '';
+        $ci = isset($w['cardIconColor']) ? $norm_hex($w['cardIconColor']) : '';
+
+        if ('#000000' === $cb && '#000000' === $ct && '#000000' === $ci) {
+            unset($w['cardBackground'], $w['cardTextColor'], $w['cardIconColor']);
+            $changed = true;
+        }
+
+        foreach (['cardBackground', 'cardTextColor', 'cardIconColor', 'featureInfoIconColor', 'sectionBackground', 'sectionTitleColor', 'sectionBorderColor'] as $key) {
+            if (isset($w[$key]) && '' === trim((string) $w[$key])) {
+                unset($w[$key]);
+                $changed = true;
+            }
+        }
+
+        if (isset($w['sectionBorder']) && '' === trim((string) $w['sectionBorder'])) {
+            unset($w['sectionBorder']);
+            $changed = true;
+        }
+
+        return $changed;
     }
 
     /**

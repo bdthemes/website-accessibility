@@ -50,6 +50,18 @@ const PanelFooter = ({ value, accessibilityContext, accessibilityDispatch, isEdi
     '--wap-footer-reset-btn-font-weight': attributes.resetBtnFontWeight,
     '--wap-footer-link-color': attributes.linkColor,
     '--wap-footer-branding-color': attributes.brandingColor,
+    ...(attributes.preferenceSaveBg ? { '--wap-footer-preference-save-bg': attributes.preferenceSaveBg } : {}),
+    ...(attributes.preferenceSaveColor ? { '--wap-footer-preference-save-color': attributes.preferenceSaveColor } : {}),
+    ...(attributes.preferenceSaveBorderColor
+      ? { '--wap-footer-preference-save-border-color': attributes.preferenceSaveBorderColor }
+      : {}),
+    ...(attributes.preferenceDeleteBg ? { '--wap-footer-preference-delete-bg': attributes.preferenceDeleteBg } : {}),
+    ...(attributes.preferenceDeleteColor
+      ? { '--wap-footer-preference-delete-color': attributes.preferenceDeleteColor }
+      : {}),
+    ...(attributes.preferenceDeleteBorderColor
+      ? { '--wap-footer-preference-delete-border-color': attributes.preferenceDeleteBorderColor }
+      : {}),
   };
 
   const saveablePreference = useMemo(() => {
@@ -185,6 +197,7 @@ const PanelFooter = ({ value, accessibilityContext, accessibilityDispatch, isEdi
         <div className="wap-panel-footer__actions">
           <WapButton
             type="primary"
+            className="wap-panel-footer__preference-save"
             icon={<SaveOutlined />}
             size="large"
             block
@@ -200,6 +213,7 @@ const PanelFooter = ({ value, accessibilityContext, accessibilityDispatch, isEdi
           <WapButton
             danger
             type="primary"
+            className="wap-panel-footer__preference-delete"
             icon={<DeleteOutlined />}
             size="large"
             block

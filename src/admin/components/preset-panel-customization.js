@@ -5,6 +5,7 @@ import { useLicense } from "../context/LicenseContext";
 import GetStartedPreset from "./preset-get-started";
 import PresetButtonStyle from "./preset-button-style";
 import PresetPanelRightSidebar from "./preset-panel-right-sidebar";
+import PresetPanelProfilesFeaturesSidebar from "./preset-panel-profiles-features-sidebar";
 import HeaderSettings from "../settings/header-settings";
 import ProfilesSettings from "../settings/profiles-settings";
 import FeatureSettings from "../settings/feature-settings";
@@ -86,8 +87,9 @@ const PanelCustomizationPreset = () => {
     );
 
     // Re-order sections:
-    // - Header should be above Panel Wrapper
-    // - Button should be below Features (and above Footer)
+    // - Header, then panel layout only
+    // - Profiles & Features as their own sections (unchanged structure)
+    // - profiles/features = Groups/Tiles styling only, placed directly above Button
     const headerItem = sectionItems.find((item) => item.slug === "header");
     const featuresItem = sectionItems.find((item) => item.slug === "features");
     const footerItem = sectionItems.find((item) => item.slug === "footer");
@@ -154,7 +156,7 @@ const PanelCustomizationPreset = () => {
                     />
                 )}
 
-                {/* Panel Wrapper (right sidebar controls) */}
+                {/* Panel: layout only (size, position, main background) */}
                 <WapCollapse
                     style={{ marginTop: "20px" }}
                     key="panel"
@@ -164,14 +166,13 @@ const PanelCustomizationPreset = () => {
                     items={[
                         {
                             key: "panel",
-                            label: __("Panel Wrapper", "website-accessibility"),
+                            label: __("Panel", "website-accessibility"),
                             children: <PresetPanelRightSidebar />,
                         },
                     ]}
                 />
 
-
-                {/* Other sections (Profiles etc.) */}
+                {/* Profiles and any other middle items (not features/footer) */}
                 {otherSectionItems.map((item) => (
                     <PanelSectionTab
                         key={item.slug}
@@ -191,8 +192,27 @@ const PanelCustomizationPreset = () => {
                     />
                 )}
 
+                {/* Groups/Tiles styling only — directly above Button */}
+                <WapCollapse
+                    style={{ marginTop: 20 }}
+                    key="profiles-features-style"
+                    defaultActiveKey={["profiles-features-style"]}
+                    bordered={false}
+                    className="wap-panel-customization__collapse"
+                    items={[
+                        {
+                            key: "profiles-features-style",
+                            label: __("Profiles & Features Styling", "website-accessibility"),
+                            children: (
+                                <div data-control-category={__("Profiles/Features", "website-accessibility")}>
+                                    <PresetPanelProfilesFeaturesSidebar />
+                                </div>
+                            ),
+                        },
+                    ]}
+                />
 
-                {/* Button should be below Features */}
+                {/* Button */}
                 <WapCollapse style={{ marginTop: 20 }}
                     key="button"
                     defaultActiveKey={["button"]}

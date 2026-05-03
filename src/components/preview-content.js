@@ -145,6 +145,13 @@ const PreviewContent = ({
                 '--panel-padding': panel?.wrapper?.padding,
                 '--panel-border-radius': panel?.wrapper?.borderRadius,
                 '--panel-box-shadow': panel?.wrapper?.boxShadow,
+                ...(panel?.wrapper?.cardBackground ? { '--wap-card-bg': panel.wrapper.cardBackground } : {}),
+                ...(panel?.wrapper?.cardTextColor ? { '--wap-card-text': panel.wrapper.cardTextColor } : {}),
+                ...(panel?.wrapper?.cardIconColor ? { '--wap-card-icon': panel.wrapper.cardIconColor } : {}),
+                ...(panel?.wrapper?.featureInfoIconColor ? { '--wap-feature-info-icon-color': panel.wrapper.featureInfoIconColor } : {}),
+                ...(panel?.wrapper?.sectionBackground ? { '--wap-section-bg': panel.wrapper.sectionBackground } : {}),
+                ...(panel?.wrapper?.sectionBorderColor ? { '--wap-section-border-color': panel.wrapper.sectionBorderColor } : {}),
+                ...(panel?.wrapper?.sectionTitleColor ? { '--wap-section-title-color': panel.wrapper.sectionTitleColor } : {}),
             }}
         >
             <div className="wap-panel-customization__header-info">

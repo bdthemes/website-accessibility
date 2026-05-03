@@ -1,38 +1,17 @@
 import { __ } from "@wordpress/i18n";
-import { useSelect, useDispatch } from "@wordpress/data";
-import { STORE_NAME } from "../store";
 import ControlWrapper from "./control-wrapper";
 import ColorPicker from "../controls/color-picker";
-
-
+import { usePresetPanelWrapper } from "./preset-panel-wrapper-utils";
 
 const PresetPanelRightSidebar = () => {
 	const { WapSelect, WapInput, WapCard } = window?.wapComponents;
-	const { presetsFormData } = useSelect((select) =>
-		select(STORE_NAME).getPresetsFormData(),
-	);
-	const { setPresetsFormData } = useDispatch(STORE_NAME);
-
-	const handleWrapperChange = (key, value) => {
-		setPresetsFormData({
-			...presetsFormData,
-			panel: {
-				...presetsFormData.panel,
-				wrapper: {
-					...presetsFormData.panel?.wrapper,
-					[key]: value,
-				},
-			},
-		});
-	};
-
-	const wrapper = presetsFormData?.panel?.wrapper || {};
+	const { wrapper, handleWrapperChange } = usePresetPanelWrapper();
 
 	return (
 		<div className="wap-panel-right-sidebar">
-			<WapCard bordered={false} className="wap-panel-right-sidebar__card" title={__("Layout", "website-accessibility")}>
+			<WapCard bordered={false} className="wap-panel-right-sidebar__card" title={__("Panel", "website-accessibility")}>
 				<div className="wap-panel-right-sidebar__layout-grid">
-					<ControlWrapper label={__("Panel Position", "website-accessibility")}>
+					<ControlWrapper label={__("Side", "website-accessibility")}>
 						<WapSelect
 							value={wrapper.position || "right"}
 							onChange={(value) => handleWrapperChange("position", value)}
@@ -41,7 +20,7 @@ const PresetPanelRightSidebar = () => {
 							<WapSelect.Option value="right">{__("Right Side", "website-accessibility")}</WapSelect.Option>
 						</WapSelect>
 					</ControlWrapper>
-					<ControlWrapper label={__("Width (px)", "website-accessibility")}>
+					<ControlWrapper label={__("Width", "website-accessibility")}>
 						<WapInput
 							type="number"
 							min={200}
@@ -51,17 +30,17 @@ const PresetPanelRightSidebar = () => {
 							addonAfter="px"
 						/>
 					</ControlWrapper>
-					<ControlWrapper label={__("Max height (vh)", "website-accessibility")}>
-					<WapInput
-						type="number"
-						min={10}
-						max={100}
-						value={wrapper.maxHeight > 100 ? 80 : (wrapper.maxHeight ?? 80)}
-						onChange={(e) => handleWrapperChange("maxHeight", e.target.value)}
-						addonAfter="vh"
-					/>
+					<ControlWrapper label={__("Max height", "website-accessibility")}>
+						<WapInput
+							type="number"
+							min={10}
+							max={100}
+							value={wrapper.maxHeight > 100 ? 80 : (wrapper.maxHeight ?? 80)}
+							onChange={(e) => handleWrapperChange("maxHeight", e.target.value)}
+							addonAfter="vh"
+						/>
 					</ControlWrapper>
-					<ControlWrapper label={__("Background Color", "website-accessibility")}>
+					<ControlWrapper label={__("Background", "website-accessibility")}>
 						<ColorPicker
 							value={wrapper.background}
 							onChange={(value) => handleWrapperChange("background", value)}

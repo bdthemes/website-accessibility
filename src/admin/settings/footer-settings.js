@@ -46,8 +46,58 @@ const FooterSettings = () => {
                 </ControlWrapper>
             </div>
 
+            {attributes.activePreference ? (
+                <>
+                    <WapTypography.Title level={5} className="wap-footer-settings__section-title">
+                        {__('Save preference button', 'website-accessibility')}
+                    </WapTypography.Title>
+                    <div className="wap-footer-settings__grid">
+                        <ControlWrapper label={__('Background', 'website-accessibility')}>
+                            <ColorPicker
+                                value={attributes.preferenceSaveBg}
+                                onChange={(value) => updateAttr({ preferenceSaveBg: value })}
+                            />
+                        </ControlWrapper>
+                        <ControlWrapper label={__('Text & icon', 'website-accessibility')}>
+                            <ColorPicker
+                                value={attributes.preferenceSaveColor}
+                                onChange={(value) => updateAttr({ preferenceSaveColor: value })}
+                            />
+                        </ControlWrapper>
+                        <ControlWrapper label={__('Border', 'website-accessibility')}>
+                            <ColorPicker
+                                value={attributes.preferenceSaveBorderColor}
+                                onChange={(value) => updateAttr({ preferenceSaveBorderColor: value })}
+                            />
+                        </ControlWrapper>
+                    </div>
+                    <WapTypography.Title level={5} className="wap-footer-settings__section-title">
+                        {__('Delete preference button', 'website-accessibility')}
+                    </WapTypography.Title>
+                    <div className="wap-footer-settings__grid">
+                        <ControlWrapper label={__('Background', 'website-accessibility')}>
+                            <ColorPicker
+                                value={attributes.preferenceDeleteBg}
+                                onChange={(value) => updateAttr({ preferenceDeleteBg: value })}
+                            />
+                        </ControlWrapper>
+                        <ControlWrapper label={__('Text & icon', 'website-accessibility')}>
+                            <ColorPicker
+                                value={attributes.preferenceDeleteColor}
+                                onChange={(value) => updateAttr({ preferenceDeleteColor: value })}
+                            />
+                        </ControlWrapper>
+                        <ControlWrapper label={__('Border', 'website-accessibility')}>
+                            <ColorPicker
+                                value={attributes.preferenceDeleteBorderColor}
+                                onChange={(value) => updateAttr({ preferenceDeleteBorderColor: value })}
+                            />
+                        </ControlWrapper>
+                    </div>
+                </>
+            ) : null}
             <WapTypography.Title level={5} className="wap-footer-settings__section-title">
-                {__('Style', 'website-accessibility')}
+                {__('Footer area', 'website-accessibility')}
             </WapTypography.Title>
             <div className="wap-footer-settings__grid">
                 <ControlWrapper label={__('Background Color', 'website-accessibility')}>

@@ -23,6 +23,45 @@
 		}
 	}
 
+	/* Save / update preference (primary) — colors from preset footer attributes */
+	&__preference-save.ant-btn.ant-btn-primary {
+		background: var(--wap-footer-preference-save-bg, #1677ff) !important;
+		color: var(--wap-footer-preference-save-color, #ffffff) !important;
+		border-color: var(
+			--wap-footer-preference-save-border-color,
+			var(--wap-footer-preference-save-bg, #1677ff)
+		) !important;
+		box-shadow: none;
+
+		.anticon {
+			color: inherit;
+		}
+
+		&:not(:disabled):hover {
+			filter: brightness(0.95);
+		}
+	}
+
+	/* Delete preference (danger primary) — same pattern as save */
+	&__preference-delete.ant-btn.ant-btn-primary.ant-btn-dangerous,
+	&__preference-delete.ant-btn.ant-btn-dangerous {
+		background: var(--wap-footer-preference-delete-bg, #ff4d4f) !important;
+		color: var(--wap-footer-preference-delete-color, #ffffff) !important;
+		border-color: var(
+			--wap-footer-preference-delete-border-color,
+			var(--wap-footer-preference-delete-bg, #ff4d4f)
+		) !important;
+		box-shadow: none;
+
+		.anticon {
+			color: inherit;
+		}
+
+		&:not(:disabled):hover {
+			filter: brightness(0.95);
+		}
+	}
+
 	// Reset Button
 	&__reset-btn {
 		position: relative;
