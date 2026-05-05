@@ -157,8 +157,10 @@ final class WebsiteAccessibility
 		// Add a custom class to the admin body tag.
 		add_filter('admin_body_class', fn($classes) => $classes . ' wap-admin');
 
-		// Add custom classes to the front-end body tag.
-		add_filter('body_class', fn($classes) => array_merge($classes, ['wap', 'wap-frontend']));
+		// Front-end body markers: very late PHP filter + JS reinforcer (some builders drop body_class output).
+		add_filter('body_class', array($this, 'add_frontend_body_classes'), PHP_INT_MAX - 1);
+		add_action('wp_body_open', array($this, 'print_frontend_body_class_reinforcer'), 0);
+		add_action('wp_footer', array($this, 'print_frontend_body_class_reinforcer'), 1);
 
 		do_action('websac_plugins_loaded');
 
@@ -212,6 +214,42 @@ final class WebsiteAccessibility
 		\bdthemes\websiteaccessibility\Routes\SystemInfoRouteV1::get_instance();
 
 		\bdthemes\websiteaccessibility\Routes\ExportImportRouteV1::get_instance();
+	}
+
+	/**
+	 * Append front-end body classes as late as possible so other filters run first.
+	 *
+	 * @param string[]|mixed $classes Body classes from previous filters.
+	 * @return string[]
+	 */
+	public function add_frontend_body_classes($classes)
+	{
+		if (! is_array($classes)) {
+			$classes = array();
+		}
+		$markup = array('wap', 'wap-frontend');
+		foreach ($markup as $class) {
+			if (! in_array($class, $classes, true)) {
+				$classes[] = $class;
+			}
+		}
+		return $classes;
+	}
+
+	/**
+	 * Re-apply body classes in the browser when a theme or builder strips PHP output.
+	 *
+	 * @return void
+	 */
+	public function print_frontend_body_class_reinforcer()
+	{
+		static $printed = false;
+		if ($printed || is_admin()) {
+			return;
+		}
+		$printed = true;
+		$classes = wp_json_encode(array('wap', 'wap-frontend'));
+		echo '<script>(function(){var b=document.body,c=' . $classes . ';if(!b||!c)return;c.forEach(function(cl){b.classList.add(cl);});})();</script>' . "\n";
 	}
 
 	/**
