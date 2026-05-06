@@ -69,11 +69,34 @@ class Frontend {
         return is_admin() || !empty(Utils::get_current_preset($this->get_preset_data(), Utils::get_page_type()));
     }
 
+    /**
+     * Load shared components on the front when the Pro accessibility checker may run
+     * (Customizer preview often has no matching preset; script order must still be valid).
+     */
+    private function should_enqueue_accessibility_checker_shared_assets() {
+        if (is_admin() || Utils::is_builder_editor()) {
+            return false;
+        }
+        if (! is_user_logged_in() || ! current_user_can('manage_options')) {
+            return false;
+        }
+        if (
+            ! class_exists('\bdthemes\websiteaccessibilitypro\Admin\License\LicenseHelper')
+            || ! \bdthemes\websiteaccessibilitypro\Admin\License\LicenseHelper::is_license_active()
+        ) {
+            return false;
+        }
+
+        return ! empty(Utils::get_settings('enable_accessibility_checker'));
+    }
 
     public function enqueue_components_scripts($hook) {
         if (!str_contains($hook, 'accessibility') && is_admin()) return;
 
-        if (!$this->should_render_preset_assets() || Utils::is_builder_editor()) return;
+        $checker_shared = $this->should_enqueue_accessibility_checker_shared_assets();
+        if ((! $this->should_render_preset_assets() && ! $checker_shared) || Utils::is_builder_editor()) {
+            return;
+        }
 
         $components_assets = WEBSAC_BUILD_DIR . 'components/index.asset.php';
         if (file_exists($components_assets)) {
@@ -96,7 +119,9 @@ class Frontend {
     }
 
     public function enqueue_frontend_scripts() {
-        if (!$this->should_render_preset_assets() || Utils::is_builder_editor()) return;
+        if (! $this->should_render_preset_assets() || Utils::is_builder_editor()) {
+            return;
+        }
 
         $frontend_assets = WEBSAC_BUILD_DIR . 'frontend/frontend.asset.php';
         $profiles = $this->get_profiles();
