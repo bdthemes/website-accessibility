@@ -84,5 +84,6 @@ window.wapComponents = {
 }
 
 window.wapHelpers = {
-    ...helpers
+    ...(window.wapHelpers || {}),
+    ...helpers,
 }
