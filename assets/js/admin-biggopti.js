@@ -525,7 +525,7 @@ jQuery(document).ready(function ($) {
     function injectPromotionMenu(promo) {
         var isPro = (BIGGOPTI_CFG && BIGGOPTI_CFG.isPro) || false;
         if (isPro && !promo) return; /* skip only FALLBACK when Pro */
-        var adminSubmenu = document.querySelector('#toplevel_page_website_accessibility_options .wp-submenu');
+        var adminSubmenu = document.querySelector('#toplevel_page_website-accessibility .wp-submenu');
         if (!adminSubmenu || adminSubmenu.querySelector('.bdt-promo-menu-item')) return;
         var p = promo || FALLBACK;
         var href = (p.link || '').replace(/&/g, '&amp;').replace(/"/g, '&quot;').replace(/</g, '&lt;');
