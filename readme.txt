@@ -197,7 +197,7 @@ This plugin uses the following open-source libraries and third-party tools. We a
 
 == Changelog ==
 
-= 1.3.5 – May 06, 2026 =
+= 1.3.5 – May 10, 2026 =
 * Fixed: Theme & Kirki – Freeform Page Builder Compatibility issue has been fixed
 
 = 1.3.4 – May 03, 2026 =
