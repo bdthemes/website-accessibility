@@ -199,6 +199,8 @@ This plugin uses the following open-source libraries and third-party tools. We a
 
 = 1.3.6 – May 11, 2026 =
 * Improvement: Enhanced system performance and stability.
+* Improvement : Improved save and error messages for better clarity.
+
 
 = 1.3.5 – May 10, 2026 =
 * Fixed: Theme & Kirki – Freeform Page Builder Compatibility issue has been fixed
