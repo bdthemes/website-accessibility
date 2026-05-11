@@ -16,14 +16,14 @@ jQuery(document).ready(function ($) {
         }
         var $time = $this.data('dismissible-time') || $this.attr('data-dismissible-time') || $this.attr('dismissible-time') || 604800;
         var $meta = $this.data('dismissible-meta') || $this.attr('data-dismissible-meta') || $this.attr('dismissible-meta') || 'transient';
-        var cfg = window.ElementPackBiggoptiConfig || window.ElementPackAdminApiBiggoptiConfig || {};
+        var cfg = window.OneAccessibilityAdminApiBiggoptiConfig || window.OneAccessibilityAdminApiBiggoptiConfig || {};
         var ajaxUrl = cfg.ajaxurl || (typeof ajaxurl !== 'undefined' ? ajaxurl : '');
         if (!ajaxUrl || !displayId || !cfg.nonce) return;
         $.ajax({
             url: ajaxUrl,
             type: 'POST',
             data: {
-                action: 'ep_admin_api_biggopti_dismiss',
+                action: 'oa_admin_api_biggopti_dismiss',
                 display_id: displayId,
                 id: $this.attr('id'),
                 meta: $meta,
@@ -117,14 +117,14 @@ jQuery(document).ready(function ($) {
     // Fetch API biggopties directly (no PHP ajax_fetch_api_biggopties)
     var BIGGOPTI_API_URL = 'https://api.sigmative.io/prod/store/api/biggopti/api-data-all-records';
     /** Slug shared with API `products` entries and legacy per-bucket payloads. */
-    var BIGGOPTI_PRODUCT_SLUG = 'element-pack';
-    var BIGGOPTI_CFG = window.ElementPackBiggoptiConfig || window.ElementPackAdminApiBiggoptiConfig || {};
+    var BIGGOPTI_PRODUCT_SLUG = 'one-accessibility';
+    var BIGGOPTI_CFG = window.OneAccessibilityAdminApiBiggoptiConfig || window.OneAccessibilityAdminApiBiggoptiConfig || {};
     var BIGGOPTI_ASSETS_URL = BIGGOPTI_CFG.assetsUrl || '';
 
     var skippedDueToProTargetedAndPro = false;
 
 
-    function isRecordForElementPack(item) {
+    function isRecordForOneAccessibility(item) {
         if (!item) return false;
         var p = (item.product != null ? String(item.product).trim() : '');
         if (p === BIGGOPTI_PRODUCT_SLUG) return true;
@@ -137,12 +137,12 @@ jQuery(document).ready(function ($) {
         return false;
     }
 
-    function normalizeToElementPackRecords(raw) {
+    function normalizeToOneAccessibilityRecords(raw) {
         if (!raw) return [];
         if (Array.isArray(raw)) {
             var filtered = [];
             for (var a = 0; a < raw.length; a++) {
-                if (isRecordForElementPack(raw[a])) filtered.push(raw[a]);
+                if (isRecordForOneAccessibility(raw[a])) filtered.push(raw[a]);
             }
             return filtered;
         }
@@ -152,9 +152,9 @@ jQuery(document).ready(function ($) {
         return [];
     }
 
-    function isElementPackPromoItemValid(item) {
+    function isOneAccessibilityPromoItemValid(item) {
         if (!item || item.type !== 'adminDashboard') return false;
-        if (!isRecordForElementPack(item)) return false;
+        if (!isRecordForOneAccessibility(item)) return false;
         var targets = item.client_targets || [];
         var isPro = (BIGGOPTI_CFG && BIGGOPTI_CFG.isPro) || false;
         if (targets.includes('pro_targeted') && isPro) {
@@ -393,7 +393,7 @@ jQuery(document).ready(function ($) {
         if (isWpAdmin && (pathBase.indexOf('index.php') !== -1 || /\/wp-admin\/?$/.test(pathBase))) {
             sectors.push('wp_dashboard');
         }
-        if (page && (page === 'element_pack_options' || page.toLowerCase().indexOf('element_pack') !== -1)) {
+        if (page && (page === 'website_accessibility_options' || page.toLowerCase().indexOf('website_accessibility') !== -1)) {
             sectors.push('plugin_dashboard');
         }
         if (path.indexOf('themes.php') !== -1) {
@@ -435,14 +435,14 @@ jQuery(document).ready(function ($) {
     }
 
     function injectBiggoptiesFromData(data) {
-        var list = normalizeToElementPackRecords(data);
+        var list = normalizeToOneAccessibilityRecords(data);
         if (!list.length) return;
         var dismissed = (BIGGOPTI_CFG && BIGGOPTI_CFG.dismissedDisplayIds) || [];
         var valid = [];
         var validForDashboard = [];
         var seen = {};
         for (var i = 0; i < list.length; i++) {
-            if (!isElementPackPromoItemValid(list[i])) continue;
+            if (!isOneAccessibilityPromoItemValid(list[i])) continue;
             var did = list[i].display_id || list[i].id || 'default-' + i;
             if (seen[did]) continue;
             seen[did] = true;
@@ -480,7 +480,7 @@ jQuery(document).ready(function ($) {
     }
 
     function injectFeedsFromData(data) {
-        var list = normalizeToElementPackRecords(data);
+        var list = normalizeToOneAccessibilityRecords(data);
         if (!list.length) return;
 
         // Target dashboard (or anywhere you want)
@@ -505,13 +505,13 @@ jQuery(document).ready(function ($) {
     /* ===================================
        Submenu Promotion Menu (shares API data with biggopties)
        =================================== */
-    var FALLBACK = { sub_title: 'Go Pro', link: 'https://bdthemes.com/deals/?utm_source=WordPress_org&utm_medium=bfcm_cta&utm_campaign=element_pack' };
+    var FALLBACK = { sub_title: 'Go Pro', link: 'https://bdthemes.com/deals/?utm_source=WordPress_org&utm_medium=bfcm_cta&utm_campaign=website_accessibility' };
 
     function getFirstValidPromo(data) {
-        var list = normalizeToElementPackRecords(data);
+        var list = normalizeToOneAccessibilityRecords(data);
         if (!list.length) return null;
         for (var i = 0; i < list.length; i++) {
-            if (isElementPackPromoItemValid(list[i]) && list[i].link) {
+            if (isOneAccessibilityPromoItemValid(list[i]) && list[i].link) {
                 var t = list[i].sub_title;
                 if (t == null || t === '') {
                     t = list[i].button_text || list[i].title || null;
@@ -525,7 +525,7 @@ jQuery(document).ready(function ($) {
     function injectPromotionMenu(promo) {
         var isPro = (BIGGOPTI_CFG && BIGGOPTI_CFG.isPro) || false;
         if (isPro && !promo) return; /* skip only FALLBACK when Pro */
-        var adminSubmenu = document.querySelector('#toplevel_page_element_pack_options .wp-submenu');
+        var adminSubmenu = document.querySelector('#toplevel_page_website-accessibility .wp-submenu');
         if (!adminSubmenu || adminSubmenu.querySelector('.bdt-promo-menu-item')) return;
         var p = promo || FALLBACK;
         var href = (p.link || '').replace(/&/g, '&amp;').replace(/"/g, '&quot;').replace(/</g, '&lt;');
@@ -550,7 +550,7 @@ jQuery(document).ready(function ($) {
         }
     }
 
-    function fetchElementPackPromoData() {
+    function fetchOneAccessibilityPromoData() {
         fetch(BIGGOPTI_API_URL).then(function (r) { return r.json(); }).then(processApiData).catch(function () {
             if (isCurrentSectorAllowedForPromo() && !(BIGGOPTI_CFG && BIGGOPTI_CFG.isPro)) {
                 injectPromotionMenu(FALLBACK);
@@ -560,8 +560,8 @@ jQuery(document).ready(function ($) {
 
     $(window).on('load', function () {
         setTimeout(function () {
-            fetchElementPackPromoData();
-            setTimeout(fetchElementPackPromoData, 500);
+            fetchOneAccessibilityPromoData();
+            setTimeout(fetchOneAccessibilityPromoData, 500);
         }, 400);
     });
 
