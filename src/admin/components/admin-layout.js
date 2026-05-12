@@ -9,6 +9,7 @@ import {
 	IconGeneral,
 	IconPresets,
 	IconProfiles,
+	IconCssOverrides,
 	IconSettings,
 	IconLicense,
 	IconTools,
@@ -85,6 +86,7 @@ const AdminLayout = ({ children }) => {
 		{ key: 'website-accessibility', icon: <IconGeneral />, label: __('General', 'website-accessibility') },
 		{ key: 'website-accessibility-presets', icon: <IconPresets />, label: __('Presets', 'website-accessibility') },
 		{ key: 'website-accessibilityfiles', icon: <IconProfiles />, label: __('Custom Profiles', 'website-accessibility') },
+		{ key: 'website-accessibility-settings', icon: <IconSettings />, label: __('Settings', 'website-accessibility') },
 		...(
 			isProPluginActive &&
 			isLicenseValid &&
@@ -92,7 +94,7 @@ const AdminLayout = ({ children }) => {
 				? [{ key: 'website-accessibility-fixed-issues', icon: <IconHelp />, label: __('Fixed Issues', 'website-accessibility') }]
 				: []
 		),
-		{ key: 'website-accessibility-settings', icon: <IconSettings />, label: __('Settings', 'website-accessibility') },
+		{ key: 'website-accessibility-css-overrides', icon: <IconCssOverrides />, label: __('CSS Overrides', 'website-accessibility') },
 	].filter(Boolean);
 
 	const comingSoonFeatureLabels = [

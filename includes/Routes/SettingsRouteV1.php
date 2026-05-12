@@ -28,6 +28,8 @@ class SettingsRouteV1
         'ai_provider'                   => 'openai',
         'openai_api_key'                => '',
         'gemini_api_key'                => '',
+        /** Raw CSS appended on the public site (toolbar / widget tweaks). Stored as plain text. */
+        'frontend_custom_css'           => '',
     ];
 
     /**
@@ -161,6 +163,14 @@ class SettingsRouteV1
         $clean['gemini_api_key'] = isset($settings['gemini_api_key'])
             ? sanitize_text_field((string) $settings['gemini_api_key'])
             : $this->defaults['gemini_api_key'];
+
+        $css_raw = isset($settings['frontend_custom_css'])
+            ? wp_strip_all_tags((string) $settings['frontend_custom_css'])
+            : (string) $this->defaults['frontend_custom_css'];
+        if (strlen($css_raw) > 524288) {
+            $css_raw = substr($css_raw, 0, 524288);
+        }
+        $clean['frontend_custom_css'] = $css_raw;
 
         return $clean;
     }
