@@ -336,6 +336,36 @@ const View = () => {
         };
     }, [isOpen]);
 
+    /**
+     * Deep link from tour / support: ?websac_open=1 opens the accessibility panel once.
+     */
+    useEffect(() => {
+        if (!currentPreset) {
+            return undefined;
+        }
+        let rafId = 0;
+        try {
+            const url = new URL(window.location.href);
+            const raw = (url.searchParams.get("websac_open") || "").toLowerCase();
+            const shouldOpen = raw === "1" || raw === "true" || raw === "yes";
+            if (!shouldOpen) {
+                return undefined;
+            }
+            rafId = window.requestAnimationFrame(() => {
+                openAccessibilityDrawer();
+            });
+            url.searchParams.delete("websac_open");
+            window.history.replaceState({}, "", url.toString());
+        } catch {
+            // Invalid URL — ignore
+        }
+        return () => {
+            if (rafId) {
+                window.cancelAnimationFrame(rafId);
+            }
+        };
+    }, [currentPreset, openAccessibilityDrawer]);
+
     if (!currentPreset) return null;
 
     return (

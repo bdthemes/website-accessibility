@@ -14,6 +14,7 @@ import { useState } from '@wordpress/element';
  * @param {object} statusMap - Optional status color/label map
  * @param {React.ReactNode} extra - Optional node on the right of the toolbar (e.g. Add button)
  * @param {Array} rowActions - Optional custom row actions for the default actions menu
+ * @param {string} firstRowEditDataTour - Optional data-tour on the Edit button of the first data row (e.g. guided tour)
  */
 
 const PostTable = ({
@@ -27,6 +28,7 @@ const PostTable = ({
   rowSelectionProps = {},
   extra = null,
   rowActions = null,
+  firstRowEditDataTour = null,
 }) => {
   const { WapInput, WapTable, WapButton, WapDropdown, WapSpace } = window?.wapComponents;
   const [selectedRowKeys, setSelectedRowKeys] = useState([]);
@@ -67,7 +69,7 @@ const PostTable = ({
       {
         title: 'Actions',
         key: 'actions',
-        render: (_, record) => {
+        render: (_, record, rowIndex) => {
           const actionItems = (rowActions || defaultRowActions).map(action => ({
             ...action,
             onClick: () => action.onClick(record),
@@ -83,6 +85,11 @@ const PostTable = ({
                   ghost={action.key === 'edit'}
                   danger={action.key === 'trash'}
                   onClick={action.onClick}
+                  {...(firstRowEditDataTour &&
+                  action.key === 'edit' &&
+                  rowIndex === 0
+                    ? { 'data-tour': firstRowEditDataTour }
+                    : {})}
                 >
                   {action.label}
                 </WapButton>

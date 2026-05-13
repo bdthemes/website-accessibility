@@ -2,7 +2,13 @@ import { useCallback, useEffect, useMemo, useState } from '@wordpress/element';
 import { __, _x, sprintf } from '@wordpress/i18n';
 import apiFetch from '@wordpress/api-fetch';
 import { useLicense } from '../context/LicenseContext';
-import { DeleteOutlined, DownOutlined, DownloadOutlined, InboxOutlined } from '@ant-design/icons';
+import {
+	FixedIssuesIconDownload,
+	FixedIssuesIconExternalLink,
+	FixedIssuesIconInbox,
+	FixedIssuesIconSearch,
+	FixedIssuesIconTrash,
+} from '../components/fixed-issues-icons';
 
 /**
  * Minimal copy for beginners: one short explanation per saved issue code.
@@ -380,7 +386,6 @@ const FixedAccessibilityIssues = () => {
     WapMessage,
     WapSelect,
     WapSpin,
-    WapDropdown,
   } = window?.wapComponents || {};
   const { Title, Text } = WapTypography || {};
   const { isProPluginActive, isProActive } = useLicense();
@@ -609,45 +614,6 @@ const FixedAccessibilityIssues = () => {
     });
   }, [sortedItems]);
 
-  const downloadReportJson = useCallback(() => {
-    if (!sortedItems.length) {
-      return;
-    }
-    const rows = sortedItems.map((row) => {
-      const ex = getFixedIssueExportFields(row);
-      return {
-        issue: ex.issue,
-        severity: ex.severity || null,
-        page: ex.page,
-        live_page_url: ex.live_page_url || null,
-        summary: ex.summary || null,
-        saved_at: ex.saved_at,
-        issue_code: ex.issue_code,
-      };
-    });
-    const payload = {
-      exported_from: 'website_accessibility_fixed_issues',
-      format_version: 3,
-      generated_at: new Date().toISOString(),
-      site_url: typeof window !== 'undefined' ? window.websacAdmin?.homeUrl || '' : '',
-      filter_note: __(
-        'Rows match the current search and filter on the Fixed Issues page.',
-        'website-accessibility',
-      ),
-      row_count: rows.length,
-      rows,
-    };
-    triggerDownload(
-      `${JSON.stringify(payload, null, 2)}\n`,
-      `fixed-issues-report-${reportFilenameStem()}.json`,
-      'application/json;charset=utf-8;'
-    );
-    WapMessage?.success?.({
-      content: __('Report downloaded (JSON).', 'website-accessibility'),
-      style: { marginBlockStart: 20 },
-    });
-  }, [sortedItems]);
-
   if (!isProPluginActive || !isProActive) {
     return (
       <div className="wap-settings wap-fixed-issues">
@@ -678,39 +644,15 @@ const FixedAccessibilityIssues = () => {
             </div>
           </div>
           <div className="wap-fixed-issues-header__actions">
-            <WapDropdown
-              trigger={['click']}
+            <WapButton
+              type="default"
+              className="wap-fixed-issues__download"
+              icon={<FixedIssuesIconDownload />}
               disabled={sortedItems.length === 0 || loading || saving}
-              menu={{
-                items: [
-                  {
-                    key: 'csv',
-                    label: __('CSV (Excel, Sheets)', 'website-accessibility'),
-                  },
-                  {
-                    key: 'json',
-                    label: __('JSON (backup / developers)', 'website-accessibility'),
-                  },
-                ],
-                onClick: ({ key }) => {
-                  if (key === 'csv') {
-                    downloadReportCsv();
-                  } else if (key === 'json') {
-                    downloadReportJson();
-                  }
-                },
-              }}
+              onClick={downloadReportCsv}
             >
-              <WapButton
-                type="default"
-                className="wap-fixed-issues__download"
-                icon={<DownloadOutlined />}
-                disabled={sortedItems.length === 0 || loading || saving}
-              >
-                {__('Download report', 'website-accessibility')}
-                <DownOutlined className="wap-fixed-issues__download-caret" />
-              </WapButton>
-            </WapDropdown>
+              {__('Download report', 'website-accessibility')}
+            </WapButton>
           </div>
         </div>
       </WapCard>
@@ -734,6 +676,11 @@ const FixedAccessibilityIssues = () => {
               onChange={(e) => setSearchText(e.target.value)}
               placeholder={__('Search page title, issue name, fix, link…', 'website-accessibility')}
               allowClear
+              prefix={
+                <span className="wap-fixed-issues__search-prefix">
+                  <FixedIssuesIconSearch />
+                </span>
+              }
             />
             <WapSelect
               className="wap-fixed-issues__filter"
@@ -786,7 +733,7 @@ const FixedAccessibilityIssues = () => {
               className="wap-fixed-issues__bulk-delete"
               disabled={selectedCount === 0 || saving}
               onClick={deleteSelected}
-              icon={<DeleteOutlined />}
+              icon={<FixedIssuesIconTrash />}
             >
               {__('Delete Selected', 'website-accessibility')}
             </WapButton>
@@ -802,7 +749,7 @@ const FixedAccessibilityIssues = () => {
         {!loading && !error && sortedItems.length === 0 ? (
           <div className="wap-fixed-issues__empty" role="status">
             <div className="wap-fixed-issues__empty-visual" aria-hidden="true">
-              <InboxOutlined />
+              <FixedIssuesIconInbox />
             </div>
             <Title level={5} className="wap-fixed-issues__empty-title">
               {__('No fixed accessibility issues yet', 'website-accessibility')}
@@ -848,7 +795,7 @@ const FixedAccessibilityIssues = () => {
                         danger
                         type="text"
                         className="wap-fixed-issues__minimal-delete-btn"
-                        icon={<DeleteOutlined />}
+                        icon={<FixedIssuesIconTrash />}
                         loading={saving}
                         onClick={() => deleteItem(entry)}
                         aria-label={__('Remove this saved fix', 'website-accessibility')}
@@ -870,7 +817,9 @@ const FixedAccessibilityIssues = () => {
                               title={__('Open this page on your site.', 'website-accessibility')}
                             >
                               {displayPageTitle(entry)}
-                              <span aria-hidden="true" className="wap-fixed-issues__page-link-external">{'\u2197'}</span>
+                              <span aria-hidden="true" className="wap-fixed-issues__page-link-external">
+                                <FixedIssuesIconExternalLink />
+                              </span>
                             </a>
                           ) : (
                             <span className="wap-fixed-issues__minimal-page-title">{displayPageTitle(entry)}</span>
@@ -915,7 +864,9 @@ const FixedAccessibilityIssues = () => {
                               )}
                             >
                               {__('Locate on page', 'website-accessibility')}
-                              <span aria-hidden="true" className="wap-fixed-issues__page-link-external">{'\u2197'}</span>
+                              <span aria-hidden="true" className="wap-fixed-issues__page-link-external">
+                                <FixedIssuesIconExternalLink />
+                              </span>
                             </a>
                           ) : null}
                         </div>

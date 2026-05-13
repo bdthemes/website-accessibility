@@ -6,6 +6,7 @@ import { RouterProvider } from './router';
 import "./styles/main.scss";
 import Pages from './pages';
 import AdminLayout from './components/admin-layout';
+import { DashboardTourProvider } from './context/dashboard-tour-context';
 import { register } from '@wordpress/data';
 import store from './store';
 import { LicenseProvider } from './context/LicenseContext';
@@ -18,9 +19,11 @@ const Admin = () => {
     return (
         <LicenseProvider>
             <RouterProvider>
-                <AdminLayout>
-                    <Pages />
-                </AdminLayout>
+                <DashboardTourProvider>
+                    <AdminLayout>
+                        <Pages />
+                    </AdminLayout>
+                </DashboardTourProvider>
             </RouterProvider>
         </LicenseProvider>
     );

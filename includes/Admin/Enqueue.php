@@ -8,6 +8,7 @@
 
 namespace bdthemes\websiteaccessibility\Admin;
 
+use bdthemes\websiteaccessibility\Routes\DashboardTourRouteV1;
 use bdthemes\websiteaccessibility\Traits\Singleton;
 
 if (!defined('ABSPATH')) {
@@ -55,7 +56,8 @@ class Enqueue {
                     'tabSize'      => 2,
                     'lineNumbers'  => true,
                     'lineWrapping' => true,
-                    'theme'        => 'monokai',
+                    /* Light theme: contrasts with admin card; syntax tokens stay colorful */
+                    'theme'        => 'default',
                 ],
             ]);
 
@@ -99,6 +101,8 @@ class Enqueue {
                 'hasFixedIssuesPage' => $this->has_fixed_issues_page(),
                 'licensePageUrl'    => $license_page_url,
                 'proUpgradeUrl'     => 'https://oneaccessibility.com#pricing',
+                /** Set false in JS after completing tour via REST (same page session). */
+                'shouldAutoStartDashboardTour' => ! DashboardTourRouteV1::is_completed(),
             ]
         );
 

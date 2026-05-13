@@ -67,6 +67,89 @@
 		max-height: 72vh;
 		font-size: 13px;
 		border-radius: 0;
+		background: #fff;
+		color: #000;
+	}
+
+	/*
+	 * Ant Design / admin wrappers often set color on ancestors so tokens inherit plain black.
+	 * Re-assert CodeMirror 5 default theme token colors (cm-s-default).
+	 */
+	.wap-css-overrides__editor-wrap .cm-s-default {
+		.cm-keyword {
+			color: #708 !important;
+		}
+
+		.cm-atom {
+			color: #219 !important;
+		}
+
+		.cm-number {
+			color: #164 !important;
+		}
+
+		.cm-def {
+			color: #00f !important;
+		}
+
+		.cm-variable-2 {
+			color: #05a !important;
+		}
+
+		/* CSS mode: property names (e.g. color, margin) */
+		.cm-property {
+			color: #905 !important;
+		}
+
+		.cm-variable-3,
+		.cm-type {
+			color: #085 !important;
+		}
+
+		.cm-comment {
+			color: #a50 !important;
+		}
+
+		.cm-string {
+			color: #a11 !important;
+		}
+
+		.cm-string-2 {
+			color: #f50 !important;
+		}
+
+		.cm-meta,
+		.cm-qualifier {
+			color: #555 !important;
+		}
+
+		.cm-builtin {
+			color: #30a !important;
+		}
+
+		.cm-bracket {
+			color: #997 !important;
+		}
+
+		.cm-tag {
+			color: #170 !important;
+		}
+
+		.cm-attribute {
+			color: #00c !important;
+		}
+
+		.cm-hr {
+			color: #999 !important;
+		}
+
+		.cm-link {
+			color: #00c !important;
+		}
+
+		.cm-error {
+			color: #f00 !important;
+		}
 	}
 
 	.wap-css-overrides__editor-wrap .CodeMirror-scroll {

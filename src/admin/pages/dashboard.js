@@ -153,7 +153,7 @@ const Dashboard = () => {
 
     return (
         <>
-            <div className="wap-settings wap-dashboard" style={{ marginTop: 20 }}>
+            <div className="wap-settings wap-dashboard" style={{ marginTop: 20 }} data-tour="wap-tour-dashboard-home">
                 <WapRow gutter={[12, 12]} align="stretch" className="statistics-grid wap-statistics-grid">
                     {stats.map((stat) => (
                         <WapCol xs={24} md={8} key={stat.title} className="stat-card">

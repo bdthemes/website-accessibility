@@ -3,6 +3,7 @@ import { __ } from '@wordpress/i18n';
 import { useDispatch, useSelect } from "@wordpress/data";
 import { STORE_NAME } from "../store";
 import { useHistory, useLocation } from '../router';
+import { useDashboardTour } from '../context/dashboard-tour-context';
 import PresetEditorPreview from '../components/preset-editor-preview';
 import PanelCustomizationPreset from '../components/preset-panel-customization';
 
@@ -12,6 +13,7 @@ const EditPreset = () => {
   const { updatePreset, saveEditedPreset, setPresetsFormData } = useDispatch(STORE_NAME);
   const history = useHistory();
   const location = useLocation();
+  const { notifyPresetSavedForTour } = useDashboardTour();
   const id = location?.params?.id;
   const page = location?.params?.page;
   const { Title } = WapTypography;
@@ -80,6 +82,7 @@ const EditPreset = () => {
       content: JSON.stringify(presetsFormData),
     });
     await saveEditedPreset(id);
+    notifyPresetSavedForTour();
     history.push({
       page: 'website-accessibility-presets',
     });
@@ -88,7 +91,7 @@ const EditPreset = () => {
   return (
     <div className="wap-preset-editor">
       <PresetEditorPreview />
-      <div className="wap-preset-editor-content">
+      <div className="wap-preset-editor-content" data-tour="wap-tour-preset-editor">
         <WapCard className='wap-header-card'>
 
           <Title level={2} className='wap-header-card-title'>
@@ -113,17 +116,19 @@ const EditPreset = () => {
       {/* <Card className="wap-preset-form-actions-card" style={{ marginTop: 24 }}> */}
       <div className="wap-preset-form-actions" style={{ marginTop: 24 }}>
         <WapSpace>
-          <WapButton
-            type="primary"
-            onClick={handleSave}
-            size='large'
-            disabled={!presetsFormData?.title}
-          >
-            <WapSpace>
-              {__('Update Preset', 'website-accessibility')}
-              <span className='dashicons dashicons-arrow-right-alt' />
-            </WapSpace>
-          </WapButton>
+          <span data-tour="wap-tour-save-preset" style={{ display: 'inline-flex' }}>
+            <WapButton
+              type="primary"
+              onClick={handleSave}
+              size='large'
+              disabled={!presetsFormData?.title}
+            >
+              <WapSpace>
+                {__('Update Preset', 'website-accessibility')}
+                <span className='dashicons dashicons-arrow-right-alt' />
+              </WapSpace>
+            </WapButton>
+          </span>
         </WapSpace>
       </div>
       {/* </Card> */}

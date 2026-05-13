@@ -15,7 +15,7 @@ import {
 	IconTools,
 	IconPro,
 	IconInfo,
-	IconHelp,
+	IconFixedIssues,
 } from './admin-menu-icons';
 
 const { Header, Sider, Content, Footer } = Layout;
@@ -24,7 +24,6 @@ const BDTHEMES_URL = 'https://bdthemes.com';
 
 const PLUGIN_VERSION = typeof window !== 'undefined' && window.websacAdmin?.version ? window.websacAdmin.version : '1.3.0';
 const HELP_URL = 'https://bdthemes.com/contact/';
-
 
 const IconComingSoonBullet = () => (
 	<span className="wap-admin-pro-features-card__icon" aria-hidden="true">
@@ -84,14 +83,14 @@ const AdminLayout = ({ children }) => {
 
 	const generalItems = [
 		{ key: 'website-accessibility', icon: <IconGeneral />, label: __('General', 'website-accessibility') },
-		{ key: 'website-accessibility-presets', icon: <IconPresets />, label: __('Presets', 'website-accessibility') },
+		{ key: 'website-accessibility-presets', icon: <IconPresets />, label: <span data-tour="wap-tour-presets-item">{__('Presets', 'website-accessibility')}</span> },
 		{ key: 'website-accessibilityfiles', icon: <IconProfiles />, label: __('Custom Profiles', 'website-accessibility') },
 		{ key: 'website-accessibility-settings', icon: <IconSettings />, label: __('Settings', 'website-accessibility') },
 		...(
 			isProPluginActive &&
 			isLicenseValid &&
 			(hasFixedIssuesPage || currentPage === 'website-accessibility-fixed-issues')
-				? [{ key: 'website-accessibility-fixed-issues', icon: <IconHelp />, label: __('Fixed Issues', 'website-accessibility') }]
+				? [{ key: 'website-accessibility-fixed-issues', icon: <IconFixedIssues />, label: __('Fixed Issues', 'website-accessibility') }]
 				: []
 		),
 		{ key: 'website-accessibility-css-overrides', icon: <IconCssOverrides />, label: __('CSS Overrides', 'website-accessibility') },
@@ -134,7 +133,7 @@ const AdminLayout = ({ children }) => {
 			: currentPage;
 
 	return (
-		<Layout className="wap-admin-layout">
+		<Layout className="wap-admin-layout" data-tour="wap-tour-full-dashboard">
 			<Header className="wap-admin-header">
 				<div className="wap-admin-header-left">
 					<span className="wap-admin-header-icon">
@@ -192,7 +191,8 @@ const AdminLayout = ({ children }) => {
 					</div>
 				</div>
 				<div className="wap-admin-header-right">
-					<a href={HELP_URL} target="_blank" rel="noopener noreferrer" className="wap-admin-header-help">
+					<div className="wap-admin-header-actions">
+						<a href={HELP_URL} target="_blank" rel="noopener noreferrer" className="wap-admin-header-help">
 						<span className="wap-admin-header-help-icon" aria-hidden="true">
 							<svg
 								xmlns="http://www.w3.org/2000/svg"
@@ -213,18 +213,21 @@ const AdminLayout = ({ children }) => {
 						</span>
 						{__('Help & Support', 'website-accessibility')}
 					</a>
+					</div>
 				</div>
 			</Header>
 			<Layout>
 				<Sider width={280} className="wap-admin-sider" theme="light">
-					<Menu
-						mode="inline"
-						selectedKeys={[selectedKey]}
-						items={menuItems}
-						onClick={handleMenuClick}
-						className="wap-admin-menu"
-						style={{ borderRight: 0, height: '100%' }}
-					/>
+					<div data-tour="wap-tour-sidebar-menu" className="wap-admin-menu-tour-anchor">
+						<Menu
+							mode="inline"
+							selectedKeys={[selectedKey]}
+							items={menuItems}
+							onClick={handleMenuClick}
+							className="wap-admin-menu"
+							style={{ borderRight: 0, height: '100%' }}
+						/>
+					</div>
 					{typeof window !== 'undefined' && (
 						<div className="wap-admin-pro-features-card">
 							<div className="wap-admin-pro-features-card__ribbon" aria-hidden="true">
@@ -281,7 +284,7 @@ const AdminLayout = ({ children }) => {
 					)}
 				</Sider>
 				<Layout className="wap-admin-main-column">
-					<Content className="wap-admin-content">
+					<Content className="wap-admin-content" data-tour="wap-tour-main-content">
 						{children}
 					</Content>
 

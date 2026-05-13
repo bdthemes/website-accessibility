@@ -111,16 +111,17 @@ const store = createReduxStore(STORE_NAME, {
         createPreset: (presetFormData) => {
             return async ({ dispatch, registry }) => {
                 const { editEntityRecord, saveEditedEntityRecord, saveEntityRecord } = registry.dispatch('core');
-                const { getEntityRecords } = registry.select(coreStore);
 
-                // Step 1: Fetch all existing presets
-                const prevPresets = getEntityRecords('postType', 'websac_preset', {
-                    per_page: -1,
-                });
+                // Wait until presets are resolved — synchronous getEntityRecords can be undefined on first load,
+                // which made sameTypePresets undefined and crashed `for...of` on the first Save click.
+                const prevPresets =
+                    (await registry.resolveSelect(coreStore).getEntityRecords('postType', 'websac_preset', {
+                        per_page: -1,
+                    })) ?? [];
 
                 // Step 2: If new preset is active, deactivate others of same type
                 if (presetFormData?.preset?.active) {
-                    const sameTypePresets = prevPresets?.filter(preset => {
+                    const sameTypePresets = prevPresets.filter((preset) => {
                         let presetData = {};
                         try {
                             presetData = JSON.parse(preset?.content?.raw);
@@ -181,7 +182,7 @@ const store = createReduxStore(STORE_NAME, {
         saveEditedPreset: (id) => {
             return async ({ dispatch, registry }) => {
                 const { select, dispatch: coreDispatch } = registry;
-                const { getEditedEntityRecord, getEntityRecords, getEntityRecord } = select('core');
+                const { getEditedEntityRecord, getEntityRecord } = select('core');
                 const { editEntityRecord, saveEditedEntityRecord } = coreDispatch('core');
 
                 // Step 1: Get the edited version of the preset (unsaved)
@@ -221,11 +222,12 @@ const store = createReduxStore(STORE_NAME, {
                 );
 
                 if (shouldDeactivateOthers && currentCondition) {
-                    const allPresets = getEntityRecords('postType', 'websac_preset', {
-                        per_page: -1,
-                    });
+                    const allPresets =
+                        (await registry.resolveSelect(coreStore).getEntityRecords('postType', 'websac_preset', {
+                            per_page: -1,
+                        })) ?? [];
 
-                    const sameTypePresets = allPresets?.filter(preset => {
+                    const sameTypePresets = allPresets.filter((preset) => {
                         if (preset.id === id) return false; // Skip current
 
                         let content = {};

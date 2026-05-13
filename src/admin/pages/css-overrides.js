@@ -90,6 +90,9 @@ const CssOverrides = () => {
 					...bootstrap,
 					codemirror: {
 						...cmBootstrap,
+						/* Ensure CSS mode + theme if bootstrap is empty or stripped */
+						mode: cmBootstrap.mode || 'css',
+						theme: cmBootstrap.theme || 'default',
 						placeholder: CSS_PLACEHOLDER_EXAMPLE,
 					},
 				});
