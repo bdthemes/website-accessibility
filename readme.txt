@@ -201,6 +201,8 @@ This plugin uses the following open-source libraries and third-party tools. We a
 
 * New: Added frontend Custom CSS support for accessibility widget and toolbar customization.
 * New: Added a “Quick Tour” feature for guided onboarding and accessibility setup.
+* Added: Tools & Backup Page Information, Guide & UI Enhancement
+
 
 = 1.3.6 – May 11, 2026 =
 * Improvement: Enhanced system performance and stability.
