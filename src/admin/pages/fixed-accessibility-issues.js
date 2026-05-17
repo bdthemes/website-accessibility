@@ -1,8 +1,11 @@
 import { useCallback, useEffect, useMemo, useState } from '@wordpress/element';
 import { __, _x, sprintf } from '@wordpress/i18n';
 import apiFetch from '@wordpress/api-fetch';
+import { InfoCircleOutlined } from '@ant-design/icons';
+import { Modal, Tooltip } from 'antd';
 import { useLicense } from '../context/LicenseContext';
 import {
+	FixedIssuesIconChevronDown,
 	FixedIssuesIconDownload,
 	FixedIssuesIconExternalLink,
 	FixedIssuesIconInbox,
@@ -76,6 +79,137 @@ function displayPageTitle(entry) {
   const t = (entry?.page_title || '').trim();
   if (t) return t;
   return formatPageIdentifier(entry?.page_identifier);
+}
+
+/**
+ * Split on spaces (after NBSP / odd-space normalize); keep first `maxWords` words + "..." when longer.
+ *
+ * @param {object} options
+ * @param {boolean} [options.splitHyphens=false] Count hyphen / en-dash as word breaks (Issue labels).
+ */
+function truncatePageTitleByWords(titleText, maxWords = 2, options = {}) {
+  const { splitHyphens = false } = options;
+  const raw =
+    typeof titleText === 'string' ? titleText.trim() : String(titleText ?? '').trim();
+  if (!raw) {
+    return { preview: '', full: '', truncated: false };
+  }
+  /* NBSP / figure space often appear in WP titles; normalize so word splits work. */
+  const full = raw
+    .replace(/\u00A0/g, ' ')
+    .replace(/[\u1680\u2000-\u200A\u202F\u205F\u3000]/g, ' ')
+    .replace(/\s+/g, ' ')
+    .trim();
+
+  const words = splitHyphens
+    ? full.split(/[\s\-–—]+/).filter(Boolean)
+    : full.split(' ').filter(Boolean);
+
+  if (words.length <= maxWords) {
+    return { preview: full, full, truncated: false };
+  }
+  return {
+    preview: `${words.slice(0, maxWords).join(' ')}...`,
+    full,
+    truncated: true,
+  };
+}
+
+/**
+ * Fixed Issues table — Page column only: max 2 words + "..."; full title in tooltip (whole link wrapped).
+ */
+function FixedIssuesTablePageCell({ pageTitle, pageViewUrl, TooltipComponent }) {
+  const raw = pageTitle != null ? String(pageTitle).trim() : '';
+  if (!raw) {
+    return <span className="wap-fixed-issues__table-desc-empty">—</span>;
+  }
+
+  const { preview, full, truncated } = truncatePageTitleByWords(raw, 2);
+
+  if (pageViewUrl) {
+    const link = (
+      <a
+        href={pageViewUrl}
+        className="wap-fixed-issues__beginner-page-link wap-fixed-issues__table-page-link"
+        target="_blank"
+        rel="noopener noreferrer"
+        aria-label={sprintf(__('Open page: %s', 'website-accessibility'), raw)}
+      >
+        <span className="wap-fixed-issues__page-title-elide wap-fixed-issues__beginner-page-link__label">
+          {preview}
+        </span>
+        <span aria-hidden="true" className="wap-fixed-issues__page-link-external">
+          <FixedIssuesIconExternalLink />
+        </span>
+      </a>
+    );
+
+    if (truncated && TooltipComponent) {
+      return (
+        <TooltipComponent title={full} mouseEnterDelay={0.15}>
+          {link}
+        </TooltipComponent>
+      );
+    }
+    if (truncated) {
+      return (
+        <span className="wap-fixed-issues__table-page-tooltip-fallback" title={full}>
+          {link}
+        </span>
+      );
+    }
+    return link;
+  }
+
+  const text = (
+    <span className="wap-fixed-issues__minimal-page-title wap-fixed-issues__page-title-elide">{preview}</span>
+  );
+
+  if (truncated && TooltipComponent) {
+    return (
+      <TooltipComponent title={full} mouseEnterDelay={0.15}>
+        {text}
+      </TooltipComponent>
+    );
+  }
+  if (truncated) {
+    return (
+      <span className="wap-fixed-issues__table-page-tooltip-fallback" title={full}>
+        {text}
+      </span>
+    );
+  }
+  return text;
+}
+
+/** Issue column: first 4 words + "..."; full label in tooltip when trimmed. */
+function FixedIssuesTableIssueCell({ issueTitle, TooltipComponent }) {
+  const raw = issueTitle != null ? String(issueTitle).trim() : '';
+  if (!raw) {
+    return <span className="wap-fixed-issues__table-desc-empty">—</span>;
+  }
+
+  const { preview, full, truncated } = truncatePageTitleByWords(raw, 4, { splitHyphens: true });
+
+  const content = <span className="wap-fixed-issues__table-issue">{preview}</span>;
+
+  if (truncated && TooltipComponent) {
+    return (
+      <TooltipComponent title={full} mouseEnterDelay={0.15}>
+        {content}
+      </TooltipComponent>
+    );
+  }
+
+  if (truncated) {
+    return (
+      <span className="wap-fixed-issues__table-page-tooltip-fallback" title={full}>
+        {content}
+      </span>
+    );
+  }
+
+  return content;
 }
 
 /** Base64 XPath for ?websac_xpath (UTF-8 safe). Empty if too large. */
@@ -291,6 +425,86 @@ function formatFixedAt(value) {
   }
 }
 
+/** Short date/time label for dense table cells (drops “Saved” prefix client-side). */
+function formatFixedAtTableCompact(value) {
+  if (!value) return '';
+  const date = new Date(value);
+  if (Number.isNaN(date.getTime())) return '';
+
+  try {
+    const now = new Date();
+    const sameYear = date.getFullYear() === now.getFullYear();
+    const fmt = new Intl.DateTimeFormat(undefined, {
+      month: 'short',
+      day: 'numeric',
+      hour: 'numeric',
+      minute: '2-digit',
+      ...(sameYear ? {} : { year: '2-digit' }),
+    });
+    return fmt.format(date);
+  } catch (e) {
+    return '';
+  }
+}
+
+/** Short inline preview; full wording is only in the info Tooltip (“What changed”). */
+function truncateTableChangePreview(raw, maxLen = 52) {
+  const t = typeof raw === 'string' ? raw.trim() : '';
+  if (!t) {
+    return { preview: '', truncated: false };
+  }
+  if (t.length <= maxLen) {
+    return { preview: t, truncated: false };
+  }
+  const sliced = t.slice(0, maxLen - 1).replace(/\s+\S*$/, '').trimEnd() || t.slice(0, maxLen - 1).trimEnd();
+  return {
+    preview: `${sliced}…`,
+    truncated: true,
+  };
+}
+
+/**
+ * “What changed” cell: brief inline text + optional info icon — full detail in Tooltip only.
+ */
+function FixedIssuesTableChangeSummary({ text, footnote }) {
+  const mainRaw = typeof text === 'string' ? text.trim() : '';
+  const tailRaw = typeof footnote === 'string' ? footnote.trim() : '';
+  const tip = mainRaw || tailRaw ? [mainRaw, tailRaw].filter(Boolean).join('\n\n') : '';
+  const headline = mainRaw || tailRaw;
+  const { preview, truncated } = truncateTableChangePreview(headline, 28);
+  const showInfoIcon = !!(tip.trim()) && (truncated || !!tailRaw);
+
+  if (!headline && !tailRaw) {
+    return <span className="wap-fixed-issues__table-desc-empty">—</span>;
+  }
+
+  const infoControl = showInfoIcon ? (
+    <Tooltip
+      mouseEnterDelay={0.25}
+      title={
+        tip ? (
+          <span className="wap-fixed-issues__table-desc-tooltip">{tip}</span>
+        ) : undefined
+      }
+    >
+      <button
+        type="button"
+        className="wap-fixed-issues__table-info-trigger"
+        aria-label={__('Full details about this fix', 'website-accessibility')}
+      >
+        <InfoCircleOutlined aria-hidden />
+      </button>
+    </Tooltip>
+  ) : null;
+
+  return (
+    <div className="wap-fixed-issues__table-change">
+      <span className="wap-fixed-issues__table-change-preview">{preview}</span>
+      {infoControl}
+    </div>
+  );
+}
+
 /** Row fields for Fixed Issues cards (highlight link + summary line). */
 function buildFixedIssueRowModel(entry) {
   const info = getIssueInfo(entry?.issue_id);
@@ -382,10 +596,13 @@ const FixedAccessibilityIssues = () => {
     WapTypography,
     WapAlert,
     WapButton,
+    WapDropdown,
     WapInput,
     WapMessage,
     WapSelect,
     WapSpin,
+    WapTooltip,
+    WapTable,
   } = window?.wapComponents || {};
   const { Title, Text } = WapTypography || {};
   const { isProPluginActive, isProActive } = useLicense();
@@ -394,7 +611,7 @@ const FixedAccessibilityIssues = () => {
   const [saving, setSaving] = useState(false);
   const [error, setError] = useState('');
   const [currentPage, setCurrentPage] = useState(1);
-  const [pageSize, setPageSize] = useState(6);
+  const [pageSize, setPageSize] = useState(10);
   const [selectedIds, setSelectedIds] = useState([]);
   const [searchText, setSearchText] = useState('');
   const [issueFilter, setIssueFilter] = useState('all');
@@ -581,12 +798,81 @@ const FixedAccessibilityIssues = () => {
     }
   };
 
-  const toggleSelectItem = (id) => {
-    if (!id) return;
-    setSelectedIds((prev) => (prev.includes(id) ? prev.filter((x) => x !== id) : [...prev, id]));
-  };
+  const promptDeleteAllFixedIssues = useCallback(() => {
+    if (items.length === 0 || saving || loading) {
+      return;
+    }
 
-  const isAllCurrentPageSelected = pageItemIds.length > 0 && pageItemIds.every((id) => selectedIds.includes(id));
+    Modal.confirm({
+      title: __('Delete all saved fixes?', 'website-accessibility'),
+      content: sprintf(
+        __(
+          'This permanently deletes everything in your Fixed Issues list (%d items). You cannot undo this.',
+          'website-accessibility',
+        ),
+        items.length,
+      ),
+      okText: __('Delete all', 'website-accessibility'),
+      cancelText: __('Cancel', 'website-accessibility'),
+      okButtonProps: { danger: true },
+      centered: true,
+      onOk: async () => {
+        const snapshot = [...items];
+        setSaving(true);
+        const succeededIds = [];
+        const failedIds = [];
+
+        try {
+          for (const item of snapshot) {
+            const itemId = item?.id;
+            if (!itemId || !item?.page_identifier) {
+              if (itemId) {
+                failedIds.push(itemId);
+              }
+              continue;
+            }
+            try {
+              await apiFetch({
+                path: `/one-accessibility/v1/checker-fix-rules/${item.id}?page_identifier=${encodeURIComponent(item.page_identifier)}`,
+                method: 'DELETE',
+              });
+              succeededIds.push(itemId);
+            } catch (e) {
+              failedIds.push(itemId);
+            }
+          }
+
+          if (succeededIds.length > 0) {
+            setItems((prev) => prev.filter((row) => !succeededIds.includes(row?.id)));
+          }
+          setSelectedIds([]);
+          setCurrentPage(1);
+
+          if (failedIds.length === 0) {
+            WapMessage?.success?.({
+              content: __('All saved fixes were deleted.', 'website-accessibility'),
+              style: { marginBlockStart: 20 },
+            });
+          } else if (succeededIds.length > 0) {
+            WapMessage?.warning?.({
+              content: `${succeededIds.length} ${__('deleted,', 'website-accessibility')} ${failedIds.length} ${__('failed. Please retry.', 'website-accessibility')}`,
+              style: { marginBlockStart: 20 },
+            });
+          } else {
+            WapMessage?.error?.({
+              content: __('Could not delete saved fixes.', 'website-accessibility'),
+              style: { marginBlockStart: 20 },
+            });
+          }
+        } finally {
+          setSaving(false);
+        }
+      },
+    });
+  }, [items, loading, saving]);
+
+  const isAllCurrentPageSelected =
+    pageItemIds.length > 0 && pageItemIds.every((id) => selectedIds.includes(id));
 
   const toggleSelectAllCurrentPage = () => {
     if (isAllCurrentPageSelected) {
@@ -613,6 +899,128 @@ const FixedAccessibilityIssues = () => {
       style: { marginBlockStart: 20 },
     });
   }, [sortedItems]);
+
+  const fixedIssuesTableRows = useMemo(() => {
+    const highlightPathUnavailableHint = __(
+      'Use “Open page” — this path can’t highlight the exact spot from here.',
+      'website-accessibility',
+    );
+    return pagedItems.map((entry, idx) => {
+      const rowModel = buildFixedIssueRowModel(entry);
+      const fixedAtRaw = entry?.updated_at || entry?.created_at || '';
+      const fixedAtShort = formatFixedAtTableCompact(fixedAtRaw);
+      const pageTitleForCard = displayPageTitle(entry);
+      const highlightNote =
+        entry?.page_view_url && entry?.xpath && !rowModel.highlightUrl
+          ? highlightPathUnavailableHint
+          : '';
+      return {
+        key: entry?.id != null ? entry.id : `fi-row-${idx}`,
+        entry,
+        rowModel,
+        fixedAtRaw,
+        fixedAtShort,
+        pageTitleForCard,
+        highlightNote,
+      };
+    });
+  }, [pagedItems]);
+
+  const fixedIssuesColumns = useMemo(
+    () =>
+      [
+        {
+          title: __('Issue', 'website-accessibility'),
+          key: 'issue',
+          ellipsis: false,
+          render: (_, record) => (
+            <FixedIssuesTableIssueCell
+              issueTitle={record?.rowModel?.issueTitle}
+              TooltipComponent={WapTooltip}
+            />
+          ),
+        },
+        {
+          title: __('Page', 'website-accessibility'),
+          key: 'page',
+          ellipsis: false,
+          render: (_, record) => (
+            <FixedIssuesTablePageCell
+              pageTitle={record.pageTitleForCard}
+              pageViewUrl={record.entry?.page_view_url}
+              TooltipComponent={WapTooltip}
+            />
+          ),
+        },
+        {
+          title: __('What changed', 'website-accessibility'),
+          key: 'description',
+          ellipsis: false,
+          render: (_, record) => (
+            <FixedIssuesTableChangeSummary
+              text={record.rowModel?.primaryLine}
+              footnote={record.highlightNote}
+            />
+          ),
+        },
+        {
+          title: __('Saved', 'website-accessibility'),
+          key: 'saved',
+          align: 'right',
+          render: (_, record) =>
+            record.fixedAtShort ? (
+              <time
+                className="wap-fixed-issues__table-saved-time"
+                dateTime={record.fixedAtRaw}
+                title={formatFixedAt(record.fixedAtRaw)}
+              >
+                {record.fixedAtShort}
+              </time>
+            ) : (
+              <span className="wap-fixed-issues__table-desc-empty">—</span>
+            ),
+        },
+        {
+          title: __('Actions', 'website-accessibility'),
+          key: 'actions',
+          align: 'right',
+          fixed: 'right',
+          width: 150,
+          render: (_, record) =>
+            WapButton ? (
+              <div className="wap-post-table__row-actions">
+                {record.rowModel?.highlightUrl ? (
+                  <WapButton
+                    type="primary"
+                    ghost
+                    size="small"
+                    href={record.rowModel.highlightUrl}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    title={__(
+                      'Opens your live page and scrolls to where this fix was applied. Stay logged in as an administrator.',
+                      'website-accessibility',
+                    )}
+                  >
+                    {__('Locate', 'website-accessibility')}
+                  </WapButton>
+                ) : null}
+                <WapButton
+                  size="small"
+                  type="default"
+                  danger
+                  loading={saving}
+                  onClick={() => deleteItem(record.entry)}
+                  aria-label={__('Remove this saved fix', 'website-accessibility')}
+                >
+                  {__('Delete', 'website-accessibility')}
+                </WapButton>
+              </div>
+            ) : null,
+        },
+      ],
+    [WapButton, WapTooltip, saving, deleteItem]
+  );
 
   if (!isProPluginActive || !isProActive) {
     return (
@@ -715,7 +1123,7 @@ const FixedAccessibilityIssues = () => {
                 value={String(pageSize)}
                 aria-label={__('Items per page', 'website-accessibility')}
                 onChange={(value) => {
-                  setPageSize(Number(value) || 6);
+                  setPageSize(Number(value) || 10);
                   setCurrentPage(1);
                 }}
               >
@@ -727,16 +1135,65 @@ const FixedAccessibilityIssues = () => {
                 <WapSelect.Option value="50">50</WapSelect.Option>
               </WapSelect>
             </div>
-            <WapButton
-              type="default"
-              danger
-              className="wap-fixed-issues__bulk-delete"
-              disabled={selectedCount === 0 || saving}
-              onClick={deleteSelected}
-              icon={<FixedIssuesIconTrash />}
-            >
-              {__('Delete Selected', 'website-accessibility')}
-            </WapButton>
+            {WapDropdown ? (
+              <WapDropdown
+                trigger={['click']}
+                placement="bottomRight"
+                disabled={loading || saving || items.length === 0}
+                overlayClassName="wap-fixed-issues__bulk-remove-dropdown"
+                getPopupContainer={(node) =>
+                  node?.closest?.('#website-accessibility-admin') || document.body
+                }
+                menu={{
+                  selectable: false,
+                  items: [
+                    {
+                      key: 'delete-selected',
+                      label: sprintf(
+                        __('Selections checked (%d)…', 'website-accessibility'),
+                        selectedCount,
+                      ),
+                      disabled: selectedCount === 0 || saving,
+                      danger: true,
+                    },
+                    { type: 'divider' },
+                    {
+                      key: 'delete-all',
+                      label: __('Delete entire list…', 'website-accessibility'),
+                      disabled: items.length === 0 || saving,
+                      danger: true,
+                    },
+                  ],
+                  onClick: ({ key, domEvent }) => {
+                    domEvent?.preventDefault?.();
+                    if (key === 'delete-selected') {
+                      void deleteSelected();
+                    } else if (key === 'delete-all') {
+                      promptDeleteAllFixedIssues();
+                    }
+                  },
+                }}
+              >
+                <WapButton
+                  type="default"
+                  danger
+                  className="wap-fixed-issues__bulk-remove-trigger"
+                  icon={<FixedIssuesIconTrash />}
+                  aria-label={__(
+                    'Remove saved fixes — open menu for delete options',
+                    'website-accessibility',
+                  )}
+                  aria-haspopup="menu"
+                >
+                  <span className="wap-fixed-issues__bulk-remove-trigger__inner">
+                    <span>{__('Remove', 'website-accessibility')}</span>
+                    <span className="wap-fixed-issues__bulk-remove-trigger__caret" aria-hidden="true">
+                      <FixedIssuesIconChevronDown size={14} />
+                    </span>
+                  </span>
+                </WapButton>
+              </WapDropdown>
+            ) : null}
           </div>
         </div>
 
@@ -765,117 +1222,28 @@ const FixedAccessibilityIssues = () => {
 
         {!loading && sortedItems.length > 0 ? (
           <>
-            <ul className="wap-fixed-issues__list">
-              {pagedItems.map((entry, index) => {
-                const key = entry?.id || `${entry?.issue_id || 'issue'}-${index}`;
-                const row = buildFixedIssueRowModel(entry);
-                const fixedAtRaw = entry?.updated_at || entry?.created_at || '';
-                const fixedAtLabel = formatFixedAt(fixedAtRaw);
-                const isSelected = selectedIds.includes(entry?.id);
-
-                return (
-                  <li key={key} className="wap-fixed-issues__item wap-fixed-issues__item--minimal">
-                    <div className="wap-fixed-issues__minimal-head">
-                      <label className="wap-fixed-issues__check">
-                        <input
-                          type="checkbox"
-                          checked={!!isSelected}
-                          onChange={() => toggleSelectItem(entry?.id)}
-                          disabled={saving}
-                        />
-                      </label>
-                      {row.issueTitle ? (
-                        <p className="wap-fixed-issues__minimal-issue-name wap-fixed-issues__minimal-issue-name--head">
-                          {row.issueTitle}
-                        </p>
-                      ) : (
-                        <span className="wap-fixed-issues__minimal-head-gap" aria-hidden="true" />
-                      )}
-                      <WapButton
-                        danger
-                        type="text"
-                        className="wap-fixed-issues__minimal-delete-btn"
-                        icon={<FixedIssuesIconTrash />}
-                        loading={saving}
-                        onClick={() => deleteItem(entry)}
-                        aria-label={__('Remove this saved fix', 'website-accessibility')}
-                      />
-                    </div>
-
-                    <div className="wap-fixed-issues__minimal-body">
-                      <div className="wap-fixed-issues__minimal-page-block">
-                        <div className="wap-fixed-issues__minimal-page-line">
-                          <span className="wap-fixed-issues__minimal-field-label">
-                            {_x('Page:', 'Label before the WordPress page/post title in fixed issues card', 'website-accessibility')}
-                          </span>
-                          {entry?.page_view_url ? (
-                            <a
-                              href={entry.page_view_url}
-                              className="wap-fixed-issues__beginner-page-link"
-                              target="_blank"
-                              rel="noopener noreferrer"
-                              title={__('Open this page on your site.', 'website-accessibility')}
-                            >
-                              {displayPageTitle(entry)}
-                              <span aria-hidden="true" className="wap-fixed-issues__page-link-external">
-                                <FixedIssuesIconExternalLink />
-                              </span>
-                            </a>
-                          ) : (
-                            <span className="wap-fixed-issues__minimal-page-title">{displayPageTitle(entry)}</span>
-                          )}
-                        </div>
-                      </div>
-
-                      {row.primaryLine ? (
-                        <div className="wap-fixed-issues__minimal-detail">
-                          <p className="wap-fixed-issues__minimal-lead">{row.primaryLine}</p>
-                        </div>
-                      ) : null}
-
-                      {entry?.page_view_url && entry?.xpath && !row.highlightUrl ? (
-                        <Text type="secondary" className="wap-fixed-issues__minimal-highlight-fallback">
-                          {__(
-                            'Use “Open page” — this path can’t highlight the exact spot from here.',
-                            'website-accessibility',
-                          )}
-                        </Text>
-                      ) : null}
-
-                      {fixedAtLabel || row.highlightUrl ? (
-                        <div className="wap-fixed-issues__minimal-meta">
-                          {fixedAtLabel ? (
-                            <time
-                              className="wap-fixed-issues__minimal-date wap-fixed-issues__minimal-date--meta"
-                              dateTime={fixedAtRaw}
-                            >
-                              {sprintf(__('Saved %s', 'website-accessibility'), fixedAtLabel)}
-                            </time>
-                          ) : null}
-                          {row.highlightUrl ? (
-                            <a
-                              href={row.highlightUrl}
-                              className="wap-fixed-issues__minimal-highlight-inline"
-                              target="_blank"
-                              rel="noopener noreferrer"
-                              title={__(
-                                'Opens your live page and scrolls to where this fix was applied. Stay logged in as an administrator.',
-                                'website-accessibility',
-                              )}
-                            >
-                              {__('Locate on page', 'website-accessibility')}
-                              <span aria-hidden="true" className="wap-fixed-issues__page-link-external">
-                                <FixedIssuesIconExternalLink />
-                              </span>
-                            </a>
-                          ) : null}
-                        </div>
-                      ) : null}
-                    </div>
-                  </li>
-                );
-              })}
-            </ul>
+            <div className="wap-fixed-issues__table-wrap">
+              <WapTable
+                className="wap-fixed-issues__table"
+                columns={fixedIssuesColumns}
+                dataSource={fixedIssuesTableRows}
+                pagination={false}
+                rowKey={(record) =>
+                  record?.entry?.id != null ? record.entry.id : record.key
+                }
+                rowSelection={{
+                  selectedRowKeys: selectedIds,
+                  onChange: (keys) => {
+                    setSelectedIds(keys.filter((id) => id != null));
+                  },
+                  getCheckboxProps: () => ({
+                    disabled: saving,
+                  }),
+                }}
+                scroll={{ x: true }}
+                sticky
+              />
+            </div>
 
             {sortedItems.length > pageSize ? (
               <div className="wap-fixed-issues__pagination">

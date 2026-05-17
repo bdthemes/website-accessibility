@@ -48,6 +48,10 @@
 
   .wap-fixed-issues-list-card {
     box-shadow: none !important;
+
+    .ant-card-body {
+      padding: 16px 18px !important;
+    }
   }
 
   .wap-fixed-issues__alert {
@@ -105,30 +109,46 @@
     color: #64748b !important;
   }
 
-  // Start = filters (wraps); end = per-page + delete (never splits — stays compact on one line)
+  // Toolbar: nowrap on typical admin widths so controls align on one row; wrap on narrow viewports only.
+  // Avoid overflow:auto here — horizontal scrollbars can sit under controls and create odd overlaps/glitches.
   .wap-fixed-issues__toolbar {
     display: flex;
-    flex-wrap: wrap;
+    flex-wrap: nowrap;
     align-items: center;
     align-content: center;
-    gap: 6px 8px;
+    gap: 8px 10px;
     margin-bottom: 15px;
+    min-width: 0;
+    overflow-x: visible;
+    overflow-y: visible;
+  }
+
+  @media (max-width: 782px) {
+    .wap-fixed-issues__toolbar {
+      flex-wrap: wrap;
+    }
   }
 
   .wap-fixed-issues__toolbar-start {
     display: flex;
-    flex-wrap: wrap;
+    flex-wrap: nowrap;
     align-items: center;
-    gap: 6px 8px;
+    gap: 8px 10px;
     flex: 1 1 auto;
     min-width: 0;
+  }
+
+  @media (max-width: 782px) {
+    .wap-fixed-issues__toolbar-start {
+      flex-wrap: wrap;
+    }
   }
 
   .wap-fixed-issues__toolbar-end {
     display: inline-flex;
     flex-wrap: nowrap;
     align-items: center;
-    gap: 6px 8px;
+    gap: 8px 10px;
     flex: 0 0 auto;
     flex-shrink: 0;
     margin-left: auto;
@@ -202,18 +222,24 @@
   }
 
   .wap-fixed-issues__search {
-    flex: 1 1 140px;
-    min-width: 120px;
+    flex: 1 1 118px;
+    min-width: 0;
     max-width: min(100%, 220px);
     padding: 2px 12px;
 
     .ant-input {
       outline: none;
+      min-width: 0 !important;
+      overflow: hidden;
+      text-overflow: ellipsis;
     }
   }
 
   // allowClear → className lives on .ant-input-affix-wrapper; inner .ant-input height alone does not size the row
   #website-accessibility-admin .wap-fixed-issues__toolbar .wap-fixed-issues__search.ant-input-affix-wrapper {
+    min-width: 0 !important;
+    width: auto;
+    max-width: min(220px, 100%);
     min-height: var(--wap-fi-control-h) !important;
     height: var(--wap-fi-control-h) !important;
     max-height: var(--wap-fi-control-h) !important;
@@ -226,9 +252,12 @@
 
     .ant-input {
       min-height: 0 !important;
+      min-width: 0 !important;
       height: auto !important;
       line-height: 1.35 !important;
       flex: 1 1 auto;
+      overflow: hidden;
+      text-overflow: ellipsis;
     }
 
     .ant-input-suffix {
@@ -239,7 +268,8 @@
   }
 
   .wap-fixed-issues__filter {
-    min-width: 100px;
+    flex: 0 1 154px;
+    min-width: 92px;
     max-width: 180px;
 
     .ant-select-selector {
@@ -386,34 +416,143 @@
     box-sizing: border-box;
   }
 
-  // Toolbar delete: same height as inputs/selects (override admin .ant-btn 42px)
-  #website-accessibility-admin .wap-fixed-issues__toolbar .wap-fixed-issues__bulk-delete.ant-btn {
+  // Toolbar “Remove…” dropdown trigger — same compact height as other controls
+  #website-accessibility-admin .wap-fixed-issues__bulk-remove-dropdown .ant-dropdown-menu {
+    min-width: 196px !important;
+    padding: 4px !important;
+  }
+
+  // Ant Design ≥5 maps `danger` to color tokens + outlined variant — override those explicitly so rest & hover stay consistent.
+  #website-accessibility-admin .wap-fixed-issues__toolbar .wap-fixed-issues__bulk-remove-trigger.ant-btn.ant-btn-variant-outlined.ant-btn-color-dangerous {
     height: var(--wap-fi-control-h) !important;
     min-height: var(--wap-fi-control-h) !important;
     max-height: var(--wap-fi-control-h) !important;
     padding-block: 0 !important;
-    padding-inline: 10px !important;
+    padding-inline: 8px !important;
     border-radius: 5px !important;
     font-size: 12px !important;
     font-weight: 500 !important;
     line-height: 1 !important;
     box-shadow: none !important;
-    border-color: #e5e5e5 !important;
-    color: #404040 !important;
-    background: #ffffff !important;
     display: inline-flex !important;
     align-items: center !important;
     justify-content: center !important;
     box-sizing: border-box !important;
 
-    &:not(:disabled):hover {
-      border-color: #dc2626 !important;
-      color: #b91c1c !important;
-      background: #fef2f2 !important;
+    /* Trash (antd .ant-btn-icon) + label row share one vertical center line */
+    gap: 6px !important;
+
+    &.ant-btn > .ant-btn-icon {
+      display: inline-flex !important;
+      align-items: center !important;
+      justify-content: center !important;
+      margin-inline-end: 0 !important;
+      align-self: center !important;
+      line-height: 0 !important;
+
+      svg {
+        display: block !important;
+      }
     }
 
-    &:disabled {
-      opacity: 0.45;
+    & > span:has(.wap-fixed-issues__bulk-remove-trigger__inner),
+    & > .wap-fixed-issues__bulk-remove-trigger__inner {
+      display: inline-flex !important;
+      align-items: center !important;
+      align-self: center !important;
+      line-height: normal !important;
+    }
+
+    &:not(:disabled):not(.ant-btn-disabled) {
+      border-color: #d4d4d4 !important;
+      color: #404040 !important;
+      background: #ffffff !important;
+    }
+
+    &:not(:disabled):not(.ant-btn-disabled):focus-visible {
+      outline: 2px solid rgba(185, 28, 28, 0.4);
+      outline-offset: 2px;
+    }
+
+    &:not(:disabled):not(.ant-btn-disabled):hover {
+      border-color: #dc2626 !important;
+      color: #b91c1c !important;
+      background: #fff1f2 !important;
+    }
+
+    &:not(:disabled):not(.ant-btn-disabled):active {
+      border-color: #b91c1c !important;
+      color: #991b1b !important;
+      background: #ffe4e6 !important;
+    }
+
+    &.ant-btn-icon-end .anticon,
+    & .anticon {
+      transition: none;
+    }
+
+    &:not(:disabled):not(.ant-btn-disabled):hover .anticon,
+    &:not(:disabled):not(.ant-btn-disabled):active .anticon {
+      color: inherit !important;
+    }
+
+    &:disabled,
+    &.ant-btn-disabled {
+      opacity: 0.5 !important;
+      border-color: #e5e5e5 !important;
+      color: #737373 !important;
+      background: #fafafa !important;
+      cursor: not-allowed;
+    }
+
+    &:disabled .anticon,
+    &.ant-btn-disabled .anticon {
+      color: #a3a3a3 !important;
+    }
+
+    &.ant-btn-icon-end.ant-btn-variant-outlined .ant-btn-icon {
+      opacity: 1 !important;
+    }
+
+    .wap-fixed-issues__bulk-remove-trigger__inner {
+      display: inline-flex !important;
+      align-items: center !important;
+      gap: 6px !important;
+
+      > span:first-child {
+        display: inline-flex !important;
+        align-items: center !important;
+        line-height: 1.15 !important;
+      }
+
+      .wap-fixed-issues__bulk-remove-trigger__caret {
+        display: inline-flex !important;
+        align-items: center !important;
+        justify-content: center !important;
+        flex-shrink: 0;
+        line-height: 0 !important;
+
+        svg {
+          display: block !important;
+          /* 24×24 viewBox chevron reads top-heavy at 14px — nudge down to match cap height */
+          transform: translateY(1px);
+        }
+      }
+    }
+  }
+
+  /* Keep legacy/alternate Button class stacks working if Ant changes names */
+  #website-accessibility-admin .wap-fixed-issues__toolbar .wap-fixed-issues__bulk-remove-trigger.ant-btn.ant-btn-dangerous.ant-btn-variant-outlined {
+    &:not(:disabled):not(.ant-btn-disabled) {
+      border-color: #d4d4d4 !important;
+      color: #404040 !important;
+      background: #ffffff !important;
+    }
+
+    &:not(:disabled):not(.ant-btn-disabled):hover {
+      border-color: #dc2626 !important;
+      color: #b91c1c !important;
+      background: #fff1f2 !important;
     }
   }
 
@@ -425,31 +564,208 @@
     padding: 16px 0 20px;
   }
 
+  .wap-fixed-issues__table-wrap {
+    width: 100%;
+    overflow-x: auto;
+  }
+
+  .wap-fixed-issues__table {
+    &.ant-table-wrapper .ant-table {
+      font-size: 13px;
+    }
+
+    .ant-table-selection-column .ant-checkbox-wrapper {
+      margin-inline: 4px;
+    }
+
+    td.ant-table-cell {
+      vertical-align: middle;
+
+      /*
+       * Page column reuses beginner link / title styles sized for cards (15px / 650).
+       * Align with Issue column typography inside the table only.
+       */
+      .wap-fixed-issues__beginner-page-link,
+      .wap-fixed-issues__minimal-page-title.wap-fixed-issues__page-title-elide {
+        font-size: 13px !important;
+        font-weight: 500 !important;
+        letter-spacing: normal !important;
+      }
+
+      .wap-fixed-issues__beginner-page-link .wap-fixed-issues__page-link-external svg {
+        width: 13px !important;
+        height: 13px !important;
+      }
+    }
+
+    .ant-pagination {
+      display: none;
+    }
+  }
+
+  .wap-fixed-issues__table-issue {
+    display: inline-block;
+    max-width: 100%;
+    font-weight: 500;
+    font-size: 13px;
+    color: #171717;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+  }
+
+  .wap-fixed-issues__table-change {
+    display: flex;
+    align-items: baseline;
+    gap: 6px;
+    min-width: 0;
+    max-width: 100%;
+  }
+
+  .wap-fixed-issues__table-change-preview {
+    flex: 1 1 auto;
+    min-width: 0;
+    color: #334155;
+    font-size: 12px;
+    line-height: 1.38;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+  }
+
+  .wap-fixed-issues__table-info-trigger {
+    flex: 0 0 auto;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    padding: 0;
+    margin: 0;
+    border: none;
+    background: transparent;
+    cursor: pointer;
+    color: #64748b;
+    line-height: 1;
+
+    svg {
+      font-size: 14px;
+      display: block;
+    }
+
+    &:hover {
+      color: #2563eb;
+    }
+
+    &:focus-visible {
+      outline: 2px solid #2563eb;
+      outline-offset: 2px;
+      border-radius: 4px;
+    }
+  }
+
+  .wap-fixed-issues__table-saved-time {
+    font-size: 11px;
+    font-weight: 500;
+    font-variant-numeric: tabular-nums;
+    color: #57534e;
+    white-space: nowrap;
+    display: inline-block;
+    width: 100%;
+    text-align: inherit;
+  }
+
+  .wap-fixed-issues__table-desc-empty {
+    color: #94a3b8;
+    font-weight: 500;
+    font-variant-numeric: tabular-nums;
+  }
+
+  .wap-fixed-issues__table-page-link.wap-fixed-issues__beginner-page-link {
+    max-width: 100%;
+  }
+
+  .wap-fixed-issues__table-page-tooltip-fallback {
+    display: inline-flex;
+    max-width: 100%;
+    min-width: 0;
+    vertical-align: middle;
+  }
+
+  .wap-fixed-issues__table-desc {
+    min-width: 0;
+    max-width: 100%;
+  }
+
+  .wap-fixed-issues__table-desc--has-tip {
+    cursor: help;
+  }
+
+  .wap-fixed-issues__table-desc-tooltip {
+    display: inline-block;
+    max-width: min(440px, 78vw);
+    white-space: pre-wrap;
+    word-break: break-word;
+    font-size: 12px;
+    line-height: 1.45;
+  }
+
+  .wap-fixed-issues__table-desc-truncate {
+    display: -webkit-box;
+    -webkit-box-orient: vertical;
+    -webkit-line-clamp: 2;
+    overflow: hidden;
+    word-break: break-word;
+    line-height: 1.42;
+    color: #334155;
+  }
+
+  .wap-fixed-issues__table-desc-note {
+    margin-block-start: 4px;
+    font-size: 11px;
+    line-height: 1.36;
+    color: #64748b;
+    display: -webkit-box;
+    -webkit-box-orient: vertical;
+    -webkit-line-clamp: 1;
+    overflow: hidden;
+    word-break: break-word;
+  }
+
   .wap-fixed-issues__list {
     list-style: none;
     margin: 0;
-    padding: 6px 0 0;
-    display: grid;
-    grid-template-columns: 1fr;
-    gap: 14px 18px;
+    padding: 0;
+    display: flex;
+    flex-direction: column;
     align-items: stretch;
-
-    @media (min-width: 900px) {
-      grid-template-columns: 1fr 1fr;
-    }
+    gap: 0;
+    border: 1px solid #e8e8e8;
+    border-radius: 8px;
+    overflow: hidden;
+    background: #fff;
   }
 
   .wap-fixed-issues__item {
     margin: 0;
-    padding: 16px 18px;
-    border: 1px solid #f0f0f0;
-    border-radius: 8px;
-    background: #ffffff;
+    padding: 14px 16px;
+    border: none;
+    border-radius: 0;
+    background: transparent;
+    border-bottom: 1px solid #ededed;
+
+    &:last-child {
+      border-bottom: none;
+    }
+
+    @media (hover: hover) {
+      &:hover {
+        background: #fafafa;
+      }
+    }
   }
 
   // Beginner-friendly compact card (no severity noise; dev data collapsed)
   .wap-fixed-issues__item--minimal {
-    padding: 16px 18px;
+    padding: 14px 16px;
   }
 
   .wap-fixed-issues__minimal-head {
@@ -535,6 +851,45 @@
     }
   }
 
+  /** Main card body: left column (page + copy + saved date); right column (Locate on page). */
+  .wap-fixed-issues__minimal-body-row {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: flex-start;
+    gap: 12px 20px;
+    min-width: 0;
+  }
+
+  .wap-fixed-issues__minimal-body-main {
+    flex: 1 1 260px;
+    min-width: 0;
+  }
+
+  .wap-fixed-issues__minimal-body-actions {
+    flex: 0 0 auto;
+    display: flex;
+    flex-direction: column;
+    align-items: flex-end;
+    gap: 8px;
+    max-width: 100%;
+
+    .wap-fixed-issues__minimal-body-row--detail & {
+      padding-block-start: 2.125rem;
+    }
+
+    .wap-fixed-issues__minimal-highlight-inline {
+      white-space: nowrap;
+    }
+  }
+
+  @media (max-width: 560px) {
+    .wap-fixed-issues__minimal-body-actions {
+      flex-basis: 100%;
+      align-items: flex-start;
+      padding-block-start: 0 !important;
+    }
+  }
+
   .wap-fixed-issues__minimal-page-block {
     margin: 0 0 10px;
     min-width: 0;
@@ -579,6 +934,11 @@
     flex-wrap: wrap;
     align-items: center;
     gap: 10px 14px;
+    width: 100%;
+    min-width: 0;
+    padding-top: 12px;
+    margin-top: 4px;
+    border-top: 1px solid #f1f5f9;
   }
 
   .wap-fixed-issues__minimal-page-row,
@@ -615,6 +975,20 @@
     letter-spacing: -0.015em;
     color: #0f172a;
     word-break: break-word;
+  }
+
+  .wap-fixed-issues__page-title-elide {
+    display: block;
+    min-width: 0;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+    word-break: normal;
+  }
+
+  .wap-fixed-issues__beginner-page-link__label {
+    flex: 0 1 auto;
+    min-width: 0;
   }
 
   .wap-fixed-issues__minimal-page-divider {
@@ -660,15 +1034,15 @@
       align-self: center;
       flex-shrink: 0;
       line-height: 1;
-      opacity: 0.55;
       margin-inline-start: 0;
       padding-block: 0;
       display: inline-flex;
       align-items: center;
 
       svg {
-        width: 12px;
-        height: 12px;
+        width: 14px;
+        height: 14px;
+        display: block;
       }
     }
   }
@@ -691,8 +1065,10 @@
   .wap-fixed-issues__beginner-page-link {
     display: inline-flex;
     align-items: center;
-    gap: 4px;
+    justify-content: flex-start;
+    gap: 8px;
     max-width: 100%;
+    min-width: 0;
     font-weight: 650;
     font-size: 15px;
     letter-spacing: -0.02em;
@@ -718,13 +1094,13 @@
     }
 
     .wap-fixed-issues__page-link-external {
-      opacity: 0.5;
       display: inline-flex;
       align-items: center;
 
       svg {
-        width: 12px;
-        height: 12px;
+        width: 15px;
+        height: 15px;
+        display: block;
       }
     }
   }
@@ -1134,4 +1510,14 @@
     color: #64748b;
     margin: 0 !important;
   }
+  span.wap-fixed-issues__bulk-remove-trigger__inner {
+    display: flex;
+    align-items: center;
+    gap: 6px;
+}
+  span.wap-fixed-issues__bulk-remove-trigger__caret svg {
+    width: 16px;
+    height: 16px;
+    display: block;
+}
 }

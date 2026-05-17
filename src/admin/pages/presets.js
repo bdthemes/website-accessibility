@@ -1,6 +1,7 @@
 import { __ } from '@wordpress/i18n';
 import PostTable from '../components/post-table';
 import { useHistory } from '../router';
+import { useDashboardTour } from '../context/dashboard-tour-context';
 import { useSelect, useDispatch } from "@wordpress/data";
 import { STORE_NAME } from "../store";
 import { useMemo } from '@wordpress/element';
@@ -17,6 +18,7 @@ const Presets = () => {
   const { WapCard, WapButton, WapSpace, WapTag, WapTypography } = window?.wapComponents;
   const { Title, Text } = WapTypography;
   const history = useHistory();
+  const { notifyOpenedPresetEditorFromPresetsTour } = useDashboardTour();
   const { setPresetFilters, deletePreset } = useDispatch(STORE_NAME);
   const { filters: rawFilters, presets } = useSelect((select) => {
     const store = select(STORE_NAME);
@@ -75,6 +77,9 @@ const Presets = () => {
   });
 
   const handleEdit = (record) => {
+    if (notifyOpenedPresetEditorFromPresetsTour(record?.id)) {
+      return;
+    }
     history.push({
       page: 'website-accessibility-presets-edit',
       id: record?.id,

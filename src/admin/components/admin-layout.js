@@ -2,6 +2,7 @@
  * AdminLayout - Header + Sidebar layout (Ant Design) like Sigma Media Manager
  */
 import { __ } from '@wordpress/i18n';
+import { useDashboardTour } from '../context/dashboard-tour-context';
 import { useLicense } from '../context/LicenseContext';
 import { Layout, Menu } from 'antd';
 import { useLocation, useHistory } from '../router';
@@ -75,9 +76,13 @@ const AdminLayout = ({ children }) => {
 	const history = useHistory();
 	const currentPage = location?.params?.page || 'website-accessibility';
 	const { isProActive: isLicenseValid, isProPluginActive } = useLicense();
+	const { tryAdvanceTourViaPresetsMenu } = useDashboardTour();
 	const hasFixedIssuesPage = !!window?.websacAdmin?.hasFixedIssuesPage;
 
 	const handleMenuClick = ({ key }) => {
+		if (tryAdvanceTourViaPresetsMenu(key)) {
+			return;
+		}
 		history.push({ page: key });
 	};
 

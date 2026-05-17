@@ -36,6 +36,15 @@ export function FixedIssuesIconTrash({ size = 16 }) {
 	);
 }
 
+/** Menu / dropdown caret (matches stroke tone of toolbar icons). */
+export function FixedIssuesIconChevronDown({ size = 14 }) {
+	return createElement(
+		'svg',
+		{ ...strokeSvg, width: size, height: size, viewBox: '0 0 24 24' },
+		createElement('path', { d: 'm6 9 6 6 6-6' }),
+	);
+}
+
 export function FixedIssuesIconInbox({ size = 28 }) {
 	return createElement(
 		'svg',

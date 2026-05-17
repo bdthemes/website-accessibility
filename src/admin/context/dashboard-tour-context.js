@@ -40,6 +40,15 @@ async function persistDashboardTourComplete() {
 /** Zero-based index of the Save preset step (after welcome step). */
 const SAVE_STEP_INDEX = 4;
 
+/**
+ * Step that highlights Presets table first-row Edit ("click Edit on that row").
+ * If the user does, we must advance Joyride explicitly; Next already advances.
+ */
+const PRESETS_TABLE_EDIT_STEP_INDEX = 2;
+
+/** Sidebar Presets nav — tour copy says users may click instead of Next. */
+const PRESETS_SIDEBAR_TOUR_STEP_INDEX = 1;
+
 /** WordPress admin bar: site name / front-end URL (same as core #wp-admin-bar-site-name). */
 const WP_ADMIN_BAR_SITE_LINK = '#wp-admin-bar-site-name > a';
 
@@ -61,24 +70,11 @@ function waitForSelector(selector, timeout = 9000) {
 	});
 }
 
-/** First-row Edit tour control or current edit URL (after navigating to preset editor). */
-function getTourFirstPresetEditId() {
-	const btn = document.querySelector('[data-tour="wap-tour-presets-edit-first"]');
-	const tr = btn?.closest('tr');
-	const fromRow = tr?.getAttribute('data-row-key');
-	if (fromRow) {
-		return String(fromRow);
-	}
-	const args = typeof window !== 'undefined' ? getQueryArgs(window.location.href) : {};
-	if (args.page === 'website-accessibility-presets-edit' && args.id) {
-		return String(args.id);
-	}
-	return null;
-}
-
 const DashboardTourContext = createContext({
 	startTour: () => {},
 	notifyPresetSavedForTour: () => {},
+	notifyOpenedPresetEditorFromPresetsTour: () => false,
+	tryAdvanceTourViaPresetsMenu: () => false,
 	dismissTourUnderstood: () => {},
 });
 
@@ -93,6 +89,8 @@ export function DashboardTourProvider({ children }) {
 	const runRef = useRef(false);
 	const tourIndexRef = useRef(-1);
 	const joyrideControlsRef = useRef(null);
+	/** When user clicks Edit during the presets-table tour step, prime this before sync `next()` so `before()` uses the clicked row ID (not only first row). */
+	const presetEditTourOverrideRef = useRef(null);
 
 	const homeUrl =
 		typeof window !== 'undefined' && window.websacAdmin?.homeUrl ? window.websacAdmin.homeUrl : '/';
@@ -102,6 +100,25 @@ export function DashboardTourProvider({ children }) {
 	useEffect(() => {
 		runRef.current = run;
 	}, [run]);
+
+	const getTourPresetEditTargetId = useCallback(() => {
+		const primed = presetEditTourOverrideRef.current;
+		if (primed !== null && primed !== undefined && `${primed}` !== '') {
+			presetEditTourOverrideRef.current = null;
+			return String(primed);
+		}
+		const btn = document.querySelector('[data-tour="wap-tour-presets-edit-first"]');
+		const tr = btn?.closest('tr');
+		const fromRow = tr?.getAttribute('data-row-key');
+		if (fromRow) {
+			return String(fromRow);
+		}
+		const args = typeof window !== 'undefined' ? getQueryArgs(window.location.href) : {};
+		if (args.page === 'website-accessibility-presets-edit' && args.id) {
+			return String(args.id);
+		}
+		return null;
+	}, []);
 
 	const navAndWait = useCallback(
 		(page, selector) => {
@@ -117,12 +134,12 @@ export function DashboardTourProvider({ children }) {
 	const navigateToEditFirstPresetAndWait = useCallback(
 		(selector) => {
 			return async () => {
-				let id = getTourFirstPresetEditId();
+				let id = getTourPresetEditTargetId();
 				if (!id) {
 					history.push({ page: 'website-accessibility-presets' });
 					await new Promise((r) => setTimeout(r, 250));
 					await waitForSelector('[data-tour="wap-tour-presets-edit-first"]', 120000);
-					id = getTourFirstPresetEditId();
+					id = getTourPresetEditTargetId();
 				}
 				if (id) {
 					history.push({ page: 'website-accessibility-presets-edit', id });
@@ -131,7 +148,7 @@ export function DashboardTourProvider({ children }) {
 				}
 			};
 		},
-		[history]
+		[history, getTourPresetEditTargetId]
 	);
 
 	const waitForAdminBarSiteLink = useCallback(async () => {
@@ -223,6 +240,7 @@ export function DashboardTourProvider({ children }) {
 				placement: 'bottom',
 				skipBeacon: true,
 				spotlightClicks: true,
+				skipScroll: true,
 				before: navAndWait(
 					'website-accessibility-presets',
 					'[data-tour="wap-tour-presets-edit-first"]'
@@ -246,7 +264,7 @@ export function DashboardTourProvider({ children }) {
 					'Click Update Preset to store your changes — add a title first if this button stays disabled. After a successful save, the tour will open the preview step.',
 					'website-accessibility'
 				),
-				placement: 'top',
+				placement: 'left',
 				skipBeacon: true,
 				spotlightClicks: true,
 				before: navigateToEditFirstPresetAndWait('[data-tour="wap-tour-save-preset"]'),
@@ -308,6 +326,37 @@ export function DashboardTourProvider({ children }) {
 		}, 150);
 	}, []);
 
+	const notifyOpenedPresetEditorFromPresetsTour = useCallback((presetId) => {
+		if (!runRef.current || tourIndexRef.current !== PRESETS_TABLE_EDIT_STEP_INDEX) {
+			return false;
+		}
+		const ctrls = joyrideControlsRef.current;
+		if (!ctrls?.next) {
+			return false;
+		}
+		if (presetId !== null && presetId !== undefined && `${presetId}` !== '') {
+			presetEditTourOverrideRef.current = presetId;
+		}
+		ctrls.next();
+		return true;
+	}, []);
+
+	// Sidebar Presets: click behaves like Joyride Next — next step `before()` pushes route.
+	const tryAdvanceTourViaPresetsMenu = useCallback((menuKey) => {
+		if (menuKey !== 'website-accessibility-presets') {
+			return false;
+		}
+		if (!runRef.current || tourIndexRef.current !== PRESETS_SIDEBAR_TOUR_STEP_INDEX) {
+			return false;
+		}
+		const ctrls = joyrideControlsRef.current;
+		if (!ctrls?.next) {
+			return false;
+		}
+		ctrls.next();
+		return true;
+	}, []);
+
 	const startTour = useCallback(() => {
 		setTourNonce((n) => n + 1);
 		setRun(true);
@@ -341,8 +390,20 @@ export function DashboardTourProvider({ children }) {
 	);
 
 	const contextValue = useMemo(
-		() => ({ startTour, notifyPresetSavedForTour, dismissTourUnderstood: markDone }),
-		[startTour, notifyPresetSavedForTour, markDone]
+		() => ({
+			startTour,
+			notifyPresetSavedForTour,
+			notifyOpenedPresetEditorFromPresetsTour,
+			tryAdvanceTourViaPresetsMenu,
+			dismissTourUnderstood: markDone,
+		}),
+		[
+			startTour,
+			notifyPresetSavedForTour,
+			notifyOpenedPresetEditorFromPresetsTour,
+			tryAdvanceTourViaPresetsMenu,
+			markDone,
+		]
 	);
 
 	return (
@@ -358,7 +419,8 @@ export function DashboardTourProvider({ children }) {
 				onEvent={onEvent}
 				options={{
 					primaryColor: '#1677ff',
-					zIndex: 100050,
+					// Above preset editor floating preview drawers (~1e6) so tooltip/overlay aren’t clipped.
+					zIndex: 1005000,
 					spotlightPadding: 8,
 					buttons: ['back', 'skip', 'primary'],
 					closeButtonAction: 'skip',
