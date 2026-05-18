@@ -197,7 +197,7 @@ This plugin uses the following open-source libraries and third-party tools. We a
 
 == Changelog ==
 
-= 1.3.7 – May XXXXX, 2026 =
+= 1.3.7 – May 18, 2026 =
 
 * New: Added frontend Custom CSS support for accessibility widget and toolbar customization.
 * New: Added a “Quick Tour” feature for guided onboarding and accessibility setup.
