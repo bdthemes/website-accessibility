@@ -9,6 +9,7 @@ import EditPreset from './edit-preset';
 import Profiles from './profiles';
 import CreateProfiles from './create-profiles';
 import EditProfile from './edit-profile';
+import CssOverrides from './css-overrides';
 import Settings from './settings';
 import ToolsBackup from './tools-backup';
 import AboutInfo from './about-info';
@@ -53,6 +54,8 @@ const Pages = () => {
                 return <Presets />;
             case 'website-accessibility-presets-create':
                 return <CreatePreset />;
+            case 'website-accessibility-css-overrides':
+                return <CssOverrides />;
             case 'website-accessibility-settings':
                 return <Settings />;
             case 'website-accessibility-tools':

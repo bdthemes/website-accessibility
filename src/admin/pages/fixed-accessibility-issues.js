@@ -1,8 +1,594 @@
-import { useEffect, useMemo, useState } from '@wordpress/element';
-import { __ } from '@wordpress/i18n';
+import { useCallback, useEffect, useMemo, useState } from '@wordpress/element';
+import { __, _x, sprintf } from '@wordpress/i18n';
 import apiFetch from '@wordpress/api-fetch';
+import { InfoCircleOutlined } from '@ant-design/icons';
+import { Modal, Tooltip } from 'antd';
 import { useLicense } from '../context/LicenseContext';
-import { DeleteOutlined, InboxOutlined } from '@ant-design/icons';
+import {
+	FixedIssuesIconChevronDown,
+	FixedIssuesIconDownload,
+	FixedIssuesIconExternalLink,
+	FixedIssuesIconInbox,
+	FixedIssuesIconSearch,
+	FixedIssuesIconTrash,
+} from '../components/fixed-issues-icons';
+
+/**
+ * Minimal copy for beginners: one short explanation per saved issue code.
+ */
+const BEGINNER_ISSUE_META = {
+  missing_alt: {
+    summary: __('An image needed a short description people can hear in a screen reader.', 'website-accessibility'),
+    spotHint: __('image', 'website-accessibility'),
+  },
+  empty_alt: {
+    summary: __("An image’s description was blank, even though it's not purely decorative.", 'website-accessibility'),
+    spotHint: __('image', 'website-accessibility'),
+  },
+  empty_link: {
+    summary: __("A link had no readable name, so visitors couldn't tell where it leads.", 'website-accessibility'),
+    spotHint: __('link', 'website-accessibility'),
+  },
+  link_with_only_image: {
+    summary: __('A link contained only an image, with no wording for visitors using assistive tech.', 'website-accessibility'),
+    spotHint: __('image link', 'website-accessibility'),
+  },
+  missing_label: {
+    summary: __("A form field didn’t announce what it asked for.", 'website-accessibility'),
+    spotHint: __('form field', 'website-accessibility'),
+  },
+  missing_button_name: {
+    summary: __('A button showed no usable name for screen readers (often an icon button).', 'website-accessibility'),
+    spotHint: __('button', 'website-accessibility'),
+  },
+  new_tab_no_notice: {
+    summary: __("A link opened a new browser tab without mentioning it first.", 'website-accessibility'),
+    spotHint: __('link', 'website-accessibility'),
+  },
+  low_text_contrast: {
+    summary: __("Text colour was adjusted so there's better contrast.", 'website-accessibility'),
+    spotHint: __('text', 'website-accessibility'),
+  },
+  missing_skip_link: {
+    summary: __('A “skip to content” shortcut was missing for keyboard visitors.', 'website-accessibility'),
+    spotHint: __('whole page layout', 'website-accessibility'),
+  },
+  radio_missing_name: {
+    summary: __("Radio buttons weren’t grouped for assistive tech to understand.", 'website-accessibility'),
+    spotHint: __('form choices', 'website-accessibility'),
+  },
+  checkbox_missing_name: {
+    summary: __("A checkbox lacked a usable name.", 'website-accessibility'),
+    spotHint: __('form field', 'website-accessibility'),
+  },
+  missing_lang_attr: {
+    summary: __('The whole page lacked a declared language.', 'website-accessibility'),
+    spotHint: __('whole page', 'website-accessibility'),
+  },
+};
+
+function getIssueBeginnerSummary(issueId, catalogDescription) {
+  if (BEGINNER_ISSUE_META[issueId]?.summary) {
+    return BEGINNER_ISSUE_META[issueId].summary;
+  }
+  return catalogDescription || '';
+}
+
+/** Page name for display: prefers theme title from the server when available */
+function displayPageTitle(entry) {
+  const t = (entry?.page_title || '').trim();
+  if (t) return t;
+  return formatPageIdentifier(entry?.page_identifier);
+}
+
+/**
+ * Split on spaces (after NBSP / odd-space normalize); keep first `maxWords` words + "..." when longer.
+ *
+ * @param {object} options
+ * @param {boolean} [options.splitHyphens=false] Count hyphen / en-dash as word breaks (Issue labels).
+ */
+function truncatePageTitleByWords(titleText, maxWords = 2, options = {}) {
+  const { splitHyphens = false } = options;
+  const raw =
+    typeof titleText === 'string' ? titleText.trim() : String(titleText ?? '').trim();
+  if (!raw) {
+    return { preview: '', full: '', truncated: false };
+  }
+  /* NBSP / figure space often appear in WP titles; normalize so word splits work. */
+  const full = raw
+    .replace(/\u00A0/g, ' ')
+    .replace(/[\u1680\u2000-\u200A\u202F\u205F\u3000]/g, ' ')
+    .replace(/\s+/g, ' ')
+    .trim();
+
+  const words = splitHyphens
+    ? full.split(/[\s\-–—]+/).filter(Boolean)
+    : full.split(' ').filter(Boolean);
+
+  if (words.length <= maxWords) {
+    return { preview: full, full, truncated: false };
+  }
+  return {
+    preview: `${words.slice(0, maxWords).join(' ')}...`,
+    full,
+    truncated: true,
+  };
+}
+
+/**
+ * Fixed Issues table — Page column only: max 2 words + "..."; full title in tooltip (whole link wrapped).
+ */
+function FixedIssuesTablePageCell({ pageTitle, pageViewUrl, TooltipComponent }) {
+  const raw = pageTitle != null ? String(pageTitle).trim() : '';
+  if (!raw) {
+    return <span className="wap-fixed-issues__table-desc-empty">—</span>;
+  }
+
+  const { preview, full, truncated } = truncatePageTitleByWords(raw, 2);
+
+  if (pageViewUrl) {
+    const link = (
+      <a
+        href={pageViewUrl}
+        className="wap-fixed-issues__beginner-page-link wap-fixed-issues__table-page-link"
+        target="_blank"
+        rel="noopener noreferrer"
+        aria-label={sprintf(__('Open page: %s', 'website-accessibility'), raw)}
+      >
+        <span className="wap-fixed-issues__page-title-elide wap-fixed-issues__beginner-page-link__label">
+          {preview}
+        </span>
+        <span aria-hidden="true" className="wap-fixed-issues__page-link-external">
+          <FixedIssuesIconExternalLink />
+        </span>
+      </a>
+    );
+
+    if (truncated && TooltipComponent) {
+      return (
+        <TooltipComponent title={full} mouseEnterDelay={0.15}>
+          {link}
+        </TooltipComponent>
+      );
+    }
+    if (truncated) {
+      return (
+        <span className="wap-fixed-issues__table-page-tooltip-fallback" title={full}>
+          {link}
+        </span>
+      );
+    }
+    return link;
+  }
+
+  const text = (
+    <span className="wap-fixed-issues__minimal-page-title wap-fixed-issues__page-title-elide">{preview}</span>
+  );
+
+  if (truncated && TooltipComponent) {
+    return (
+      <TooltipComponent title={full} mouseEnterDelay={0.15}>
+        {text}
+      </TooltipComponent>
+    );
+  }
+  if (truncated) {
+    return (
+      <span className="wap-fixed-issues__table-page-tooltip-fallback" title={full}>
+        {text}
+      </span>
+    );
+  }
+  return text;
+}
+
+/** Issue column: first 4 words + "..."; full label in tooltip when trimmed. */
+function FixedIssuesTableIssueCell({ issueTitle, TooltipComponent }) {
+  const raw = issueTitle != null ? String(issueTitle).trim() : '';
+  if (!raw) {
+    return <span className="wap-fixed-issues__table-desc-empty">—</span>;
+  }
+
+  const { preview, full, truncated } = truncatePageTitleByWords(raw, 4, { splitHyphens: true });
+
+  const content = <span className="wap-fixed-issues__table-issue">{preview}</span>;
+
+  if (truncated && TooltipComponent) {
+    return (
+      <TooltipComponent title={full} mouseEnterDelay={0.15}>
+        {content}
+      </TooltipComponent>
+    );
+  }
+
+  if (truncated) {
+    return (
+      <span className="wap-fixed-issues__table-page-tooltip-fallback" title={full}>
+        {content}
+      </span>
+    );
+  }
+
+  return content;
+}
+
+/** Base64 XPath for ?websac_xpath (UTF-8 safe). Empty if too large. */
+function xpathToHighlightParam(xpathRaw) {
+  try {
+    const raw = typeof xpathRaw === 'string' ? xpathRaw.trim() : '';
+    if (!raw || raw.length > 6200) {
+      return '';
+    }
+    const encoded = encodeURIComponent(
+      window.btoa(unescape(encodeURIComponent(raw)))
+    );
+
+    return encoded.length <= 9600 ? encoded : '';
+  } catch (e) {
+    return '';
+  }
+}
+
+/** Build front-end URL that scrolls to & outlines that element (logged-in admins only). */
+function buildFixHighlightPageUrl(pageUrl, xpathRaw) {
+  try {
+    if (!pageUrl || !xpathRaw) {
+      return '';
+    }
+    const qp = xpathToHighlightParam(xpathRaw);
+    if (!qp) {
+      return '';
+    }
+    const u = new URL(
+      pageUrl,
+      typeof window !== 'undefined' ? window.location.origin : undefined,
+    );
+    u.searchParams.set('websac_highlight', '1');
+    u.searchParams.set('websac_xpath', qp);
+    return u.toString();
+  } catch (e) {
+    return '';
+  }
+}
+
+function summarizeAppliedFix(issueId, valueRaw) {
+  const value = String(valueRaw || '').trim();
+
+  const looksLikeUrl = /^https?:\/\//i.test(value) || /^\/[^/]|^#[\w-]+/i.test(value);
+  const hexColor = /^#([0-9a-f]{3}|[0-9a-f]{6})$/i.test(value);
+
+  if (!value) {
+    if (issueId === 'missing_lang_attr') {
+      return __('Declared the page language for assistive tech.', 'website-accessibility');
+    }
+    if (issueId === 'missing_skip_link') {
+      return __("Added or updated a shortcut to skip to the main content.", 'website-accessibility');
+    }
+    return __('Improvement saved.', 'website-accessibility');
+  }
+
+  if (hexColor || issueId === 'low_text_contrast') {
+    return sprintf(__('Text colour adjusted to "%s"', 'website-accessibility'), value);
+  }
+
+  const esc = `"${value}"`;
+
+  switch (issueId) {
+    case 'missing_alt':
+    case 'empty_alt':
+      return sprintf(__('Alternate text saved as %s for the image.', 'website-accessibility'), esc);
+    case 'empty_link':
+    case 'link_with_only_image':
+    case 'missing_button_name':
+    case 'missing_label':
+      if (looksLikeUrl) {
+        return sprintf(__('Address or wording saved as %s.', 'website-accessibility'), esc);
+      }
+      return sprintf(__('Visible / spoken name saved as %s.', 'website-accessibility'), esc);
+    case 'new_tab_no_notice':
+      return sprintf(__('Visitors are told before opening new tabs: added %s.', 'website-accessibility'), esc);
+    case 'missing_lang_attr':
+      return sprintf(__('Page language declared as %s.', 'website-accessibility'), esc);
+    case 'radio_missing_name':
+    case 'checkbox_missing_name':
+      return sprintf(__('Field grouping name saved as %s.', 'website-accessibility'), esc);
+    case 'missing_skip_link':
+      return sprintf(__('Skip link wording saved as %s.', 'website-accessibility'), esc);
+    default:
+      return sprintf(__('Saved detail: %s', 'website-accessibility'), esc);
+  }
+}
+const ISSUE_CATALOG = {
+  missing_alt: {
+    title: __('Missing image alt text', 'website-accessibility'),
+    description: __('Image had no alt attribute, so screen readers could not describe it.', 'website-accessibility'),
+    severity: 'critical',
+    valueLabel: __('Alt text', 'website-accessibility'),
+  },
+  empty_alt: {
+    title: __('Empty image alt text', 'website-accessibility'),
+    description: __('Image had a blank alt attribute even though it conveys meaning.', 'website-accessibility'),
+    severity: 'minor',
+    valueLabel: __('Alt text', 'website-accessibility'),
+  },
+  empty_link: {
+    title: __('Empty link', 'website-accessibility'),
+    description: __('Link had no readable text for screen readers.', 'website-accessibility'),
+    severity: 'critical',
+    valueLabel: __('Link label', 'website-accessibility'),
+  },
+  link_with_only_image: {
+    title: __('Image-only link without label', 'website-accessibility'),
+    description: __('Link contained only an image with no alt text or label.', 'website-accessibility'),
+    severity: 'critical',
+    valueLabel: __('Link label', 'website-accessibility'),
+  },
+  missing_label: {
+    title: __('Form input without a label', 'website-accessibility'),
+    description: __('Form field had no label that assistive tech can announce.', 'website-accessibility'),
+    severity: 'critical',
+    valueLabel: __('Accessible label', 'website-accessibility'),
+  },
+  missing_button_name: {
+    title: __('Button without an accessible name', 'website-accessibility'),
+    description: __('Button had no readable name (e.g. icon-only button).', 'website-accessibility'),
+    severity: 'critical',
+    valueLabel: __('Button name', 'website-accessibility'),
+  },
+  new_tab_no_notice: {
+    title: __('Link opens in a new tab without notice', 'website-accessibility'),
+    description: __('Link opened in a new tab without warning the user beforehand.', 'website-accessibility'),
+    severity: 'minor',
+    valueLabel: __('New tab notice', 'website-accessibility'),
+  },
+  low_text_contrast: {
+    title: __('Low text contrast', 'website-accessibility'),
+    description: __('Text color did not have enough contrast against its background.', 'website-accessibility'),
+    severity: 'major',
+    valueLabel: __('Text color', 'website-accessibility'),
+  },
+  missing_skip_link: {
+    title: __('Missing skip-to-content link', 'website-accessibility'),
+    description: __('Keyboard users could not skip past repeated navigation.', 'website-accessibility'),
+    severity: 'minor',
+    valueLabel: __('Skip link text', 'website-accessibility'),
+  },
+  radio_missing_name: {
+    title: __('Radio group missing a name', 'website-accessibility'),
+    description: __('Radio buttons did not share a name, so they were not grouped for screen readers.', 'website-accessibility'),
+    severity: 'critical',
+    valueLabel: __('Group name', 'website-accessibility'),
+  },
+  checkbox_missing_name: {
+    title: __('Checkbox missing a name', 'website-accessibility'),
+    description: __('Checkbox had no name attribute, so its purpose was unclear.', 'website-accessibility'),
+    severity: 'major',
+    valueLabel: __('Field name', 'website-accessibility'),
+  },
+  missing_lang_attr: {
+    title: __('Page language not set', 'website-accessibility'),
+    description: __('The page did not declare a language for screen readers.', 'website-accessibility'),
+    severity: 'minor',
+    valueLabel: __('Page language', 'website-accessibility'),
+  },
+};
+
+const SEVERITY_TONE = {
+  critical: { color: 'red', label: __('Critical', 'website-accessibility') },
+  major: { color: 'orange', label: __('Major', 'website-accessibility') },
+  minor: { color: 'gold', label: __('Minor', 'website-accessibility') },
+};
+
+function humanizeIssueId(id) {
+  if (!id) return __('Accessibility fix', 'website-accessibility');
+  return String(id)
+    .replace(/[_-]+/g, ' ')
+    .replace(/\s+/g, ' ')
+    .trim()
+    .replace(/\b\w/g, (c) => c.toUpperCase());
+}
+
+function getIssueInfo(issueId) {
+  const fallback = {
+    title: humanizeIssueId(issueId),
+    description: '',
+    severity: '',
+    valueLabel: __('Fixed value', 'website-accessibility'),
+  };
+  return ISSUE_CATALOG[issueId] ? { ...fallback, ...ISSUE_CATALOG[issueId] } : fallback;
+}
+
+function formatPageIdentifier(identifier) {
+  if (!identifier) return __('Unknown page', 'website-accessibility');
+  const postMatch = String(identifier).match(/^post_(\d+)$/i);
+  if (postMatch) {
+    return __('Post #', 'website-accessibility') + postMatch[1];
+  }
+  const pageMatch = String(identifier).match(/^page_(\d+)$/i);
+  if (pageMatch) {
+    return __('Page #', 'website-accessibility') + pageMatch[1];
+  }
+  return identifier;
+}
+
+function formatFixedAt(value) {
+  if (!value) return '';
+  const date = new Date(value);
+  if (Number.isNaN(date.getTime())) return value;
+  try {
+    return new Intl.DateTimeFormat(undefined, {
+      dateStyle: 'medium',
+      timeStyle: 'short',
+    }).format(date);
+  } catch (e) {
+    return date.toLocaleString();
+  }
+}
+
+/** Short date/time label for dense table cells (drops “Saved” prefix client-side). */
+function formatFixedAtTableCompact(value) {
+  if (!value) return '';
+  const date = new Date(value);
+  if (Number.isNaN(date.getTime())) return '';
+
+  try {
+    const now = new Date();
+    const sameYear = date.getFullYear() === now.getFullYear();
+    const fmt = new Intl.DateTimeFormat(undefined, {
+      month: 'short',
+      day: 'numeric',
+      hour: 'numeric',
+      minute: '2-digit',
+      ...(sameYear ? {} : { year: '2-digit' }),
+    });
+    return fmt.format(date);
+  } catch (e) {
+    return '';
+  }
+}
+
+/** Short inline preview; full wording is only in the info Tooltip (“What changed”). */
+function truncateTableChangePreview(raw, maxLen = 52) {
+  const t = typeof raw === 'string' ? raw.trim() : '';
+  if (!t) {
+    return { preview: '', truncated: false };
+  }
+  if (t.length <= maxLen) {
+    return { preview: t, truncated: false };
+  }
+  const sliced = t.slice(0, maxLen - 1).replace(/\s+\S*$/, '').trimEnd() || t.slice(0, maxLen - 1).trimEnd();
+  return {
+    preview: `${sliced}…`,
+    truncated: true,
+  };
+}
+
+/**
+ * “What changed” cell: brief inline text + optional info icon — full detail in Tooltip only.
+ */
+function FixedIssuesTableChangeSummary({ text, footnote }) {
+  const mainRaw = typeof text === 'string' ? text.trim() : '';
+  const tailRaw = typeof footnote === 'string' ? footnote.trim() : '';
+  const tip = mainRaw || tailRaw ? [mainRaw, tailRaw].filter(Boolean).join('\n\n') : '';
+  const headline = mainRaw || tailRaw;
+  const { preview, truncated } = truncateTableChangePreview(headline, 28);
+  const showInfoIcon = !!(tip.trim()) && (truncated || !!tailRaw);
+
+  if (!headline && !tailRaw) {
+    return <span className="wap-fixed-issues__table-desc-empty">—</span>;
+  }
+
+  const infoControl = showInfoIcon ? (
+    <Tooltip
+      mouseEnterDelay={0.25}
+      title={
+        tip ? (
+          <span className="wap-fixed-issues__table-desc-tooltip">{tip}</span>
+        ) : undefined
+      }
+    >
+      <button
+        type="button"
+        className="wap-fixed-issues__table-info-trigger"
+        aria-label={__('Full details about this fix', 'website-accessibility')}
+      >
+        <InfoCircleOutlined aria-hidden />
+      </button>
+    </Tooltip>
+  ) : null;
+
+  return (
+    <div className="wap-fixed-issues__table-change">
+      <span className="wap-fixed-issues__table-change-preview">{preview}</span>
+      {infoControl}
+    </div>
+  );
+}
+
+/** Row fields for Fixed Issues cards (highlight link + summary line). */
+function buildFixedIssueRowModel(entry) {
+  const info = getIssueInfo(entry?.issue_id);
+  const beginnerSummary = getIssueBeginnerSummary(entry?.issue_id, info.description);
+  const appliedLine = summarizeAppliedFix(entry?.issue_id || '', entry?.value);
+  const cardSummary = (beginnerSummary || info?.description || '').trim();
+  const primaryLine = (cardSummary || appliedLine || '').trim();
+  const highlightUrl =
+    entry?.page_view_url && entry?.xpath
+      ? buildFixHighlightPageUrl(entry.page_view_url, entry.xpath)
+      : '';
+  const issueTitle = (info?.title || '').trim();
+  return { highlightUrl, primaryLine, issueTitle };
+}
+
+/** Compact export row: short human-readable report (no edit URLs or duplicate page columns). */
+function getFixedIssueExportFields(row) {
+  const info = getIssueInfo(row?.issue_id);
+  const rowModel = buildFixedIssueRowModel(row);
+  const severityLabel = info.severity ? (SEVERITY_TONE[info.severity]?.label || info.severity) : '';
+  const shownName = displayPageTitle(row);
+  const idLabel = formatPageIdentifier(row?.page_identifier);
+  const pageLine =
+    idLabel && idLabel !== shownName ? `${shownName} — ${idLabel}` : shownName;
+
+  return {
+    issue: info.title,
+    severity: severityLabel,
+    page: pageLine,
+    live_page_url: row?.page_view_url || '',
+    summary: rowModel.primaryLine || '',
+    saved_at: formatFixedAt(row?.updated_at || row?.created_at),
+    issue_code: row?.issue_id || '',
+  };
+}
+
+/** Escape a cell for RFC-style CSV (Excel-safe with BOM on file). */
+function escapeCsvField(value) {
+  if (value == null || value === '') {
+    return '';
+  }
+  const s = String(value);
+  if (/[",\n\r]/.test(s)) {
+    return `"${s.replace(/"/g, '""')}"`;
+  }
+  return s;
+}
+
+function buildFixedIssuesCsv(rows) {
+  const headers = [
+    { key: 'issue', label: 'Issue' },
+    { key: 'severity', label: 'Severity' },
+    { key: 'page', label: 'Page' },
+    { key: 'live_page_url', label: 'Live URL' },
+    { key: 'summary', label: 'Summary' },
+    { key: 'saved_at', label: 'Saved' },
+    { key: 'issue_code', label: 'Issue code' },
+  ];
+  const lines = [headers.map((h) => escapeCsvField(h.label)).join(',')];
+  for (const row of rows) {
+    const ex = getFixedIssueExportFields(row);
+    lines.push(headers.map((h) => escapeCsvField(ex[h.key])).join(','));
+  }
+  return lines.join('\r\n');
+}
+
+function triggerDownload(content, filename, mime) {
+  const blob = new Blob([content], { type: mime });
+  const url = URL.createObjectURL(blob);
+  const a = document.createElement('a');
+  a.href = url;
+  a.download = filename;
+  a.rel = 'noopener';
+  document.body.appendChild(a);
+  a.click();
+  document.body.removeChild(a);
+  URL.revokeObjectURL(url);
+}
+
+function reportFilenameStem() {
+  const d = new Date();
+  const pad = (n) => String(n).padStart(2, '0');
+  return `${d.getFullYear()}-${pad(d.getMonth() + 1)}-${pad(d.getDate())}`;
+}
 
 const FixedAccessibilityIssues = () => {
   const {
@@ -10,10 +596,13 @@ const FixedAccessibilityIssues = () => {
     WapTypography,
     WapAlert,
     WapButton,
+    WapDropdown,
     WapInput,
     WapMessage,
     WapSelect,
     WapSpin,
+    WapTooltip,
+    WapTable,
   } = window?.wapComponents || {};
   const { Title, Text } = WapTypography || {};
   const { isProPluginActive, isProActive } = useLicense();
@@ -21,10 +610,8 @@ const FixedAccessibilityIssues = () => {
   const [loading, setLoading] = useState(false);
   const [saving, setSaving] = useState(false);
   const [error, setError] = useState('');
-  const [editingId, setEditingId] = useState('');
-  const [editForm, setEditForm] = useState({ value: '' });
   const [currentPage, setCurrentPage] = useState(1);
-  const [pageSize, setPageSize] = useState(6);
+  const [pageSize, setPageSize] = useState(10);
   const [selectedIds, setSelectedIds] = useState([]);
   const [searchText, setSearchText] = useState('');
   const [issueFilter, setIssueFilter] = useState('all');
@@ -67,13 +654,20 @@ const FixedAccessibilityIssues = () => {
       const value = (item?.value || '').toLowerCase();
       const xpath = (item?.xpath || '').toLowerCase();
       const pageIdentifier = (item?.page_identifier || '').toLowerCase();
+      const viewUrl = (item?.page_view_url || '').toLowerCase();
+
+      const titleSearch = ((item?.page_title || '') + '').toLowerCase();
+      const issueTitleSearch = (getIssueInfo(item?.issue_id).title || '').toLowerCase();
 
       const issueMatch = issueFilter === 'all' ? true : item?.issue_id === issueFilter;
       const textMatch = q === '' ? true : (
         issueId.includes(q) ||
         value.includes(q) ||
         xpath.includes(q) ||
-        pageIdentifier.includes(q)
+        pageIdentifier.includes(q) ||
+        viewUrl.includes(q) ||
+        titleSearch.includes(q) ||
+        issueTitleSearch.includes(q)
       );
 
       return issueMatch && textMatch;
@@ -113,61 +707,6 @@ const FixedAccessibilityIssues = () => {
     setSelectedIds([]);
   }, [searchText, issueFilter]);
 
-  const startEdit = (item) => {
-    setEditingId(item?.id || '');
-    setEditForm({
-      value: item?.value || '',
-    });
-  };
-
-  const cancelEdit = () => {
-    setEditingId('');
-    setEditForm({ value: '' });
-  };
-
-  const saveEdit = async (item) => {
-    if (!item?.id) return;
-    setSaving(true);
-    try {
-      const payload = {
-        id: item.id,
-        page_identifier: item.page_identifier || '',
-        issue_id: item.issue_id || '',
-        xpath: item.xpath || '',
-        value: (editForm.value || '').trim(),
-        inputs: item.inputs || {},
-        causes: item.causes || [],
-        fix_fields: item.fix_fields || [],
-        action: item.action || item.issue_id || '',
-      };
-
-      await apiFetch({
-        path: '/one-accessibility/v1/checker-fix-rules',
-        method: 'POST',
-        data: payload,
-      });
-
-      setItems((prev) => prev.map((entry) => (
-        entry?.id === item.id
-          ? { ...entry, value: payload.value, updated_at: new Date().toISOString() }
-          : entry
-      )));
-
-      WapMessage?.success?.({
-        content: __('Fixed issue updated successfully.', 'website-accessibility'),
-        style: { marginBlockStart: 20 },
-      });
-      cancelEdit();
-    } catch (err) {
-      WapMessage?.error?.({
-        content: err?.message || __('Failed to update fixed issue.', 'website-accessibility'),
-        style: { marginBlockStart: 20 },
-      });
-    } finally {
-      setSaving(false);
-    }
-  };
-
   const deleteItem = async (item) => {
     if (!item?.id || !item?.page_identifier) return;
     setSaving(true);
@@ -184,9 +723,6 @@ const FixedAccessibilityIssues = () => {
         const maxPage = Math.max(1, Math.ceil(remaining / pageSize));
         return Math.min(prevPage, maxPage);
       });
-      if (editingId === item.id) {
-        cancelEdit();
-      }
       WapMessage?.success?.({
         content: __('Fixed issue deleted.', 'website-accessibility'),
         style: { marginBlockStart: 20 },
@@ -262,12 +798,81 @@ const FixedAccessibilityIssues = () => {
     }
   };
 
-  const toggleSelectItem = (id) => {
-    if (!id) return;
-    setSelectedIds((prev) => (prev.includes(id) ? prev.filter((x) => x !== id) : [...prev, id]));
-  };
+  const promptDeleteAllFixedIssues = useCallback(() => {
+    if (items.length === 0 || saving || loading) {
+      return;
+    }
 
-  const isAllCurrentPageSelected = pageItemIds.length > 0 && pageItemIds.every((id) => selectedIds.includes(id));
+    Modal.confirm({
+      title: __('Delete all saved fixes?', 'website-accessibility'),
+      content: sprintf(
+        __(
+          'This permanently deletes everything in your Fixed Issues list (%d items). You cannot undo this.',
+          'website-accessibility',
+        ),
+        items.length,
+      ),
+      okText: __('Delete all', 'website-accessibility'),
+      cancelText: __('Cancel', 'website-accessibility'),
+      okButtonProps: { danger: true },
+      centered: true,
+      onOk: async () => {
+        const snapshot = [...items];
+        setSaving(true);
+        const succeededIds = [];
+        const failedIds = [];
+
+        try {
+          for (const item of snapshot) {
+            const itemId = item?.id;
+            if (!itemId || !item?.page_identifier) {
+              if (itemId) {
+                failedIds.push(itemId);
+              }
+              continue;
+            }
+            try {
+              await apiFetch({
+                path: `/one-accessibility/v1/checker-fix-rules/${item.id}?page_identifier=${encodeURIComponent(item.page_identifier)}`,
+                method: 'DELETE',
+              });
+              succeededIds.push(itemId);
+            } catch (e) {
+              failedIds.push(itemId);
+            }
+          }
+
+          if (succeededIds.length > 0) {
+            setItems((prev) => prev.filter((row) => !succeededIds.includes(row?.id)));
+          }
+          setSelectedIds([]);
+          setCurrentPage(1);
+
+          if (failedIds.length === 0) {
+            WapMessage?.success?.({
+              content: __('All saved fixes were deleted.', 'website-accessibility'),
+              style: { marginBlockStart: 20 },
+            });
+          } else if (succeededIds.length > 0) {
+            WapMessage?.warning?.({
+              content: `${succeededIds.length} ${__('deleted,', 'website-accessibility')} ${failedIds.length} ${__('failed. Please retry.', 'website-accessibility')}`,
+              style: { marginBlockStart: 20 },
+            });
+          } else {
+            WapMessage?.error?.({
+              content: __('Could not delete saved fixes.', 'website-accessibility'),
+              style: { marginBlockStart: 20 },
+            });
+          }
+        } finally {
+          setSaving(false);
+        }
+      },
+    });
+  }, [items, loading, saving]);
+
+  const isAllCurrentPageSelected =
+    pageItemIds.length > 0 && pageItemIds.every((id) => selectedIds.includes(id));
 
   const toggleSelectAllCurrentPage = () => {
     if (isAllCurrentPageSelected) {
@@ -276,6 +881,146 @@ const FixedAccessibilityIssues = () => {
     }
     setSelectedIds((prev) => Array.from(new Set([...prev, ...pageItemIds])));
   };
+
+  const downloadReportCsv = useCallback(() => {
+    if (!sortedItems.length) {
+      return;
+    }
+    const csvBody = buildFixedIssuesCsv(sortedItems);
+    const bom = '\uFEFF';
+    const stem = reportFilenameStem();
+    triggerDownload(
+      bom + csvBody,
+      `fixed-issues-report-${stem}.csv`,
+      'text/csv;charset=utf-8;'
+    );
+    WapMessage?.success?.({
+      content: __('Report downloaded (CSV).', 'website-accessibility'),
+      style: { marginBlockStart: 20 },
+    });
+  }, [sortedItems]);
+
+  const fixedIssuesTableRows = useMemo(() => {
+    const highlightPathUnavailableHint = __(
+      'Use “Open page” — this path can’t highlight the exact spot from here.',
+      'website-accessibility',
+    );
+    return pagedItems.map((entry, idx) => {
+      const rowModel = buildFixedIssueRowModel(entry);
+      const fixedAtRaw = entry?.updated_at || entry?.created_at || '';
+      const fixedAtShort = formatFixedAtTableCompact(fixedAtRaw);
+      const pageTitleForCard = displayPageTitle(entry);
+      const highlightNote =
+        entry?.page_view_url && entry?.xpath && !rowModel.highlightUrl
+          ? highlightPathUnavailableHint
+          : '';
+      return {
+        key: entry?.id != null ? entry.id : `fi-row-${idx}`,
+        entry,
+        rowModel,
+        fixedAtRaw,
+        fixedAtShort,
+        pageTitleForCard,
+        highlightNote,
+      };
+    });
+  }, [pagedItems]);
+
+  const fixedIssuesColumns = useMemo(
+    () =>
+      [
+        {
+          title: __('Issue', 'website-accessibility'),
+          key: 'issue',
+          ellipsis: false,
+          render: (_, record) => (
+            <FixedIssuesTableIssueCell
+              issueTitle={record?.rowModel?.issueTitle}
+              TooltipComponent={WapTooltip}
+            />
+          ),
+        },
+        {
+          title: __('Page', 'website-accessibility'),
+          key: 'page',
+          ellipsis: false,
+          render: (_, record) => (
+            <FixedIssuesTablePageCell
+              pageTitle={record.pageTitleForCard}
+              pageViewUrl={record.entry?.page_view_url}
+              TooltipComponent={WapTooltip}
+            />
+          ),
+        },
+        {
+          title: __('What changed', 'website-accessibility'),
+          key: 'description',
+          ellipsis: false,
+          render: (_, record) => (
+            <FixedIssuesTableChangeSummary
+              text={record.rowModel?.primaryLine}
+              footnote={record.highlightNote}
+            />
+          ),
+        },
+        {
+          title: __('Saved', 'website-accessibility'),
+          key: 'saved',
+          align: 'right',
+          render: (_, record) =>
+            record.fixedAtShort ? (
+              <time
+                className="wap-fixed-issues__table-saved-time"
+                dateTime={record.fixedAtRaw}
+                title={formatFixedAt(record.fixedAtRaw)}
+              >
+                {record.fixedAtShort}
+              </time>
+            ) : (
+              <span className="wap-fixed-issues__table-desc-empty">—</span>
+            ),
+        },
+        {
+          title: __('Actions', 'website-accessibility'),
+          key: 'actions',
+          align: 'right',
+          fixed: 'right',
+          width: 150,
+          render: (_, record) =>
+            WapButton ? (
+              <div className="wap-post-table__row-actions">
+                {record.rowModel?.highlightUrl ? (
+                  <WapButton
+                    type="primary"
+                    ghost
+                    size="small"
+                    href={record.rowModel.highlightUrl}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    title={__(
+                      'Opens your live page and scrolls to where this fix was applied. Stay logged in as an administrator.',
+                      'website-accessibility',
+                    )}
+                  >
+                    {__('Locate', 'website-accessibility')}
+                  </WapButton>
+                ) : null}
+                <WapButton
+                  size="small"
+                  type="default"
+                  danger
+                  loading={saving}
+                  onClick={() => deleteItem(record.entry)}
+                  aria-label={__('Remove this saved fix', 'website-accessibility')}
+                >
+                  {__('Delete', 'website-accessibility')}
+                </WapButton>
+              </div>
+            ) : null,
+        },
+      ],
+    [WapButton, WapTooltip, saving, deleteItem]
+  );
 
   if (!isProPluginActive || !isProActive) {
     return (
@@ -296,13 +1041,26 @@ const FixedAccessibilityIssues = () => {
     <div className="wap-settings wap-fixed-issues">
       <WapCard className="wap-settings-row wap-header-card wap-fixed-issues-header">
         <div className="wap-fixed-issues-header__inner">
-          <div className="wap-header-card-content">
-            <Title level={4} className="wap-header-card-title">
-              {__('Fixed Issues', 'website-accessibility')}
-            </Title>
-            <Text type="secondary" className="wap-header-card-description">
-              {__('Recently saved fixes from Accessibility Checker.', 'website-accessibility')}
-            </Text>
+          <div className="wap-fixed-issues-header__text">
+            <div className="wap-header-card-content">
+              <Title level={4} className="wap-header-card-title">
+                {__('Fixed Issues', 'website-accessibility')}
+              </Title>
+              <Text type="secondary" className="wap-header-card-description">
+                {__('A simple list of what was improved — which page it was on, and what visitors now get.', 'website-accessibility')}
+              </Text>
+            </div>
+          </div>
+          <div className="wap-fixed-issues-header__actions">
+            <WapButton
+              type="default"
+              className="wap-fixed-issues__download"
+              icon={<FixedIssuesIconDownload />}
+              disabled={sortedItems.length === 0 || loading || saving}
+              onClick={downloadReportCsv}
+            >
+              {__('Download report', 'website-accessibility')}
+            </WapButton>
           </div>
         </div>
       </WapCard>
@@ -324,17 +1082,22 @@ const FixedAccessibilityIssues = () => {
               className="wap-fixed-issues__search"
               value={searchText}
               onChange={(e) => setSearchText(e.target.value)}
-              placeholder={__('Search issue, value, xpath, page...', 'website-accessibility')}
+              placeholder={__('Search page title, issue name, fix, link…', 'website-accessibility')}
               allowClear
+              prefix={
+                <span className="wap-fixed-issues__search-prefix">
+                  <FixedIssuesIconSearch />
+                </span>
+              }
             />
             <WapSelect
               className="wap-fixed-issues__filter"
               value={issueFilter}
               onChange={(value) => setIssueFilter(value || 'all')}
             >
-              <WapSelect.Option value="all">{__('All issues', 'website-accessibility')}</WapSelect.Option>
-              {issueOptions.map((issueId) => (
-                <WapSelect.Option key={issueId} value={issueId}>{issueId}</WapSelect.Option>
+              <WapSelect.Option value="all">{__('All fixes', 'website-accessibility')}</WapSelect.Option>
+              {issueOptions.map((optId) => (
+                <WapSelect.Option key={optId} value={optId}>{getIssueInfo(optId).title}</WapSelect.Option>
               ))}
             </WapSelect>
             <label className="wap-fixed-issues__select-all">
@@ -360,7 +1123,7 @@ const FixedAccessibilityIssues = () => {
                 value={String(pageSize)}
                 aria-label={__('Items per page', 'website-accessibility')}
                 onChange={(value) => {
-                  setPageSize(Number(value) || 6);
+                  setPageSize(Number(value) || 10);
                   setCurrentPage(1);
                 }}
               >
@@ -372,16 +1135,65 @@ const FixedAccessibilityIssues = () => {
                 <WapSelect.Option value="50">50</WapSelect.Option>
               </WapSelect>
             </div>
-            <WapButton
-              type="default"
-              danger
-              className="wap-fixed-issues__bulk-delete"
-              disabled={selectedCount === 0 || saving}
-              onClick={deleteSelected}
-              icon={<DeleteOutlined />}
-            >
-              {__('Delete Selected', 'website-accessibility')}
-            </WapButton>
+            {WapDropdown ? (
+              <WapDropdown
+                trigger={['click']}
+                placement="bottomRight"
+                disabled={loading || saving || items.length === 0}
+                overlayClassName="wap-fixed-issues__bulk-remove-dropdown"
+                getPopupContainer={(node) =>
+                  node?.closest?.('#website-accessibility-admin') || document.body
+                }
+                menu={{
+                  selectable: false,
+                  items: [
+                    {
+                      key: 'delete-selected',
+                      label: sprintf(
+                        __('Selections checked (%d)…', 'website-accessibility'),
+                        selectedCount,
+                      ),
+                      disabled: selectedCount === 0 || saving,
+                      danger: true,
+                    },
+                    { type: 'divider' },
+                    {
+                      key: 'delete-all',
+                      label: __('Delete entire list…', 'website-accessibility'),
+                      disabled: items.length === 0 || saving,
+                      danger: true,
+                    },
+                  ],
+                  onClick: ({ key, domEvent }) => {
+                    domEvent?.preventDefault?.();
+                    if (key === 'delete-selected') {
+                      void deleteSelected();
+                    } else if (key === 'delete-all') {
+                      promptDeleteAllFixedIssues();
+                    }
+                  },
+                }}
+              >
+                <WapButton
+                  type="default"
+                  danger
+                  className="wap-fixed-issues__bulk-remove-trigger"
+                  icon={<FixedIssuesIconTrash />}
+                  aria-label={__(
+                    'Remove saved fixes — open menu for delete options',
+                    'website-accessibility',
+                  )}
+                  aria-haspopup="menu"
+                >
+                  <span className="wap-fixed-issues__bulk-remove-trigger__inner">
+                    <span>{__('Remove', 'website-accessibility')}</span>
+                    <span className="wap-fixed-issues__bulk-remove-trigger__caret" aria-hidden="true">
+                      <FixedIssuesIconChevronDown size={14} />
+                    </span>
+                  </span>
+                </WapButton>
+              </WapDropdown>
+            ) : null}
           </div>
         </div>
 
@@ -394,7 +1206,7 @@ const FixedAccessibilityIssues = () => {
         {!loading && !error && sortedItems.length === 0 ? (
           <div className="wap-fixed-issues__empty" role="status">
             <div className="wap-fixed-issues__empty-visual" aria-hidden="true">
-              <InboxOutlined />
+              <FixedIssuesIconInbox />
             </div>
             <Title level={5} className="wap-fixed-issues__empty-title">
               {__('No fixed accessibility issues yet', 'website-accessibility')}
@@ -410,101 +1222,28 @@ const FixedAccessibilityIssues = () => {
 
         {!loading && sortedItems.length > 0 ? (
           <>
-            <ul className="wap-fixed-issues__list">
-              {pagedItems.map((entry, index) => {
-                const key = entry?.id || `${entry?.issue_id || 'issue'}-${index}`;
-                const isEditing = editingId === entry?.id;
-                const updatedAt = entry?.updated_at || entry?.created_at || '';
-                const isSelected = selectedIds.includes(entry?.id);
-                return (
-                  <li key={key} className="wap-fixed-issues__item">
-                    <div className="wap-fixed-issues__item-top">
-                      <label className="wap-fixed-issues__check">
-                        <input
-                          type="checkbox"
-                          checked={!!isSelected}
-                          onChange={() => toggleSelectItem(entry?.id)}
-                          disabled={saving}
-                        />
-                      </label>
-                      <div className="wap-fixed-issues__item-head">
-                        <code className="wap-fixed-issues__issue-id">{entry?.issue_id || __('N/A', 'website-accessibility')}</code>
-                        {updatedAt ? (
-                          <time className="wap-fixed-issues__time" dateTime={updatedAt}>{updatedAt}</time>
-                        ) : null}
-                      </div>
-                    </div>
-
-                    <dl className="wap-fixed-issues__meta">
-                      <div className="wap-fixed-issues__meta-row">
-                        <dt>{__('XPath', 'website-accessibility')}</dt>
-                        <dd title={entry?.xpath || ''}>{entry?.xpath || '—'}</dd>
-                      </div>
-                      <div className="wap-fixed-issues__meta-row">
-                        <dt>{__('Page ID', 'website-accessibility')}</dt>
-                        <dd>{entry?.page_identifier || '—'}</dd>
-                      </div>
-                    </dl>
-
-                    {isEditing ? (
-                      <WapInput.TextArea
-                        className="wap-fixed-issues__textarea"
-                        rows={2}
-                        value={editForm.value}
-                        onChange={(e) => setEditForm((prev) => ({ ...prev, value: e.target.value }))}
-                        placeholder={__('Value', 'website-accessibility')}
-                      />
-                    ) : (
-                      <div className="wap-fixed-issues__value-block">
-                        <span className="wap-fixed-issues__value-label">{__('Value', 'website-accessibility')}</span>
-                        <span className="wap-fixed-issues__value-text">{entry?.value || '—'}</span>
-                      </div>
-                    )}
-
-                    <div className="wap-fixed-issues__item-actions">
-                      {isEditing ? (
-                        <>
-                          <WapButton
-                            type="primary"
-                            className="wap-fixed-issues__btn-save"
-                            loading={saving}
-                            onClick={() => saveEdit(entry)}
-                          >
-                            {__('Save', 'website-accessibility')}
-                          </WapButton>
-                          <WapButton
-                            type="default"
-                            className="wap-fixed-issues__btn-secondary"
-                            disabled={saving}
-                            onClick={cancelEdit}
-                          >
-                            {__('Cancel', 'website-accessibility')}
-                          </WapButton>
-                        </>
-                      ) : (
-                        <WapButton
-                          type="default"
-                          className="wap-fixed-issues__btn-secondary"
-                          disabled={saving}
-                          onClick={() => startEdit(entry)}
-                        >
-                          {__('Edit', 'website-accessibility')}
-                        </WapButton>
-                      )}
-                      <WapButton
-                        danger
-                        type="default"
-                        className="wap-fixed-issues__btn-delete"
-                        icon={<DeleteOutlined />}
-                        loading={saving}
-                        onClick={() => deleteItem(entry)}
-                        aria-label={__('Delete', 'website-accessibility')}
-                      />
-                    </div>
-                  </li>
-                );
-              })}
-            </ul>
+            <div className="wap-fixed-issues__table-wrap">
+              <WapTable
+                className="wap-fixed-issues__table"
+                columns={fixedIssuesColumns}
+                dataSource={fixedIssuesTableRows}
+                pagination={false}
+                rowKey={(record) =>
+                  record?.entry?.id != null ? record.entry.id : record.key
+                }
+                rowSelection={{
+                  selectedRowKeys: selectedIds,
+                  onChange: (keys) => {
+                    setSelectedIds(keys.filter((id) => id != null));
+                  },
+                  getCheckboxProps: () => ({
+                    disabled: saving,
+                  }),
+                }}
+                scroll={{ x: true }}
+                sticky
+              />
+            </div>
 
             {sortedItems.length > pageSize ? (
               <div className="wap-fixed-issues__pagination">

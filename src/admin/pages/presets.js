@@ -1,6 +1,7 @@
 import { __ } from '@wordpress/i18n';
 import PostTable from '../components/post-table';
 import { useHistory } from '../router';
+import { useDashboardTour } from '../context/dashboard-tour-context';
 import { useSelect, useDispatch } from "@wordpress/data";
 import { STORE_NAME } from "../store";
 import { useMemo } from '@wordpress/element';
@@ -17,6 +18,7 @@ const Presets = () => {
   const { WapCard, WapButton, WapSpace, WapTag, WapTypography } = window?.wapComponents;
   const { Title, Text } = WapTypography;
   const history = useHistory();
+  const { notifyOpenedPresetEditorFromPresetsTour } = useDashboardTour();
   const { setPresetFilters, deletePreset } = useDispatch(STORE_NAME);
   const { filters: rawFilters, presets } = useSelect((select) => {
     const store = select(STORE_NAME);
@@ -75,6 +77,9 @@ const Presets = () => {
   });
 
   const handleEdit = (record) => {
+    if (notifyOpenedPresetEditorFromPresetsTour(record?.id)) {
+      return;
+    }
     history.push({
       page: 'website-accessibility-presets-edit',
       id: record?.id,
@@ -85,7 +90,7 @@ const Presets = () => {
     <div className="wap-settings wap-presets">
       <WapCard className="wap-settings-row wap-header-card wap-presets-header">
         <div className="wap-presets-header__inner">
-          <div className="wap-header-card-content">
+          <div className="wap-header-card-content" data-tour="wap-tour-tour-preview">
             <Title level={4} className="wap-header-card-title">
               {__('Presets', 'website-accessibility')}
             </Title>
@@ -94,12 +99,14 @@ const Presets = () => {
             </Text>
           </div>
           <div className="wap-presets-header__actions">
-            <WapButton type="primary" onClick={() => navigate('website-accessibility-presets-create')}>
-              <WapSpace size="small">
-                <span className="dashicons dashicons-plus-alt2" />
-                {__('Add New Preset', 'website-accessibility')}
-              </WapSpace>
-            </WapButton>
+            <span data-tour="wap-tour-presets-add-new" style={{ display: 'inline-flex' }}>
+              <WapButton type="primary" onClick={() => navigate('website-accessibility-presets-create')}>
+                <WapSpace size="small">
+                  <span className="dashicons dashicons-plus-alt2" />
+                  {__('Add New Preset', 'website-accessibility')}
+                </WapSpace>
+              </WapButton>
+            </span>
           </div>
         </div>
       </WapCard>
@@ -109,6 +116,7 @@ const Presets = () => {
           <PostTable
             columns={columns}
             data={data}
+            firstRowEditDataTour="wap-tour-presets-edit-first"
             onSearch={(value) => {
               setPresetFilters({
                 search: value,

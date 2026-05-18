@@ -3,36 +3,59 @@ import { __ } from '@wordpress/i18n';
 import { useDispatch, useSelect } from "@wordpress/data";
 import { DEFAULT_STATE, STORE_NAME } from "../store";
 import { useHistory } from '../router';
+import { useDashboardTour } from '../context/dashboard-tour-context';
 import PresetEditorPreview from '../components/preset-editor-preview';
 import PanelCustomizationPreset from '../components/preset-panel-customization';
 
+function getFreshPresetsFormData() {
+  return {
+    ...DEFAULT_STATE?.presetsFormData,
+    panel: {
+      ...DEFAULT_STATE?.presetsFormData?.panel,
+      wrapper: {
+        ...DEFAULT_STATE?.presetsFormData?.panel?.wrapper,
+      },
+      items: [...(DEFAULT_STATE?.presetsFormData?.panel?.items || [])],
+    },
+    button: {
+      ...DEFAULT_STATE?.presetsFormData?.button,
+    },
+    preset: {
+      ...DEFAULT_STATE?.presetsFormData?.preset,
+    },
+  };
+}
 
 const CreatePreset = () => {
   const { WapCard, WapButton, WapSpace, WapTypography, WapInput } = window?.wapComponents;
   const { presetsFormData } = useSelect((select) => select(STORE_NAME).getPresetsFormData());
   const { setPresetsFormData, createPreset } = useDispatch(STORE_NAME);
   const history = useHistory();
+  const { notifyPresetSavedForTour } = useDashboardTour();
   const { Title } = WapTypography;
   const [searchTerm, setSearchTerm] = useState('');
+  const [isSaving, setIsSaving] = useState(false);
 
   useEffect(() => {
-    setPresetsFormData({
-      ...DEFAULT_STATE?.presetsFormData,
-      panel: {
-        ...DEFAULT_STATE?.presetsFormData?.panel,
-        wrapper: {
-          ...DEFAULT_STATE?.presetsFormData?.panel?.wrapper,
-        },
-        items: [...(DEFAULT_STATE?.presetsFormData?.panel?.items || [])],
-      },
-      button: {
-        ...DEFAULT_STATE?.presetsFormData?.button,
-      },
-      preset: {
-        ...DEFAULT_STATE?.presetsFormData?.preset,
-      },
-    });
+    setPresetsFormData(getFreshPresetsFormData());
   }, []);
+
+  const handleSavePreset = async () => {
+    if (!presetsFormData?.title || isSaving) {
+      return;
+    }
+    setIsSaving(true);
+    try {
+      await createPreset(presetsFormData);
+      setPresetsFormData(getFreshPresetsFormData());
+      history.push({
+        page: 'website-accessibility-presets',
+      });
+      notifyPresetSavedForTour();
+    } finally {
+      setIsSaving(false);
+    }
+  };
 
   useEffect(() => {
     const keyword = searchTerm.trim().toLowerCase();
@@ -63,7 +86,7 @@ const CreatePreset = () => {
   return (
     <div className="wap-preset-editor">
       <PresetEditorPreview />
-      <div className="wap-preset-editor-content">
+      <div className="wap-preset-editor-content" data-tour="wap-tour-preset-editor">
         <WapCard className='wap-header-card'>
           <Title level={2} className='wap-header-card-title'>
             {__('Create New Preset', 'website-accessibility')}
@@ -82,26 +105,22 @@ const CreatePreset = () => {
         <PanelCustomizationPreset />
       </div>
 
-      <div className="wap-preset-form-actions" style={{ marginTop: 24 }}>
+      <div className="wap-preset-form-actions" data-tour="wap-tour-preset-finish" style={{ marginTop: 24 }}>
         <WapSpace>
-          <WapButton
-            type="primary"
-            htmlType="submit"
-            size='large'
-            disabled={!presetsFormData?.title}
-            onClick={() => {
-              createPreset(presetsFormData);
-              history.push({
-                page: 'website-accessibility-presets'
-              });
-              setPresetsFormData(DEFAULT_STATE?.presetsFormData);
-            }}
-          >
-            <WapSpace>
-              {__('Save Preset', 'website-accessibility')}
-              <span className='dashicons dashicons-arrow-right-alt' />
-            </WapSpace>
-          </WapButton>
+          <span data-tour="wap-tour-save-preset" style={{ display: 'inline-flex' }}>
+            <WapButton
+              type="primary"
+              size='large'
+              disabled={!presetsFormData?.title || isSaving}
+              loading={isSaving}
+              onClick={handleSavePreset}
+            >
+              <WapSpace>
+                {__('Save Preset', 'website-accessibility')}
+                <span className='dashicons dashicons-arrow-right-alt' />
+              </WapSpace>
+            </WapButton>
+          </span>
         </WapSpace>
       </div>
     </div>

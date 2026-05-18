@@ -143,6 +143,15 @@ class Menu
             [$this, 'render_menu_page']
         );
 
+        add_submenu_page(
+            'website-accessibility',
+            __('CSS Overrides', 'website-accessibility'),
+            __('CSS Overrides', 'website-accessibility'),
+            'manage_options',
+            'website-accessibility-css-overrides',
+            [$this, 'render_menu_page']
+        );
+
         // Tools & Backup — only when Pro plugin is active
         // if (class_exists('\bdthemes\websiteaccessibilitypro\Admin\License')) {
             add_submenu_page(

@@ -1,9 +1,7 @@
-import { Dropdown } from "antd";
+import { Dropdown } from 'antd';
 
-const WapDropdown = ({ ...props }) => {
-    return (
-        <Dropdown{...props} />
-    );
-}
+const WapDropdown = ({ ...props }) => (
+	<Dropdown {...props} />
+);
 
 export default WapDropdown;

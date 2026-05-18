@@ -1,6 +1,7 @@
 import { useEffect, useState } from '@wordpress/element';
 import apiFetch from '@wordpress/api-fetch';
 import { __ } from '@wordpress/i18n';
+import { useDashboardTour } from '../context/dashboard-tour-context';
 
 const DOCS_URL = 'https://bdthemes.com/all-knowledge-base-of-one-accessibility/';
 const SUPPORT_URL = 'https://bdthemes.com/contact/';
@@ -8,6 +9,7 @@ const SUPPORT_URL = 'https://bdthemes.com/contact/';
 const AboutInfo = () => {
 	const { WapCard, WapButton, WapTypography } = window?.wapComponents;
 	const { Title, Text } = WapTypography;
+	const { startTour } = useDashboardTour();
 	const pluginVersion = typeof window !== 'undefined' && window.websacAdmin?.version ? window.websacAdmin.version : '1.3.0';
 
 	const [systemInfo, setSystemInfo] = useState(null);
@@ -54,6 +56,11 @@ const AboutInfo = () => {
 						<Text type="secondary" className="wap-header-card-description">
 							{__('System information and plugin overview', 'website-accessibility')}
 						</Text>
+					</div>
+					<div className="wap-about-info-header__actions">
+						<button type="button" className="wap-about-info-header__tour" onClick={startTour}>
+							{__('Quick tour', 'website-accessibility')}
+						</button>
 					</div>
 				</div>
 			</WapCard>

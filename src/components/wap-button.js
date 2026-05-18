@@ -1,11 +1,12 @@
-import { Button } from "antd";
+import { forwardRef } from '@wordpress/element';
+import { Button } from 'antd';
 
-const WapButton = ({ children, ...rest }) => {
-    return (
-        <Button {...rest}>
-            {children}
-        </Button>
-    )
-}
+const WapButton = forwardRef(({ children, ...rest }, ref) => (
+	<Button ref={ref} {...rest}>
+		{children}
+	</Button>
+));
 
-export default WapButton
+WapButton.displayName = 'WapButton';
+
+export default WapButton;

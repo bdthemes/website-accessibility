@@ -4,6 +4,7 @@ import { __ } from '@wordpress/i18n';
 import { useLicense } from '../context/LicenseContext';
 
 const API_NAMESPACE = '/sigmally/v1';
+const DOCS_URL = 'https://bdthemes.com/all-knowledge-base-of-one-accessibility/';
 
 const ToolsBackup = () => {
 	const { WapButton, WapMessage, WapCard, WapTypography } = window?.wapComponents;
@@ -94,6 +95,18 @@ const ToolsBackup = () => {
 					<Text type="secondary">
 						{__("Export and import settings are available in the Pro version.", "website-accessibility")}
 					</Text>
+					<ul className="wap-tools-backup__list wap-tools-backup__list--muted" aria-label={__("Features available with One Accessibility Pro", "website-accessibility")}>
+						<li>{__("Download a JSON backup that includes plugin settings, presets, and custom profiles.", "website-accessibility")}</li>
+						<li>{__("Restore configuration on another site or roll back after major changes.", "website-accessibility")}</li>
+						<li>{__("Keep a dated export before importing so you can recover quickly if needed.", "website-accessibility")}</li>
+					</ul>
+					<Text type="secondary" className="wap-tools-backup__help-inline">
+						<a href={DOCS_URL} target="_blank" rel="noopener noreferrer">
+							{__("Documentation", "website-accessibility")}
+						</a>
+						{' — '}
+						{__("Learn how backup and migration work.", "website-accessibility")}
+					</Text>
 				</WapCard>
 			</div>
 		);
@@ -108,7 +121,10 @@ const ToolsBackup = () => {
 							{__("Tools & Backup", "website-accessibility")}
 						</Title>
 						<Text type="secondary" className="wap-header-card-description">
-							{__("Export or import your settings configuration", "website-accessibility")}
+							{__("Export or import your settings configuration.", "website-accessibility")}
+						</Text>
+						<Text type="secondary" className="wap-tools-header__subdesc">
+							{__("Use exports before big changes, when cloning to staging, or to keep an off-site record of your accessibility setup.", "website-accessibility")}
 						</Text>
 					</div>
 				</div>
@@ -162,6 +178,67 @@ const ToolsBackup = () => {
 					/>
 				</WapCard>
 			</div>
+
+			<div className="wap-tools-backup__info">
+				<WapCard className="wap-settings-row wap-tools-info-card">
+					<Title level={5} className="wap-tools-info-card__title">
+						{__("What’s included in the backup file?", "website-accessibility")}
+					</Title>
+					<Text type="secondary" className="wap-tools-info-card__lead">
+						{__("Each export is a single JSON document you can store offline or send to staging.", "website-accessibility")}
+					</Text>
+					<ul className="wap-tools-backup__list">
+						<li>
+							<strong>{__("Settings", "website-accessibility")}</strong>
+							{' — '}
+							{__("Toolbar options and plugin preferences saved in WordPress.", "website-accessibility")}
+						</li>
+						<li>
+							<strong>{__("Presets", "website-accessibility")}</strong>
+							{' — '}
+							{__("Published presets with layout, conditions, and related metadata.", "website-accessibility")}
+						</li>
+						<li>
+							<strong>{__("Custom profiles", "website-accessibility")}</strong>
+							{' — '}
+							{__("Accessibility profiles associated with those presets.", "website-accessibility")}
+						</li>
+						<li>
+							<strong>{__("File details", "website-accessibility")}</strong>
+							{' — '}
+							{__("Export date and site URL so you know where the snapshot came from.", "website-accessibility")}
+						</li>
+					</ul>
+				</WapCard>
+				<WapCard className="wap-settings-row wap-tools-info-card">
+					<Title level={5} className="wap-tools-info-card__title">
+						{__("Before you import", "website-accessibility")}
+					</Title>
+					<Text type="secondary" className="wap-tools-info-card__lead">
+						{__("Imports apply immediately and refresh this screen when finished.", "website-accessibility")}
+					</Text>
+					<ul className="wap-tools-backup__list">
+						<li>{__("Use JSON files exported from One Accessibility — other formats cannot be restored here.", "website-accessibility")}</li>
+						<li>{__("Presets and profiles with the same title as your site will be updated; new titles are added as new items.", "website-accessibility")}</li>
+						<li>{__("Run an export first if you might need to undo changes on this site.", "website-accessibility")}</li>
+						<li>{__("Test large imports on a staging copy when possible.", "website-accessibility")}</li>
+					</ul>
+				</WapCard>
+			</div>
+
+			<WapCard className="wap-settings-row wap-tools-backup__help-card">
+				<Title level={5} className="wap-tools-backup__help-title">
+					{__("Help & migration", "website-accessibility")}
+				</Title>
+				<Text type="secondary">
+					{__("Moving between environments or onboarding a teammate? Combine a fresh export with our guides for presets, licensing, and support.", "website-accessibility")}
+				</Text>
+				<div className="wap-tools-backup__help-links">
+					<a className="wap-tools-backup__help-link" href={DOCS_URL} target="_blank" rel="noopener noreferrer">
+						{__("Browse the knowledge base", "website-accessibility")}
+					</a>
+				</div>
+			</WapCard>
 		</div>
 	);
 };

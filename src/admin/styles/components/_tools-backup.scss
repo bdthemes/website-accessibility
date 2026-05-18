@@ -1,10 +1,12 @@
 // Tools & Backup page — header card (same design as Custom Profiles) + two cards (Export + Import)
+// Vertical rhythm: match `.wap-header-card.wap-settings-row` margin-bottom (20px) between sections.
+$wap-tools-section-gap: 20px;
+
 .wap-tools-backup {
     > .wap-settings-row:first-child {
         margin-top: 0 !important;
     }
 
-    // Header card — same structure as .wap-profiles-header / Custom Profiles
     .wap-tools-header {
         .ant-card-body {
             display: block;
@@ -22,15 +24,133 @@
                 grid-template-columns: 1fr;
             }
         }
+
+        .wap-tools-header__subdesc {
+            display: block;
+            margin-block-start: 8px !important;
+            max-width: 52rem;
+            line-height: 1.5;
+        }
+    }
+
+    .wap-tools-backup__info {
+        margin-top: $wap-tools-section-gap;
+        display: grid;
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+        column-gap: 24px;
+        row-gap: 20px;
+
+        @media (max-width: 900px) {
+            grid-template-columns: 1fr;
+        }
+    }
+
+    .wap-tools-info-card {
+        padding: 20px !important;
+        border-radius: 10px;
+        border: 1px solid #eef0f2;
+        box-shadow: none !important;
+        margin: 0 !important;
+
+        .ant-card-body {
+            padding: 0 !important;
+        }
+
+        .wap-tools-info-card__title {
+            margin: 0 0 8px !important;
+            font-size: 15px;
+            font-weight: 600;
+            color: rgba(0, 0, 0, 0.88);
+        }
+
+        .wap-tools-info-card__lead {
+            display: block;
+            margin-block-end: 14px !important;
+            font-size: 13px;
+            line-height: 1.5;
+            color: rgba(0, 0, 0, 0.55);
+        }
+    }
+
+    .wap-tools-backup__help-card {
+        margin-top: $wap-tools-section-gap !important;
+        padding: 20px 22px !important;
+        border-radius: 10px;
+        border: 1px solid #e8f4ff;
+        background: #fff;
+        box-shadow: none !important;
+
+        .ant-card-body {
+            padding: 0 !important;
+        }
+
+        .wap-tools-backup__help-title {
+            margin: 0 0 8px !important;
+            font-size: 15px;
+            font-weight: 600;
+            color: rgba(0, 0, 0, 0.88);
+        }
+
+        .wap-tools-backup__help-links {
+            margin-block-start: 10px;
+        }
+
+        .wap-tools-backup__help-link {
+            font-weight: 600;
+            color: #1890ff;
+
+            &:hover {
+                color: #40a9ff;
+            }
+        }
+    }
+
+    .wap-tools-backup__list {
+        margin: 0;
+        font-size: 13px;
+        line-height: 1.55;
+        color: rgba(0, 0, 0, 0.75);
+
+        li {
+            margin-bottom: 10px;
+
+            &:last-child {
+                margin-bottom: 0;
+            }
+
+            strong {
+                color: rgba(0, 0, 0, 0.88);
+            }
+        }
+
+        &.wap-tools-backup__list--muted li {
+            color: rgba(0, 0, 0, 0.65);
+        }
+    }
+
+    .wap-tools-backup__help-inline {
+        display: block;
+        margin-block-start: 16px !important;
+        padding-block-start: 14px;
+        border-top: 1px solid rgba(0, 0, 0, 0.06);
+
+        a {
+            font-weight: 600;
+        }
     }
 
     .wap-tools-backup__cards {
         display: grid;
-        grid-template-columns: repeat(2, 1fr);
-        gap: 20px;
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+        column-gap: 24px;
+        row-gap: 20px;
 
         @media (max-width: 768px) {
             grid-template-columns: 1fr;
+        }
+
+        > .wap-tools-card.wap-settings-row {
+            margin-top: 0 !important;
         }
     }
 

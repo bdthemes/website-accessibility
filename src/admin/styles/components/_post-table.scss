@@ -155,10 +155,11 @@
     }
 }
 
-// Table column headers — smaller, calmer
+// Table column headers — smaller, calmer (Presets, Custom Profiles, Fixed Issues list)
 .wap-admin-pages .ant-table-thead > tr > th,
 .wap-presets .ant-table-thead > tr > th,
-.wap-profiles .ant-table-thead > tr > th {
+.wap-profiles .ant-table-thead > tr > th,
+.wap-fixed-issues .ant-table-thead > tr > th {
     font-size: 12px;
     font-weight: 600;
     padding: 10px 12px;
@@ -174,7 +175,8 @@
 
 // Status tags + row actions: same compact pill metrics (Ant Design + scoped tweaks)
 .wap-presets .ant-table-tbody,
-.wap-profiles .ant-table-tbody {
+.wap-profiles .ant-table-tbody,
+.wap-fixed-issues .ant-table-tbody {
     .ant-tag {
         margin-inline-end: 0;
         height: 22px;
@@ -197,5 +199,31 @@
         border-radius: 4px !important;
         display: inline-flex !important;
         align-items: center !important;
+    }
+}
+
+.wap-fixed-issues .wap-post-table__row-actions {
+    gap: 6px;
+    flex-wrap: nowrap;
+    white-space: nowrap;
+    justify-content: flex-end;
+
+    /* Ghost Locate (link rendered as anchor): tighten to match neighbouring sm buttons */
+    .ant-btn.ant-btn-sm {
+        flex-shrink: 0 !important;
+    }
+
+    a.ant-btn.ant-btn-background-ghost {
+        flex-shrink: 0;
+        padding: 0 8px !important;
+        height: 22px !important;
+        min-height: 22px !important;
+        font-size: 12px !important;
+        font-weight: 500 !important;
+        line-height: 20px !important;
+        display: inline-flex !important;
+        align-items: center !important;
+        border-radius: 4px !important;
+        box-sizing: border-box !important;
     }
 }
