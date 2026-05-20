@@ -29,6 +29,7 @@
             align-items: center;
             flex-shrink: 0;
             justify-self: end;
+            gap: 10px;
 
             @media (max-width: 576px) {
                 justify-self: start;

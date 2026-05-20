@@ -190,29 +190,30 @@ const Settings = () => {
             {/* General Statement Section */}
             <StatementSetting />
 
-            {/* Example Setting: Translation Consent */}
             {isProActive && (
                 <>
-                    <SettingsItem
-                        title={__("Show Consent for Translation", "website-accessibility")}
-                        description={__(
-                            "Show a consent message to users before translating content.",
-                            "website-accessibility"
-                        )}
-                        checked={!!settings.show_translations_consent}
-                        loading={saving}
-                        onChange={(checked) => updateSetting("show_translations_consent", checked)}
-                    />
-                    <SettingsItem
-                        title={__("Force Translate Site Language", "website-accessibility")}
-                        description={__(
-                            "Automatically translate your website's original language. This will override the default site language translation with auto-generated translations.",
-                            "website-accessibility"
-                        )}
-                        checked={!!settings.force_translate_site_language}
-                        loading={saving}
-                        onChange={(checked) => updateSetting("force_translate_site_language", checked)}
-                    />
+                    <div data-tour="wap-tour-settings-translation">
+                        <SettingsItem
+                            title={__("Show Consent for Translation", "website-accessibility")}
+                            description={__(
+                                "Show a consent message to users before translating content.",
+                                "website-accessibility"
+                            )}
+                            checked={!!settings.show_translations_consent}
+                            loading={saving}
+                            onChange={(checked) => updateSetting("show_translations_consent", checked)}
+                        />
+                        <SettingsItem
+                            title={__("Force Translate Site Language", "website-accessibility")}
+                            description={__(
+                                "Automatically translate your website's original language. This will override the default site language translation with auto-generated translations.",
+                                "website-accessibility"
+                            )}
+                            checked={!!settings.force_translate_site_language}
+                            loading={saving}
+                            onChange={(checked) => updateSetting("force_translate_site_language", checked)}
+                        />
+                    </div>
                     <SettingsItem
                         title={__("Enable Accessibility Checker", "website-accessibility")}
                         description={__(
@@ -222,9 +223,10 @@ const Settings = () => {
                         checked={!!settings.enable_accessibility_checker}
                         loading={saving}
                         onChange={(checked) => updateSetting("enable_accessibility_checker", checked)}
+                        dataTour="wap-tour-settings-checker"
                     />
                     {!!settings.enable_accessibility_checker && (
-                        <WapCard className="wap-settings-row wap-checker-ai-settings">
+                        <WapCard className="wap-settings-row wap-checker-ai-settings" data-tour="wap-tour-settings-checker-ai">
                             <div className="wap-checker-ai-settings__intro">
                                 <div className="wap-checker-ai-settings__intro-head">
                                     <Title level={5} style={{ margin: 0 }}>

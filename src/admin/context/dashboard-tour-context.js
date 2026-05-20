@@ -1,5 +1,6 @@
 /**
- * Guided tour: Welcome → Presets (sidebar) → Presets list → Edit preset → Save → Preview.
+ * Guided tour: Welcome → Presets → Edit → Save → Preview (free / all users).
+ * Pro settings tour is separate — see pro-settings-tour-context.js (runs on license activation).
  */
 import {
 	createContext,
@@ -74,7 +75,7 @@ const DashboardTourContext = createContext({
 	startTour: () => {},
 	notifyPresetSavedForTour: () => {},
 	notifyOpenedPresetEditorFromPresetsTour: () => false,
-	tryAdvanceTourViaPresetsMenu: () => false,
+	tryAdvanceTourViaSidebarMenu: () => false,
 	dismissTourUnderstood: () => {},
 });
 
@@ -341,8 +342,7 @@ export function DashboardTourProvider({ children }) {
 		return true;
 	}, []);
 
-	// Sidebar Presets: click behaves like Joyride Next — next step `before()` pushes route.
-	const tryAdvanceTourViaPresetsMenu = useCallback((menuKey) => {
+	const tryAdvanceTourViaSidebarMenu = useCallback((menuKey) => {
 		if (menuKey !== 'website-accessibility-presets') {
 			return false;
 		}
@@ -394,14 +394,14 @@ export function DashboardTourProvider({ children }) {
 			startTour,
 			notifyPresetSavedForTour,
 			notifyOpenedPresetEditorFromPresetsTour,
-			tryAdvanceTourViaPresetsMenu,
+			tryAdvanceTourViaSidebarMenu,
 			dismissTourUnderstood: markDone,
 		}),
 		[
 			startTour,
 			notifyPresetSavedForTour,
 			notifyOpenedPresetEditorFromPresetsTour,
-			tryAdvanceTourViaPresetsMenu,
+			tryAdvanceTourViaSidebarMenu,
 			markDone,
 		]
 	);

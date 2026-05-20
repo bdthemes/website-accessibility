@@ -36,7 +36,7 @@ const LicenseManager = ({
     }
   };
 
-  const fetchStatus = async () => {
+  const fetchStatus = async (options = {}) => {
     setIsLoading(true);
     try {
       const data = await licenseService.checkLicenseStatus();
@@ -53,7 +53,10 @@ const LicenseManager = ({
       window.websacPro.isProActive = isActive;
       window.dispatchEvent(
         new CustomEvent("websac-license-changed", {
-          detail: { isLicenseValid: isActive },
+          detail: {
+            isLicenseValid: isActive,
+            justActivated: !!options.justActivated,
+          },
         })
       );
 
@@ -83,7 +86,7 @@ const LicenseManager = ({
       .then((data) => {
         if (data?.success) {
           notify("success", "License activated successfully!");
-          fetchStatus();
+          fetchStatus({ justActivated: true });
           return;
         }
         const msg = data?.message || "Failed to activate license";
