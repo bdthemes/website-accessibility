@@ -7,6 +7,7 @@ import "./styles/main.scss";
 import Pages from './pages';
 import AdminLayout from './components/admin-layout';
 import { DashboardTourProvider } from './context/dashboard-tour-context';
+import { ProSettingsTourProvider } from './context/pro-settings-tour-context';
 import { register } from '@wordpress/data';
 import store from './store';
 import { LicenseProvider } from './context/LicenseContext';
@@ -20,9 +21,11 @@ const Admin = () => {
         <LicenseProvider>
             <RouterProvider>
                 <DashboardTourProvider>
-                    <AdminLayout>
-                        <Pages />
-                    </AdminLayout>
+                    <ProSettingsTourProvider>
+                        <AdminLayout>
+                            <Pages />
+                        </AdminLayout>
+                    </ProSettingsTourProvider>
                 </DashboardTourProvider>
             </RouterProvider>
         </LicenseProvider>

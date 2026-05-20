@@ -1,9 +1,9 @@
 
-const SettingsItem = ({ title, description, checked, onChange, disabled = false }) => {
+const SettingsItem = ({ title, description, checked, onChange, disabled = false, dataTour = null }) => {
     const { WapCard, WapSpace, WapSwitch, WapTypography } = window?.wapComponents;
     const { Title, Text } = WapTypography;
     return (
-        <WapCard className="wap-settings-row">
+        <WapCard className="wap-settings-row" {...(dataTour ? { 'data-tour': dataTour } : {})}>
             <WapSpace
                 align="center"
                 style={{

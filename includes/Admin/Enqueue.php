@@ -103,6 +103,7 @@ class Enqueue {
                 'proUpgradeUrl'     => 'https://oneaccessibility.com#pricing',
                 /** Set false in JS after completing tour via REST (same page session). */
                 'shouldAutoStartDashboardTour' => ! DashboardTourRouteV1::is_completed(),
+                'isProSettingsTourCompleted'  => DashboardTourRouteV1::is_pro_settings_completed(),
             ]
         );
 

@@ -2,6 +2,8 @@ import { useEffect, useState } from '@wordpress/element';
 import apiFetch from '@wordpress/api-fetch';
 import { __ } from '@wordpress/i18n';
 import { useDashboardTour } from '../context/dashboard-tour-context';
+import { useProSettingsTour } from '../context/pro-settings-tour-context';
+import { useLicense } from '../context/LicenseContext';
 
 const DOCS_URL = 'https://bdthemes.com/all-knowledge-base-of-one-accessibility/';
 const SUPPORT_URL = 'https://bdthemes.com/contact/';
@@ -10,6 +12,8 @@ const AboutInfo = () => {
 	const { WapCard, WapButton, WapTypography } = window?.wapComponents;
 	const { Title, Text } = WapTypography;
 	const { startTour } = useDashboardTour();
+	const { startProSettingsTour } = useProSettingsTour();
+	const { isProActive, isProPluginActive } = useLicense();
 	const pluginVersion = typeof window !== 'undefined' && window.websacAdmin?.version ? window.websacAdmin.version : '1.3.0';
 
 	const [systemInfo, setSystemInfo] = useState(null);
@@ -61,6 +65,15 @@ const AboutInfo = () => {
 						<button type="button" className="wap-about-info-header__tour" onClick={startTour}>
 							{__('Quick tour', 'website-accessibility')}
 						</button>
+						{isProPluginActive && isProActive && (
+							<button
+								type="button"
+								className="wap-about-info-header__tour wap-about-info-header__tour--pro"
+								onClick={() => startProSettingsTour({ force: true })}
+							>
+								{__('Pro settings tour', 'website-accessibility')}
+							</button>
+						)}
 					</div>
 				</div>
 			</WapCard>
