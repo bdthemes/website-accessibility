@@ -30,6 +30,10 @@ class Admin_Feeds {
 	 * Register RSS Feeds for Element Pack
 	 */
 	public function register_rss_feeds() {
+		if ( defined( 'WEBSAC_WL' ) && WEBSAC_WL ) {
+			return;
+		}
+
 		if ( self::$feed_displayed ) {
 			/**
 			 * If the feed has already been displayed, do not add it again

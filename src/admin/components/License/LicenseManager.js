@@ -1,15 +1,19 @@
 import React, { useState, useEffect } from "react";
+import { __, sprintf } from "@wordpress/i18n";
 import LicenseForm from "./LicenseForm";
 import LicenseInfo from "./LicenseInfo";
 import LoadingSpinner from "./LoadingSpinner";
 import { licenseService } from "./API/license";
+import { useBrandDisplayName } from "../../../utils/websacData";
 
 const LicenseManager = ({
-  pluginName = "Sigma Store Locator",
+  pluginName,
   onLicenseChange = null,
   showHeader = true,
   containerClassName = "",
 }) => {
+  const brandDisplayName = useBrandDisplayName();
+  const resolvedPluginName = pluginName || brandDisplayName;
   const [licenseState, setLicenseState] = useState({
     isActive: false,
     licenseData: null,
@@ -135,7 +139,7 @@ const LicenseManager = ({
           licenseData={licenseState.licenseData}
           onDeactivate={handleDeactivate}
           isDeactivating={isDeactivating}
-          pluginName={pluginName}
+          pluginName={resolvedPluginName}
           showHeader={showHeader}
         />
       ) : (
@@ -143,7 +147,7 @@ const LicenseManager = ({
           onActivate={handleActivate}
           isActivating={isActivating}
           errorMessage={licenseState.errorMessage}
-          pluginName={pluginName}
+          pluginName={resolvedPluginName}
           showHeader={showHeader}
         />
       )}

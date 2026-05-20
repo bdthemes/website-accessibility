@@ -8,6 +8,7 @@
 
 namespace bdthemes\websiteaccessibility\Admin;
 
+use bdthemes\websiteaccessibility\Core\WhiteLabel;
 use bdthemes\websiteaccessibility\Routes\DashboardTourRouteV1;
 use bdthemes\websiteaccessibility\Traits\Singleton;
 
@@ -77,6 +78,10 @@ class Enqueue {
             true
         );
 
+        if (preg_match('/website-accessibility/', (string) $hook_suffix)) {
+            wp_enqueue_media();
+        }
+
         if ([] !== $code_editor_bundle) {
             wp_add_inline_script(
                 'website-accessibility-admin',
@@ -89,21 +94,26 @@ class Enqueue {
 
         $license_page_url = admin_url('admin.php?page=website-accessibility-pro_license');
 
+        $wl_data = class_exists(WhiteLabel::class) ? WhiteLabel::get_localized_script_data() : [];
+
         wp_localize_script(
             'website-accessibility-admin',
             'websacAdmin',
-            [
-                'version'           => WEBSAC_VERSION,
-                'apiUrl'            => rest_url(),
-                'homeUrl'           => home_url('/'),
-                'nonce'             => wp_create_nonce('wp_rest'),
-                'isProPluginActive' => function_exists('website_accessibility_pro'),
-                'hasFixedIssuesPage' => $this->has_fixed_issues_page(),
-                'licensePageUrl'    => $license_page_url,
-                'proUpgradeUrl'     => 'https://oneaccessibility.com#pricing',
-                /** Set false in JS after completing tour via REST (same page session). */
-                'shouldAutoStartDashboardTour' => ! DashboardTourRouteV1::is_completed(),
-            ]
+            array_merge(
+                [
+                    'version'           => WEBSAC_VERSION,
+                    'apiUrl'            => rest_url(),
+                    'homeUrl'           => home_url('/'),
+                    'nonce'             => wp_create_nonce('wp_rest'),
+                    'isProPluginActive' => function_exists('website_accessibility_pro'),
+                    'hasFixedIssuesPage' => $this->has_fixed_issues_page(),
+                    'licensePageUrl'    => $license_page_url,
+                    'proUpgradeUrl'     => 'https://oneaccessibility.com#pricing',
+                    /** Set false in JS after completing tour via REST (same page session). */
+                    'shouldAutoStartDashboardTour' => ! DashboardTourRouteV1::is_completed(),
+                ],
+                $wl_data
+            )
         );
 
         wp_enqueue_style(

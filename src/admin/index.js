@@ -10,8 +10,11 @@ import { DashboardTourProvider } from './context/dashboard-tour-context';
 import { register } from '@wordpress/data';
 import store from './store';
 import { LicenseProvider } from './context/LicenseContext';
+import { bootWhiteLabelAdminChrome } from '../utils/websacData';
 
 register(store);
+
+bootWhiteLabelAdminChrome();
 /**
  * Initialize the app
  */

@@ -1,7 +1,8 @@
 import { useEffect, useState } from '@wordpress/element';
 import apiFetch from '@wordpress/api-fetch';
-import { __ } from '@wordpress/i18n';
+import { __, sprintf } from '@wordpress/i18n';
 import { useDashboardTour } from '../context/dashboard-tour-context';
+import { useBrandDisplayName } from '../../utils/websacData';
 
 const DOCS_URL = 'https://bdthemes.com/all-knowledge-base-of-one-accessibility/';
 const SUPPORT_URL = 'https://bdthemes.com/contact/';
@@ -10,6 +11,7 @@ const AboutInfo = () => {
 	const { WapCard, WapButton, WapTypography } = window?.wapComponents;
 	const { Title, Text } = WapTypography;
 	const { startTour } = useDashboardTour();
+	const brandDisplayName = useBrandDisplayName();
 	const pluginVersion = typeof window !== 'undefined' && window.websacAdmin?.version ? window.websacAdmin.version : '1.3.0';
 
 	const [systemInfo, setSystemInfo] = useState(null);
@@ -101,12 +103,15 @@ const AboutInfo = () => {
 			{/* About One Accessibility */}
 			<div className="wap-about-info__section">
 				<Title level={5} className="wap-about-info__section-title">
-					{__('About One Accessibility', 'website-accessibility')}
+					{sprintf(__('About %s', 'website-accessibility'), brandDisplayName)}
 				</Title>
 				<Text type="secondary" className="wap-about-info__about-desc">
-					{__(
-						'One Accessibility helps you enhance your website for all users with customizable toolbars, profiles, and WCAG-oriented features. Improve readability, navigation, and compliance in one place.',
-						'website-accessibility'
+					{sprintf(
+						__(
+							'%s helps you enhance your website for all users with customizable toolbars, profiles, and WCAG-oriented features. Improve readability, navigation, and compliance in one place.',
+							'website-accessibility'
+						),
+						brandDisplayName
 					)}
 				</Text>
 				<div className="wap-about-info__actions">

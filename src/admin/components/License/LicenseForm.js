@@ -1,4 +1,5 @@
 import React, { useState } from "react";
+import { __, sprintf } from "@wordpress/i18n";
 import LicenseHeader from "./LicenseHeader";
 
 const LicenseForm = ({
@@ -21,7 +22,7 @@ const LicenseForm = ({
   return (
     <div className="wap-license-card">
       <LicenseHeader
-        title={`${pluginName} Licensing`}
+        title={sprintf(__("%s Licensing", "website-accessibility"), pluginName)}
         subtitle="Enter your license key to activate and receive updates & premium support."
       />
 
