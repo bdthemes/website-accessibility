@@ -80,6 +80,37 @@ const ImagePickRow = ({ label, description, hint, imageUrl, onPick, onRemove, pr
 	);
 };
 
+function isWhiteLabelImageAttachment(att) {
+	if (!att || typeof att !== "object") {
+		return false;
+	}
+
+	const mime = typeof att.mime === "string" ? att.mime : "";
+	const url = typeof att.url === "string" ? att.url : "";
+
+	return att.type === "image" || mime === "image/svg+xml" || /\.svg($|\?)/i.test(url);
+}
+
+function getAttachmentImageUrl(att) {
+	if (!att) {
+		return "";
+	}
+
+	if (typeof att.url === "string" && att.url) {
+		return att.url;
+	}
+
+	const sizes = att.sizes;
+	if (sizes?.thumbnail?.url) {
+		return sizes.thumbnail.url;
+	}
+	if (sizes?.full?.url) {
+		return sizes.full.url;
+	}
+
+	return "";
+}
+
 function openWpImagePicker({ title, onSelect }) {
 	const { WapMessage } = window?.wapComponents || {};
 	if (typeof window === "undefined" || !window.wp?.media) {
@@ -102,7 +133,21 @@ function openWpImagePicker({ title, onSelect }) {
 		if (!attachment) {
 			return;
 		}
-		onSelect(attachment.toJSON());
+
+		const att = attachment.toJSON();
+		if (!isWhiteLabelImageAttachment(att)) {
+			if (WapMessage?.error) {
+				WapMessage.error(
+					__("Please select a PNG, JPG, or SVG image.", "website-accessibility")
+				);
+			}
+			return;
+		}
+
+		onSelect({
+			...att,
+			url: getAttachmentImageUrl(att),
+		});
 	});
 
 	frame.open();
