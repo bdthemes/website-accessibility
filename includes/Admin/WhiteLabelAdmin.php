@@ -210,7 +210,7 @@ class WhiteLabelAdmin {
             return;
         }
 
-        $url = esc_url($icon);
+        $url = esc_url($icon, array('http', 'https', 'data'));
         echo '<style type="text/css" id="websac-wl-admin-menu-icon-php">' . self::build_menu_icon_css($url) . '</style>';
     }
 
@@ -221,7 +221,7 @@ class WhiteLabelAdmin {
      * @return string
      */
     public static function build_menu_icon_css($url) {
-        $safe = esc_url($url);
+        $safe = esc_url($url, array('http', 'https', 'data'));
         return '
             #adminmenu .wap-admin-root-menu .wp-menu-image {
                 position: relative !important;

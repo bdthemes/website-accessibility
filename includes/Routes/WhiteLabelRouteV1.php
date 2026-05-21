@@ -135,13 +135,13 @@ class WhiteLabelRouteV1 {
         $hide_license = !empty($params['hide_license']);
         $hide_admin   = !empty($params['hide_admin']);
         $title        = isset($params['title']) ? sanitize_text_field($params['title']) : '';
-        $icon         = isset($params['icon']) ? esc_url_raw($params['icon']) : '';
+        $icon         = isset($params['icon']) ? WhiteLabel::sanitize_brand_asset_url($params['icon']) : '';
         $icon_id      = isset($params['icon_id']) ? absint($params['icon_id']) : 0;
-        $logo         = isset($params['logo']) ? esc_url_raw($params['logo']) : '';
+        $logo         = isset($params['logo']) ? WhiteLabel::sanitize_brand_asset_url($params['logo']) : '';
         $logo_id      = isset($params['logo_id']) ? absint($params['logo_id']) : 0;
-        $panel_header_icon    = isset($params['panel_header_icon']) ? esc_url_raw($params['panel_header_icon']) : '';
+        $panel_header_icon    = isset($params['panel_header_icon']) ? WhiteLabel::sanitize_brand_asset_url($params['panel_header_icon']) : '';
         $panel_header_icon_id = isset($params['panel_header_icon_id']) ? absint($params['panel_header_icon_id']) : 0;
-        $panel_footer_icon    = isset($params['panel_footer_icon']) ? esc_url_raw($params['panel_footer_icon']) : '';
+        $panel_footer_icon    = isset($params['panel_footer_icon']) ? WhiteLabel::sanitize_brand_asset_url($params['panel_footer_icon']) : '';
         $panel_footer_icon_id = isset($params['panel_footer_icon_id']) ? absint($params['panel_footer_icon_id']) : 0;
 
         update_option(WhiteLabel::OPTION_ENABLED, $enabled);

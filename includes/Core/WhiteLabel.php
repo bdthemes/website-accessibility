@@ -234,4 +234,27 @@ class WhiteLabel {
     public static function get_license_email_for_recovery() {
         return trim((string) get_option('WebsiteAccessibility_lic_email', ''));
     }
+
+    /**
+     * Allow HTTP(S) media URLs and inline SVG data URIs from the admin uploader.
+     *
+     * @param string $url Raw asset URL.
+     * @return string
+     */
+    public static function sanitize_brand_asset_url($url) {
+        $url = trim((string) $url);
+        if ($url === '') {
+            return '';
+        }
+
+        if (preg_match('#^data:image/svg\\+xml;base64,[a-zA-Z0-9+/=]+$#', $url)) {
+            return $url;
+        }
+
+        if (preg_match('#^data:image/svg\\+xml;charset=utf-8,.+#', $url)) {
+            return $url;
+        }
+
+        return esc_url_raw($url);
+    }
 }

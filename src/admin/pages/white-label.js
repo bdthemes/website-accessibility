@@ -2,6 +2,7 @@ import { useState, useEffect } from "@wordpress/element";
 import { __ } from "@wordpress/i18n";
 import apiFetch from "@wordpress/api-fetch";
 import { applyWhiteLabelClientPatch } from "../../utils/websacData";
+import { openWhiteLabelImagePicker } from "../../utils/whiteLabelMedia";
 import SettingsItem from "../components/settings-item";
 
 const PageHeader = ({ title, description }) => {
@@ -44,9 +45,23 @@ const WhiteLabelRow = ({ title, description, hint, children, rowClassName = "" }
 	);
 };
 
-const ImagePickRow = ({ label, description, hint, imageUrl, onPick, onRemove, previewClassName, disabled }) => {
+const ImagePickRow = ({
+	label,
+	description,
+	hint,
+	imageUrl,
+	pickTitle,
+	onSelect,
+	onRemove,
+	previewClassName,
+	disabled,
+}) => {
 	const { WapButton, WapSpace, WapTypography } = window?.wapComponents || {};
 	const { Title, Text } = WapTypography || {};
+
+	const chooseLabel = imageUrl
+		? __("Change", "website-accessibility")
+		: __("Choose", "website-accessibility");
 
 	return (
 		<div className="wap-white-label-settings__row wap-white-label-settings__row--media">
@@ -66,8 +81,11 @@ const ImagePickRow = ({ label, description, hint, imageUrl, onPick, onRemove, pr
 					)}
 				</div>
 				<WapSpace size="small" wrap>
-					<WapButton onClick={onPick} disabled={disabled}>
-						{imageUrl ? __("Change", "website-accessibility") : __("Choose", "website-accessibility")}
+					<WapButton
+						disabled={disabled}
+						onClick={() => openWhiteLabelImagePicker({ title: pickTitle, onSelect })}
+					>
+						{chooseLabel}
 					</WapButton>
 					{imageUrl ? (
 						<WapButton danger onClick={onRemove} disabled={disabled}>
@@ -79,79 +97,6 @@ const ImagePickRow = ({ label, description, hint, imageUrl, onPick, onRemove, pr
 		</div>
 	);
 };
-
-function isWhiteLabelImageAttachment(att) {
-	if (!att || typeof att !== "object") {
-		return false;
-	}
-
-	const mime = typeof att.mime === "string" ? att.mime : "";
-	const url = typeof att.url === "string" ? att.url : "";
-
-	return att.type === "image" || mime === "image/svg+xml" || /\.svg($|\?)/i.test(url);
-}
-
-function getAttachmentImageUrl(att) {
-	if (!att) {
-		return "";
-	}
-
-	if (typeof att.url === "string" && att.url) {
-		return att.url;
-	}
-
-	const sizes = att.sizes;
-	if (sizes?.thumbnail?.url) {
-		return sizes.thumbnail.url;
-	}
-	if (sizes?.full?.url) {
-		return sizes.full.url;
-	}
-
-	return "";
-}
-
-function openWpImagePicker({ title, onSelect }) {
-	const { WapMessage } = window?.wapComponents || {};
-	if (typeof window === "undefined" || !window.wp?.media) {
-		if (WapMessage?.error) {
-			WapMessage.error(__("WordPress media library is not available", "website-accessibility"));
-		}
-		return;
-	}
-
-	const frame = window.wp.media({
-		title,
-		button: { text: __("Use image", "website-accessibility") },
-		library: { type: "image" },
-		multiple: false,
-	});
-
-	frame.off("select");
-	frame.on("select", () => {
-		const attachment = frame.state().get("selection").first();
-		if (!attachment) {
-			return;
-		}
-
-		const att = attachment.toJSON();
-		if (!isWhiteLabelImageAttachment(att)) {
-			if (WapMessage?.error) {
-				WapMessage.error(
-					__("Please select a PNG, JPG, or SVG image.", "website-accessibility")
-				);
-			}
-			return;
-		}
-
-		onSelect({
-			...att,
-			url: getAttachmentImageUrl(att),
-		});
-	});
-
-	frame.open();
-}
 
 const WhiteLabelPage = () => {
 	const { WapCard, WapButton, WapModal, WapSpin, WapMessage, WapSwitch, WapTypography, WapInput } =
@@ -407,12 +352,9 @@ const WhiteLabelPage = () => {
 						)}
 						previewClassName="wap-white-label-settings__image-preview--icon"
 						imageUrl={form.icon}
-						onPick={() =>
-							openWpImagePicker({
-								title: __("Select menu icon", "website-accessibility"),
-								onSelect: (att) =>
-									setForm((p) => ({ ...p, icon: att.url || "", icon_id: att.id || 0 })),
-							})
+						pickTitle={__("Select menu icon", "website-accessibility")}
+						onSelect={({ url, id }) =>
+							setForm((p) => ({ ...p, icon: url || "", icon_id: id || 0 }))
 						}
 						onRemove={() => setForm((p) => ({ ...p, icon: "", icon_id: 0 }))}
 					/>
@@ -425,12 +367,9 @@ const WhiteLabelPage = () => {
 						)}
 						previewClassName="wap-white-label-settings__image-preview--logo"
 						imageUrl={form.logo}
-						onPick={() =>
-							openWpImagePicker({
-								title: __("Select settings header logo", "website-accessibility"),
-								onSelect: (att) =>
-									setForm((p) => ({ ...p, logo: att.url || "", logo_id: att.id || 0 })),
-							})
+						pickTitle={__("Select settings header logo", "website-accessibility")}
+						onSelect={({ url, id }) =>
+							setForm((p) => ({ ...p, logo: url || "", logo_id: id || 0 }))
 						}
 						onRemove={() => setForm((p) => ({ ...p, logo: "", logo_id: 0 }))}
 					/>
@@ -447,16 +386,13 @@ const WhiteLabelPage = () => {
 						)}
 						previewClassName="wap-white-label-settings__image-preview--icon"
 						imageUrl={form.panel_header_icon}
-						onPick={() =>
-							openWpImagePicker({
-								title: __("Select panel header icon", "website-accessibility"),
-								onSelect: (att) =>
-									setForm((p) => ({
-										...p,
-										panel_header_icon: att.url || "",
-										panel_header_icon_id: att.id || 0,
-									})),
-							})
+						pickTitle={__("Select panel header icon", "website-accessibility")}
+						onSelect={({ url, id }) =>
+							setForm((p) => ({
+								...p,
+								panel_header_icon: url || "",
+								panel_header_icon_id: id || 0,
+							}))
 						}
 						onRemove={() =>
 							setForm((p) => ({
@@ -479,16 +415,13 @@ const WhiteLabelPage = () => {
 						)}
 						previewClassName="wap-white-label-settings__image-preview--icon"
 						imageUrl={form.panel_footer_icon}
-						onPick={() =>
-							openWpImagePicker({
-								title: __("Select panel footer icon", "website-accessibility"),
-								onSelect: (att) =>
-									setForm((p) => ({
-										...p,
-										panel_footer_icon: att.url || "",
-										panel_footer_icon_id: att.id || 0,
-									})),
-							})
+						pickTitle={__("Select panel footer icon", "website-accessibility")}
+						onSelect={({ url, id }) =>
+							setForm((p) => ({
+								...p,
+								panel_footer_icon: url || "",
+								panel_footer_icon_id: id || 0,
+							}))
 						}
 						onRemove={() =>
 							setForm((p) => ({
