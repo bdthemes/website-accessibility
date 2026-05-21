@@ -66,6 +66,7 @@ const CreateProfiles = () => {
                 </div>
                 <WapButton
                     type="primary"
+                    size="large"
                     onClick={handleBack}
                 >
                     <WapSpace>
@@ -87,7 +88,7 @@ const CreateProfiles = () => {
 
             <div className="wap-profile-form-actions" style={{ marginTop: 24, textAlign: 'right' }}>
                 <WapSpace>
-                    <WapButton onClick={handleBack}>
+                    <WapButton size="large" onClick={handleBack}>
                         <WapSpace>
                             <span className='dashicons dashicons-dismiss' />
                             {__('Cancel', 'website-accessibility')}
@@ -95,6 +96,7 @@ const CreateProfiles = () => {
                     </WapButton>
                     <WapButton
                         type="primary"
+                        size="large"
                         onClick={handleSave}
                         disabled={!profilesFormData.name?.trim()}
                     >

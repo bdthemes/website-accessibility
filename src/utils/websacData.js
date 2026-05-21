@@ -227,6 +227,10 @@ export function normalizeWhiteLabelState(source) {
     title: typeof source.title === "string" ? source.title : "",
     icon: typeof source.icon === "string" ? source.icon : "",
     logo: typeof source.logo === "string" ? source.logo : "",
+    panel_header_icon:
+      typeof source.panel_header_icon === "string" ? source.panel_header_icon : "",
+    panel_footer_icon:
+      typeof source.panel_footer_icon === "string" ? source.panel_footer_icon : "",
   };
 }
 
@@ -323,16 +327,30 @@ export function applyWhiteLabelClientPatch(wl) {
       title: "",
       icon: "",
       logo: "",
+      panel_header_icon: "",
+      panel_footer_icon: "",
     };
   } else {
     const title = state.title.trim();
     window.websacAdmin.brandDisplayName = title || base;
     window.websacAdmin.brandLogoUrl = state.logo.trim();
     window.websacAdmin.hideLicenseNav = !!state.hide_license;
-    window.websacAdmin.whiteLabelBoot = { ...state };
+    window.websacAdmin.whiteLabelBoot = {
+      ...state,
+      panel_header_icon:
+        typeof state.panel_header_icon === "string" ? state.panel_header_icon : "",
+      panel_footer_icon:
+        typeof state.panel_footer_icon === "string" ? state.panel_footer_icon : "",
+    };
   }
 
   syncWhiteLabelWpAdminMenu(state, { forceIconRestore: true });
+
+  if (window.websiteAccessibility && typeof window.websiteAccessibility === "object") {
+    window.websiteAccessibility.brandDisplayName = window.websacAdmin.brandDisplayName;
+    window.websiteAccessibility.whiteLabelEnabled = !!state.enabled;
+    window.websiteAccessibility.whiteLabelBoot = window.websacAdmin.whiteLabelBoot;
+  }
 
   window.requestAnimationFrame(() => {
     syncWhiteLabelWpAdminMenu(state, { forceIconRestore: true });

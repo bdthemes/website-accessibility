@@ -1,7 +1,7 @@
 // Fixed Issues — compact toolbar; controls share --wap-fi-control-h (inputs, selects, header actions)
 
 .wap-fixed-issues {
-  --wap-fi-control-h: 35px;
+  --wap-fi-control-h: 32px;
   --wap-fi-check-size: 16px;
   --wap-fi-check-radius: 4px;
   --wap-fi-check-border: #737373;
@@ -225,17 +225,10 @@
     flex: 1 1 118px;
     min-width: 0;
     max-width: min(100%, 220px);
-    padding: 2px 12px;
-
-    .ant-input {
-      outline: none;
-      min-width: 0 !important;
-      overflow: hidden;
-      text-overflow: ellipsis;
-    }
   }
 
   // allowClear → className lives on .ant-input-affix-wrapper; inner .ant-input height alone does not size the row
+  .wap-fixed-issues__toolbar .wap-fixed-issues__search.ant-input-affix-wrapper,
   #website-accessibility-admin .wap-fixed-issues__toolbar .wap-fixed-issues__search.ant-input-affix-wrapper {
     min-width: 0 !important;
     width: auto;
@@ -243,7 +236,7 @@
     min-height: var(--wap-fi-control-h) !important;
     height: var(--wap-fi-control-h) !important;
     max-height: var(--wap-fi-control-h) !important;
-    padding-block: 0 !important;
+    padding: 0 11px !important;
     box-sizing: border-box !important;
     display: inline-flex !important;
     align-items: center !important;
@@ -253,11 +246,14 @@
     .ant-input {
       min-height: 0 !important;
       min-width: 0 !important;
-      height: auto !important;
+      height: 100% !important;
       line-height: 1.35 !important;
       flex: 1 1 auto;
       overflow: hidden;
       text-overflow: ellipsis;
+      outline: none;
+      border: none !important;
+      box-shadow: none !important;
     }
 
     .ant-input-suffix {

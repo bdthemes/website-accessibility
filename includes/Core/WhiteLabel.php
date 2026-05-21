@@ -42,14 +42,31 @@ class WhiteLabel {
             'defaultBrandDisplayName' => __('One Accessibility', 'website-accessibility'),
             'brandLogoUrl'            => $settings_logo,
             'whiteLabelFooterHidden'  => defined('WEBSAC_WL') && WEBSAC_WL && self::license_wl_status(),
-            'whiteLabelBoot'          => array(
-                'enabled'      => (bool) get_option(self::OPTION_ENABLED, false),
-                'hide_license' => (bool) get_option('websac_white_label_hide_license', false),
-                'hide_admin'   => (bool) get_option('websac_white_label_hide_admin', false),
-                'title'        => (string) get_option('websac_white_label_title', ''),
-                'icon'         => (string) get_option('websac_white_label_icon', ''),
-                'logo'         => (string) get_option('websac_white_label_logo', ''),
-            ),
+            'whiteLabelBoot'          => self::get_boot_payload(),
+        );
+    }
+
+    /**
+     * White label settings for JS boot / REST (panel icons, title, etc.).
+     *
+     * @return array<string, mixed>
+     */
+    public static function get_boot_payload() {
+        $enabled = (bool) get_option(self::OPTION_ENABLED, false);
+
+        return array(
+            'enabled'           => $enabled,
+            'hide_license'      => (bool) get_option('websac_white_label_hide_license', false),
+            'hide_admin'        => (bool) get_option('websac_white_label_hide_admin', false),
+            'title'             => (string) get_option('websac_white_label_title', ''),
+            'icon'              => (string) get_option('websac_white_label_icon', ''),
+            'logo'              => (string) get_option('websac_white_label_logo', ''),
+            'panel_header_icon' => $enabled
+                ? (string) get_option('websac_white_label_panel_header_icon', '')
+                : '',
+            'panel_footer_icon' => $enabled
+                ? (string) get_option('websac_white_label_panel_footer_icon', '')
+                : '',
         );
     }
 

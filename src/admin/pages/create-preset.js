@@ -92,7 +92,7 @@ const CreatePreset = () => {
             {__('Create New Preset', 'website-accessibility')}
           </Title>
           <WapInput
-            size="large"
+            className="wap-preset-editor-header-card-input"
             value={searchTerm}
             onChange={(e) => setSearchTerm(e.target.value)}
             placeholder={__('Search controls...', 'website-accessibility')}

@@ -3,6 +3,7 @@
 namespace bdthemes\websiteaccessibility\View;
 
 use bdthemes\websiteaccessibility\Core\Utils;
+use bdthemes\websiteaccessibility\Core\WhiteLabel;
 
 class Frontend {
     use \bdthemes\websiteaccessibility\Traits\Singleton;
@@ -273,18 +274,21 @@ class Frontend {
                 $frontend_assets['version']
             );
             wp_localize_script('wap-accessibility-frontend', 'websiteAccessibility', [
-                'presets'         => $presets_data,
-                'profiles'        => $profiles,
-                'pageType'        => $page_type,
-                'currentPreset'   => Utils::get_current_preset($presets_data, $page_type),
-                'currentPresetId' => !empty(Utils::get_current_preset($presets_data, $page_type)['ID']) ? Utils::get_current_preset($presets_data, $page_type)['ID'] : null,
-                'siteLanguage'    => get_bloginfo('language'),
-                'isUserLoggedIn'  => is_user_logged_in(),
-                'statementLink'   => $this->get_statement_page_link(),
-                'settings'        => Utils::get_settings(),
-                'nonce'           => wp_create_nonce('wp_rest'),
-                'restUrl'         => rest_url(),
-                'postId'          => get_the_ID(),
+                'presets'            => $presets_data,
+                'profiles'           => $profiles,
+                'pageType'           => $page_type,
+                'currentPreset'      => Utils::get_current_preset($presets_data, $page_type),
+                'currentPresetId'    => !empty(Utils::get_current_preset($presets_data, $page_type)['ID']) ? Utils::get_current_preset($presets_data, $page_type)['ID'] : null,
+                'siteLanguage'       => get_bloginfo('language'),
+                'isUserLoggedIn'     => is_user_logged_in(),
+                'statementLink'      => $this->get_statement_page_link(),
+                'settings'           => Utils::get_settings(),
+                'nonce'              => wp_create_nonce('wp_rest'),
+                'restUrl'            => rest_url(),
+                'postId'             => get_the_ID(),
+                'brandDisplayName'   => WhiteLabel::get_display_name(),
+                'whiteLabelEnabled'  => (bool) get_option(WhiteLabel::OPTION_ENABLED, false),
+                'whiteLabelBoot'     => WhiteLabel::get_boot_payload(),
             ]);
         }
     }

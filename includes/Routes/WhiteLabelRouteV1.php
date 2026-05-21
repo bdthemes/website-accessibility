@@ -111,6 +111,10 @@ class WhiteLabelRouteV1 {
                 'icon_id'           => (int) get_option('websac_white_label_icon_id', 0),
                 'logo'              => (string) get_option('websac_white_label_logo', ''),
                 'logo_id'           => (int) get_option('websac_white_label_logo_id', 0),
+                'panel_header_icon'    => (string) get_option('websac_white_label_panel_header_icon', ''),
+                'panel_header_icon_id' => (int) get_option('websac_white_label_panel_header_icon_id', 0),
+                'panel_footer_icon'    => (string) get_option('websac_white_label_panel_footer_icon', ''),
+                'panel_footer_icon_id' => (int) get_option('websac_white_label_panel_footer_icon_id', 0),
                 'has_access_token'  => !empty($token_row) && is_array($token_row) && !empty($token_row['token']),
                 'localhost_preview' => $localhost_preview,
             )
@@ -135,6 +139,10 @@ class WhiteLabelRouteV1 {
         $icon_id      = isset($params['icon_id']) ? absint($params['icon_id']) : 0;
         $logo         = isset($params['logo']) ? esc_url_raw($params['logo']) : '';
         $logo_id      = isset($params['logo_id']) ? absint($params['logo_id']) : 0;
+        $panel_header_icon    = isset($params['panel_header_icon']) ? esc_url_raw($params['panel_header_icon']) : '';
+        $panel_header_icon_id = isset($params['panel_header_icon_id']) ? absint($params['panel_header_icon_id']) : 0;
+        $panel_footer_icon    = isset($params['panel_footer_icon']) ? esc_url_raw($params['panel_footer_icon']) : '';
+        $panel_footer_icon_id = isset($params['panel_footer_icon_id']) ? absint($params['panel_footer_icon_id']) : 0;
 
         update_option(WhiteLabel::OPTION_ENABLED, $enabled);
         update_option('websac_white_label_hide_license', $hide_license);
@@ -144,6 +152,10 @@ class WhiteLabelRouteV1 {
         update_option('websac_white_label_icon_id', $icon_id);
         update_option('websac_white_label_logo', $logo);
         update_option('websac_white_label_logo_id', $logo_id);
+        update_option('websac_white_label_panel_header_icon', $panel_header_icon);
+        update_option('websac_white_label_panel_header_icon_id', $panel_header_icon_id);
+        update_option('websac_white_label_panel_footer_icon', $panel_footer_icon);
+        update_option('websac_white_label_panel_footer_icon_id', $panel_footer_icon_id);
 
         if ($enabled) {
             update_option(WhiteLabel::OPTION_LICENSE_TITLE_STATUS, true);
