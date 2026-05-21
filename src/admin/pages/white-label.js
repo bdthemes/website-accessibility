@@ -336,9 +336,9 @@ const WhiteLabelPage = () => {
 					</div>
 
 					<WhiteLabelRow
-						title={__("Client Facing Title", "website-accessibility")}
+						title={__("Brand Name", "website-accessibility")}
 						description={__(
-							"Shown on the wp-admin menu and in this settings header.",
+							"Shown on the wp-admin menu and in the settings header.",
 							"website-accessibility"
 						)}
 					>

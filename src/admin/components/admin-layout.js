@@ -6,7 +6,7 @@ import { useEffect, useState, useMemo } from '@wordpress/element';
 import { useDashboardTour } from '../context/dashboard-tour-context';
 import { useProSettingsTour } from '../context/pro-settings-tour-context';
 import { useLicense } from '../context/LicenseContext';
-import { getBrandDisplayName } from '../../utils/websacData';
+import { getBrandDisplayName, useWhiteLabelBrandingEnabled } from '../../utils/websacData';
 import { Layout, Menu } from 'antd';
 import { useLocation, useHistory } from '../router';
 import {
@@ -94,6 +94,7 @@ const AdminLayout = ({ children }) => {
 	);
 
 	const brandDisplayName = useMemo(() => getBrandDisplayName(), [wlUiEpoch]);
+	const whiteLabelBrandingEnabled = useWhiteLabelBrandingEnabled();
 
 	const settingsHeaderLogoUrl = useMemo(() => {
 		const boot = typeof window !== 'undefined' ? window.websacAdmin?.brandLogoUrl : '';
@@ -243,31 +244,33 @@ const AdminLayout = ({ children }) => {
 						</p>
 					</div>
 				</div>
-				<div className="wap-admin-header-right">
-					<div className="wap-admin-header-actions">
-						<a href={HELP_URL} target="_blank" rel="noopener noreferrer" className="wap-admin-header-help">
-						<span className="wap-admin-header-help-icon" aria-hidden="true">
-							<svg
-								xmlns="http://www.w3.org/2000/svg"
-								viewBox="0 0 24 24"
-								width="18"
-								height="18"
-								fill="none"
-								stroke="currentColor"
-								strokeWidth="2"
-								strokeLinecap="round"
-								strokeLinejoin="round"
-								focusable="false"
-							>
-								<circle cx="12" cy="12" r="10" />
-								<path d="M9.09 9a3 3 0 0 1 5.83 1c0 2-3 3-3 3" />
-								<line x1="12" y1="17" x2="12.01" y2="17" />
-							</svg>
-						</span>
-						{__('Help & Support', 'website-accessibility')}
-					</a>
+				{!whiteLabelBrandingEnabled ? (
+					<div className="wap-admin-header-right">
+						<div className="wap-admin-header-actions">
+							<a href={HELP_URL} target="_blank" rel="noopener noreferrer" className="wap-admin-header-help">
+								<span className="wap-admin-header-help-icon" aria-hidden="true">
+									<svg
+										xmlns="http://www.w3.org/2000/svg"
+										viewBox="0 0 24 24"
+										width="18"
+										height="18"
+										fill="none"
+										stroke="currentColor"
+										strokeWidth="2"
+										strokeLinecap="round"
+										strokeLinejoin="round"
+										focusable="false"
+									>
+										<circle cx="12" cy="12" r="10" />
+										<path d="M9.09 9a3 3 0 0 1 5.83 1c0 2-3 3-3 3" />
+										<line x1="12" y1="17" x2="12.01" y2="17" />
+									</svg>
+								</span>
+								{__('Help & Support', 'website-accessibility')}
+							</a>
+						</div>
 					</div>
-				</div>
+				) : null}
 			</Header>
 			<Layout>
 				<Sider width={280} className="wap-admin-sider" theme="light">
@@ -345,9 +348,10 @@ const AdminLayout = ({ children }) => {
 			</Layout>
 
 			<Footer className="wap-admin-footer">
-						{typeof window !== 'undefined' && !window.websacAdmin?.whiteLabelFooterHidden ? (
-						<span className="wap-admin-footer__text">
-							{brandDisplayName} v{PLUGIN_VERSION}
+				<span className="wap-admin-footer__text">
+					{brandDisplayName} v{PLUGIN_VERSION}
+					{typeof window !== 'undefined' && !window.websacAdmin?.whiteLabelFooterHidden ? (
+						<>
 							<span className="wap-admin-footer__sep" aria-hidden="true">
 								{' | '}
 							</span>
@@ -364,9 +368,10 @@ const AdminLayout = ({ children }) => {
 							>
 								BdThemes
 							</a>
-						</span>
-						) : null}
-					</Footer>
+						</>
+					) : null}
+				</span>
+			</Footer>
 		</Layout>
 	);
 };

@@ -1,4 +1,5 @@
 import { useState, useEffect, useMemo } from "@wordpress/element";
+import { getWhiteLabelPanelFooterText } from "./whiteLabelPanelIcons";
 
 export const getWebsacAdmin = () =>
   typeof window !== "undefined" ? window.websacAdmin : null;
@@ -30,6 +31,29 @@ export function useBrandDisplayName() {
   }, []);
 
   return useMemo(() => getBrandDisplayName(), [wlUiEpoch]);
+}
+
+/** Whether white label branding is active (admin + client-facing chrome). */
+export function isWhiteLabelBrandingEnabled() {
+  const admin = getWebsacAdmin();
+  const boot = admin?.whiteLabelBoot;
+  if (boot && typeof boot === "object") {
+    return !!boot.enabled;
+  }
+  return false;
+}
+
+/** React hook — updates when white label settings are saved. */
+export function useWhiteLabelBrandingEnabled() {
+  const [wlUiEpoch, setWlUiEpoch] = useState(0);
+
+  useEffect(() => {
+    const onWlChange = () => setWlUiEpoch((n) => n + 1);
+    window.addEventListener("websac-white-label-changed", onWlChange);
+    return () => window.removeEventListener("websac-white-label-changed", onWlChange);
+  }, []);
+
+  return useMemo(() => isWhiteLabelBrandingEnabled(), [wlUiEpoch]);
 }
 
 const WL_ICON_STYLE_SYNC_ID = "websac-wl-admin-menu-icon-sync";
@@ -231,6 +255,8 @@ export function normalizeWhiteLabelState(source) {
       typeof source.panel_header_icon === "string" ? source.panel_header_icon : "",
     panel_footer_icon:
       typeof source.panel_footer_icon === "string" ? source.panel_footer_icon : "",
+    panel_footer_text:
+      typeof source.panel_footer_text === "string" ? source.panel_footer_text : "",
   };
 }
 
@@ -320,6 +346,7 @@ export function applyWhiteLabelClientPatch(wl) {
     window.websacAdmin.brandDisplayName = base;
     window.websacAdmin.brandLogoUrl = "";
     window.websacAdmin.hideLicenseNav = false;
+    window.websacAdmin.whiteLabelFooterHidden = false;
     window.websacAdmin.whiteLabelBoot = {
       enabled: false,
       hide_license: false,
@@ -329,18 +356,22 @@ export function applyWhiteLabelClientPatch(wl) {
       logo: "",
       panel_header_icon: "",
       panel_footer_icon: "",
+      panel_footer_text: "",
     };
   } else {
     const title = state.title.trim();
     window.websacAdmin.brandDisplayName = title || base;
     window.websacAdmin.brandLogoUrl = state.logo.trim();
     window.websacAdmin.hideLicenseNav = !!state.hide_license;
+    window.websacAdmin.whiteLabelFooterHidden = true;
     window.websacAdmin.whiteLabelBoot = {
       ...state,
       panel_header_icon:
         typeof state.panel_header_icon === "string" ? state.panel_header_icon : "",
       panel_footer_icon:
         typeof state.panel_footer_icon === "string" ? state.panel_footer_icon : "",
+      panel_footer_text:
+        typeof state.panel_footer_text === "string" ? state.panel_footer_text : "",
     };
   }
 
@@ -350,6 +381,9 @@ export function applyWhiteLabelClientPatch(wl) {
     window.websiteAccessibility.brandDisplayName = window.websacAdmin.brandDisplayName;
     window.websiteAccessibility.whiteLabelEnabled = !!state.enabled;
     window.websiteAccessibility.whiteLabelBoot = window.websacAdmin.whiteLabelBoot;
+    window.websiteAccessibility.panelFooterText = getWhiteLabelPanelFooterText(
+      window.websacAdmin.brandDisplayName
+    );
   }
 
   window.requestAnimationFrame(() => {
