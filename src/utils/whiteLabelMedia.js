@@ -32,47 +32,99 @@ export function isWhiteLabelImageAttachment(att) {
 	return att.type === "image" || mime === "image/svg+xml" || /\.svg($|\?)/i.test(url);
 }
 
+function isSvgPluploadFile(file) {
+	if (!file) {
+		return false;
+	}
+
+	const native = file.getNative?.();
+	if (native && isSvgFile(native)) {
+		return true;
+	}
+
+	const name = file.name || file.filename || "";
+	const type = file.type || "";
+	return /\.svg$/i.test(name) || type === "image/svg+xml";
+}
+
+function processSvgFile(native, onSelect, frame) {
+	return readSvgFileAsMarkup(native)
+		.then((markup) => {
+			onSelect?.({ url: svgMarkupToDataUri(markup), id: 0 });
+			frame?.close?.();
+		})
+		.catch(() => {
+			const { WapMessage } = window?.wapComponents || {};
+			WapMessage?.error?.(__("Uploaded file is not a valid SVG.", "website-accessibility"));
+		});
+}
+
 function bindSvgUploadInterceptor(frame, onSelect) {
-	if (!frame || frame.__websacSvgBound) {
+	if (!frame) {
 		return;
 	}
 
-	frame.__websacSvgBound = true;
-
 	const attachPluploadHook = (uploaderWrapper) => {
 		const plupload = uploaderWrapper?.uploader;
-		if (!plupload || plupload.__websacSvgBound) {
+		if (!plupload || plupload.__websacSvgBound === onSelect) {
 			return;
 		}
 
-		plupload.__websacSvgBound = true;
+		plupload.__websacSvgBound = onSelect;
+
 		plupload.bind("FilesAdded", (up, files) => {
 			files.forEach((file) => {
-				const native = file.getNative?.();
-				if (!native || !isSvgFile(native)) {
+				if (!isSvgPluploadFile(file)) {
 					return;
 				}
 
 				up.removeFile(file);
 
-				readSvgFileAsMarkup(native)
-					.then((markup) => {
-						onSelect?.({ url: svgMarkupToDataUri(markup), id: 0 });
-						frame.close();
-					})
-					.catch(() => {
-						const { WapMessage } = window?.wapComponents || {};
-						WapMessage?.error?.(
-							__("Uploaded file is not a valid SVG.", "website-accessibility")
-						);
-					});
+				const native = file.getNative?.();
+				if (!native) {
+					return;
+				}
+
+				processSvgFile(native, onSelect, frame);
 			});
+		});
+
+		plupload.bind("BeforeUpload", (up, file) => {
+			if (!isSvgPluploadFile(file)) {
+				return;
+			}
+
+			up.stop();
+			up.removeFile(file);
+
+			const native = file.getNative?.();
+			if (native) {
+				processSvgFile(native, onSelect, frame);
+			}
+
+			return false;
 		});
 	};
 
-	frame.on("uploader:ready", attachPluploadHook);
-	frame.on("content:activate:upload", () => {
+	const tryBind = () => {
 		attachPluploadHook(frame.state()?.get?.("uploader"));
+	};
+
+	frame.on("uploader:ready", tryBind);
+	frame.on("content:activate:upload", tryBind);
+	frame.on("open", tryBind);
+
+	let attempts = 0;
+	const retryTimer = window.setInterval(() => {
+		attempts += 1;
+		tryBind();
+		if (attempts >= 20) {
+			window.clearInterval(retryTimer);
+		}
+	}, 100);
+
+	frame.on("close", () => {
+		window.clearInterval(retryTimer);
 	});
 }
 
