@@ -1,7 +1,8 @@
 import { useEffect, useState } from '@wordpress/element';
 import apiFetch from '@wordpress/api-fetch';
-import { __ } from '@wordpress/i18n';
+import { __, sprintf } from '@wordpress/i18n';
 import { useDashboardTour } from '../context/dashboard-tour-context';
+import { useBrandDisplayName, useWhiteLabelBrandingEnabled } from '../../utils/websacData';
 import { useProSettingsTour } from '../context/pro-settings-tour-context';
 import { useLicense } from '../context/LicenseContext';
 
@@ -12,6 +13,8 @@ const AboutInfo = () => {
 	const { WapCard, WapButton, WapTypography } = window?.wapComponents;
 	const { Title, Text } = WapTypography;
 	const { startTour } = useDashboardTour();
+	const brandDisplayName = useBrandDisplayName();
+	const whiteLabelBrandingEnabled = useWhiteLabelBrandingEnabled();
 	const { startProSettingsTour } = useProSettingsTour();
 	const { isProActive, isProPluginActive } = useLicense();
 	const pluginVersion = typeof window !== 'undefined' && window.websacAdmin?.version ? window.websacAdmin.version : '1.3.0';
@@ -111,41 +114,45 @@ const AboutInfo = () => {
 				)}
 			</div>
 
-			{/* About One Accessibility */}
-			<div className="wap-about-info__section">
-				<Title level={5} className="wap-about-info__section-title">
-					{__('About One Accessibility', 'website-accessibility')}
-				</Title>
-				<Text type="secondary" className="wap-about-info__about-desc">
-					{__(
-						'One Accessibility helps you enhance your website for all users with customizable toolbars, profiles, and WCAG-oriented features. Improve readability, navigation, and compliance in one place.',
-						'website-accessibility'
-					)}
-				</Text>
-				<div className="wap-about-info__actions">
-					<WapButton type="primary" href={DOCS_URL} target="_blank" rel="noopener noreferrer" className="wap-about-info__btn">
-						<span className="wap-about-info__btn-icon" aria-hidden="true">
-							<svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
-								<path d="M4 19.5A2.5 2.5 0 0 1 6.5 17H20" />
-								<path d="M6.5 2H20v20H6.5A2.5 2.5 0 0 1 4 19.5v-15A2.5 2.5 0 0 1 6.5 2z" />
-								<line x1="8" y1="6" x2="16" y2="6" />
-								<line x1="8" y1="10" x2="16" y2="10" />
-							</svg>
-						</span>
-						{__('Documentation', 'website-accessibility')}
-					</WapButton>
-					<WapButton href={SUPPORT_URL} target="_blank" rel="noopener noreferrer" className="wap-about-info__btn">
-						<span className="wap-about-info__btn-icon" aria-hidden="true">
-							<svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
-								<path d="M3 18v-6a9 9 0 0 1 18 0v6" />
-								<path d="M21 19a2 2 0 0 1-2 2h-1a2 2 0 0 1-2-2v-3a2 2 0 0 1 2-2h3z" />
-								<path d="M3 19a2 2 0 0 0 2 2h1a2 2 0 0 0 2-2v-3a2 2 0 0 0-2-2H3z" />
-							</svg>
-						</span>
-						{__('Support', 'website-accessibility')}
-					</WapButton>
+			{!whiteLabelBrandingEnabled ? (
+				<div className="wap-about-info__section">
+					<Title level={5} className="wap-about-info__section-title">
+						{sprintf(__('About %s', 'website-accessibility'), brandDisplayName)}
+					</Title>
+					<Text type="secondary" className="wap-about-info__about-desc">
+						{sprintf(
+							__(
+								'%s helps you enhance your website for all users with customizable toolbars, profiles, and WCAG-oriented features. Improve readability, navigation, and compliance in one place.',
+								'website-accessibility'
+							),
+							brandDisplayName
+						)}
+					</Text>
+					<div className="wap-about-info__actions">
+						<WapButton type="primary" href={DOCS_URL} target="_blank" rel="noopener noreferrer" className="wap-about-info__btn">
+							<span className="wap-about-info__btn-icon" aria-hidden="true">
+								<svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+									<path d="M4 19.5A2.5 2.5 0 0 1 6.5 17H20" />
+									<path d="M6.5 2H20v20H6.5A2.5 2.5 0 0 1 4 19.5v-15A2.5 2.5 0 0 1 6.5 2z" />
+									<line x1="8" y1="6" x2="16" y2="6" />
+									<line x1="8" y1="10" x2="16" y2="10" />
+								</svg>
+							</span>
+							{__('Documentation', 'website-accessibility')}
+						</WapButton>
+						<WapButton href={SUPPORT_URL} target="_blank" rel="noopener noreferrer" className="wap-about-info__btn">
+							<span className="wap-about-info__btn-icon" aria-hidden="true">
+								<svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+									<path d="M3 18v-6a9 9 0 0 1 18 0v6" />
+									<path d="M21 19a2 2 0 0 1-2 2h-1a2 2 0 0 1-2-2v-3a2 2 0 0 1 2-2h3z" />
+									<path d="M3 19a2 2 0 0 0 2 2h1a2 2 0 0 0 2-2v-3a2 2 0 0 0-2-2H3z" />
+								</svg>
+							</span>
+							{__('Support', 'website-accessibility')}
+						</WapButton>
+					</div>
 				</div>
-			</div>
+			) : null}
 		</div>
 	);
 };

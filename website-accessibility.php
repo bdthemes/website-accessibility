@@ -5,7 +5,7 @@
  * Description:       A comprehensive WordPress plugin to enhance website accessibility and ensure WCAG compliance.
  * Requires at least: 6.1
  * Requires PHP:      7.4
- * Version:           1.3.7
+ * Version:           1.3.9
  * Author:            bdthemes
  * Author URI:        https://oneaccessibility.com
  * License:           GPL-2.0-or-later
@@ -27,6 +27,19 @@ if (file_exists($autoload_file)) {
 }
 
 /**
+ * White-label constants (must load before most plugin code runs).
+ */
+if (!defined('WEBSAC_WL')) {
+	if (get_option('websac_white_label_enabled', false)) {
+		define('WEBSAC_WL', true);
+		$websac_wl_boot = __DIR__ . '/includes/websac-white-label-bootstrap.php';
+		if (file_exists($websac_wl_boot)) {
+			require_once $websac_wl_boot;
+		}
+	}
+}
+
+/**
  * Implements the singleton pattern to ensure only one instance is running.
  */
 final class WebsiteAccessibility
@@ -38,7 +51,7 @@ final class WebsiteAccessibility
 	 *
 	 * @var string
 	 */
-	const VERSION = '1.3.7';
+	const VERSION = '1.3.9';
 
 	/**
 	 * Private constructor for singleton pattern.
@@ -177,6 +190,9 @@ final class WebsiteAccessibility
 		// Initialize admin biggopti system
 		\bdthemes\websiteaccessibility\Admin\Biggopti::get_instance();
 
+		// White label (recovery link, submenu icon CSS).
+		\bdthemes\websiteaccessibility\Admin\WhiteLabelAdmin::get_instance();
+
 		// Initialize dashboard product feed widget
 		new \bdthemes\websiteaccessibility\Admin\Admin_Feeds([
 			'feed_title'       => 'One Accessibility News & Updates',
@@ -215,6 +231,7 @@ final class WebsiteAccessibility
 		\bdthemes\websiteaccessibility\Routes\SystemInfoRouteV1::get_instance();
 
 		\bdthemes\websiteaccessibility\Routes\ExportImportRouteV1::get_instance();
+		\bdthemes\websiteaccessibility\Routes\WhiteLabelRouteV1::get_instance();
 	}
 
 	/**

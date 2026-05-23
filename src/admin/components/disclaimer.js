@@ -1,5 +1,6 @@
 import { useState, useEffect } from "@wordpress/element";
 import { __ } from "@wordpress/i18n";
+import { useWhiteLabelBrandingEnabled } from "../../utils/websacData";
 
 
 const Description = () => {
@@ -21,7 +22,8 @@ const Description = () => {
 };
 
 const Disclaimer = () => {
-    const { WapAlert } = window?.wapComponents;     
+    const { WapAlert } = window?.wapComponents;
+    const whiteLabelBrandingEnabled = useWhiteLabelBrandingEnabled();
     const [visible, setVisible] = useState(true);
 
     // Optional: Persist dismissal in localStorage
@@ -35,7 +37,11 @@ const Disclaimer = () => {
         localStorage.setItem("accessibilityDisclaimerDismissed", "true");
     };
 
-    return visible ? (
+    if (whiteLabelBrandingEnabled || !visible) {
+        return null;
+    }
+
+    return (
         <div className="wap-disclaimer wap-disclaimer--simple" style={{ marginTop: 20 }}>
             <WapAlert
                 message={__("Disclaimer for Site Administrators", "website-accessibility")}
@@ -46,7 +52,7 @@ const Disclaimer = () => {
                 showIcon
             />
         </div>
-    ) : null;
+    );
 };
 
 export default Disclaimer;

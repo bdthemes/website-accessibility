@@ -3,6 +3,7 @@ import clsx from 'clsx';
 import { useMemo } from '@wordpress/element';
 import ControlWrapper from './control-wrapper';
 import { DEFAULT_FEATURE_CATEGORY_DEFINITIONS } from '../../utils/feature-categories';
+import { isSvgFile, readSvgFileAsMarkup } from '../../utils/svgUpload';
 
 
 // Widget features with their control options
@@ -334,34 +335,20 @@ const ProfileForm = ({ formData, onFormChange }) => {
         });
     };
 
-    const extractSvgMarkupFromText = (text = '') => {
-        if (!text || typeof text !== 'string') return null;
-        const svgMatch = text.match(/<svg[\s\S]*<\/svg>/i);
-        return svgMatch ? svgMatch[0] : null;
-    };
-
     const handleIconUpload = (file) => {
-        const isSvg = file?.type === 'image/svg+xml' || /\.svg$/i.test(file?.name || '');
-        if (!isSvg) {
+        if (!isSvgFile(file)) {
             WapMessage?.error?.(__('Please upload a valid SVG file.', 'website-accessibility'));
             return uploadIgnoreToken;
         }
 
-        const reader = new FileReader();
-        reader.onload = () => {
-            const text = typeof reader.result === 'string' ? reader.result : '';
-            const svgMarkup = extractSvgMarkupFromText(text);
-            if (!svgMarkup) {
+        readSvgFileAsMarkup(file)
+            .then((svgMarkup) => {
+                handleFieldChange('icon', svgMarkup);
+                WapMessage?.success?.(__('SVG icon uploaded successfully.', 'website-accessibility'));
+            })
+            .catch(() => {
                 WapMessage?.error?.(__('Uploaded file is not a valid SVG.', 'website-accessibility'));
-                return;
-            }
-            handleFieldChange('icon', svgMarkup);
-            WapMessage?.success?.(__('SVG icon uploaded successfully.', 'website-accessibility'));
-        };
-        reader.onerror = () => {
-            WapMessage?.error?.(__('Failed to read uploaded SVG file.', 'website-accessibility'));
-        };
-        reader.readAsText(file);
+            });
 
         return uploadIgnoreToken;
     };

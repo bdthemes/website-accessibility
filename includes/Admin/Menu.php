@@ -6,6 +6,7 @@
 
 namespace bdthemes\websiteaccessibility\Admin;
 
+use bdthemes\websiteaccessibility\Core\WhiteLabel;
 use bdthemes\websiteaccessibility\Traits\Singleton;
 
 if (!defined('ABSPATH')) {
@@ -42,17 +43,32 @@ class Menu
     }
 
     /**
-     * Inline SVG for the top-level admin menu (data URI; avoids a separate asset file).
+     * Accessibility figure path (shared by gray + white menu icon variants).
+     */
+    private function get_menu_icon_path(): string
+    {
+        return 'M24.0557 37.04C24.4857 40.37 25.3357 43.4902 26.5557 46.1602H21.5557C22.7757 43.4902 23.6257 40.37 24.0557 37.04ZM31.3262 2C32.0661 2.00014 32.7257 2.46026 32.9756 3.16016L46.0459 43.8096L46.0362 43.7803C46.4459 44.9202 45.5957 46.1299 44.3858 46.1299H31.9659C31.9459 46.0799 31.9255 46.0402 31.8955 45.9902C30.0356 42.8902 28.8257 38.45 28.5957 33.79C28.5157 32.02 28.5561 30.2698 28.7461 28.5898C31.026 28.2898 33.1961 27.7602 35.1661 27.0303C36.4159 26.5703 37.0457 25.1903 36.586 23.9404C36.126 22.6906 34.746 22.0598 33.4961 22.5195C30.6961 23.5595 27.3658 24.1104 23.8858 24.1104C20.4058 24.1103 17.156 23.5696 14.376 22.5596C13.1261 22.1096 11.7462 22.7501 11.2862 24C10.8362 25.2499 11.4758 26.6297 12.7256 27.0898C14.7556 27.8298 17.016 28.3504 19.376 28.6504C19.556 30.3201 19.6056 32.0499 19.5157 33.8096C19.2857 38.4695 18.0758 42.9098 16.2159 46.0098L16.1455 46.1504H3.7559C2.55594 46.1504 1.70583 44.97 2.09574 43.8301L14.5362 3.19043C14.7762 2.48043 15.4463 2 16.1963 2H31.3262ZM27.7559 18.3301C27.5559 16.3001 25.7458 14.8196 23.7159 15.0195C21.686 15.2195 20.2065 17.0297 20.4063 19.0596C20.6063 21.0896 22.4163 22.5701 24.4463 22.3701C26.4761 22.1699 27.9558 20.3599 27.7559 18.3301Z';
+    }
+
+    /**
+     * @param string $fill SVG fill color (e.g. #a7aaad, #ffffff).
+     */
+    private function build_menu_icon_data_uri(string $fill): string
+    {
+        $path = $this->get_menu_icon_path();
+        $svg  = '<svg xmlns="http://www.w3.org/2000/svg" width="48" height="48" viewBox="0 0 48 48" fill="' . $fill . '">'
+            . '<path d="' . $path . '" fill="' . $fill . '"/>'
+            . '</svg>';
+
+        return 'data:image/svg+xml;base64,' . base64_encode($svg);
+    }
+
+    /**
+     * Inline SVG menu icon (#a7aaad — matches WordPress admin dashicon gray).
      */
     private function get_menu_page_icon_url(): string
     {
-        $svg = '<svg xmlns="http://www.w3.org/2000/svg" width="48" height="48" viewBox="0 0 48 48" fill="none">'
-            . '<path d="M24.0557 37.04C24.4857 40.37 25.3357 43.4902 26.5557 46.1602H21.5557C22.7757 43.4902 23.6257 40.37 24.0557 37.04ZM31.3262 2C32.0661 2.00014 32.7257 2.46026 32.9756 3.16016L46.0459 43.8096L46.0362 43.7803C46.4459 44.9202 45.5957 46.1299 44.3858 46.1299H31.9659C31.9459 46.0799 31.9255 46.0402 31.8955 45.9902C30.0356 42.8902 28.8257 38.45 28.5957 33.79C28.5157 32.02 28.5561 30.2698 28.7461 28.5898C31.026 28.2898 33.1961 27.7602 35.1661 27.0303C36.4159 26.5703 37.0457 25.1903 36.586 23.9404C36.126 22.6906 34.746 22.0598 33.4961 22.5195C30.6961 23.5595 27.3658 24.1104 23.8858 24.1104C20.4058 24.1103 17.156 23.5696 14.376 22.5596C13.1261 22.1096 11.7462 22.7501 11.2862 24C10.8362 25.2499 11.4758 26.6297 12.7256 27.0898C14.7556 27.8298 17.016 28.3504 19.376 28.6504C19.556 30.3201 19.6056 32.0499 19.5157 33.8096C19.2857 38.4695 18.0758 42.9098 16.2159 46.0098L16.1455 46.1504H3.7559C2.55594 46.1504 1.70583 44.97 2.09574 43.8301L14.5362 3.19043C14.7762 2.48043 15.4463 2 16.1963 2H31.3262ZM27.7559 18.3301C27.5559 16.3001 25.7458 14.8196 23.7159 15.0195C21.686 15.2195 20.2065 17.0297 20.4063 19.0596C20.6063 21.0896 22.4163 22.5701 24.4463 22.3701C26.4761 22.1699 27.9558 20.3599 27.7559 18.3301Z" fill="black"/>'
-            . '</svg>';
-
-        $data_uri = 'data:image/svg+xml;base64,' . base64_encode($svg);
-
-        return esc_url($data_uri, ['data']);
+        return esc_url($this->build_menu_icon_data_uri('#a7aaad'), ['data']);
     }
 
     /**
@@ -60,6 +76,7 @@ class Menu
      */
     public function menu_icon_styles()
     {
+        $active_icon = esc_url($this->build_menu_icon_data_uri('#ffffff'), ['data']);
         ?>
         <style id="wap-admin-menu-icon">
             /* Match core #adminmenu div.wp-menu-image (36×34) — do not shrink the hit box or icons sit high vs label */
@@ -72,6 +89,10 @@ class Menu
                 align-items: center;
                 justify-content: center;
                 text-align: center;
+                background-image: none;
+                background-repeat: no-repeat;
+                background-position: center center;
+                background-size: 20px 20px;
             }
             #adminmenu .wap-admin-root-menu .wp-menu-image img {
                 width: 20px !important;
@@ -81,8 +102,19 @@ class Menu
                 padding: 0 !important;
                 margin: 0 !important;
                 opacity: 1 !important;
+                visibility: visible !important;
                 object-fit: contain;
                 display: block;
+            }
+            /* Active blue row: white SVG via background (CSS filter on img breaks this data-uri icon). */
+            #adminmenu li.wap-admin-root-menu.current .wp-menu-image:not(.websac-wl-has-custom-icon),
+            #adminmenu li.wap-admin-root-menu.wp-has-current-submenu .wp-menu-image:not(.websac-wl-has-custom-icon) {
+                background-image: url(<?php echo wp_json_encode($active_icon); ?>) !important;
+            }
+            #adminmenu li.wap-admin-root-menu.current .wp-menu-image:not(.websac-wl-has-custom-icon) img,
+            #adminmenu li.wap-admin-root-menu.wp-has-current-submenu .wp-menu-image:not(.websac-wl-has-custom-icon) img {
+                opacity: 0 !important;
+                visibility: hidden !important;
             }
             .folded #adminmenu .wap-admin-root-menu .wp-menu-image {
                 width: 35px;
@@ -94,10 +126,16 @@ class Menu
 
     public function register_menu()
     {
+        if (WhiteLabelAdmin::should_hide_admin_menus()) {
+            return;
+        }
+
+        $menu_title = WhiteLabel::get_display_name();
+
         // Add main menu
         add_menu_page(
-            __('One Accessibility', 'website-accessibility'),
-            __('One Accessibility', 'website-accessibility'),
+            $menu_title,
+            $menu_title,
             'manage_options',
             'website-accessibility',
             null,
@@ -171,6 +209,17 @@ class Menu
                 __('License', 'website-accessibility'),
                 'manage_options',
                 'website-accessibility-license',
+                [$this, 'render_menu_page']
+            );
+        }
+
+        if (class_exists('\bdthemes\websiteaccessibilitypro\Admin\License\LicenseHelper')) {
+            add_submenu_page(
+                'website-accessibility',
+                __('White Label', 'website-accessibility'),
+                __('White Label', 'website-accessibility'),
+                'manage_options',
+                'website-accessibility-white-label',
                 [$this, 'render_menu_page']
             );
         }

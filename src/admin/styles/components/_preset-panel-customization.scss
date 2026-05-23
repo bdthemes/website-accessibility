@@ -38,14 +38,31 @@
     }
 }
 
-.wap-preset-editor-header-card-input input {
-    border: none !important;
-    box-shadow: unset !IMPORTANT;
-    outline: none !important;
-}
-
 .wap-preset-editor-header-card-input {
-    padding: 5px 8px;
+    height: 36px !important;
+    min-height: 36px;
+    padding: 0 11px !important;
+    border-radius: 6px !important;
+    box-sizing: border-box;
+
+    input {
+        height: 100% !important;
+        border: none !important;
+        box-shadow: unset !important;
+        outline: none !important;
+        font-size: 14px;
+    }
+
+    .ant-input-prefix {
+        margin-inline-end: 8px;
+    }
+
+    .dashicons-search {
+        font-size: 16px;
+        width: 16px;
+        height: 16px;
+        line-height: 16px;
+    }
 }
 
 .wap-panel-customization-card {

@@ -157,6 +157,26 @@ export const IconLicense = () =>
 
 	);
 
+/** White Label — tag / badge */
+export const IconWhiteLabel = () =>
+	wrap(
+		<svg
+			xmlns="http://www.w3.org/2000/svg"
+			width={24}
+			height={24}
+			viewBox="0 0 24 24"
+			fill="none"
+			stroke="currentColor"
+			strokeWidth={2}
+			strokeLinecap="round"
+			strokeLinejoin="round"
+		>
+			<path d="M12 2 2 7v10l10 5 10-5V7z" />
+			<path d="M2 7l10 5 10-5" />
+			<path d="M12 22V12" />
+		</svg>
+	);
+
 /** Tools & Backup — download/upload / toolbox */
 export const IconTools = () =>
 	wrap(

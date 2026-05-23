@@ -2,9 +2,11 @@
  * AdminLayout - Header + Sidebar layout (Ant Design) like Sigma Media Manager
  */
 import { __ } from '@wordpress/i18n';
+import { useEffect, useState, useMemo } from '@wordpress/element';
 import { useDashboardTour } from '../context/dashboard-tour-context';
 import { useProSettingsTour } from '../context/pro-settings-tour-context';
 import { useLicense } from '../context/LicenseContext';
+import { getBrandDisplayName, useWhiteLabelBrandingEnabled } from '../../utils/websacData';
 import { Layout, Menu } from 'antd';
 import { useLocation, useHistory } from '../router';
 import {
@@ -14,6 +16,7 @@ import {
 	IconCssOverrides,
 	IconSettings,
 	IconLicense,
+	IconWhiteLabel,
 	IconTools,
 	IconPro,
 	IconInfo,
@@ -80,6 +83,29 @@ const AdminLayout = ({ children }) => {
 	const { tryAdvanceTourViaSidebarMenu } = useDashboardTour();
 	const { tryAdvanceProSettingsTourViaSidebarMenu } = useProSettingsTour();
 	const hasFixedIssuesPage = !!window?.websacAdmin?.hasFixedIssuesPage;
+	const [wlUiEpoch, setWlUiEpoch] = useState(0);
+
+	const hideLicenseSidebar = useMemo(
+		() =>
+			typeof window !== 'undefined' &&
+			window.websacAdmin?.hideLicenseNav &&
+			!window.websacAdmin?.whiteLabelRecovery,
+		[wlUiEpoch]
+	);
+
+	const brandDisplayName = useMemo(() => getBrandDisplayName(), [wlUiEpoch]);
+	const whiteLabelBrandingEnabled = useWhiteLabelBrandingEnabled();
+
+	const settingsHeaderLogoUrl = useMemo(() => {
+		const boot = typeof window !== 'undefined' ? window.websacAdmin?.brandLogoUrl : '';
+		return typeof boot === 'string' && boot.trim() !== '' ? boot.trim() : '';
+	}, [wlUiEpoch]);
+
+	useEffect(() => {
+		const onWlChange = () => setWlUiEpoch((n) => n + 1);
+		window.addEventListener('websac-white-label-changed', onWlChange);
+		return () => window.removeEventListener('websac-white-label-changed', onWlChange);
+	}, []);
 
 	const handleMenuClick = ({ key }) => {
 		if (tryAdvanceTourViaSidebarMenu(key)) {
@@ -119,12 +145,16 @@ const AdminLayout = ({ children }) => {
 	];
 	/** Pro installed + license active → “Coming soon”; otherwise Pro upsell list (free or Pro without license) */
 	const showComingSoonCard = isProPluginActive && isLicenseValid;
-	const supportItems = [
-		...(!isLicenseValid ? [{ key: 'website-accessibility-get-pro', icon: <IconPro />, label: __('Get Pro', 'website-accessibility') }] : []),
-		...(isProPluginActive ? [{ key: 'website-accessibility-license', icon: <IconLicense />, label: __('License', 'website-accessibility') }] : []),
-		...(isProPluginActive ? [{ key: 'website-accessibility-tools', icon: <IconTools />, label: __('Tools & Backup', 'website-accessibility'), disabled: !isLicenseValid }] : []),
-		{ key: 'website-accessibility-about', icon: <IconInfo />, label: __('About & Info', 'website-accessibility') },
-	];
+	const supportItems = useMemo(
+		() => [
+			...(!isLicenseValid ? [{ key: 'website-accessibility-get-pro', icon: <IconPro />, label: __('Get Pro', 'website-accessibility') }] : []),
+			...(isProPluginActive && !hideLicenseSidebar ? [{ key: 'website-accessibility-license', icon: <IconLicense />, label: __('License', 'website-accessibility') }] : []),
+			...(isProPluginActive ? [{ key: 'website-accessibility-white-label', icon: <IconWhiteLabel />, label: __('White Label', 'website-accessibility') }] : []),
+			...(isProPluginActive ? [{ key: 'website-accessibility-tools', icon: <IconTools />, label: __('Tools & Backup', 'website-accessibility'), disabled: !isLicenseValid }] : []),
+			{ key: 'website-accessibility-about', icon: <IconInfo />, label: __('About & Info', 'website-accessibility') },
+		],
+		[isLicenseValid, isProPluginActive, hideLicenseSidebar]
+	);
 
 	const menuItems = [
 		{
@@ -151,6 +181,15 @@ const AdminLayout = ({ children }) => {
 			<Header className="wap-admin-header">
 				<div className="wap-admin-header-left">
 					<span className="wap-admin-header-icon">
+						{settingsHeaderLogoUrl ? (
+							<img
+								src={settingsHeaderLogoUrl}
+								alt=""
+								className="wap-admin-header-logo"
+								width={40}
+								height={40}
+							/>
+						) : (
 						<svg
 							xmlns="http://www.w3.org/2000/svg"
 							viewBox="0 0 256 256"
@@ -192,11 +231,12 @@ const AdminLayout = ({ children }) => {
 								d="M179.31,127.49c-1.89-5.11-7.57-7.71-12.68-5.82-11.48,4.25-25.11,6.5-39.41,6.5s-27.61-2.2-39-6.35c-5.12-1.87-10.78.77-12.65,5.89-1.87,5.12.77,10.78,5.89,12.65,8.35,3.05,17.58,5.2,27.27,6.41.75,6.84.94,13.93.58,21.14-.96,19.09-5.89,37.31-13.53,50-.12.2-.22.4-.32.61h22.22c4.99-10.97,8.5-23.75,10.25-37.42,1.75,13.67,5.26,26.45,10.25,37.42h22.22c-.1-.2-.2-.41-.32-.61-7.64-12.69-12.57-30.91-13.53-50-.36-7.27-.16-14.43.6-21.33,9.36-1.26,18.26-3.41,26.33-6.41,5.11-1.89,7.72-7.57,5.82-12.68Z"
 							/>
 						</svg>
+						)}
 					</span>
 
 					<div className="wap-admin-header-brand">
 						<div className="wap-admin-header-title-row">
-							<h1 className="wap-admin-header-title">{__('One Accessibility', 'website-accessibility')}</h1>
+							<h1 className="wap-admin-header-title">{brandDisplayName}</h1>
 							<span className="wap-admin-header-version">v{PLUGIN_VERSION}</span>
 						</div>
 						<p className="wap-admin-header-tagline">
@@ -204,31 +244,33 @@ const AdminLayout = ({ children }) => {
 						</p>
 					</div>
 				</div>
-				<div className="wap-admin-header-right">
-					<div className="wap-admin-header-actions">
-						<a href={HELP_URL} target="_blank" rel="noopener noreferrer" className="wap-admin-header-help">
-						<span className="wap-admin-header-help-icon" aria-hidden="true">
-							<svg
-								xmlns="http://www.w3.org/2000/svg"
-								viewBox="0 0 24 24"
-								width="18"
-								height="18"
-								fill="none"
-								stroke="currentColor"
-								strokeWidth="2"
-								strokeLinecap="round"
-								strokeLinejoin="round"
-								focusable="false"
-							>
-								<circle cx="12" cy="12" r="10" />
-								<path d="M9.09 9a3 3 0 0 1 5.83 1c0 2-3 3-3 3" />
-								<line x1="12" y1="17" x2="12.01" y2="17" />
-							</svg>
-						</span>
-						{__('Help & Support', 'website-accessibility')}
-					</a>
+				{!whiteLabelBrandingEnabled ? (
+					<div className="wap-admin-header-right">
+						<div className="wap-admin-header-actions">
+							<a href={HELP_URL} target="_blank" rel="noopener noreferrer" className="wap-admin-header-help">
+								<span className="wap-admin-header-help-icon" aria-hidden="true">
+									<svg
+										xmlns="http://www.w3.org/2000/svg"
+										viewBox="0 0 24 24"
+										width="18"
+										height="18"
+										fill="none"
+										stroke="currentColor"
+										strokeWidth="2"
+										strokeLinecap="round"
+										strokeLinejoin="round"
+										focusable="false"
+									>
+										<circle cx="12" cy="12" r="10" />
+										<path d="M9.09 9a3 3 0 0 1 5.83 1c0 2-3 3-3 3" />
+										<line x1="12" y1="17" x2="12.01" y2="17" />
+									</svg>
+								</span>
+								{__('Help & Support', 'website-accessibility')}
+							</a>
+						</div>
 					</div>
-				</div>
+				) : null}
 			</Header>
 			<Layout>
 				<Sider width={280} className="wap-admin-sider" theme="light">
@@ -306,8 +348,10 @@ const AdminLayout = ({ children }) => {
 			</Layout>
 
 			<Footer className="wap-admin-footer">
-						<span className="wap-admin-footer__text">
-							{__('One Accessibility', 'website-accessibility')} v{PLUGIN_VERSION}
+				<span className="wap-admin-footer__text">
+					{brandDisplayName} v{PLUGIN_VERSION}
+					{typeof window !== 'undefined' && !window.websacAdmin?.whiteLabelFooterHidden ? (
+						<>
 							<span className="wap-admin-footer__sep" aria-hidden="true">
 								{' | '}
 							</span>
@@ -324,8 +368,10 @@ const AdminLayout = ({ children }) => {
 							>
 								BdThemes
 							</a>
-						</span>
-					</Footer>
+						</>
+					) : null}
+				</span>
+			</Footer>
 		</Layout>
 	);
 };

@@ -8,6 +8,7 @@
 
 namespace bdthemes\websiteaccessibility\Admin;
 
+use bdthemes\websiteaccessibility\Core\WhiteLabel;
 use bdthemes\websiteaccessibility\Routes\DashboardTourRouteV1;
 use bdthemes\websiteaccessibility\Traits\Singleton;
 
@@ -26,6 +27,153 @@ class Enqueue {
      */
     private function __construct() {
         add_action('admin_enqueue_scripts', [$this, 'enqueue_scripts']);
+        add_filter('upload_mimes', [$this, 'allow_admin_svg_uploads'], 99);
+        add_filter('wp_check_filetype_and_ext', [$this, 'fix_svg_filetype'], 10, 5);
+        add_filter('wp_generate_attachment_metadata', [$this, 'fix_svg_attachment_metadata'], 10, 2);
+        add_filter('intermediate_image_sizes_advanced', [$this, 'skip_svg_subsizes'], 10, 3);
+        add_filter('wp_prepare_attachment_for_js', [$this, 'prepare_svg_attachment_for_js'], 10, 3);
+    }
+
+    /**
+     * @param array<string, string> $mimes Existing mime map.
+     * @return array<string, string>
+     */
+    public function allow_admin_svg_uploads($mimes) {
+        if (!is_admin() || !current_user_can('upload_files')) {
+            return $mimes;
+        }
+
+        $mimes['svg']  = 'image/svg+xml';
+        $mimes['svgz'] = 'image/svg+xml';
+
+        return $mimes;
+    }
+
+    /**
+     * @param array<string, mixed>  $data      File data array.
+     * @param string               $file      Full path to the file.
+     * @param string               $filename  The name of the file.
+     * @param array<string, string> $mimes    Allowed mime types.
+     * @param string               $real_mime Actual mime type or empty string.
+     * @return array<string, mixed>
+     */
+    public function fix_svg_filetype($data, $file, $filename, $mimes, $real_mime = '') {
+        unset($file, $real_mime);
+
+        if (!is_admin() || !current_user_can('upload_files')) {
+            return $data;
+        }
+
+        $ext = strtolower((string) pathinfo($filename, PATHINFO_EXTENSION));
+        if ('svg' !== $ext && 'svgz' !== $ext) {
+            return $data;
+        }
+
+        $filetype = wp_check_filetype($filename, $mimes);
+        if (!empty($filetype['ext']) && !empty($filetype['type'])) {
+            $data['ext']  = $filetype['ext'];
+            $data['type'] = $filetype['type'];
+        }
+
+        return $data;
+    }
+
+    /**
+     * Skip raster processing for SVG attachments (prevents upload failures).
+     *
+     * @param array<string, mixed>|false $metadata      Attachment metadata.
+     * @param int                        $attachment_id Attachment ID.
+     * @return array<string, mixed>|false
+     */
+    public function fix_svg_attachment_metadata($metadata, $attachment_id) {
+        if ('image/svg+xml' !== get_post_mime_type($attachment_id)) {
+            return $metadata;
+        }
+
+        $width  = 0;
+        $height = 0;
+        $file   = get_attached_file($attachment_id);
+
+        if ($file && file_exists($file)) {
+            $svg = file_get_contents($file);
+            if (is_string($svg) && preg_match('/viewBox=["\']\\s*0\\s+0\\s+([\\d.]+)\\s+([\\d.]+)/i', $svg, $matches)) {
+                $width  = (int) round((float) $matches[1]);
+                $height = (int) round((float) $matches[2]);
+            } elseif (is_string($svg) && preg_match('/width=["\']([\\d.]+)/i', $svg, $w) && preg_match('/height=["\']([\\d.]+)/i', $svg, $h)) {
+                $width  = (int) round((float) $w[1]);
+                $height = (int) round((float) $h[1]);
+            }
+        }
+
+        return array(
+            'width'  => $width,
+            'height' => $height,
+            'file'   => _wp_relative_upload_path($file),
+        );
+    }
+
+    /**
+     * @param array<string, array<string, mixed>> $sizes         Subsize definitions.
+     * @param array<string, mixed>                $metadata      Attachment metadata.
+     * @param int                                 $attachment_id Attachment ID.
+     * @return array<string, array<string, mixed>>
+     */
+    public function skip_svg_subsizes($sizes, $metadata, $attachment_id) {
+        unset($metadata);
+
+        if ($attachment_id && 'image/svg+xml' === get_post_mime_type($attachment_id)) {
+            return array();
+        }
+
+        return $sizes;
+    }
+
+    /**
+     * @param array<string, mixed> $response   Attachment data.
+     * @param \WP_Post             $attachment Attachment post object.
+     * @param array<string, mixed> $meta       Attachment meta.
+     * @return array<string, mixed>
+     */
+    public function prepare_svg_attachment_for_js($response, $attachment, $meta) {
+        unset($attachment);
+
+        if (empty($response['mime']) || 'image/svg+xml' !== $response['mime']) {
+            return $response;
+        }
+
+        $url = isset($response['url']) ? (string) $response['url'] : '';
+        if ('' === $url) {
+            return $response;
+        }
+
+        $width  = isset($meta['width']) ? (int) $meta['width'] : 0;
+        $height = isset($meta['height']) ? (int) $meta['height'] : 0;
+
+        $response['icon']  = $url;
+        $response['sizes'] = array(
+            'full'      => array(
+                'url'         => $url,
+                'width'       => $width,
+                'height'      => $height,
+                'orientation' => 'portrait',
+            ),
+            'thumbnail' => array(
+                'url'         => $url,
+                'width'       => 150,
+                'height'      => 150,
+                'orientation' => 'portrait',
+            ),
+        );
+
+        if (empty($response['image'])) {
+            $response['image'] = array(
+                'src'    => $url,
+                'width'  => $width ?: null,
+                'height' => $height ?: null,
+            );
+        }
+
+        return $response;
     }
 
     /**
@@ -77,6 +225,10 @@ class Enqueue {
             true
         );
 
+        if (preg_match('/website-accessibility/', (string) $hook_suffix)) {
+            wp_enqueue_media();
+        }
+
         if ([] !== $code_editor_bundle) {
             wp_add_inline_script(
                 'website-accessibility-admin',
@@ -89,22 +241,27 @@ class Enqueue {
 
         $license_page_url = admin_url('admin.php?page=website-accessibility-pro_license');
 
+        $wl_data = class_exists(WhiteLabel::class) ? WhiteLabel::get_localized_script_data() : [];
+
         wp_localize_script(
             'website-accessibility-admin',
             'websacAdmin',
-            [
-                'version'           => WEBSAC_VERSION,
-                'apiUrl'            => rest_url(),
-                'homeUrl'           => home_url('/'),
-                'nonce'             => wp_create_nonce('wp_rest'),
-                'isProPluginActive' => function_exists('website_accessibility_pro'),
-                'hasFixedIssuesPage' => $this->has_fixed_issues_page(),
-                'licensePageUrl'    => $license_page_url,
-                'proUpgradeUrl'     => 'https://oneaccessibility.com#pricing',
-                /** Set false in JS after completing tour via REST (same page session). */
-                'shouldAutoStartDashboardTour' => ! DashboardTourRouteV1::is_completed(),
-                'isProSettingsTourCompleted'  => DashboardTourRouteV1::is_pro_settings_completed(),
-            ]
+            array_merge(
+                [
+                    'version'           => WEBSAC_VERSION,
+                    'apiUrl'            => rest_url(),
+                    'homeUrl'           => home_url('/'),
+                    'nonce'             => wp_create_nonce('wp_rest'),
+                    'isProPluginActive' => function_exists('website_accessibility_pro'),
+                    'hasFixedIssuesPage' => $this->has_fixed_issues_page(),
+                    'licensePageUrl'    => $license_page_url,
+                    'proUpgradeUrl'     => 'https://oneaccessibility.com#pricing',
+                    /** Set false in JS after completing tour via REST (same page session). */
+                    'shouldAutoStartDashboardTour' => ! DashboardTourRouteV1::is_completed(),
+					'isProSettingsTourCompleted'  => DashboardTourRouteV1::is_pro_settings_completed(),
+                ],
+                $wl_data
+            )
         );
 
         wp_enqueue_style(
