@@ -76,7 +76,8 @@ class Menu
      */
     public function menu_icon_styles()
     {
-        $active_icon = esc_url($this->build_menu_icon_data_uri('#ffffff'), ['data']);
+        $default_icon = esc_url($this->build_menu_icon_data_uri('#a7aaad'), ['data']);
+        $active_icon  = esc_url($this->build_menu_icon_data_uri('#ffffff'), ['data']);
         ?>
         <style id="wap-admin-menu-icon">
             /* Match core #adminmenu div.wp-menu-image (36×34) — do not shrink the hit box or icons sit high vs label */
@@ -89,32 +90,32 @@ class Menu
                 align-items: center;
                 justify-content: center;
                 text-align: center;
-                background-image: none;
                 background-repeat: no-repeat;
                 background-position: center center;
                 background-size: 20px 20px;
             }
-            #adminmenu .wap-admin-root-menu .wp-menu-image img {
-                width: 20px !important;
-                height: 20px !important;
-                max-width: 20px;
-                max-height: 20px;
-                padding: 0 !important;
-                margin: 0 !important;
-                opacity: 1 !important;
-                visibility: visible !important;
-                object-fit: contain;
-                display: block;
+            /*
+             * Always paint the icon via background-image. Core <img data:> icons are unreliable
+             * on first paint (e.g. Dashboard) but background works once the menu is active.
+             */
+            #adminmenu li.wap-admin-root-menu .wp-menu-image:not(.websac-wl-has-custom-icon),
+            #adminmenu li.toplevel_page_website-accessibility .wp-menu-image:not(.websac-wl-has-custom-icon) {
+                background-image: url(<?php echo wp_json_encode($default_icon); ?>) !important;
             }
-            /* Active blue row: white SVG via background (CSS filter on img breaks this data-uri icon). */
             #adminmenu li.wap-admin-root-menu.current .wp-menu-image:not(.websac-wl-has-custom-icon),
-            #adminmenu li.wap-admin-root-menu.wp-has-current-submenu .wp-menu-image:not(.websac-wl-has-custom-icon) {
+            #adminmenu li.wap-admin-root-menu.wp-has-current-submenu .wp-menu-image:not(.websac-wl-has-custom-icon),
+            #adminmenu li.toplevel_page_website-accessibility.current .wp-menu-image:not(.websac-wl-has-custom-icon),
+            #adminmenu li.toplevel_page_website-accessibility.wp-has-current-submenu .wp-menu-image:not(.websac-wl-has-custom-icon) {
                 background-image: url(<?php echo wp_json_encode($active_icon); ?>) !important;
             }
-            #adminmenu li.wap-admin-root-menu.current .wp-menu-image:not(.websac-wl-has-custom-icon) img,
-            #adminmenu li.wap-admin-root-menu.wp-has-current-submenu .wp-menu-image:not(.websac-wl-has-custom-icon) img {
+            #adminmenu li.wap-admin-root-menu .wp-menu-image:not(.websac-wl-has-custom-icon) img,
+            #adminmenu li.toplevel_page_website-accessibility .wp-menu-image:not(.websac-wl-has-custom-icon) img {
                 opacity: 0 !important;
                 visibility: hidden !important;
+                width: 0 !important;
+                height: 0 !important;
+                padding: 0 !important;
+                margin: 0 !important;
             }
             .folded #adminmenu .wap-admin-root-menu .wp-menu-image {
                 width: 35px;

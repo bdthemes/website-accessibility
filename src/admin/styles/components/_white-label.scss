@@ -116,7 +116,9 @@
 
 	$wl-media-control-height: 36px;
 
-	.wap-white-label-settings__image-preview {
+	.wap-white-label-settings__image-preview,
+	.wap-white-label-settings__image-preview--icon,
+	.wap-white-label-settings__image-preview--logo {
 		width: $wl-media-control-height;
 		height: $wl-media-control-height;
 		border: 1px solid #eef0f2;
@@ -128,11 +130,6 @@
 		overflow: hidden;
 		flex-shrink: 0;
 		box-sizing: border-box;
-	}
-
-	.wap-white-label-settings__image-preview--logo {
-		width: 48px;
-		height: $wl-media-control-height;
 	}
 
 	.wap-white-label-settings__image-thumb {
