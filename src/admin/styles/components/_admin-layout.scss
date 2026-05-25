@@ -471,23 +471,29 @@
 	}
 }
 
-/** Dashboard guided tour — link inside Joyride tooltip */
+/** Dashboard guided tour — modern tooltip content styling */
 .wap-dashboard-tour__step-body {
 	margin: 0;
 	font-size: 14px;
-	line-height: 1.55;
+	line-height: 1.65;
+	color: #4b5563;
 
 	p {
-		margin: 0 0 10px;
+		margin: 0 0 12px;
 
 		&:last-child {
 			margin-bottom: 0;
+		}
+
+		&:first-child {
+			color: #1f2937;
+			font-weight: 500;
 		}
 	}
 }
 
 .wap-dashboard-tour__step-actions {
-	margin-top: 12px !important;
+	margin-top: 16px !important;
 	margin-bottom: 0 !important;
 }
 
@@ -495,7 +501,7 @@
 	display: flex;
 	flex-wrap: wrap;
 	align-items: center;
-	gap: 12px 16px;
+	gap: 10px 14px;
 }
 
 .wap-dashboard-tour__step-actions--row.wap-dashboard-tour__step-actions--center {
@@ -507,22 +513,31 @@
 	align-items: center;
 	justify-content: center;
 	margin: 0;
-	padding: 6px 16px;
+	padding: 0 22px;
+	height: 36px;
 	font-family: inherit;
 	font-size: 14px;
-	font-weight: 500;
-	line-height: 1.5;
+	font-weight: 600;
+	line-height: 36px;
 	color: #1677ff !important;
-	background: #fff;
-	border: 1px solid #1677ff;
+	background: linear-gradient(135deg, #f0f7ff 0%, #e6f4ff 100%);
+	border: 1px solid #bae0ff;
 	border-radius: 6px;
 	cursor: pointer;
-	box-shadow: none;
+	box-shadow: 0 1px 3px rgba(22, 119, 255, 0.08);
+	transition: all 0.2s ease;
 
 	&:hover {
 		color: #0958d9 !important;
-		border-color: #4096ff;
-		background: #e6f4ff;
+		border-color: #91caff;
+		background: linear-gradient(135deg, #e6f4ff 0%, #d6e8ff 100%);
+		box-shadow: 0 3px 8px rgba(22, 119, 255, 0.15);
+		transform: translateY(-1px);
+	}
+
+	&:active {
+		transform: translateY(0);
+		box-shadow: 0 1px 2px rgba(22, 119, 255, 0.1);
 	}
 
 	&:focus-visible {
@@ -535,22 +550,29 @@
 	display: inline-flex;
 	align-items: center;
 	justify-content: center;
-	padding: 6px 16px;
+	padding: 9px 22px;
 	font-size: 14px;
-	font-weight: 500;
-	line-height: 1.5;
+	font-weight: 600;
+	line-height: 1.4;
 	color: #fff !important;
 	text-decoration: none !important;
-	background: #1677ff;
-	border: 1px solid #1677ff;
+	background: linear-gradient(135deg, #1677ff 0%, #0958d9 100%);
+	border: none;
 	border-radius: 6px;
 	cursor: pointer;
-	box-shadow: 0 2px 0 rgba(5, 145, 255, 0.1);
+	box-shadow: 0 4px 12px rgba(22, 119, 255, 0.3);
+	transition: all 0.2s ease;
 
 	&:hover {
-		background: #4096ff;
-		border-color: #4096ff;
+		background: linear-gradient(135deg, #4096ff 0%, #1677ff 100%);
 		color: #fff !important;
+		box-shadow: 0 6px 16px rgba(22, 119, 255, 0.35);
+		transform: translateY(-1px);
+	}
+
+	&:active {
+		transform: translateY(0);
+		box-shadow: 0 2px 6px rgba(22, 119, 255, 0.25);
 	}
 
 	&:focus-visible {
