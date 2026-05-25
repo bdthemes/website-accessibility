@@ -44,6 +44,8 @@
     padding: 0 11px !important;
     border-radius: 6px !important;
     box-sizing: border-box;
+    display: flex;
+    align-items: center;
 
     input {
         height: 100% !important;
@@ -51,10 +53,13 @@
         box-shadow: unset !important;
         outline: none !important;
         font-size: 14px;
+        line-height: 36px;
     }
 
     .ant-input-prefix {
         margin-inline-end: 8px;
+        display: inline-flex;
+        align-items: center;
     }
 
     .dashicons-search {

@@ -417,11 +417,76 @@ export function DashboardTourProvider({ children }) {
 				scrollToFirstStep
 				locale={locale}
 				onEvent={onEvent}
+				styles={{
+					tooltip: {
+						borderRadius: 12,
+						padding: 24,
+						boxShadow: '0 20px 60px rgba(0, 0, 0, 0.12), 0 8px 20px rgba(0, 0, 0, 0.08)',
+						border: '1px solid rgba(0, 0, 0, 0.04)',
+						maxWidth: 420,
+					},
+					tooltipContainer: {
+						textAlign: 'left',
+						lineHeight: 1.6,
+					},
+					tooltipTitle: {
+						fontSize: 18,
+						fontWeight: 700,
+						color: '#111827',
+						marginBottom: 4,
+						letterSpacing: '-0.01em',
+					},
+					tooltipContent: {
+						fontSize: 14,
+						color: '#4b5563',
+						paddingTop: 8,
+						paddingBottom: 16,
+					},
+					tooltipFooter: {
+						marginTop: 0,
+						borderTop: '1px solid #f3f4f6',
+						paddingTop: 14,
+					},
+					buttonPrimary: {
+						backgroundColor: '#1677ff',
+						borderRadius: 6,
+						fontSize: 14,
+						fontWeight: 600,
+						padding: '0 22px',
+						height: 36,
+						lineHeight: '36px',
+						boxShadow: '0 2px 8px rgba(22, 119, 255, 0.3)',
+						border: 'none',
+					},
+					buttonBack: {
+						color: '#6b7280',
+						fontSize: 14,
+						fontWeight: 500,
+						marginRight: 8,
+					},
+					buttonSkip: {
+						color: '#9ca3af',
+						fontSize: 13,
+						fontWeight: 500,
+					},
+					buttonClose: {
+						top: 12,
+						right: 12,
+						width: 14,
+						height: 14,
+						color: '#9ca3af',
+					},
+					spotlight: {
+						borderRadius: 12,
+					},
+					overlay: {
+						backgroundColor: 'rgba(17, 24, 39, 0.4)',
+					},
+				}}
 				options={{
 					primaryColor: '#1677ff',
-					// Above preset editor floating preview drawers (~1e6) so tooltip/overlay aren’t clipped.
 					zIndex: 1005000,
-					spotlightPadding: 8,
+					spotlightPadding: 10,
 					buttons: ['back', 'skip', 'primary'],
 					closeButtonAction: 'skip',
 					showProgress: true,

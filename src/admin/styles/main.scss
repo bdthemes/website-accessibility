@@ -92,3 +92,34 @@
         }
     }
 }
+
+/* React Joyride — modern tooltip overrides */
+[data-testid="button-primary"] {
+	transition: all 0.2s ease !important;
+
+	&:hover {
+		background: linear-gradient(135deg, #4096ff 0%, #1677ff 100%) !important;
+		box-shadow: 0 4px 14px rgba(22, 119, 255, 0.35) !important;
+		transform: translateY(-1px);
+	}
+
+	&:active {
+		transform: translateY(0);
+	}
+}
+
+[data-testid="button-back"] {
+	transition: color 0.15s ease !important;
+
+	&:hover {
+		color: #374151 !important;
+	}
+}
+
+[data-testid="button-skip"] {
+	transition: color 0.15s ease !important;
+
+	&:hover {
+		color: #6b7280 !important;
+	}
+}

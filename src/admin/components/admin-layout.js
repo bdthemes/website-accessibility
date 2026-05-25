@@ -137,11 +137,10 @@ const AdminLayout = ({ children }) => {
 	].filter(Boolean);
 
 	const comingSoonFeatureLabels = [
-		__('Enhanced analytics & usage insights', 'website-accessibility'),
-		__('New preset packs & panel styles', 'website-accessibility'),
-		__('Deeper WCAG checks & reporting', 'website-accessibility'),
+		__('Sign language (Libras)', 'website-accessibility'),
+		__('Virtual keyboard', 'website-accessibility'),
+		__('Legal / litigation support', 'website-accessibility'),
 		__('Bulk tools for multi-site workflows', 'website-accessibility'),
-		__('More integrations & API options', 'website-accessibility'),
 	];
 	/** Pro installed + license active → “Coming soon”; otherwise Pro upsell list (free or Pro without license) */
 	const showComingSoonCard = isProPluginActive && isLicenseValid;

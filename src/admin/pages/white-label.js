@@ -365,7 +365,7 @@ const WhiteLabelPage = () => {
 							"Optional logo in the admin settings header.",
 							"website-accessibility"
 						)}
-						previewClassName="wap-white-label-settings__image-preview--logo"
+						previewClassName="wap-white-label-settings__image-preview--icon"
 						imageUrl={form.logo}
 						pickTitle={__("Select settings header logo", "website-accessibility")}
 						onSelect={({ url, id }) =>

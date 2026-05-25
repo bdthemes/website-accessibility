@@ -29,7 +29,7 @@
     }
 
     .ant-input-affix-wrapper {
-        padding: 4px 12px;
+        padding: 8px 12px;
 
         input {
             border: 0 !important;
@@ -55,19 +55,6 @@
 
     // Header: title left, Add New Preset button right (same pattern as Export/Import)
     .wap-presets-header {
-        // Typography inherited from _create-preset .wap-header-card — reinforce if Ant wins
-        // .wap-header-card-title,
-        // h4.ant-typography.wap-header-card-title {
-        //     font-size: 14px !important;
-        //     font-weight: 600 !important;
-        //     color: #1f2937 !important;
-        // }
-
-        // .wap-header-card-description {
-        //     font-size: 13px !important;
-        //     color: #6b7280 !important;
-        // }
-
         .ant-card-body {
             display: block;
             padding: 16px 18px !important;
