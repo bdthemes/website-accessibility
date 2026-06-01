@@ -381,7 +381,7 @@ const Settings = () => {
                 onChange={(checked) => updateSetting("show_usage_statistics", checked)}
             />
             {settings?.show_usage_statistics && (
-                <WapCard className="wap-settings-row">
+                <WapCard className="wap-settings-row wap-settings-row--actions">
                     <WapSpace
                         align="center"
                         style={{

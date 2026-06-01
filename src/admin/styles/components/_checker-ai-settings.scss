@@ -17,6 +17,19 @@
             justify-content: space-between;
             gap: 12px;
             flex-wrap: wrap;
+
+            .ant-btn {
+                height: 36px;
+                min-height: 36px;
+                padding-inline: 14px;
+                font-size: 14px;
+                font-weight: 500;
+                border-radius: 6px;
+                display: inline-flex;
+                align-items: center;
+                justify-content: center;
+                line-height: 1;
+            }
         }
 
         .ant-typography-secondary {
@@ -216,7 +229,16 @@
             }
 
             .ant-btn {
-                min-height: 40px;
+                height: 36px;
+                min-height: 36px;
+                padding-inline: 14px;
+                font-size: 14px;
+                font-weight: 500;
+                border-radius: 6px;
+                display: inline-flex;
+                align-items: center;
+                justify-content: center;
+                line-height: 1;
             }
         }
     }

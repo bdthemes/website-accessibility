@@ -132,6 +132,29 @@
 
     .wap-preset-form-actions {
         text-align: right;
+        // Keep the save button inset so .wap-admin-main-column overflow does not clip its bottom-right radius
+        padding: 0 20px 20px;
+
+        .ant-btn {
+            height: 36px !important;
+            min-height: 36px !important;
+            padding-inline: 14px !important;
+            font-size: 14px !important;
+            border-radius: 6px !important;
+            border-top-left-radius: 6px !important;
+            border-top-right-radius: 6px !important;
+            border-bottom-left-radius: 6px !important;
+            border-bottom-right-radius: 6px !important;
+            display: inline-flex !important;
+            align-items: center !important;
+            justify-content: center !important;
+            line-height: 1 !important;
+            overflow: hidden;
+
+            &::before {
+                border-radius: 6px !important;
+            }
+        }
     }
 }
 

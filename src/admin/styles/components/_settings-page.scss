@@ -41,6 +41,22 @@
         margin-top: 4px;
         display: block;
     }
+
+    // Action buttons in settings rows (e.g. Clear Statistics) — match Save/Test / export buttons
+    &.wap-settings-row--actions {
+            .ant-btn {
+                height: 36px;
+                min-height: 36px;
+                padding-inline: 14px;
+                font-size: 14px;
+                font-weight: 500;
+                border-radius: 6px;
+                display: inline-flex;
+                align-items: center;
+                justify-content: center;
+                line-height: 1;
+            }
+    }
 }
 
 // Export/Import block — aligned with _export-import-settings (tighter right padding)

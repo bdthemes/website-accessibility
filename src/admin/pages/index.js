@@ -116,7 +116,7 @@ const Pages = () => {
 
                 {page === 'website-accessibility' && settings && settings?.show_usage_statistics && (
                     <>
-                        <div className="wap-admin-usage-statistics">
+                        <div className="wap-admin-usage-statistics" style={{ marginBottom: '20px' }}>
                             <UsageStatistics />
                         </div>
                       

@@ -1,7 +1,7 @@
 // Fixed Issues — compact toolbar; controls share --wap-fi-control-h (inputs, selects, header actions)
 
 .wap-fixed-issues {
-  --wap-fi-control-h: 32px;
+  --wap-fi-control-h: 36px;
   --wap-fi-check-size: 16px;
   --wap-fi-check-radius: 4px;
   --wap-fi-check-border: #737373;
@@ -34,6 +34,19 @@
     display: flex;
     align-items: center;
     margin-left: auto;
+
+    .wap-fixed-issues__download.ant-btn {
+      height: var(--wap-fi-control-h) !important;
+      min-height: var(--wap-fi-control-h) !important;
+      padding-inline: 15px !important;
+      font-size: 14px !important;
+      font-weight: 500 !important;
+      display: inline-flex !important;
+      align-items: center !important;
+      justify-content: center !important;
+      line-height: 1 !important;
+      border-radius: 6px !important;
+    }
   }
 
   @media (max-width: 520px) {
@@ -176,7 +189,7 @@
   }
 
   // Chevron: .wap-admin-pages reset removed Ant’s negative margin — ensure center (belt-and-suspenders for this page)
-  #website-accessibility-admin .wap-admin-pages .wap-fixed-issues .ant-select .ant-select-arrow {
+  .ant-select .ant-select-arrow {
     top: 50% !important;
     margin-top: 0 !important;
     transform: translateY(-50%) !important;
@@ -185,7 +198,7 @@
     justify-content: center !important;
   }
 
-  #website-accessibility-admin .wap-admin-pages .wap-fixed-issues .ant-select .ant-select-arrow .anticon {
+  .ant-select .ant-select-arrow .anticon {
     display: inline-flex !important;
     align-items: center !important;
     justify-content: center !important;
@@ -228,8 +241,7 @@
   }
 
   // allowClear → className lives on .ant-input-affix-wrapper; inner .ant-input height alone does not size the row
-  .wap-fixed-issues__toolbar .wap-fixed-issues__search.ant-input-affix-wrapper,
-  #website-accessibility-admin .wap-fixed-issues__toolbar .wap-fixed-issues__search.ant-input-affix-wrapper {
+  .wap-fixed-issues__toolbar .wap-fixed-issues__search.ant-input-affix-wrapper {
     min-width: 0 !important;
     width: auto;
     max-width: min(220px, 100%);
@@ -413,16 +425,16 @@
   }
 
   // Toolbar “Remove…” dropdown trigger — same compact height as other controls
-  #website-accessibility-admin .wap-fixed-issues__bulk-remove-dropdown .ant-dropdown-menu {
+  @at-root #website-accessibility-admin .wap-fixed-issues__bulk-remove-dropdown .ant-dropdown-menu {
     min-width: 196px !important;
     padding: 4px !important;
   }
 
   // Ant Design ≥5 maps `danger` to color tokens + outlined variant — override those explicitly so rest & hover stay consistent.
-  #website-accessibility-admin .wap-fixed-issues__toolbar .wap-fixed-issues__bulk-remove-trigger.ant-btn.ant-btn-variant-outlined.ant-btn-color-dangerous {
-    height: var(--wap-fi-control-h) !important;
-    min-height: var(--wap-fi-control-h) !important;
-    max-height: var(--wap-fi-control-h) !important;
+  .wap-fixed-issues__toolbar .wap-fixed-issues__bulk-remove-trigger.ant-btn.ant-btn-variant-outlined.ant-btn-color-dangerous {
+    height: 36px !important;
+    min-height: 36px !important;
+    max-height: 36px !important;
     padding-block: 0 !important;
     padding-inline: 8px !important;
     border-radius: 5px !important;
@@ -538,7 +550,7 @@
   }
 
   /* Keep legacy/alternate Button class stacks working if Ant changes names */
-  #website-accessibility-admin .wap-fixed-issues__toolbar .wap-fixed-issues__bulk-remove-trigger.ant-btn.ant-btn-dangerous.ant-btn-variant-outlined {
+  .wap-fixed-issues__toolbar .wap-fixed-issues__bulk-remove-trigger.ant-btn.ant-btn-dangerous.ant-btn-variant-outlined {
     &:not(:disabled):not(.ant-btn-disabled) {
       border-color: #d4d4d4 !important;
       color: #404040 !important;
@@ -809,7 +821,7 @@
     min-width: 12px;
   }
 
-  #website-accessibility-admin .wap-fixed-issues__minimal-delete-btn.ant-btn {
+  .wap-fixed-issues__minimal-delete-btn.ant-btn {
     flex-shrink: 0;
     align-self: flex-start;
     margin-top: 1px;
@@ -1212,7 +1224,7 @@
     word-break: break-word;
   }
 
-  #website-accessibility-admin .wap-fixed-issues__severity.ant-tag {
+  .wap-fixed-issues__severity.ant-tag {
     margin: 0;
     font-size: 11px;
     line-height: 1.2;
@@ -1448,7 +1460,7 @@
     border-top: 1px solid #f1f5f9;
   }
 
-  #website-accessibility-admin .wap-fixed-issues__item-actions .ant-btn {
+  .wap-fixed-issues__item-actions .ant-btn {
     height: var(--wap-fi-control-h) !important;
     min-height: var(--wap-fi-control-h) !important;
     padding: 0 12px !important;
@@ -1460,13 +1472,13 @@
     justify-content: center !important;
   }
 
-  #website-accessibility-admin .wap-fixed-issues__item-actions .ant-btn.ant-btn-icon-only {
+  .wap-fixed-issues__item-actions .ant-btn.ant-btn-icon-only {
     width: var(--wap-fi-control-h) !important;
     min-width: var(--wap-fi-control-h) !important;
     padding: 0 !important;
   }
 
-  #website-accessibility-admin .wap-fixed-issues__item-actions .ant-btn .anticon {
+  .wap-fixed-issues__item-actions .ant-btn .anticon {
     display: inline-flex;
     align-items: center;
     justify-content: center;
@@ -1482,7 +1494,7 @@
     margin-top: 15px;
   }
 
-  #website-accessibility-admin .wap-fixed-issues__page-btn.ant-btn {
+  .wap-fixed-issues__page-btn.ant-btn {
     height: var(--wap-fi-control-h) !important;
     min-height: var(--wap-fi-control-h) !important;
     border-radius: 6px;

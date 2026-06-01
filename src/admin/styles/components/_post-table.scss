@@ -29,7 +29,7 @@
     }
 
     .ant-input-affix-wrapper {
-        padding: 8px 12px;
+        padding: 6px 12px;
 
         input {
             border: 0 !important;
@@ -81,7 +81,13 @@
             }
 
             .ant-btn {
-                height: 40px;
+                height: 36px;
+                min-height: 36px;
+                padding-inline: 14px;
+                display: inline-flex;
+                align-items: center;
+                justify-content: center;
+                line-height: 1;
             }
         }
     }
@@ -128,7 +134,13 @@
             }
 
             .ant-btn {
-                height: 40px;
+                height: 36px;
+                min-height: 36px;
+                padding-inline: 14px;
+                display: inline-flex;
+                align-items: center;
+                justify-content: center;
+                line-height: 1;
             }
         }
     }
