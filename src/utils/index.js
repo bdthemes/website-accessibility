@@ -1,19 +1,8 @@
 import { __ } from "@wordpress/i18n";
 import GetStartedPreset from "../admin/components/preset-get-started";
 import PanelCustomizationPreset from "../admin/components/preset-panel-customization";
-import features from "./features";
-import panelItems from "./panel-items";
-import isScreenReaderActive from "./is-screenreader-active";
-import defaultProfiles from "./profiles";
-import { getCookie, setCookie, removeCookie } from "./cookie-manager";
-import useBrowserKey from "./use-browser-key";
-import useDrawerScrollControl from "./use-drawer-scroll-control";
 
-
-export const getSiteLanguage = () => {
-    const siteLanguage = window?.websiteAccessibility?.siteLanguage || "en-US";
-    return siteLanguage.split("-")[0];
-};
+export { getSiteLanguage, helpers } from "./helpers";
 
 export const locationOptions = [
     {
@@ -66,15 +55,3 @@ export const archivePages = [
     { label: "404 Page", value: "404" },
     { label: "Attachment Page", value: "attachment" },
 ];
-
-export const helpers = {
-    features,
-    panelItems,
-    isScreenReaderActive,
-    defaultProfiles,
-    getCookie,
-    setCookie,
-    removeCookie,
-    useBrowserKey,
-    useDrawerScrollControl,
-};

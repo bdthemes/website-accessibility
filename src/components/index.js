@@ -39,7 +39,7 @@ import WapTabs from './wap-tabs';
 import WapUpload from './wap-upload';
 import './styles/main.scss';
 
-import { helpers } from '../utils';
+import { helpers } from '../utils/helpers';
 
 window.wapComponents = {
     AccessibilityProfiles,

@@ -1,5 +1,5 @@
 import accessibilityManager from "../../accessibilty-manager";
-import { getSiteLanguage } from "../../utils";
+import { getSiteLanguage } from "../../utils/helpers";
 
 export const initialState = {
     currentProfile: null,
