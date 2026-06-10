@@ -1,4 +1,19 @@
 import { useState, useEffect, useMemo } from "@wordpress/element";
+import { __, sprintf } from "@wordpress/i18n";
+
+export function getWhiteLabelPanelFooterText(brandDisplayName) {
+	const defaultBrand = __("One Accessibility", "website-accessibility");
+	const name =
+		typeof brandDisplayName === "string" && brandDisplayName.trim()
+			? brandDisplayName.trim()
+			: defaultBrand;
+
+	return sprintf(
+		/* translators: %s: plugin or white-label brand name */
+		__("Powered by %s", "website-accessibility"),
+		name
+	);
+}
 
 export function getWhiteLabelPanelIconUrls() {
 	if (typeof window === "undefined") {
