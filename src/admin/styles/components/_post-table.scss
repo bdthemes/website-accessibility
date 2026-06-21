@@ -11,6 +11,9 @@
 .wap-post-table__search-wrap {
     flex: 1;
     min-width: 0;
+    input {
+        outline: none !important;
+    }
 }
 
 .wap-post-table__extra {
