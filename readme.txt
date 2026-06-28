@@ -4,7 +4,7 @@ Tags:              accessibility, a11y, wcag, ada-compliance, screen-reader
 Requires at least: 6.1
 Tested up to:      7.0
 Requires PHP:      7.4
-Stable tag:        1.3.13
+Stable tag:        1.3.14
 License:           GPL-2.0-or-later
 License URI:       https://www.gnu.org/licenses/gpl-2.0.html
 
@@ -15,6 +15,8 @@ Make your site accessible to everyone with advanced tools, WCAG compliance, and 
 **Make Your Website Accessible to Everyone with One Accessibility Website Accessibility Plugin**
 
 In today's digital world, creating inclusive web experiences isn't just good practice—it's essential. **One Accessibility Website Accessibility** is a comprehensive WordPress plugin designed to help website owners, developers, and businesses effortlessly achieve WCAG 2.1, ADA, and Section 508 compliance while providing an exceptional user experience for visitors with diverse accessibility needs.
+
+**[Try Live Demo](https://try.bdthemes.com/)** | **[Get One Accessibility Pro](https://oneaccessibility.com/)** | **[Read Documentation](https://bdthemes.com/all-knowledge-base-of-one-accessibility/)**
 
 https://youtu.be/4w8lmkMgt9M?si=Z7gvhREYTVML7f1V
 
@@ -196,6 +198,9 @@ This plugin uses the following open-source libraries and third-party tools. We a
 - [OpenDyslexic Font](https://opendyslexic.org/) – Open-source font designed to increase readability for readers with dyslexia (SIL Open Font License)
 
 == Changelog ==
+
+= 1.3.14 – June 28, 2026 =
+* Improvement: Enhanced system performance and stability.
 
 = 1.3.13 – June 21, 2026 =
 * Improvement: Dashboard search field design issue fixed and UI improved for a better user experience.
