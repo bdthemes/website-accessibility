@@ -16,7 +16,8 @@
 		"*.php"
 	],
 	"scripts": {
-		"start": "wp-scripts start",
+		"start": "wp-scripts build --watch",
+		"start:hot": "wp-scripts start",
 		"build": "wp-scripts build",
 		"packages-update": "wp-scripts packages-update",
 		"make-pot": "wp i18n make-pot . languages/website-accessibility.pot --exclude=node_modules,vendor,src",

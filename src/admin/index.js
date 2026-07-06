@@ -35,8 +35,19 @@ const Admin = () => {
     );
 };
 
-// Initialize only on our plugin's admin pages
-const appContainer = document.getElementById('website-accessibility-admin');
-if (appContainer && !appContainer.classList.contains('websac-lic-admin')) {
+// Initialize only on our plugin's admin pages (wait for shared components bundle).
+const mountAdminApp = () => {
+    const appContainer = document.getElementById('website-accessibility-admin');
+    if (!appContainer || appContainer.classList.contains('websac-lic-admin')) {
+        return;
+    }
+
+    if (!window.wapComponents) {
+        window.requestAnimationFrame(mountAdminApp);
+        return;
+    }
+
     createRoot(appContainer).render(<Admin />);
-}
+};
+
+mountAdminApp();

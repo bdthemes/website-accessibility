@@ -195,6 +195,15 @@ class Enqueue {
         $version            = $admin_assets['version'] ?? WEBSAC_VERSION;
         $code_editor_bundle = [];
 
+        /** Shared toolbar components must load before the admin SPA (sets window.wapComponents / wapHelpers). */
+        if (
+            preg_match('/website-accessibility/', (string) $hook_suffix) &&
+            wp_script_is('wap-accessibility-components', 'registered') &&
+            ! in_array('wap-accessibility-components', $dependencies, true)
+        ) {
+            $dependencies[] = 'wap-accessibility-components';
+        }
+
         /** WordPress CodeMirror wrapper: load core `code-editor` before the SPA bundle. */
         if (preg_match('/website-accessibility/', (string) $hook_suffix) && function_exists('wp_enqueue_code_editor')) {
             $code_editor_settings = wp_enqueue_code_editor([

@@ -6,7 +6,7 @@ import { useBrandDisplayName, useWhiteLabelBrandingEnabled } from '../../utils/w
 import { useProSettingsTour } from '../context/pro-settings-tour-context';
 import { useLicense } from '../context/LicenseContext';
 
-const DOCS_URL = 'https://bdthemes.com/all-knowledge-base-of-one-accessibility/';
+const DOCS_URL = 'https://bdthemes.com/knowledge-base/one-accessibility/';
 const SUPPORT_URL = 'https://bdthemes.com/contact/';
 
 const AboutInfo = () => {
