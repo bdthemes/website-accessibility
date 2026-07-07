@@ -4,7 +4,7 @@ Tags:              accessibility, a11y, wcag, ada-compliance, screen-reader
 Requires at least: 6.1
 Tested up to:      7.0
 Requires PHP:      7.4
-Stable tag:        1.3.15
+Stable tag:        1.3.16
 License:           GPL-2.0-or-later
 License URI:       https://www.gnu.org/licenses/gpl-2.0.html
 
@@ -198,6 +198,13 @@ This plugin uses the following open-source libraries and third-party tools. We a
 - [OpenDyslexic Font](https://opendyslexic.org/) – Open-source font designed to increase readability for readers with dyslexia (SIL Open Font License)
 
 == Changelog ==
+
+= 1.3.16 – July XXXXX, 2026 =
+* Fixed: Resolved Quick Tour overlay/shadow layering issue in preset customization preview.
+* Improvement: Added unit-based padding controls (px) for Header and Panel settings with improved input behavior and labels.
+* Improvement: Refined preset editor UI consistency (field alignment, select arrow alignment, control heights, helper text spacing, and switch alignment).
+* New: Added Profiles Items controls to match Features (Hide Item Icons, Hide Item Labels, Columns, and Layout) with live preview support.
+* Improvement: Updated Items layout naming from Default/Inline to Block/Inline with backward-compatible value handling.
 
 = 1.3.15 – July 06, 2026 =
 * Improvement: Updated the plugin info link.
