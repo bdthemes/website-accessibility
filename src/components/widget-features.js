@@ -3,6 +3,7 @@ import { useMemo, useRef, useState, useCallback, useLayoutEffect } from "@wordpr
 import { __ } from "@wordpress/i18n";
 import { InfoCircleOutlined } from "@ant-design/icons";
 import { getFeatureCategories, getFeatureStateIndex } from "../utils/feature-categories";
+import { normalizeItemLayout } from "../utils/item-layout";
 
 /** Single-line label + ellipsis; full text scrolls on hover when overflow (see _accessibility-profiles.scss pattern) */
 function WidgetFeatureItem({
@@ -159,7 +160,9 @@ const WidgetFeatures = ({
 	const { items } = value;
 	const featureItem = items.find((item) => item.slug === "features");
 	const attributes = featureItem?.attributes || {};
-	const layout = isProActive && attributes?.layout === "inline" ? "inline" : "default";
+	const layout = isProActive
+		? normalizeItemLayout(attributes?.layout, "block")
+		: "block";
 	const tooltipPosition = isProActive ? (attributes?.tooltipPosition || "topLeft") : "topLeft";
 	const featureColumns = Math.min(6, Math.max(1, Number(attributes?.columns) || 2));
 	const featureColumnWidth = `${100 / featureColumns}%`;

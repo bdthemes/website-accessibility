@@ -176,7 +176,8 @@
 		min-width: 0;
 		overflow: hidden;
 
-		&--default {
+		&--default,
+		&--block {
 			width: 100%;
 			text-align: center;
 		}
@@ -225,7 +226,8 @@
 		}
 	}
 
-	&__item-wrap--default {
+	&__item-wrap--default,
+	&__item-wrap--block {
 		.wap-widget-features__feature-btn {
 			flex-direction: column;
 			align-items: center;

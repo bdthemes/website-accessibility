@@ -51,6 +51,14 @@
         padding: 0;
     }
 
+    &__description {
+        display: block;
+        margin-top: 8px;
+        font-size: 11px !important;
+        line-height: 1.45;
+        color: #9ca3af !important;
+    }
+
     &--inline {
         .wap-control-wrapper__head {
             width: 100%;

@@ -39,6 +39,8 @@ const panelItems = [
                 "seizure",
                 "adhd"
             ],
+            layout: 'inline',
+            columns: 2,
         }
     },
     {
@@ -48,7 +50,7 @@ const panelItems = [
         active: true,
         close: true,
         attributes: {
-            layout: 'default',
+            layout: 'block',
             tooltipPosition: 'topLeft',
             columns: 2,
             widgets: [

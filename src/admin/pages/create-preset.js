@@ -86,7 +86,7 @@ const CreatePreset = () => {
   return (
     <div className="wap-preset-editor">
       <PresetEditorPreview />
-      <div className="wap-preset-editor-content" data-tour="wap-tour-preset-editor">
+      <div className="wap-preset-editor-content">
         <WapCard className='wap-header-card'>
           <Title level={2} className='wap-header-card-title'>
             {__('Create New Preset', 'website-accessibility')}

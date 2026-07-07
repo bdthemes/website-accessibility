@@ -66,19 +66,17 @@
         transition: padding 0.24s ease, max-width 0.24s ease;
     }
 
-    @media (min-width: 1280px) {
-        &.wap-preset-editor--preview-right.wap-preset-editor--preview-overlap {
-            .wap-preset-editor-content,
-            .wap-preset-form-actions {
-                padding-right: var(--wap-preview-overlap-right-pad, 0px);
-            }
+    &.wap-preset-editor--preview-right.wap-preset-editor--preview-overlap {
+        .wap-preset-editor-content,
+        .wap-preset-form-actions {
+            padding-right: var(--wap-preview-overlap-right-pad, 0px);
         }
+    }
 
-        &.wap-preset-editor--preview-left.wap-preset-editor--preview-overlap {
-            .wap-preset-editor-content,
-            .wap-preset-form-actions {
-                padding-left: var(--wap-preview-overlap-left-pad, 0px);
-            }
+    &.wap-preset-editor--preview-left.wap-preset-editor--preview-overlap {
+        .wap-preset-editor-content,
+        .wap-preset-form-actions {
+            padding-left: var(--wap-preview-overlap-left-pad, 0px);
         }
     }
 
@@ -88,7 +86,7 @@
         .wap-button-style-preset__preview-btn {
             position: fixed;
             pointer-events: auto;
-            z-index: 1000002;
+            z-index: 1005200;
         }
 
         .wap-button-style-preset__preview-btn.top-right {
@@ -102,7 +100,8 @@
         }
 
         .wap-preset-editor__preview-drawer-root {
-            z-index: 1000000 !important;
+            // Above react-joyride overlay/spotlight (z-index 1005000) so tour dimmer does not cover the panel.
+            z-index: 1005100 !important;
         }
 
         .wap-preset-editor__preview-drawer-root .ant-drawer-content-wrapper {

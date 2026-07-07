@@ -2,6 +2,7 @@ import { useMemo } from '@wordpress/element';
 import { useSelect, useDispatch } from '@wordpress/data';
 import { STORE_NAME } from '../store';
 import ControlWrapper from '../components/control-wrapper';
+import PanelItemsSettings from '../components/panel-items-settings';
 import { __ } from '@wordpress/i18n';
 
 
@@ -130,6 +131,12 @@ const ProfilesSettings = () => {
                 </div>
             </ControlWrapper>
 
+            <PanelItemsSettings
+                attributes={attributes}
+                updateAttr={updateAttr}
+                showTooltip={false}
+                defaultLayout="inline"
+            />
         </>
     );
 };

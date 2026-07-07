@@ -1,10 +1,10 @@
-const ControlWrapper = ({ children, label, required, tooltip, noLabel = false, description = '', inline = false }) => {
+const ControlWrapper = ({ children, label, required, tooltip, noLabel = false, description = '', inline = false, className = '' }) => {
     const { WapFlex, WapTypography, WapTooltip } = window?.wapComponents;
     const normalizedLabel = typeof label === "string" ? label.trim() : "";
 
     return (
         <div
-            className={`wap-control-wrapper${inline ? ' wap-control-wrapper--inline' : ''}`}
+            className={`wap-control-wrapper${inline ? ' wap-control-wrapper--inline' : ''}${className ? ` ${className}` : ''}`}
             data-search-control-label={normalizedLabel}
         >
             <WapFlex
@@ -30,7 +30,11 @@ const ControlWrapper = ({ children, label, required, tooltip, noLabel = false, d
             </WapFlex>
             {tooltip && <WapTooltip title={tooltip}></WapTooltip>}
             {!inline && children}
-            {description && <WapTypography.Text type="secondary">{description}</WapTypography.Text>}
+            {description && (
+                <WapTypography.Text type="secondary" className="wap-control-wrapper__description">
+                    {description}
+                </WapTypography.Text>
+            )}
         </div>
     );
 };

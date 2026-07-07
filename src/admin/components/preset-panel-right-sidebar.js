@@ -1,6 +1,7 @@
 import { __ } from "@wordpress/i18n";
 import ControlWrapper from "./control-wrapper";
 import ColorPicker from "../controls/color-picker";
+import SpacingInput from "../controls/spacing-input";
 import { usePresetPanelWrapper } from "./preset-panel-wrapper-utils";
 
 const PresetPanelRightSidebar = () => {
@@ -47,10 +48,10 @@ const PresetPanelRightSidebar = () => {
 						/>
 					</ControlWrapper>
 					<ControlWrapper label={__("Padding", "website-accessibility")}>
-						<WapInput
+						<SpacingInput
 							value={wrapper.padding || ""}
-							onChange={(e) => handleWrapperChange("padding", e.target.value)}
-							placeholder="e.g., 20px"
+							onChange={(nextValue) => handleWrapperChange("padding", nextValue)}
+							placeholder="20"
 						/>
 					</ControlWrapper>
 				</div>

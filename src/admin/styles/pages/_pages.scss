@@ -44,13 +44,6 @@
         .ant-select-selector {
             min-height: 40px;
         }
-
-        // Ant Design centers the chevron with top:50% + negative margin-top; margin-top:0 alone breaks vertical centering
-        .ant-select-arrow {
-            top: 50% !important;
-            margin-top: 0 !important;
-            transform: translateY(-50%) !important;
-        }
     }
 
 
