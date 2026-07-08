@@ -4,7 +4,7 @@ import { __ } from '@wordpress/i18n';
 import { useLicense } from '../context/LicenseContext';
 
 const API_NAMESPACE = '/sigmally/v1';
-const DOCS_URL = 'https://bdthemes.com/all-knowledge-base-of-one-accessibility/';
+const DOCS_URL = 'https://bdthemes.com/knowledge-base/one-accessibility/';
 
 const ToolsBackup = () => {
 	const { WapButton, WapMessage, WapCard, WapTypography } = window?.wapComponents;
