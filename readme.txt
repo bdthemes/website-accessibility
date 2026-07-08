@@ -199,7 +199,7 @@ This plugin uses the following open-source libraries and third-party tools. We a
 
 == Changelog ==
 
-= 1.3.16 – July XXXXX, 2026 =
+= 1.3.16 – July 08, 2026 =
 * Fixed: Resolved Quick Tour overlay/shadow layering issue in preset customization preview.
 * Improvement: Added unit-based padding controls (px) for Header and Panel settings with improved input behavior and labels.
 * Improvement: Refined preset editor UI consistency (field alignment, select arrow alignment, control heights, helper text spacing, and switch alignment).
