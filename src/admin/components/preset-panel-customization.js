@@ -134,7 +134,7 @@ const PanelCustomizationPreset = () => {
         },
     ];
     return (
-        <div className="wap-panel-customization-card">
+        <div className="wap-panel-customization-card" data-tour="wap-tour-preset-editor">
             <div className="wap-panel-customization">
                 {topLevelCollapseItems.map((collapseItem) => (
                     <WapCollapse

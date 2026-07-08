@@ -41,6 +41,24 @@
 		align-items: center;
 		gap: 5px;
 		cursor: pointer;
+
+		&--default,
+		&--block {
+			flex-direction: column;
+			align-items: center;
+			justify-content: center;
+			text-align: center;
+			gap: 8px;
+		}
+
+		&--inline {
+			flex-direction: row;
+			align-items: center;
+			justify-content: flex-start;
+			text-align: left;
+			gap: 10px;
+		}
+
 		&.wap-accessibility-profiles__item--active {
 			box-shadow: 0 0 0 2px #1677ff, 0 2px 8px rgba(22, 119, 255, 0.25);
 		}
@@ -70,6 +88,17 @@
 		color: var(--wap-card-text, #222);
 		font-weight: 500;
 		line-height: 1.25;
+
+		&--default,
+		&--block {
+			width: 100%;
+			text-align: center;
+		}
+
+		&--inline {
+			flex: 1;
+			text-align: left;
+		}
 	}
 
 	&__item-label-text {

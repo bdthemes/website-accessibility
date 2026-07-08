@@ -3,10 +3,11 @@ import ControlWrapper from "../components/control-wrapper";
 import { useSelect, useDispatch } from "@wordpress/data";
 import { STORE_NAME } from "../store";
 import ColorPicker from "../controls/color-picker";
+import SpacingInput from "../controls/spacing-input";
 import { useLicense } from "../context/LicenseContext";
 
 const HeaderSettings = () => {
-    const { WapInput, WapSwitch, WapBadge, WapSelect, WapCard, WapRow, WapCol } = window?.wapComponents;
+    const { WapSwitch, WapBadge, WapCard } = window?.wapComponents;
     const { presetsFormData } = useSelect((select) =>
         select(STORE_NAME).getPresetsFormData(),
     );
@@ -73,11 +74,18 @@ const HeaderSettings = () => {
                         />
                     </ControlWrapper>
 
-                    <ControlWrapper label={__("Padding", "website-accessibility")}>
-                        <WapInput
+                    <ControlWrapper
+                        className="wap-control-wrapper--full"
+                        label={__("Padding", "website-accessibility")}
+                        description={__(
+                            "First value sets top and bottom spacing; second sets left and right.",
+                            "website-accessibility",
+                        )}
+                    >
+                        <SpacingInput
+                            mode="axis"
                             value={attributes.padding}
-                            onChange={(e) => updateAttr({ padding: e.target.value })}
-                            placeholder="10px 20px"
+                            onChange={(nextValue) => updateAttr({ padding: nextValue })}
                         />
                     </ControlWrapper>
                 </div>

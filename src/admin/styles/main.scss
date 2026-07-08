@@ -9,6 +9,70 @@
     #ehe-admin-cb, .notice, .error {
         display: none !important;
     }
+
+    // Ant Select chevron — match 40px control height on root + selector (antd defaults to 32px).
+    .ant-select {
+        position: relative;
+        width: 100%;
+
+        &.ant-select-single:not(.ant-select-customize-input) {
+            height: 40px;
+
+            .ant-select-selector {
+                height: 40px !important;
+                display: flex;
+                align-items: center;
+            }
+
+            .ant-select-selection-item,
+            .ant-select-selection-placeholder {
+                line-height: 38px !important;
+            }
+        }
+
+        &.ant-select-multiple {
+            min-height: 40px;
+
+            .ant-select-selector {
+                min-height: 40px !important;
+                display: flex;
+                align-items: center;
+            }
+        }
+
+        .ant-select-arrow,
+        .ant-select-clear {
+            top: 50% !important;
+            inset-block-start: 50% !important;
+            bottom: auto !important;
+            margin-top: -6px !important;
+            margin-block-start: -6px !important;
+            margin-bottom: 0 !important;
+            height: 12px !important;
+            transform: none !important;
+            display: inline-flex !important;
+            align-items: center !important;
+            justify-content: center !important;
+            line-height: 1 !important;
+            pointer-events: none;
+
+            .anticon {
+                display: inline-flex !important;
+                align-items: center !important;
+                justify-content: center !important;
+                line-height: 1 !important;
+                vertical-align: middle !important;
+
+                > svg {
+                    vertical-align: middle !important;
+                }
+            }
+        }
+
+        .ant-select-clear {
+            pointer-events: auto;
+        }
+    }
     // .ant-btn {
     //     height: 42px;
     // }
@@ -31,6 +95,33 @@
         &:hover {
             border-color: #007bff;
             box-shadow: 0 0 0 1px #007bff;
+        }
+    }
+
+    .ant-select.ant-select-single:not(.ant-select-customize-input) {
+        height: 40px;
+    }
+
+    .ant-select.ant-select-multiple {
+        min-height: 40px;
+    }
+
+    // Inner search input inside Ant Select — no extra border (outer selector only).
+    .ant-select .ant-input,
+    .ant-select .ant-select-selection-search-input,
+    .ant-select .ant-select-selection-search-input input {
+        min-height: 0 !important;
+        height: auto !important;
+        border: none !important;
+        border-radius: 0 !important;
+        box-shadow: none !important;
+        outline: none !important;
+        background: transparent !important;
+
+        &:hover,
+        &:focus {
+            border: none !important;
+            box-shadow: none !important;
         }
     }
 }

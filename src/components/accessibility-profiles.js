@@ -1,9 +1,10 @@
 import { useMemo, useRef, useState } from "@wordpress/element";
 import clsx from "clsx";
 import { __ } from "@wordpress/i18n";
+import { normalizeItemLayout } from "../utils/item-layout";
 
 /* -------------------- 🔹 ProfileItem Component -------------------- */
-const ProfileItem = ({ profile, isActive, handleClick, attributes }) => {
+const ProfileItem = ({ profile, isActive, handleClick, hideItemIcons, hideItemLabels, layout }) => {
 	const labelWrapRef = useRef(null);
 	const [labelShift, setLabelShift] = useState("0px");
 
@@ -20,7 +21,7 @@ const ProfileItem = ({ profile, isActive, handleClick, attributes }) => {
 
 	return (
 		<div
-			className={clsx("wap-accessibility-profiles__item", {
+			className={clsx("wap-accessibility-profiles__item", `wap-accessibility-profiles__item--${layout}`, {
 				"wap-accessibility-profiles__item--active": isActive,
 			})}
 			onClick={() => handleClick(profile)}
@@ -28,15 +29,15 @@ const ProfileItem = ({ profile, isActive, handleClick, attributes }) => {
 			onMouseLeave={clearLabelOverflow}
 			style={{ cursor: "pointer", position: "relative" }}
 		>
-			{!attributes?.hideBodyAvatar && profile.icon && (
+			{!hideItemIcons && profile.icon && (
 				<span className="wap-accessibility-profiles__item-icon">
 					{profile.icon}
 				</span>
 			)}
-			{!attributes?.hideBodyProfileName && (
+			{!hideItemLabels && (
 				<div
 					ref={labelWrapRef}
-					className={clsx("wap-accessibility-profiles__item-label", {
+					className={clsx("wap-accessibility-profiles__item-label", `wap-accessibility-profiles__item-label--${layout}`, {
 						"wap-accessibility-profiles__item-label--can-scroll": labelShift !== "0px",
 					})}
 					style={{ "--wap-label-shift": labelShift }}
@@ -55,7 +56,10 @@ const ProfilesGrid = ({
 	profiles,
 	currentProfile,
 	handleClick,
-	attributes,
+	hideItemIcons,
+	hideItemLabels,
+	layout,
+	profileColumnWidth,
 }) => {
 	const { WapRow, WapCol } = window?.wapComponents;
 	return (
@@ -63,12 +67,23 @@ const ProfilesGrid = ({
 			{profiles.map((profile) => {
 				const isActive = String(currentProfile?.id) === String(profile.id);
 				return (
-					<WapCol span={12} key={profile.id}>
+					<WapCol
+						key={profile.id}
+						xs={24}
+						sm={12}
+						md={24}
+						lg={24}
+						xl={24}
+						flex={`0 0 ${profileColumnWidth}`}
+						style={{ maxWidth: profileColumnWidth }}
+					>
 						<ProfileItem
 							profile={profile}
 							isActive={isActive}
 							handleClick={handleClick}
-							attributes={attributes}
+							hideItemIcons={hideItemIcons}
+							hideItemLabels={hideItemLabels}
+							layout={layout}
 						/>
 					</WapCol>
 				);
@@ -85,10 +100,18 @@ const AccessibilityProfiles = ({
 	accessibilityDispatch,
 }) => {
 	const features = window.wapHelpers?.features || [];
+	const isProActive = window?.websacPro?.isProActive || false;
 	const { items } = value;
 	const profileItem = items.find((item) => item.slug === "profiles");
 	const attributes = profileItem?.attributes || {};
 	const profiles = attributes.profiles || [];
+	const hideItemIcons = attributes?.hideItemIcons ?? attributes?.hideBodyAvatar ?? false;
+	const hideItemLabels = attributes?.hideItemLabels ?? attributes?.hideBodyProfileName ?? false;
+	const layout = isProActive
+		? normalizeItemLayout(attributes?.layout, "inline")
+		: "inline";
+	const profileColumns = Math.min(6, Math.max(1, Number(attributes?.columns) || 2));
+	const profileColumnWidth = `${100 / profileColumns}%`;
 	const collapseTitle = __("Accessibility Profiles", "website-accessibility");
 	const { isScreenReaderActive = (() => false), screenReader = () => null } = window?.wapHelpers;
 
@@ -216,7 +239,10 @@ const AccessibilityProfiles = ({
 				profiles={selectedProfiles}
 				currentProfile={currentProfile}
 				handleClick={handleProfileClick}
-				attributes={attributes}
+				hideItemIcons={hideItemIcons}
+				hideItemLabels={hideItemLabels}
+				layout={layout}
+				profileColumnWidth={profileColumnWidth}
 			/>
 		</div>
 	);

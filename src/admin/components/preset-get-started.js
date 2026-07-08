@@ -63,12 +63,14 @@ const GetStartedPreset = () => {
         <div className="wap-get-started-preset-card">
             <ControlWrapper label={__('Preset Name', 'website-accessibility')} required>
                 <WapInput
+                    className="wap-get-started-preset-card__input"
                     onChange={(e) => setPresetsFormData({ ...presetsFormData, title: e.target.value })}
                     value={presetsFormData?.title}
                 />
             </ControlWrapper>
             <ControlWrapper label={__('Condition', 'website-accessibility')} required>
                 <WapSelect
+                    className="wap-get-started-preset-card__select"
                     options={locationOptions}
                     onChange={(value) => setPresetsFormData({ ...presetsFormData, preset: { ...presetsFormData.preset, condition: value } })}
                     value={presetsFormData?.preset?.condition}
@@ -76,13 +78,19 @@ const GetStartedPreset = () => {
             </ControlWrapper>
             {
                 presetsFormData?.preset?.condition === 'archive' && (
-                    <ControlWrapper label={__('Specific Archive Page', 'website-accessibility')} required>
+                    <ControlWrapper
+                        className="wap-control-wrapper--full"
+                        label={__('Specific Archive Page', 'website-accessibility')}
+                        required
+                    >
                         <WapSelect
+                            className="wap-get-started-preset-card__select"
                             options={archivePages}
                             onChange={(value) => setPresetsFormData({ ...presetsFormData, preset: { ...presetsFormData.preset, specificArchive: value } })}
                             value={presetsFormData?.preset?.specificArchive}
                             placeholder={__('keep blank for all archive pages', 'website-accessibility')}
                             mode="multiple"
+                            maxTagCount="responsive"
                         />
                     </ControlWrapper>
                 )
@@ -90,20 +98,24 @@ const GetStartedPreset = () => {
 
             {
                 presetsFormData?.preset?.condition === 'singular' && (
-                    <>
-                        <ControlWrapper label={__('Specific Posts', 'website-accessibility')} required>
-                            <WapSelect
-                                options={posts}
-                                onChange={(value) => setPresetsFormData({ ...presetsFormData, preset: { ...presetsFormData.preset, specificPosts: value } })}
-                                value={presetsFormData?.preset?.specificPosts}
-                                mode="multiple"
-                                showSearch
-                                filterOption={(input, option) => option?.label.toLowerCase().includes(input.toLowerCase())}
-                                onSearch={(value) => setSearchInput(value)}
-                                placeholder={__('keep blank for all', 'website-accessibility')}
-                            />
-                        </ControlWrapper>
-                    </>
+                    <ControlWrapper
+                        className="wap-control-wrapper--full"
+                        label={__('Specific Posts', 'website-accessibility')}
+                        required
+                    >
+                        <WapSelect
+                            className="wap-get-started-preset-card__select"
+                            options={posts}
+                            onChange={(value) => setPresetsFormData({ ...presetsFormData, preset: { ...presetsFormData.preset, specificPosts: value } })}
+                            value={presetsFormData?.preset?.specificPosts}
+                            mode="multiple"
+                            showSearch
+                            filterOption={false}
+                            onSearch={(value) => setSearchInput(value)}
+                            placeholder={__('keep blank for all', 'website-accessibility')}
+                            maxTagCount="responsive"
+                        />
+                    </ControlWrapper>
                 )
             }
         </div>
