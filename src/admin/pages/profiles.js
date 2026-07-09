@@ -5,6 +5,7 @@ import { useSelect, useDispatch } from '@wordpress/data';
 import { getDefaultProfilesFormData, STORE_NAME } from '../store';
 import ProfilesFallback from '../components/profiles-fallback';
 import { useLicense } from '../context/LicenseContext';
+import { useProfileTour } from '../context/profile-tour-context';
 
 
 const Profiles = () => {
@@ -12,11 +13,13 @@ const Profiles = () => {
   const { Title, Text } = WapTypography;
   const { isProActive } = useLicense();
   const history = useHistory();
+  const { notifyOpenedCreateProfileFromTour } = useProfileTour();
   const profiles = useSelect((select) => select(STORE_NAME).getProfiles());
   const { deleteProfile, setProfilesFormData } = useDispatch(STORE_NAME);
 
   const handleCreateProfile = () => {
     setProfilesFormData(getDefaultProfilesFormData());
+    notifyOpenedCreateProfileFromTour();
     history.push({
       page: 'website-accessibilityfiles-create'
     });
@@ -132,12 +135,14 @@ const Profiles = () => {
             </Text>
           </div>
           <div className="wap-profiles-header__actions">
-            <WapButton type="primary" onClick={handleCreateProfile}>
-              <WapSpace size="small">
-                <span className="dashicons dashicons-plus-alt2" />
-                {__('Add New Profile', 'website-accessibility')}
-              </WapSpace>
-            </WapButton>
+            <span data-tour="wap-tour-profiles-add-new" style={{ display: 'inline-flex' }}>
+              <WapButton type="primary" onClick={handleCreateProfile}>
+                <WapSpace size="small">
+                  <span className="dashicons dashicons-plus-alt2" />
+                  {__('Add New Profile', 'website-accessibility')}
+                </WapSpace>
+              </WapButton>
+            </span>
           </div>
         </div>
       </WapCard>

@@ -8,6 +8,7 @@ import Pages from './pages';
 import AdminLayout from './components/admin-layout';
 import { DashboardTourProvider } from './context/dashboard-tour-context';
 import { ProSettingsTourProvider } from './context/pro-settings-tour-context';
+import { ProfileTourProvider } from './context/profile-tour-context';
 import { register } from '@wordpress/data';
 import store from './store';
 import { LicenseProvider } from './context/LicenseContext';
@@ -25,9 +26,11 @@ const Admin = () => {
             <RouterProvider>
                 <DashboardTourProvider>
                     <ProSettingsTourProvider>
-                        <AdminLayout>
-                            <Pages />
-                        </AdminLayout>
+                        <ProfileTourProvider>
+                            <AdminLayout>
+                                <Pages />
+                            </AdminLayout>
+                        </ProfileTourProvider>
                     </ProSettingsTourProvider>
                 </DashboardTourProvider>
             </RouterProvider>

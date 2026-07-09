@@ -1,10 +1,11 @@
-import { useEffect } from '@wordpress/element';
+import { useCallback, useEffect } from '@wordpress/element';
 import { __ } from '@wordpress/i18n';
 import { useDispatch, useSelect } from '@wordpress/data';
 import { getDefaultProfilesFormData, STORE_NAME } from '../store';
 import { useHistory } from '../router';
 import ProfileForm from '../components/profile-form';
 import ProfileEditorPreview from '../components/profile-editor-preview';
+import { useProfileTour } from '../context/profile-tour-context';
 
 
 const CreateProfiles = () => {
@@ -13,6 +14,7 @@ const CreateProfiles = () => {
     const { profilesFormData } = useSelect((select) => select(STORE_NAME).getProfilesFormData());
     const { setProfilesFormData, createProfile } = useDispatch(STORE_NAME);
     const history = useHistory();
+    const { notifyProfileSavedForTour, registerProfileSaveHandler } = useProfileTour();
 
     useEffect(() => {
         setProfilesFormData(getDefaultProfilesFormData());
@@ -39,19 +41,38 @@ const CreateProfiles = () => {
             ...data,
             features: purifiedFeatures
         };
-    }
+    };
 
-    const handleSave = async () => {
+    const handleSave = useCallback(async () => {
+        if (!profilesFormData.name?.trim()) {
+            return;
+        }
+
         try {
-            await createProfile(purifyFormData(profilesFormData));
+            const profile = await createProfile(purifyFormData(profilesFormData));
+            const profileId = profile?.id ?? profile?.record?.id;
+            const tourHandled = notifyProfileSavedForTour(profileId);
             setProfilesFormData(getDefaultProfilesFormData());
-            history.push({
-                page: 'website-accessibilityfiles'
-            });
+            if (!tourHandled) {
+                history.push({
+                    page: 'website-accessibilityfiles'
+                });
+            }
         } catch (error) {
             console.error(error);
         }
-    }
+    }, [
+        profilesFormData,
+        createProfile,
+        notifyProfileSavedForTour,
+        setProfilesFormData,
+        history,
+    ]);
+
+    useEffect(() => {
+        registerProfileSaveHandler(handleSave);
+        return () => registerProfileSaveHandler(null);
+    }, [handleSave, registerProfileSaveHandler]);
 
     return (
         <div className="wap-create-profiles">
@@ -94,17 +115,19 @@ const CreateProfiles = () => {
                             {__('Cancel', 'website-accessibility')}
                         </WapSpace>
                     </WapButton>
-                    <WapButton
-                        type="primary"
-                        size="large"
-                        onClick={handleSave}
-                        disabled={!profilesFormData.name?.trim()}
-                    >
-                        <WapSpace>
-                            {__('Create Profile', 'website-accessibility')}
-                            <span className='dashicons dashicons-arrow-right-alt' />
-                        </WapSpace>
-                    </WapButton>
+                    <span data-tour="wap-tour-save-profile" style={{ display: 'inline-flex' }}>
+                        <WapButton
+                            type="primary"
+                            size="large"
+                            onClick={handleSave}
+                            disabled={!profilesFormData.name?.trim()}
+                        >
+                            <WapSpace>
+                                {__('Create Profile', 'website-accessibility')}
+                                <span className='dashicons dashicons-arrow-right-alt' />
+                            </WapSpace>
+                        </WapButton>
+                    </span>
                 </WapSpace>
             </div>
         </div>

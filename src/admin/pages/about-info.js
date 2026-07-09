@@ -4,6 +4,7 @@ import { __, sprintf } from '@wordpress/i18n';
 import { useDashboardTour } from '../context/dashboard-tour-context';
 import { useBrandDisplayName, useWhiteLabelBrandingEnabled } from '../../utils/websacData';
 import { useProSettingsTour } from '../context/pro-settings-tour-context';
+import { useProfileTour } from '../context/profile-tour-context';
 import { useLicense } from '../context/LicenseContext';
 
 const DOCS_URL = 'https://bdthemes.com/knowledge-base/one-accessibility/';
@@ -16,6 +17,7 @@ const AboutInfo = () => {
 	const brandDisplayName = useBrandDisplayName();
 	const whiteLabelBrandingEnabled = useWhiteLabelBrandingEnabled();
 	const { startProSettingsTour } = useProSettingsTour();
+	const { startProfileTour } = useProfileTour();
 	const { isProActive, isProPluginActive } = useLicense();
 	const pluginVersion = typeof window !== 'undefined' && window.websacAdmin?.version ? window.websacAdmin.version : '1.3.0';
 
@@ -69,13 +71,22 @@ const AboutInfo = () => {
 							{__('Quick tour', 'website-accessibility')}
 						</button>
 						{isProPluginActive && isProActive && (
-							<button
-								type="button"
-								className="wap-about-info-header__tour wap-about-info-header__tour--pro"
-								onClick={() => startProSettingsTour({ force: true })}
-							>
-								{__('Pro settings tour', 'website-accessibility')}
-							</button>
+							<>
+								<button
+									type="button"
+									className="wap-about-info-header__tour wap-about-info-header__tour--pro"
+									onClick={() => startProSettingsTour({ force: true })}
+								>
+									{__('Pro settings tour', 'website-accessibility')}
+								</button>
+								<button
+									type="button"
+									className="wap-about-info-header__tour wap-about-info-header__tour--pro"
+									onClick={() => startProfileTour({ force: true })}
+								>
+									{__('Profile tour', 'website-accessibility')}
+								</button>
+							</>
 						)}
 					</div>
 				</div>

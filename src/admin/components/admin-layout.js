@@ -5,6 +5,7 @@ import { __ } from '@wordpress/i18n';
 import { useEffect, useState, useMemo } from '@wordpress/element';
 import { useDashboardTour } from '../context/dashboard-tour-context';
 import { useProSettingsTour } from '../context/pro-settings-tour-context';
+import { useProfileTour } from '../context/profile-tour-context';
 import { useLicense } from '../context/LicenseContext';
 import { getBrandDisplayName, useWhiteLabelBrandingEnabled } from '../../utils/websacData';
 import { Layout, Menu } from 'antd';
@@ -82,6 +83,7 @@ const AdminLayout = ({ children }) => {
 	const { isProActive: isLicenseValid, isProPluginActive } = useLicense();
 	const { tryAdvanceTourViaSidebarMenu } = useDashboardTour();
 	const { tryAdvanceProSettingsTourViaSidebarMenu } = useProSettingsTour();
+	const { tryAdvanceProfileTourViaSidebarMenu } = useProfileTour();
 	const hasFixedIssuesPage = !!window?.websacAdmin?.hasFixedIssuesPage;
 	const [wlUiEpoch, setWlUiEpoch] = useState(0);
 
@@ -114,13 +116,16 @@ const AdminLayout = ({ children }) => {
 		if (tryAdvanceProSettingsTourViaSidebarMenu(key)) {
 			return;
 		}
+		if (tryAdvanceProfileTourViaSidebarMenu(key)) {
+			return;
+		}
 		history.push({ page: key });
 	};
 
 	const generalItems = [
 		{ key: 'website-accessibility', icon: <IconGeneral />, label: __('General', 'website-accessibility') },
 		{ key: 'website-accessibility-presets', icon: <IconPresets />, label: <span data-tour="wap-tour-presets-item">{__('Presets', 'website-accessibility')}</span> },
-		{ key: 'website-accessibilityfiles', icon: <IconProfiles />, label: __('Custom Profiles', 'website-accessibility') },
+		{ key: 'website-accessibilityfiles', icon: <IconProfiles />, label: <span data-tour="wap-tour-profiles-item">{__('Custom Profiles', 'website-accessibility')}</span> },
 		{
 			key: 'website-accessibility-settings',
 			icon: <IconSettings />,

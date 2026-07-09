@@ -294,6 +294,11 @@ const store = createReduxStore(STORE_NAME, {
                 });
 
                 await dispatch({ type: 'CREATE_PROFILE', profile });
+                registry.dispatch(coreStore).invalidateResolution('getEntityRecords', [
+                    'postType',
+                    'websac_profile',
+                ]);
+                return profile;
             };
         },
         updateProfile: (id, profileFormData) => {
@@ -322,6 +327,15 @@ const store = createReduxStore(STORE_NAME, {
                 const { deleteEntityRecord } = registry.dispatch('core');
                 const profile = await deleteEntityRecord('postType', 'websac_profile', id, { force: true });
                 await dispatch({ type: 'DELETE_PROFILE', profile });
+            };
+        },
+        refreshProfiles: () => {
+            return async ({ registry }) => {
+                registry.dispatch(coreStore).invalidateResolution('getEntityRecords', [
+                    'postType',
+                    'websac_profile',
+                ]);
+                await registry.resolveSelect(coreStore).getEntityRecords('postType', 'websac_profile');
             };
         },
     },
