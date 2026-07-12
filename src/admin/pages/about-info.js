@@ -66,31 +66,41 @@ const AboutInfo = () => {
 							{__('System information and plugin overview', 'website-accessibility')}
 						</Text>
 					</div>
-					<div className="wap-about-info-header__actions">
-						<button type="button" className="wap-about-info-header__tour" onClick={startTour}>
-							{__('Quick tour', 'website-accessibility')}
-						</button>
-						{isProPluginActive && isProActive && (
-							<>
-								<button
-									type="button"
-									className="wap-about-info-header__tour wap-about-info-header__tour--pro"
-									onClick={() => startProSettingsTour({ force: true })}
-								>
-									{__('Pro settings tour', 'website-accessibility')}
-								</button>
-								<button
-									type="button"
-									className="wap-about-info-header__tour wap-about-info-header__tour--pro"
-									onClick={() => startProfileTour({ force: true })}
-								>
-									{__('Profile tour', 'website-accessibility')}
-								</button>
-							</>
-						)}
-					</div>
 				</div>
 			</WapCard>
+
+			{/* Guided Tours */}
+			<div className="wap-about-info__section wap-about-info__tours">
+				<Title level={5} className="wap-about-info__section-title">
+					{__('Guided Tours', 'website-accessibility')}
+				</Title>
+				<Text type="secondary" className="wap-about-info__section-desc">
+					{__('Take a guided walkthrough to learn how to set up and use the plugin.', 'website-accessibility')}
+				</Text>
+				<div className="wap-about-info__tours-actions">
+					<button type="button" className="wap-about-info-header__tour" onClick={startTour}>
+						{__('Quick tour', 'website-accessibility')}
+					</button>
+					{isProPluginActive && isProActive && (
+						<>
+							<button
+								type="button"
+								className="wap-about-info-header__tour wap-about-info-header__tour--pro"
+								onClick={() => startProSettingsTour({ force: true })}
+							>
+								{__('Pro settings tour', 'website-accessibility')}
+							</button>
+							<button
+								type="button"
+								className="wap-about-info-header__tour wap-about-info-header__tour--pro"
+								onClick={() => startProfileTour({ force: true })}
+							>
+								{__('Custom Profiles create tour', 'website-accessibility')}
+							</button>
+						</>
+					)}
+				</div>
+			</div>
 
 			{/* System Information */}
 			<div className="wap-about-info__section">

@@ -24,42 +24,33 @@
             }
         }
 
-        .wap-about-info-header__actions {
-            display: inline-flex;
-            align-items: center;
-            flex-shrink: 0;
-            justify-self: end;
-            gap: 10px;
+    }
 
-            @media (max-width: 576px) {
-                justify-self: start;
-            }
+    .wap-about-info-header__tour {
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+        min-height: 36px;
+        padding: 0 14px;
+        font-size: 14px;
+        font-weight: 600;
+        white-space: nowrap;
+        text-transform: capitalize;
+        color: #1677ff;
+        background: rgba(22, 119, 255, 0.06);
+        border: 1px solid rgba(22, 119, 255, 0.35);
+        border-radius: 6px;
+        cursor: pointer;
+        transition: background 0.2s, border-color 0.2s;
+
+        &:hover {
+            background: rgba(22, 119, 255, 0.12);
+            border-color: #1677ff;
         }
 
-        .wap-about-info-header__tour {
-            display: inline-flex;
-            align-items: center;
-            justify-content: center;
-            min-height: 36px;
-            padding: 0 14px;
-            font-size: 14px;
-            font-weight: 600;
-            color: #1677ff;
-            background: rgba(22, 119, 255, 0.06);
-            border: 1px solid rgba(22, 119, 255, 0.35);
-            border-radius: 6px;
-            cursor: pointer;
-            transition: background 0.2s, border-color 0.2s;
-
-            &:hover {
-                background: rgba(22, 119, 255, 0.12);
-                border-color: #1677ff;
-            }
-
-            &:focus-visible {
-                outline: 2px solid #1677ff;
-                outline-offset: 2px;
-            }
+        &:focus-visible {
+            outline: 2px solid #1677ff;
+            outline-offset: 2px;
         }
     }
 
@@ -68,6 +59,22 @@
 
         &:first-of-type {
             margin-top: 24px;
+        }
+    }
+
+    // Guided Tours section — button row
+    .wap-about-info__tours-actions {
+        display: flex;
+        flex-wrap: wrap;
+        align-items: center;
+        gap: 10px;
+        margin-top: 16px;
+
+        @media (max-width: 576px) {
+            .wap-about-info-header__tour {
+                flex: 1 1 auto;
+                min-height: 40px;
+            }
         }
     }
 

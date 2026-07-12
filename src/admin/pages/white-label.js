@@ -278,15 +278,99 @@ const WhiteLabelPage = () => {
 	}
 
 	if (!eligible) {
+		const wlFeatures = [
+			{
+				title: __("Custom brand name", "website-accessibility"),
+				desc: __(
+					"Replace “One Accessibility” in the wp-admin menu and settings header with your own agency or client name.",
+					"website-accessibility"
+				),
+			},
+			{
+				title: __("Your logo & icons", "website-accessibility"),
+				desc: __(
+					"Swap the admin menu icon, settings header logo, and the accessibility panel header/footer icons.",
+					"website-accessibility"
+				),
+			},
+			{
+				title: __("Hide license & admin menus", "website-accessibility"),
+				desc: __(
+					"Remove the License entry — or the entire plugin menu — from wp-admin for a clean client hand-off.",
+					"website-accessibility"
+				),
+			},
+			{
+				title: __("Deliver as your own", "website-accessibility"),
+				desc: __(
+					"Present the accessibility toolbar as a native part of your product with no third-party branding.",
+					"website-accessibility"
+				),
+			},
+		];
+
 		return (
 			<div className="wap-settings wap-white-label">
 				<PageHeader
 					title={__("White Label", "website-accessibility")}
 					description={__(
-						"Available on Agency, Extended, Developer, or special WL Pro licenses. Install One Accessibility Pro and activate an eligible license to rebrand the plugin for client delivery.",
+						"Rebrand One Accessibility as your own for client delivery.",
 						"website-accessibility"
 					)}
 				/>
+
+				<WapCard className="wap-settings-row wap-white-label-upsell">
+					<div className="wap-white-label-upsell__head">
+						<span className="wap-white-label-upsell__badge">
+							{__("Pro feature", "website-accessibility")}
+						</span>
+						<Title level={4} className="wap-white-label-upsell__title">
+							{__("Make the plugin truly yours", "website-accessibility")}
+						</Title>
+						<Text type="secondary" className="wap-white-label-upsell__subtitle">
+							{__(
+								"White Label lets agencies and developers rebrand One Accessibility — name, logo, icons, and menus — so it looks like a built-in part of your own product.",
+								"website-accessibility"
+							)}
+						</Text>
+					</div>
+
+					<ul className="wap-white-label-upsell__features">
+						{wlFeatures.map((feature) => (
+							<li key={feature.title} className="wap-white-label-upsell__feature">
+								<span className="wap-white-label-upsell__feature-check" aria-hidden="true">
+									<svg width="16" height="16" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+										<path d="M20 6L9 17L4 12" stroke="currentColor" strokeWidth="2.4" strokeLinecap="round" strokeLinejoin="round" />
+									</svg>
+								</span>
+								<span className="wap-white-label-upsell__feature-text">
+									<span className="wap-white-label-upsell__feature-title">{feature.title}</span>
+									<span className="wap-white-label-upsell__feature-desc">{feature.desc}</span>
+								</span>
+							</li>
+						))}
+					</ul>
+
+					<div className="wap-white-label-upsell__note">
+						<Text type="secondary">
+							{__(
+								"Included with Agency, Extended, Developer, or special WL Pro licenses. Install One Accessibility Pro and activate an eligible license to unlock it.",
+								"website-accessibility"
+							)}
+						</Text>
+					</div>
+
+					<div className="wap-white-label-upsell__cta">
+						<WapButton
+							type="primary"
+							href="https://oneaccessibility.com/pricing"
+							target="_blank"
+							rel="noopener noreferrer"
+						>
+							{__("View Pro pricing", "website-accessibility")}
+						</WapButton>
+					</div>
+				</WapCard>
 			</div>
 		);
 	}
