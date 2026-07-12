@@ -3,11 +3,18 @@ import { useSelect, useDispatch } from '@wordpress/data';
 import { STORE_NAME } from '../store';
 import ControlWrapper from '../components/control-wrapper';
 import PanelItemsSettings from '../components/panel-items-settings';
+import { useProfileTour } from '../context/profile-tour-context';
+import { useLocation } from '../router';
 import { __ } from '@wordpress/i18n';
 
 
 const ProfilesSettings = () => {
     const { WapSwitch } = window?.wapComponents;
+    const location = useLocation();
+    const presetId =
+        location?.params?.page === 'website-accessibility-presets-edit'
+            ? location?.params?.id
+            : null;
     const profilesRaw = useSelect((select) => {
         const { getProfiles } = select(STORE_NAME);
         return getProfiles(true);
@@ -48,37 +55,59 @@ const ProfilesSettings = () => {
     ), [profilesRaw]);
 
     const { presetsFormData } = useSelect((select) => select(STORE_NAME).getPresetsFormData());
-    const { setPresetsFormData } = useDispatch(STORE_NAME);
+    const { setPresetsFormData, updatePreset, saveEditedPreset } = useDispatch(STORE_NAME);
+    const {
+        tourCreatedProfileId,
+        notifyProfileEnabledInPresetForTour,
+        notifyProfileTourPresetSaved,
+    } = useProfileTour();
     const profileItem = presetsFormData.panel.items.find(item => item.slug === 'profiles');
     const attributes = profileItem?.attributes || {};
 
-    const updateAttr = (updates) => {
+    const buildNextFormData = (nextProfiles) => {
         const updatedItems = presetsFormData.panel.items.map((item) =>
             item.slug === 'profiles'
-                ? { ...item, attributes: { ...attributes, ...updates } }
+                ? { ...item, attributes: { ...attributes, profiles: nextProfiles } }
                 : item
         );
 
-        setPresetsFormData({
+        return {
             ...presetsFormData,
             panel: {
                 ...presetsFormData.panel,
                 items: updatedItems
             }
-        });
+        };
     };
 
     const selectedProfiles = Array.isArray(attributes?.profiles) ? attributes.profiles : [];
 
     const isProfileSelected = (profileId) => selectedProfiles.some((id) => String(id) === String(profileId));
 
-    const toggleProfile = (profileId) => {
+    const toggleProfile = async (profileId) => {
         const isSelected = isProfileSelected(profileId);
         const nextProfiles = isSelected
             ? selectedProfiles.filter((id) => String(id) !== String(profileId))
             : [...selectedProfiles, profileId];
 
-        updateAttr({ profiles: nextProfiles });
+        const nextFormData = buildNextFormData(nextProfiles);
+        setPresetsFormData(nextFormData);
+
+        if (!isSelected) {
+            const tourHandled = notifyProfileEnabledInPresetForTour(profileId);
+            if (tourHandled && presetId) {
+                try {
+                    await updatePreset(presetId, {
+                        title: nextFormData.title,
+                        content: JSON.stringify(nextFormData),
+                    });
+                    await saveEditedPreset(presetId);
+                    notifyProfileTourPresetSaved();
+                } catch (error) {
+                    console.error(error);
+                }
+            }
+        }
     };
 
     return (
@@ -98,6 +127,10 @@ const ProfilesSettings = () => {
                                 <div
                                     key={profile.id}
                                     className={`wap-feature-toggle-card wap-profiles-settings__card${checked ? " wap-feature-toggle-card--active" : ""}`}
+                                    data-profile-id={profile.id}
+                                    {...(tourCreatedProfileId && String(profile.id) === String(tourCreatedProfileId)
+                                        ? { 'data-tour': 'wap-tour-preset-enable-profile' }
+                                        : {})}
                                     role="button"
                                     tabIndex={0}
                                     onClick={() => toggleProfile(profile.id)}
@@ -133,7 +166,21 @@ const ProfilesSettings = () => {
 
             <PanelItemsSettings
                 attributes={attributes}
-                updateAttr={updateAttr}
+                updateAttr={(updates) => {
+                    const updatedItems = presetsFormData.panel.items.map((item) =>
+                        item.slug === 'profiles'
+                            ? { ...item, attributes: { ...attributes, ...updates } }
+                            : item
+                    );
+
+                    setPresetsFormData({
+                        ...presetsFormData,
+                        panel: {
+                            ...presetsFormData.panel,
+                            items: updatedItems
+                        }
+                    });
+                }}
                 showTooltip={false}
                 defaultLayout="inline"
             />

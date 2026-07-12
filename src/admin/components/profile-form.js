@@ -450,7 +450,7 @@ const ProfileForm = ({ formData, onFormChange }) => {
 
     return (
         <div>
-            <WapCard className='wap-profile-form-left-card' title={__('Profile Information', 'website-accessibility')}>
+            <WapCard className='wap-profile-form-left-card' title={__('Profile Information', 'website-accessibility')} data-tour="wap-tour-profile-information">
                 <div className="wap-profile-form-fields">
                     <div className="wap-profile-form-fields__name">
                         <ControlWrapper
@@ -533,7 +533,7 @@ const ProfileForm = ({ formData, onFormChange }) => {
                 </div>
             </WapCard>
 
-            <WapCard title={__('Accessibility Features', 'website-accessibility')} style={{ marginTop: 16 }}>
+            <WapCard title={__('Accessibility Features', 'website-accessibility')} style={{ marginTop: 16 }} data-tour="wap-tour-profile-features">
                 {categorizedWidgetFeatures.map((category) => (
                     <div key={category.slug} style={{ marginTop: category.slug === categorizedWidgetFeatures[0]?.slug ? 0 : 16 }}>
                         <h4 style={{ margin: '0 0 10px', fontSize: 14, fontWeight: 600 }}>

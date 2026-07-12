@@ -268,6 +268,8 @@ class Enqueue {
                     /** Set false in JS after completing tour via REST (same page session). */
                     'shouldAutoStartDashboardTour' => ! DashboardTourRouteV1::is_completed(),
 					'isProSettingsTourCompleted'  => DashboardTourRouteV1::is_pro_settings_completed(),
+                    'isProfileTourCompleted'      => DashboardTourRouteV1::is_profile_completed(),
+                    'shouldAutoStartProfileTour'  => ! DashboardTourRouteV1::is_profile_completed(),
                 ],
                 $wl_data
             )

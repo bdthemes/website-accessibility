@@ -21,6 +21,137 @@
 	}
 }
 
+// White Label — upsell / not-eligible state
+.wap-white-label-upsell {
+	&.wap-settings-row .ant-card-body {
+		padding: 28px !important;
+	}
+
+	.wap-white-label-upsell__head {
+		max-width: 640px;
+	}
+
+	.wap-white-label-upsell__badge {
+		display: inline-flex;
+		align-items: center;
+		height: 24px;
+		padding: 0 10px;
+		margin-bottom: 12px;
+		font-size: 12px;
+		font-weight: 600;
+		letter-spacing: 0.02em;
+		text-transform: uppercase;
+		color: #6d28d9;
+		background: linear-gradient(135deg, #f5f3ff 0%, #ede9fe 100%);
+		border: 1px solid rgba(139, 92, 246, 0.25);
+		border-radius: 999px;
+	}
+
+	.wap-white-label-upsell__title {
+		margin: 0 0 8px !important;
+		font-size: 22px !important;
+		font-weight: 700 !important;
+		color: #111827 !important;
+	}
+
+	.wap-white-label-upsell__subtitle {
+		display: block;
+		font-size: 14px;
+		line-height: 1.6;
+		color: #6b7280;
+	}
+
+	.wap-white-label-upsell__features {
+		list-style: none;
+		margin: 24px 0 0;
+		padding: 0;
+		display: grid;
+		grid-template-columns: repeat(2, minmax(0, 1fr));
+		gap: 16px 24px;
+
+		@media (max-width: 782px) {
+			grid-template-columns: 1fr;
+		}
+	}
+
+	.wap-white-label-upsell__feature {
+		display: flex;
+		align-items: flex-start;
+		gap: 12px;
+	}
+
+	.wap-white-label-upsell__feature-check {
+		flex-shrink: 0;
+		display: inline-flex;
+		align-items: center;
+		justify-content: center;
+		width: 26px;
+		height: 26px;
+		margin-top: 1px;
+		color: #15803d;
+		background: #dcfce7;
+		border-radius: 999px;
+	}
+
+	.wap-white-label-upsell__feature-text {
+		display: flex;
+		flex-direction: column;
+		gap: 2px;
+	}
+
+	.wap-white-label-upsell__feature-title {
+		font-size: 14px;
+		font-weight: 600;
+		color: #1f2937;
+	}
+
+	.wap-white-label-upsell__feature-desc {
+		font-size: 13px;
+		line-height: 1.5;
+		color: #6b7280;
+	}
+
+	.wap-white-label-upsell__note {
+		margin-top: 24px;
+		padding: 14px 16px;
+		background: #f9fafb;
+		border: 1px solid #eef0f2;
+		border-radius: 8px;
+
+		.ant-typography {
+			font-size: 13px;
+			line-height: 1.6;
+			margin-bottom: 0 !important;
+		}
+	}
+
+	.wap-white-label-upsell__cta {
+		margin-top: 24px;
+		display: flex;
+		align-items: center;
+		flex-wrap: wrap;
+		gap: 12px 16px;
+
+		.ant-btn {
+			height: 36px !important;
+			min-height: 36px !important;
+			padding-inline: 14px !important;
+			font-size: 14px !important;
+			font-weight: 600 !important;
+			border-radius: 6px !important;
+			display: inline-flex !important;
+			align-items: center !important;
+			justify-content: center !important;
+			line-height: 1 !important;
+		}
+	}
+
+	.wap-white-label-upsell__cta-hint {
+		font-size: 13px;
+		color: #6b7280;
+	}
+}
+
 .wap-white-label-settings {
 	&.wap-settings-row {
 		.ant-card-body {

@@ -4,6 +4,7 @@ import { __, sprintf } from '@wordpress/i18n';
 import { useDashboardTour } from '../context/dashboard-tour-context';
 import { useBrandDisplayName, useWhiteLabelBrandingEnabled } from '../../utils/websacData';
 import { useProSettingsTour } from '../context/pro-settings-tour-context';
+import { useProfileTour } from '../context/profile-tour-context';
 import { useLicense } from '../context/LicenseContext';
 
 const DOCS_URL = 'https://bdthemes.com/knowledge-base/one-accessibility/';
@@ -16,6 +17,7 @@ const AboutInfo = () => {
 	const brandDisplayName = useBrandDisplayName();
 	const whiteLabelBrandingEnabled = useWhiteLabelBrandingEnabled();
 	const { startProSettingsTour } = useProSettingsTour();
+	const { startProfileTour } = useProfileTour();
 	const { isProActive, isProPluginActive } = useLicense();
 	const pluginVersion = typeof window !== 'undefined' && window.websacAdmin?.version ? window.websacAdmin.version : '1.3.0';
 
@@ -64,11 +66,23 @@ const AboutInfo = () => {
 							{__('System information and plugin overview', 'website-accessibility')}
 						</Text>
 					</div>
-					<div className="wap-about-info-header__actions">
-						<button type="button" className="wap-about-info-header__tour" onClick={startTour}>
-							{__('Quick tour', 'website-accessibility')}
-						</button>
-						{isProPluginActive && isProActive && (
+				</div>
+			</WapCard>
+
+			{/* Guided Tours */}
+			<div className="wap-about-info__section wap-about-info__tours">
+				<Title level={5} className="wap-about-info__section-title">
+					{__('Guided Tours', 'website-accessibility')}
+				</Title>
+				<Text type="secondary" className="wap-about-info__section-desc">
+					{__('Take a guided walkthrough to learn how to set up and use the plugin.', 'website-accessibility')}
+				</Text>
+				<div className="wap-about-info__tours-actions">
+					<button type="button" className="wap-about-info-header__tour" onClick={startTour}>
+						{__('Quick tour', 'website-accessibility')}
+					</button>
+					{isProPluginActive && isProActive && (
+						<>
 							<button
 								type="button"
 								className="wap-about-info-header__tour wap-about-info-header__tour--pro"
@@ -76,10 +90,17 @@ const AboutInfo = () => {
 							>
 								{__('Pro settings tour', 'website-accessibility')}
 							</button>
-						)}
-					</div>
+							<button
+								type="button"
+								className="wap-about-info-header__tour wap-about-info-header__tour--pro"
+								onClick={() => startProfileTour({ force: true })}
+							>
+								{__('Custom Profiles create tour', 'website-accessibility')}
+							</button>
+						</>
+					)}
 				</div>
-			</WapCard>
+			</div>
 
 			{/* System Information */}
 			<div className="wap-about-info__section">
