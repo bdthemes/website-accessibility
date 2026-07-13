@@ -199,7 +199,7 @@ This plugin uses the following open-source libraries and third-party tools. We a
 
 == Changelog ==
 
-= 1.3.17 – July XXXXXXX, 2026 =
+= 1.3.17 – July 13, 2026 =
 * Improvement: Tour Auto-starts on first visit with manual launch from About & Info.
 * Improvement: Tour Flow: Automated profile creation and preset saving.
 * Improvement: About & Info Added a dedicated Guided Tours section.
