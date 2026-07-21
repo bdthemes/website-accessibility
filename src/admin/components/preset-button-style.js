@@ -6,7 +6,7 @@ import ControlWrapper from "./control-wrapper";
 import ColorPicker from "../controls/color-picker";
 
 const ButtonStylePreset = () => {
-	const { WapSelect, WapInput, WapCard, WapRow, WapCol, WapRadio, WapFlex } = window?.wapComponents;
+	const { WapSelect, WapInput, WapCard, WapRadio } = window?.wapComponents;
 	const { presetsFormData } = useSelect((select) =>
 		select(STORE_NAME).getPresetsFormData(),
 	);
@@ -28,50 +28,42 @@ const ButtonStylePreset = () => {
 	return (
 		<div className="wap-button-style-preset">
 			<WapCard bordered={false} className="wap-button-style-preset-card" title={__("Content", "website-accessibility")}>
-				<WapRow gutter={[16, 16]}>
-					<WapCol span={12}>
-						<ControlWrapper label={__("Button Type", "website-accessibility")}>
-							<WapFlex vertical gap="middle">
-								<WapRadio.Group
-									block
-									options={[
-										{ label: __("Icon", "website-accessibility"), value: "icon" },
-										{ label: __("Text", "website-accessibility"), value: "text" },
-										{ label: __("Both", "website-accessibility"), value: "both" },
-									]}
-									value={button?.buttonType}
-									onChange={(e) => handleButtonChange("buttonType", e.target.value)}
-									optionType="button"
-									buttonStyle="solid"
-								/>
-							</WapFlex>
-						</ControlWrapper>
-					</WapCol>
+				<div className="wap-button-style-content-grid">
+					<ControlWrapper label={__("Button Type", "website-accessibility")}>
+						<WapRadio.Group
+							className="wap-button-style-type-group"
+							block
+							options={[
+								{ label: __("Icon", "website-accessibility"), value: "icon" },
+								{ label: __("Text", "website-accessibility"), value: "text" },
+								{ label: __("Both", "website-accessibility"), value: "both" },
+							]}
+							value={button?.buttonType}
+							onChange={(e) => handleButtonChange("buttonType", e.target.value)}
+							optionType="button"
+							buttonStyle="solid"
+						/>
+					</ControlWrapper>
 
 					{button.buttonType !== "text" && (
-						<WapCol span={12}>
-							<ControlWrapper label={__("Select Icon", "website-accessibility")}>
-								<IconPicker
-									value={button.icon}
-									onChange={(value) => handleButtonChange("icon", value)}
-								/>
-							</ControlWrapper>
-						</WapCol>
+						<ControlWrapper label={__("Select Icon", "website-accessibility")}>
+							<IconPicker
+								value={button.icon}
+								onChange={(value) => handleButtonChange("icon", value)}
+							/>
+						</ControlWrapper>
 					)}
 
 					{button.buttonType !== "icon" && (
-						<WapCol span={24}>
-							<ControlWrapper label={__("Button Text", "website-accessibility")}>
-								<WapInput
-									value={button.text || ""}
-									onChange={(e) => handleButtonChange("text", e.target.value)}
-									placeholder={__("Click Me", "website-accessibility")}
-								/>
-							</ControlWrapper>
-						</WapCol>
+						<ControlWrapper label={__("Button Text", "website-accessibility")}>
+							<WapInput
+								value={button.text || ""}
+								onChange={(e) => handleButtonChange("text", e.target.value)}
+								placeholder={__("Click Me", "website-accessibility")}
+							/>
+						</ControlWrapper>
 					)}
-
-				</WapRow>
+				</div>
 			</WapCard>
 
 			<WapCard bordered={false} className="wap-button-style-preset-card" title={__("Style", "website-accessibility")}>

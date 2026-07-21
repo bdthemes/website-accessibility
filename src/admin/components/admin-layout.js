@@ -2,13 +2,13 @@
  * AdminLayout - Header + Sidebar layout (Ant Design) like Sigma Media Manager
  */
 import { __ } from '@wordpress/i18n';
-import { useEffect, useState, useMemo } from '@wordpress/element';
+import { useEffect, useState, useMemo, useCallback } from '@wordpress/element';
 import { useDashboardTour } from '../context/dashboard-tour-context';
 import { useProSettingsTour } from '../context/pro-settings-tour-context';
 import { useProfileTour } from '../context/profile-tour-context';
 import { useLicense } from '../context/LicenseContext';
 import { getBrandDisplayName, useWhiteLabelBrandingEnabled } from '../../utils/websacData';
-import { Layout, Menu } from 'antd';
+import { Layout, Menu, Drawer, Button } from 'antd';
 import { useLocation, useHistory } from '../router';
 import {
 	IconGeneral,
@@ -27,9 +27,19 @@ import {
 const { Header, Sider, Content, Footer } = Layout;
 
 const BDTHEMES_URL = 'https://bdthemes.com';
+/** Sticky sider above 1240px; off-canvas drawer at 1240px and below */
+const OFFCANVAS_MEDIA_QUERY = '(max-width: 1240px)';
 
 const PLUGIN_VERSION = typeof window !== 'undefined' && window.websacAdmin?.version ? window.websacAdmin.version : '1.3.0';
 const HELP_URL = 'https://bdthemes.com/contact/';
+
+const IconMenuToggle = () => (
+	<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true" focusable="false">
+		<line x1="3" y1="6" x2="21" y2="6" />
+		<line x1="3" y1="12" x2="21" y2="12" />
+		<line x1="3" y1="18" x2="21" y2="18" />
+	</svg>
+);
 
 const IconComingSoonBullet = () => (
 	<span className="wap-admin-pro-features-card__icon" aria-hidden="true">
@@ -86,6 +96,11 @@ const AdminLayout = ({ children }) => {
 	const { tryAdvanceProfileTourViaSidebarMenu } = useProfileTour();
 	const hasFixedIssuesPage = !!window?.websacAdmin?.hasFixedIssuesPage;
 	const [wlUiEpoch, setWlUiEpoch] = useState(0);
+	const [isOffCanvas, setIsOffCanvas] = useState(
+		() => typeof window !== 'undefined' && window.matchMedia(OFFCANVAS_MEDIA_QUERY).matches
+	);
+	const [drawerOpen, setDrawerOpen] = useState(false);
+	const [adminBarHeight, setAdminBarHeight] = useState(0);
 
 	const hideLicenseSidebar = useMemo(
 		() =>
@@ -109,18 +124,73 @@ const AdminLayout = ({ children }) => {
 		return () => window.removeEventListener('websac-white-label-changed', onWlChange);
 	}, []);
 
+	useEffect(() => {
+		if (typeof window === 'undefined') {
+			return;
+		}
+
+		const updateAdminBarHeight = () => {
+			const bar = document.getElementById('wpadminbar');
+			const height = bar ? Math.round(bar.getBoundingClientRect().height) : 0;
+			setAdminBarHeight(height > 0 ? height : 0);
+		};
+
+		updateAdminBarHeight();
+		window.addEventListener('resize', updateAdminBarHeight);
+
+		const bar = document.getElementById('wpadminbar');
+		let observer;
+		if (bar && typeof ResizeObserver !== 'undefined') {
+			observer = new ResizeObserver(updateAdminBarHeight);
+			observer.observe(bar);
+		}
+
+		return () => {
+			window.removeEventListener('resize', updateAdminBarHeight);
+			observer?.disconnect();
+		};
+	}, []);
+
+	useEffect(() => {
+		if (typeof window === 'undefined') {
+			return;
+		}
+		const mq = window.matchMedia(OFFCANVAS_MEDIA_QUERY);
+		const onChange = (event) => {
+			const matches = !!event.matches;
+			setIsOffCanvas(matches);
+			if (!matches) {
+				setDrawerOpen(false);
+			}
+		};
+		setIsOffCanvas(mq.matches);
+		if (mq.addEventListener) {
+			mq.addEventListener('change', onChange);
+			return () => mq.removeEventListener('change', onChange);
+		}
+		mq.addListener(onChange);
+		return () => mq.removeListener(onChange);
+	}, []);
+
 	const handleMenuClick = ({ key }) => {
 		if (tryAdvanceTourViaSidebarMenu(key)) {
+			setDrawerOpen(false);
 			return;
 		}
 		if (tryAdvanceProSettingsTourViaSidebarMenu(key)) {
+			setDrawerOpen(false);
 			return;
 		}
 		if (tryAdvanceProfileTourViaSidebarMenu(key)) {
+			setDrawerOpen(false);
 			return;
 		}
 		history.push({ page: key });
+		setDrawerOpen(false);
 	};
+
+	const openDrawer = useCallback(() => setDrawerOpen(true), []);
+	const closeDrawer = useCallback(() => setDrawerOpen(false), []);
 
 	const generalItems = [
 		{ key: 'website-accessibility', icon: <IconGeneral />, label: __('General', 'website-accessibility') },
@@ -180,8 +250,101 @@ const AdminLayout = ({ children }) => {
 			? 'website-accessibilityfiles'
 			: currentPage;
 
+	const helpSupportLink = (
+		<a href={HELP_URL} target="_blank" rel="noopener noreferrer" className="wap-admin-header-help">
+			<span className="wap-admin-header-help-icon" aria-hidden="true">
+				<svg
+					xmlns="http://www.w3.org/2000/svg"
+					viewBox="0 0 24 24"
+					width="18"
+					height="18"
+					fill="none"
+					stroke="currentColor"
+					strokeWidth="2"
+					strokeLinecap="round"
+					strokeLinejoin="round"
+					focusable="false"
+				>
+					<circle cx="12" cy="12" r="10" />
+					<path d="M9.09 9a3 3 0 0 1 5.83 1c0 2-3 3-3 3" />
+					<line x1="12" y1="17" x2="12.01" y2="17" />
+				</svg>
+			</span>
+			{__('Help & Support', 'website-accessibility')}
+		</a>
+	);
+
+	const renderSidebarNav = (showPromoCard = true) => (
+		<>
+			<div data-tour="wap-tour-sidebar-menu" className="wap-admin-menu-tour-anchor">
+				<Menu
+					mode="inline"
+					selectedKeys={[selectedKey]}
+					items={menuItems}
+					onClick={handleMenuClick}
+					className="wap-admin-menu"
+					style={{ borderRight: 0 }}
+				/>
+			</div>
+			{showPromoCard && typeof window !== 'undefined' ? (
+				<div className="wap-admin-pro-features-card">
+					<div className="wap-admin-pro-features-card__ribbon" aria-hidden="true">
+						{showComingSoonCard
+							? __('COMING SOON', 'website-accessibility')
+							: __('PRO', 'website-accessibility')}
+					</div>
+					<div className="wap-admin-pro-features-card__body">
+						<div className="wap-admin-pro-features-card__title">
+							{showComingSoonCard
+								? __('Coming soon features', 'website-accessibility')
+								: isProPluginActive
+									? __('Pro features', 'website-accessibility')
+									: __('Unlock Pro features', 'website-accessibility')}
+						</div>
+						<ul className="wap-admin-pro-features-card__list">
+							{showComingSoonCard ? (
+								<>
+									{comingSoonFeatureLabels.map((label, idx) => (
+										<li key={idx}>
+											<IconComingSoonBullet />
+											{label}
+										</li>
+									))}
+								</>
+							) : (
+								<ProFeaturesListItems />
+							)}
+						</ul>
+						{showComingSoonCard ? (
+							<p className="wap-admin-pro-features-card__footnote">
+								{__('Stay tuned — we will ship these in upcoming releases.', 'website-accessibility')}
+							</p>
+						) : isProPluginActive ? (
+							<a
+								href={
+									window.websacAdmin?.licensePageUrl ||
+									'admin.php?page=website-accessibility-license'
+								}
+								className="wap-admin-pro-features-card__btn"
+							>
+								{__('Activate License', 'website-accessibility')}
+							</a>
+						) : (
+							<a
+								href="admin.php?page=website-accessibility-get-pro"
+								className="wap-admin-pro-features-card__btn"
+							>
+								{__('Get Pro', 'website-accessibility')}
+							</a>
+						)}
+					</div>
+				</div>
+			) : null}
+		</>
+	);
+
 	return (
-		<Layout className="wap-admin-layout" data-tour="wap-tour-full-dashboard">
+		<Layout className={`wap-admin-layout${isOffCanvas ? ' wap-admin-layout--offcanvas' : ''}`} data-tour="wap-tour-full-dashboard">
 			<Header className="wap-admin-header">
 				<div className="wap-admin-header-left">
 					<span className="wap-admin-header-icon">
@@ -248,108 +411,77 @@ const AdminLayout = ({ children }) => {
 						</p>
 					</div>
 				</div>
-				{!whiteLabelBrandingEnabled ? (
+				{isOffCanvas ? (
 					<div className="wap-admin-header-right">
 						<div className="wap-admin-header-actions">
-							<a href={HELP_URL} target="_blank" rel="noopener noreferrer" className="wap-admin-header-help">
-								<span className="wap-admin-header-help-icon" aria-hidden="true">
-									<svg
-										xmlns="http://www.w3.org/2000/svg"
-										viewBox="0 0 24 24"
-										width="18"
-										height="18"
-										fill="none"
-										stroke="currentColor"
-										strokeWidth="2"
-										strokeLinecap="round"
-										strokeLinejoin="round"
-										focusable="false"
-									>
-										<circle cx="12" cy="12" r="10" />
-										<path d="M9.09 9a3 3 0 0 1 5.83 1c0 2-3 3-3 3" />
-										<line x1="12" y1="17" x2="12.01" y2="17" />
-									</svg>
-								</span>
-								{__('Help & Support', 'website-accessibility')}
-							</a>
+							<Button
+								type="text"
+								className="wap-admin-menu-toggle"
+								onClick={openDrawer}
+								aria-label={__('Open navigation menu', 'website-accessibility')}
+								aria-expanded={drawerOpen}
+								aria-controls="wap-admin-offcanvas-menu"
+								icon={<IconMenuToggle />}
+							/>
+						</div>
+					</div>
+				) : !whiteLabelBrandingEnabled ? (
+					<div className="wap-admin-header-right">
+						<div className="wap-admin-header-actions">
+							{helpSupportLink}
 						</div>
 					</div>
 				) : null}
 			</Header>
 			<Layout>
-				<Sider width={280} className="wap-admin-sider" theme="light">
-					<div data-tour="wap-tour-sidebar-menu" className="wap-admin-menu-tour-anchor">
-						<Menu
-							mode="inline"
-							selectedKeys={[selectedKey]}
-							items={menuItems}
-							onClick={handleMenuClick}
-							className="wap-admin-menu"
-							style={{ borderRight: 0, height: '100%' }}
-						/>
-					</div>
-					{typeof window !== 'undefined' && (
-						<div className="wap-admin-pro-features-card">
-							<div className="wap-admin-pro-features-card__ribbon" aria-hidden="true">
-								{showComingSoonCard
-									? __('COMING SOON', 'website-accessibility')
-									: __('PRO', 'website-accessibility')}
-							</div>
-							<div className="wap-admin-pro-features-card__body">
-								<div className="wap-admin-pro-features-card__title">
-									{showComingSoonCard
-										? __('Coming soon features', 'website-accessibility')
-										: isProPluginActive
-											? __('Pro features', 'website-accessibility')
-											: __('Unlock Pro features', 'website-accessibility')}
-								</div>
-								<ul className="wap-admin-pro-features-card__list">
-									{showComingSoonCard ? (
-										<>
-											{comingSoonFeatureLabels.map((label, idx) => (
-												<li key={idx}>
-													<IconComingSoonBullet />
-													{label}
-												</li>
-											))}
-										</>
-									) : (
-										<ProFeaturesListItems />
-									)}
-								</ul>
-								{showComingSoonCard ? (
-									<p className="wap-admin-pro-features-card__footnote">
-										{__('Stay tuned — we will ship these in upcoming releases.', 'website-accessibility')}
-									</p>
-								) : isProPluginActive ? (
-									<a
-										href={
-											window.websacAdmin?.licensePageUrl ||
-											'admin.php?page=website-accessibility-license'
-										}
-										className="wap-admin-pro-features-card__btn"
-									>
-										{__('Activate License', 'website-accessibility')}
-									</a>
-								) : (
-									<a
-										href="admin.php?page=website-accessibility-get-pro"
-										className="wap-admin-pro-features-card__btn"
-									>
-										{__('Get Pro', 'website-accessibility')}
-									</a>
-								)}
-							</div>
-						</div>
-					)}
-				</Sider>
+				{!isOffCanvas ? (
+					<Sider width={280} className="wap-admin-sider" theme="light">
+						{renderSidebarNav(true)}
+					</Sider>
+				) : null}
 				<Layout className="wap-admin-main-column">
 					<Content className="wap-admin-content" data-tour="wap-tour-main-content">
 						{children}
 					</Content>
-
 				</Layout>
 			</Layout>
+
+			{isOffCanvas ? (
+				<Drawer
+					id="wap-admin-offcanvas-menu"
+					placement="right"
+					open={drawerOpen}
+					onClose={closeDrawer}
+					closable={false}
+					title={null}
+					zIndex={100100}
+					width={Math.min(280, typeof window !== 'undefined' ? window.innerWidth - 40 : 280)}
+					className="wap-admin-offcanvas-drawer"
+					rootClassName="wap-admin-offcanvas-drawer-root"
+					styles={{
+						mask: {
+							top: adminBarHeight,
+							height: `calc(100% - ${adminBarHeight}px)`,
+						},
+						wrapper: {
+							top: adminBarHeight,
+							height: `calc(100% - ${adminBarHeight}px)`,
+						},
+						header: { display: 'none', height: 0, padding: 0, borderBottom: 'none' },
+						body: { padding: 0, overflow: 'auto', height: '100%' },
+					}}
+					destroyOnClose={false}
+				>
+					<div className="wap-admin-sider wap-admin-sider--drawer">
+						{renderSidebarNav(false)}
+						{!whiteLabelBrandingEnabled ? (
+							<div className="wap-admin-offcanvas-help">
+								{helpSupportLink}
+							</div>
+						) : null}
+					</div>
+				</Drawer>
+			) : null}
 
 			<Footer className="wap-admin-footer">
 				<span className="wap-admin-footer__text">

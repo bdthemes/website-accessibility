@@ -28,10 +28,32 @@
 
 	.wap-admin-header-left {
 		display: flex;
-		align-items: flex-start;
+		align-items: center;
 		gap: 14px;
 		min-width: 0;
 		flex: 1 1 0%;
+	}
+
+	.wap-admin-menu-toggle {
+		display: inline-flex;
+		align-items: center;
+		justify-content: center;
+		flex-shrink: 0;
+		width: 40px;
+		height: 40px;
+		padding: 0;
+		color: rgba(0, 0, 0, 0.75);
+		border-radius: 8px;
+
+		&:hover,
+		&:focus {
+			color: #1890ff;
+			background: rgba(24, 144, 255, 0.08);
+		}
+
+		svg {
+			display: block;
+		}
 	}
 
 	.wap-admin-header-icon {
@@ -78,6 +100,18 @@
 			font-size: 14px;
 			color: rgba(0, 0, 0, 0.598);
 			line-height: 1.4;
+		}
+	}
+
+	@media screen and (max-width: 1240px) {
+		.wap-admin-header-brand {
+			.wap-admin-header-tagline {
+				display: none;
+			}
+
+			.wap-admin-header-title-row {
+				margin-bottom: 0;
+			}
 		}
 	}
 
@@ -464,10 +498,102 @@
 	display: none;
 }
 
-@media (min-width: 1024px) {
+@media (min-width: 1241px) {
 	.wap-admin-layout .wap-admin-sider {
 		display: flex;
 		flex-direction: column;
+	}
+}
+
+// Off-canvas sidebar drawer (≤1240px)
+.wap-admin-offcanvas-drawer-root {
+	z-index: 100100 !important;
+
+	.ant-drawer-content-wrapper {
+		max-width: calc(100vw - 40px);
+	}
+
+	.ant-drawer-header {
+		display: none !important;
+		height: 0 !important;
+		min-height: 0 !important;
+		padding: 0 !important;
+		margin: 0 !important;
+		border: 0 !important;
+		overflow: hidden !important;
+	}
+
+	.ant-drawer-body {
+		display: block;
+		height: 100%;
+		padding: 0 !important;
+		overflow: auto !important;
+		-webkit-overflow-scrolling: touch;
+	}
+
+	.ant-drawer-content {
+		height: 100%;
+	}
+}
+
+.wap-admin-sider.wap-admin-sider--drawer {
+	display: block !important;
+	width: 100%;
+	height: auto;
+	min-height: 0;
+	border: 0;
+	border-radius: 0;
+	background: #fff !important;
+
+	.wap-admin-menu-tour-anchor {
+		flex: none;
+		min-height: 0;
+	}
+
+	.ant-menu {
+		flex: none;
+		min-height: 0;
+		height: auto !important;
+	}
+
+	.wap-admin-pro-features-card {
+		display: none;
+	}
+}
+
+.wap-admin-offcanvas-help {
+	padding: 8px 20px 20px;
+	border-top: 1px solid #f0f0f0;
+
+	.wap-admin-header-help {
+		display: inline-flex;
+		align-items: center;
+		gap: 8px;
+		width: 100%;
+		padding: 10px 15px;
+		font-size: 14px;
+		font-weight: 600;
+		color: rgba(0, 0, 0, 0.68);
+		text-decoration: none;
+		border-radius: 6px;
+		box-sizing: border-box;
+		transition: color 0.2s, background 0.2s;
+
+		&:hover {
+			color: #1890ff;
+			background: rgba(0, 0, 0, 0.04);
+		}
+
+		.wap-admin-header-help-icon {
+			display: inline-flex;
+			align-items: center;
+			justify-content: center;
+			flex-shrink: 0;
+
+			svg {
+				display: block;
+			}
+		}
 	}
 }
 
