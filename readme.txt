@@ -199,7 +199,7 @@ This plugin uses the following open-source libraries and third-party tools. We a
 
 == Changelog ==
 
-= 1.3.18 – July XX, 2026 =
+= 1.3.18 – July 26, 2026 =
 * Improvement: Improved the dashboard UI and responsiveness for a better user experience on mobile devices.
 
 = 1.3.17 – July 13, 2026 =
