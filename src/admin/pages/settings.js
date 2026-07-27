@@ -7,7 +7,7 @@ import { useLicense } from "../context/LicenseContext";
 
 
 const Settings = () => {
-    const { WapSpin, WapMessage, WapCard, WapSpace, WapTypography, WapButton, WapInput, WapSelect } = window?.wapComponents;
+    const { WapSpin, WapMessage, WapCard, WapSpace, WapTypography, WapButton, WapInput, WapSelect, WapSwitch } = window?.wapComponents;
     const { Title, Text } = WapTypography;
     const { isProActive } = useLicense();
     const [settings, setSettings] = useState({});
@@ -18,6 +18,7 @@ const Settings = () => {
     const [openAiApiKey, setOpenAiApiKey] = useState("");
     const [geminiApiKey, setGeminiApiKey] = useState("");
     const [testingAiKey, setTestingAiKey] = useState(false);
+    const [testingAlertEmail, setTestingAlertEmail] = useState(false);
 
     const API_NAMESPACE = "/sigmally/v1/settings";
     const clearUsageStatisticsTimestamp = () => {
@@ -172,6 +173,27 @@ const Settings = () => {
         window.open(targetUrl.toString(), "_blank", "noopener,noreferrer");
     };
 
+    const sendTestAlertEmail = async () => {
+        setTestingAlertEmail(true);
+        try {
+            const res = await apiFetch({
+                path: "/one-accessibility/v1/compliance-summary/test-email",
+                method: "POST",
+            });
+            if (res?.success) {
+                WapMessage.success(res?.message || __("Test email sent.", "website-accessibility"));
+            } else {
+                WapMessage.error(res?.message || __("Failed to send test email.", "website-accessibility"));
+            }
+        } catch (error) {
+            WapMessage.error(
+                error?.message || __("Failed to send test email. Check SMTP settings.", "website-accessibility")
+            );
+        } finally {
+            setTestingAlertEmail(false);
+        }
+    };
+
     useEffect(() => {
         fetchSettings();
     }, []);
@@ -226,6 +248,7 @@ const Settings = () => {
                         dataTour="wap-tour-settings-checker"
                     />
                     {!!settings.enable_accessibility_checker && (
+                        <>
                         <WapCard className="wap-settings-row wap-checker-ai-settings" data-tour="wap-tour-settings-checker-ai">
                             <div className="wap-checker-ai-settings__intro">
                                 <div className="wap-checker-ai-settings__intro-head">
@@ -369,6 +392,79 @@ const Settings = () => {
                                 </div>
                             </div>
                         </WapCard>
+
+                        <WapCard className="wap-settings-row wap-checker-ai-settings wap-compliance-settings" data-tour="wap-tour-settings-compliance">
+                            <div className="wap-checker-ai-settings__intro">
+                                <div className="wap-checker-ai-settings__intro-head">
+                                    <Title level={5} style={{ margin: 0 }}>
+                                        {__("Compliance monitoring", "website-accessibility")}
+                                    </Title>
+                                </div>
+                                <Text type="secondary">
+                                    {__(
+                                        "Get notified when Critical issues rise, and optionally re-scan pages when you visit them.",
+                                        "website-accessibility"
+                                    )}
+                                </Text>
+                            </div>
+                            <div className="wap-checker-ai-settings__row">
+                                <div className="wap-checker-ai-settings__row-text">
+                                    <Title level={5} style={{ margin: 0 }}>
+                                        {__("Email when Critical rises", "website-accessibility")}
+                                    </Title>
+                                    <Text type="secondary">
+                                        {__(
+                                            "Sends only when Critical count goes UP after a scan.",
+                                            "website-accessibility"
+                                        )}
+                                    </Text>
+                                    <button
+                                        type="button"
+                                        className="wap-compliance-settings__test-link"
+                                        onClick={sendTestAlertEmail}
+                                        disabled={testingAlertEmail}
+                                    >
+                                        {testingAlertEmail
+                                            ? __("Sending…", "website-accessibility")
+                                            : __("Send test email", "website-accessibility")}
+                                    </button>
+                                </div>
+                                <div className="wap-checker-ai-settings__control">
+                                    <WapSwitch
+                                        checked={settings.compliance_email_alerts !== false}
+                                        onChange={(checked) => updateSetting("compliance_email_alerts", checked)}
+                                    />
+                                </div>
+                            </div>
+                            <div className="wap-checker-ai-settings__row">
+                                <div className="wap-checker-ai-settings__row-text">
+                                    <Title level={5} style={{ margin: 0 }}>
+                                        {__("Auto-scan when visiting pages", "website-accessibility")}
+                                    </Title>
+                                    <Text type="secondary">
+                                        {__(
+                                            "For admins: open Checker and scan again if this page was last scanned longer ago than this.",
+                                            "website-accessibility"
+                                        )}
+                                    </Text>
+                                </div>
+                                <div className="wap-checker-ai-settings__control">
+                                    <WapSelect
+                                        className="wap-checker-ai-settings__select wap-compliance-settings__select"
+                                        size="middle"
+                                        value={String(settings.compliance_auto_scan_days ?? 0)}
+                                        onChange={(value) => updateSetting("compliance_auto_scan_days", Number(value) || 0)}
+                                        options={[
+                                            { value: "0", label: __("Off", "website-accessibility") },
+                                            { value: "7", label: __("Every 7 days", "website-accessibility") },
+                                            { value: "14", label: __("Every 14 days", "website-accessibility") },
+                                            { value: "30", label: __("Every 30 days", "website-accessibility") },
+                                        ]}
+                                    />
+                                </div>
+                            </div>
+                        </WapCard>
+                        </>
                     )}
                 </>
             )}

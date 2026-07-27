@@ -30,6 +30,9 @@ class SettingsRouteV1
         'gemini_api_key'                => '',
         /** Raw CSS appended on the public site (toolbar / widget tweaks). Stored as plain text. */
         'frontend_custom_css'           => '',
+        'compliance_wcag_level'         => 'all',
+        'compliance_email_alerts'       => true,
+        'compliance_auto_scan_days'     => 0,
     ];
 
     /**
@@ -171,6 +174,22 @@ class SettingsRouteV1
             $css_raw = substr($css_raw, 0, 524288);
         }
         $clean['frontend_custom_css'] = $css_raw;
+
+        $wcag = isset($settings['compliance_wcag_level'])
+            ? sanitize_key((string) $settings['compliance_wcag_level'])
+            : $this->defaults['compliance_wcag_level'];
+        $clean['compliance_wcag_level'] = in_array($wcag, ['all', 'a', 'aa', 'aaa'], true)
+            ? $wcag
+            : 'all';
+
+        $clean['compliance_email_alerts'] = isset($settings['compliance_email_alerts'])
+            ? (bool) $settings['compliance_email_alerts']
+            : $this->defaults['compliance_email_alerts'];
+
+        $auto_days = isset($settings['compliance_auto_scan_days'])
+            ? (int) $settings['compliance_auto_scan_days']
+            : (int) $this->defaults['compliance_auto_scan_days'];
+        $clean['compliance_auto_scan_days'] = in_array($auto_days, [0, 7, 14, 30], true) ? $auto_days : 0;
 
         return $clean;
     }
