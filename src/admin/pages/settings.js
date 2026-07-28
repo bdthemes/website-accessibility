@@ -235,6 +235,16 @@ const Settings = () => {
                             loading={saving}
                             onChange={(checked) => updateSetting("force_translate_site_language", checked)}
                         />
+                        <SettingsItem
+                            title={__("Always-on Translation", "website-accessibility")}
+                            description={__(
+                                "Keep Google Translate enabled for visitors. They can still change language, but cannot turn translation off.",
+                                "website-accessibility"
+                            )}
+                            checked={!!settings.always_on_translations}
+                            loading={saving}
+                            onChange={(checked) => updateSetting("always_on_translations", checked)}
+                        />
                     </div>
                     <SettingsItem
                         title={__("Enable Accessibility Checker", "website-accessibility")}
@@ -414,7 +424,7 @@ const Settings = () => {
                                     </Title>
                                     <Text type="secondary">
                                         {__(
-                                            "Sends only when Critical count goes UP after a scan.",
+                                            "Sends only when Critical count goes UP after a scan. Configure an SMTP plugin (e.g. WP Mail SMTP) or emails may not arrive.",
                                             "website-accessibility"
                                         )}
                                     </Text>
@@ -422,7 +432,7 @@ const Settings = () => {
                                         type="button"
                                         className="wap-compliance-settings__test-link"
                                         onClick={sendTestAlertEmail}
-                                        disabled={testingAlertEmail}
+                                        disabled={testingAlertEmail || settings.compliance_email_alerts === false}
                                     >
                                         {testingAlertEmail
                                             ? __("Sending…", "website-accessibility")

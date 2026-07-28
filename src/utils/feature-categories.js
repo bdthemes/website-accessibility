@@ -19,7 +19,7 @@ export const DEFAULT_FEATURE_CATEGORY_DEFINITIONS = [
     {
         slug: "behavior",
         title: __("Behavior", "website-accessibility"),
-        keys: ["pauseAnimations", "muteSounds", "screenReader"],
+        keys: ["pauseAnimations", "muteSounds", "screenReader", "keyboardNavigation", "virtualKeyboard"],
     },
 ];
 

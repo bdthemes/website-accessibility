@@ -149,6 +149,12 @@ const panelItems = [
                         active: true,
                         isPro: true
                     }
+                },
+                {
+                    virtualKeyboard: {
+                        active: true,
+                        isPro: true
+                    }
                 }
             ],
         }

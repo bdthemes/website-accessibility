@@ -17,6 +17,7 @@ const defaultProfiles = [
         features: {
             cursor: "big-cursor",           // Easier to track pointer
             keyboardNavigation: "enable",   // Enables full keyboard control
+            virtualKeyboard: "enable",      // On-screen keyboard for motor / touch typing
             tooltips: "enable",             // Helps clarify actions
             pauseAnimations: "enable"       // Avoid distraction from moving elements
         },

@@ -27,7 +27,8 @@
 
 		.wap-widget-features__feature-icon {
 			svg {
-				path {
+				/* Fill-based icons only — keep stroke icons (e.g. keyboard) as outlines */
+				path[fill]:not([fill="none"]):not([fill="transparent"]) {
 					fill: #1677ff;
 				}
 			}

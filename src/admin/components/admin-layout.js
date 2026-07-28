@@ -227,7 +227,6 @@ const AdminLayout = ({ children }) => {
 
 	const comingSoonFeatureLabels = [
 		__('Sign language (Libras)', 'website-accessibility'),
-		__('Virtual keyboard', 'website-accessibility'),
 		__('Legal / litigation support', 'website-accessibility'),
 		__('Bulk tools for multi-site workflows', 'website-accessibility'),
 	];

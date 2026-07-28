@@ -55,6 +55,7 @@ export const DEFAULT_STATE = {
             dyslexiaFriendly: '',
             cursor: '',
             keyboardNavigation: '',
+            virtualKeyboard: '',
             tooltips: '',
             lineHeight: '',
             textAlign: '',

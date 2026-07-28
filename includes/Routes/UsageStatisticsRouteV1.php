@@ -30,6 +30,7 @@ class UsageStatisticsRouteV1
         'lineHeight',
         'muteSounds',
         'keyboardNavigation',
+        'virtualKeyboard',
         'pauseAnimations',
         'saturation',
         'screenReader',
