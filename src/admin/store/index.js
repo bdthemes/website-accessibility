@@ -56,6 +56,8 @@ export const DEFAULT_STATE = {
             cursor: '',
             keyboardNavigation: '',
             virtualKeyboard: '',
+            skipLinks: '',
+            focusIndicators: '',
             tooltips: '',
             lineHeight: '',
             textAlign: '',

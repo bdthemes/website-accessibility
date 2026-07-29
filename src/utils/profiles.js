@@ -17,7 +17,8 @@ const defaultProfiles = [
         features: {
             cursor: "big-cursor",           // Easier to track pointer
             keyboardNavigation: "enable",   // Enables full keyboard control
-            virtualKeyboard: "enable",      // On-screen keyboard for motor / touch typing
+            skipLinks: "enable",            // Jump past nav to main content (WCAG 2.4.1)
+            focusIndicators: "enable",      // Strong focus rings (WCAG 2.4.7)
             tooltips: "enable",             // Helps clarify actions
             pauseAnimations: "enable"       // Avoid distraction from moving elements
         },
@@ -42,6 +43,7 @@ const defaultProfiles = [
             biggerText: "extra-large",      // Easier to read
             cursor: "big-cursor",           // Easier to locate pointer
             tooltips: "enable",             // Clarifies elements
+            focusIndicators: "enable",      // Strong focus rings for keyboard users
             brightness: "high",             // Better visibility
             saturation: "high",             // Better visibility
             lineHeight: "large"             // Easier to follow text

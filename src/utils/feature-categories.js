@@ -19,7 +19,7 @@ export const DEFAULT_FEATURE_CATEGORY_DEFINITIONS = [
     {
         slug: "behavior",
         title: __("Behavior", "website-accessibility"),
-        keys: ["pauseAnimations", "muteSounds", "screenReader", "keyboardNavigation", "virtualKeyboard"],
+        keys: ["pauseAnimations", "muteSounds", "screenReader", "keyboardNavigation", "virtualKeyboard", "skipLinks", "focusIndicators"],
     },
 ];
 
@@ -32,6 +32,64 @@ const normalizeWidgetConfig = (value) => {
     }
 
     return { active: !!value };
+};
+
+/**
+ * Keep known features in their default categories even when saved
+ * widgetCategories were created before those keys existed (e.g. skipLinks → Other).
+ */
+const ensureDefaultFeaturePlacement = (template = []) => {
+    const next = (Array.isArray(template) ? template : []).map((category) => ({
+        slug: category?.slug || "custom",
+        title: category?.title || __("Category", "website-accessibility"),
+        keys: [...(category?.keys || [])],
+    }));
+
+    const keyToSlug = new Map();
+    DEFAULT_FEATURE_CATEGORY_DEFINITIONS.forEach((definition) => {
+        definition.keys.forEach((key) => {
+            keyToSlug.set(key, definition.slug);
+        });
+    });
+
+    // Move known keys out of the wrong category (commonly "other").
+    next.forEach((category) => {
+        category.keys = category.keys.filter((key) => {
+            const rightfulSlug = keyToSlug.get(key);
+            if (!rightfulSlug) {
+                return true;
+            }
+            return rightfulSlug === category.slug;
+        });
+    });
+
+    const placed = new Set();
+    next.forEach((category) => {
+        category.keys.forEach((key) => placed.add(key));
+    });
+
+    DEFAULT_FEATURE_CATEGORY_DEFINITIONS.forEach((definition) => {
+        definition.keys.forEach((key) => {
+            if (placed.has(key)) {
+                return;
+            }
+
+            let target = next.find((category) => category.slug === definition.slug);
+            if (!target) {
+                target = {
+                    slug: definition.slug,
+                    title: definition.title,
+                    keys: [],
+                };
+                next.push(target);
+            }
+
+            target.keys.push(key);
+            placed.add(key);
+        });
+    });
+
+    return next.filter((category) => category.keys.length > 0);
 };
 
 const getKeysFromWidgetEntries = (widgetEntries = []) => {
@@ -64,7 +122,9 @@ const normalizeCategoryTemplate = (attributes = {}) => {
             })
             .filter(Boolean);
 
-        if (mapped.length) return mapped;
+        if (mapped.length) {
+            return ensureDefaultFeaturePlacement(mapped);
+        }
     }
 
     return DEFAULT_FEATURE_CATEGORY_DEFINITIONS;

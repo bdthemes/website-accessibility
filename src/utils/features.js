@@ -936,6 +936,45 @@ const features = [
         ),
         isDummy: true
     },
+    {
+        key: "skipLinks",
+        label: __("Skip Links", "website-accessibility"),
+        disableAnnouncement: __(
+            "Skip links have been disabled.",
+            "website-accessibility",
+        ),
+        description: __(
+            "Adds keyboard skip links to jump past navigation to main content and footer (WCAG 2.4.1).",
+            "website-accessibility",
+        ),
+        icon: (
+            <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                <path d="M3.75 4.5h12.5a.75.75 0 0 1 0 1.5H3.75a.75.75 0 0 1 0-1.5Z" fill="black" />
+                <path d="M3.75 8.5h8.5a.75.75 0 0 1 0 1.5h-8.5a.75.75 0 0 1 0-1.5Z" fill="black" />
+                <path d="M11.25 12a.75.75 0 0 1 .75-.75h.001a.75.75 0 0 1 .75.75v5.19l1.72-1.72a.75.75 0 1 1 1.06 1.06l-3 3a.75.75 0 0 1-1.06 0l-3-3a.75.75 0 1 1 1.06-1.06l1.72 1.72V12Z" fill="black" />
+            </svg>
+        ),
+        isDummy: true
+    },
+    {
+        key: "focusIndicators",
+        label: __("Focus Indicators", "website-accessibility"),
+        disableAnnouncement: __(
+            "Focus indicators have been disabled.",
+            "website-accessibility",
+        ),
+        description: __(
+            "Shows a high-visibility focus ring on links, buttons, and form fields (WCAG 2.4.7).",
+            "website-accessibility",
+        ),
+        icon: (
+            <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                <path d="M7 2.25h10A4.75 4.75 0 0 1 21.75 7v10A4.75 4.75 0 0 1 17 21.75H7A4.75 4.75 0 0 1 2.25 17V7A4.75 4.75 0 0 1 7 2.25Zm0 1.5A3.25 3.25 0 0 0 3.75 7v10c0 1.795 1.455 3.25 3.25 3.25h10c1.795 0 3.25-1.455 3.25-3.25V7c0-1.795-1.455-3.25-3.25-3.25H7Z" fill="black" />
+                <path d="M8.5 8.5h7v7h-7v-7Z" fill="black" />
+            </svg>
+        ),
+        isDummy: true
+    },
 ];
 
 export default features;

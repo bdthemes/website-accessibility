@@ -380,3 +380,18 @@
 	}
 }
 
+// Feature toasts: keep under WP admin chrome when mounted in preset preview.
+body.wp-admin {
+	.wap-preset__preview-drawer-root {
+		.ant-notification {
+			// Above preview UI, but stay out of the left #adminmenu stacking fight via topRight.
+			z-index: 1000 !important;
+		}
+	}
+
+	// Fallback when toast mounts on body (no preview root).
+	> .ant-notification {
+		z-index: 100050 !important;
+	}
+}
+

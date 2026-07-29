@@ -31,6 +31,8 @@ class UsageStatisticsRouteV1
         'muteSounds',
         'keyboardNavigation',
         'virtualKeyboard',
+        'skipLinks',
+        'focusIndicators',
         'pauseAnimations',
         'saturation',
         'screenReader',

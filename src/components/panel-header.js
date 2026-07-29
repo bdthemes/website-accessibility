@@ -43,13 +43,17 @@ const PanelHeader = ({
     ), [getCookie, isFrontend, consentRefreshKey]);
     const isConsentDeclined = isFrontend && translateConsent === "false";
     const isConsentAccepted = isFrontend && translateConsent === "true";
-    const hasTranslateConsent = isFrontend && !!translateConsent;
     const effectiveSiteLanguage = isFrontend
         ? (accessibilityContext?.siteLanguage || siteLanguage)
         : siteLanguage;
     const selectedLanguage = isFrontend
         ? (accessibilityContext?.selectedLanguage || effectiveSiteLanguage)
         : editorSelectedLanguage;
+    // Show language picker when consent is accepted, or when consent prompt is disabled in settings.
+    const canShowLanguagePicker = isProActive && showTranslator && !!TranslationLanguageDropdown && (
+        !isFrontend
+        || (!isConsentDeclined && (isConsentAccepted || !settings?.show_translations_consent))
+    );
     const tooltipProps = {
         placement: "bottom",
         mouseEnterDelay: 0,
@@ -147,18 +151,16 @@ const PanelHeader = ({
         // Ensure language dropdown closes immediately after reset.
         setOpenLanguageDropdown(false);
 
-        // 2) Reset all accessibility states (previous footer behavior)
+        // Reset accessibility features/profiles.
         accessibilityDispatch({ type: "RESET_ACCESSIBILITY" });
 
-        if (settings?.force_translate_site_language) {
-            const fallbackLanguage = accessibilityContext?.siteLanguage || null;
+        if (isForceTranslateSiteLanguage) {
             accessibilityDispatch({
                 type: "SET_SELECTED_LANGUAGE",
-                payload: fallbackLanguage,
+                payload: accessibilityContext?.siteLanguage || siteLanguage || null,
             });
         }
 
-        // 1) Clear translation consent (previous header behavior)
         removeCookie("wapGoogleTranslateConsent");
         setConsentRefreshKey((prev) => prev + 1);
 
@@ -213,7 +215,7 @@ const PanelHeader = ({
                     </button>
                 </WapTooltip>
 
-                {isProActive && showTranslator && !isConsentDeclined && (!isFrontend || isConsentAccepted) && TranslationLanguageDropdown && (
+                {canShowLanguagePicker && (
                     <>
                         {
                             <TranslationLanguageDropdown

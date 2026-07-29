@@ -24,7 +24,6 @@ class SettingsRouteV1
         'force_translate_site_language' => false,
         'show_usage_statistics'         => true,
         'enable_accessibility_checker'  => true,
-        'always_on_translations'         => false,
         'ai_provider'                   => 'openai',
         'openai_api_key'                => '',
         'gemini_api_key'                => '',
@@ -149,10 +148,6 @@ class SettingsRouteV1
         $clean['enable_accessibility_checker'] = isset($settings['enable_accessibility_checker'])
             ? (bool) $settings['enable_accessibility_checker']
             : $this->defaults['enable_accessibility_checker'];
-
-        $clean['always_on_translations'] = isset($settings['always_on_translations'])
-            ? (bool) $settings['always_on_translations']
-            : $this->defaults['always_on_translations'];
 
         $clean['openai_api_key'] = isset($settings['openai_api_key'])
             ? sanitize_text_field((string) $settings['openai_api_key'])

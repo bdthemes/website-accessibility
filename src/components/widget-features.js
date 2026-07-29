@@ -197,11 +197,20 @@ const WidgetFeatures = ({
 		const key = feature?.key;
 		const notify = (content) => {
 			const text = content || `${feature?.label || __("Feature", "website-accessibility")} ${__("updated", "website-accessibility")}`;
+			const isWpAdmin = !!document.body?.classList?.contains("wp-admin");
+			const previewRoot = document.querySelector(".wap-preset__preview-drawer-root");
+
 			WapNotification?.open?.({
 				key: "wap-feature-notification",
 				message: text,
-				placement: "topLeft",
+				// Admin: topRight avoids covering the left WP sidebar (z-index clash).
+				// Frontend: topLeft stays clear of the right-side accessibility panel.
+				placement: isWpAdmin ? "topRight" : "topLeft",
 				duration: 1.8,
+				className: isWpAdmin
+					? "wap-feature-notification wap-feature-notification--admin"
+					: "wap-feature-notification wap-feature-notification--frontend",
+				...(previewRoot ? { getContainer: () => previewRoot } : {}),
 			});
 		};
 

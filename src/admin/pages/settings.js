@@ -235,16 +235,6 @@ const Settings = () => {
                             loading={saving}
                             onChange={(checked) => updateSetting("force_translate_site_language", checked)}
                         />
-                        <SettingsItem
-                            title={__("Always-on Translation", "website-accessibility")}
-                            description={__(
-                                "Keep Google Translate enabled for visitors. They can still change language, but cannot turn translation off.",
-                                "website-accessibility"
-                            )}
-                            checked={!!settings.always_on_translations}
-                            loading={saving}
-                            onChange={(checked) => updateSetting("always_on_translations", checked)}
-                        />
                     </div>
                     <SettingsItem
                         title={__("Enable Accessibility Checker", "website-accessibility")}
