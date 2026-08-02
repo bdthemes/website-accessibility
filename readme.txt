@@ -1,5 +1,5 @@
 === One Accessibility – Making Your Site Accessible to Everyone ===
-Contributors:      bdthemes, selimmw, abutalib, muhammadasik, mohammaadfarid, maudud, syedfarhanreza
+Contributors:      bdthemes, selimmw, abutalib, muhammadasik, mohammaadfarid, maudud
 Tags:              accessibility, a11y, wcag, ada-compliance, screen-reader
 Requires at least: 6.1
 Tested up to:      7.0
