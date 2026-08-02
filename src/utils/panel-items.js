@@ -149,6 +149,24 @@ const panelItems = [
                         active: true,
                         isPro: true
                     }
+                },
+                {
+                    virtualKeyboard: {
+                        active: true,
+                        isPro: true
+                    }
+                },
+                {
+                    skipLinks: {
+                        active: true,
+                        isPro: true
+                    }
+                },
+                {
+                    focusIndicators: {
+                        active: true,
+                        isPro: true
+                    }
                 }
             ],
         }

@@ -24,12 +24,14 @@ class SettingsRouteV1
         'force_translate_site_language' => false,
         'show_usage_statistics'         => true,
         'enable_accessibility_checker'  => true,
-        'always_on_translations'         => false,
         'ai_provider'                   => 'openai',
         'openai_api_key'                => '',
         'gemini_api_key'                => '',
         /** Raw CSS appended on the public site (toolbar / widget tweaks). Stored as plain text. */
         'frontend_custom_css'           => '',
+        'compliance_wcag_level'         => 'all',
+        'compliance_email_alerts'       => true,
+        'compliance_auto_scan_days'     => 0,
     ];
 
     /**
@@ -147,10 +149,6 @@ class SettingsRouteV1
             ? (bool) $settings['enable_accessibility_checker']
             : $this->defaults['enable_accessibility_checker'];
 
-        $clean['always_on_translations'] = isset($settings['always_on_translations'])
-            ? (bool) $settings['always_on_translations']
-            : $this->defaults['always_on_translations'];
-
         $clean['openai_api_key'] = isset($settings['openai_api_key'])
             ? sanitize_text_field((string) $settings['openai_api_key'])
             : $this->defaults['openai_api_key'];
@@ -171,6 +169,22 @@ class SettingsRouteV1
             $css_raw = substr($css_raw, 0, 524288);
         }
         $clean['frontend_custom_css'] = $css_raw;
+
+        $wcag = isset($settings['compliance_wcag_level'])
+            ? sanitize_key((string) $settings['compliance_wcag_level'])
+            : $this->defaults['compliance_wcag_level'];
+        $clean['compliance_wcag_level'] = in_array($wcag, ['all', 'a', 'aa', 'aaa'], true)
+            ? $wcag
+            : 'all';
+
+        $clean['compliance_email_alerts'] = isset($settings['compliance_email_alerts'])
+            ? (bool) $settings['compliance_email_alerts']
+            : $this->defaults['compliance_email_alerts'];
+
+        $auto_days = isset($settings['compliance_auto_scan_days'])
+            ? (int) $settings['compliance_auto_scan_days']
+            : (int) $this->defaults['compliance_auto_scan_days'];
+        $clean['compliance_auto_scan_days'] = in_array($auto_days, [0, 7, 14, 30], true) ? $auto_days : 0;
 
         return $clean;
     }

@@ -17,6 +17,7 @@ import AboutInfo from './about-info';
 import GetPro from './get-pro';
 import WhiteLabel from './white-label';
 import FixedAccessibilityIssues from './fixed-accessibility-issues';
+import ComplianceMonitoring from './compliance-monitoring';
 import UsageStatistics from '../components/usage-statistics';
 import LicenseManager from '../components/License/LicenseManager';
 import Disclaimer from '../components/disclaimer';
@@ -80,6 +81,8 @@ const Pages = () => {
                 return <ToolsBackup />;
             case 'website-accessibility-fixed-issues':
                 return <FixedAccessibilityIssues />;
+            case 'website-accessibility-compliance':
+                return <ComplianceMonitoring />;
             case 'website-accessibility-about':
                 return <AboutInfo />;
             case 'website-accessibility-get-pro':

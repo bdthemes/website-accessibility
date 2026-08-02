@@ -386,7 +386,7 @@ class Migrations
             [
                 'slug'  => 'behavior',
                 'title' => 'Behavior',
-                'keys'  => ['pauseAnimations', 'muteSounds', 'screenReader'],
+                'keys'  => ['pauseAnimations', 'muteSounds', 'screenReader', 'keyboardNavigation', 'virtualKeyboard', 'skipLinks', 'focusIndicators'],
             ],
         ];
 

@@ -3,7 +3,7 @@ import dictionary from "./classes/dictionary";
 import fontManipulator from "./classes/font-manupulator";
 import tooltips from "./classes/tooltips";
 
-const { screenReader = () => null, smartContrast = () => null, muteSounds = () => null, filterFeatures = () => null, keyboardNavigation = () => null } = window.wapHelpers;
+const { screenReader = () => null, smartContrast = () => null, muteSounds = () => null, filterFeatures = () => null, keyboardNavigation = () => null, virtualKeyboard = () => null, skipLinks = () => null, focusIndicators = () => null } = window.wapHelpers;
 class AccessibilityManager {
     static instance = null;
     constructor() {
@@ -78,6 +78,15 @@ class AccessibilityManager {
                     break;
                 case 'keyboardNavigation':
                     keyboardNavigation()?.apply();
+                    break;
+                case 'virtualKeyboard':
+                    virtualKeyboard()?.apply();
+                    break;
+                case 'skipLinks':
+                    skipLinks()?.apply();
+                    break;
+                case 'focusIndicators':
+                    focusIndicators()?.apply();
                     break;
                 case 'saturation':
                     this.applySaturation(key, attributes);
@@ -324,6 +333,15 @@ class AccessibilityManager {
         }else if (key === 'keyboardNavigation') {
             keyboardNavigation()?.remove();
             delete this.props['keyboardNavigation'];
+        }else if (key === 'virtualKeyboard') {
+            virtualKeyboard()?.remove();
+            delete this.props['virtualKeyboard'];
+        }else if (key === 'skipLinks') {
+            skipLinks()?.remove();
+            delete this.props['skipLinks'];
+        }else if (key === 'focusIndicators') {
+            focusIndicators()?.remove();
+            delete this.props['focusIndicators'];
         }else if (key === 'saturation') {
             this.removeSaturation();
         }else if (

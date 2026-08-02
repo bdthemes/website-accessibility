@@ -22,6 +22,7 @@ import {
 	IconPro,
 	IconInfo,
 	IconFixedIssues,
+	IconCompliance,
 } from './admin-menu-icons';
 
 const { Header, Sider, Content, Footer } = Layout;
@@ -201,19 +202,31 @@ const AdminLayout = ({ children }) => {
 			icon: <IconSettings />,
 			label: <span data-tour="wap-tour-settings-item">{__('Settings', 'website-accessibility')}</span>,
 		},
-		...(
-			isProPluginActive &&
-			isLicenseValid &&
-			(hasFixedIssuesPage || currentPage === 'website-accessibility-fixed-issues')
-				? [{ key: 'website-accessibility-fixed-issues', icon: <IconFixedIssues />, label: __('Fixed Issues', 'website-accessibility') }]
-				: []
-		),
 		{ key: 'website-accessibility-css-overrides', icon: <IconCssOverrides />, label: __('CSS Overrides', 'website-accessibility') },
 	].filter(Boolean);
 
+	const complianceItems =
+		isProPluginActive &&
+		isLicenseValid &&
+		(hasFixedIssuesPage ||
+			currentPage === 'website-accessibility-fixed-issues' ||
+			currentPage === 'website-accessibility-compliance')
+			? [
+				{
+					key: 'website-accessibility-compliance',
+					icon: <IconCompliance />,
+					label: __('Compliance Monitoring', 'website-accessibility'),
+				},
+				{
+					key: 'website-accessibility-fixed-issues',
+					icon: <IconFixedIssues />,
+					label: __('Fixed Issues', 'website-accessibility'),
+				},
+			]
+			: [];
+
 	const comingSoonFeatureLabels = [
 		__('Sign language (Libras)', 'website-accessibility'),
-		__('Virtual keyboard', 'website-accessibility'),
 		__('Legal / litigation support', 'website-accessibility'),
 		__('Bulk tools for multi-site workflows', 'website-accessibility'),
 	];
@@ -236,6 +249,17 @@ const AdminLayout = ({ children }) => {
 			label: <span className="wap-admin-menu-group">GENERAL SETTINGS</span>,
 			children: generalItems,
 		},
+		...(
+			complianceItems.length > 0
+				? [
+					{
+						type: 'group',
+						label: <span className="wap-admin-menu-group">{__('COMPLIANCE', 'website-accessibility')}</span>,
+						children: complianceItems,
+					},
+				]
+				: []
+		),
 		{
 			type: 'group',
 			label: <span className="wap-admin-menu-group">SUPPORT</span>,
