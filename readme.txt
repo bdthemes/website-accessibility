@@ -4,7 +4,7 @@ Tags:              accessibility, a11y, wcag, ada-compliance, screen-reader
 Requires at least: 6.1
 Tested up to:      7.0
 Requires PHP:      7.4
-Stable tag:        1.3.18
+Stable tag:        1.3.19
 License:           GPL-2.0-or-later
 License URI:       https://www.gnu.org/licenses/gpl-2.0.html
 
@@ -199,7 +199,7 @@ This plugin uses the following open-source libraries and third-party tools. We a
 
 == Changelog ==
 
-= 1.3.XX – June XX, 2026 =
+= 1.3.19 – August 02, 2026 =
 * Improvement: Enhanced system performance and stability.
 
 = 1.3.18 – July 26, 2026 =
