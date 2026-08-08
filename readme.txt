@@ -199,6 +199,11 @@ This plugin uses the following open-source libraries and third-party tools. We a
 
 == Changelog ==
 
+= 1.3.20 – August 08, 2026 =
+* Fix: Security issue where data returned by the promotions API could be injected as script into the WordPress admin area
+* Fix: Promotion links and images are now restricted to http(s) and mailto addresses
+* Improvement: Security improved
+
 = 1.3.19 – August 02, 2026 =
 * Improvement: Enhanced system performance and stability.
 
