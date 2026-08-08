@@ -2,9 +2,9 @@
 Contributors:      bdthemes, selimmw, abutalib, muhammadasik, mohammaadfarid, maudud
 Tags:              accessibility, a11y, wcag, ada-compliance, screen-reader
 Requires at least: 6.1
-Tested up to:      7.0
+Tested up to:      7.0.3
 Requires PHP:      7.4
-Stable tag:        1.3.19
+Stable tag:        1.3.20
 License:           GPL-2.0-or-later
 License URI:       https://www.gnu.org/licenses/gpl-2.0.html
 
