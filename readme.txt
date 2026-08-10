@@ -2,9 +2,9 @@
 Contributors:      bdthemes, selimmw, abutalib, muhammadasik, mohammaadfarid, maudud
 Tags:              accessibility, a11y, wcag, ada-compliance, screen-reader
 Requires at least: 6.1
-Tested up to:      7.0.3
+Tested up to:      7.0
 Requires PHP:      7.4
-Stable tag:        1.3.20
+Stable tag:        1.4.0
 License:           GPL-2.0-or-later
 License URI:       https://www.gnu.org/licenses/gpl-2.0.html
 
@@ -198,6 +198,19 @@ This plugin uses the following open-source libraries and third-party tools. We a
 - [OpenDyslexic Font](https://opendyslexic.org/) – Open-source font designed to increase readability for readers with dyslexia (SIL Open Font License)
 
 == Changelog ==
+
+= 1.4.0 – August 10, 2026 =
+* Fixed: AI API keys (OpenAI/Gemini) no longer exposed in front-end page source.
+* Fixed: Preset/Profile post types are now admin-only (were creatable by
+  Author/Editor via REST, letting them control the site-wide widget).
+* Fixed: SVG uploads restricted to administrators.
+* Fixed: Usage-statistics endpoint bounded to prevent unbounded option growth.
+* Fixed: Settings import is now sanitized; preference-statistics now admin-only.
+* Fixed: Dictionary feature renders text safely (prevents DOM XSS).
+* Hardened: Output escaping and input sanitization across admin and front-end.
+* Added "apiVersion": 3 to block.json (WordPress 7.0 compatibility).
+* Fixed i18n text-domain issues, prefixed globals, corrected readme, cleaned dev files.
+* Removed the admin promotional ("Biggopti") system that called a third-party API.
 
 = 1.3.20 – August 08, 2026 =
 * Fix: Security issue where data returned by the promotions API could be injected as script into the WordPress admin area

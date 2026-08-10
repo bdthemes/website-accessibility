@@ -1,3 +1,4 @@
 {
+	"apiVersion": 3,
 	"viewScript": "file:./frontend.js"
 }

@@ -10,8 +10,8 @@ if (!defined('ABSPATH')) {
 }
 
 if (!defined('WEBSAC_WHITE_LABEL_BRAND')) {
-    $wl_title = get_option('websac_white_label_title', '');
-    define('WEBSAC_WHITE_LABEL_BRAND', is_string($wl_title) ? $wl_title : '');
+    $websac_wl_title = get_option('websac_white_label_title', '');
+    define('WEBSAC_WHITE_LABEL_BRAND', is_string($websac_wl_title) ? $websac_wl_title : '');
 }
 
 if (!defined('WEBSAC_LO')) {

@@ -5,7 +5,7 @@
  * Description:       A comprehensive WordPress plugin to enhance website accessibility and ensure WCAG compliance.
  * Requires at least: 6.1
  * Requires PHP:      7.4
- * Version:           1.3.20
+ * Version:           1.4.0
  * Author:            bdthemes
  * Author URI:        https://oneaccessibility.com
  * License:           GPL-2.0-or-later
@@ -20,10 +20,10 @@ use bdthemes\websiteaccessibility\Traits\Singleton;
 if (! defined('ABSPATH')) exit;
 
 // Check if vendor directory and autoload.php exist
-$autoload_file = __DIR__ . '/vendor/autoload.php';
-if (file_exists($autoload_file)) {
+$websac_autoload_file = __DIR__ . '/vendor/autoload.php';
+if (file_exists($websac_autoload_file)) {
 	// Load autoloader (vendor/autoload.php).
-	require_once $autoload_file;
+	require_once $websac_autoload_file;
 }
 
 /**
@@ -51,7 +51,7 @@ final class WebsiteAccessibility
 	 *
 	 * @var string
 	 */
-	const VERSION = '1.3.20';
+	const VERSION = '1.4.0';
 
 	/**
 	 * Private constructor for singleton pattern.
@@ -187,9 +187,6 @@ final class WebsiteAccessibility
 		// Initialize admin assets
 		\bdthemes\websiteaccessibility\Admin\Enqueue::get_instance();
 
-		// Initialize admin biggopti system
-		\bdthemes\websiteaccessibility\Admin\Biggopti::get_instance();
-
 		// White label (recovery link, submenu icon CSS).
 		\bdthemes\websiteaccessibility\Admin\WhiteLabelAdmin::get_instance();
 
@@ -266,8 +263,7 @@ final class WebsiteAccessibility
 			return;
 		}
 		$printed = true;
-		$classes = wp_json_encode(array('wap', 'wap-frontend'));
-		echo '<script>(function(){var b=document.body,c=' . $classes . ';if(!b||!c)return;c.forEach(function(cl){b.classList.add(cl);});})();</script>' . "\n";
+		echo '<script>(function(){var b=document.body,c=' . wp_json_encode(array('wap', 'wap-frontend')) . ';if(!b||!c)return;c.forEach(function(cl){b.classList.add(cl);});})();</script>' . "\n";
 	}
 
 	/**

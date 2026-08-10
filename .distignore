@@ -1,0 +1,14 @@
+.DS_Store
+.editorconfig
+.git
+.github
+.gitignore
+.distignore
+node_modules
+src
+composer.lock
+package.json
+package-lock.json
+pnpm-lock.yaml
+phpcs.xml.dist
+README.md

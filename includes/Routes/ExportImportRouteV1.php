@@ -106,9 +106,12 @@ class ExportImportRouteV1
 
             $imported_items = [];
 
-            // Import settings
+            // Import settings — run through the same sanitizer as a normal save
+            // so imported values (e.g. frontend_custom_css) cannot bypass
+            // sanitization and inject markup into the public inline <style>.
             if (isset($import_data['settings']) && is_array($import_data['settings'])) {
-                update_option('websac_settings', $import_data['settings']);
+                $clean_settings = SettingsRouteV1::get_instance()->sanitize_settings($import_data['settings']);
+                update_option('websac_settings', $clean_settings);
                 $imported_items[] = 'settings';
             }
 

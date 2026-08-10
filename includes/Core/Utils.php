@@ -49,6 +49,8 @@ class Utils
     {
         global $pagenow;
 
+        // phpcs:disable WordPress.Security.NonceVerification.Recommended -- Read-only page-builder detection from the URL; no form data is processed or saved.
+
         // Elementor
         if (did_action('elementor/loaded') && class_exists('\Elementor\Plugin')) {
             try {
@@ -64,7 +66,7 @@ class Utils
             if (function_exists('bricks_is_builder') && bricks_is_builder()) {
                 return 'bricks';
             }
-            if (isset($_GET['bricks']) && $_GET['bricks'] === 'editor') {
+            if (isset($_GET['bricks']) && sanitize_text_field(wp_unslash($_GET['bricks'])) === 'editor') {
                 return 'bricks';
             }
         }
@@ -100,14 +102,15 @@ class Utils
         }
 
         // Thrive
-        if (isset($_GET['tve']) && $_GET['tve'] === 'true') {
+        if (isset($_GET['tve']) && sanitize_text_field(wp_unslash($_GET['tve'])) === 'true') {
             return 'thrive';
         }
 
         // Breakdance
-        if (defined('BREAKDANCE_VERSION') && isset($_GET['breakdance']) && $_GET['breakdance'] === 'builder') {
+        if (defined('BREAKDANCE_VERSION') && isset($_GET['breakdance']) && sanitize_text_field(wp_unslash($_GET['breakdance'])) === 'builder') {
             return 'breakdance';
         }
+        // phpcs:enable WordPress.Security.NonceVerification.Recommended
 
         return false;
     }

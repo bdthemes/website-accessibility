@@ -211,7 +211,7 @@ class WhiteLabelAdmin {
         }
 
         $url = esc_url($icon, array('http', 'https', 'data'));
-        echo '<style type="text/css" id="websac-wl-admin-menu-icon-php">' . self::build_menu_icon_css($url) . '</style>';
+        echo '<style type="text/css" id="websac-wl-admin-menu-icon-php">' . wp_kses(self::build_menu_icon_css($url), array()) . '</style>';
     }
 
     /**
@@ -307,8 +307,8 @@ class WhiteLabelAdmin {
      * @return bool
      */
     private static function is_localhost() {
-        $server_name = isset($_SERVER['SERVER_NAME']) ? (string) $_SERVER['SERVER_NAME'] : '';
-        $server_addr = isset($_SERVER['SERVER_ADDR']) ? (string) $_SERVER['SERVER_ADDR'] : '';
+        $server_name = isset($_SERVER['SERVER_NAME']) ? sanitize_text_field(wp_unslash($_SERVER['SERVER_NAME'])) : '';
+        $server_addr = isset($_SERVER['SERVER_ADDR']) ? sanitize_text_field(wp_unslash($_SERVER['SERVER_ADDR'])) : '';
 
         foreach (array('localhost', '127.0.0.1', '::1', '.local', '.test', '.dev') as $needle) {
             if ($needle !== '' && (strpos($server_name, $needle) !== false || strpos($server_addr, $needle) !== false)) {

@@ -194,8 +194,9 @@ class UsageStatisticsRouteV1
             ]);
         }
 
-        // Browser key (acts like an anonymous user/session ID)
-        $browser_key = sanitize_text_field($incoming['browserKey'] ?? '');
+        // Browser key (acts like an anonymous user/session ID). Bound the length
+        // so an attacker cannot store oversized keys.
+        $browser_key = substr(sanitize_text_field($incoming['browserKey'] ?? ''), 0, 64);
         if (! $browser_key) {
             return rest_ensure_response([
                 'success' => false,
@@ -208,6 +209,22 @@ class UsageStatisticsRouteV1
 
         // Get saved statistics (if any)
         $stats = get_option(self::OPTION_KEY, []);
+        if (! is_array($stats)) {
+            $stats = [];
+        }
+
+        // Cap the number of distinct browser keys retained. This endpoint is
+        // reachable by anonymous visitors (the wp_rest nonce is printed on public
+        // pages), so an unbounded key space would let an attacker grow this
+        // option indefinitely (storage exhaustion / write amplification). Once the
+        // cap is reached, only updates to already-known keys are accepted.
+        $max_keys = (int) apply_filters('websac_usage_statistics_max_keys', 5000);
+        if (! isset($stats[$browser_key]) && (count($stats) - (isset($stats['last_updated']) ? 1 : 0)) >= $max_keys) {
+            return rest_ensure_response([
+                'success' => false,
+                'message' => __('Statistics capacity reached.', 'website-accessibility'),
+            ]);
+        }
 
         // Make sure this browser key exists
         if (! isset($stats[$browser_key])) {
