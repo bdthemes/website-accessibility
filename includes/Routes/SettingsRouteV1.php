@@ -127,9 +127,13 @@ class SettingsRouteV1
     }
 
     /**
-     * Sanitize all settings fields
+     * Sanitize all settings fields.
+     *
+     * Public so the import routes can run imported settings through the same
+     * whitelist/sanitization as a normal save (prevents e.g. an unsanitized
+     * frontend_custom_css from being stored via import).
      */
-    private function sanitize_settings(array $settings): array
+    public function sanitize_settings(array $settings): array
     {
         $clean = [];
 

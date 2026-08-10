@@ -41,20 +41,51 @@ class Dictionary {
 
         this.popup = document.createElement('div');
         this.popup.className = 'wap-dictionary-popup';
-        this.popup.innerHTML = `
-        <div class="wap-tooltip-arrow"></div>
-        <div class="wap-tooltip-content">
-            <div class="wap-tooltip-header">
-                <strong>${meaning.word}</strong>
-                <em>(${meaning.partOfSpeech})</em>
-                <div style="margin-top: 5px;">
-                    <button class="wap-pronounce-btn">🔊</button>
-                    <button class="wap-spell-btn">📖 Spell</button>
-                </div>
-            </div>
-            <div class="wap-tooltip-definition">${meaning.definition}</div>
-        </div>
-    `;
+
+        // Build the popup with the DOM API and set API-derived text via
+        // textContent. The word/partOfSpeech/definition come from a third-party
+        // dictionary service; inserting them with innerHTML would allow HTML/JS
+        // injection (DOM XSS) if that response is ever malicious or MITM'd.
+        const arrow = document.createElement('div');
+        arrow.className = 'wap-tooltip-arrow';
+
+        const content = document.createElement('div');
+        content.className = 'wap-tooltip-content';
+
+        const header = document.createElement('div');
+        header.className = 'wap-tooltip-header';
+
+        const wordEl = document.createElement('strong');
+        wordEl.textContent = meaning.word;
+
+        const posEl = document.createElement('em');
+        posEl.textContent = `(${meaning.partOfSpeech})`;
+
+        const btnWrap = document.createElement('div');
+        btnWrap.style.marginTop = '5px';
+
+        const pronounceBtn = document.createElement('button');
+        pronounceBtn.className = 'wap-pronounce-btn';
+        pronounceBtn.textContent = '🔊';
+
+        const spellBtn = document.createElement('button');
+        spellBtn.className = 'wap-spell-btn';
+        spellBtn.textContent = '📖 Spell';
+
+        btnWrap.appendChild(pronounceBtn);
+        btnWrap.appendChild(spellBtn);
+        header.appendChild(wordEl);
+        header.appendChild(posEl);
+        header.appendChild(btnWrap);
+
+        const definitionEl = document.createElement('div');
+        definitionEl.className = 'wap-tooltip-definition';
+        definitionEl.textContent = meaning.definition;
+
+        content.appendChild(header);
+        content.appendChild(definitionEl);
+        this.popup.appendChild(arrow);
+        this.popup.appendChild(content);
 
         Object.assign(this.popup.style, {
             position: 'absolute',

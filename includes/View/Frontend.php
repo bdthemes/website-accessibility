@@ -85,10 +85,7 @@ class Frontend {
             return;
         }
 
-        // phpcs:ignore WordPress.Security.NonceVerification.Recommended -- read-only UX gated by capability.
-        $flag = isset($_GET['websac_highlight'])
-            ? sanitize_key((string) wp_unslash($_GET['websac_highlight']))
-            : '';
+        $flag = isset($_GET['websac_highlight']) ? sanitize_key((string) wp_unslash($_GET['websac_highlight'])) : ''; // phpcs:ignore WordPress.Security.NonceVerification.Recommended -- Read-only UX gated by capability.
         if ($flag !== '1') {
             return;
         }
@@ -133,8 +130,7 @@ class Frontend {
      */
     private function decode_xpath_highlight_param() {
 
-        // phpcs:ignore WordPress.Security.NonceVerification.Recommended
-        $raw = isset($_GET['websac_xpath']) ? (string) wp_unslash($_GET['websac_xpath']) : '';
+        $raw = isset($_GET['websac_xpath']) ? (string) wp_unslash($_GET['websac_xpath']) : ''; // phpcs:ignore WordPress.Security.NonceVerification.Recommended, WordPress.Security.ValidatedSanitizedInput.InputNotSanitized -- Read-only; strictly validated below (charset regex, strict base64, UTF-8) and gated by manage_options.
 
         $normalized = trim(str_replace(' ', '+', rawurldecode($raw)));
 
@@ -282,7 +278,7 @@ class Frontend {
                 'siteLanguage'       => get_bloginfo('language'),
                 'isUserLoggedIn'     => is_user_logged_in(),
                 'statementLink'      => $this->get_statement_page_link(),
-                'settings'           => Utils::get_settings(),
+                'settings'           => $this->get_public_settings(),
                 'nonce'              => wp_create_nonce('wp_rest'),
                 'restUrl'            => rest_url(),
                 'postId'             => get_the_ID(),
@@ -291,6 +287,30 @@ class Frontend {
                 'whiteLabelBoot'     => WhiteLabel::get_boot_payload(),
             ]);
         }
+    }
+
+    /**
+     * Front-end-safe settings for wp_localize_script.
+     *
+     * The full websac_settings option holds server-side secrets (the OpenAI and
+     * Gemini API keys) that are only used by admin-gated REST routes and must
+     * never be printed into the public page. Strip those before localizing.
+     *
+     * @return array
+     */
+    private function get_public_settings() {
+        $settings = Utils::get_settings();
+
+        if (is_array($settings)) {
+            unset($settings['openai_api_key'], $settings['gemini_api_key']);
+        }
+
+        /**
+         * Allow further filtering of the settings exposed to the public front end.
+         *
+         * @param array $settings Settings array with secrets already removed.
+         */
+        return apply_filters('websac_public_frontend_settings', $settings);
     }
 
     public function render_preset_root() {

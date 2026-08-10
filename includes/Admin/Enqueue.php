@@ -39,7 +39,11 @@ class Enqueue {
      * @return array<string, string>
      */
     public function allow_admin_svg_uploads($mimes) {
-        if (!is_admin() || !current_user_can('upload_files')) {
+        // Restrict SVG uploads to administrators. SVGs are not sanitized here, so
+        // a raw <script>-bearing SVG served as image/svg+xml is a stored-XSS
+        // vector; limiting to manage_options prevents lower-privileged users
+        // (Author/Editor) from planting one that fires in an admin's session.
+        if (!is_admin() || !current_user_can('manage_options')) {
             return $mimes;
         }
 
@@ -60,7 +64,7 @@ class Enqueue {
     public function fix_svg_filetype($data, $file, $filename, $mimes, $real_mime = '') {
         unset($file, $real_mime);
 
-        if (!is_admin() || !current_user_can('upload_files')) {
+        if (!is_admin() || !current_user_can('manage_options')) {
             return $data;
         }
 

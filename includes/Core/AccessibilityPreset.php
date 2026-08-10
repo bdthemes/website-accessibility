@@ -35,6 +35,27 @@ class AccessibilityPreset
             'menu_icon' => 'dashicons-universal-access',
             'supports' => ['title', 'editor'],
             'show_in_rest' => true,
+            // Presets drive the site-wide widget and must only be managed by
+            // administrators. Without an explicit map, create_posts defaults to
+            // the primitive edit_posts cap, letting Authors create/publish
+            // presets through the core /wp/v2 REST endpoint. Lock every write
+            // capability to manage_options (map_meta_cap resolves edit/delete of
+            // individual posts to these primitives). The admin React app runs as
+            // a manage_options user, so its core-data CRUD is unaffected.
+            'map_meta_cap' => true,
+            'capabilities' => [
+                'create_posts'           => 'manage_options',
+                'edit_posts'             => 'manage_options',
+                'edit_others_posts'      => 'manage_options',
+                'edit_published_posts'   => 'manage_options',
+                'edit_private_posts'     => 'manage_options',
+                'publish_posts'          => 'manage_options',
+                'read_private_posts'     => 'manage_options',
+                'delete_posts'           => 'manage_options',
+                'delete_others_posts'    => 'manage_options',
+                'delete_published_posts' => 'manage_options',
+                'delete_private_posts'   => 'manage_options',
+            ],
         ]);
     }
 

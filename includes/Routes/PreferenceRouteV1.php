@@ -90,9 +90,22 @@ class PreferenceRouteV1
         $post_id = $request->get_param('post_id');
 
         /**
-         * 📊 If "stats=true", return overall stats
+         * 📊 If "stats=true", return overall stats.
+         *
+         * This branch aggregates data across ALL users (total_users), so it must
+         * be admin-only. The route's own permission_callback is is_user_logged_in(),
+         * which would otherwise let any Subscriber read the site's user count and
+         * trigger an all-users scan.
          */
         if ($stats) {
+            if (! current_user_can('manage_options')) {
+                return new \WP_Error(
+                    'rest_forbidden',
+                    __('Sorry, you are not allowed to view statistics.', 'website-accessibility'),
+                    ['status' => rest_authorization_required_code()]
+                );
+            }
+
             // Try to get cached data
             $cached = get_transient(self::CACHE_KEY);
             if ($cached !== false) {
