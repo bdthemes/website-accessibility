@@ -1,8 +1,8 @@
 <?php
 
-namespace bdthemes\websiteaccessibility\Routes;
+namespace Websac\Routes;
 
-use bdthemes\websiteaccessibility\Traits\Singleton;
+use Websac\Traits\Singleton;
 use WP_REST_Request;
 use WP_REST_Server;
 
@@ -25,13 +25,13 @@ class ExportImportRouteV1
      */
     public function register_routes()
     {
-        register_rest_route('sigmally/v1', '/export', [
+        register_rest_route('websac/v1', '/export', [
             'methods'             => WP_REST_Server::READABLE,
             'callback'            => [$this, 'export_settings'],
             'permission_callback' => [$this, 'can_manage_settings'],
         ]);
 
-        register_rest_route('sigmally/v1', '/import', [
+        register_rest_route('websac/v1', '/import', [
             'methods'             => WP_REST_Server::CREATABLE,
             'callback'            => [$this, 'import_settings'],
             'permission_callback' => [$this, 'can_manage_settings'],

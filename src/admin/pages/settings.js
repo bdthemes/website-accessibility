@@ -20,15 +20,17 @@ const Settings = () => {
     const [testingAiKey, setTestingAiKey] = useState(false);
     const [testingAlertEmail, setTestingAlertEmail] = useState(false);
 
-    const API_NAMESPACE = "/sigmally/v1/settings";
+    const API_NAMESPACE = "/websac/v1/settings";
     const clearUsageStatisticsTimestamp = () => {
         const { removeCookie = null } = window?.wapHelpers || {};
         if (typeof removeCookie === "function") {
+            removeCookie("websac_daily_timestamp");
             removeCookie("one_accessibility_daily_timestamp");
             return;
         }
 
         if (typeof document !== "undefined") {
+            document.cookie = "websac_daily_timestamp=; expires=Thu, 01 Jan 1970 00:00:00 GMT; path=/;";
             document.cookie = "one_accessibility_daily_timestamp=; expires=Thu, 01 Jan 1970 00:00:00 GMT; path=/;";
         }
     };
@@ -82,7 +84,7 @@ const Settings = () => {
         setResettingStats(true);
         try {
             await apiFetch({
-                path: "/one-accessibility/v1/usage-statistics",
+                path: "/websac/v1/usage-statistics",
                 method: "DELETE",
             });
             clearUsageStatisticsTimestamp();

@@ -27,13 +27,12 @@ const PanelFooter = ({ value, accessibilityContext, accessibilityDispatch, isEdi
 
   const footerItem = value?.items?.find(item => item.slug === 'footer');
   const attributes = footerItem?.attributes || {};
-  const isProActive = window?.websacPro?.isProActive || false;
   const { currentPresetId, isUserLoggedIn, statementLink } = window?.websiteAccessibility || {};
   const isFrontend = !isEditorPreview && !!accessibilityContext && !!accessibilityDispatch;
 
   const showStatement = attributes.showStatement !== false;
   const statementText = __('Accessibility Statement', 'website-accessibility');
-  const showBranding = isProActive ? attributes.showBranding !== false : true;
+  const showBranding = attributes.showBranding !== false;
   const [wlBrandEpoch, setWlBrandEpoch] = useState(0);
 
   useEffect(() => {
@@ -127,7 +126,7 @@ const PanelFooter = ({ value, accessibilityContext, accessibilityDispatch, isEdi
     if (!isFrontend || !currentPresetId || !isUserLoggedIn) return;
     setLoadingPreference(true);
 
-    apiFetch({ path: `/sigmally/v1/preference?post_id=${currentPresetId}`, method: 'GET' })
+    apiFetch({ path: `/websac/v1/preference?post_id=${currentPresetId}`, method: 'GET' })
       .then((response) => {
         setHasSavedPreference(response?.success && response.data && Object.keys(response.data).length > 0);
         setSavePreference(response?.data);
@@ -150,7 +149,7 @@ const PanelFooter = ({ value, accessibilityContext, accessibilityDispatch, isEdi
       setSavingPreference(true);
 
       try {
-        await apiFetch({ path: '/sigmally/v1/preference', method: 'POST', data: saveablePreference });
+        await apiFetch({ path: '/websac/v1/preference', method: 'POST', data: saveablePreference });
         setHasSavedPreference(true);
         messageApi.success({
           content: hasSavedPreference
@@ -178,7 +177,7 @@ const PanelFooter = ({ value, accessibilityContext, accessibilityDispatch, isEdi
       setDeletingPreference(true);
 
       try {
-        await apiFetch({ path: `/sigmally/v1/preference?post_id=${currentPresetId}`, method: 'DELETE' });
+        await apiFetch({ path: `/websac/v1/preference?post_id=${currentPresetId}`, method: 'DELETE' });
         setHasSavedPreference(false);
         messageApi.success({
           content: __('Preferences deleted successfully.', 'website-accessibility'),

@@ -78,7 +78,7 @@ const Dashboard = () => {
         const fetchStats = async () => {
             try {
                 const response = await wp.apiFetch({
-                    path: '/sigmally/v1/preference?stats=true',
+                    path: '/websac/v1/preference?stats=true',
                 });
                 if (response?.success) {
                     setStatsData(response.data);

@@ -6,11 +6,12 @@
  * @package WebsiteAccessibility
  */
 
-namespace bdthemes\websiteaccessibility\Admin;
+namespace Websac\Admin;
 
-use bdthemes\websiteaccessibility\Core\WhiteLabel;
-use bdthemes\websiteaccessibility\Routes\DashboardTourRouteV1;
-use bdthemes\websiteaccessibility\Traits\Singleton;
+use Websac\Core\Utils;
+use Websac\Core\WhiteLabel;
+use Websac\Routes\DashboardTourRouteV1;
+use Websac\Traits\Singleton;
 
 if (!defined('ABSPATH')) {
     exit; // Exit if accessed directly
@@ -202,10 +203,10 @@ class Enqueue {
         /** Shared toolbar components must load before the admin SPA (sets window.wapComponents / wapHelpers). */
         if (
             preg_match('/website-accessibility/', (string) $hook_suffix) &&
-            wp_script_is('wap-accessibility-components', 'registered') &&
-            ! in_array('wap-accessibility-components', $dependencies, true)
+            wp_script_is('websac-components', 'registered') &&
+            ! in_array('websac-components', $dependencies, true)
         ) {
-            $dependencies[] = 'wap-accessibility-components';
+            $dependencies[] = 'websac-components';
         }
 
         /** WordPress CodeMirror wrapper: load core `code-editor` before the SPA bundle. */
@@ -231,7 +232,7 @@ class Enqueue {
         }
 
         wp_enqueue_script(
-            'website-accessibility-admin',
+            'websac-admin',
             WEBSAC_URL . 'build/admin/index.js',
             $dependencies,
             $version,
@@ -244,20 +245,20 @@ class Enqueue {
 
         if ([] !== $code_editor_bundle) {
             wp_add_inline_script(
-                'website-accessibility-admin',
+                'websac-admin',
                 sprintf('window.websacCssOverridesCodeEditor=%s;', wp_json_encode($code_editor_bundle)),
                 'before'
             );
         }
 
-        wp_set_script_translations('website-accessibility-admin', 'website-accessibility', WEBSAC_DIR . 'languages/');
+        wp_set_script_translations('websac-admin', 'website-accessibility', WEBSAC_DIR . 'languages/');
 
         $license_page_url = admin_url('admin.php?page=website-accessibility-pro_license');
 
         $wl_data = class_exists(WhiteLabel::class) ? WhiteLabel::get_localized_script_data() : [];
 
         wp_localize_script(
-            'website-accessibility-admin',
+            'websac-admin',
             'websacAdmin',
             array_merge(
                 [
@@ -265,7 +266,7 @@ class Enqueue {
                     'apiUrl'            => rest_url(),
                     'homeUrl'           => home_url('/'),
                     'nonce'             => wp_create_nonce('wp_rest'),
-                    'isProPluginActive' => function_exists('website_accessibility_pro'),
+                    'isProPluginActive' => Utils::is_pro_plugin_active(),
                     'hasFixedIssuesPage' => $this->has_fixed_issues_page(),
                     'licensePageUrl'    => $license_page_url,
                     'proUpgradeUrl'     => 'https://oneaccessibility.com#pricing',
@@ -280,7 +281,7 @@ class Enqueue {
         );
 
         wp_enqueue_style(
-            'website-accessibility-admin',
+            'websac-admin',
             WEBSAC_URL . 'build/admin/index.css',
             ['wp-components'],
             $version
@@ -319,15 +320,12 @@ class Enqueue {
         return isset($page_map[$hook_suffix]) ? $page_map[$hook_suffix] : 'website-accessibility-dashboard';
     }
 
+    /**
+     * The "Fixed Issues" screen is backed by the Pro accessibility checker;
+     * only offer it when that plugin is present and the checker is enabled.
+     */
     private function has_fixed_issues_page() {
-        if (!function_exists('website_accessibility_pro')) {
-            return false;
-        }
-
-        if (
-            !class_exists('\bdthemes\websiteaccessibilitypro\Admin\License\LicenseHelper') ||
-            !\bdthemes\websiteaccessibilitypro\Admin\License\LicenseHelper::is_license_active()
-        ) {
+        if (!Utils::is_pro_plugin_active()) {
             return false;
         }
 

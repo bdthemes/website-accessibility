@@ -4,9 +4,9 @@
  * Register Accessibility Preset Post Type
  */
 
-namespace bdthemes\websiteaccessibility\Core;
+namespace Websac\Core;
 
-use bdthemes\websiteaccessibility\Traits\Singleton;
+use Websac\Traits\Singleton;
 
 if (!defined('ABSPATH')) {
     exit;
@@ -97,7 +97,7 @@ class AccessibilityPreset
 
                     wp_update_post([
                         'ID'          => $item->ID,
-                        'post_content' => wp_slash(json_encode($item_content)) // important: wp_slash
+                        'post_content' => wp_slash(wp_json_encode($item_content)) // important: wp_slash
                     ]);
                 }
             }

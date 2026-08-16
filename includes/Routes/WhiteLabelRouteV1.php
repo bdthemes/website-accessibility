@@ -1,15 +1,15 @@
 <?php
 /**
- * REST: White label configuration (tier-gated).
+ * REST: White label configuration.
  *
  * @package WebsiteAccessibility
  */
 
-namespace bdthemes\websiteaccessibility\Routes;
+namespace Websac\Routes;
 
-use bdthemes\websiteaccessibility\Admin\WhiteLabelAdmin;
-use bdthemes\websiteaccessibility\Core\WhiteLabel;
-use bdthemes\websiteaccessibility\Traits\Singleton;
+use Websac\Admin\WhiteLabelAdmin;
+use Websac\Core\WhiteLabel;
+use Websac\Traits\Singleton;
 use WP_REST_Request;
 use WP_REST_Server;
 
@@ -30,7 +30,7 @@ class WhiteLabelRouteV1 {
      */
     public function register_routes() {
         register_rest_route(
-            'sigmally/v1',
+            'websac/v1',
             '/white-label',
             array(
                 array(
@@ -47,7 +47,7 @@ class WhiteLabelRouteV1 {
         );
 
         register_rest_route(
-            'sigmally/v1',
+            'websac/v1',
             '/white-label/revoke-token',
             array(
                 array(
@@ -73,13 +73,6 @@ class WhiteLabelRouteV1 {
         if (!current_user_can('manage_options')) {
             return new \WP_Error('forbidden', __('Permission denied.', 'website-accessibility'), array('status' => 403));
         }
-        if (!WhiteLabel::is_white_label_license()) {
-            return new \WP_Error(
-                'websac_wl_not_eligible',
-                __('Your license does not include white label features.', 'website-accessibility'),
-                array('status' => 403)
-            );
-        }
         return true;
     }
 
@@ -102,7 +95,7 @@ class WhiteLabelRouteV1 {
         return rest_ensure_response(
             array(
                 'success'           => true,
-                'eligible'          => WhiteLabel::is_white_label_license(),
+                'eligible'          => WhiteLabel::is_white_label_eligible(),
                 'enabled'           => (bool) get_option(WhiteLabel::OPTION_ENABLED, false),
                 'hide_license'      => (bool) get_option('websac_white_label_hide_license', false),
                 'hide_admin'        => (bool) get_option('websac_white_label_hide_admin', false),
@@ -158,9 +151,9 @@ class WhiteLabelRouteV1 {
         update_option('websac_white_label_panel_footer_icon_id', $panel_footer_icon_id);
 
         if ($enabled) {
-            update_option(WhiteLabel::OPTION_LICENSE_TITLE_STATUS, true);
+            update_option(WhiteLabel::OPTION_STATUS, true);
         } else {
-            delete_option(WhiteLabel::OPTION_LICENSE_TITLE_STATUS);
+            delete_option(WhiteLabel::OPTION_STATUS);
             delete_option(WhiteLabel::OPTION_ACCESS_TOKEN);
             delete_option(WhiteLabel::OPTION_LOCALHOST_EMAIL);
         }

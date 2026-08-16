@@ -28,7 +28,7 @@ const Pages = () => {
     const history = useHistory();
     const page = location?.params?.page;
     const [settings, setSettings] = useState();
-    const API_NAMESPACE = "/sigmally/v1/settings";
+    const API_NAMESPACE = "/websac/v1/settings";
     const { isProPluginActive } = useLicense();
 
     const hideLicenseSidebar =

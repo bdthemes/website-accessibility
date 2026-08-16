@@ -1,8 +1,8 @@
 <?php
 
-namespace bdthemes\websiteaccessibility\Routes;
+namespace Websac\Routes;
 
-use bdthemes\websiteaccessibility\Traits\Singleton;
+use Websac\Traits\Singleton;
 use WP_REST_Request;
 use WP_REST_Server;
 
@@ -32,19 +32,19 @@ class DashboardTourRouteV1
 
     public function register_routes()
     {
-        register_rest_route('one-accessibility/v1', '/dashboard-tour/complete', [
+        register_rest_route('websac/v1', '/dashboard-tour/complete', [
             'methods'             => WP_REST_Server::CREATABLE,
             'callback'            => [$this, 'mark_complete'],
             'permission_callback' => [$this, 'can_complete_tour'],
         ]);
 
-        register_rest_route('one-accessibility/v1', '/pro-settings-tour/complete', [
+        register_rest_route('websac/v1', '/pro-settings-tour/complete', [
             'methods'             => WP_REST_Server::CREATABLE,
             'callback'            => [$this, 'mark_pro_settings_complete'],
             'permission_callback' => [$this, 'can_complete_tour'],
         ]);
 
-        register_rest_route('one-accessibility/v1', '/profile-tour/complete', [
+        register_rest_route('websac/v1', '/profile-tour/complete', [
             'methods'             => WP_REST_Server::CREATABLE,
             'callback'            => [$this, 'mark_profile_complete'],
             'permission_callback' => [$this, 'can_complete_tour'],

@@ -20,7 +20,7 @@ async function persistProSettingsTourComplete() {
 	if (!admin?.apiUrl || !admin?.nonce) {
 		return false;
 	}
-	const url = `${admin.apiUrl}one-accessibility/v1/pro-settings-tour/complete`;
+	const url = `${admin.apiUrl}websac/v1/pro-settings-tour/complete`;
 	try {
 		const res = await fetch(url, {
 			method: 'POST',

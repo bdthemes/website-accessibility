@@ -6,5 +6,5 @@ $vendorDir = dirname(__DIR__);
 $baseDir = dirname($vendorDir);
 
 return array(
-    'bdthemes\\websiteaccessibility\\' => array($baseDir . '/includes'),
+    'Websac\\' => array($baseDir . '/includes'),
 );

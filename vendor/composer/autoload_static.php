@@ -7,14 +7,14 @@ namespace Composer\Autoload;
 class ComposerStaticInitcdd1d7ba98a05cbefe17d0fbe567e4b4
 {
     public static $prefixLengthsPsr4 = array (
-        'b' =>
+        'W' => 
         array (
-            'bdthemes\\websiteaccessibility\\' => 30,
+            'Websac\\' => 7,
         ),
     );
 
     public static $prefixDirsPsr4 = array (
-        'bdthemes\\websiteaccessibility\\' =>
+        'Websac\\' => 
         array (
             0 => __DIR__ . '/../..' . '/includes',
         ),
@@ -22,6 +22,23 @@ class ComposerStaticInitcdd1d7ba98a05cbefe17d0fbe567e4b4
 
     public static $classMap = array (
         'Composer\\InstalledVersions' => __DIR__ . '/..' . '/composer/InstalledVersions.php',
+        'Websac\\Admin\\Enqueue' => __DIR__ . '/../..' . '/includes/Admin/Enqueue.php',
+        'Websac\\Admin\\Menu' => __DIR__ . '/../..' . '/includes/Admin/Menu.php',
+        'Websac\\Admin\\WhiteLabelAdmin' => __DIR__ . '/../..' . '/includes/Admin/WhiteLabelAdmin.php',
+        'Websac\\Core\\AccessibilityPreset' => __DIR__ . '/../..' . '/includes/Core/AccessibilityPreset.php',
+        'Websac\\Core\\Migrations' => __DIR__ . '/../..' . '/includes/Core/Migrations.php',
+        'Websac\\Core\\PresetProfile' => __DIR__ . '/../..' . '/includes/Core/PresetProfile.php',
+        'Websac\\Core\\Utils' => __DIR__ . '/../..' . '/includes/Core/Utils.php',
+        'Websac\\Core\\WhiteLabel' => __DIR__ . '/../..' . '/includes/Core/WhiteLabel.php',
+        'Websac\\Routes\\DashboardTourRouteV1' => __DIR__ . '/../..' . '/includes/Routes/DashboardTourRouteV1.php',
+        'Websac\\Routes\\ExportImportRouteV1' => __DIR__ . '/../..' . '/includes/Routes/ExportImportRouteV1.php',
+        'Websac\\Routes\\PreferenceRouteV1' => __DIR__ . '/../..' . '/includes/Routes/PreferenceRouteV1.php',
+        'Websac\\Routes\\SettingsRouteV1' => __DIR__ . '/../..' . '/includes/Routes/SettingsRouteV1.php',
+        'Websac\\Routes\\SystemInfoRouteV1' => __DIR__ . '/../..' . '/includes/Routes/SystemInfoRouteV1.php',
+        'Websac\\Routes\\UsageStatisticsRouteV1' => __DIR__ . '/../..' . '/includes/Routes/UsageStatisticsRouteV1.php',
+        'Websac\\Routes\\WhiteLabelRouteV1' => __DIR__ . '/../..' . '/includes/Routes/WhiteLabelRouteV1.php',
+        'Websac\\Traits\\Singleton' => __DIR__ . '/../..' . '/includes/Traits/Singleton.php',
+        'Websac\\View\\Frontend' => __DIR__ . '/../..' . '/includes/View/Frontend.php',
     );
 
     public static function getInitializer(ClassLoader $loader)

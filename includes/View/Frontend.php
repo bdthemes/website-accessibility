@@ -1,12 +1,12 @@
 <?php
 
-namespace bdthemes\websiteaccessibility\View;
+namespace Websac\View;
 
-use bdthemes\websiteaccessibility\Core\Utils;
-use bdthemes\websiteaccessibility\Core\WhiteLabel;
+use Websac\Core\Utils;
+use Websac\Core\WhiteLabel;
 
 class Frontend {
-    use \bdthemes\websiteaccessibility\Traits\Singleton;
+    use \Websac\Traits\Singleton;
 
     public function __construct() {
         add_action('wp_enqueue_scripts', [$this, 'enqueue_frontend_scripts']);
@@ -17,19 +17,17 @@ class Frontend {
         add_action('wp_footer', [$this, 'render_preset_root']);
     }
 
+    /**
+     * Custom accessibility profiles (websac_profile posts) exposed to the toolbar.
+     *
+     * @return \WP_Post[]
+     */
     private function get_profiles() {
-        if (
-            class_exists('\bdthemes\websiteaccessibilitypro\Admin\License\LicenseHelper') &&
-            \bdthemes\websiteaccessibilitypro\Admin\License\LicenseHelper::is_license_active()
-        ) {
-            return get_posts([
-                'post_type'      => 'websac_profile',
-                'posts_per_page' => -1,
-            ]);
-        }
-
-        // Pro is missing or license inactive.
-        return [];
+        return get_posts([
+            'post_type'      => 'websac_profile',
+            'post_status'    => 'publish',
+            'posts_per_page' => -1,
+        ]);
     }
 
     /**
@@ -182,10 +180,7 @@ class Frontend {
         if (! is_user_logged_in() || ! current_user_can('manage_options')) {
             return false;
         }
-        if (
-            ! class_exists('\bdthemes\websiteaccessibilitypro\Admin\License\LicenseHelper')
-            || ! \bdthemes\websiteaccessibilitypro\Admin\License\LicenseHelper::is_license_active()
-        ) {
+        if (! Utils::is_pro_plugin_active()) {
             return false;
         }
 
@@ -204,15 +199,15 @@ class Frontend {
         if (file_exists($components_assets)) {
             $components_assets = require $components_assets;
             wp_enqueue_script(
-                'wap-accessibility-components',
+                'websac-components',
                 WEBSAC_URL . 'build/components/index.js',
                 $components_assets['dependencies'],
                 $components_assets['version'],
                 true
             );
-            wp_set_script_translations('wap-accessibility-components', 'website-accessibility', WEBSAC_DIR . 'languages/');
+            wp_set_script_translations('websac-components', 'website-accessibility', WEBSAC_DIR . 'languages/');
             wp_enqueue_style(
-                'wap-accessibility-components',
+                'websac-components',
                 WEBSAC_URL . 'build/components/index.css',
                 [],
                 $components_assets['version']
@@ -256,22 +251,23 @@ class Frontend {
         if (file_exists($frontend_assets)) {
             $frontend_assets = require $frontend_assets;
             wp_enqueue_script(
-                'wap-accessibility-frontend',
+                'websac-frontend',
                 WEBSAC_URL . 'build/frontend/frontend.js',
                 $frontend_assets['dependencies'],
                 $frontend_assets['version'],
                 true
             );
-            wp_set_script_translations('wap-accessibility-frontend', 'website-accessibility', WEBSAC_DIR . 'languages/');
+            wp_set_script_translations('websac-frontend', 'website-accessibility', WEBSAC_DIR . 'languages/');
             wp_enqueue_style(
-                'wap-accessibility-frontend',
+                'websac-frontend',
                 WEBSAC_URL . 'build/frontend/frontend.css',
                 [],
                 $frontend_assets['version']
             );
-            wp_localize_script('wap-accessibility-frontend', 'websiteAccessibility', [
+            wp_localize_script('websac-frontend', 'websiteAccessibility', [
                 'presets'            => $presets_data,
                 'profiles'           => $profiles,
+                'isProPluginActive'  => Utils::is_pro_plugin_active(),
                 'pageType'           => $page_type,
                 'currentPreset'      => Utils::get_current_preset($presets_data, $page_type),
                 'currentPresetId'    => !empty(Utils::get_current_preset($presets_data, $page_type)['ID']) ? Utils::get_current_preset($presets_data, $page_type)['ID'] : null,
@@ -316,7 +312,7 @@ class Frontend {
     public function render_preset_root() {
         if (Utils::is_builder_editor()) return;
 
-        if (wp_script_is('wap-accessibility-frontend')) {
+        if (wp_script_is('websac-frontend')) {
             echo '<div id="website-accessibility-app"></div>';
             // Google Translate
             echo '<div id="wap-google-translate-container"></div>';
@@ -324,11 +320,7 @@ class Frontend {
 
 
         // Admin View Container - Will be used by the admin view script
-        if (
-            current_user_can('manage_options') &&
-            class_exists('\bdthemes\websiteaccessibilitypro\Admin\License\LicenseHelper') &&
-            \bdthemes\websiteaccessibilitypro\Admin\License\LicenseHelper::is_license_active()
-        ) {
+        if (current_user_can('manage_options') && Utils::is_pro_plugin_active()) {
             echo '<div id="website-accessibility-checker"></div>';
         }
     }

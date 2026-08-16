@@ -1,8 +1,8 @@
 <?php
 
-namespace bdthemes\websiteaccessibility\Routes;
+namespace Websac\Routes;
 
-use bdthemes\websiteaccessibility\Traits\Singleton;
+use Websac\Traits\Singleton;
 use WP_REST_Request;
 use WP_REST_Server;
 
@@ -52,7 +52,7 @@ class SettingsRouteV1
      */
     public function register_routes()
     {
-        register_rest_route('sigmally/v1', '/settings', [
+        register_rest_route('websac/v1', '/settings', [
             [
                 'methods'             => WP_REST_Server::READABLE, // GET
                 'callback'            => [$this, 'get_settings'],

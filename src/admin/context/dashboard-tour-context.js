@@ -21,7 +21,7 @@ async function persistDashboardTourComplete() {
 	if (!admin?.apiUrl || !admin?.nonce) {
 		return false;
 	}
-	const url = `${admin.apiUrl}one-accessibility/v1/dashboard-tour/complete`;
+	const url = `${admin.apiUrl}websac/v1/dashboard-tour/complete`;
 	try {
 		const res = await fetch(url, {
 			method: 'POST',

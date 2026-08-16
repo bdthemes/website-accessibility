@@ -18,7 +18,7 @@ const UsageStatistics = () => {
         setLoading(true);
         try {
             const res = await apiFetch({
-                path: `/one-accessibility/v1/usage-statistics?range=${range}`,
+                path: `/websac/v1/usage-statistics?range=${range}`,
             });
             if (res?.data) {
                 const response = [];

@@ -160,10 +160,8 @@ const WidgetFeatures = ({
 	const { items } = value;
 	const featureItem = items.find((item) => item.slug === "features");
 	const attributes = featureItem?.attributes || {};
-	const layout = isProActive
-		? normalizeItemLayout(attributes?.layout, "block")
-		: "block";
-	const tooltipPosition = isProActive ? (attributes?.tooltipPosition || "topLeft") : "topLeft";
+	const layout = normalizeItemLayout(attributes?.layout, "block");
+	const tooltipPosition = attributes?.tooltipPosition || "topLeft";
 	const featureColumns = Math.min(6, Math.max(1, Number(attributes?.columns) || 2));
 	const featureColumnWidth = `${100 / featureColumns}%`;
 	// Check if we're in frontend context

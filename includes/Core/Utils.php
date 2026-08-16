@@ -1,11 +1,25 @@
 <?php
 
-namespace bdthemes\websiteaccessibility\Core;
+namespace Websac\Core;
 
-use bdthemes\websiteaccessibility\Routes\SettingsRouteV1;
+use Websac\Routes\SettingsRouteV1;
 
 class Utils
 {
+    /**
+     * Whether the separate One Accessibility Pro plugin is installed and active.
+     *
+     * This is a plain presence check so the free plugin can hand off Pro-only UI
+     * (accessibility checker, translation) to that plugin. It is never used to
+     * enable or disable functionality that ships in this plugin.
+     *
+     * @return bool
+     */
+    public static function is_pro_plugin_active()
+    {
+        return function_exists('website_accessibility_pro');
+    }
+
     public static function get_filesystem()
     {
         // Check if WP_Filesystem is available
@@ -202,7 +216,7 @@ class Utils
 
         if (is_singular()) {
             $currentId = get_queried_object_id();
-            if (in_array($currentId, $selectedPosts)) return true;
+            if (in_array((int) $currentId, array_map('intval', (array) $selectedPosts), true)) return true;
         }
 
         return false;

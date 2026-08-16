@@ -56,15 +56,9 @@ const ProFeaturesListItems = () => (
 	<>
 		<li>
 			<span className="wap-admin-pro-features-card__icon" aria-hidden="true">
-				<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2" /><circle cx="9" cy="7" r="4" /><path d="M23 21v-2a4 4 0 0 0-3-3.87" /><path d="M16 3.13a4 4 0 0 1 0 7.75" /></svg>
+				<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M12 2l3 7h7l-5.5 4.5L18 21l-6-4-6 4 1.5-7.5L2 9h7z" /></svg>
 			</span>
-			{__('Custom Profiles', 'website-accessibility')}
-		</li>
-		<li>
-			<span className="wap-admin-pro-features-card__icon" aria-hidden="true">
-				<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4" /><polyline points="7 10 12 15 17 10" /><line x1="12" y1="15" x2="12" y2="3" /></svg>
-			</span>
-			{__('Export / Import settings', 'website-accessibility')}
+			{__('Screen reader & more Pro widgets', 'website-accessibility')}
 		</li>
 		<li>
 			<span className="wap-admin-pro-features-card__icon" aria-hidden="true">
@@ -236,8 +230,8 @@ const AdminLayout = ({ children }) => {
 		() => [
 			...(!isLicenseValid ? [{ key: 'website-accessibility-get-pro', icon: <IconPro />, label: __('Get Pro', 'website-accessibility') }] : []),
 			...(isProPluginActive && !hideLicenseSidebar ? [{ key: 'website-accessibility-license', icon: <IconLicense />, label: __('License', 'website-accessibility') }] : []),
-			...(isProPluginActive ? [{ key: 'website-accessibility-white-label', icon: <IconWhiteLabel />, label: __('White Label', 'website-accessibility') }] : []),
-			...(isProPluginActive ? [{ key: 'website-accessibility-tools', icon: <IconTools />, label: __('Tools & Backup', 'website-accessibility'), disabled: !isLicenseValid }] : []),
+			{ key: 'website-accessibility-white-label', icon: <IconWhiteLabel />, label: __('White Label', 'website-accessibility') },
+			{ key: 'website-accessibility-tools', icon: <IconTools />, label: __('Tools & Backup', 'website-accessibility') },
 			{ key: 'website-accessibility-about', icon: <IconInfo />, label: __('About & Info', 'website-accessibility') },
 		],
 		[isLicenseValid, isProPluginActive, hideLicenseSidebar]

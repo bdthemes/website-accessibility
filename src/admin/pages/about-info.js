@@ -27,7 +27,7 @@ const AboutInfo = () => {
 	useEffect(() => {
 		const fetchInfo = async () => {
 			try {
-				const res = await apiFetch({ path: '/sigmally/v1/system-info' });
+				const res = await apiFetch({ path: '/websac/v1/system-info' });
 				if (res?.success !== false) {
 					setSystemInfo(res);
 				}
@@ -81,23 +81,21 @@ const AboutInfo = () => {
 					<button type="button" className="wap-about-info-header__tour" onClick={startTour}>
 						{__('Quick tour', 'website-accessibility')}
 					</button>
+					<button
+						type="button"
+						className="wap-about-info-header__tour"
+						onClick={() => startProfileTour({ force: true })}
+					>
+						{__('Custom Profiles create tour', 'website-accessibility')}
+					</button>
 					{isProPluginActive && isProActive && (
-						<>
-							<button
-								type="button"
-								className="wap-about-info-header__tour wap-about-info-header__tour--pro"
-								onClick={() => startProSettingsTour({ force: true })}
-							>
-								{__('Pro settings tour', 'website-accessibility')}
-							</button>
-							<button
-								type="button"
-								className="wap-about-info-header__tour wap-about-info-header__tour--pro"
-								onClick={() => startProfileTour({ force: true })}
-							>
-								{__('Custom Profiles create tour', 'website-accessibility')}
-							</button>
-						</>
+						<button
+							type="button"
+							className="wap-about-info-header__tour wap-about-info-header__tour--pro"
+							onClick={() => startProSettingsTour({ force: true })}
+						>
+							{__('Pro settings tour', 'website-accessibility')}
+						</button>
 					)}
 				</div>
 			</div>

@@ -1,5 +1,16 @@
 import { createContext, useContext, useState, useEffect } from '@wordpress/element';
 
+/**
+ * Pro-plugin status context.
+ *
+ * `isProPluginActive` — the separate One Accessibility Pro plugin is installed
+ * and active (server-side presence check).
+ * `isProActive`       — that plugin reports itself ready (`window.websacPro`).
+ *
+ * These flags only decide whether Pro-owned UI (translation, accessibility
+ * checker, Pro tours) is offered. Nothing that ships in this free plugin is
+ * enabled or disabled based on them.
+ */
 const LicenseContext = createContext(null);
 
 export const LicenseProvider = ({ children }) => {

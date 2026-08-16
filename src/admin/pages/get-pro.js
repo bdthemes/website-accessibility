@@ -133,9 +133,10 @@ const GetProPage = () => {
   const featuresRows = useMemo(() => ([
     { label: __('Accessibility widgets (35+)', 'website-accessibility'), free: true, pro: true },
     { label: __('Preset builder (panel, button, header, footer)', 'website-accessibility'), free: true, pro: true },
-    { label: __('Custom Profiles', 'website-accessibility'), free: false, pro: true },
-    { label: __('Export / Import settings', 'website-accessibility'), free: false, pro: true },
-    { label: __('Tools & Backup', 'website-accessibility'), free: false, pro: true },
+    { label: __('Custom Profiles', 'website-accessibility'), free: true, pro: true },
+    { label: __('Export / Import settings (Tools & Backup)', 'website-accessibility'), free: true, pro: true },
+    { label: __('White Label', 'website-accessibility'), free: true, pro: true },
+    { label: __('Screen reader, smart contrast & other Pro widgets', 'website-accessibility'), free: false, pro: true },
     { label: __('Translation & consent options', 'website-accessibility'), free: false, pro: true },
     { label: __('Accessibility checker', 'website-accessibility'), free: false, pro: true },
     { label: __('Priority support', 'website-accessibility'), free: false, pro: true },
@@ -145,7 +146,7 @@ const GetProPage = () => {
   const included = useMemo(() => ([
     { icon: 'widgets', label: __('Pro widgets & controls', 'website-accessibility') },
     { icon: 'content', label: __('Advanced customization options', 'website-accessibility') },
-    { icon: 'plugins', label: __('Import / Export + backups', 'website-accessibility') },
+    { icon: 'plugins', label: __('Google Translate integration', 'website-accessibility') },
     { icon: 'effects', label: __('More UI presets & layouts', 'website-accessibility') },
     { icon: 'support', label: __('Premium support', 'website-accessibility') },
     { icon: 'chat', label: __('Priority assistance', 'website-accessibility') },
@@ -161,7 +162,7 @@ const GetProPage = () => {
             {__('Get Pro', 'website-accessibility')}
           </Title>
           <Text type="secondary" className="wap-header-card-description">
-            {__('Compare Free vs Pro and unlock premium tools, profiles, backups, and priority support.', 'website-accessibility')}
+            {__('Compare Free vs Pro and unlock premium widgets, translation, the accessibility checker, and priority support.', 'website-accessibility')}
           </Text>
         </div>
         <div className="wap-get-pro__header-actions">

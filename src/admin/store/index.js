@@ -10,7 +10,6 @@ export const generateUniqueTitle = (base) => {
 };
 
 const { panelItems = [], defaultProfiles = [] } = window?.wapHelpers || {};
-const isProActive = window?.websacPro?.isProActive;
 
 export const DEFAULT_STATE = {
     presets: [],
@@ -362,7 +361,6 @@ const store = createReduxStore(STORE_NAME, {
         ),
         getProfiles: createRegistrySelector(
             (select) => (state, withDefault = false) => {
-                if (!isProActive) return withDefault ? defaultProfiles : [];
                 const { getEntityRecords } = select(coreStore);
                 const profiles = getEntityRecords('postType', 'websac_profile');
                 if (withDefault && profiles) {
@@ -373,7 +371,6 @@ const store = createReduxStore(STORE_NAME, {
         ),
         getProfile: createRegistrySelector(
             (select) => (state, id) => {
-                if (!isProActive) return null;
                 const { getEditedEntityRecord } = select(coreStore);
                 const profile = getEditedEntityRecord('postType', 'websac_profile', id);
                 return profile;

@@ -4,10 +4,11 @@
  * Admin Menu Handler
  */
 
-namespace bdthemes\websiteaccessibility\Admin;
+namespace Websac\Admin;
 
-use bdthemes\websiteaccessibility\Core\WhiteLabel;
-use bdthemes\websiteaccessibility\Traits\Singleton;
+use Websac\Core\Utils;
+use Websac\Core\WhiteLabel;
+use Websac\Traits\Singleton;
 
 if (!defined('ABSPATH')) {
     exit;
@@ -22,7 +23,6 @@ class Menu
         add_action('admin_menu', [$this, 'register_menu']);
         add_action('admin_menu', [$this, 'add_toplevel_menu_li_class'], 999);
         add_action('admin_head', [$this, 'menu_icon_styles']);
-        add_action('admin_footer', [$this, 'bfcm_menu_redirect_script']);
     }
 
     /**
@@ -36,7 +36,7 @@ class Menu
         }
         foreach ($menu as $key => $item) {
             if (isset($item[2], $item[4]) && $item[2] === 'website-accessibility') {
-                $menu[$key][4] .= ' wap-admin-root-menu';
+                $menu[$key][4] .= ' wap-admin-root-menu'; // phpcs:ignore WordPress.WP.GlobalVariablesOverride.Prohibited -- Appends a CSS class to this plugin's own top-level menu entry only.
                 break;
             }
         }
@@ -191,19 +191,17 @@ class Menu
             [$this, 'render_menu_page']
         );
 
-        // Tools & Backup — only when Pro plugin is active
-        // if (class_exists('\bdthemes\websiteaccessibilitypro\Admin\License')) {
-            add_submenu_page(
-                'website-accessibility',
-                __('Tools & Backup', 'website-accessibility'),
-                __('Tools & Backup', 'website-accessibility'),
-                'manage_options',
-                'website-accessibility-tools',
-                [$this, 'render_menu_page']
-            );
-        // }
-        
-        if (class_exists('\bdthemes\websiteaccessibilitypro\Admin\License\LicenseBase')) {
+        add_submenu_page(
+            'website-accessibility',
+            __('Tools & Backup', 'website-accessibility'),
+            __('Tools & Backup', 'website-accessibility'),
+            'manage_options',
+            'website-accessibility-tools',
+            [$this, 'render_menu_page']
+        );
+
+        // License screen belongs to the separate Pro plugin; only link to it when that plugin is present.
+        if (Utils::is_pro_plugin_active()) {
             add_submenu_page(
                 'website-accessibility',
                 __('License', 'website-accessibility'),
@@ -214,32 +212,14 @@ class Menu
             );
         }
 
-        if (class_exists('\bdthemes\websiteaccessibilitypro\Admin\License\LicenseHelper')) {
-            add_submenu_page(
-                'website-accessibility',
-                __('White Label', 'website-accessibility'),
-                __('White Label', 'website-accessibility'),
-                'manage_options',
-                'website-accessibility-white-label',
-                [$this, 'render_menu_page']
-            );
-        }
-
-        // // Get Pro — show for free users and unlicensed installs (hide when license is active)
-        // $is_license_active = (
-        //     class_exists('\bdthemes\websiteaccessibilitypro\Admin\License\LicenseHelper') &&
-        //     \bdthemes\websiteaccessibilitypro\Admin\License\LicenseHelper::is_license_active()
-        // );
-        // if (! $is_license_active) {
-        //     add_submenu_page(
-        //         'website-accessibility',
-        //         __('Get Pro', 'website-accessibility'),
-        //         __('Get Pro', 'website-accessibility'),
-        //         'manage_options',
-        //         'website-accessibility-get-pro',
-        //         [$this, 'render_menu_page']
-        //     );
-        // }
+        add_submenu_page(
+            'website-accessibility',
+            __('White Label', 'website-accessibility'),
+            __('White Label', 'website-accessibility'),
+            'manage_options',
+            'website-accessibility-white-label',
+            [$this, 'render_menu_page']
+        );
 
         add_submenu_page(
             'website-accessibility',
@@ -291,28 +271,4 @@ class Menu
         echo '<div id="website-accessibility-admin"></div>';
         echo '</div>';
     }
-
-    public function redirect_to_bfcm_deal()
-    {
-        // This page won't be displayed as we're using JavaScript redirect
-        echo '<script>window.open("https://oneaccessibility.com/#pricing", "_blank"); window.history.back();</script>';
-        exit;
-    }
-    
-
-    public function bfcm_menu_redirect_script()
-    {
-        ?>
-        <script type="text/javascript">
-        jQuery(document).ready(function($) {
-            $('a[href="admin.php?page=websac-bfcm-deal"]').on('click', function(e) {
-                e.preventDefault();
-                window.open('https://oneaccessibility.com/#pricing', '_blank');
-                return false;
-            });
-        });
-        </script>
-        <?php
-    }
 }
-
