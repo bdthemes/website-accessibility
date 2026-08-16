@@ -5,6 +5,8 @@ import defaultProfiles from "./profiles";
 import { getCookie, setCookie, removeCookie } from "./cookie-manager";
 import useBrowserKey from "./use-browser-key";
 import useDrawerScrollControl from "./use-drawer-scroll-control";
+import { DEFAULT_FEATURE_CATEGORY_DEFINITIONS } from "./feature-categories";
+import { isSvgFile, readSvgFileAsMarkup, svgMarkupToDataUri, extractSvgMarkupFromText, isSvgAssetUrl } from "./svgUpload";
 
 export const getSiteLanguage = () => {
     const siteLanguage = window?.websiteAccessibility?.siteLanguage || "en-US";
@@ -21,4 +23,6 @@ export const helpers = {
     removeCookie,
     useBrowserKey,
     useDrawerScrollControl,
+    featureCategoryDefinitions: DEFAULT_FEATURE_CATEGORY_DEFINITIONS,
+    svgUpload: { isSvgFile, readSvgFileAsMarkup, svgMarkupToDataUri, extractSvgMarkupFromText, isSvgAssetUrl },
 };

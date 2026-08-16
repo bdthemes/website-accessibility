@@ -4,7 +4,7 @@ Tags:              accessibility, a11y, wcag, ada-compliance, screen-reader
 Requires at least: 6.1
 Tested up to:      7.0
 Requires PHP:      7.4
-Stable tag:        1.5.0
+Stable tag:        1.5.1
 License:           GPL-2.0-or-later
 License URI:       https://www.gnu.org/licenses/gpl-2.0.html
 
@@ -211,8 +211,12 @@ Features such as Google Translate integration and the AI-based accessibility che
 
 == Changelog ==
 
+= 1.5.1 – August 16, 2026 =
+* Changed: Features that belong to One Accessibility Pro (custom profiles, export/import, white label, translation & accessibility-checker settings, compliance screens, license manager, Pro tours) now live entirely in the Pro plugin. This plugin ships no dormant or license-gated code; it only offers plain informational placeholders and a small extension API (filters + `window.websacAdminExtensions`) that add-ons use to register their own screens.
+* Changed: Settings option now stores only the keys this plugin owns; add-ons register theirs via `websac_settings_defaults` / `websac_sanitize_settings`.
+
 = 1.5.0 – August 16, 2026 =
-* Changed: Custom Profiles, Tools & Backup (export/import), White Label, toolbar layout/tooltip options and the branding toggle are now available to every user; no functionality in this plugin depends on a Pro license.
+* Changed: No functionality in this plugin depends on a Pro license (toolbar layout/tooltip options and the branding toggle are honoured for everyone).
 * Removed: The dashboard "News & Updates" widget and every request to bdthemes.com / bdthemes.io. The plugin no longer contacts the plugin author's servers.
 * Added: "External services" section in the readme documenting the Free Dictionary API used by the Dictionary tool.
 * Changed: All plugin code now uses the `websac` prefix (PHP namespace `Websac\`, `WEBSAC_*` constants, `websac_*` options, `websac/v1` REST namespace, `websac-*` script handles). Existing option keys are migrated automatically on upgrade.

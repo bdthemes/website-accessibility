@@ -2,49 +2,25 @@ import { useLocation } from '../router';
 import { useMemo, useEffect, useState } from '@wordpress/element';
 import apiFetch from '@wordpress/api-fetch';
 import clsx from 'clsx';
-import { useHistory } from '../router';
 import Dashboard from './dashboard';
 import CreatePreset from './create-preset';
 import Presets from './presets';
 import EditPreset from './edit-preset';
-import Profiles from './profiles';
-import CreateProfiles from './create-profiles';
-import EditProfile from './edit-profile';
 import CssOverrides from './css-overrides';
 import Settings from './settings';
-import ToolsBackup from './tools-backup';
 import AboutInfo from './about-info';
 import GetPro from './get-pro';
-import WhiteLabel from './white-label';
-import FixedAccessibilityIssues from './fixed-accessibility-issues';
-import ComplianceMonitoring from './compliance-monitoring';
 import UsageStatistics from '../components/usage-statistics';
-import LicenseManager from '../components/License/LicenseManager';
 import Disclaimer from '../components/disclaimer';
-import { useLicense } from '../context/LicenseContext';
+import { ProfilesUpsell, ToolsUpsell } from '../components/pro-upsell-page';
+import { getAdminExtensions } from '../../utils/admin-extensions';
 
 const Pages = () => {
     const location = useLocation();
-    const history = useHistory();
     const page = location?.params?.page;
     const [settings, setSettings] = useState();
     const API_NAMESPACE = "/websac/v1/settings";
-    const { isProPluginActive } = useLicense();
-
-    const hideLicenseSidebar =
-        typeof window !== 'undefined' &&
-        window.websacAdmin?.hideLicenseNav &&
-        !window.websacAdmin?.whiteLabelRecovery;
-
-    useEffect(() => {
-        if (
-            hideLicenseSidebar &&
-            page === 'website-accessibility-license' &&
-            typeof history?.replace === 'function'
-        ) {
-            history.replace({ page: 'website-accessibility-about' });
-        }
-    }, [page, hideLicenseSidebar, history]);
+    const extensions = getAdminExtensions();
 
     const fetchSettings = async () => {
         try {
@@ -60,13 +36,15 @@ const Pages = () => {
     }, []);
 
     const RouteElement = useMemo(() => {
+        // Screens contributed by add-ons (registered before this bundle loads).
+        const ExtensionPage = page ? extensions.pages[page] : null;
+        if (ExtensionPage) {
+            return <ExtensionPage />;
+        }
+
         switch (page) {
             case 'website-accessibilityfiles':
-                return <Profiles />;
-            case 'website-accessibilityfiles-edit':
-                return <EditProfile />;
-            case 'website-accessibilityfiles-create':
-                return <CreateProfiles />;
+                return <ProfilesUpsell />;
             case 'website-accessibility-presets-edit':
                 return <EditPreset />;
             case 'website-accessibility-presets':
@@ -78,23 +56,15 @@ const Pages = () => {
             case 'website-accessibility-settings':
                 return <Settings />;
             case 'website-accessibility-tools':
-                return <ToolsBackup />;
-            case 'website-accessibility-fixed-issues':
-                return <FixedAccessibilityIssues />;
-            case 'website-accessibility-compliance':
-                return <ComplianceMonitoring />;
+                return <ToolsUpsell />;
             case 'website-accessibility-about':
                 return <AboutInfo />;
             case 'website-accessibility-get-pro':
                 return <GetPro />;
-            case 'website-accessibility-white-label':
-                return <WhiteLabel />;
-            case 'website-accessibility-license':
-                return isProPluginActive ? <LicenseManager /> : <Dashboard />;
             default:
                 return <Dashboard />;
         }
-    }, [page, isProPluginActive]);
+    }, [page]);
 
     useEffect(() => {
         const subMenuItems = document.querySelectorAll('.toplevel_page_website-accessibility ul li');

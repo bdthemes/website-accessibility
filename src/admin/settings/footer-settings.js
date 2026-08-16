@@ -3,6 +3,7 @@ import { STORE_NAME } from '../store';
 import ControlWrapper from '../components/control-wrapper';
 import { __ } from '@wordpress/i18n';
 import ColorPicker from '../controls/color-picker';
+import ExtensionControl from '../components/extension-control';
 
 const FooterSettings = () => {
     const { WapSwitch, WapTypography } = window?.wapComponents;
@@ -36,7 +37,7 @@ const FooterSettings = () => {
                     <WapSwitch checked={attributes.showStatement !== false} onChange={(checked) => updateAttr({ showStatement: checked })} />
                 </ControlWrapper>
                 <ControlWrapper label={__('Show Branding', 'website-accessibility')} inline>
-                    <WapSwitch checked={attributes.showBranding !== false} onChange={(checked) => updateAttr({ showBranding: checked })} />
+                    <ExtensionControl slot="footerShowBranding" attributes={attributes} updateAttr={updateAttr} />
                 </ControlWrapper>
             </div>
 

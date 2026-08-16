@@ -5,7 +5,7 @@
  * Description:       A comprehensive WordPress plugin to enhance website accessibility and ensure WCAG compliance.
  * Requires at least: 6.1
  * Requires PHP:      7.4
- * Version:           1.5.0
+ * Version:           1.5.1
  * Author:            bdthemes
  * Author URI:        https://oneaccessibility.com
  * License:           GPL-2.0-or-later
@@ -28,19 +28,6 @@ if (file_exists($websac_autoload_file)) {
 }
 
 /**
- * White-label constants (must load before most plugin code runs).
- */
-if (!defined('WEBSAC_WL')) {
-	if (get_option('websac_white_label_enabled', false)) {
-		define('WEBSAC_WL', true);
-		$websac_wl_boot = __DIR__ . '/includes/websac-white-label-bootstrap.php';
-		if (file_exists($websac_wl_boot)) {
-			require_once $websac_wl_boot;
-		}
-	}
-}
-
-/**
  * Implements the singleton pattern to ensure only one instance is running.
  */
 final class Websac_Plugin
@@ -52,7 +39,7 @@ final class Websac_Plugin
 	 *
 	 * @var string
 	 */
-	const VERSION = '1.5.0';
+	const VERSION = '1.5.1';
 
 	/**
 	 * Private constructor for singleton pattern.
@@ -183,16 +170,12 @@ final class Websac_Plugin
 
 		// Register post types
 		\Websac\Core\AccessibilityPreset::get_instance();
-		\Websac\Core\PresetProfile::get_instance();
 
 		// Register admin menu
 		\Websac\Admin\Menu::get_instance();
 
 		// Initialize admin assets
 		\Websac\Admin\Enqueue::get_instance();
-
-		// White label (recovery link, submenu icon CSS).
-		\Websac\Admin\WhiteLabelAdmin::get_instance();
 
 		// Initialize frontend assets
 		\Websac\View\Frontend::get_instance();
@@ -203,9 +186,6 @@ final class Websac_Plugin
 		\Websac\Routes\SettingsRouteV1::get_instance();
 		\Websac\Routes\UsageStatisticsRouteV1::get_instance();
 		\Websac\Routes\SystemInfoRouteV1::get_instance();
-
-		\Websac\Routes\ExportImportRouteV1::get_instance();
-		\Websac\Routes\WhiteLabelRouteV1::get_instance();
 	}
 
 	/**
