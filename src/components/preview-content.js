@@ -14,11 +14,10 @@ const PreviewContent = ({
 }) => {
     const { AccessibilityProfiles, WidgetFeatures, PanelHeader, PanelFooter } = window?.wapComponents;
     const { useDrawerScrollControl } = window.wapHelpers;
-    const isProActive = window?.websacPro?.isProActive || false;
     const { isOverSized } = accessibilityContext || {};
 
     const panelRef = useRef(null);
-    const [languageDropdownOpen, setLanguageDropdownOpen] = useState(false);
+    const [headerDropdownOpen, setHeaderDropdownOpen] = useState(false);
     const lockedPanelScrollTopRef = useRef(0);
 
     // In preset editor preview, body scroll lock on mouseenter/mouseleave causes admin layout jitter.
@@ -26,19 +25,20 @@ const PreviewContent = ({
     useDrawerScrollControl(panelRef, isOpen && !isEditorPreview);
 
     /**
-     * True if the event is inside the translation language UI (inner list must keep wheel/touch scroll).
+     * True if the event is inside a header dropdown UI (its inner list must keep wheel/touch scroll).
+     * Header actions that open a dropdown mark their root with the `wap-panel-header-dropdown` class.
      * Walks DOM ancestors from target (fixes text nodes) — do not use document-capture wheel; it runs before
      * the list handles the event and can block scrolling up (deltaY < 0).
      */
-    const isEventInsideLanguageDropdown = (event) => {
-        const matchesLanguageUi = (node) => {
+    const isEventInsideHeaderDropdown = (event) => {
+        const matchesDropdownUi = (node) => {
             if (!node || node.nodeType !== 1) return false;
             const cl = node.classList;
             if (!cl || !cl.length) return false;
             for (let j = 0; j < cl.length; j += 1) {
                 const name = cl[j];
                 if (
-                    name.includes("wap-translation-dropdown")
+                    name.includes("wap-panel-header-dropdown")
                     || name.includes("ant-dropdown")
                 ) {
                     return true;
@@ -53,25 +53,25 @@ const PreviewContent = ({
         }
         const panel = panelRef.current;
         while (el && el !== panel && el !== document.body) {
-            if (matchesLanguageUi(el)) return true;
+            if (matchesDropdownUi(el)) return true;
             el = el.parentElement;
         }
 
         const path = typeof event.composedPath === "function" ? event.composedPath() : [];
         for (let i = 0; i < path.length; i += 1) {
-            if (matchesLanguageUi(path[i])) return true;
+            if (matchesDropdownUi(path[i])) return true;
         }
         return false;
     };
 
     useLayoutEffect(() => {
-        if (languageDropdownOpen && panelRef.current) {
+        if (headerDropdownOpen && panelRef.current) {
             lockedPanelScrollTopRef.current = panelRef.current.scrollTop;
         }
-    }, [languageDropdownOpen]);
+    }, [headerDropdownOpen]);
 
     useEffect(() => {
-        if (!languageDropdownOpen) return;
+        if (!headerDropdownOpen) return;
         const panel = panelRef.current;
         if (!panel) return;
 
@@ -84,7 +84,7 @@ const PreviewContent = ({
 
         /** Bubble phase only — capture-phase wheel on document was blocking upward scroll inside the list */
         const onWheelPanel = (e) => {
-            if (isEventInsideLanguageDropdown(e)) return;
+            if (isEventInsideHeaderDropdown(e)) return;
             e.preventDefault();
         };
 
@@ -95,18 +95,18 @@ const PreviewContent = ({
             panel.removeEventListener("scroll", lockScrollTop);
             panel.removeEventListener("wheel", onWheelPanel);
         };
-    }, [languageDropdownOpen]);
+    }, [headerDropdownOpen]);
 
     useEffect(() => {
-        if (!languageDropdownOpen) return;
+        if (!headerDropdownOpen) return;
         const onKeyDown = (e) => {
             if (e.key === "Escape") {
-                setLanguageDropdownOpen(false);
+                setHeaderDropdownOpen(false);
             }
         };
         document.addEventListener("keydown", onKeyDown);
         return () => document.removeEventListener("keydown", onKeyDown);
-    }, [languageDropdownOpen]);
+    }, [headerDropdownOpen]);
 
     // Create components with accessibility context
     const itemComponents = {
@@ -133,7 +133,7 @@ const PreviewContent = ({
                     "notranslate",
                     {
                         "wap-panel-customization__panel--oversized": isOverSized,
-                        "wap-panel-customization__panel--language-dropdown-open": languageDropdownOpen,
+                        "wap-panel-customization__panel--header-dropdown-open": headerDropdownOpen,
                     }
                 )
             }
@@ -163,8 +163,8 @@ const PreviewContent = ({
                             accessibilityContext={accessibilityContext}
                             accessibilityDispatch={accessibilityDispatch}
                             isEditorPreview={isEditorPreview}
-                            languageDropdownOpen={languageDropdownOpen}
-                            onLanguageDropdownOpenChange={setLanguageDropdownOpen}
+                            headerDropdownOpen={headerDropdownOpen}
+                            onHeaderDropdownOpenChange={setHeaderDropdownOpen}
                         />
                     )
                 }
@@ -179,9 +179,6 @@ const PreviewContent = ({
 
                                     // Must be active
                                     if (!item.active) return null;
-
-                                    // If item is pro, also check isProActive
-                                    if (item?.isPro && !isProActive) return null;
 
                                     return cloneElement(Component, { key: item.slug });
                                 })
@@ -199,12 +196,12 @@ const PreviewContent = ({
                             />
                         )
                     }
-                    {languageDropdownOpen && (
+                    {headerDropdownOpen && (
                         <div
-                            className="wap-language-panel-overlay"
+                            className="wap-panel-header-dropdown-overlay"
                             role="presentation"
                             aria-hidden="true"
-                            onClick={() => setLanguageDropdownOpen(false)}
+                            onClick={() => setHeaderDropdownOpen(false)}
                         />
                     )}
                 </div>

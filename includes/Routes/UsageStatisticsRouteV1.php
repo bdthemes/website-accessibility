@@ -15,36 +15,60 @@ class UsageStatisticsRouteV1
     const OPTION_KEY = 'websac_usage_statistics';
 
     /**
-     * Features with zero counts
+     * Feature keys tracked by this plugin. Add-ons register the keys of the
+     * features they ship through the `websac_usage_statistics_features` filter.
      */
     private $features = [
         'biggerText',
-        'brightness',
         'contrast',
         'cursor',
         'dictionary',
-        'dyslexiaFriendly',
-        'grayscale',
         'hideImages',
         'highlightLinks',
         'lineHeight',
-        'muteSounds',
-        'keyboardNavigation',
-        'virtualKeyboard',
-        'skipLinks',
-        'focusIndicators',
         'pauseAnimations',
         'saturation',
-        'screenReader',
-        'smartContrast',
         'textAlign',
         'textSpacing',
-        'tooltips'
+        'tooltips',
     ];
+
+    /** @var string[]|null Resolved (filtered) feature keys. */
+    private $resolved_features = null;
 
     private function __construct()
     {
         add_action('rest_api_init', [$this, 'register_routes']);
+    }
+
+    /**
+     * Full list of tracked feature keys (built-in + add-on keys).
+     *
+     * @return string[]
+     */
+    private function get_features()
+    {
+        if ($this->resolved_features !== null) {
+            return $this->resolved_features;
+        }
+
+        /**
+         * Filter the toolbar feature keys tracked by the usage statistics.
+         *
+         * @param string[] $features Feature keys.
+         */
+        $features = apply_filters('websac_usage_statistics_features', $this->features);
+        $keys     = [];
+        if (is_array($features)) {
+            foreach ($features as $feature) {
+                if (is_string($feature) && preg_match('/^[A-Za-z0-9_-]{1,64}$/', $feature)) {
+                    $keys[] = $feature;
+                }
+            }
+        }
+        $this->resolved_features = array_values(array_unique($keys ?: $this->features));
+
+        return $this->resolved_features;
     }
 
     public function register_routes()
@@ -97,7 +121,7 @@ class UsageStatisticsRouteV1
                 foreach ($stats as $browser_key => $dates) {
                     if (! is_array($dates)) continue;
 
-                    foreach ($this->features as $feature) {
+                    foreach ($this->get_features() as $feature) {
                         $target[$feature] += absint($dates[$date][$feature] ?? 0);
                         $previous[$feature] += absint($dates[$prev_date][$feature] ?? 0);
                     }
@@ -149,7 +173,7 @@ class UsageStatisticsRouteV1
                 $diff_days = ($today_ts - $date_ts) / DAY_IN_SECONDS;
                 if ($diff_days > $days) continue;
 
-                foreach ($this->features as $feat) {
+                foreach ($this->get_features() as $feat) {
                     $target[$feat] += absint($features[$feat] ?? 0);
                 }
             }
@@ -172,7 +196,7 @@ class UsageStatisticsRouteV1
                 $diff_days = ($today_ts - $date_ts) / DAY_IN_SECONDS;
                 if ($diff_days < $from_days || $diff_days > $to_days) continue;
 
-                foreach ($this->features as $feat) {
+                foreach ($this->get_features() as $feat) {
                     $target[$feat] += absint($features[$feat] ?? 0);
                 }
             }
@@ -235,7 +259,7 @@ class UsageStatisticsRouteV1
         $stats[$browser_key][$today] = $this->empty_counts();
 
         // Loop through features and set today's values from current request
-        foreach ($this->features as $feature) {
+        foreach ($this->get_features() as $feature) {
             $count = isset($incoming[$feature]) ? absint($incoming[$feature]) : 0;
             if ($count > 0) {
                 $stats[$browser_key][$today][$feature] = $count;
@@ -286,7 +310,7 @@ class UsageStatisticsRouteV1
     private function empty_counts()
     {
         $empty = [];
-        foreach ($this->features as $feature) {
+        foreach ($this->get_features() as $feature) {
             $empty[$feature] = 0;
         }
         return $empty;

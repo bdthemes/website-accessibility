@@ -58,25 +58,3 @@
             }
     }
 }
-
-// Export/Import block — aligned with _export-import-settings (tighter right padding)
-.wap-export-import-card.wap-settings-row {
-    .ant-card-body {
-        padding: 16px 14px 16px 18px !important;
-    }
-
-    .wap-export-import-header {
-        margin-bottom: 12px;
-
-        .ant-typography {
-            font-size: 14px;
-            font-weight: 600;
-            color: #1f2937;
-        }
-    }
-
-    .ant-typography + .ant-space,
-    p + .ant-space {
-        margin-top: 0;
-    }
-}

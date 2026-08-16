@@ -1,18 +1,16 @@
 import { useState, useEffect, useMemo } from "@wordpress/element";
 import { __ } from "@wordpress/i18n";
 import apiFetch from "@wordpress/api-fetch";
-import { useLicense } from "../context/LicenseContext";
 const HIGHLIGHT_COUNT = 4;
 
 const UsageStatistics = () => {
-    const { WapCard, WapSelect, WapTypography, WapSkeleton, WapEmpty, WapBadge, WapRow, WapCol } = window?.wapComponents;
+    const { WapCard, WapSelect, WapTypography, WapSkeleton, WapEmpty, WapRow, WapCol } = window?.wapComponents;
     const { Title } = WapTypography;
     const { Option } = WapSelect;
     const [stats, setStats] = useState([]);
     const [loading, setLoading] = useState(false);
     const [filter, setFilter] = useState("daily");
     const { features } = window?.wapHelpers || {};
-    const { isProActive } = useLicense();
 
     const fetchStats = async (range) => {
         setLoading(true);
@@ -30,7 +28,6 @@ const UsageStatistics = () => {
                             value: res.data[feature.key],
                             previousValue: res?.previous_data?.[feature.key] ?? 0,
                             icon: feature?.icon,
-                            isDummy: feature?.isDummy || false,
                         });
                     });
                 setStats(response);
@@ -153,16 +150,6 @@ const UsageStatistics = () => {
 																					>
 																						{stat.title}
 																					</span>
-																					{stat.isDummy && !isProActive && (
-																						<WapBadge
-																							color="gold"
-																							count={__(
-																								"PRO",
-																								"website-accessibility",
-																							)}
-																							className="wap-statistics-highlight__badge"
-																						/>
-																					)}
 																				</div>
 																			</div>
 																		</div>
@@ -195,13 +182,6 @@ const UsageStatistics = () => {
                                                     {stat.value ?? 0}
                                                 </span>
                                             </div>
-                                            {stat.isDummy && !isProActive && (
-                                                <WapBadge
-                                                    color="gold"
-                                                    count={__("PRO", "website-accessibility")}
-                                                    className="wap-statistics-list__badge"
-                                                />
-                                            )}
                                         </li>
                                     ))}
                                 </ul>

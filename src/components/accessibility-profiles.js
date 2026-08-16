@@ -2,6 +2,7 @@ import { useMemo, useRef, useState } from "@wordpress/element";
 import clsx from "clsx";
 import { __ } from "@wordpress/i18n";
 import { normalizeItemLayout } from "../utils/item-layout";
+import { announce } from "../utils/feature-handlers";
 
 /* -------------------- 🔹 ProfileItem Component -------------------- */
 const ProfileItem = ({ profile, isActive, handleClick, hideItemIcons, hideItemLabels, layout }) => {
@@ -110,11 +111,9 @@ const AccessibilityProfiles = ({
 	const profileColumns = Math.min(6, Math.max(1, Number(attributes?.columns) || 2));
 	const profileColumnWidth = `${100 / profileColumns}%`;
 	const collapseTitle = __("Accessibility Profiles", "website-accessibility");
-	const { isScreenReaderActive = (() => false), screenReader = () => null } = window?.wapHelpers;
 
 	const isFrontend = !!accessibilityContext && !!accessibilityDispatch;
 	const { currentProfile, currentSettings } = accessibilityContext || {};
-	const reader = isScreenReaderActive(currentSettings) ? screenReader() : null;
 
 	const processedProfiles = useMemo(() => {
 		if (!allProfiles || allProfiles.length === 0) return [];
@@ -172,7 +171,7 @@ const AccessibilityProfiles = ({
 		for (const key in profileSettings) {
 			const setting = profileSettings[key];
 			const feature = features.find((f) => f.key === key);
-			if (feature && !feature?.isDummy) {
+			if (feature) {
 				const currentIndex = feature.attributes.findIndex(
 					(attr) => attr.value == setting,
 				);
@@ -209,13 +208,13 @@ const AccessibilityProfiles = ({
 			});
 
 			if (currentProfile?.id !== profile.id) {
-				reader?.speak(`Switched to ${profile.name} accessibility profile.`);
+				announce(`Switched to ${profile.name} accessibility profile.`, { profile, settings: currentSettings });
 				accessibilityDispatch({
 					type: "SET_CURRENT_SETTINGS",
 					payload: updatedSettings,
 				});
 			} else {
-				reader?.speak(`Accessibility profile reset.`);
+				announce(`Accessibility profile reset.`, { profile: null, settings: currentSettings });
 				accessibilityDispatch({
 					type: "RESET_PROFILE_SETTINGS",
 				});

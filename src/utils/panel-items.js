@@ -16,14 +16,6 @@ const panelItems = [
         }
     },
     {
-        id: 'language',
-        title: 'Language',
-        slug: 'language',
-        active: true,
-        close: true,
-        isPro: true,
-    },
-    {
         id: 'profiles',
         title: 'Profiles',
         slug: 'profiles',
@@ -31,9 +23,7 @@ const panelItems = [
         attributes: {
             profiles: [
                 "motor",
-                "blind",
                 "color-blind",
-                "dyslexia",
                 "low-vision",
                 "cognitive",
                 "seizure",
@@ -114,60 +104,6 @@ const panelItems = [
                         active: true
                     }
                 },
-                {
-                    screenReader: {
-                        active: true,
-                        isPro: true
-                    }
-                },
-                {
-                    smartContrast: {
-                        active: true,
-                        isPro: true
-                    }
-                },
-                {
-                    dyslexiaFriendly: {
-                        active: true,
-                        isPro: true
-                    }
-                },
-                {
-                    grayscale: {
-                        active: true,
-                        isPro: true
-                    }
-                },
-                {
-                    brightness: {
-                        active: true,
-                        isPro: true
-                    }
-                },
-                {
-                    muteSounds: {
-                        active: true,
-                        isPro: true
-                    }
-                },
-                {
-                    virtualKeyboard: {
-                        active: true,
-                        isPro: true
-                    }
-                },
-                {
-                    skipLinks: {
-                        active: true,
-                        isPro: true
-                    }
-                },
-                {
-                    focusIndicators: {
-                        active: true,
-                        isPro: true
-                    }
-                }
             ],
         }
     },

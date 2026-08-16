@@ -9,7 +9,6 @@ import AdminLayout from './components/admin-layout';
 import { DashboardTourProvider } from './context/dashboard-tour-context';
 import { register } from '@wordpress/data';
 import store, { STORE_NAME, generateUniqueTitle } from './store';
-import { LicenseProvider } from './context/LicenseContext';
 import { getAdminExtensions } from '../utils/admin-extensions';
 import PostTable from './components/post-table';
 import ControlWrapper from './components/control-wrapper';
@@ -60,13 +59,11 @@ const Admin = () => {
     });
 
     return (
-        <LicenseProvider>
-            <RouterProvider>
-                <DashboardTourProvider>
-                    {content}
-                </DashboardTourProvider>
-            </RouterProvider>
-        </LicenseProvider>
+        <RouterProvider>
+            <DashboardTourProvider>
+                {content}
+            </DashboardTourProvider>
+        </RouterProvider>
     );
 };
 

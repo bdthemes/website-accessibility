@@ -265,6 +265,8 @@ class Enqueue {
             'version'                      => WEBSAC_VERSION,
             'apiUrl'                       => rest_url(),
             'homeUrl'                      => home_url('/'),
+            'siteName'                     => wp_specialchars_decode(get_bloginfo('name'), ENT_QUOTES),
+            'adminEmail'                   => (string) get_option('admin_email'),
             'nonce'                        => wp_create_nonce('wp_rest'),
             'proUpgradeUrl'                => 'https://oneaccessibility.com#pricing',
             /** Set false in JS after completing tour via REST (same page session). */

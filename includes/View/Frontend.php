@@ -11,7 +11,6 @@ class Frontend {
         add_action('wp_enqueue_scripts', [$this, 'enqueue_frontend_scripts']);
         add_action('wp_enqueue_scripts', [$this, 'enqueue_frontend_custom_css'], 99);
         add_action('wp_enqueue_scripts', [$this, 'enqueue_components_scripts'], 1);
-        add_action('wp_enqueue_scripts', [$this, 'maybe_enqueue_fix_highlight'], 3);
         add_action('admin_enqueue_scripts', [$this, 'enqueue_components_scripts'], 1);
         add_action('wp_footer', [$this, 'render_preset_root']);
     }
@@ -67,105 +66,6 @@ class Frontend {
 
     public function should_render_preset_assets() {
         return is_admin() || !empty(Utils::get_current_preset($this->get_preset_data(), Utils::get_page_type()));
-    }
-
-    /**
-     * When an admin visits with ?websac_highlight=1&websac_xpath=<base64>, scroll to / outline that element on the frontend.
-     * Capability-gated server-side — avoids abusive public URLs.
-     */
-    public function maybe_enqueue_fix_highlight() {
-        if (is_admin()) {
-            return;
-        }
-
-        if (Utils::is_builder_editor()) {
-            return;
-        }
-
-        $flag = isset($_GET['websac_highlight']) ? sanitize_key((string) wp_unslash($_GET['websac_highlight'])) : ''; // phpcs:ignore WordPress.Security.NonceVerification.Recommended -- Read-only UX gated by capability.
-        if ($flag !== '1') {
-            return;
-        }
-
-        if (! is_user_logged_in() || ! current_user_can('manage_options')) {
-            return;
-        }
-
-        $xpath = $this->decode_xpath_highlight_param();
-        if ($xpath === '') {
-            return;
-        }
-
-        $asset_path = WEBSAC_DIR . 'assets/js/websac-fix-highlight.js';
-        if (! file_exists($asset_path)) {
-            return;
-        }
-
-        $ver = WEBSAC_VERSION . '.' . (string) filemtime($asset_path);
-        wp_enqueue_script(
-            'websac-fix-highlight',
-            WEBSAC_URL . 'assets/js/websac-fix-highlight.js',
-            [],
-            $ver,
-            true
-        );
-
-        wp_localize_script(
-            'websac-fix-highlight',
-            'websacFixHighlight',
-            [
-                'xpath'  => $xpath,
-                'fadeMs' => 14000,
-            ]
-        );
-    }
-
-    /**
-     * Decode XPath from GET params (UTF-8, base64). Empty string when invalid.
-     *
-     * @return string
-     */
-    private function decode_xpath_highlight_param() {
-
-        $raw = isset($_GET['websac_xpath']) ? (string) wp_unslash($_GET['websac_xpath']) : ''; // phpcs:ignore WordPress.Security.NonceVerification.Recommended, WordPress.Security.ValidatedSanitizedInput.InputNotSanitized -- Read-only; strictly validated below (charset regex, strict base64, UTF-8) and gated by manage_options.
-
-        $normalized = trim(str_replace(' ', '+', rawurldecode($raw)));
-
-        if ($normalized === '') {
-            return '';
-        }
-
-        if (! preg_match('/^[a-zA-Z0-9+\/_-]+=*$/', $normalized)) {
-            return '';
-        }
-
-        $normalized = strtr($normalized, '-_', '+/');
-        $pad = strlen($normalized) % 4;
-        if ($pad !== 0) {
-            $normalized .= str_repeat('=', 4 - $pad);
-        }
-
-        $binary = base64_decode($normalized, true);
-        if ($binary === false || ! is_string($binary)) {
-            return '';
-        }
-
-        if (strlen($binary) > 8192 || preg_match('/\0/', $binary)) {
-            return '';
-        }
-
-        if (! preg_match('//u', $binary)) {
-            return '';
-        }
-
-        if (
-            preg_match('/\bjavascript\s*:|data\s*\(|vbscript\s*:/iu', $binary)
-            || preg_match('/<\s*\/?script/iu', $binary)
-        ) {
-            return '';
-        }
-
-        return $binary;
     }
 
     /**

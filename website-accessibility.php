@@ -5,7 +5,7 @@
  * Description:       A comprehensive WordPress plugin to enhance website accessibility and ensure WCAG compliance.
  * Requires at least: 6.1
  * Requires PHP:      7.4
- * Version:           1.5.1
+ * Version:           1.5.2
  * Author:            bdthemes
  * Author URI:        https://oneaccessibility.com
  * License:           GPL-2.0-or-later
@@ -39,7 +39,7 @@ final class Websac_Plugin
 	 *
 	 * @var string
 	 */
-	const VERSION = '1.5.1';
+	const VERSION = '1.5.2';
 
 	/**
 	 * Private constructor for singleton pattern.
@@ -121,11 +121,16 @@ final class Websac_Plugin
 			$data = json_decode($wp_filesystem->get_contents($json_path), true);
 
 			if (!empty($data)) {
-				if (!empty($data)) {
-					$data['post_author'] = get_current_user_id();
-					$data['post_content'] = wp_json_encode($data['post_content'], JSON_UNESCAPED_UNICODE | JSON_UNESCAPED_SLASHES);
-					wp_insert_post($data);
-				}
+				$data['post_author'] = get_current_user_id();
+				/**
+				 * Filter the default preset seeded on activation (decoded JSON).
+				 * Add-ons may append their own panel items, widgets or profile ids.
+				 *
+				 * @param array $content Preset content (button, panel, conditions...).
+				 */
+				$data['post_content'] = apply_filters('websac_default_preset_content', $data['post_content']);
+				$data['post_content'] = wp_json_encode($data['post_content'], JSON_UNESCAPED_UNICODE | JSON_UNESCAPED_SLASHES);
+				wp_insert_post($data);
 			}
 		}
 
@@ -134,11 +139,9 @@ final class Websac_Plugin
 			$data = json_decode($wp_filesystem->get_contents($json_path), true);
 
 			if (!empty($data)) {
-				if (!empty($data)) {
-					$data['post_author'] = get_current_user_id();
-					$data['post_content'] = $data['post_content'];
-					wp_insert_post($data);
-				}
+				$data['post_author']  = get_current_user_id();
+				$data['post_content'] = Utils::fill_statement_placeholders((string) $data['post_content']);
+				wp_insert_post($data);
 			}
 		}
 

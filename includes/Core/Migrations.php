@@ -61,12 +61,12 @@ class Migrations
      * 1.5.0: every stored key now uses the `websac_` prefix. Copy legacy keys to
      * their new names (never overwriting data that already exists under the new
      * name) and remove the old ones, plus stale transients from removed features.
+     * (Add-ons migrate their own option keys.)
      */
     private function migrate_legacy_option_keys()
     {
         $renamed_options = [
-            'one_accessibility_usage_statistics'          => 'websac_usage_statistics',
-            'websac_white_label_license_title_status'     => 'websac_white_label_status',
+            'one_accessibility_usage_statistics' => 'websac_usage_statistics',
         ];
 
         foreach ($renamed_options as $old_key => $new_key) {
@@ -82,12 +82,6 @@ class Migrations
 
         // Dashboard product-feed widget was removed in 1.5.0.
         delete_transient('websac_product_feeds');
-
-        // Recovery tokens issued before 1.5.0 were bound to a Pro license key; invalidate them.
-        $token = get_option('websac_white_label_access_token', []);
-        if (is_array($token) && isset($token['license_key'])) {
-            delete_option('websac_white_label_access_token');
-        }
     }
 
     /**
@@ -405,16 +399,22 @@ class Migrations
      */
     private function build_widget_categories(array $widgets)
     {
-        $definitions = [
+        /**
+         * Filter the default feature category definitions used when grouping
+         * stored widgets. Add-ons append the keys of the features they ship.
+         *
+         * @param array $definitions [ [ 'slug', 'title', 'keys' => string[] ], ... ]
+         */
+        $definitions = apply_filters('websac_feature_category_definitions', [
             [
                 'slug'  => 'text',
                 'title' => 'Text',
-                'keys'  => ['biggerText', 'textSpacing', 'lineHeight', 'textAlign', 'dyslexiaFriendly', 'dictionary'],
+                'keys'  => ['biggerText', 'textSpacing', 'lineHeight', 'textAlign', 'dictionary'],
             ],
             [
                 'slug'  => 'color',
                 'title' => 'Color & Contrast',
-                'keys'  => ['contrast', 'smartContrast', 'brightness', 'grayscale', 'saturation', 'highlightLinks', 'hideImages'],
+                'keys'  => ['contrast', 'saturation', 'highlightLinks', 'hideImages'],
             ],
             [
                 'slug'  => 'orientation',
@@ -424,9 +424,12 @@ class Migrations
             [
                 'slug'  => 'behavior',
                 'title' => 'Behavior',
-                'keys'  => ['pauseAnimations', 'muteSounds', 'screenReader', 'keyboardNavigation', 'virtualKeyboard', 'skipLinks', 'focusIndicators'],
+                'keys'  => ['pauseAnimations'],
             ],
-        ];
+        ]);
+        if (! is_array($definitions)) {
+            $definitions = [];
+        }
 
         $widget_index = [];
         foreach ($widgets as $widget) {

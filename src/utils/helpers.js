@@ -1,11 +1,11 @@
 import features from "./features";
 import panelItems from "./panel-items";
-import isScreenReaderActive from "./is-screenreader-active";
 import defaultProfiles from "./profiles";
 import { getCookie, setCookie, removeCookie } from "./cookie-manager";
 import useBrowserKey from "./use-browser-key";
 import useDrawerScrollControl from "./use-drawer-scroll-control";
 import { DEFAULT_FEATURE_CATEGORY_DEFINITIONS } from "./feature-categories";
+import { registerFeatureHandler, getFeatureHandler } from "./feature-handlers";
 import { isSvgFile, readSvgFileAsMarkup, svgMarkupToDataUri, extractSvgMarkupFromText, isSvgAssetUrl } from "./svgUpload";
 
 export const getSiteLanguage = () => {
@@ -16,7 +16,8 @@ export const getSiteLanguage = () => {
 export const helpers = {
     features,
     panelItems,
-    isScreenReaderActive,
+    registerFeatureHandler,
+    getFeatureHandler,
     defaultProfiles,
     getCookie,
     setCookie,

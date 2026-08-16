@@ -40,3 +40,6 @@ vendor/
 .DS_Store
 Thumbs.db
 desktop.ini
+
+# Claude Code session data / worktrees
+.claude/

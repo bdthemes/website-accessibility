@@ -296,19 +296,11 @@
 
 // Vision / contrast — violet
 .wap-statistics-list__item--contrast .wap-statistics-list__icon-wrap,
-.wap-statistics-list__item--smartContrast .wap-statistics-list__icon-wrap,
-.wap-statistics-list__item--grayscale .wap-statistics-list__icon-wrap,
-.wap-statistics-highlight__card--contrast .wap-statistics-highlight__icon-wrap,
-.wap-statistics-highlight__card--smartContrast .wap-statistics-highlight__icon-wrap,
-.wap-statistics-highlight__card--grayscale .wap-statistics-highlight__icon-wrap {
+.wap-statistics-highlight__card--contrast .wap-statistics-highlight__icon-wrap {
     background: #ede9fe;
 }
 .wap-statistics-list__item--contrast .wap-statistics-list__icon,
-.wap-statistics-list__item--smartContrast .wap-statistics-list__icon,
-.wap-statistics-list__item--grayscale .wap-statistics-list__icon,
-.wap-statistics-highlight__card--contrast .wap-statistics-highlight__icon,
-.wap-statistics-highlight__card--smartContrast .wap-statistics-highlight__icon,
-.wap-statistics-highlight__card--grayscale .wap-statistics-highlight__icon {
+.wap-statistics-highlight__card--contrast .wap-statistics-highlight__icon {
     color: #6d28d9;
 }
 
@@ -335,15 +327,11 @@
 }
 
 // Light / color — orange
-.wap-statistics-list__item--brightness .wap-statistics-list__icon-wrap,
 .wap-statistics-list__item--saturation .wap-statistics-list__icon-wrap,
-.wap-statistics-highlight__card--brightness .wap-statistics-highlight__icon-wrap,
 .wap-statistics-highlight__card--saturation .wap-statistics-highlight__icon-wrap {
     background: #ffedd5;
 }
-.wap-statistics-list__item--brightness .wap-statistics-list__icon,
 .wap-statistics-list__item--saturation .wap-statistics-list__icon,
-.wap-statistics-highlight__card--brightness .wap-statistics-highlight__icon,
 .wap-statistics-highlight__card--saturation .wap-statistics-highlight__icon {
     color: #ea580c;
 }
@@ -362,30 +350,6 @@
     color: #16a34a;
 }
 
-// Audio / speech — teal
-.wap-statistics-list__item--screenReader .wap-statistics-list__icon-wrap,
-.wap-statistics-list__item--muteSounds .wap-statistics-list__icon-wrap,
-.wap-statistics-highlight__card--screenReader .wap-statistics-highlight__icon-wrap,
-.wap-statistics-highlight__card--muteSounds .wap-statistics-highlight__icon-wrap {
-    background: #ccfbf1;
-}
-.wap-statistics-list__item--screenReader .wap-statistics-list__icon,
-.wap-statistics-list__item--muteSounds .wap-statistics-list__icon,
-.wap-statistics-highlight__card--screenReader .wap-statistics-highlight__icon,
-.wap-statistics-highlight__card--muteSounds .wap-statistics-highlight__icon {
-    color: #0d9488;
-}
-
-// Input / keyboard — indigo
-.wap-statistics-list__item--keyboardNavigation .wap-statistics-list__icon-wrap,
-.wap-statistics-highlight__card--keyboardNavigation .wap-statistics-highlight__icon-wrap {
-    background: #e0e7ff;
-}
-.wap-statistics-list__item--keyboardNavigation .wap-statistics-list__icon,
-.wap-statistics-highlight__card--keyboardNavigation .wap-statistics-highlight__icon {
-    color: #4f46e5;
-}
-
 // Reduce motion / media — slate
 .wap-statistics-list__item--pauseAnimations .wap-statistics-list__icon-wrap,
 .wap-statistics-list__item--hideImages .wap-statistics-list__icon-wrap,
@@ -398,16 +362,6 @@
 .wap-statistics-highlight__card--pauseAnimations .wap-statistics-highlight__icon,
 .wap-statistics-highlight__card--hideImages .wap-statistics-highlight__icon {
     color: #475569;
-}
-
-// Reading aid — purple
-.wap-statistics-list__item--dyslexiaFriendly .wap-statistics-list__icon-wrap,
-.wap-statistics-highlight__card--dyslexiaFriendly .wap-statistics-highlight__icon-wrap {
-    background: #f3e8ff;
-}
-.wap-statistics-list__item--dyslexiaFriendly .wap-statistics-list__icon,
-.wap-statistics-highlight__card--dyslexiaFriendly .wap-statistics-highlight__icon {
-    color: #7c3aed;
 }
 
 // Help / reference — amber
@@ -440,9 +394,7 @@
 }
 
 // Highlight card — multi-color soft surfaces (icon + value stay clean on top)
-.wap-statistics-highlight__card--contrast,
-.wap-statistics-highlight__card--smartContrast,
-.wap-statistics-highlight__card--grayscale {
+.wap-statistics-highlight__card--contrast {
     background: linear-gradient(165deg, #ede9fe 0%, #f5f3ff 42%, #ffffff 100%);
     border-color: rgba(109, 40, 217, 0.14);
     box-shadow: none;
@@ -457,7 +409,6 @@
     box-shadow: none;
 }
 
-.wap-statistics-highlight__card--brightness,
 .wap-statistics-highlight__card--saturation {
     background: linear-gradient(165deg, #ffedd5 0%, #fff7ed 42%, #ffffff 100%);
     border-color: rgba(234, 88, 12, 0.14);
@@ -471,29 +422,10 @@
     box-shadow: none;
 }
 
-.wap-statistics-highlight__card--screenReader,
-.wap-statistics-highlight__card--muteSounds {
-    background: linear-gradient(165deg, #ccfbf1 0%, #f0fdfa 42%, #ffffff 100%);
-    border-color: rgba(13, 148, 136, 0.14);
-    box-shadow: none;
-}
-
-.wap-statistics-highlight__card--keyboardNavigation {
-    background: linear-gradient(165deg, #e0e7ff 0%, #eef2ff 42%, #ffffff 100%);
-    border-color: rgba(79, 70, 229, 0.14);
-    box-shadow: none;
-}
-
 .wap-statistics-highlight__card--pauseAnimations,
 .wap-statistics-highlight__card--hideImages {
     background: linear-gradient(165deg, #f1f5f9 0%, #f8fafc 42%, #ffffff 100%);
     border-color: rgba(71, 85, 105, 0.12);
-    box-shadow: none;
-}
-
-.wap-statistics-highlight__card--dyslexiaFriendly {
-    background: linear-gradient(165deg, #f3e8ff 0%, #faf5ff 42%, #ffffff 100%);
-    border-color: rgba(124, 58, 237, 0.14);
     box-shadow: none;
 }
 

@@ -136,47 +136,6 @@ export const IconSettings = () =>
 
 	);
 
-/** License — key / shield */
-export const IconLicense = () =>
-	wrap(
-		<svg
-		xmlns="http://www.w3.org/2000/svg"
-		width={24}
-		height={24}
-		viewBox="0 0 24 24"
-		fill="none"
-		stroke="currentColor"
-		strokeWidth={2}
-		strokeLinecap="round"
-		strokeLinejoin="round"
-		className="lucide lucide-key-round-icon lucide-key-round"
-		>
-		<path d="M2.586 17.414A2 2 0 0 0 2 18.828V21a1 1 0 0 0 1 1h3a1 1 0 0 0 1-1v-1a1 1 0 0 1 1-1h1a1 1 0 0 0 1-1v-1a1 1 0 0 1 1-1h.172a2 2 0 0 0 1.414-.586l.814-.814a6.5 6.5 0 1 0-4-4z" />
-		<circle cx="16.5" cy="7.5" r=".5" fill="currentColor" />
-		</svg>
-
-	);
-
-/** White Label — tag / badge */
-export const IconWhiteLabel = () =>
-	wrap(
-		<svg
-			xmlns="http://www.w3.org/2000/svg"
-			width={24}
-			height={24}
-			viewBox="0 0 24 24"
-			fill="none"
-			stroke="currentColor"
-			strokeWidth={2}
-			strokeLinecap="round"
-			strokeLinejoin="round"
-		>
-			<path d="M12 2 2 7v10l10 5 10-5V7z" />
-			<path d="M2 7l10 5 10-5" />
-			<path d="M12 22V12" />
-		</svg>
-	);
-
 /** Tools & Backup — download/upload / toolbox */
 export const IconTools = () =>
 	wrap(
@@ -230,51 +189,6 @@ export const IconPro = () =>
 			<path d="M12 2l1.4 4.6L18 8l-4.6 1.4L12 14l-1.4-4.6L6 8l4.6-1.4L12 2z" />
 			<path d="M5 13l.9 2.9L9 17l-3.1 1.1L5 21l-.9-2.9L1 17l3.1-1.1L5 13z" />
 			<path d="M19 13l.9 2.9L23 17l-3.1 1.1L19 21l-.9-2.9L15 17l3.1-1.1L19 13z" />
-		</svg>
-	);
-
-/** Fixed Issues — target / crosshair (checker) */
-export const IconFixedIssues = () =>
-	wrap(
-		<svg
-			xmlns="http://www.w3.org/2000/svg"
-			width={24}
-			height={24}
-			viewBox="0 0 24 24"
-			fill="none"
-			stroke="currentColor"
-			strokeWidth={2}
-			strokeLinecap="round"
-			strokeLinejoin="round"
-			aria-hidden="true"
-		>
-			<circle cx={12} cy={12} r={10} />
-			<circle cx={12} cy={12} r={3} />
-			<line x1={12} y1={2} x2={12} y2={5} />
-			<line x1={12} y1={19} x2={12} y2={22} />
-			<line x1={2} y1={12} x2={5} y2={12} />
-			<line x1={19} y1={12} x2={22} y2={12} />
-		</svg>
-	);
-
-/** Compliance Monitoring — bar chart */
-export const IconCompliance = () =>
-	wrap(
-		<svg
-			xmlns="http://www.w3.org/2000/svg"
-			width={24}
-			height={24}
-			viewBox="0 0 24 24"
-			fill="none"
-			stroke="currentColor"
-			strokeWidth={2}
-			strokeLinecap="round"
-			strokeLinejoin="round"
-			aria-hidden="true"
-		>
-			<line x1={18} y1={20} x2={18} y2={10} />
-			<line x1={12} y1={20} x2={12} y2={4} />
-			<line x1={6} y1={20} x2={6} y2={14} />
 		</svg>
 	);
 

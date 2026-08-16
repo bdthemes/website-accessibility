@@ -4,7 +4,7 @@ Tags:              accessibility, a11y, wcag, ada-compliance, screen-reader
 Requires at least: 6.1
 Tested up to:      7.0
 Requires PHP:      7.4
-Stable tag:        1.5.1
+Stable tag:        1.5.2
 License:           GPL-2.0-or-later
 License URI:       https://www.gnu.org/licenses/gpl-2.0.html
 
@@ -191,10 +191,6 @@ This plugin uses the following open-source libraries and third-party tools. We a
 - [@wordpress/scripts](https://developer.wordpress.org/block-editor/reference-guides/packages/packages-scripts/) – Official WordPress build toolchain (GPL-2.0-or-later)
 - [@wordpress/icons](https://developer.wordpress.org/block-editor/reference-guides/packages/packages-icons/) – WordPress icon set used in admin UI (GPL-2.0-or-later)
 
-**Bundled Fonts:**
-
-- [OpenDyslexic Font](https://opendyslexic.org/) – Open-source font designed to increase readability for readers with dyslexia (SIL Open Font License). Bundled with the plugin; no font requests are made to third-party servers.
-
 == External services ==
 
 This plugin connects to one third-party service. No data is sent anywhere unless a visitor explicitly uses the feature described below. The plugin does not send usage data, telemetry, or site information to the plugin author.
@@ -210,6 +206,12 @@ This plugin connects to one third-party service. No data is sent anywhere unless
 Features such as Google Translate integration and the AI-based accessibility checker are provided by the separate One Accessibility Pro plugin, which documents its own external services.
 
 == Changelog ==
+
+= 1.5.2 – August 16, 2026 =
+* Removed: The last remaining Pro-related code paths. Placeholder ("dummy") widget entries, `isPro`-flagged panel items, the license/`isProActive` context and every PRO badge or disabled toggle that depended on it, the translation picker/consent plumbing, the fix-highlight script used by the Pro checker, Pro-only admin/front-end styles and the OpenDyslexic font (used only by a Pro widget) were moved to One Accessibility Pro. Nothing in this plugin is greyed out or locked any more.
+* Added: Extension hooks that add-ons use to plug those features back in: `wapHelpers.registerFeatureHandler(key, {apply, remove})`, `wapHelpers.announce`, `wapHelpers.featureCategoryDefinitions` (read lazily), `wapComponents.PanelHeaderActions`, `wapComponents.FrontendExtensions`, the `sidebarPromoCard` admin control slot, DOM events `websac-accessibility-reset` / `websac-extensions-changed`, and PHP filters `websac_usage_statistics_features`, `websac_feature_category_definitions`, `websac_default_preset_content`.
+* Changed: The sample Accessibility Statement page no longer links to the plugin author's website; it uses your site name, URL and admin e-mail instead.
+* Changed: Feature body classes on the front end are now tracked individually (add-on classes with the same prefix are left alone).
 
 = 1.5.1 – August 16, 2026 =
 * Changed: Features that belong to One Accessibility Pro (custom profiles, export/import, white label, translation & accessibility-checker settings, compliance screens, license manager, Pro tours) now live entirely in the Pro plugin. This plugin ships no dormant or license-gated code; it only offers plain informational placeholders and a small extension API (filters + `window.websacAdminExtensions`) that add-ons use to register their own screens.

@@ -2,14 +2,12 @@ import { useMemo, useState } from "@wordpress/element";
 import { SearchOutlined } from "@ant-design/icons";
 import { __ } from "@wordpress/i18n";
 import { buildFeatureWidgetPayload, getFeatureCategories, getFeatureStateIndex } from "../../utils/feature-categories";
-import { useLicense } from "../context/LicenseContext";
 
 
 const FeaturesCustomization = ({ attributes, updateAttr }) => {
-    const { WapCard, WapInput, WapSwitch, WapBadge } = window?.wapComponents;
+    const { WapCard, WapInput, WapSwitch } = window?.wapComponents;
     const features = window?.wapHelpers?.features || [];
     const [searchTerm, setSearchTerm] = useState("");
-    const { isProActive } = useLicense();
 
     const featureStateIndex = useMemo(() => {
         return getFeatureStateIndex(attributes, features);
@@ -66,8 +64,6 @@ const FeaturesCustomization = ({ attributes, updateAttr }) => {
                         <div className="wap-features-customization__feature-grid">
                             {category.features.map((feature) => {
                                 const isCurrentActive = featureStateIndex?.[feature?.key]?.active ?? true;
-                                const isDummy = feature?.isDummy;
-                                const canToggle = !isDummy || isProActive;
 
                                 return (
                                     <div
@@ -75,13 +71,10 @@ const FeaturesCustomization = ({ attributes, updateAttr }) => {
                                         className={`wap-feature-toggle-card wap-feature-toggle-card--${feature?.key || "default"}`}
                                         role="button"
                                         tabIndex={0}
-                                        aria-disabled={!canToggle}
                                         onClick={() => {
-                                            if (!canToggle) return;
                                             updateFeatureState(feature?.key, !isCurrentActive);
                                         }}
                                         onKeyDown={(e) => {
-                                            if (!canToggle) return;
                                             if (e.key === "Enter" || e.key === " ") {
                                                 e.preventDefault();
                                                 updateFeatureState(feature?.key, !isCurrentActive);
@@ -95,21 +88,13 @@ const FeaturesCustomization = ({ attributes, updateAttr }) => {
                                             <div className="wap-feature-toggle-card__label">{feature?.label}</div>
                                         </div>
                                         <div className="wap-feature-toggle-card__right">
-                                            {(!isDummy || isProActive) ? (
-                                                <WapSwitch
-                                                    checked={isCurrentActive}
-                                                    onChange={(checked) => updateFeatureState(feature?.key, checked)}
-                                                    size="small"
-                                                    onClick={(e) => e.stopPropagation()}
-                                                    onMouseDown={(e) => e.stopPropagation()}
-                                                />
-                                            ) : (
-                                                <WapBadge
-                                                    color="gold"
-                                                    count={__("PRO", "website-accessibility")}
-                                                    className="wap-feature-toggle-card__badge"
-                                                />
-                                            )}
+                                            <WapSwitch
+                                                checked={isCurrentActive}
+                                                onChange={(checked) => updateFeatureState(feature?.key, checked)}
+                                                size="small"
+                                                onClick={(e) => e.stopPropagation()}
+                                                onMouseDown={(e) => e.stopPropagation()}
+                                            />
                                         </div>
                                     </div>
                                 );

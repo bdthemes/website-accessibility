@@ -1,5 +1,4 @@
-import { useEffect, useMemo, useState } from "@wordpress/element";
-import { ReloadOutlined } from "@ant-design/icons";
+import { useState } from "@wordpress/element";
 import { __ } from "@wordpress/i18n";
 import PanelBrandIcon from "./panel-brand-icon";
 
@@ -9,51 +8,25 @@ const PanelHeader = ({
     accessibilityContext,
     accessibilityDispatch,
     isEditorPreview = false,
-    languageDropdownOpen: languageDropdownOpenProp,
-    onLanguageDropdownOpenChange,
+    headerDropdownOpen: headerDropdownOpenProp,
+    onHeaderDropdownOpenChange,
 }) => {
-    const siteLanguage = window?.websiteAccessibility?.siteLanguage?.split("-")?.[0] || "en";
-    const [internalLanguageDropdownOpen, setInternalLanguageDropdownOpen] = useState(false);
-    const isLanguageDropdownControlled = typeof onLanguageDropdownOpenChange === "function";
-    const openLanguageDropdown = isLanguageDropdownControlled ? !!languageDropdownOpenProp : internalLanguageDropdownOpen;
-    const setOpenLanguageDropdown = isLanguageDropdownControlled
-        ? onLanguageDropdownOpenChange
-        : setInternalLanguageDropdownOpen;
-    const [editorSelectedLanguage, setEditorSelectedLanguage] = useState(siteLanguage);
+    const [internalHeaderDropdownOpen, setInternalHeaderDropdownOpen] = useState(false);
+    const isHeaderDropdownControlled = typeof onHeaderDropdownOpenChange === "function";
+    const headerDropdownOpen = isHeaderDropdownControlled ? !!headerDropdownOpenProp : internalHeaderDropdownOpen;
+    const setHeaderDropdownOpen = isHeaderDropdownControlled
+        ? onHeaderDropdownOpenChange
+        : setInternalHeaderDropdownOpen;
     const [headerElement, setHeaderElement] = useState(null);
-    const [consentRefreshKey, setConsentRefreshKey] = useState(0);
 
     // Find the header item from value.items
     const headerItem = value?.items?.find(item => item.slug === 'header') || {};
     const attributes = headerItem.attributes || {};
     const panelWidth = value?.wrapper?.width || 420;
-    const isProActive = window?.websacPro?.isProActive || false;
-    const { TranslationLanguageDropdown, WapTooltip } = window?.wapComponents || {};
-    const {
-        getCookie = (() => null),
-        removeCookie = (() => null),
-    } = window?.wapHelpers || {};
+    // Optional extra header actions contributed by an add-on (rendered between "Reset all" and the close button).
+    const { PanelHeaderActions, WapTooltip } = window?.wapComponents || {};
     const [messageApi, contextHolder] = (window?.wapComponents?.WapMessage || {}).useMessage?.() || [];
-    const { settings } = window?.websiteAccessibility || {};
     const isFrontend = !isEditorPreview && !!accessibilityContext && !!accessibilityDispatch;
-    const isForceTranslateSiteLanguage = !!settings?.force_translate_site_language;
-    const showTranslator = attributes?.showTranslator !== false;
-    const translateConsent = useMemo(() => (
-        isFrontend ? getCookie("wapGoogleTranslateConsent") : null
-    ), [getCookie, isFrontend, consentRefreshKey]);
-    const isConsentDeclined = isFrontend && translateConsent === "false";
-    const isConsentAccepted = isFrontend && translateConsent === "true";
-    const effectiveSiteLanguage = isFrontend
-        ? (accessibilityContext?.siteLanguage || siteLanguage)
-        : siteLanguage;
-    const selectedLanguage = isFrontend
-        ? (accessibilityContext?.selectedLanguage || effectiveSiteLanguage)
-        : editorSelectedLanguage;
-    // Show language picker when consent is accepted, or when consent prompt is disabled in settings.
-    const canShowLanguagePicker = isProActive && showTranslator && !!TranslationLanguageDropdown && (
-        !isFrontend
-        || (!isConsentDeclined && (isConsentAccepted || !settings?.show_translations_consent))
-    );
     const tooltipProps = {
         placement: "bottom",
         mouseEnterDelay: 0,
@@ -62,23 +35,6 @@ const PanelHeader = ({
             root: { zIndex: 9999999999 }
         }
     };
-
-    useEffect(() => {
-        if (!isFrontend || !showTranslator || !isProActive) return;
-        if (accessibilityContext?.selectedLanguage) return;
-
-        accessibilityDispatch({
-            type: "SET_SELECTED_LANGUAGE",
-            payload: accessibilityContext?.siteLanguage || siteLanguage,
-        });
-    }, [
-        isFrontend,
-        showTranslator,
-        isProActive,
-        accessibilityContext?.selectedLanguage,
-        accessibilityContext?.siteLanguage,
-        accessibilityDispatch,
-    ]);
 
     // Build CSS variables from attributes
     const styleVars = {
@@ -101,68 +57,21 @@ const PanelHeader = ({
         '--wap-close-button-right': attributes.closeButtonRight,
     };
 
-    const clearTranslationCacheState = () => {
-        if (typeof document === "undefined") return;
-
-        const expireCookie = (name, path = "/") => {
-            document.cookie = `${name}=; expires=Thu, 01 Jan 1970 00:00:00 GMT; path=${path};`;
-            const host = window.location.hostname;
-            if (host) {
-                document.cookie = `${name}=; expires=Thu, 01 Jan 1970 00:00:00 GMT; path=${path}; domain=.${host};`;
-            }
-        };
-
-        // Known translate cookies.
-        expireCookie("googtrans", "/");
-        expireCookie("googtrans", "/auto");
-
-        try {
-            const keys = Object.keys(localStorage || {});
-            keys.forEach((key) => {
-                if (!key) return;
-                const normalized = key.toLowerCase();
-                if (normalized.includes("goog") || normalized.includes("translate")) {
-                    localStorage.removeItem(key);
-                }
-            });
-        } catch (error) {
-            // ignore storage-access errors
-        }
-    };
-
-    const handleLanguageChange = (languageCode) => {
-        if (!isFrontend) {
-            setEditorSelectedLanguage(languageCode);
-            return;
-        }
-
-        clearTranslationCacheState();
-
-        // Apply immediately so first-time translation is not blocked by async toggles.
-        accessibilityDispatch({
-            type: "SET_SELECTED_LANGUAGE",
-            payload: languageCode,
-        });
-    };
-
     const handleResetAll = () => {
         if (!isFrontend) return;
 
-        // Ensure language dropdown closes immediately after reset.
-        setOpenLanguageDropdown(false);
+        // Ensure any open header dropdown closes immediately after reset.
+        setHeaderDropdownOpen(false);
 
         // Reset accessibility features/profiles.
         accessibilityDispatch({ type: "RESET_ACCESSIBILITY" });
 
-        if (isForceTranslateSiteLanguage) {
-            accessibilityDispatch({
-                type: "SET_SELECTED_LANGUAGE",
-                payload: accessibilityContext?.siteLanguage || siteLanguage || null,
-            });
+        // Let add-ons reset whatever state they keep alongside the toolbar.
+        if (typeof document !== "undefined") {
+            document.dispatchEvent(new CustomEvent("websac-accessibility-reset", {
+                detail: { accessibilityContext, accessibilityDispatch },
+            }));
         }
-
-        removeCookie("wapGoogleTranslateConsent");
-        setConsentRefreshKey((prev) => prev + 1);
 
         messageApi?.info?.({
             content: __("All accessibility settings have been reset to default.", "website-accessibility"),
@@ -215,47 +124,20 @@ const PanelHeader = ({
                     </button>
                 </WapTooltip>
 
-                {canShowLanguagePicker && (
-                    <>
-                        {
-                            <TranslationLanguageDropdown
-                                open={openLanguageDropdown}
-                                onOpenChange={setOpenLanguageDropdown}
-                                value={selectedLanguage}
-                                onChange={handleLanguageChange}
-                                dropdownWidth={panelWidth}
-                                portalTarget={headerElement}
-                                trigger={
-                                    <WapTooltip
-                                        title={__("Choose translation language", "website-accessibility")}
-                                        {...tooltipProps}
-                                    >
-                                        <button
-                                            type="button"
-                                            className="wap-panel-customization__header-action-btn wap-panel-customization__header-action-btn--language"
-                                            title={__("Choose translation language", "website-accessibility")}
-                                        >
-                                            <svg
-                                                width="16"
-                                                height="16"
-                                                viewBox="0 0 24 24"
-                                                fill="none"
-                                                xmlns="http://www.w3.org/2000/svg"
-                                                aria-hidden="true"
-                                            >
-                                                <path d="M6.50197 6.42188H6.20103L5.63867 9.23438H7.06433L6.50197 6.42188Z" fill="currentColor" />
-                                                <path d="M17.877 12.0469C18.1806 12.8625 18.5844 13.5226 19.0313 14.0844C19.4782 13.5226 19.9289 12.8624 20.2325 12.0469H17.877Z" fill="currentColor" />
-                                                <path d="M21.8906 4.26562H13.1585L14.9793 18.8756C15.0115 19.4731 14.8481 20.0357 14.4581 20.4762L11.3748 24H21.8906C23.0537 24 23.9999 23.0538 23.9999 21.8906V6.42188C23.9999 5.25872 23.0537 4.26562 21.8906 4.26562ZM21.8906 12.0469H21.7028C21.3027 13.3305 20.6682 14.3348 20.0089 15.1267C20.5254 15.5989 21.0777 15.9862 21.6269 16.4201C21.9297 16.6625 21.9791 17.1047 21.7361 17.4082C21.4941 17.7113 21.0502 17.7604 20.748 17.5174C20.1513 17.0464 19.5912 16.6522 19.0312 16.1383C18.4711 16.6522 17.9579 17.0464 17.3613 17.5174C17.0591 17.7604 16.6151 17.7113 16.3732 17.4082C16.1301 17.1047 16.1795 16.6625 16.4823 16.4201C17.0315 15.9862 17.5369 15.5989 18.0535 15.1267C17.3941 14.3349 16.8065 13.3305 16.4065 12.0469H16.2187C15.83 12.0469 15.5156 11.7324 15.5156 11.3438C15.5156 10.9551 15.83 10.6406 16.2187 10.6406H18.3281V9.9375C18.3281 9.54886 18.6425 9.23438 19.0312 9.23438C19.4198 9.23438 19.7343 9.54886 19.7343 9.9375V10.6406H21.8906C22.2792 10.6406 22.5937 10.9551 22.5937 11.3438C22.5937 11.7324 22.2792 12.0469 21.8906 12.0469Z" fill="currentColor" />
-                                                <path d="M11.4452 1.84777C11.314 0.794437 10.4138 0 9.35231 0H2.10938C0.946219 0 0 0.946219 0 2.10938V17.6719C0 18.835 0.946219 19.7812 2.10938 19.7812C6.31266 19.7812 9.33642 19.7812 13.1977 19.7812C13.4028 19.5468 13.5748 19.4 13.582 19.0939C13.5838 19.0172 11.4547 1.92389 11.4452 1.84777ZM8.62238 13.4394C8.24953 13.5161 7.87186 13.2741 7.79498 12.888L7.34559 10.6406H5.35758L4.90819 12.888C4.83267 13.2684 4.46597 13.5183 4.0808 13.4394C3.70041 13.3632 3.45319 12.9931 3.52941 12.612L4.93561 5.58075C5.00152 5.25253 5.28994 5.01562 5.625 5.01562H7.07812C7.41319 5.01562 7.70161 5.25253 7.76752 5.58075L9.17377 12.612C9.24998 12.9931 9.00281 13.3632 8.62238 13.4394Z" fill="currentColor" />
-                                                <path d="M8.21533 21.1875L8.33599 22.1522C8.41643 22.7983 8.84571 23.4571 9.55183 23.7861C10.8844 22.3192 10.0782 23.2066 11.9124 21.1875H8.21533Z" fill="currentColor" />
-                                            </svg>
-                                        </button>
-                                    </WapTooltip>
-                                }
-                            />
-                        }
-                    </>
-                )}
+                {PanelHeaderActions ? (
+                    <PanelHeaderActions
+                        attributes={attributes}
+                        isFrontend={isFrontend}
+                        isEditorPreview={isEditorPreview}
+                        accessibilityContext={accessibilityContext}
+                        accessibilityDispatch={accessibilityDispatch}
+                        panelWidth={panelWidth}
+                        portalTarget={headerElement}
+                        dropdownOpen={headerDropdownOpen}
+                        onDropdownOpenChange={setHeaderDropdownOpen}
+                        tooltipProps={tooltipProps}
+                    />
+                ) : null}
 
                 <span className="wap-panel-customization__header-close-separator"></span>
                 <span

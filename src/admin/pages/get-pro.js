@@ -1,6 +1,5 @@
 import { __ } from '@wordpress/i18n';
 import { useMemo } from '@wordpress/element';
-import { useLicense } from '../context/LicenseContext';
 
 const CheckIcon = () => (
   <span className="wap-get-pro__cell-icon wap-get-pro__cell-icon--yes" aria-hidden="true">
@@ -124,7 +123,7 @@ const SmallFeatureIcon = ({ type }) => {
 const GetProPage = () => {
   const { WapCard, WapButton, WapTypography } = window?.wapComponents;
   const { Title, Text } = WapTypography;
-  const { isProPluginActive } = useLicense();
+  const isProPluginActive = typeof window !== 'undefined' && !!window.websacAdmin?.isProPluginActive;
 
   const upgradeUrl = (typeof window !== 'undefined' && window.websacAdmin?.proUpgradeUrl)
     ? window.websacAdmin.proUpgradeUrl

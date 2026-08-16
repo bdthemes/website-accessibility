@@ -7,23 +7,23 @@ import { useState, useRef, useEffect } from "@wordpress/element";
 import { __ } from "@wordpress/i18n";
 import { useSelect, useDispatch } from "@wordpress/data";
 import { STORE_NAME } from "../store";
-import { useLicense } from "../context/LicenseContext";
 import HeaderSettings from "../settings/header-settings";
 import ProfilesSettings from "../settings/profiles-settings";
 import FeatureSettings from "../settings/feature-settings";
 import FooterSettings from "../settings/footer-settings";
 
 const PresetPanelLeftSidebar = () => {
-  const { WapCard, WapRow, WapCol, WapDrawer, WapBadge } = window?.wapComponents;
+  const { WapCard, WapRow, WapCol, WapDrawer } = window?.wapComponents;
   const [drawerVisible, setDrawerVisible] = useState(false);
   const [selectedItem, setSelectedItem] = useState(null);
-  const { isProActive } = useLicense();
   const timerRef = useRef(null);
 
   const { presetsFormData } = useSelect((select) => select(STORE_NAME).getPresetsFormData());
   const { setPresetsFormData } = useDispatch(STORE_NAME);
 
-  let items = (presetsFormData?.panel?.items || []).filter((item) => item.slug !== 'language');
+  // Only panel items that have a settings section here are listed.
+  const EDITABLE_SLUGS = ['header', 'profiles', 'features', 'footer'];
+  let items = (presetsFormData?.panel?.items || []).filter((item) => EDITABLE_SLUGS.includes(item.slug));
 
 
   const handleVisibilityToggle = (slug) => {
@@ -82,25 +82,14 @@ const PresetPanelLeftSidebar = () => {
                 <span>{item.title}</span>
               </WapCol>
               <WapCol className="wap-panel-left-sidebar__actions">
-                {(!item?.isPro || isProActive) && (
-                  <EditOutlined
-                    className="wap-panel-left-sidebar__icon-action"
-                    onClick={(e) => {
-                      e.stopPropagation();
-                      handleEditClick(item);
-                    }}
-                  />
-                )}
-                {item?.isPro && !isProActive ? (
-                  <WapBadge
-                    count="Pro"
-                    style={{
-                      backgroundColor: '#f5222d',
-                      fontSize: '12px',
-                      padding: '0 6px',
-                    }}
-                  />
-                ) : item.active ? (
+                <EditOutlined
+                  className="wap-panel-left-sidebar__icon-action"
+                  onClick={(e) => {
+                    e.stopPropagation();
+                    handleEditClick(item);
+                  }}
+                />
+                {item.active ? (
                   <EyeOutlined
                     className="wap-panel-left-sidebar__icon-action"
                     onClick={(e) => {

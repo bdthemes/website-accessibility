@@ -4,12 +4,12 @@ export const DEFAULT_FEATURE_CATEGORY_DEFINITIONS = [
     {
         slug: "text",
         title: __("Text", "website-accessibility"),
-        keys: ["biggerText", "textSpacing", "lineHeight", "textAlign", "dyslexiaFriendly", "dictionary"],
+        keys: ["biggerText", "textSpacing", "lineHeight", "textAlign", "dictionary"],
     },
     {
         slug: "color",
         title: __("Color & Contrast", "website-accessibility"),
-        keys: ["contrast", "smartContrast", "brightness", "grayscale", "saturation", "highlightLinks", "hideImages"],
+        keys: ["contrast", "saturation", "highlightLinks", "hideImages"],
     },
     {
         slug: "orientation",
@@ -19,9 +19,20 @@ export const DEFAULT_FEATURE_CATEGORY_DEFINITIONS = [
     {
         slug: "behavior",
         title: __("Behavior", "website-accessibility"),
-        keys: ["pauseAnimations", "muteSounds", "screenReader", "keyboardNavigation", "virtualKeyboard", "skipLinks", "focusIndicators"],
+        keys: ["pauseAnimations"],
     },
 ];
+
+/**
+ * Category definitions currently in effect. Add-ons can extend the defaults
+ * (extra keys per category, or extra categories) by publishing a merged list on
+ * `window.wapHelpers.featureCategoryDefinitions`; it is read lazily so the
+ * add-on bundle may load after this one.
+ */
+export const getFeatureCategoryDefinitions = () => {
+    const published = typeof window !== "undefined" ? window?.wapHelpers?.featureCategoryDefinitions : null;
+    return Array.isArray(published) && published.length > 0 ? published : DEFAULT_FEATURE_CATEGORY_DEFINITIONS;
+};
 
 const normalizeWidgetConfig = (value) => {
     if (value && typeof value === "object") {
@@ -36,7 +47,7 @@ const normalizeWidgetConfig = (value) => {
 
 /**
  * Keep known features in their default categories even when saved
- * widgetCategories were created before those keys existed (e.g. skipLinks → Other).
+ * widgetCategories were created before those keys existed (they would land in "Other").
  */
 const ensureDefaultFeaturePlacement = (template = []) => {
     const next = (Array.isArray(template) ? template : []).map((category) => ({
@@ -46,7 +57,7 @@ const ensureDefaultFeaturePlacement = (template = []) => {
     }));
 
     const keyToSlug = new Map();
-    DEFAULT_FEATURE_CATEGORY_DEFINITIONS.forEach((definition) => {
+    getFeatureCategoryDefinitions().forEach((definition) => {
         definition.keys.forEach((key) => {
             keyToSlug.set(key, definition.slug);
         });
@@ -68,7 +79,7 @@ const ensureDefaultFeaturePlacement = (template = []) => {
         category.keys.forEach((key) => placed.add(key));
     });
 
-    DEFAULT_FEATURE_CATEGORY_DEFINITIONS.forEach((definition) => {
+    getFeatureCategoryDefinitions().forEach((definition) => {
         definition.keys.forEach((key) => {
             if (placed.has(key)) {
                 return;
@@ -127,7 +138,7 @@ const normalizeCategoryTemplate = (attributes = {}) => {
         }
     }
 
-    return DEFAULT_FEATURE_CATEGORY_DEFINITIONS;
+    return getFeatureCategoryDefinitions();
 };
 
 export const getFeatureStateIndex = (attributes = {}, features = []) => {

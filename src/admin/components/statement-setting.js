@@ -10,6 +10,18 @@ import { __ } from "@wordpress/i18n";
 import { addQueryArgs } from "@wordpress/url";
 import statementJson from "../../../default-posts/statement.json";
 
+/** Replace the {{site_name}} / {{site_url}} / {{admin_email}} / {{date}} placeholders of the sample statement. */
+const fillStatementPlaceholders = (content = "") => {
+    const admin = window?.websacAdmin || {};
+    const map = {
+        "{{site_name}}": admin.siteName || "",
+        "{{site_url}}": admin.homeUrl || "/",
+        "{{admin_email}}": admin.adminEmail || "",
+        "{{date}}": new Date().toLocaleDateString(),
+    };
+    return String(content || "").replace(/\{\{(site_name|site_url|admin_email|date)\}\}/g, (m) => map[m] ?? "");
+};
+
 
 const StatementSetting = () => {
     const { WapCard, WapSpace, WapButton, WapAlert, WapTooltip, WapTypography } = window?.wapComponents;
@@ -58,7 +70,7 @@ const StatementSetting = () => {
                 data: {
                     title: statementJson?.post_title,
                     slug: statementJson?.post_name,
-                    content: statementJson?.post_content,
+                    content: fillStatementPlaceholders(statementJson?.post_content),
                     status: statementJson?.post_status,
                 },
             });

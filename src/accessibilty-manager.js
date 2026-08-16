@@ -2,8 +2,8 @@ import cursor from "./classes/cursor";
 import dictionary from "./classes/dictionary";
 import fontManipulator from "./classes/font-manupulator";
 import tooltips from "./classes/tooltips";
+import { getFeatureHandler } from "./utils/feature-handlers";
 
-const { screenReader = () => null, smartContrast = () => null, muteSounds = () => null, filterFeatures = () => null, keyboardNavigation = () => null, virtualKeyboard = () => null, skipLinks = () => null, focusIndicators = () => null } = window.wapHelpers;
 class AccessibilityManager {
     static instance = null;
     constructor() {
@@ -49,12 +49,6 @@ class AccessibilityManager {
                 case 'contrast':
                     this.applyContrast(key, attributes);
                     break;
-                case 'screenReader':
-                    this.applyScreenReader(key, attributes);
-                    break;
-                case 'smartContrast':
-                    this.applySmartContrast(key, attributes);
-                    break;
                 case 'cursor':
                     this.applyCursor(key, attributes);
                     break;
@@ -64,47 +58,42 @@ class AccessibilityManager {
                 case 'dictionary':
                     this.applyDictionary(key, attributes);
                     break;
-                case 'muteSounds':
-                    this.applyMuteSounds(key, attributes);
-                    break;
-                case 'grayscale':
-                    filterFeatures()?.applyGrayScale(attributes);
-                    break;
-                case 'brightness':
-                    filterFeatures()?.applyBrightness(attributes);
-                    break;
                 case 'biggerText':
                     this.applyBiggerText(key, attributes);
-                    break;
-                case 'keyboardNavigation':
-                    keyboardNavigation()?.apply();
-                    break;
-                case 'virtualKeyboard':
-                    virtualKeyboard()?.apply();
-                    break;
-                case 'skipLinks':
-                    skipLinks()?.apply();
-                    break;
-                case 'focusIndicators':
-                    focusIndicators()?.apply();
                     break;
                 case 'saturation':
                     this.applySaturation(key, attributes);
                     break;
-                case 'contrast':
-                case 'highlightLinks':
-                case 'textSpacing':
-                case 'pauseAnimations':
-                case 'hideImages':
-                case 'dyslexiaFriendly':
-                case 'lineHeight':
-                case 'textAlign':
-                    this.applyCSSFeature(key, attributes);
+                default:
+                    this.applyExtensionFeature(key, attributes);
                     break;
-            
             }
 
         }
+    }
+
+    /**
+     * Any feature this class has no dedicated implementation for is either
+     * handled by a registered add-on handler (see utils/feature-handlers.js)
+     * or, when its step carries a `css` list, applied as a plain CSS feature.
+     */
+    applyExtensionFeature(key, attribute) {
+        const handler = getFeatureHandler(key);
+        if (handler && typeof handler.apply === 'function') {
+            handler.apply(attribute, key);
+            return;
+        }
+        this.applyCSSFeature(key, attribute);
+    }
+
+    removeExtensionFeature(key) {
+        const handler = getFeatureHandler(key);
+        if (handler && typeof handler.remove === 'function') {
+            handler.remove(key);
+            delete this.props[key];
+            return;
+        }
+        this.removeCSSFeature(key);
     }
 
     // Helper method to check if element is inside preview drawer
@@ -136,37 +125,6 @@ class AccessibilityManager {
         delete this.props['contrast'];
     }
 
-    applyMuteSounds(key, attribute) {
-        if (!attribute || !muteSounds) return;
-        muteSounds()?.apply();
-    }
-
-    removeMuteSounds() {
-        muteSounds()?.remove();
-        delete this.props['muteSounds'];
-    }
-
-    applyScreenReader(key, attribute) {
-        if (!attribute || !screenReader) return;
-        screenReader()?.apply(key, attribute);
-    }
-
-    removeScreenReader() {
-        if(screenReader){
-            screenReader()?.destroy();
-        }
-        delete this.props['screenReader'];
-    }
-
-    applySmartContrast(key, attribute) {
-        if (!attribute || !smartContrast) return;
-        smartContrast()?.apply();
-    }
-
-    removeSmartContrast() {
-        smartContrast()?.remove();
-        delete this.props['smartContrast'];
-    }
     applySaturation(key, attribute) {
         if (!attribute || key !== 'saturation') return;
         switch (attribute.value) {
@@ -307,53 +265,28 @@ class AccessibilityManager {
     }
     
     removeFeature(key) {
-        // Remove the feature
-        if (key === 'screenReader') {
-            this.removeScreenReader();
-        } else if (key === 'contrast') {
-            this.removeContrast();
-        }else if (key === 'smartContrast') {
-            this.removeSmartContrast();
-        } else if (key === 'cursor') {
-            this.removeCursor();
-        } else if (key === 'tooltips') {
-            this.removeTooltip();
-        } else if (key === 'dictionary') {
-            this.removeDictionary(key);
-        }else if (key === 'muteSounds') {
-            this.removeMuteSounds(key);
-        }else if (key === 'grayscale') {
-            filterFeatures()?.removeGrayScale();
-            delete this.props['grayscale'];
-        }else if (key === 'brightness') {
-            filterFeatures()?.removeBrightness();
-            delete this.props['brightness'];
-        }else if (key === 'biggerText') {
-            this.removeBiggerText(key);
-        }else if (key === 'keyboardNavigation') {
-            keyboardNavigation()?.remove();
-            delete this.props['keyboardNavigation'];
-        }else if (key === 'virtualKeyboard') {
-            virtualKeyboard()?.remove();
-            delete this.props['virtualKeyboard'];
-        }else if (key === 'skipLinks') {
-            skipLinks()?.remove();
-            delete this.props['skipLinks'];
-        }else if (key === 'focusIndicators') {
-            focusIndicators()?.remove();
-            delete this.props['focusIndicators'];
-        }else if (key === 'saturation') {
-            this.removeSaturation();
-        }else if (
-            key === 'highlightLinks' ||
-            key === 'textSpacing' ||
-            key === 'pauseAnimations' ||
-            key === 'hideImages' ||
-            key === 'dyslexiaFriendly' ||
-            key === 'lineHeight' ||
-            key === 'textAlign'
-        ) {
-            this.removeCSSFeature(key);
+        switch (key) {
+            case 'contrast':
+                this.removeContrast();
+                break;
+            case 'cursor':
+                this.removeCursor();
+                break;
+            case 'tooltips':
+                this.removeTooltip();
+                break;
+            case 'dictionary':
+                this.removeDictionary(key);
+                break;
+            case 'biggerText':
+                this.removeBiggerText(key);
+                break;
+            case 'saturation':
+                this.removeSaturation();
+                break;
+            default:
+                this.removeExtensionFeature(key);
+                break;
         }
 
         // Remove from previous values

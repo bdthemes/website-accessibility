@@ -1,19 +1,5 @@
 // Frontend Accessibility Widget Styles
 
-@font-face {
-  font-family: 'OpenDyslexic';
-  src: url('../../assets/OpenDyslexic-Regular.woff2') format('opentype');
-  font-weight: normal;
-  font-style: normal;
-}
-
-@font-face {
-  font-family: 'OpenDyslexic';
-  src: url('../../assets/OpenDyslexic-Bold.woff2') format('opentype');
-  font-weight: bold;
-  font-style: normal;
-}
-
 .wap-accessibility-view {
   position: fixed;
   z-index: 999999;
@@ -31,6 +17,8 @@
   pointer-events: none !important;
 }
 
+// Page-level filter chain. --wap-invert / --wap-saturation are set by this plugin's
+// features; --wap-brightness / --wap-grayscale are extension slots add-on features may set.
 html {
   filter: 
     invert(var(--wap-invert, 0)) 
@@ -136,51 +124,6 @@ html {
   }
 }
 
-// Focus indicators
-.wap-focus-visible {
-  outline: 2px solid #0073ea !important;
-  outline-offset: 2px !important;
-}
-
-.wap-focus-thick {
-  outline: 3px solid #0073ea !important;
-  outline-offset: 2px !important;
-}
-
-.wap-focus-dotted {
-  outline: 2px dotted #0073ea !important;
-  outline-offset: 2px !important;
-}
-
-.wap-focus-glow {
-  outline: none !important;
-  box-shadow: 0 0 0 3px rgba(0, 115, 234, 0.5) !important;
-}
-
-// Language selector active states
-.wap-language-selector__item--active {
-  background-color: #e6f7ff !important;
-  border-color: #1890ff !important;
-
-  .wap-language-selector__item-label {
-    color: #1890ff !important;
-    font-weight: 600;
-  }
-
-  .wap-language-selector__badge {
-    background-color: #1890ff !important;
-    color: white !important;
-  }
-}
-
-body {
-  top: 0 !important;
-
-  .skiptranslate {
-    display: none !important;
-  }
-}
-
 // Print styles
 @media print {
   .wap-accessibility-view {
@@ -244,15 +187,4 @@ body {
 
 .wap-frontend .ant-btn-sm {
   border-radius: 4px !important;
-}
-
-.wap-frontend .wap-google-translate-consent__button.ant-btn-variant-outlined {
-  color: #111 !important;
-  border-color: #d9d9d9 !important;
-  background: #ffffff !important;
-
-  &:hover,
-  &:focus {
-    color: #000 !important;
-  }
 }

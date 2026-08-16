@@ -4,7 +4,6 @@
 import { __ } from '@wordpress/i18n';
 import { useEffect, useState, useMemo, useCallback } from '@wordpress/element';
 import { useDashboardTour } from '../context/dashboard-tour-context';
-import { useLicense } from '../context/LicenseContext';
 import { getBrandDisplayName, useWhiteLabelBrandingEnabled } from '../../utils/brand';
 import { getAdminExtensions } from '../../utils/admin-extensions';
 import { Layout, Menu, Drawer, Button } from 'antd';
@@ -37,15 +36,6 @@ const IconMenuToggle = () => (
 	</svg>
 );
 
-const IconComingSoonBullet = () => (
-	<span className="wap-admin-pro-features-card__icon" aria-hidden="true">
-		<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
-			<path d="M12 2v4M12 18v4M4.93 4.93l2.83 2.83M16.24 16.24l2.83 2.83M2 12h4M18 12h4M4.93 19.07l2.83-2.83M16.24 7.76l2.83-2.83" />
-			<circle cx="12" cy="12" r="3" />
-		</svg>
-	</span>
-);
-
 const PRO_FEATURE_LABELS = [
 	__('Custom Profiles', 'website-accessibility'),
 	__('Export / Import settings', 'website-accessibility'),
@@ -74,7 +64,8 @@ const AdminLayout = ({ children }) => {
 	const location = useLocation();
 	const history = useHistory();
 	const currentPage = location?.params?.page || 'website-accessibility';
-	const { isProActive, isProPluginActive } = useLicense();
+	// Set (through the admin localized-data filter) by an add-on that replaces this plugin's upsell UI.
+	const isProPluginActive = typeof window !== 'undefined' && !!window.websacAdmin?.isProPluginActive;
 	const extensions = getAdminExtensions();
 	const { tryAdvanceTourViaSidebarMenu } = useDashboardTour();
 	const [wlUiEpoch, setWlUiEpoch] = useState(0);
@@ -93,9 +84,14 @@ const AdminLayout = ({ children }) => {
 	}, [wlUiEpoch]);
 
 	useEffect(() => {
+		// Re-read branding + add-on registrations when an add-on signals a change.
 		const onWlChange = () => setWlUiEpoch((n) => n + 1);
 		window.addEventListener('websac-white-label-changed', onWlChange);
-		return () => window.removeEventListener('websac-white-label-changed', onWlChange);
+		window.addEventListener('websac-extensions-changed', onWlChange);
+		return () => {
+			window.removeEventListener('websac-white-label-changed', onWlChange);
+			window.removeEventListener('websac-extensions-changed', onWlChange);
+		};
 	}, []);
 
 	useEffect(() => {
@@ -189,22 +185,17 @@ const AdminLayout = ({ children }) => {
 		...extensionItems('general'),
 	].sort(sortByPosition);
 
-	const comingSoonFeatureLabels = [
-		__('Sign language (Libras)', 'website-accessibility'),
-		__('Legal / litigation support', 'website-accessibility'),
-		__('Bulk tools for multi-site workflows', 'website-accessibility'),
-	];
-	/** Premium features active → “Coming soon”; otherwise Pro upsell list */
-	const showComingSoonCard = isProPluginActive && isProActive;
+	// Sidebar card slot: an add-on may register its own card; otherwise show the plain upsell card.
+	const SidebarPromoCard = extensions.controls.sidebarPromoCard || null;
 	const supportItems = useMemo(
 		() => [
-			...(!isProActive ? [{ key: 'website-accessibility-get-pro', position: 10, icon: <IconPro />, label: __('Get Pro', 'website-accessibility') }] : []),
+			...(!isProPluginActive ? [{ key: 'website-accessibility-get-pro', position: 10, icon: <IconPro />, label: __('Get Pro', 'website-accessibility') }] : []),
 			{ key: 'website-accessibility-tools', position: 60, icon: <IconTools />, label: __('Tools & Backup', 'website-accessibility') },
 			{ key: 'website-accessibility-about', position: 90, icon: <IconInfo />, label: __('About & Info', 'website-accessibility') },
 			...extensionItems('support'),
 		].sort(sortByPosition),
 		// eslint-disable-next-line react-hooks/exhaustive-deps
-		[isProActive, extensions.sidebarItems.length, wlUiEpoch]
+		[isProPluginActive, extensions.sidebarItems.length, wlUiEpoch]
 	);
 
 	// Extra groups contributed by add-ons (e.g. COMPLIANCE).
@@ -275,58 +266,29 @@ const AdminLayout = ({ children }) => {
 				/>
 			</div>
 			{showPromoCard && typeof window !== 'undefined' ? (
-				<div className="wap-admin-pro-features-card">
-					<div className="wap-admin-pro-features-card__ribbon" aria-hidden="true">
-						{showComingSoonCard
-							? __('COMING SOON', 'website-accessibility')
-							: __('PRO', 'website-accessibility')}
-					</div>
-					<div className="wap-admin-pro-features-card__body">
-						<div className="wap-admin-pro-features-card__title">
-							{showComingSoonCard
-								? __('Coming soon features', 'website-accessibility')
-								: isProPluginActive
-									? __('Pro features', 'website-accessibility')
-									: __('Unlock Pro features', 'website-accessibility')}
+				SidebarPromoCard ? (
+					<SidebarPromoCard />
+				) : !isProPluginActive ? (
+					<div className="wap-admin-pro-features-card">
+						<div className="wap-admin-pro-features-card__ribbon" aria-hidden="true">
+							{__('PRO', 'website-accessibility')}
 						</div>
-						<ul className="wap-admin-pro-features-card__list">
-							{showComingSoonCard ? (
-								<>
-									{comingSoonFeatureLabels.map((label, idx) => (
-										<li key={idx}>
-											<IconComingSoonBullet />
-											{label}
-										</li>
-									))}
-								</>
-							) : (
+						<div className="wap-admin-pro-features-card__body">
+							<div className="wap-admin-pro-features-card__title">
+								{__('Unlock Pro features', 'website-accessibility')}
+							</div>
+							<ul className="wap-admin-pro-features-card__list">
 								<ProFeaturesListItems />
-							)}
-						</ul>
-						{showComingSoonCard ? (
-							<p className="wap-admin-pro-features-card__footnote">
-								{__('Stay tuned — we will ship these in upcoming releases.', 'website-accessibility')}
-							</p>
-						) : isProPluginActive ? (
-							<a
-								href={
-									window.websacAdmin?.licensePageUrl ||
-									'admin.php?page=website-accessibility-license'
-								}
-								className="wap-admin-pro-features-card__btn"
-							>
-								{__('Activate License', 'website-accessibility')}
-							</a>
-						) : (
+							</ul>
 							<a
 								href="admin.php?page=website-accessibility-get-pro"
 								className="wap-admin-pro-features-card__btn"
 							>
 								{__('Get Pro', 'website-accessibility')}
 							</a>
-						)}
+						</div>
 					</div>
-				</div>
+				) : null
 			) : null}
 		</>
 	);

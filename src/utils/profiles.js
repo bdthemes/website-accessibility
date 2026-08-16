@@ -16,9 +16,6 @@ const defaultProfiles = [
         icon: <MotorIcon />,
         features: {
             cursor: "big-cursor",           // Easier to track pointer
-            keyboardNavigation: "enable",   // Enables full keyboard control
-            skipLinks: "enable",            // Jump past nav to main content (WCAG 2.4.1)
-            focusIndicators: "enable",      // Strong focus rings (WCAG 2.4.7)
             tooltips: "enable",             // Helps clarify actions
             pauseAnimations: "enable"       // Avoid distraction from moving elements
         },
@@ -29,8 +26,6 @@ const defaultProfiles = [
         slug: "color-blind",
         icon: <ColorBlindIcon />,
         features: {
-            smartContrast: "enable",        // Ensures text/background are distinguishable
-            grayscale: "medium",            // Reduces reliance on color differentiation
             highlightLinks: "enable"        // Makes links easier to identify
         },
     },
@@ -43,8 +38,6 @@ const defaultProfiles = [
             biggerText: "extra-large",      // Easier to read
             cursor: "big-cursor",           // Easier to locate pointer
             tooltips: "enable",             // Clarifies elements
-            focusIndicators: "enable",      // Strong focus rings for keyboard users
-            brightness: "high",             // Better visibility
             saturation: "high",             // Better visibility
             lineHeight: "large"             // Easier to follow text
         },
@@ -55,7 +48,6 @@ const defaultProfiles = [
         slug: "cognitive",
         icon: <CognitiveIcon />,
         features: {
-            smartContrast: "enable",        // Helps distinguish content
             biggerText: "medium",           // Easier reading without overwhelming layout
             cursor: "guideline",            // Focus aid for reading text
             textSpacing: "medium",            // Improves readability and comprehension
@@ -68,11 +60,9 @@ const defaultProfiles = [
         slug: "seizure",
         icon: <SeizureIcon />,
         features: {
-            smartContrast: "enable",        // Helps distinguish content
             pauseAnimations: "enable",      // Prevent flashing content
             saturation: "low",              // Reduces intense colors
             contrast: "light",              // Avoid high contrast triggers
-            brightness: "medium"            // Comfortable viewing
         },
     },
     {

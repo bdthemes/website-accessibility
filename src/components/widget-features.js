@@ -4,6 +4,7 @@ import { __ } from "@wordpress/i18n";
 import { InfoCircleOutlined } from "@ant-design/icons";
 import { getFeatureCategories, getFeatureStateIndex } from "../utils/feature-categories";
 import { normalizeItemLayout } from "../utils/item-layout";
+import { announce } from "../utils/feature-handlers";
 
 /** Single-line label + ellipsis; full text scrolls on hover when overflow (see _accessibility-profiles.scss pattern) */
 function WidgetFeatureItem({
@@ -12,11 +13,10 @@ function WidgetFeatureItem({
 	layout,
 	tooltipPosition,
 	featureColumnWidth,
-	isProActive,
 	currentSettings,
 	handleFeatureClick,
 }) {
-	const { WapCol, WapBadge, WapTooltip } = window?.wapComponents || {};
+	const { WapCol, WapTooltip } = window?.wapComponents || {};
 	const key = feature.key;
 	const setting = currentSettings?.[key] || {};
 	const currentStep = setting.currentStep || 0;
@@ -25,7 +25,6 @@ function WidgetFeatureItem({
 	const isActive = currentStep > 0;
 	const showSteps = currentStep > 0 && allAttributes[0]?.value !== "enable";
 	const totalSteps = allAttributes.length;
-	const isDummy = feature?.isDummy || false;
 
 	const labelWrapRef = useRef(null);
 	const [labelShift, setLabelShift] = useState("0px");
@@ -68,10 +67,6 @@ function WidgetFeatureItem({
 			flex={`0 0 ${featureColumnWidth}`}
 			style={{ maxWidth: featureColumnWidth }}
 		>
-			{isDummy && !isProActive && (
-				<WapBadge count={__("PRO", "website-accessibility")} color="gold" className="wap-widget-features-dummy" />
-			)}
-
 			{feature?.description && (
 				<WapTooltip
 					title={feature?.description}
@@ -155,8 +150,7 @@ const WidgetFeatures = ({
 	accessibilityDispatch,
 	onFeatureInteraction = () => {},
 }) => {
-	const { WapCard, WapRow, WapCol, WapBadge, WapTooltip, WapNotification } = window?.wapComponents;
-	const isProActive = window?.websacPro?.isProActive || false;
+	const { WapCard, WapRow, WapCol, WapTooltip, WapNotification } = window?.wapComponents;
 	const { items } = value;
 	const featureItem = items.find((item) => item.slug === "features");
 	const attributes = featureItem?.attributes || {};
@@ -169,13 +163,7 @@ const WidgetFeatures = ({
 	const { currentSettings } = accessibilityContext || {};
 
 	const features = useMemo(() => {
-		let allFeatures = window.wapHelpers?.features || [];
-		if (isFrontend) {
-			allFeatures = allFeatures.filter((feature) => {
-				if (!feature?.isDummy) return feature;
-			})
-		}
-
+		const allFeatures = window.wapHelpers?.features || [];
 		const featureStateIndex = getFeatureStateIndex(attributes, allFeatures);
 
 		return allFeatures.filter((feature) => {
@@ -190,7 +178,6 @@ const WidgetFeatures = ({
 	// Handle feature click
 	const handleFeatureClick = (feature) => {
 		if (!isFrontend) return;
-		const { isScreenReaderActive = (() => false), screenReader = () => null } = window?.wapHelpers;
 		const allAttributes = feature.attributes || [];
 		const key = feature?.key;
 		const notify = (content) => {
@@ -239,18 +226,11 @@ const WidgetFeatures = ({
 			});
 			onFeatureInteraction(nextSettings);
 
-			if (isScreenReaderActive(currentSettings)) {
-				const enableAnnouncement = currentAttribute?.enableAnnouncement;
-				const disableAnnouncement = feature?.disableAnnouncement;
-				notify(currentAttribute ? enableAnnouncement : disableAnnouncement);
-				if (currentAttribute) {
-					screenReader()?.speak(enableAnnouncement);
-				} else {
-					screenReader()?.speak(disableAnnouncement);
-				}
-			} else {
-				notify(currentAttribute?.enableAnnouncement || feature?.disableAnnouncement);
-			}
+			const toggleAnnouncement = currentAttribute
+				? currentAttribute?.enableAnnouncement
+				: feature?.disableAnnouncement;
+			notify(toggleAnnouncement);
+			announce(toggleAnnouncement, { key, feature, attribute: currentAttribute, settings: currentSettings });
 
 			return;
 		}
@@ -272,39 +252,12 @@ const WidgetFeatures = ({
 		});
 		onFeatureInteraction(nextSettings);
 
-		if (isScreenReaderActive(currentSettings)) {
-			const enableAnnouncement =
-				allAttributes[nextStep - 1]?.enableAnnouncement;
-			const disableAnnouncement = feature?.disableAnnouncement;
-			notify(allAttributes[nextStep - 1] ? enableAnnouncement : disableAnnouncement);
-			if (allAttributes[nextStep - 1]) {
-				if (key === "screenReader") {
-					screenReader().screenReaderConfig = {
-						rate: allAttributes[nextStep - 1]?.rate || 1,
-						pitch: allAttributes[nextStep - 1]?.pitch || 1,
-						lang: allAttributes[nextStep - 1]?.lang || "en-US",
-						voiceURI: allAttributes[nextStep - 1]?.voiceURI || null,
-					};
-				}
-				screenReader()?.speak(enableAnnouncement);
-			} else {
-				screenReader()?.speak(disableAnnouncement);
-			}
-		} else if (key === "screenReader") {
-			const enableAnnouncement = allAttributes[0]?.enableAnnouncement;
-			notify(enableAnnouncement);
-			screenReader().screenReaderConfig = {
-				rate: allAttributes[0]?.rate || 1,
-				pitch: allAttributes[0]?.pitch || 1,
-				lang: allAttributes[0]?.lang || "en-US",
-				voiceURI: allAttributes[0]?.voiceURI || null,
-			};
-			screenReader()?.speak(enableAnnouncement);
-		} else {
-			const enableAnnouncement = allAttributes[nextStep - 1]?.enableAnnouncement;
-			const disableAnnouncement = feature?.disableAnnouncement;
-			notify(allAttributes[nextStep - 1] ? enableAnnouncement : disableAnnouncement);
-		}
+		const nextAttribute = allAttributes[nextStep - 1] || null;
+		const stepAnnouncement = nextAttribute
+			? nextAttribute?.enableAnnouncement
+			: feature?.disableAnnouncement;
+		notify(stepAnnouncement);
+		announce(stepAnnouncement, { key, feature, attribute: nextAttribute, settings: currentSettings });
 	};
 
 	return (
@@ -323,7 +276,6 @@ const WidgetFeatures = ({
 								layout={layout}
 								tooltipPosition={tooltipPosition}
 								featureColumnWidth={featureColumnWidth}
-								isProActive={isProActive}
 								currentSettings={currentSettings}
 								handleFeatureClick={handleFeatureClick}
 							/>

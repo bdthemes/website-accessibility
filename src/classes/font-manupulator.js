@@ -103,7 +103,7 @@ class FontManipulator {
     }
 
     /**
-     * Collect visible text elements (based on SmartContrast logic)
+     * Collect visible text elements
      */
     collectTextElements(root = document.body) {
         const allElements = Array.from(root.querySelectorAll('*'));

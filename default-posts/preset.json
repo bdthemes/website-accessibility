@@ -30,23 +30,6 @@
                     "selected": false
                 },
                 {
-                    "id": "language",
-                    "title": "Language",
-                    "slug": "language",
-                    "active": true,
-                    "close": true,
-                    "isPro": true,
-                    "attributes": {
-                        "text": "Language",
-                        "showClose": true,
-                        "flipContent": false,
-                        "background": "#ffffff",
-                        "border": "1px solid #e0e0e0"
-                    },
-                    "chosen": false,
-                    "selected": false
-                },
-                {
                     "id": "profiles",
                     "title": "Profiles",
                     "slug": "profiles",
@@ -54,9 +37,7 @@
                     "attributes": {
                         "profiles": [
                             "motor",
-                            "blind",
                             "color-blind",
-                            "dyslexia",
                             "low-vision",
                             "cognitive",
                             "seizure",

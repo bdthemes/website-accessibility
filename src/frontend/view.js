@@ -2,12 +2,14 @@ import { useState, useMemo, useEffect, useRef, useCallback } from "@wordpress/el
 import clsx from "clsx";
 import useFrontendAccessibility from "./context/useAccessibility";
 import accessibilityManager from "../accessibilty-manager";
+import { announce } from "../utils/feature-handlers";
 import { __ } from "@wordpress/i18n";
 import apiFetch from "@wordpress/api-fetch";
 
 const View = () => {
-    const { screenReader = () => null, defaultProfiles = [], useBrowserKey, getCookie } = window.wapHelpers || {};
-    const { PreviewButton, PreviewContent, Icon, WapDrawer, GoogleTranslateConsent = () => null } = window?.wapComponents;
+    const { defaultProfiles = [], useBrowserKey } = window.wapHelpers || {};
+    // FrontendExtensions: optional add-on component rendered next to the toolbar (receives context + dispatch).
+    const { PreviewButton, PreviewContent, Icon, WapDrawer, FrontendExtensions = null } = window?.wapComponents;
     const { profiles, currentPreset, currentPresetId, settings, nonce, restUrl, isUserLoggedIn } = window?.websiteAccessibility;
     const { dispatch, ...state } = useFrontendAccessibility();
     const [isOpen, setIsOpen] = useState(false);
@@ -60,12 +62,6 @@ const View = () => {
 
         return footerAttribiutes?.activePreference || false;
     }, [currentPreset]);
-
-    const isTranslatorEnabled = useMemo(() => {
-        const headerAttributes = currentPreset?.panel?.items?.find((item) => item.slug === 'header')?.attributes;
-        return headerAttributes?.showTranslator !== false;
-    }, [currentPreset]);
-    const translateConsentCookie = getCookie?.("wapGoogleTranslateConsent") || "none";
 
     function validProfile(currentProfile) {
         if (!currentProfile?.id) return null;
@@ -181,10 +177,9 @@ const View = () => {
         });
     };
 
-    const findPrefixesClasses = (prefix) => {
-        const classes = Array.from(document.body.classList);
-        return classes.filter(className => className.startsWith(prefix));
-    };
+    // Body classes this component added last time (only these are removed on the next run, so
+    // classes added by add-ons under the same prefix are left alone).
+    const ownBodyClassesRef = useRef([]);
 
     /**
      * Initialize accessibility manager with current settings
@@ -192,34 +187,27 @@ const View = () => {
     useEffect(() => {
         accessibilityManager().init(state?.currentSettings);
 
-        if (findPrefixesClasses(`one-accessibility-feature`).length > 0) {
-            removeBodyClasses(findPrefixesClasses(`one-accessibility-feature`));
-        }
-        
+        removeBodyClasses(ownBodyClassesRef.current);
+
+        const nextClasses = [];
         for (const key in state?.currentSettings) {
             const value = state?.currentSettings[key];
             if(!value?.currentStep || value?.currentStep === 0) continue;
 
             const attr = value?.currentAttribute;
             if (!attr?.value) continue;
-            
-            addBodyClasses([`one-accessibility-feature-${key}-${attr?.value}`]);
-        }
 
-        const shouldTranslate = !!state?.selectedLanguage
-            && (
-                state?.selectedLanguage !== state?.siteLanguage
-                || !!settings?.force_translate_site_language
-            );
-        if (shouldTranslate) {
-            addBodyClasses(['one-accessibility-feature-enable-translations', `one-accessibility-feature-language-${state?.selectedLanguage}`]);
+            nextClasses.push(`one-accessibility-feature-${key}-${attr?.value}`);
         }
 
         if (state?.currentProfile?.id) {
-            addBodyClasses([`one-accessibility-feature-profile-${state?.currentProfile?.id}`]);
+            nextClasses.push(`one-accessibility-feature-profile-${state?.currentProfile?.id}`);
         }
-        
-    }, [state?.currentSettings, currentPresetId, state?.currentProfile, state?.isOverSized, state?.selectedLanguage, state?.siteLanguage, settings?.force_translate_site_language]);
+
+        addBodyClasses(nextClasses);
+        ownBodyClassesRef.current = nextClasses;
+
+    }, [state?.currentSettings, currentPresetId, state?.currentProfile, state?.isOverSized]);
 
     /**
      * Keyboard shortcuts: ESC to close, Ctrl+U to open
@@ -241,17 +229,13 @@ const View = () => {
     }, [isOpen, closeAccessibilityDrawer, openAccessibilityDrawer]);
 
     /**
-     * Screen reader announcements for drawer open/close
+     * Announce drawer open/close to add-ons (e.g. a text-to-speech feature).
      */
     useEffect(() => {
-        const currentSettings = state?.currentSettings;
-        if (!currentSettings?.screenReader?.currentStep) return;
-
-        if (isOpen) {
-            screenReader()?.speak(__('Accessibility Menu Open', 'website-accessibility'));
-        } else {
-            screenReader()?.speak(__('Accessibility Menu Close', 'website-accessibility'));
-        }
+        announce(
+            isOpen ? __('Accessibility Menu Open', 'website-accessibility') : __('Accessibility Menu Close', 'website-accessibility'),
+            { event: isOpen ? 'open' : 'close', settings: state?.currentSettings }
+        );
     }, [isOpen]);
 
     const saveStatistics = async (data) => {
@@ -421,12 +405,15 @@ const View = () => {
                     onFeatureInteraction={handleFeatureInteraction}
                 />
             </WapDrawer>
-            <GoogleTranslateConsent
-                key={`gtc-${settings?.force_translate_site_language ? "force" : "normal"}-${state?.siteLanguage || "none"}-${translateConsentCookie}`}
-                showModal={settings?.show_translations_consent && isTranslatorEnabled}
-                translateSiteLang={settings?.force_translate_site_language}
-                accessibilityContext={state}
-            />
+            {FrontendExtensions ? (
+                <FrontendExtensions
+                    accessibilityContext={state}
+                    accessibilityDispatch={dispatch}
+                    currentPreset={currentPreset}
+                    settings={settings}
+                    isOpen={isOpen}
+                />
+            ) : null}
         </div>
     );
 };

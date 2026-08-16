@@ -1,7 +1,6 @@
 import { __ } from "@wordpress/i18n";
 import { useDispatch, useSelect } from "@wordpress/data";
 import { STORE_NAME } from "../store";
-import { useLicense } from "../context/LicenseContext";
 import GetStartedPreset from "./preset-get-started";
 import PresetButtonStyle from "./preset-button-style";
 import PresetPanelRightSidebar from "./preset-panel-right-sidebar";
@@ -17,7 +16,6 @@ const PanelSectionTab = ({ item, component, hideExpandIcon }) => {
         select(STORE_NAME).getPresetsFormData(),
     );
     const { setPresetsFormData } = useDispatch(STORE_NAME);
-    const { isProActive } = useLicense();
 
     const handleVisibilityToggle = (checked) => {
         const updatedItems = (presetsFormData?.panel?.items || []).map((currentItem) =>
@@ -53,21 +51,14 @@ const PanelSectionTab = ({ item, component, hideExpandIcon }) => {
                         label: (
                             <div className={`wap-preset-sections__collapse-label${isDisabled ? " wap-preset-sections__collapse-label--disabled" : ""}`}>
                                 <span>{item.title}</span>
-                                {item?.isPro && !isProActive ? (
-                                    <span className="wap-preset-sections__pro">
-                                        {__("PRO", "website-accessibility")}
-                                    </span>
-                                ) : (
-                                    <WapSwitch
-                                        checked={!isDisabled}
-                                        onChange={handleVisibilityToggle}
-                                        onClick={(event) => event.stopPropagation()}
-                                    />
-                                )}
+                                <WapSwitch
+                                    checked={!isDisabled}
+                                    onChange={handleVisibilityToggle}
+                                    onClick={(event) => event.stopPropagation()}
+                                />
                             </div>
                         ),
                         children: <div data-control-category={item.title}>{component}</div>,
-                        collapsible: item?.isPro && !isProActive ? "disabled" : undefined,
                     },
                 ]}
             />
@@ -82,8 +73,10 @@ const PanelCustomizationPreset = () => {
     );
     const { setPresetsFormData } = useDispatch(STORE_NAME);
 
+    // Only panel items that have a settings section are listed.
+    const EDITABLE_SLUGS = ["header", "profiles", "features", "footer"];
     const sectionItems = (presetsFormData?.panel?.items || []).filter(
-        (item) => item.slug !== "language",
+        (item) => EDITABLE_SLUGS.includes(item.slug),
     );
 
     // Re-order sections:

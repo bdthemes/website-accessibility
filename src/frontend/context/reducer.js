@@ -14,16 +14,6 @@ export const initialState = {
             currentAttribute: null,
             isMultiStep: false
         },
-        smartContrast: {
-            currentStep: 0,
-            currentAttribute: null,
-            isMultiStep: false
-        },
-        screenReader: {
-            currentStep: 0,
-            currentAttribute: null,
-            isMultiStep: true
-        },
         tooltips: {
             currentStep: 0,
             currentAttribute: null,
@@ -48,11 +38,6 @@ export const initialState = {
             currentStep: 0,
             currentAttribute: null,
             isMultiStep: false
-        },
-        dyslexiaFriendly: {
-            currentStep: 0,
-            currentAttribute: null,
-            isMultiStep: true
         },
         cursor: {
             currentStep: 0,
@@ -79,7 +64,6 @@ export const initialState = {
     isOverSized: false,
     localStorageKeyPrefix: 'websiteAccessibilityLocalPreferences',
     selectedLanguage: null,
-    languageSearchInput: '',
     siteLanguage: getSiteLanguage(),
 };
 
@@ -121,11 +105,6 @@ export const accessibilityReducer = (state, action) => {
             return {
                 ...state,
                 selectedLanguage: action.payload,
-            };
-        case 'SET_LANGUAGE_SEARCH_INPUT':
-            return {
-                ...state,
-                languageSearchInput: action.payload,
             };
         default:
             return state;

@@ -275,4 +275,22 @@ class Utils
         return $options[$key] ?? null;
     }
 
+
+    /**
+     * Replace the placeholders used in default-posts/statement.json with
+     * this site's details.
+     *
+     * @param string $content
+     * @return string
+     */
+    public static function fill_statement_placeholders($content) {
+        $replacements = [
+            '{{site_name}}'   => wp_specialchars_decode(get_bloginfo('name'), ENT_QUOTES),
+            '{{site_url}}'    => home_url('/'),
+            '{{admin_email}}' => (string) get_option('admin_email'),
+            '{{date}}'        => date_i18n(get_option('date_format')),
+        ];
+
+        return strtr((string) $content, $replacements);
+    }
 }
