@@ -38,8 +38,7 @@ class WhiteLabel {
             'whiteLabelEligible'      => self::is_white_label_eligible(),
             'hideLicenseNav'          => self::should_hide_license_nav(),
             'hideAdminMenus'          => defined('WEBSAC_HIDE') && WEBSAC_HIDE,
-            'whiteLabelRecovery'      => class_exists('\Websac\Admin\WhiteLabelAdmin')
-                && \Websac\Admin\WhiteLabelAdmin::is_recovery_session(),
+            'whiteLabelRecovery'      => \Websac\Admin\WhiteLabelAdmin::is_recovery_session(),
             'brandDisplayName'        => self::get_display_name(),
             'defaultBrandDisplayName' => __('One Accessibility', 'website-accessibility'),
             'brandLogoUrl'            => $settings_logo,

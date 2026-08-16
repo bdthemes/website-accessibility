@@ -255,7 +255,7 @@ class Enqueue {
 
         $license_page_url = admin_url('admin.php?page=website-accessibility-pro_license');
 
-        $wl_data = class_exists(WhiteLabel::class) ? WhiteLabel::get_localized_script_data() : [];
+        $wl_data = WhiteLabel::get_localized_script_data();
 
         wp_localize_script(
             'websac-admin',
