@@ -1,15 +1,13 @@
 import { useState, useRef } from '@wordpress/element';
 import apiFetch from '@wordpress/api-fetch';
 import { __ } from '@wordpress/i18n';
-import { useLicense } from '../context/LicenseContext';
 
-const API_NAMESPACE = '/sigmally/v1';
+const API_NAMESPACE = '/websac/v1';
 const DOCS_URL = 'https://bdthemes.com/knowledge-base/one-accessibility/';
 
 const ToolsBackup = () => {
 	const { WapButton, WapMessage, WapCard, WapTypography } = window?.wapComponents;
 	const { Title, Text } = WapTypography;
-	const { isProActive } = useLicense();
 	const [exportLoading, setExportLoading] = useState(false);
 	const [importLoading, setImportLoading] = useState(false);
 	const fileInputRef = useRef(null);
@@ -86,31 +84,6 @@ const ToolsBackup = () => {
 			if (fileInputRef.current) fileInputRef.current.value = "";
 		}
 	};
-
-	if (!isProActive) {
-		return (
-			<div className="wap-settings wap-tools-backup">
-				<WapCard className="wap-settings-row wap-tools-backup__pro-required">
-					<Title level={4}>{__("Tools & Backup", "website-accessibility")}</Title>
-					<Text type="secondary">
-						{__("Export and import settings are available in the Pro version.", "website-accessibility")}
-					</Text>
-					<ul className="wap-tools-backup__list wap-tools-backup__list--muted" aria-label={__("Features available with One Accessibility Pro", "website-accessibility")}>
-						<li>{__("Download a JSON backup that includes plugin settings, presets, and custom profiles.", "website-accessibility")}</li>
-						<li>{__("Restore configuration on another site or roll back after major changes.", "website-accessibility")}</li>
-						<li>{__("Keep a dated export before importing so you can recover quickly if needed.", "website-accessibility")}</li>
-					</ul>
-					<Text type="secondary" className="wap-tools-backup__help-inline">
-						<a href={DOCS_URL} target="_blank" rel="noopener noreferrer">
-							{__("Documentation", "website-accessibility")}
-						</a>
-						{' — '}
-						{__("Learn how backup and migration work.", "website-accessibility")}
-					</Text>
-				</WapCard>
-			</div>
-		);
-	}
 
 	return (
 		<div className="wap-settings wap-tools-backup">

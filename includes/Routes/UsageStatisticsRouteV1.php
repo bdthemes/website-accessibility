@@ -1,8 +1,8 @@
 <?php
 
-namespace bdthemes\websiteaccessibility\Routes;
+namespace Websac\Routes;
 
-use bdthemes\websiteaccessibility\Traits\Singleton;
+use Websac\Traits\Singleton;
 use WP_REST_Request;
 use WP_REST_Server;
 
@@ -12,7 +12,7 @@ class UsageStatisticsRouteV1
 {
     use Singleton;
 
-    const OPTION_KEY = 'one_accessibility_usage_statistics';
+    const OPTION_KEY = 'websac_usage_statistics';
 
     /**
      * Features with zero counts
@@ -49,7 +49,7 @@ class UsageStatisticsRouteV1
 
     public function register_routes()
     {
-        register_rest_route('one-accessibility/v1', '/usage-statistics', [
+        register_rest_route('websac/v1', '/usage-statistics', [
             [
                 'methods' => WP_REST_Server::READABLE,
                 'callback' => [$this, 'get_statistics'],

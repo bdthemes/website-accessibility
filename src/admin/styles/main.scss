@@ -130,60 +130,6 @@
     top: 30px !important;
 }
 
-@mixin profile-pro-badge {
-    a {
-        position: relative;
-
-        &::after {
-            content: "Pro";
-            background: #ff5e3a;
-            color: #fff;
-            font-size: 10px;
-            font-weight: 600;
-            border-radius: 14px;
-            position: absolute;
-            width: 26px;
-            height: 16px;
-            top: 7px;
-            right: 15px;
-            display: inline-flex;
-            justify-content: center;
-            align-items: center;
-        }
-    }
-}
-
-.wap-admin {
-    // Badge the "Custom Profiles" submenu item without relying on submenu order
-    &:not(.wap-pro-admin),
-    &.not-licensed {
-        .toplevel_page_website-accessibility {
-            & > .wp-submenu-wrap {
-                a[href*="admin.php?page=website-accessibilityfiles"] {
-                    position: relative;
-
-                    &::after {
-                        content: "Pro";
-                        background: #ff5e3a;
-                        color: #fff;
-                        font-size: 10px;
-                        font-weight: 600;
-                        border-radius: 14px;
-                        position: absolute;
-                        width: 26px;
-                        height: 16px;
-                        top: 7px;
-                        right: 15px;
-                        display: inline-flex;
-                        justify-content: center;
-                        align-items: center;
-                    }
-                }
-            }
-        }
-    }
-}
-
 /* React Joyride — modern tooltip overrides */
 [data-testid="button-primary"] {
 	transition: all 0.2s ease !important;

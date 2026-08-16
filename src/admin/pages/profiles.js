@@ -3,15 +3,12 @@ import PostTable from '../components/post-table';
 import { useHistory } from '../router';
 import { useSelect, useDispatch } from '@wordpress/data';
 import { getDefaultProfilesFormData, STORE_NAME } from '../store';
-import ProfilesFallback from '../components/profiles-fallback';
-import { useLicense } from '../context/LicenseContext';
 import { useProfileTour } from '../context/profile-tour-context';
 
 
 const Profiles = () => {
   const { WapCard, WapButton, WapSpace, WapTypography } = window?.wapComponents;
   const { Title, Text } = WapTypography;
-  const { isProActive } = useLicense();
   const history = useHistory();
   const { notifyOpenedCreateProfileFromTour } = useProfileTour();
   const profiles = useSelect((select) => select(STORE_NAME).getProfiles());
@@ -115,12 +112,6 @@ const Profiles = () => {
       ),
     }
   ];
-
-  if (!isProActive) {
-    return (
-      <ProfilesFallback />
-    )
-  }
 
   return (
     <div className="wap-settings wap-profiles">

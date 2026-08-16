@@ -1,8 +1,8 @@
 <?php
 
-namespace bdthemes\websiteaccessibility\Core;
+namespace Websac\Core;
 
-use bdthemes\websiteaccessibility\Traits\Singleton;
+use Websac\Traits\Singleton;
 
 if (! defined('ABSPATH')) {
     exit;
@@ -14,7 +14,7 @@ class Migrations
 
     const VERSION_OPTION_KEY = 'websac_version';
     const DATA_SCHEMA_OPTION_KEY = 'websac_data_schema_version';
-    const LATEST_DATA_SCHEMA_VERSION = 4;
+    const LATEST_DATA_SCHEMA_VERSION = 5;
 
     private function __construct(){}
 
@@ -48,8 +48,46 @@ class Migrations
             $current_schema_version = 4;
         }
 
+        if ($current_schema_version < 5) {
+            $this->migrate_legacy_option_keys();
+            $current_schema_version = 5;
+        }
+
         update_option(self::DATA_SCHEMA_OPTION_KEY, $current_schema_version);
         update_option(self::VERSION_OPTION_KEY, WEBSAC_VERSION);
+    }
+
+    /**
+     * 1.5.0: every stored key now uses the `websac_` prefix. Copy legacy keys to
+     * their new names (never overwriting data that already exists under the new
+     * name) and remove the old ones, plus stale transients from removed features.
+     */
+    private function migrate_legacy_option_keys()
+    {
+        $renamed_options = [
+            'one_accessibility_usage_statistics'          => 'websac_usage_statistics',
+            'websac_white_label_license_title_status'     => 'websac_white_label_status',
+        ];
+
+        foreach ($renamed_options as $old_key => $new_key) {
+            $old_value = get_option($old_key, null);
+            if ($old_value === null) {
+                continue;
+            }
+            if (get_option($new_key, null) === null) {
+                update_option($new_key, $old_value, false);
+            }
+            delete_option($old_key);
+        }
+
+        // Dashboard product-feed widget was removed in 1.5.0.
+        delete_transient('websac_product_feeds');
+
+        // Recovery tokens issued before 1.5.0 were bound to a Pro license key; invalidate them.
+        $token = get_option('websac_white_label_access_token', []);
+        if (is_array($token) && isset($token['license_key'])) {
+            delete_option('websac_white_label_access_token');
+        }
     }
 
     /**

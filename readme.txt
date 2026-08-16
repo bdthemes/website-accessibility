@@ -1,10 +1,10 @@
-=== One Accessibility – Making Your Site Accessible to Everyone ===
+=== One Accessibility ===
 Contributors:      bdthemes, selimmw, abutalib, muhammadasik, mohammaadfarid, maudud
 Tags:              accessibility, a11y, wcag, ada-compliance, screen-reader
 Requires at least: 6.1
 Tested up to:      7.0
 Requires PHP:      7.4
-Stable tag:        1.4.1
+Stable tag:        1.5.0
 License:           GPL-2.0-or-later
 License URI:       https://www.gnu.org/licenses/gpl-2.0.html
 
@@ -41,7 +41,7 @@ https://youtu.be/4w8lmkMgt9M?si=Z7gvhREYTVML7f1V
 - Focus indicators and skip links
 
 **🌍 Language & Communication Tools**
-- Google Translate integration for multilingual accessibility
+- Google Translate integration for multilingual accessibility (Pro)
 - Dictionary tooltips with pronunciation guides
 - Text-to-speech functionality
 - Reading guides and focus indicators
@@ -89,7 +89,7 @@ The plugin automatically creates a default accessibility preset upon activation,
 
 - ✅ Verify the accessibility toolbar appears on your frontend
 - ✅ Test keyboard navigation (CTRL+U to open accessibility menu)
-- ✅ Confirm Google Translate integration is working
+- ✅ Confirm the Dictionary tool and profiles behave as expected
 - ✅ Check mobile responsiveness of accessibility controls
 - ✅ Review preset conditions match your website structure
 
@@ -114,7 +114,7 @@ No conflicts guaranteed! One Accessibility Website Accessibility is built with m
 The plugin supports comprehensive accessibility profiles including Motor Impairment, Blindness & Low Vision, Color Blindness, Dyslexia, Cognitive Disabilities, Seizure & Epilepsy Safety, and ADHD accommodations. Each profile automatically configures appropriate tools like high contrast modes, font adjustments, animation controls, and navigation enhancements.
 
 = Does the plugin support multilingual websites and translation? =
-Yes! The plugin includes integrated Google Translate functionality, supporting 100+ languages for global accessibility. It also works perfectly with popular translation plugins like WPML, Polylang, and TranslatePress. The accessibility toolbar itself can be translated and localized for international websites.
+The free plugin's toolbar can be translated and localized, and it works perfectly with popular translation plugins like WPML, Polylang, and TranslatePress. Integrated Google Translate functionality (100+ languages) is available in One Accessibility Pro.
 
 = How does the dictionary tooltip feature work? =
 The dictionary tooltip feature provides instant word definitions and pronunciations to help users with reading comprehension. When enabled, users can hover over or click on words to get definitions from the Free Dictionary API, making content more accessible for users with cognitive disabilities, language learners, or those with dyslexia.
@@ -127,7 +127,7 @@ While the current version focuses on providing accessibility tools rather than d
 
 = ⚡ Where do I report security bugs found in this plugin? =
 
-Please report security bugs found in the source code of the Sigmally Website Accessibility plugin through the [Patchstack Vulnerability Disclosure  Program](https://patchstack.com/database/vdp/e9ff4b57-776a-4327-88d4-030a5a33d186). The Patchstack team will assist you with verification, CVE assignment, and notify the developers of this plugin.
+Please report security bugs found in the source code of the One Accessibility plugin through the [Patchstack Vulnerability Disclosure  Program](https://patchstack.com/database/vdp/e9ff4b57-776a-4327-88d4-030a5a33d186). The Patchstack team will assist you with verification, CVE assignment, and notify the developers of this plugin.
 
 == Checkout our other Plugins 👑 ==
 
@@ -191,13 +191,32 @@ This plugin uses the following open-source libraries and third-party tools. We a
 - [@wordpress/scripts](https://developer.wordpress.org/block-editor/reference-guides/packages/packages-scripts/) – Official WordPress build toolchain (GPL-2.0-or-later)
 - [@wordpress/icons](https://developer.wordpress.org/block-editor/reference-guides/packages/packages-icons/) – WordPress icon set used in admin UI (GPL-2.0-or-later)
 
-**Third-Party Services:**
+**Bundled Fonts:**
 
-- [Google Translate (element.js)](https://translate.google.com/) – Used for frontend language translation (Terms of Service apply)
-- [Free Dictionary API](https://dictionaryapi.dev/) – Used for displaying word definitions and pronunciation in dictionary tooltips (MIT License)
-- [OpenDyslexic Font](https://opendyslexic.org/) – Open-source font designed to increase readability for readers with dyslexia (SIL Open Font License)
+- [OpenDyslexic Font](https://opendyslexic.org/) – Open-source font designed to increase readability for readers with dyslexia (SIL Open Font License). Bundled with the plugin; no font requests are made to third-party servers.
+
+== External services ==
+
+This plugin connects to one third-party service. No data is sent anywhere unless a visitor explicitly uses the feature described below. The plugin does not send usage data, telemetry, or site information to the plugin author.
+
+= Free Dictionary API (dictionaryapi.dev) =
+
+* **What it is / what it is used for:** The "Dictionary" tool of the accessibility toolbar lets a visitor select a word on the page and see its definition, phonetic spelling and, when available, pronunciation audio. Definitions are fetched from the Free Dictionary API, an open-source dictionary service.
+* **What data is sent and when:** Only when a visitor turns the Dictionary tool on and selects a word, the selected word (English letters only) is sent in the request URL to `https://api.dictionaryapi.dev/api/v2/entries/en/{word}`. As with any HTTP request, the visitor's IP address and browser user-agent are transmitted to that server. No cookies, personal data, or WordPress site information are sent, and nothing is sent while the tool is switched off.
+* **Service website:** https://dictionaryapi.dev/
+* **Source code and license (GPL-3.0):** https://github.com/meetDeveloper/freeDictionaryAPI (license: https://github.com/meetDeveloper/freeDictionaryAPI/blob/master/LICENSE)
+* **Terms of use / privacy:** The Free Dictionary API is a free, community-run project and does not publish a separate Terms of Service or Privacy Policy document; the pages linked above are the only policy statements the service provides. Site owners who prefer not to use this service can disable the Dictionary tool for their preset in the toolbar editor.
+
+Features such as Google Translate integration and the AI-based accessibility checker are provided by the separate One Accessibility Pro plugin, which documents its own external services.
 
 == Changelog ==
+
+= 1.5.0 – August 16, 2026 =
+* Changed: Custom Profiles, Tools & Backup (export/import), White Label, toolbar layout/tooltip options and the branding toggle are now available to every user; no functionality in this plugin depends on a Pro license.
+* Removed: The dashboard "News & Updates" widget and every request to bdthemes.com / bdthemes.io. The plugin no longer contacts the plugin author's servers.
+* Added: "External services" section in the readme documenting the Free Dictionary API used by the Dictionary tool.
+* Changed: All plugin code now uses the `websac` prefix (PHP namespace `Websac\`, `WEBSAC_*` constants, `websac_*` options, `websac/v1` REST namespace, `websac-*` script handles). Existing option keys are migrated automatically on upgrade.
+* Removed: Generic `PLUGIN_FILE` constant.
 
 = 1.4.1 – August 12, 2026 =
 * Updated: System improved

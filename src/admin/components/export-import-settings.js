@@ -9,7 +9,7 @@ const ExportImportSettings = () => {
     const [importing, setImporting] = useState(false);
     const fileInputRef = useRef(null);
 
-    const API_NAMESPACE = "/sigmally/v1";
+    const API_NAMESPACE = "/websac/v1";
 
     /**
      * Handle export - downloads settings as JSON file

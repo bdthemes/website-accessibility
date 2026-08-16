@@ -100,16 +100,13 @@ const AccessibilityProfiles = ({
 	accessibilityDispatch,
 }) => {
 	const features = window.wapHelpers?.features || [];
-	const isProActive = window?.websacPro?.isProActive || false;
 	const { items } = value;
 	const profileItem = items.find((item) => item.slug === "profiles");
 	const attributes = profileItem?.attributes || {};
 	const profiles = attributes.profiles || [];
 	const hideItemIcons = attributes?.hideItemIcons ?? attributes?.hideBodyAvatar ?? false;
 	const hideItemLabels = attributes?.hideItemLabels ?? attributes?.hideBodyProfileName ?? false;
-	const layout = isProActive
-		? normalizeItemLayout(attributes?.layout, "inline")
-		: "inline";
+	const layout = normalizeItemLayout(attributes?.layout, "inline");
 	const profileColumns = Math.min(6, Math.max(1, Number(attributes?.columns) || 2));
 	const profileColumnWidth = `${100 / profileColumns}%`;
 	const collapseTitle = __("Accessibility Profiles", "website-accessibility");

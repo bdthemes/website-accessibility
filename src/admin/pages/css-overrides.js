@@ -2,7 +2,7 @@ import { __ } from '@wordpress/i18n';
 import { useCallback, useEffect, useRef, useState } from '@wordpress/element';
 import apiFetch from '@wordpress/api-fetch';
 
-const API_NAMESPACE = '/sigmally/v1/settings';
+const API_NAMESPACE = '/websac/v1/settings';
 
 /** Example CSS shown when the field is empty (textarea `placeholder`; CodeMirror `placeholder` opt when addon present). */
 const CSS_PLACEHOLDER_EXAMPLE = `.example {

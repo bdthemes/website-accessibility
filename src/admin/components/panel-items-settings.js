@@ -1,11 +1,9 @@
 import ControlWrapper from "./control-wrapper";
 import { __ } from "@wordpress/i18n";
-import { useLicense } from "../context/LicenseContext";
 import { normalizeItemLayout } from "../../utils/item-layout";
 
 const PanelItemsSettings = ({ attributes, updateAttr, showTooltip = true, defaultLayout = "block" }) => {
-	const { WapSwitch, WapTypography, WapSelect, WapRadio, WapBadge } = window?.wapComponents;
-	const { isProActive } = useLicense();
+	const { WapSwitch, WapTypography, WapSelect, WapRadio } = window?.wapComponents;
 	const layoutValue = normalizeItemLayout(attributes.layout, defaultLayout);
 
 	return (
@@ -43,40 +41,32 @@ const PanelItemsSettings = ({ attributes, updateAttr, showTooltip = true, defaul
 				</ControlWrapper>
 
 				<ControlWrapper label={__("Layout", "website-accessibility")} inline>
-					{isProActive ? (
-						<WapRadio.Group
-							block
-							className="wap-features-layout-radio"
-							options={[
-								{ label: __('Inline', 'website-accessibility'), value: 'inline' },
-								{ label: __('Block', 'website-accessibility'), value: 'block' },
-							]}
-							value={layoutValue}
-							onChange={(e) => updateAttr({ layout: e.target.value })}
-							optionType="button"
-							buttonStyle="solid"
-						/>
-					) : (
-						<WapBadge color="gold" count={__("PRO", "website-accessibility")} />
-					)}
+					<WapRadio.Group
+						block
+						className="wap-features-layout-radio"
+						options={[
+							{ label: __('Inline', 'website-accessibility'), value: 'inline' },
+							{ label: __('Block', 'website-accessibility'), value: 'block' },
+						]}
+						value={layoutValue}
+						onChange={(e) => updateAttr({ layout: e.target.value })}
+						optionType="button"
+						buttonStyle="solid"
+					/>
 				</ControlWrapper>
 
 				{showTooltip ? (
 					<ControlWrapper label={__("Tooltip Position", "website-accessibility")} inline>
-						{isProActive ? (
-							<WapSelect
-								value={attributes.tooltipPosition || 'topLeft'}
-								onChange={(value) => updateAttr({ tooltipPosition: value })}
-								style={{ minWidth: 160 }}
-							>
-								<WapSelect.Option value="topLeft">{__('Top Left', 'website-accessibility')}</WapSelect.Option>
-								<WapSelect.Option value="topRight">{__('Top Right', 'website-accessibility')}</WapSelect.Option>
-								<WapSelect.Option value="bottomLeft">{__('Bottom Left', 'website-accessibility')}</WapSelect.Option>
-								<WapSelect.Option value="bottomRight">{__('Bottom Right', 'website-accessibility')}</WapSelect.Option>
-							</WapSelect>
-						) : (
-							<WapBadge color="gold" count={__("PRO", "website-accessibility")} />
-						)}
+						<WapSelect
+							value={attributes.tooltipPosition || 'topLeft'}
+							onChange={(value) => updateAttr({ tooltipPosition: value })}
+							style={{ minWidth: 160 }}
+						>
+							<WapSelect.Option value="topLeft">{__('Top Left', 'website-accessibility')}</WapSelect.Option>
+							<WapSelect.Option value="topRight">{__('Top Right', 'website-accessibility')}</WapSelect.Option>
+							<WapSelect.Option value="bottomLeft">{__('Bottom Left', 'website-accessibility')}</WapSelect.Option>
+							<WapSelect.Option value="bottomRight">{__('Bottom Right', 'website-accessibility')}</WapSelect.Option>
+						</WapSelect>
 					</ControlWrapper>
 				) : null}
 			</div>

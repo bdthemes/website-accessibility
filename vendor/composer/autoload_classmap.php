@@ -7,4 +7,21 @@ $baseDir = dirname($vendorDir);
 
 return array(
     'Composer\\InstalledVersions' => $vendorDir . '/composer/InstalledVersions.php',
+    'Websac\\Admin\\Enqueue' => $baseDir . '/includes/Admin/Enqueue.php',
+    'Websac\\Admin\\Menu' => $baseDir . '/includes/Admin/Menu.php',
+    'Websac\\Admin\\WhiteLabelAdmin' => $baseDir . '/includes/Admin/WhiteLabelAdmin.php',
+    'Websac\\Core\\AccessibilityPreset' => $baseDir . '/includes/Core/AccessibilityPreset.php',
+    'Websac\\Core\\Migrations' => $baseDir . '/includes/Core/Migrations.php',
+    'Websac\\Core\\PresetProfile' => $baseDir . '/includes/Core/PresetProfile.php',
+    'Websac\\Core\\Utils' => $baseDir . '/includes/Core/Utils.php',
+    'Websac\\Core\\WhiteLabel' => $baseDir . '/includes/Core/WhiteLabel.php',
+    'Websac\\Routes\\DashboardTourRouteV1' => $baseDir . '/includes/Routes/DashboardTourRouteV1.php',
+    'Websac\\Routes\\ExportImportRouteV1' => $baseDir . '/includes/Routes/ExportImportRouteV1.php',
+    'Websac\\Routes\\PreferenceRouteV1' => $baseDir . '/includes/Routes/PreferenceRouteV1.php',
+    'Websac\\Routes\\SettingsRouteV1' => $baseDir . '/includes/Routes/SettingsRouteV1.php',
+    'Websac\\Routes\\SystemInfoRouteV1' => $baseDir . '/includes/Routes/SystemInfoRouteV1.php',
+    'Websac\\Routes\\UsageStatisticsRouteV1' => $baseDir . '/includes/Routes/UsageStatisticsRouteV1.php',
+    'Websac\\Routes\\WhiteLabelRouteV1' => $baseDir . '/includes/Routes/WhiteLabelRouteV1.php',
+    'Websac\\Traits\\Singleton' => $baseDir . '/includes/Traits/Singleton.php',
+    'Websac\\View\\Frontend' => $baseDir . '/includes/View/Frontend.php',
 );

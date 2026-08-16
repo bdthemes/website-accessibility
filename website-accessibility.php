@@ -5,7 +5,7 @@
  * Description:       A comprehensive WordPress plugin to enhance website accessibility and ensure WCAG compliance.
  * Requires at least: 6.1
  * Requires PHP:      7.4
- * Version:           1.4.1
+ * Version:           1.5.0
  * Author:            bdthemes
  * Author URI:        https://oneaccessibility.com
  * License:           GPL-2.0-or-later
@@ -13,8 +13,9 @@
  * Text Domain:       website-accessibility
  */
 
-use bdthemes\websiteaccessibility\Core\Utils;
-use bdthemes\websiteaccessibility\Traits\Singleton;
+use Websac\Core\Utils;
+use Websac\Core\Migrations;
+use Websac\Traits\Singleton;
 
 // Exit if accessed directly.
 if (! defined('ABSPATH')) exit;
@@ -42,7 +43,7 @@ if (!defined('WEBSAC_WL')) {
 /**
  * Implements the singleton pattern to ensure only one instance is running.
  */
-final class WebsiteAccessibility
+final class Websac_Plugin
 {
 	use Singleton;
 
@@ -51,7 +52,7 @@ final class WebsiteAccessibility
 	 *
 	 * @var string
 	 */
-	const VERSION = '1.4.1';
+	const VERSION = '1.5.0';
 
 	/**
 	 * Private constructor for singleton pattern.
@@ -82,8 +83,6 @@ final class WebsiteAccessibility
 		define('WEBSAC_VERSION', self::VERSION);
 		define('WEBSAC_NAME', 'One Accessibility');
 		define('WEBSAC_PLUGIN_FILE', __FILE__);
-		define('WEBSA_PLUGIN_FILE', __FILE__);
-		define('PLUGIN_FILE', __FILE__);
 		define('WEBSAC_URL', trailingslashit(plugin_dir_url(__FILE__)));
 		define('WEBSAC_DIR', trailingslashit(plugin_dir_path(__FILE__)));
 		define('WEBSAC_INCLUDES_DIR', WEBSAC_DIR . 'includes/');
@@ -100,7 +99,12 @@ final class WebsiteAccessibility
 	{
 		// Update plugin version in the options table.
 		update_option('websac_version', WEBSAC_VERSION);
-		update_option('websac_data_schema_version', \bdthemes\websiteaccessibility\Core\Migrations::LATEST_DATA_SCHEMA_VERSION);
+
+		// Fresh install: stored data already matches the latest schema. On re-activation
+		// of an existing install leave the stored version alone so pending migrations run.
+		if (get_option('websac_data_schema_version', null) === null) {
+			update_option('websac_data_schema_version', Migrations::LATEST_DATA_SCHEMA_VERSION);
+		}
 
 		// Set installed time if it doesn't exist.
 		if (! get_option('websac_installed_time')) {
@@ -116,7 +120,7 @@ final class WebsiteAccessibility
 			'no_found_rows'  => true, // improves performance
 		]);
 
-		$existing_statement = $existing_statement = get_page_by_path('one-accessibility-statement-page', OBJECT, 'page');
+		$existing_statement = get_page_by_path('one-accessibility-statement-page', OBJECT, 'page');
 
 
 		if (empty($existing_presets) || empty($existing_statement)) {
@@ -132,7 +136,7 @@ final class WebsiteAccessibility
 			if (!empty($data)) {
 				if (!empty($data)) {
 					$data['post_author'] = get_current_user_id();
-					$data['post_content'] = json_encode($data['post_content'], JSON_UNESCAPED_UNICODE | JSON_UNESCAPED_SLASHES);
+					$data['post_content'] = wp_json_encode($data['post_content'], JSON_UNESCAPED_UNICODE | JSON_UNESCAPED_SLASHES);
 					wp_insert_post($data);
 				}
 			}
@@ -165,7 +169,7 @@ final class WebsiteAccessibility
 	public function plugins_loaded()
 	{
 		// Run DB/content migrations for plugin updates.
-		\bdthemes\websiteaccessibility\Core\Migrations::get_instance()->maybe_run_migrations();
+		Migrations::get_instance()->maybe_run_migrations();
 
 		// Add a custom class to the admin body tag.
 		add_filter('admin_body_class', fn($classes) => $classes . ' wap-admin');
@@ -178,57 +182,30 @@ final class WebsiteAccessibility
 		do_action('websac_plugins_loaded');
 
 		// Register post types
-		\bdthemes\websiteaccessibility\Core\AccessibilityPreset::get_instance();
-		\bdthemes\websiteaccessibility\Core\PresetProfile::get_instance();
+		\Websac\Core\AccessibilityPreset::get_instance();
+		\Websac\Core\PresetProfile::get_instance();
 
 		// Register admin menu
-		\bdthemes\websiteaccessibility\Admin\Menu::get_instance();
+		\Websac\Admin\Menu::get_instance();
 
 		// Initialize admin assets
-		\bdthemes\websiteaccessibility\Admin\Enqueue::get_instance();
+		\Websac\Admin\Enqueue::get_instance();
 
 		// White label (recovery link, submenu icon CSS).
-		\bdthemes\websiteaccessibility\Admin\WhiteLabelAdmin::get_instance();
-
-		// Initialize dashboard product feed widget
-		new \bdthemes\websiteaccessibility\Admin\Admin_Feeds([
-			'feed_title'       => 'One Accessibility News & Updates',
-			'transient_key'    => 'websac_product_feeds',
-			'feed_link'        => 'https://bdthemes.com/feed',
-			'remote_feed_link' => 'https://dashboard.bdthemes.io/wp-json/bdthemes/v1/product-feed/?product_category=website-accessibility',
-			'text_domain'      => 'website-accessibility',
-			'footer_links'     => [
-				[
-					'url'   => 'https://bdthemes.com/blog/',
-					'title' => 'Blog',
-				],
-				[
-					'url'   => 'https://bdthemes.com/knowledge-base/',
-					'title' => 'Docs',
-				],
-				[
-					'url'   => 'https://oneaccessibility.com/#pricing',
-					'title' => 'Get Pro',
-				],
-				[
-					'url'   => 'https://feedback.elementpack.pro/announcements/',
-					'title' => 'Changelog',
-				],
-			],
-		]);
+		\Websac\Admin\WhiteLabelAdmin::get_instance();
 
 		// Initialize frontend assets
-		\bdthemes\websiteaccessibility\View\Frontend::get_instance();
+		\Websac\View\Frontend::get_instance();
 
 		// Initialize the routes
-		\bdthemes\websiteaccessibility\Routes\PreferenceRouteV1::get_instance();
-		\bdthemes\websiteaccessibility\Routes\DashboardTourRouteV1::get_instance();
-		\bdthemes\websiteaccessibility\Routes\SettingsRouteV1::get_instance();
-		\bdthemes\websiteaccessibility\Routes\UsageStatisticsRouteV1::get_instance();
-		\bdthemes\websiteaccessibility\Routes\SystemInfoRouteV1::get_instance();
+		\Websac\Routes\PreferenceRouteV1::get_instance();
+		\Websac\Routes\DashboardTourRouteV1::get_instance();
+		\Websac\Routes\SettingsRouteV1::get_instance();
+		\Websac\Routes\UsageStatisticsRouteV1::get_instance();
+		\Websac\Routes\SystemInfoRouteV1::get_instance();
 
-		\bdthemes\websiteaccessibility\Routes\ExportImportRouteV1::get_instance();
-		\bdthemes\websiteaccessibility\Routes\WhiteLabelRouteV1::get_instance();
+		\Websac\Routes\ExportImportRouteV1::get_instance();
+		\Websac\Routes\WhiteLabelRouteV1::get_instance();
 	}
 
 	/**
@@ -295,12 +272,12 @@ final class WebsiteAccessibility
 /**
  * Kickstart the One Accessibility plugin.
  *
- * @return WebsiteAccessibility
+ * @return Websac_Plugin
  */
-function website_accessibility()
+function websac()
 {
-	return WebsiteAccessibility::get_instance();
+	return Websac_Plugin::get_instance();
 }
 
 // Initialize the plugin
-website_accessibility();
+websac();

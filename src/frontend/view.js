@@ -132,7 +132,7 @@ const View = () => {
 
         // ✅ Use API only if activePreference is true and user is logged in
         if (isPreferenceActive && isUserLoggedIn) {
-            apiFetch({ path: `/sigmally/v1/preference?post_id=${currentPresetId}`, method: 'GET' })
+            apiFetch({ path: `/websac/v1/preference?post_id=${currentPresetId}`, method: 'GET' })
                 .then((response) => {
                     if (response?.success && response.data && Object.keys(response.data).length > 0) {
                         applyPreferenceData(response.data);
@@ -277,7 +277,7 @@ const View = () => {
             statistics[key] = 1;
         }
         
-        const apiURL = `${restUrl}one-accessibility/v1/usage-statistics`;
+        const apiURL = `${restUrl}websac/v1/usage-statistics`;
 
         try {
             isSavingStatisticsRef.current = true;

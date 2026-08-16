@@ -1,5 +1,5 @@
 <?php
-namespace bdthemes\websiteaccessibility\Traits;
+namespace Websac\Traits;
 
 if (!defined('ABSPATH')) {
     exit; // Exit if accessed directly.

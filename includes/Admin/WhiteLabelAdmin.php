@@ -5,10 +5,10 @@
  * @package WebsiteAccessibility
  */
 
-namespace bdthemes\websiteaccessibility\Admin;
+namespace Websac\Admin;
 
-use bdthemes\websiteaccessibility\Core\WhiteLabel;
-use bdthemes\websiteaccessibility\Traits\Singleton;
+use Websac\Core\WhiteLabel;
+use Websac\Traits\Singleton;
 
 if (!defined('ABSPATH')) {
     exit;
@@ -253,23 +253,23 @@ class WhiteLabelAdmin {
      * @return bool
      */
     public static function send_recovery_email() {
-        $license_email = WhiteLabel::get_license_email_for_recovery();
-        $admin_email   = get_bloginfo('admin_email');
-        $license_key   = WhiteLabel::get_bound_license_key();
-        $site_name     = get_bloginfo('name');
-        $site_url      = get_bloginfo('url');
+        $recovery_email = WhiteLabel::get_recovery_email();
+        $admin_email    = get_bloginfo('admin_email');
+        $secret         = WhiteLabel::get_recovery_secret();
+        $site_name      = get_bloginfo('name');
+        $site_url       = get_bloginfo('url');
 
-        if ($license_key === '') {
+        if ($secret === '') {
             return false;
         }
 
-        $access_token = wp_hash($license_key . time() . wp_salt() . wp_generate_password(32, false));
+        $access_token = wp_hash($secret . time() . wp_salt() . wp_generate_password(32, false));
 
         $token_data = array(
-            'token'       => $access_token,
-            'license_key' => $license_key,
-            'created_at'  => current_time('timestamp'),
-            'user_id'     => get_current_user_id(),
+            'token'      => $access_token,
+            'secret'     => $secret,
+            'created_at' => time(),
+            'user_id'    => get_current_user_id(),
         );
 
         update_option(WhiteLabel::OPTION_ACCESS_TOKEN, $token_data);
@@ -284,7 +284,7 @@ class WhiteLabelAdmin {
             $site_name
         );
 
-        $message = self::build_email_html($site_name, $site_url, $access_url, $license_key);
+        $message = self::build_email_html($site_name, $site_url, $access_url);
 
         $headers = array(
             'Content-Type: text/html; charset=UTF-8',
@@ -292,12 +292,12 @@ class WhiteLabelAdmin {
         );
 
         $sent = false;
-        if (!empty($license_email) && is_email($license_email)) {
-            $sent = (bool) wp_mail($license_email, $subject, $message, $headers);
+        if (!empty($recovery_email) && is_email($recovery_email)) {
+            $sent = (bool) wp_mail($recovery_email, $subject, $message, $headers);
         }
 
         if (!$sent || self::is_localhost()) {
-            self::save_localhost_email_fallback($access_url, $message, $license_email);
+            self::save_localhost_email_fallback($access_url, $message, $recovery_email);
         }
 
         return $sent;
@@ -337,17 +337,12 @@ class WhiteLabelAdmin {
     }
 
     /**
-     * @param string $site_name   Site name.
-     * @param string $site_url    Home URL.
-     * @param string $access_url  Recovery URL.
-     * @param string $license_key Full license key.
+     * @param string $site_name  Site name.
+     * @param string $site_url   Home URL.
+     * @param string $access_url Recovery URL.
      * @return string
      */
-    private static function build_email_html($site_name, $site_url, $access_url, $license_key) {
-        $masked = strlen($license_key) > 13
-            ? substr($license_key, 0, 8) . '****-****-****-' . substr($license_key, -4)
-            : '****';
-
+    private static function build_email_html($site_name, $site_url, $access_url) {
         ob_start();
         ?>
         <!DOCTYPE html>
@@ -358,7 +353,6 @@ class WhiteLabelAdmin {
                 <h2 style="color:#007bff;"><?php esc_html_e('One Accessibility — hide-admin recovery', 'website-accessibility'); ?></h2>
                 <p><?php esc_html_e('Hide-admin / aggressive white label mode was enabled. Keep this email — it contains your private settings link.', 'website-accessibility'); ?></p>
                 <p><strong><?php esc_html_e('Site:', 'website-accessibility'); ?></strong> <?php echo esc_html($site_name); ?> — <?php echo esc_html($site_url); ?></p>
-                <p><strong><?php esc_html_e('License (masked):', 'website-accessibility'); ?></strong> <?php echo esc_html($masked); ?></p>
                 <p style="text-align:center;margin:28px 0;">
                     <a href="<?php echo esc_url($access_url); ?>" style="background:#007bff;color:#fff;padding:14px 22px;text-decoration:none;border-radius:4px;display:inline-block;">
                         <?php esc_html_e('Open white label settings', 'website-accessibility'); ?>

@@ -3,13 +3,11 @@ import { STORE_NAME } from '../store';
 import ControlWrapper from '../components/control-wrapper';
 import { __ } from '@wordpress/i18n';
 import ColorPicker from '../controls/color-picker';
-import { useLicense } from '../context/LicenseContext';
 
 const FooterSettings = () => {
-    const { WapSwitch, WapTypography, WapBadge } = window?.wapComponents;
+    const { WapSwitch, WapTypography } = window?.wapComponents;
     const { presetsFormData } = useSelect((select) => select(STORE_NAME).getPresetsFormData());
     const { setPresetsFormData } = useDispatch(STORE_NAME);
-    const { isProActive } = useLicense();
     const footerItem = presetsFormData.panel.items.find(item => item.slug === 'footer');
     const attributes = footerItem?.attributes || {};
 
@@ -38,11 +36,7 @@ const FooterSettings = () => {
                     <WapSwitch checked={attributes.showStatement !== false} onChange={(checked) => updateAttr({ showStatement: checked })} />
                 </ControlWrapper>
                 <ControlWrapper label={__('Show Branding', 'website-accessibility')} inline>
-                    {isProActive ? (
-                        <WapSwitch checked={attributes.showBranding !== false} onChange={(checked) => updateAttr({ showBranding: checked })} />
-                    ) : (
-                        <WapBadge color="gold" count={__('PRO', 'website-accessibility')} />
-                    )}
+                    <WapSwitch checked={attributes.showBranding !== false} onChange={(checked) => updateAttr({ showBranding: checked })} />
                 </ControlWrapper>
             </div>
 

@@ -16,14 +16,13 @@ import { getQueryArgs } from '@wordpress/url';
 import { useDispatch } from '@wordpress/data';
 import { useHistory, useLocation } from '../router';
 import { STORE_NAME } from '../store';
-import { useLicense } from './LicenseContext';
 
 async function persistProfileTourComplete() {
 	const admin = typeof window !== 'undefined' ? window.websacAdmin : null;
 	if (!admin?.apiUrl || !admin?.nonce) {
 		return false;
 	}
-	const url = `${admin.apiUrl}one-accessibility/v1/profile-tour/complete`;
+	const url = `${admin.apiUrl}websac/v1/profile-tour/complete`;
 	try {
 		const res = await fetch(url, {
 			method: 'POST',
@@ -87,8 +86,8 @@ export function ProfileTourProvider({ children }) {
 	const history = useHistory();
 	const location = useLocation();
 	const { refreshProfiles } = useDispatch(STORE_NAME);
-	const { isProActive, isProPluginActive } = useLicense();
-	const canRunProfileTour = isProActive && isProPluginActive;
+	// Custom profiles ship in this plugin, so the tour is available to everyone.
+	const canRunProfileTour = true;
 
 	const [run, setRun] = useState(false);
 	const [stepIndex, setStepIndex] = useState(0);

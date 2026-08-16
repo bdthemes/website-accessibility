@@ -1,8 +1,8 @@
 <?php
 
-namespace bdthemes\websiteaccessibility\Routes;
+namespace Websac\Routes;
 
-use bdthemes\websiteaccessibility\Traits\Singleton;
+use Websac\Traits\Singleton;
 
 if (! defined('ABSPATH')) exit;
 
@@ -25,7 +25,7 @@ class PreferenceRouteV1
     public function register_routes()
     {
         register_rest_route(
-            'sigmally/v1',
+            'websac/v1',
             '/preference',
             [
                 [

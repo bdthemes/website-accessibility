@@ -4,7 +4,7 @@ This file provides guidance to Claude Code (claude.ai/code) when working with co
 
 ## What this is
 
-**One Accessibility** (`website-accessibility`) — free WordPress plugin (WP ≥ 6.1, PHP ≥ 7.4) adding a WCAG accessibility toolbar to the front end, configured via a React admin SPA. A separate Pro plugin (`websiteaccessibilitypro` namespace, `window.websacPro`) hooks into this one; free code must degrade gracefully when Pro is absent (`class_exists(...)`, `window.websacPro?.isProActive`).
+**One Accessibility** (`website-accessibility`) — free WordPress plugin (WP ≥ 6.1, PHP ≥ 7.4) adding a WCAG accessibility toolbar to the front end, configured via a React admin SPA. A separate Pro plugin (`websiteaccessibilitypro` namespace, `window.websacPro`) hooks into this one; free code must degrade gracefully when Pro is absent (`Utils::is_pro_plugin_active()`, `window.websacPro?.isProActive`). **WordPress.org compliance rule:** nothing implemented in this plugin may be gated on the Pro plugin or a license — Pro flags may only decide whether Pro-owned UI (translation, accessibility checker, Pro tours) is offered. Never call into `websiteaccessibilitypro\...\License*` from this plugin, and never contact bdthemes.com / bdthemes.io (the only external service is the Free Dictionary API, documented in `readme.txt` → “External services”).
 
 ## Commands
 
@@ -30,9 +30,9 @@ There is no automated test suite; testing is manual in a local WP install (this 
 
 | `src/`               | `block.json` key | Output                          | Script handle / global                              |
 |----------------------|------------------|---------------------------------|-----------------------------------------------------|
-| `src/components/`    | `editorScript`   | `build/components/index.js`     | `wap-accessibility-components` → `window.wapComponents`, `window.wapHelpers` |
-| `src/admin/`         | `editorScript`   | `build/admin/index.js`          | `website-accessibility-admin` (admin SPA)           |
-| `src/frontend/`      | `viewScript`     | `build/frontend/frontend.js`    | `wap-accessibility-frontend` (public toolbar)       |
+| `src/components/`    | `editorScript`   | `build/components/index.js`     | `websac-components` → `window.wapComponents`, `window.wapHelpers` |
+| `src/admin/`         | `editorScript`   | `build/admin/index.js`          | `websac-admin` (admin SPA)                          |
+| `src/frontend/`      | `viewScript`     | `build/frontend/frontend.js`    | `websac-frontend` (public toolbar)                  |
 
 **Load order matters.** The components bundle is enqueued at priority 1 on both admin and front end and publishes shared React components (`Wap*` = thin antd wrappers, plus `PanelHeader`, `PreviewContent`, `WidgetFeatures`, …) and helpers to `window`. Admin and frontend bundles do **not** import these — they read them off `window.wapComponents` / `window.wapHelpers` (admin `index.js` polls with rAF until `wapComponents` exists). Adding a new shared component means exporting it from `src/components/index.js`.
 
@@ -40,13 +40,13 @@ There is no automated test suite; testing is manual in a local WP install (this 
 
 ## PHP architecture
 
-- Namespace `bdthemes\websiteaccessibility\`, PSR-4 from `includes/`. `vendor/` is gitignored except the committed composer autoloader files.
+- Namespace `Websac\`, PSR-4 from `includes/` (regenerate the committed autoloader with `composer dump-autoload -o` after adding classes). Main-file class is `Websac_Plugin`, bootstrap function `websac()`. `vendor/` is gitignored except the committed composer autoloader files.
 - Everything is a singleton (`Traits\Singleton`, `::get_instance()`), wired in `website-accessibility.php::plugins_loaded()`. New PHP classes must be instantiated there.
 - **Data model:** two CPTs — `websac_preset` (toolbar config: button, panel, conditions; JSON stored in `post_content`) and `websac_profile` (feature bundles). Both `show_in_rest`; the admin SPA saves them through `@wordpress/core-data` (`postType`/`websac_preset`), not custom routes. Plugin settings live in one option `websac_settings` (defaults in `Routes/SettingsRouteV1`; read via `Core\Utils::get_settings()`).
-- **REST:** custom routes live in `includes/Routes/*RouteV1.php`. Two namespaces coexist for legacy reasons — `sigmally/v1` (settings, export/import, system-info) and `one-accessibility/v1` (tours, usage-statistics). Match the existing namespace of the area you're touching.
+- **REST:** custom routes live in `includes/Routes/*RouteV1.php`, all under the `websac/v1` namespace. (`one-accessibility/v1/license|checker-*|compliance-*` routes seen in the JS belong to the Pro plugin.)
 - **Preset resolution:** `Core\Utils::get_page_type()` + `get_current_preset()` choose which preset renders (`entire_site` / singular / archive conditions). `Utils::is_builder_editor()` suppresses assets in Elementor/etc. editors.
 - **Front end:** `View\Frontend` enqueues assets, localizes `window.websiteAccessibility` (presets, profiles, settings w/ API keys stripped, nonce, restUrl…), and prints `#website-accessibility-app` in `wp_footer`. Anything added to localized settings must go through `get_public_settings()` (secrets filter).
-- **Migrations:** `Core\Migrations` versions stored preset JSON (`websac_data_schema_version`, currently 4). Changing preset content shape → add a migration + bump `LATEST_DATA_SCHEMA_VERSION`.
+- **Migrations:** `Core\Migrations` versions stored preset JSON and option keys (`websac_data_schema_version`, currently 5). Changing preset content shape or renaming a stored key → add a migration + bump `LATEST_DATA_SCHEMA_VERSION`.
 - **White label:** enabled via option `websac_white_label_enabled`; defines constants `WEBSAC_WL`, `WEBSAC_LO`, `WEBSAC_HIDE` *before* the main class loads (`includes/websac-white-label-bootstrap.php`). Check these constants rather than re-reading options.
 - Activation seeds a default preset and statement page from `default-posts/*.json`.
 - Version string is duplicated: plugin header **and** `WebsiteAccessibility::VERSION` — bump both (plus `readme.txt` Stable tag).
@@ -59,6 +59,6 @@ There is no automated test suite; testing is manual in a local WP install (this 
 
 ## Conventions
 
-- Text domain `website-accessibility`; option/meta/handle prefixes `websac_` / `wap-`.
+- Text domain `website-accessibility` (must stay = plugin slug). **Single prefix `websac`** for every PHP-defined symbol: `Websac\` namespace, `WEBSAC_*` constants, `websac_*` options/meta/transients/hooks/CPTs, `websac-*` script & style handles, `websac/v1` REST. Admin `?page=` slugs stay `website-accessibility*`; CSS classes / JS globals keep the historical `wap`/`websac` names.
 - Frontend `body` gets classes `wap wap-frontend`; admin body gets `wap-admin`.
 - Tabs for indentation (`.editorconfig`), PHP style otherwise loose — phpcs only enforces escaping/sanitization.
