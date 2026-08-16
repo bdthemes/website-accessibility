@@ -3,7 +3,6 @@
 namespace Websac\View;
 
 use Websac\Core\Utils;
-use Websac\Core\WhiteLabel;
 
 class Frontend {
     use \Websac\Traits\Singleton;
@@ -18,16 +17,16 @@ class Frontend {
     }
 
     /**
-     * Custom accessibility profiles (websac_profile posts) exposed to the toolbar.
+     * Additional accessibility profiles exposed to the toolbar.
      *
-     * @return \WP_Post[]
+     * The built-in profiles ship in the JS bundle; add-ons can append their own
+     * profile posts through this filter.
+     *
+     * @return array
      */
     private function get_profiles() {
-        return get_posts([
-            'post_type'      => 'websac_profile',
-            'post_status'    => 'publish',
-            'posts_per_page' => -1,
-        ]);
+        $profiles = apply_filters('websac_frontend_profiles', []);
+        return is_array($profiles) ? array_values($profiles) : [];
     }
 
     /**
@@ -170,28 +169,23 @@ class Frontend {
     }
 
     /**
-     * Load shared components on the front when the Pro accessibility checker may run
-     * (Customizer preview often has no matching preset; script order must still be valid).
+     * Add-ons that render their own UI on the front end can request the shared
+     * components bundle even when no preset matches (e.g. Customizer preview).
+     *
+     * @return bool
      */
-    private function should_enqueue_accessibility_checker_shared_assets() {
+    private function should_force_components_assets() {
         if (is_admin() || Utils::is_builder_editor()) {
             return false;
         }
-        if (! is_user_logged_in() || ! current_user_can('manage_options')) {
-            return false;
-        }
-        if (! Utils::is_pro_plugin_active()) {
-            return false;
-        }
-
-        return ! empty(Utils::get_settings('enable_accessibility_checker'));
+        return (bool) apply_filters('websac_force_frontend_components_assets', false);
     }
 
     public function enqueue_components_scripts($hook) {
         if (!str_contains($hook, 'accessibility') && is_admin()) return;
 
-        $checker_shared = $this->should_enqueue_accessibility_checker_shared_assets();
-        if ((! $this->should_render_preset_assets() && ! $checker_shared) || Utils::is_builder_editor()) {
+        $force_shared = $this->should_force_components_assets();
+        if ((! $this->should_render_preset_assets() && ! $force_shared) || Utils::is_builder_editor()) {
             return;
         }
 
@@ -264,13 +258,13 @@ class Frontend {
                 [],
                 $frontend_assets['version']
             );
-            wp_localize_script('websac-frontend', 'websiteAccessibility', [
+            $current_preset = Utils::get_current_preset($presets_data, $page_type);
+            $localized = [
                 'presets'            => $presets_data,
                 'profiles'           => $profiles,
-                'isProPluginActive'  => Utils::is_pro_plugin_active(),
                 'pageType'           => $page_type,
-                'currentPreset'      => Utils::get_current_preset($presets_data, $page_type),
-                'currentPresetId'    => !empty(Utils::get_current_preset($presets_data, $page_type)['ID']) ? Utils::get_current_preset($presets_data, $page_type)['ID'] : null,
+                'currentPreset'      => $current_preset,
+                'currentPresetId'    => !empty($current_preset['ID']) ? $current_preset['ID'] : null,
                 'siteLanguage'       => get_bloginfo('language'),
                 'isUserLoggedIn'     => is_user_logged_in(),
                 'statementLink'      => $this->get_statement_page_link(),
@@ -278,35 +272,52 @@ class Frontend {
                 'nonce'              => wp_create_nonce('wp_rest'),
                 'restUrl'            => rest_url(),
                 'postId'             => get_the_ID(),
-                'brandDisplayName'   => WhiteLabel::get_display_name(),
-                'whiteLabelEnabled'  => (bool) get_option(WhiteLabel::OPTION_ENABLED, false),
-                'whiteLabelBoot'     => WhiteLabel::get_boot_payload(),
-            ]);
+                'brandDisplayName'   => Utils::get_brand_display_name(),
+                'whiteLabelEnabled'  => false,
+                'whiteLabelBoot'     => [],
+            ];
+
+            /**
+             * Filter the data localized for the public toolbar (add-ons may append keys
+             * such as white-label branding).
+             *
+             * @param array $localized
+             */
+            $localized = apply_filters('websac_frontend_localized_data', $localized);
+
+            wp_localize_script('websac-frontend', 'websiteAccessibility', $localized);
         }
     }
 
     /**
      * Front-end-safe settings for wp_localize_script.
      *
-     * The full websac_settings option holds server-side secrets (the OpenAI and
-     * Gemini API keys) that are only used by admin-gated REST routes and must
-     * never be printed into the public page. Strip those before localizing.
+     * Only the keys owned by this plugin are exposed. Add-ons that store their
+     * own keys in `websac_settings` must opt their public keys in through the
+     * `websac_public_frontend_settings` filter, so server-side secrets are never
+     * printed into the page by accident.
      *
      * @return array
      */
     private function get_public_settings() {
         $settings = Utils::get_settings();
+        $public   = [];
 
         if (is_array($settings)) {
-            unset($settings['openai_api_key'], $settings['gemini_api_key']);
+            foreach (['show_usage_statistics', 'frontend_custom_css'] as $key) {
+                if (array_key_exists($key, $settings)) {
+                    $public[$key] = $settings[$key];
+                }
+            }
         }
 
         /**
-         * Allow further filtering of the settings exposed to the public front end.
+         * Allow add-ons to expose their own (non-secret) settings to the public front end.
          *
-         * @param array $settings Settings array with secrets already removed.
+         * @param array $public   Settings exposed so far.
+         * @param array $settings Full settings array (never expose secrets from it).
          */
-        return apply_filters('websac_public_frontend_settings', $settings);
+        return apply_filters('websac_public_frontend_settings', $public, is_array($settings) ? $settings : []);
     }
 
     public function render_preset_root() {
@@ -319,9 +330,9 @@ class Frontend {
         }
 
 
-        // Admin View Container - Will be used by the admin view script
-        if (current_user_can('manage_options') && Utils::is_pro_plugin_active()) {
-            echo '<div id="website-accessibility-checker"></div>';
-        }
+        /**
+         * Add-ons can print extra root containers next to the toolbar root.
+         */
+        do_action('websac_frontend_after_root');
     }
 }

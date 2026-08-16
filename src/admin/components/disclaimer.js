@@ -1,6 +1,6 @@
 import { useState, useEffect } from "@wordpress/element";
 import { __ } from "@wordpress/i18n";
-import { useWhiteLabelBrandingEnabled } from "../../utils/websacData";
+import { useWhiteLabelBrandingEnabled } from "../../utils/brand";
 
 
 const Description = () => {

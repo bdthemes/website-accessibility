@@ -2,25 +2,22 @@
 # This file is distributed under the GPL-2.0-or-later.
 msgid ""
 msgstr ""
-"Project-Id-Version: One Accessibility 1.5.0\n"
+"Project-Id-Version: One Accessibility 1.5.1\n"
 "Report-Msgid-Bugs-To: https://wordpress.org/support/plugin/wporg-compliance\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"POT-Creation-Date: 2026-08-16T06:06:18+00:00\n"
+"POT-Creation-Date: 2026-08-16T07:08:51+00:00\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "X-Generator: WP-CLI 2.12.0\n"
 "X-Domain: website-accessibility\n"
 
 #. Plugin Name of the plugin
 #: website-accessibility.php
-#: includes/Admin/WhiteLabelAdmin.php:127
-#: includes/Admin/WhiteLabelAdmin.php:158
-#: includes/Core/WhiteLabel.php:44
-#: includes/Core/WhiteLabel.php:92
-#: build/admin/index.js:1
+#: includes/Admin/Enqueue.php:273
+#: includes/Core/Utils.php:17
 #: build/components/index.js:1
 msgid "One Accessibility"
 msgstr ""
@@ -40,148 +37,68 @@ msgstr ""
 msgid "https://oneaccessibility.com"
 msgstr ""
 
-#: includes/Admin/Menu.php:149
-#: includes/Admin/Menu.php:150
+#: includes/Admin/Menu.php:153
+#: includes/Admin/Menu.php:154
 msgid "Dashboard"
 msgstr ""
 
-#: includes/Admin/Menu.php:159
+#: includes/Admin/Menu.php:163
 msgid "Accessibility Presets"
 msgstr ""
 
-#: includes/Admin/Menu.php:160
+#: includes/Admin/Menu.php:164
 #: includes/Core/AccessibilityPreset.php:29
 #: build/admin/index.js:1
-#: build/admin/index.js:2
 msgid "Presets"
 msgstr ""
 
-#: includes/Admin/Menu.php:169
+#: includes/Admin/Menu.php:173
 msgid "Preset Profiles"
 msgstr ""
 
-#: includes/Admin/Menu.php:170
+#: includes/Admin/Menu.php:174
 #: build/admin/index.js:1
-#: build/admin/index.js:2
 msgid "Custom Profiles"
 msgstr ""
 
-#: includes/Admin/Menu.php:178
-#: includes/Admin/Menu.php:179
+#: includes/Admin/Menu.php:182
+#: includes/Admin/Menu.php:183
 #: build/admin/index.js:1
-#: build/admin/index.js:2
 msgid "Settings"
 msgstr ""
 
-#: includes/Admin/Menu.php:187
-#: includes/Admin/Menu.php:188
+#: includes/Admin/Menu.php:191
+#: includes/Admin/Menu.php:192
 #: build/admin/index.js:1
-#: build/admin/index.js:2
 msgid "CSS Overrides"
 msgstr ""
 
-#: includes/Admin/Menu.php:196
-#: includes/Admin/Menu.php:197
+#: includes/Admin/Menu.php:200
+#: includes/Admin/Menu.php:201
 #: build/admin/index.js:1
-#: build/admin/index.js:2
 msgid "Tools & Backup"
 msgstr ""
 
-#: includes/Admin/Menu.php:207
-#: includes/Admin/Menu.php:208
-#: build/admin/index.js:2
-msgid "License"
-msgstr ""
-
-#: includes/Admin/Menu.php:217
-#: includes/Admin/Menu.php:218
-#: build/admin/index.js:2
-msgid "White Label"
-msgstr ""
-
-#: includes/Admin/Menu.php:226
-#: includes/Admin/Menu.php:227
-#: build/admin/index.js:2
+#: includes/Admin/Menu.php:209
+#: includes/Admin/Menu.php:210
+#: build/admin/index.js:1
 msgid "About & Info"
 msgstr ""
 
-#: includes/Admin/Menu.php:235
-#: includes/Admin/Menu.php:236
+#: includes/Admin/Menu.php:218
+#: includes/Admin/Menu.php:219
 msgid "Create Preset"
 msgstr ""
 
-#: includes/Admin/Menu.php:244
-#: includes/Admin/Menu.php:245
+#: includes/Admin/Menu.php:227
+#: includes/Admin/Menu.php:228
 #: build/admin/index.js:1
 msgid "Edit Preset"
 msgstr ""
 
-#: includes/Admin/Menu.php:253
-#: includes/Admin/Menu.php:254
+#: includes/Admin/Menu.php:236
+#: includes/Admin/Menu.php:237
 msgid "Preview Preset"
-msgstr ""
-
-#: includes/Admin/WhiteLabelAdmin.php:60
-msgid "You do not have sufficient permissions to access this page."
-msgstr ""
-
-#: includes/Admin/WhiteLabelAdmin.php:61
-#: includes/Admin/WhiteLabelAdmin.php:104
-msgid "Access denied"
-msgstr ""
-
-#: includes/Admin/WhiteLabelAdmin.php:73
-msgid "Invalid access parameter. Use the link from your recovery email."
-msgstr ""
-
-#: includes/Admin/WhiteLabelAdmin.php:79
-msgid "Invalid or outdated recovery link. Request a new one from the site owner or support."
-msgstr ""
-
-#: includes/Admin/WhiteLabelAdmin.php:89
-msgid "White label recovery access granted. You can adjust hide-admin and branding settings."
-msgstr ""
-
-#: includes/Admin/WhiteLabelAdmin.php:101
-msgid "One Accessibility — recovery link"
-msgstr ""
-
-#: includes/Admin/WhiteLabelAdmin.php:102
-msgid "Access denied:"
-msgstr ""
-
-#: includes/Admin/WhiteLabelAdmin.php:103
-msgid "Return to dashboard"
-msgstr ""
-
-#. translators: %s: Site title.
-#: includes/Admin/WhiteLabelAdmin.php:283
-#, php-format
-msgid "[%s] One Accessibility — white label recovery link"
-msgstr ""
-
-#: includes/Admin/WhiteLabelAdmin.php:334
-msgid "Mail may not work on localhost. Save this recovery URL:"
-msgstr ""
-
-#: includes/Admin/WhiteLabelAdmin.php:353
-msgid "One Accessibility — hide-admin recovery"
-msgstr ""
-
-#: includes/Admin/WhiteLabelAdmin.php:354
-msgid "Hide-admin / aggressive white label mode was enabled. Keep this email — it contains your private settings link."
-msgstr ""
-
-#: includes/Admin/WhiteLabelAdmin.php:355
-msgid "Site:"
-msgstr ""
-
-#: includes/Admin/WhiteLabelAdmin.php:358
-msgid "Open white label settings"
-msgstr ""
-
-#: includes/Admin/WhiteLabelAdmin.php:361
-msgid "Direct link:"
 msgstr ""
 
 #: includes/Core/AccessibilityPreset.php:30
@@ -189,62 +106,15 @@ msgstr ""
 msgid "Preset"
 msgstr ""
 
-#: includes/Core/PresetProfile.php:24
-#: build/admin/index.js:1
-msgid "Profiles"
-msgstr ""
-
-#: includes/Core/PresetProfile.php:25
-msgid "Profile"
-msgstr ""
-
-#: includes/Routes/ExportImportRouteV1.php:71
-msgid "Settings exported successfully."
-msgstr ""
-
-#: includes/Routes/ExportImportRouteV1.php:76
-msgid "Failed to export settings: "
-msgstr ""
-
-#: includes/Routes/ExportImportRouteV1.php:93
-msgid "No data provided for import."
-msgstr ""
-
-#: includes/Routes/ExportImportRouteV1.php:102
-msgid "Invalid import file format."
-msgstr ""
-
-#. translators: %d: number of presets imported.
-#: includes/Routes/ExportImportRouteV1.php:123
-#, php-format
-msgid "%d presets"
-msgstr ""
-
-#. translators: %d: number of profiles imported.
-#: includes/Routes/ExportImportRouteV1.php:132
-#, php-format
-msgid "%d profiles"
-msgstr ""
-
-#. translators: %s: comma-separated list of imported items.
-#: includes/Routes/ExportImportRouteV1.php:138
-#, php-format
-msgid "Successfully imported: %s"
-msgstr ""
-
-#: includes/Routes/ExportImportRouteV1.php:153
-msgid "Failed to import settings: "
-msgstr ""
-
 #: includes/Routes/PreferenceRouteV1.php:104
 msgid "Sorry, you are not allowed to view statistics."
 msgstr ""
 
-#: includes/Routes/SettingsRouteV1.php:110
+#: includes/Routes/SettingsRouteV1.php:123
 msgid "Settings updated successfully."
 msgstr ""
 
-#: includes/Routes/SettingsRouteV1.php:124
+#: includes/Routes/SettingsRouteV1.php:138
 msgid "Settings have been reset to defaults."
 msgstr ""
 
@@ -270,24 +140,6 @@ msgstr ""
 
 #: includes/Routes/UsageStatisticsRouteV1.php:278
 msgid "Usage statistics have been reset."
-msgstr ""
-
-#: includes/Routes/WhiteLabelRouteV1.php:74
-msgid "Permission denied."
-msgstr ""
-
-#: includes/Routes/WhiteLabelRouteV1.php:169
-#: build/admin/index.js:2
-msgid "White label settings saved."
-msgstr ""
-
-#: includes/Routes/WhiteLabelRouteV1.php:185
-msgid "No active recovery token found."
-msgstr ""
-
-#: includes/Routes/WhiteLabelRouteV1.php:193
-#: build/admin/index.js:2
-msgid "Recovery token revoked."
 msgstr ""
 
 #: build/admin/index.js:1
@@ -332,7 +184,6 @@ msgid "Do you already know how presets and the accessibility toolbar work? If yo
 msgstr ""
 
 #: build/admin/index.js:1
-#: build/admin/index.js:2
 msgid "I understand"
 msgstr ""
 
@@ -373,32 +224,26 @@ msgid "Open site & show panel"
 msgstr ""
 
 #: build/admin/index.js:1
-#: build/admin/index.js:2
 msgid "Back"
 msgstr ""
 
 #: build/admin/index.js:1
-#: build/admin/index.js:2
 msgid "Close"
 msgstr ""
 
 #: build/admin/index.js:1
-#: build/admin/index.js:2
 msgid "Done"
 msgstr ""
 
 #: build/admin/index.js:1
-#: build/admin/index.js:2
 msgid "Next"
 msgstr ""
 
 #: build/admin/index.js:1
-#: build/admin/index.js:2
 msgid "Next ({current} of {total})"
 msgstr ""
 
 #: build/admin/index.js:1
-#: build/admin/index.js:2
 msgid "Skip tour"
 msgstr ""
 
@@ -1123,6 +968,35 @@ msgid "ADHD"
 msgstr ""
 
 #: build/admin/index.js:1
+#: build/components/index.js:1
+#: build/frontend/frontend.js:1
+msgid "Text"
+msgstr ""
+
+#: build/admin/index.js:1
+#: build/components/index.js:1
+#: build/frontend/frontend.js:1
+msgid "Color & Contrast"
+msgstr ""
+
+#: build/admin/index.js:1
+#: build/components/index.js:1
+#: build/frontend/frontend.js:1
+msgid "Orientation"
+msgstr ""
+
+#: build/admin/index.js:1
+#: build/components/index.js:1
+#: build/frontend/frontend.js:1
+msgid "Behavior"
+msgstr ""
+
+#: build/admin/index.js:1
+#: build/components/index.js:2
+msgid "Category"
+msgstr ""
+
+#: build/admin/index.js:1
 msgid "Entire Site"
 msgstr ""
 
@@ -1200,11 +1074,6 @@ msgstr ""
 
 #: build/admin/index.js:1
 msgid "Icon"
-msgstr ""
-
-#: build/admin/index.js:1
-#: build/components/index.js:1
-msgid "Text"
 msgstr ""
 
 #: build/admin/index.js:1
@@ -1344,13 +1213,12 @@ msgid "Info icon"
 msgstr ""
 
 #: build/admin/index.js:1
-msgid "Show Translator"
+#: build/components/index.js:1
+msgid "PRO"
 msgstr ""
 
 #: build/admin/index.js:1
-#: build/admin/index.js:2
-#: build/components/index.js:1
-msgid "PRO"
+msgid "Show Translator"
 msgstr ""
 
 #: build/admin/index.js:1
@@ -1382,79 +1250,11 @@ msgid "Layout"
 msgstr ""
 
 #: build/admin/index.js:1
-msgid "Inline"
-msgstr ""
-
-#: build/admin/index.js:1
-msgid "Block"
-msgstr ""
-
-#: build/admin/index.js:1
 msgid "Tooltip Position"
 msgstr ""
 
 #: build/admin/index.js:1
-msgid "Open Custom Profiles in the sidebar to create accessibility bundles for different user needs. Tap Next to open the list, or click Custom Profiles now."
-msgstr ""
-
-#: build/admin/index.js:1
-msgid "Add New Profile"
-msgstr ""
-
-#: build/admin/index.js:1
-msgid "Tap Add New Profile to open the editor, or click the button now."
-msgstr ""
-
-#: build/admin/index.js:1
-msgid "Profile information"
-msgstr ""
-
-#: build/admin/index.js:1
-msgid "Set up your profile: give it a clear name, add an optional description, and upload an SVG icon. The name and icon appear in the accessibility panel for visitors."
-msgstr ""
-
-#: build/admin/index.js:1
-msgid "Accessibility features"
-msgstr ""
-
-#: build/admin/index.js:1
-msgid "Choose which features this profile applies when a visitor selects it — contrast, text size, and more."
-msgstr ""
-
-#: build/admin/index.js:1
-msgid "Create Profile"
-msgstr ""
-
-#: build/admin/index.js:1
-msgid "Click Create Profile to save, or tap the button below. Next you will enable it in a preset so visitors can use it."
-msgstr ""
-
-#: build/admin/index.js:1
-msgid "Enable profile in preset"
-msgstr ""
-
-#: build/admin/index.js:1
-msgid "Turn on your new profile in this preset so it appears in the accessibility panel. The preset will be saved automatically."
-msgstr ""
-
-#: build/admin/index.js:1
-#: build/components/index.js:1
-msgid "Color & Contrast"
-msgstr ""
-
-#: build/admin/index.js:1
-#: build/components/index.js:1
-msgid "Orientation"
-msgstr ""
-
-#: build/admin/index.js:1
-#: build/components/index.js:1
-msgid "Behavior"
-msgstr ""
-
-#: build/admin/index.js:1
-#: build/components/index.js:2
-msgid "Category"
+msgid "Profiles"
 msgstr ""
 
 #: build/admin/index.js:1
@@ -1551,141 +1351,6 @@ msgid "Update Preset"
 msgstr ""
 
 #: build/admin/index.js:1
-#: build/admin/index.js:2
-msgid "Actions"
-msgstr ""
-
-#: build/admin/index.js:1
-msgid "Edit"
-msgstr ""
-
-#: build/admin/index.js:1
-msgid "Trash"
-msgstr ""
-
-#: build/admin/index.js:1
-msgid "Create and manage accessibility profiles for different user needs."
-msgstr ""
-
-#: build/admin/index.js:1
-msgid "None"
-msgstr ""
-
-#: build/admin/index.js:1
-msgid "High Contrast"
-msgstr ""
-
-#: build/admin/index.js:1
-msgid "Normal"
-msgstr ""
-
-#: build/admin/index.js:1
-msgid "Slow"
-msgstr ""
-
-#: build/admin/index.js:1
-msgid "Fast"
-msgstr ""
-
-#: build/admin/index.js:1
-msgid "Hide images"
-msgstr ""
-
-#: build/admin/index.js:1
-msgid "Profile Information"
-msgstr ""
-
-#: build/admin/index.js:1
-msgid "Profile Name"
-msgstr ""
-
-#: build/admin/index.js:1
-msgid "Enter profile name"
-msgstr ""
-
-#: build/admin/index.js:1
-msgid "Description"
-msgstr ""
-
-#: build/admin/index.js:1
-msgid "Enter profile description"
-msgstr ""
-
-#: build/admin/index.js:1
-msgid "Profile Icon (SVG)"
-msgstr ""
-
-#: build/admin/index.js:1
-msgid "SVG icon uploaded successfully."
-msgstr ""
-
-#: build/admin/index.js:1
-#: build/admin/index.js:2
-msgid "Uploaded file is not a valid SVG."
-msgstr ""
-
-#: build/admin/index.js:1
-msgid "Please upload a valid SVG file."
-msgstr ""
-
-#: build/admin/index.js:1
-msgid "Remove icon"
-msgstr ""
-
-#: build/admin/index.js:1
-msgid "Icon uploaded"
-msgstr ""
-
-#: build/admin/index.js:1
-msgid "Click to replace"
-msgstr ""
-
-#: build/admin/index.js:1
-msgid "Click to upload SVG icon"
-msgstr ""
-
-#: build/admin/index.js:1
-msgid "SVG only · Recommended: 24×24px viewBox"
-msgstr ""
-
-#: build/admin/index.js:1
-msgid "Accessibility Features"
-msgstr ""
-
-#: build/admin/index.js:1
-msgid "Create New Profile"
-msgstr ""
-
-#: build/admin/index.js:1
-msgid "Create a custom accessibility profile with specific settings for different user needs."
-msgstr ""
-
-#: build/admin/index.js:1
-msgid "Back to Profiles"
-msgstr ""
-
-#: build/admin/index.js:1
-#: build/admin/index.js:2
-msgid "Cancel"
-msgstr ""
-
-#: build/admin/index.js:1
-msgid "Edit Profile"
-msgstr ""
-
-#: build/admin/index.js:1
-msgid "Update the details of this accessibility profile."
-msgstr ""
-
-#: build/admin/index.js:1
-msgid "Profile updated successfully!"
-msgstr ""
-
-#: build/admin/index.js:1
-msgid "Update Profile"
-msgstr ""
-
-#: build/admin/index.js:1
 msgid "Failed to load CSS overrides."
 msgstr ""
 
@@ -1734,191 +1399,15 @@ msgid "Click to generate a statement page"
 msgstr ""
 
 #: build/admin/index.js:1
+msgid "Failed to load settings."
+msgstr ""
+
+#: build/admin/index.js:1
 msgid "Settings saved successfully."
 msgstr ""
 
 #: build/admin/index.js:1
 msgid "Failed to save settings."
-msgstr ""
-
-#: build/admin/index.js:1
-msgid "Failed to load settings."
-msgstr ""
-
-#: build/admin/index.js:1
-msgid "Show Consent for Translation"
-msgstr ""
-
-#: build/admin/index.js:1
-msgid "Show a consent message to users before translating content."
-msgstr ""
-
-#: build/admin/index.js:1
-msgid "Force Translate Site Language"
-msgstr ""
-
-#: build/admin/index.js:1
-msgid "Automatically translate your website's original language. This will override the default site language translation with auto-generated translations."
-msgstr ""
-
-#: build/admin/index.js:1
-msgid "Enable Accessibility Checker"
-msgstr ""
-
-#: build/admin/index.js:1
-msgid "Show a Accessibility Checker button in the frontend for admin"
-msgstr ""
-
-#: build/admin/index.js:1
-msgid "Checker AI Provider"
-msgstr ""
-
-#: build/admin/index.js:1
-msgid "Open Checker"
-msgstr ""
-
-#: build/admin/index.js:1
-msgid "Used by 'Fix With AI' inside Accessibility Checker Pro. Keys are stored server-side."
-msgstr ""
-
-#: build/admin/index.js:1
-msgid "AI Provider"
-msgstr ""
-
-#: build/admin/index.js:1
-msgid "Choose which API powers automated fixes in the checker."
-msgstr ""
-
-#: build/admin/index.js:1
-msgid "OpenAI"
-msgstr ""
-
-#: build/admin/index.js:1
-msgid "Google Gemini"
-msgstr ""
-
-#: build/admin/index.js:1
-msgid "API key"
-msgstr ""
-
-#: build/admin/index.js:1
-msgid "Secret key from OpenAI (starts with sk-). Leave blank to keep the saved key."
-msgstr ""
-
-#: build/admin/index.js:1
-msgid "API key from Google AI Studio (AIza…). Leave blank to keep the saved key."
-msgstr ""
-
-#: build/admin/index.js:1
-msgid "Key saved. Enter new key to replace."
-msgstr ""
-
-#: build/admin/index.js:1
-msgid "sk-..."
-msgstr ""
-
-#: build/admin/index.js:1
-msgid "Get or create an OpenAI API key"
-msgstr ""
-
-#: build/admin/index.js:1
-msgid "Gemini key saved. Enter new key to replace."
-msgstr ""
-
-#: build/admin/index.js:1
-msgid "AIza..."
-msgstr ""
-
-#: build/admin/index.js:1
-msgid "Get or create a Google AI Studio (Gemini) API key"
-msgstr ""
-
-#: build/admin/index.js:1
-msgid "Save & test"
-msgstr ""
-
-#: build/admin/index.js:1
-msgid "Save your provider and key, then test the connection."
-msgstr ""
-
-#: build/admin/index.js:1
-msgid "Save AI Settings"
-msgstr ""
-
-#: build/admin/index.js:1
-msgid "API key is working."
-msgstr ""
-
-#: build/admin/index.js:1
-msgid "API key test failed. Please verify and try again."
-msgstr ""
-
-#: build/admin/index.js:1
-msgid "Test API Key"
-msgstr ""
-
-#: build/admin/index.js:1
-msgid "Configured"
-msgstr ""
-
-#: build/admin/index.js:1
-msgid "Compliance monitoring"
-msgstr ""
-
-#: build/admin/index.js:1
-msgid "Get notified when Critical issues rise, and optionally re-scan pages when you visit them."
-msgstr ""
-
-#: build/admin/index.js:1
-msgid "Email when Critical rises"
-msgstr ""
-
-#: build/admin/index.js:1
-msgid "Sends only when Critical count goes UP after a scan. Configure an SMTP plugin (e.g. WP Mail SMTP) or emails may not arrive."
-msgstr ""
-
-#: build/admin/index.js:1
-msgid "Test email sent."
-msgstr ""
-
-#: build/admin/index.js:1
-msgid "Failed to send test email."
-msgstr ""
-
-#: build/admin/index.js:1
-msgid "Failed to send test email. Check SMTP settings."
-msgstr ""
-
-#: build/admin/index.js:1
-msgid "Sending…"
-msgstr ""
-
-#: build/admin/index.js:1
-msgid "Send test email"
-msgstr ""
-
-#: build/admin/index.js:1
-msgid "Auto-scan when visiting pages"
-msgstr ""
-
-#: build/admin/index.js:1
-msgid "For admins: open Checker and scan again if this page was last scanned longer ago than this."
-msgstr ""
-
-#: build/admin/index.js:1
-msgid "Off"
-msgstr ""
-
-#: build/admin/index.js:1
-msgid "Every 7 days"
-msgstr ""
-
-#: build/admin/index.js:1
-msgid "Every 14 days"
-msgstr ""
-
-#: build/admin/index.js:1
-msgid "Every 30 days"
 msgstr ""
 
 #: build/admin/index.js:1
@@ -1954,1357 +1443,352 @@ msgid "Clear Statistics"
 msgstr ""
 
 #: build/admin/index.js:1
-msgid "Export or import your settings configuration."
-msgstr ""
-
-#: build/admin/index.js:1
-msgid "Use exports before big changes, when cloning to staging, or to keep an off-site record of your accessibility setup."
-msgstr ""
-
-#: build/admin/index.js:1
-msgid "Export Settings"
-msgstr ""
-
-#: build/admin/index.js:1
-msgid "Download your current settings as a JSON file for backup."
-msgstr ""
-
-#: build/admin/index.js:1
-msgid "Settings exported successfully!"
-msgstr ""
-
-#: build/admin/index.js:1
-msgid "Failed to export settings. Please try again."
-msgstr ""
-
-#: build/admin/index.js:1
-msgid "Import Settings"
-msgstr ""
-
-#: build/admin/index.js:1
-msgid "Restore settings from a previously exported JSON file."
-msgstr ""
-
-#: build/admin/index.js:1
-msgid "Settings imported successfully!"
-msgstr ""
-
-#: build/admin/index.js:1
-msgid "Failed to import settings. Please check the file and try again."
-msgstr ""
-
-#: build/admin/index.js:1
-msgid "Please select a valid JSON file."
-msgstr ""
-
-#: build/admin/index.js:1
-msgid "What’s included in the backup file?"
-msgstr ""
-
-#: build/admin/index.js:1
-msgid "Each export is a single JSON document you can store offline or send to staging."
-msgstr ""
-
-#: build/admin/index.js:1
-msgid "Toolbar options and plugin preferences saved in WordPress."
-msgstr ""
-
-#: build/admin/index.js:1
-msgid "Published presets with layout, conditions, and related metadata."
-msgstr ""
-
-#: build/admin/index.js:1
-msgid "Custom profiles"
-msgstr ""
-
-#: build/admin/index.js:1
-msgid "Accessibility profiles associated with those presets."
-msgstr ""
-
-#: build/admin/index.js:1
-msgid "File details"
-msgstr ""
-
-#: build/admin/index.js:1
-msgid "Export date and site URL so you know where the snapshot came from."
-msgstr ""
-
-#: build/admin/index.js:1
-msgid "Before you import"
-msgstr ""
-
-#: build/admin/index.js:1
-msgid "Imports apply immediately and refresh this screen when finished."
-msgstr ""
-
-#: build/admin/index.js:1
-msgid "Use JSON files exported from One Accessibility — other formats cannot be restored here."
-msgstr ""
-
-#: build/admin/index.js:1
-msgid "Presets and profiles with the same title as your site will be updated; new titles are added as new items."
-msgstr ""
-
-#: build/admin/index.js:1
-msgid "Run an export first if you might need to undo changes on this site."
-msgstr ""
-
-#: build/admin/index.js:1
-msgid "Test large imports on a staging copy when possible."
-msgstr ""
-
-#: build/admin/index.js:1
-msgid "Help & migration"
-msgstr ""
-
-#: build/admin/index.js:1
-msgid "Moving between environments or onboarding a teammate? Combine a fresh export with our guides for presets, licensing, and support."
-msgstr ""
-
-#: build/admin/index.js:1
-msgid "Browse the knowledge base"
-msgstr ""
-
-#. translators: %s: plugin or white-label brand name
-#: build/admin/index.js:2
-#: build/components/index.js:2
-#, js-format
-msgid "Powered by %s"
-msgstr ""
-
-#: build/admin/index.js:2
-msgid "Pro license activated"
-msgstr ""
-
-#: build/admin/index.js:2
-msgid "Your Pro license is active. This short tour shows Pro-only settings: translation options and the accessibility checker."
-msgstr ""
-
-#: build/admin/index.js:2
-msgid "Tap Next to continue, or I understand to skip this tour."
-msgstr ""
-
-#: build/admin/index.js:2
-msgid "Open Settings in the sidebar for Pro-only options. Tap Next to open Settings, or click Settings now."
-msgstr ""
-
-#: build/admin/index.js:2
-msgid "Translation"
-msgstr ""
-
-#: build/admin/index.js:2
-msgid "Control translation consent and whether to force-translate your site language for visitors using the language panel."
-msgstr ""
-
-#: build/admin/index.js:2
-msgid "Accessibility checker"
-msgstr ""
-
-#: build/admin/index.js:2
-msgid "Enable the checker for logged-in admins on the front end. When enabled, configure AI-powered fixes in the section below."
-msgstr ""
-
-#: build/admin/index.js:2
 msgid "Plugin Version"
 msgstr ""
 
-#: build/admin/index.js:2
+#: build/admin/index.js:1
 msgid "Total Presets"
 msgstr ""
 
-#: build/admin/index.js:2
+#: build/admin/index.js:1
 msgid "Total Profiles"
 msgstr ""
 
-#: build/admin/index.js:2
+#: build/admin/index.js:1
 msgid "Max Upload Size"
 msgstr ""
 
-#: build/admin/index.js:2
+#: build/admin/index.js:1
 msgid "WordPress Version"
 msgstr ""
 
-#: build/admin/index.js:2
+#: build/admin/index.js:1
 msgid "PHP Version"
 msgstr ""
 
-#: build/admin/index.js:2
+#: build/admin/index.js:1
 msgid "MySQL Version"
 msgstr ""
 
-#: build/admin/index.js:2
+#: build/admin/index.js:1
 msgid "System information and plugin overview"
 msgstr ""
 
-#: build/admin/index.js:2
+#: build/admin/index.js:1
 msgid "Guided Tours"
 msgstr ""
 
-#: build/admin/index.js:2
+#: build/admin/index.js:1
 msgid "Take a guided walkthrough to learn how to set up and use the plugin."
 msgstr ""
 
-#: build/admin/index.js:2
+#: build/admin/index.js:1
 msgid "Quick tour"
 msgstr ""
 
-#: build/admin/index.js:2
-msgid "Custom Profiles create tour"
-msgstr ""
-
-#: build/admin/index.js:2
-msgid "Pro settings tour"
-msgstr ""
-
-#: build/admin/index.js:2
+#: build/admin/index.js:1
 msgid "System Information"
 msgstr ""
 
-#: build/admin/index.js:2
+#: build/admin/index.js:1
 msgid "Overview of your accessibility setup and plugin status"
 msgstr ""
 
-#: build/admin/index.js:2
+#: build/admin/index.js:1
 msgid "Loading…"
 msgstr ""
 
-#: build/admin/index.js:2
+#: build/admin/index.js:1
 #, js-format
 msgid "About %s"
 msgstr ""
 
-#: build/admin/index.js:2
+#: build/admin/index.js:1
 #, js-format
 msgid "%s helps you enhance your website for all users with customizable toolbars, profiles, and WCAG-oriented features. Improve readability, navigation, and compliance in one place."
 msgstr ""
 
-#: build/admin/index.js:2
+#: build/admin/index.js:1
 msgid "Documentation"
 msgstr ""
 
-#: build/admin/index.js:2
+#: build/admin/index.js:1
 msgid "Support"
 msgstr ""
 
-#: build/admin/index.js:2
+#: build/admin/index.js:1
 msgid "Accessibility widgets (35+)"
 msgstr ""
 
-#: build/admin/index.js:2
+#: build/admin/index.js:1
 msgid "Preset builder (panel, button, header, footer)"
 msgstr ""
 
-#: build/admin/index.js:2
+#: build/admin/index.js:1
 msgid "Export / Import settings (Tools & Backup)"
 msgstr ""
 
-#: build/admin/index.js:2
+#: build/admin/index.js:1
+msgid "White Label"
+msgstr ""
+
+#: build/admin/index.js:1
 msgid "Screen reader, smart contrast & other Pro widgets"
 msgstr ""
 
-#: build/admin/index.js:2
+#: build/admin/index.js:1
 msgid "Translation & consent options"
 msgstr ""
 
-#: build/admin/index.js:2
+#: build/admin/index.js:1
+msgid "Accessibility checker"
+msgstr ""
+
+#: build/admin/index.js:1
 msgid "Priority support"
 msgstr ""
 
-#: build/admin/index.js:2
+#: build/admin/index.js:1
 msgid "Regular updates"
 msgstr ""
 
-#: build/admin/index.js:2
+#: build/admin/index.js:1
 msgid "Pro widgets & controls"
 msgstr ""
 
-#: build/admin/index.js:2
+#: build/admin/index.js:1
 msgid "Advanced customization options"
 msgstr ""
 
-#: build/admin/index.js:2
+#: build/admin/index.js:1
 msgid "Google Translate integration"
 msgstr ""
 
-#: build/admin/index.js:2
+#: build/admin/index.js:1
 msgid "More UI presets & layouts"
 msgstr ""
 
-#: build/admin/index.js:2
+#: build/admin/index.js:1
 msgid "Premium support"
 msgstr ""
 
-#: build/admin/index.js:2
+#: build/admin/index.js:1
 msgid "Priority assistance"
 msgstr ""
 
-#: build/admin/index.js:2
+#: build/admin/index.js:1
 msgid "Faster workflow tools"
 msgstr ""
 
-#: build/admin/index.js:2
+#: build/admin/index.js:1
 msgid "Pro-only deals"
 msgstr ""
 
-#: build/admin/index.js:2
+#: build/admin/index.js:1
 msgid "Get Pro"
 msgstr ""
 
-#: build/admin/index.js:2
+#: build/admin/index.js:1
 msgid "Compare Free vs Pro and unlock premium widgets, translation, the accessibility checker, and priority support."
 msgstr ""
 
-#: build/admin/index.js:2
+#: build/admin/index.js:1
 msgid "View Pricing"
 msgstr ""
 
-#: build/admin/index.js:2
+#: build/admin/index.js:1
 msgid "FEATURES"
 msgstr ""
 
-#: build/admin/index.js:2
+#: build/admin/index.js:1
 msgid "Free"
 msgstr ""
 
-#: build/admin/index.js:2
+#: build/admin/index.js:1
 msgid "Pro"
 msgstr ""
 
-#: build/admin/index.js:2
+#: build/admin/index.js:1
 msgid "WHAT'S INCLUDED WITH PRO"
 msgstr ""
 
-#: build/admin/index.js:2
+#: build/admin/index.js:1
 msgid "Ready to unlock all Pro features?"
 msgstr ""
 
-#: build/admin/index.js:2
+#: build/admin/index.js:1
 msgid "Choose the plan that fits your site and start improving accessibility today."
 msgstr ""
 
-#: build/admin/index.js:2
-msgid "Change"
-msgstr ""
-
-#: build/admin/index.js:2
-msgid "Choose"
-msgstr ""
-
-#: build/admin/index.js:2
-msgid "WordPress media library is not available"
-msgstr ""
-
-#: build/admin/index.js:2
-msgid "Use image"
-msgstr ""
-
-#: build/admin/index.js:2
-msgid "Please select a PNG, JPG, or SVG image."
-msgstr ""
-
-#: build/admin/index.js:2
-msgid "Remove"
-msgstr ""
-
-#: build/admin/index.js:2
-msgid "Failed to load white label settings."
-msgstr ""
-
-#: build/admin/index.js:2
-msgid "Recovery URL"
-msgstr ""
-
-#: build/admin/index.js:2
-msgid "Recovery email could not be sent. Check localhost preview or site mail settings."
-msgstr ""
-
-#: build/admin/index.js:2
-msgid "Save failed."
-msgstr ""
-
-#: build/admin/index.js:2
-msgid "Rebrand the wp-admin menu and settings header for client delivery. Hide license and admin menus when needed."
-msgstr ""
-
-#: build/admin/index.js:2
-msgid "Enable White Label"
-msgstr ""
-
-#: build/admin/index.js:2
-msgid "Applies a custom title on the admin menu and optional icon."
-msgstr ""
-
-#: build/admin/index.js:2
-msgid "Branding & menus"
-msgstr ""
-
-#: build/admin/index.js:2
-msgid "Customize the client-facing title, icons, and which admin menus stay visible."
-msgstr ""
-
-#: build/admin/index.js:2
-msgid "Brand Name"
-msgstr ""
-
-#: build/admin/index.js:2
-msgid "Shown on the wp-admin menu and in the settings header."
-msgstr ""
-
-#: build/admin/index.js:2
-msgid "e.g. Client Accessibility Hub"
-msgstr ""
-
-#: build/admin/index.js:2
-msgid "Menu Icon"
-msgstr ""
-
-#: build/admin/index.js:2
-msgid "Optional icon for the top-level wp-admin menu."
-msgstr ""
-
-#: build/admin/index.js:2
-msgid "Square PNG or SVG around 20×20 works best."
-msgstr ""
-
-#: build/admin/index.js:2
-msgid "Select menu icon"
-msgstr ""
-
-#: build/admin/index.js:2
-msgid "Settings Header Logo"
-msgstr ""
-
-#: build/admin/index.js:2
-msgid "Optional logo in the admin settings header."
-msgstr ""
-
-#: build/admin/index.js:2
-msgid "Select settings header logo"
-msgstr ""
-
-#: build/admin/index.js:2
-msgid "Panel Header Icon"
-msgstr ""
-
-#: build/admin/index.js:2
-msgid "Replaces the default icon in the accessibility panel header."
-msgstr ""
-
-#: build/admin/index.js:2
-msgid "PNG or SVG · Recommended: square, around 28×28px"
-msgstr ""
-
-#: build/admin/index.js:2
-msgid "Select panel header icon"
-msgstr ""
-
-#: build/admin/index.js:2
-msgid "Panel Footer Icon"
-msgstr ""
-
-#: build/admin/index.js:2
-msgid "Replaces the default icon beside “Powered by” in the panel footer."
-msgstr ""
-
-#: build/admin/index.js:2
-msgid "PNG or SVG · Recommended: square, around 20×20px"
-msgstr ""
-
-#: build/admin/index.js:2
-msgid "Select panel footer icon"
-msgstr ""
-
-#: build/admin/index.js:2
-msgid "Hide License Menu"
-msgstr ""
-
-#: build/admin/index.js:2
-msgid "Removes the License entry from the plugin sidebar."
-msgstr ""
-
-#: build/admin/index.js:2
-msgid "Hide Admin Menu"
-msgstr ""
-
-#: build/admin/index.js:2
-msgid "Removes the entire One Accessibility menu from wp-admin until you open the emailed recovery link."
-msgstr ""
-
-#: build/admin/index.js:2
-msgid "Configure Email First"
-msgstr ""
-
-#: build/admin/index.js:2
-msgid "Disable Hide Admin Menu?"
-msgstr ""
-
-#: build/admin/index.js:2
-msgid "Enabling this sends a signed recovery link to the site administrator email when you save. Configure site mail (SMTP) before enabling."
-msgstr ""
-
-#: build/admin/index.js:2
-msgid "The One Accessibility admin menu will remain visible after you save until you re-enable hide admin."
-msgstr ""
-
-#: build/admin/index.js:2
-msgid "When you save with hide admin enabled, an email is sent to the site administrator address with a signed recovery URL."
-msgstr ""
-
-#: build/admin/index.js:2
-msgid "Recovery access"
-msgstr ""
-
-#: build/admin/index.js:2
-msgid "Revoke the signed recovery link sent to the site administrator email."
-msgstr ""
-
-#: build/admin/index.js:2
-msgid "Revoke failed."
-msgstr ""
-
-#: build/admin/index.js:2
-msgid "Revoke recovery token"
-msgstr ""
-
-#: build/admin/index.js:2
-msgid "Save settings"
-msgstr ""
-
-#: build/admin/index.js:2
-msgid "Apply white label branding and menu visibility options."
-msgstr ""
-
-#: build/admin/index.js:2
-msgid "Save white label"
-msgstr ""
-
-#: build/admin/index.js:2
-msgid "Yes, Disable"
-msgstr ""
-
-#: build/admin/index.js:2
-msgid "An image needed a short description people can hear in a screen reader."
-msgstr ""
-
-#: build/admin/index.js:2
-msgid "image"
-msgstr ""
-
-#: build/admin/index.js:2
-msgid "An image’s description was blank, even though it's not purely decorative."
-msgstr ""
-
-#: build/admin/index.js:2
-msgid "A link had no readable name, so visitors couldn't tell where it leads."
-msgstr ""
-
-#: build/admin/index.js:2
-msgid "link"
-msgstr ""
-
-#: build/admin/index.js:2
-msgid "A link contained only an image, with no wording for visitors using assistive tech."
-msgstr ""
-
-#: build/admin/index.js:2
-msgid "image link"
-msgstr ""
-
-#: build/admin/index.js:2
-msgid "A form field didn’t announce what it asked for."
-msgstr ""
-
-#: build/admin/index.js:2
-msgid "form field"
-msgstr ""
-
-#: build/admin/index.js:2
-msgid "A button showed no usable name for screen readers (often an icon button)."
-msgstr ""
-
-#: build/admin/index.js:2
-msgid "button"
-msgstr ""
-
-#: build/admin/index.js:2
-msgid "A link opened a new browser tab without mentioning it first."
-msgstr ""
-
-#: build/admin/index.js:2
-msgid "Text colour was adjusted so there's better contrast."
-msgstr ""
-
-#: build/admin/index.js:2
-msgid "text"
-msgstr ""
-
-#: build/admin/index.js:2
-msgid "A “skip to content” shortcut was missing for keyboard visitors."
-msgstr ""
-
-#: build/admin/index.js:2
-msgid "whole page layout"
-msgstr ""
-
-#: build/admin/index.js:2
-msgid "Radio buttons weren’t grouped for assistive tech to understand."
-msgstr ""
-
-#: build/admin/index.js:2
-msgid "form choices"
-msgstr ""
-
-#: build/admin/index.js:2
-msgid "A checkbox lacked a usable name."
-msgstr ""
-
-#: build/admin/index.js:2
-msgid "The whole page lacked a declared language."
-msgstr ""
-
-#: build/admin/index.js:2
-msgid "whole page"
-msgstr ""
-
-#: build/admin/index.js:2
-#, js-format
-msgid "Open page: %s"
-msgstr ""
-
-#: build/admin/index.js:2
-msgid "Missing image alt text"
-msgstr ""
-
-#: build/admin/index.js:2
-msgid "Image had no alt attribute, so screen readers could not describe it."
-msgstr ""
-
-#: build/admin/index.js:2
-msgid "Alt text"
-msgstr ""
-
-#: build/admin/index.js:2
-msgid "Empty image alt text"
-msgstr ""
-
-#: build/admin/index.js:2
-msgid "Image had a blank alt attribute even though it conveys meaning."
-msgstr ""
-
-#: build/admin/index.js:2
-msgid "Empty link"
-msgstr ""
-
-#: build/admin/index.js:2
-msgid "Link had no readable text for screen readers."
-msgstr ""
-
-#: build/admin/index.js:2
-msgid "Link label"
-msgstr ""
-
-#: build/admin/index.js:2
-msgid "Image-only link without label"
-msgstr ""
-
-#: build/admin/index.js:2
-msgid "Link contained only an image with no alt text or label."
-msgstr ""
-
-#: build/admin/index.js:2
-msgid "Form input without a label"
-msgstr ""
-
-#: build/admin/index.js:2
-msgid "Form field had no label that assistive tech can announce."
-msgstr ""
-
-#: build/admin/index.js:2
-msgid "Accessible label"
-msgstr ""
-
-#: build/admin/index.js:2
-msgid "Button without an accessible name"
-msgstr ""
-
-#: build/admin/index.js:2
-msgid "Button had no readable name (e.g. icon-only button)."
-msgstr ""
-
-#: build/admin/index.js:2
-msgid "Button name"
-msgstr ""
-
-#: build/admin/index.js:2
-msgid "Link opens in a new tab without notice"
-msgstr ""
-
-#: build/admin/index.js:2
-msgid "Link opened in a new tab without warning the user beforehand."
-msgstr ""
-
-#: build/admin/index.js:2
-msgid "New tab notice"
-msgstr ""
-
-#: build/admin/index.js:2
-msgid "Low text contrast"
-msgstr ""
-
-#: build/admin/index.js:2
-msgid "Text color did not have enough contrast against its background."
-msgstr ""
-
-#: build/admin/index.js:2
-msgid "Text color"
-msgstr ""
-
-#: build/admin/index.js:2
-msgid "Missing skip-to-content link"
-msgstr ""
-
-#: build/admin/index.js:2
-msgid "Keyboard users could not skip past repeated navigation."
-msgstr ""
-
-#: build/admin/index.js:2
-msgid "Skip link text"
-msgstr ""
-
-#: build/admin/index.js:2
-msgid "Radio group missing a name"
-msgstr ""
-
-#: build/admin/index.js:2
-msgid "Radio buttons did not share a name, so they were not grouped for screen readers."
-msgstr ""
-
-#: build/admin/index.js:2
-msgid "Group name"
-msgstr ""
-
-#: build/admin/index.js:2
-msgid "Checkbox missing a name"
-msgstr ""
-
-#: build/admin/index.js:2
-msgid "Checkbox had no name attribute, so its purpose was unclear."
-msgstr ""
-
-#: build/admin/index.js:2
-msgid "Field name"
-msgstr ""
-
-#: build/admin/index.js:2
-msgid "Page language not set"
-msgstr ""
-
-#: build/admin/index.js:2
-msgid "The page did not declare a language for screen readers."
-msgstr ""
-
-#: build/admin/index.js:2
-msgid "Page language"
-msgstr ""
-
-#: build/admin/index.js:2
-msgid "Critical"
-msgstr ""
-
-#: build/admin/index.js:2
-msgid "Major"
-msgstr ""
-
-#: build/admin/index.js:2
-msgid "Minor"
-msgstr ""
-
-#: build/admin/index.js:2
-msgid "Accessibility fix"
-msgstr ""
-
-#: build/admin/index.js:2
-msgid "Fixed value"
-msgstr ""
-
-#: build/admin/index.js:2
-msgid "Unknown page"
-msgstr ""
-
-#: build/admin/index.js:2
-msgid "Post #"
-msgstr ""
-
-#: build/admin/index.js:2
-msgid "Page #"
-msgstr ""
-
-#: build/admin/index.js:2
-msgid "Full details about this fix"
-msgstr ""
-
-#: build/admin/index.js:2
-msgid "Declared the page language for assistive tech."
-msgstr ""
-
-#: build/admin/index.js:2
-msgid "Added or updated a shortcut to skip to the main content."
-msgstr ""
-
-#: build/admin/index.js:2
-msgid "Improvement saved."
-msgstr ""
-
-#: build/admin/index.js:2
-#, js-format
-msgid "Text colour adjusted to \"%s\""
-msgstr ""
-
-#: build/admin/index.js:2
-#, js-format
-msgid "Alternate text saved as %s for the image."
-msgstr ""
-
-#: build/admin/index.js:2
-#, js-format
-msgid "Address or wording saved as %s."
-msgstr ""
-
-#: build/admin/index.js:2
-#, js-format
-msgid "Visible / spoken name saved as %s."
-msgstr ""
-
-#: build/admin/index.js:2
-#, js-format
-msgid "Visitors are told before opening new tabs: added %s."
-msgstr ""
-
-#: build/admin/index.js:2
-#, js-format
-msgid "Page language declared as %s."
-msgstr ""
-
-#: build/admin/index.js:2
-#, js-format
-msgid "Field grouping name saved as %s."
-msgstr ""
-
-#: build/admin/index.js:2
-#, js-format
-msgid "Skip link wording saved as %s."
-msgstr ""
-
-#: build/admin/index.js:2
-#, js-format
-msgid "Saved detail: %s"
-msgstr ""
-
-#: build/admin/index.js:2
-msgid "Failed to load fixed issues."
-msgstr ""
-
-#: build/admin/index.js:2
-msgid "Fixed issue deleted."
-msgstr ""
-
-#: build/admin/index.js:2
-msgid "Failed to delete fixed issue."
-msgstr ""
-
-#: build/admin/index.js:2
-msgid "Delete all saved fixes?"
-msgstr ""
-
-#: build/admin/index.js:2
-#, js-format
-msgid "This permanently deletes everything in your Fixed Issues list (%d items). You cannot undo this."
-msgstr ""
-
-#: build/admin/index.js:2
-msgid "Delete all"
-msgstr ""
-
-#: build/admin/index.js:2
-msgid "All saved fixes were deleted."
-msgstr ""
-
-#: build/admin/index.js:2
-msgid "deleted,"
-msgstr ""
-
-#: build/admin/index.js:2
-msgid "failed. Please retry."
-msgstr ""
-
-#: build/admin/index.js:2
-msgid "Could not delete saved fixes."
-msgstr ""
-
-#: build/admin/index.js:2
-msgid "Report downloaded (CSV)."
-msgstr ""
-
-#: build/admin/index.js:2
-msgid "Use “Open page” — this path can’t highlight the exact spot from here."
-msgstr ""
-
-#: build/admin/index.js:2
-msgid "Issue"
-msgstr ""
-
-#: build/admin/index.js:2
-msgid "Page"
-msgstr ""
-
-#: build/admin/index.js:2
-msgid "What changed"
-msgstr ""
-
-#: build/admin/index.js:2
-msgid "Saved"
-msgstr ""
-
-#: build/admin/index.js:2
-msgid "Opens your live page and scrolls to where this fix was applied. Stay logged in as an administrator."
-msgstr ""
-
-#: build/admin/index.js:2
-msgid "Locate"
-msgstr ""
-
-#: build/admin/index.js:2
-msgid "Remove this saved fix"
-msgstr ""
-
-#: build/admin/index.js:2
-msgid "Delete"
-msgstr ""
-
-#: build/admin/index.js:2
-msgid "Fixed Issues"
-msgstr ""
-
-#: build/admin/index.js:2
-msgid "A simple list of what was improved — which page it was on, and what visitors now get."
-msgstr ""
-
-#: build/admin/index.js:2
-msgid "Download report"
-msgstr ""
-
-#: build/admin/index.js:2
-msgid "Could not load fixed issues."
-msgstr ""
-
-#: build/admin/index.js:2
-msgid "Search page title, issue name, fix, link…"
-msgstr ""
-
-#: build/admin/index.js:2
-msgid "All fixes"
-msgstr ""
-
-#: build/admin/index.js:2
-msgid "Select page"
-msgstr ""
-
-#: build/admin/index.js:2
-msgid "selected"
-msgstr ""
-
-#: build/admin/index.js:2
-msgid "Per page"
-msgstr ""
-
-#: build/admin/index.js:2
-msgid "Items per page"
-msgstr ""
-
-#: build/admin/index.js:2
-#, js-format
-msgid "Selections checked (%d)…"
-msgstr ""
-
-#: build/admin/index.js:2
-msgid "Delete entire list…"
-msgstr ""
-
-#: build/admin/index.js:2
-msgid "Selected fixed issues deleted."
-msgstr ""
-
-#: build/admin/index.js:2
-msgid "Failed to delete selected items."
-msgstr ""
-
-#: build/admin/index.js:2
-msgid "Remove saved fixes — open menu for delete options"
-msgstr ""
-
-#: build/admin/index.js:2
-msgid "No fixed accessibility issues yet"
-msgstr ""
-
-#: build/admin/index.js:2
-msgid "Saved fixes from the Accessibility Checker will appear here so you can review or remove them."
-msgstr ""
-
-#: build/admin/index.js:2
-msgid "Previous"
-msgstr ""
-
-#: build/admin/index.js:2
-msgid "of"
-msgstr ""
-
-#: build/admin/index.js:2
-msgid "This page is available in Pro with an active license."
-msgstr ""
-
-#: build/admin/index.js:2
-msgid "Accessibility issue"
-msgstr ""
-
-#: build/admin/index.js:2
-msgid "Open page with Accessibility Checker"
-msgstr ""
-
-#: build/admin/index.js:2
-msgid "Not yet"
-msgstr ""
-
-#: build/admin/index.js:2
-msgid "Just now"
-msgstr ""
-
-#: build/admin/index.js:2
-#, js-format
-msgid "%d min ago"
-msgstr ""
-
-#: build/admin/index.js:2
-#, js-format
-msgid "%d hr ago"
-msgstr ""
-
-#: build/admin/index.js:2
-#, js-format
-msgid "%d days ago"
-msgstr ""
-
-#: build/admin/index.js:2
-msgid "Recently"
-msgstr ""
-
-#: build/admin/index.js:2
-msgid "Scan again"
-msgstr ""
-
-#: build/admin/index.js:2
-msgid "Need one more scan to compare"
-msgstr ""
-
-#: build/admin/index.js:2
-#, js-format
-msgid "Getting better (+%d)"
-msgstr ""
-
-#: build/admin/index.js:2
-msgid "Compared with your previous scan"
-msgstr ""
-
-#: build/admin/index.js:2
-#, js-format
-msgid "Got worse (−%d)"
-msgstr ""
-
-#: build/admin/index.js:2
-msgid "No change"
-msgstr ""
-
-#: build/admin/index.js:2
-msgid "Same as your previous scan"
-msgstr ""
-
-#: build/admin/index.js:2
-msgid "Compliance Monitoring"
-msgstr ""
-
-#: build/admin/index.js:2
-msgid "Site health from your Accessibility Checker scans."
-msgstr ""
-
-#: build/admin/index.js:2
-msgid "WCAG: All"
-msgstr ""
-
-#: build/admin/index.js:2
-msgid "Export CSV"
-msgstr ""
-
-#: build/admin/index.js:2
-msgid "Nothing here yet. Open any page on your site, click Accessibility Checker, run a scan, then return to this page."
-msgstr ""
-
-#: build/admin/index.js:2
-msgid "Your site score"
-msgstr ""
-
-#: build/admin/index.js:2
-msgid "/ 100"
-msgstr ""
-
-#: build/admin/index.js:2
-msgid "Higher is better. Based on pages you scanned."
-msgstr ""
-
-#: build/admin/index.js:2
-msgid "Problems left"
-msgstr ""
-
-#: build/admin/index.js:2
-msgid "By severity"
-msgstr ""
-
-#: build/admin/index.js:2
-#, js-format
-msgid "Critical %d"
-msgstr ""
-
-#: build/admin/index.js:2
-#, js-format
-msgid "Major %d"
-msgstr ""
-
-#: build/admin/index.js:2
-#, js-format
-msgid "Minor %d"
-msgstr ""
-
-#: build/admin/index.js:2
-msgid "Progress"
-msgstr ""
-
-#: build/admin/index.js:2
-msgid "Last checked"
-msgstr ""
-
-#: build/admin/index.js:2
-#, js-format
-msgid "%d page(s) checked so far"
-msgstr ""
-
-#: build/admin/index.js:2
-msgid "Which pages need work?"
-msgstr ""
-
-#: build/admin/index.js:2
-msgid "Lower score = more problems. Click a page name to open Accessibility Checker there."
-msgstr ""
-
-#: build/admin/index.js:2
-#, js-format
-msgid "%d problem(s) left"
-msgstr ""
-
-#: build/admin/index.js:2
-msgid "Page score"
-msgstr ""
-
-#: build/admin/index.js:2
-msgid "Score"
-msgstr ""
-
-#: build/admin/index.js:2
-msgid "What comes up most?"
-msgstr ""
-
-#: build/admin/index.js:2
-msgid "What did you fix most?"
-msgstr ""
-
-#: build/admin/index.js:2
-msgid "Fixing a common problem can help many places at once."
-msgstr ""
-
-#: build/admin/index.js:2
-msgid "These are the fixes you saved most often."
-msgstr ""
-
-#: build/admin/index.js:2
-#, js-format
-msgid "WCAG %s"
-msgstr ""
-
-#: build/admin/index.js:2
-msgid "Found"
-msgstr ""
-
-#: build/admin/index.js:2
-msgid "Not scanned yet"
-msgstr ""
-
-#: build/admin/index.js:2
-msgid "Published pages/posts with no scan yet — click to open the page."
-msgstr ""
-
-#: build/admin/index.js:2
-msgid "Post"
-msgstr ""
-
-#: build/admin/index.js:2
-#, js-format
-msgid "You already fixed %1$d problem(s) on %2$d page(s)."
-msgstr ""
-
-#: build/admin/index.js:2
-msgid "See what was fixed"
-msgstr ""
-
-#: build/admin/index.js:2
-msgid "Email alerts and auto-scan options."
-msgstr ""
-
-#: build/admin/index.js:2
-msgid "Compliance settings"
-msgstr ""
-
-#: build/admin/index.js:2
-msgid "This is a progress tracker from your scans — not a legal accessibility certificate."
-msgstr ""
-
-#: build/admin/index.js:2
-msgid "Available in Pro when Accessibility Checker is enabled."
-msgstr ""
-
-#: build/admin/index.js:2
+#: build/admin/index.js:1
 msgid "Widget Usage Statistics"
 msgstr ""
 
-#: build/admin/index.js:2
+#: build/admin/index.js:1
 msgid "Today"
 msgstr ""
 
-#: build/admin/index.js:2
+#: build/admin/index.js:1
 msgid "Last 7 Days"
 msgstr ""
 
-#: build/admin/index.js:2
+#: build/admin/index.js:1
 msgid "Last 30 Days"
 msgstr ""
 
-#: build/admin/index.js:2
+#: build/admin/index.js:1
 msgid "All Time"
 msgstr ""
 
-#: build/admin/index.js:2
+#: build/admin/index.js:1
 msgid "No statistics available yet."
 msgstr ""
 
-#: build/admin/index.js:2
+#: build/admin/index.js:1
 msgid "increase"
 msgstr ""
 
-#: build/admin/index.js:2
+#: build/admin/index.js:1
 msgid "decrease"
 msgstr ""
 
-#: build/admin/index.js:2
+#: build/admin/index.js:1
+msgid "No change"
+msgstr ""
+
+#: build/admin/index.js:1
 msgid "Other features"
 msgstr ""
 
-#: build/admin/index.js:2
-#, js-format
-msgid "%s Licensing"
-msgstr ""
-
-#: build/admin/index.js:2
-#, js-format
-msgid "%s License Info"
-msgstr ""
-
-#: build/admin/index.js:2
+#: build/admin/index.js:1
 msgid "One Accessibility by BdThemes is designed to help make your WordPress website more accessible to all users. While the plugin provides tools to adjust your website to users’ needs, some pages or sections may still not be fully accessible, may require manual action to resolve certain issues, or may be in the process of becoming fully accessible."
 msgstr ""
 
-#: build/admin/index.js:2
+#: build/admin/index.js:1
 msgid "One Accessibility by BdThemes is continually being improved, with updates, new features, and adoption of new technologies, as part of our commitment to achieve optimal accessibility standards."
 msgstr ""
 
-#: build/admin/index.js:2
+#: build/admin/index.js:1
 msgid "Feedback & Contact: If you encounter any accessibility barriers while using your website or our plugin, we welcome your feedback and suggestions. Please contact us at: https://bdthemes.com/support or email [support@bdthemes.com]."
 msgstr ""
 
-#: build/admin/index.js:2
+#: build/admin/index.js:1
 msgid "Disclaimer for Site Administrators"
 msgstr ""
 
-#: build/admin/index.js:2
+#: build/admin/index.js:1
+msgid "Included with One Accessibility Pro"
+msgstr ""
+
+#: build/admin/index.js:1
+msgid "This screen is part of the separate One Accessibility Pro plugin."
+msgstr ""
+
+#: build/admin/index.js:1
+msgid "Learn more about Pro"
+msgstr ""
+
+#: build/admin/index.js:1
+msgid "Build your own accessibility profiles that bundle several tools for specific user needs and offer them in the toolbar."
+msgstr ""
+
+#: build/admin/index.js:1
+msgid "Unlimited custom profiles with icon and description"
+msgstr ""
+
+#: build/admin/index.js:1
+msgid "Pick which tools each profile enables"
+msgstr ""
+
+#: build/admin/index.js:1
+msgid "Show custom profiles next to the built-in ones in any preset"
+msgstr ""
+
+#: build/admin/index.js:1
+msgid "Export and import your complete configuration as a JSON file."
+msgstr ""
+
+#: build/admin/index.js:1
+msgid "Download a backup that includes settings, presets and custom profiles"
+msgstr ""
+
+#: build/admin/index.js:1
+msgid "Restore configuration on another site or roll back after major changes"
+msgstr ""
+
+#: build/admin/index.js:1
+msgid "Export / Import settings"
+msgstr ""
+
+#: build/admin/index.js:1
+msgid "White label branding"
+msgstr ""
+
+#: build/admin/index.js:1
+msgid "Accessibility checker & compliance monitoring"
+msgstr ""
+
+#: build/admin/index.js:1
 msgid "Screen reader & more Pro widgets"
 msgstr ""
 
-#: build/admin/index.js:2
+#: build/admin/index.js:1
 msgid "General"
 msgstr ""
 
-#: build/admin/index.js:2
+#: build/admin/index.js:1
 msgid "Sign language (Libras)"
 msgstr ""
 
-#: build/admin/index.js:2
+#: build/admin/index.js:1
 msgid "Legal / litigation support"
 msgstr ""
 
-#: build/admin/index.js:2
+#: build/admin/index.js:1
 msgid "Bulk tools for multi-site workflows"
 msgstr ""
 
-#: build/admin/index.js:2
-msgid "COMPLIANCE"
-msgstr ""
-
-#: build/admin/index.js:2
+#: build/admin/index.js:1
 msgid "Help & Support"
 msgstr ""
 
-#: build/admin/index.js:2
+#: build/admin/index.js:1
 msgid "COMING SOON"
 msgstr ""
 
-#: build/admin/index.js:2
+#: build/admin/index.js:1
 msgid "Coming soon features"
 msgstr ""
 
-#: build/admin/index.js:2
+#: build/admin/index.js:1
 msgid "Pro features"
 msgstr ""
 
-#: build/admin/index.js:2
+#: build/admin/index.js:1
 msgid "Unlock Pro features"
 msgstr ""
 
-#: build/admin/index.js:2
+#: build/admin/index.js:1
 msgid "Stay tuned — we will ship these in upcoming releases."
 msgstr ""
 
-#: build/admin/index.js:2
+#: build/admin/index.js:1
 msgid "Activate License"
 msgstr ""
 
-#: build/admin/index.js:2
+#: build/admin/index.js:1
 msgid "Enhance website accessibility and ensure WCAG compliance with customizable toolbars and profiles."
 msgstr ""
 
-#: build/admin/index.js:2
+#: build/admin/index.js:1
 msgid "Open navigation menu"
 msgstr ""
 
-#: build/admin/index.js:2
+#: build/admin/index.js:1
 msgid "Made with"
 msgstr ""
 
-#: build/admin/index.js:2
+#: build/admin/index.js:1
 msgid "by"
 msgstr ""
 
@@ -3314,6 +1798,12 @@ msgstr ""
 
 #: build/components/index.js:1
 msgid "Accessibility Statement"
+msgstr ""
+
+#. translators: %s: plugin or white-label brand name
+#: build/components/index.js:2
+#, js-format
+msgid "Powered by %s"
 msgstr ""
 
 #: build/components/index.js:2

@@ -4,10 +4,9 @@
 import { __ } from '@wordpress/i18n';
 import { useEffect, useState, useMemo, useCallback } from '@wordpress/element';
 import { useDashboardTour } from '../context/dashboard-tour-context';
-import { useProSettingsTour } from '../context/pro-settings-tour-context';
-import { useProfileTour } from '../context/profile-tour-context';
 import { useLicense } from '../context/LicenseContext';
-import { getBrandDisplayName, useWhiteLabelBrandingEnabled } from '../../utils/websacData';
+import { getBrandDisplayName, useWhiteLabelBrandingEnabled } from '../../utils/brand';
+import { getAdminExtensions } from '../../utils/admin-extensions';
 import { Layout, Menu, Drawer, Button } from 'antd';
 import { useLocation, useHistory } from '../router';
 import {
@@ -16,13 +15,9 @@ import {
 	IconProfiles,
 	IconCssOverrides,
 	IconSettings,
-	IconLicense,
-	IconWhiteLabel,
 	IconTools,
 	IconPro,
 	IconInfo,
-	IconFixedIssues,
-	IconCompliance,
 } from './admin-menu-icons';
 
 const { Header, Sider, Content, Footer } = Layout;
@@ -51,33 +46,27 @@ const IconComingSoonBullet = () => (
 	</span>
 );
 
-/** Same bullet list as free “Unlock Pro” card — shown for free users and Pro-without-license users */
+const PRO_FEATURE_LABELS = [
+	__('Custom Profiles', 'website-accessibility'),
+	__('Export / Import settings', 'website-accessibility'),
+	__('White label branding', 'website-accessibility'),
+	__('Translation & consent options', 'website-accessibility'),
+	__('Accessibility checker & compliance monitoring', 'website-accessibility'),
+	__('Screen reader & more Pro widgets', 'website-accessibility'),
+	__('Priority support', 'website-accessibility'),
+];
+
+/** Bullet list for the “Unlock Pro” card — shown when premium features are not active */
 const ProFeaturesListItems = () => (
 	<>
-		<li>
-			<span className="wap-admin-pro-features-card__icon" aria-hidden="true">
-				<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M12 2l3 7h7l-5.5 4.5L18 21l-6-4-6 4 1.5-7.5L2 9h7z" /></svg>
-			</span>
-			{__('Screen reader & more Pro widgets', 'website-accessibility')}
-		</li>
-		<li>
-			<span className="wap-admin-pro-features-card__icon" aria-hidden="true">
-				<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><circle cx="12" cy="12" r="10" /><line x1="2" y1="12" x2="22" y2="12" /><path d="M12 2a15.3 15.3 0 0 1 4 10 15.3 15.3 0 0 1-4 10 15.3 15.3 0 0 1-4-10 15.3 15.3 0 0 1 4-10z" /></svg>
-			</span>
-			{__('Translation & consent options', 'website-accessibility')}
-		</li>
-		<li>
-			<span className="wap-admin-pro-features-card__icon" aria-hidden="true">
-				<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z" /><polyline points="14 2 14 8 20 8" /><line x1="16" y1="13" x2="8" y2="13" /><line x1="16" y1="17" x2="8" y2="17" /><polyline points="10 9 9 9 8 9" /></svg>
-			</span>
-			{__('Accessibility checker', 'website-accessibility')}
-		</li>
-		<li>
-			<span className="wap-admin-pro-features-card__icon" aria-hidden="true">
-				<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z" /></svg>
-			</span>
-			{__('Priority support', 'website-accessibility')}
-		</li>
+		{PRO_FEATURE_LABELS.map((label) => (
+			<li key={label}>
+				<span className="wap-admin-pro-features-card__icon" aria-hidden="true">
+					<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><polyline points="20 6 9 17 4 12" /></svg>
+				</span>
+				{label}
+			</li>
+		))}
 	</>
 );
 
@@ -85,25 +74,15 @@ const AdminLayout = ({ children }) => {
 	const location = useLocation();
 	const history = useHistory();
 	const currentPage = location?.params?.page || 'website-accessibility';
-	const { isProActive: isLicenseValid, isProPluginActive } = useLicense();
+	const { isProActive, isProPluginActive } = useLicense();
+	const extensions = getAdminExtensions();
 	const { tryAdvanceTourViaSidebarMenu } = useDashboardTour();
-	const { tryAdvanceProSettingsTourViaSidebarMenu } = useProSettingsTour();
-	const { tryAdvanceProfileTourViaSidebarMenu } = useProfileTour();
-	const hasFixedIssuesPage = !!window?.websacAdmin?.hasFixedIssuesPage;
 	const [wlUiEpoch, setWlUiEpoch] = useState(0);
 	const [isOffCanvas, setIsOffCanvas] = useState(
 		() => typeof window !== 'undefined' && window.matchMedia(OFFCANVAS_MEDIA_QUERY).matches
 	);
 	const [drawerOpen, setDrawerOpen] = useState(false);
 	const [adminBarHeight, setAdminBarHeight] = useState(0);
-
-	const hideLicenseSidebar = useMemo(
-		() =>
-			typeof window !== 'undefined' &&
-			window.websacAdmin?.hideLicenseNav &&
-			!window.websacAdmin?.whiteLabelRecovery,
-		[wlUiEpoch]
-	);
 
 	const brandDisplayName = useMemo(() => getBrandDisplayName(), [wlUiEpoch]);
 	const whiteLabelBrandingEnabled = useWhiteLabelBrandingEnabled();
@@ -172,11 +151,8 @@ const AdminLayout = ({ children }) => {
 			setDrawerOpen(false);
 			return;
 		}
-		if (tryAdvanceProSettingsTourViaSidebarMenu(key)) {
-			setDrawerOpen(false);
-			return;
-		}
-		if (tryAdvanceProfileTourViaSidebarMenu(key)) {
+		// Add-on tours may intercept sidebar navigation.
+		if (extensions.sidebarMenuInterceptors.some((intercept) => intercept(key))) {
 			setDrawerOpen(false);
 			return;
 		}
@@ -187,55 +163,54 @@ const AdminLayout = ({ children }) => {
 	const openDrawer = useCallback(() => setDrawerOpen(true), []);
 	const closeDrawer = useCallback(() => setDrawerOpen(false), []);
 
+	const sortByPosition = (a, b) => (a.position ?? 100) - (b.position ?? 100);
+	const extensionItems = (group) =>
+		extensions.sidebarItems
+			.filter((item) => item.group === group)
+			.filter((item) => typeof item.isVisible !== 'function' || item.isVisible())
+			.map(({ group: _group, isVisible: _isVisible, position, icon, ...item }) => ({
+				...item,
+				position,
+				// Icons may be provided lazily (add-on bundles load before this one).
+				icon: typeof icon === 'function' ? icon() : icon,
+			}));
+
 	const generalItems = [
-		{ key: 'website-accessibility', icon: <IconGeneral />, label: __('General', 'website-accessibility') },
-		{ key: 'website-accessibility-presets', icon: <IconPresets />, label: <span data-tour="wap-tour-presets-item">{__('Presets', 'website-accessibility')}</span> },
-		{ key: 'website-accessibilityfiles', icon: <IconProfiles />, label: <span data-tour="wap-tour-profiles-item">{__('Custom Profiles', 'website-accessibility')}</span> },
+		{ key: 'website-accessibility', position: 10, icon: <IconGeneral />, label: __('General', 'website-accessibility') },
+		{ key: 'website-accessibility-presets', position: 20, icon: <IconPresets />, label: <span data-tour="wap-tour-presets-item">{__('Presets', 'website-accessibility')}</span> },
+		{ key: 'website-accessibilityfiles', position: 30, icon: <IconProfiles />, label: <span data-tour="wap-tour-profiles-item">{__('Custom Profiles', 'website-accessibility')}</span> },
 		{
 			key: 'website-accessibility-settings',
+			position: 40,
 			icon: <IconSettings />,
 			label: <span data-tour="wap-tour-settings-item">{__('Settings', 'website-accessibility')}</span>,
 		},
-		{ key: 'website-accessibility-css-overrides', icon: <IconCssOverrides />, label: __('CSS Overrides', 'website-accessibility') },
-	].filter(Boolean);
-
-	const complianceItems =
-		isProPluginActive &&
-		isLicenseValid &&
-		(hasFixedIssuesPage ||
-			currentPage === 'website-accessibility-fixed-issues' ||
-			currentPage === 'website-accessibility-compliance')
-			? [
-				{
-					key: 'website-accessibility-compliance',
-					icon: <IconCompliance />,
-					label: __('Compliance Monitoring', 'website-accessibility'),
-				},
-				{
-					key: 'website-accessibility-fixed-issues',
-					icon: <IconFixedIssues />,
-					label: __('Fixed Issues', 'website-accessibility'),
-				},
-			]
-			: [];
+		{ key: 'website-accessibility-css-overrides', position: 50, icon: <IconCssOverrides />, label: __('CSS Overrides', 'website-accessibility') },
+		...extensionItems('general'),
+	].sort(sortByPosition);
 
 	const comingSoonFeatureLabels = [
 		__('Sign language (Libras)', 'website-accessibility'),
 		__('Legal / litigation support', 'website-accessibility'),
 		__('Bulk tools for multi-site workflows', 'website-accessibility'),
 	];
-	/** Pro installed + license active → “Coming soon”; otherwise Pro upsell list (free or Pro without license) */
-	const showComingSoonCard = isProPluginActive && isLicenseValid;
+	/** Premium features active → “Coming soon”; otherwise Pro upsell list */
+	const showComingSoonCard = isProPluginActive && isProActive;
 	const supportItems = useMemo(
 		() => [
-			...(!isLicenseValid ? [{ key: 'website-accessibility-get-pro', icon: <IconPro />, label: __('Get Pro', 'website-accessibility') }] : []),
-			...(isProPluginActive && !hideLicenseSidebar ? [{ key: 'website-accessibility-license', icon: <IconLicense />, label: __('License', 'website-accessibility') }] : []),
-			{ key: 'website-accessibility-white-label', icon: <IconWhiteLabel />, label: __('White Label', 'website-accessibility') },
-			{ key: 'website-accessibility-tools', icon: <IconTools />, label: __('Tools & Backup', 'website-accessibility') },
-			{ key: 'website-accessibility-about', icon: <IconInfo />, label: __('About & Info', 'website-accessibility') },
-		],
-		[isLicenseValid, isProPluginActive, hideLicenseSidebar]
+			...(!isProActive ? [{ key: 'website-accessibility-get-pro', position: 10, icon: <IconPro />, label: __('Get Pro', 'website-accessibility') }] : []),
+			{ key: 'website-accessibility-tools', position: 60, icon: <IconTools />, label: __('Tools & Backup', 'website-accessibility') },
+			{ key: 'website-accessibility-about', position: 90, icon: <IconInfo />, label: __('About & Info', 'website-accessibility') },
+			...extensionItems('support'),
+		].sort(sortByPosition),
+		// eslint-disable-next-line react-hooks/exhaustive-deps
+		[isProActive, extensions.sidebarItems.length, wlUiEpoch]
 	);
+
+	// Extra groups contributed by add-ons (e.g. COMPLIANCE).
+	const extraGroups = Object.keys(extensions.sidebarGroups)
+		.map((group) => ({ group, label: extensions.sidebarGroups[group], children: extensionItems(group).sort(sortByPosition) }))
+		.filter((entry) => entry.children.length > 0);
 
 	const menuItems = [
 		{
@@ -243,17 +218,12 @@ const AdminLayout = ({ children }) => {
 			label: <span className="wap-admin-menu-group">GENERAL SETTINGS</span>,
 			children: generalItems,
 		},
-		...(
-			complianceItems.length > 0
-				? [
-					{
-						type: 'group',
-						label: <span className="wap-admin-menu-group">{__('COMPLIANCE', 'website-accessibility')}</span>,
-						children: complianceItems,
-					},
-				]
-				: []
-		),
+		...extraGroups.map(({ group, label, children }) => ({
+			type: 'group',
+			key: `group-${group}`,
+			label: <span className="wap-admin-menu-group">{label}</span>,
+			children,
+		})),
 		{
 			type: 'group',
 			label: <span className="wap-admin-menu-group">SUPPORT</span>,

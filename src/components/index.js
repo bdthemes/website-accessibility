@@ -40,6 +40,10 @@ import WapUpload from './wap-upload';
 import './styles/main.scss';
 
 import { helpers } from '../utils/helpers';
+import { getAdminExtensions } from '../utils/admin-extensions';
+
+// Create the admin extension registry early so add-on bundles can register into it.
+getAdminExtensions();
 
 window.wapComponents = {
     AccessibilityProfiles,

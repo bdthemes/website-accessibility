@@ -7,17 +7,17 @@ use Websac\Routes\SettingsRouteV1;
 class Utils
 {
     /**
-     * Whether the separate One Accessibility Pro plugin is installed and active.
+     * Name shown in the admin menu, page headers and the toolbar footer.
+     * Add-ons (e.g. white-label) can override it through the filter.
      *
-     * This is a plain presence check so the free plugin can hand off Pro-only UI
-     * (accessibility checker, translation) to that plugin. It is never used to
-     * enable or disable functionality that ships in this plugin.
-     *
-     * @return bool
+     * @return string
      */
-    public static function is_pro_plugin_active()
+    public static function get_brand_display_name()
     {
-        return function_exists('website_accessibility_pro');
+        $default = __('One Accessibility', 'website-accessibility');
+        $name    = apply_filters('websac_brand_display_name', $default);
+        $name    = is_string($name) ? trim($name) : '';
+        return $name !== '' ? $name : $default;
     }
 
     public static function get_filesystem()

@@ -4,15 +4,14 @@ import { useSelect, useDispatch } from "@wordpress/data";
 import { STORE_NAME } from "../store";
 import ColorPicker from "../controls/color-picker";
 import SpacingInput from "../controls/spacing-input";
-import { useLicense } from "../context/LicenseContext";
+import ExtensionControl from "../components/extension-control";
 
 const HeaderSettings = () => {
-    const { WapSwitch, WapBadge, WapCard } = window?.wapComponents;
+    const { WapCard } = window?.wapComponents;
     const { presetsFormData } = useSelect((select) =>
         select(STORE_NAME).getPresetsFormData(),
     );
     const { setPresetsFormData } = useDispatch(STORE_NAME);
-    const { isProActive } = useLicense();
     const { items } = presetsFormData?.panel || {};
     const headerItem = items?.find((item) => item.slug === "header");
     const attributes = headerItem?.attributes || {};
@@ -37,14 +36,7 @@ const HeaderSettings = () => {
         <div className="wap-header-settings">
             <WapCard bordered={false} className="wap-panel-right-sidebar__card">
                 <ControlWrapper label={__("Show Translator", "website-accessibility")} inline>
-                    {isProActive ? (
-                        <WapSwitch
-                            checked={attributes.showTranslator !== false}
-                            onChange={(checked) => updateAttr({ showTranslator: checked })}
-                        />
-                    ) : (
-                        <WapBadge color="gold" count={__("PRO", "website-accessibility")} />
-                    )}
+                    <ExtensionControl slot="headerShowTranslator" attributes={attributes} updateAttr={updateAttr} />
                 </ControlWrapper>
             </WapCard>
 

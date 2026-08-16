@@ -3,7 +3,6 @@ import { useSelect, useDispatch } from '@wordpress/data';
 import { STORE_NAME } from '../store';
 import ControlWrapper from '../components/control-wrapper';
 import PanelItemsSettings from '../components/panel-items-settings';
-import { useProfileTour } from '../context/profile-tour-context';
 import { useLocation } from '../router';
 import { __ } from '@wordpress/i18n';
 
@@ -56,11 +55,6 @@ const ProfilesSettings = () => {
 
     const { presetsFormData } = useSelect((select) => select(STORE_NAME).getPresetsFormData());
     const { setPresetsFormData, updatePreset, saveEditedPreset } = useDispatch(STORE_NAME);
-    const {
-        tourCreatedProfileId,
-        notifyProfileEnabledInPresetForTour,
-        notifyProfileTourPresetSaved,
-    } = useProfileTour();
     const profileItem = presetsFormData.panel.items.find(item => item.slug === 'profiles');
     const attributes = profileItem?.attributes || {};
 
@@ -93,20 +87,24 @@ const ProfilesSettings = () => {
         const nextFormData = buildNextFormData(nextProfiles);
         setPresetsFormData(nextFormData);
 
-        if (!isSelected) {
-            const tourHandled = notifyProfileEnabledInPresetForTour(profileId);
-            if (tourHandled && presetId) {
-                try {
-                    await updatePreset(presetId, {
-                        title: nextFormData.title,
-                        content: JSON.stringify(nextFormData),
-                    });
-                    await saveEditedPreset(presetId);
-                    notifyProfileTourPresetSaved();
-                } catch (error) {
-                    console.error(error);
-                }
-            }
+        // Let add-ons (e.g. guided tours) react; they may persist the preset right away.
+        if (typeof window !== 'undefined') {
+            window.dispatchEvent(new CustomEvent('websac-preset-profile-toggled', {
+                detail: {
+                    profileId,
+                    enabled: !isSelected,
+                    presetId,
+                    save: async () => {
+                        if (!presetId) return false;
+                        await updatePreset(presetId, {
+                            title: nextFormData.title,
+                            content: JSON.stringify(nextFormData),
+                        });
+                        await saveEditedPreset(presetId);
+                        return true;
+                    },
+                },
+            }));
         }
     };
 
@@ -128,9 +126,6 @@ const ProfilesSettings = () => {
                                     key={profile.id}
                                     className={`wap-feature-toggle-card wap-profiles-settings__card${checked ? " wap-feature-toggle-card--active" : ""}`}
                                     data-profile-id={profile.id}
-                                    {...(tourCreatedProfileId && String(profile.id) === String(tourCreatedProfileId)
-                                        ? { 'data-tour': 'wap-tour-preset-enable-profile' }
-                                        : {})}
                                     role="button"
                                     tabIndex={0}
                                     onClick={() => toggleProfile(profile.id)}

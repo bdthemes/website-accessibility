@@ -15,23 +15,17 @@ class SettingsRouteV1
     const OPTION_KEY = 'websac_settings';
 
     /**
-     * Default settings
+     * Default settings for options that ship with this plugin.
+     *
+     * Add-ons register their own keys through the `websac_settings_defaults`
+     * filter and sanitize them through `websac_sanitize_settings`.
      *
      * @var array
      */
     private $defaults = [
-        'show_translations_consent'     => true,
-        'force_translate_site_language' => false,
-        'show_usage_statistics'         => true,
-        'enable_accessibility_checker'  => true,
-        'ai_provider'                   => 'openai',
-        'openai_api_key'                => '',
-        'gemini_api_key'                => '',
+        'show_usage_statistics' => true,
         /** Raw CSS appended on the public site (toolbar / widget tweaks). Stored as plain text. */
-        'frontend_custom_css'           => '',
-        'compliance_wcag_level'         => 'all',
-        'compliance_email_alerts'       => true,
-        'compliance_auto_scan_days'     => 0,
+        'frontend_custom_css'   => '',
     ];
 
     /**
@@ -44,7 +38,18 @@ class SettingsRouteV1
 
     public static function get_defaults_settings()
     {
-        return self::get_instance()->defaults;
+        return self::get_instance()->get_defaults();
+    }
+
+    /**
+     * Defaults including keys registered by add-ons.
+     *
+     * @return array
+     */
+    public function get_defaults()
+    {
+        $defaults = apply_filters('websac_settings_defaults', $this->defaults);
+        return is_array($defaults) ? $defaults : $this->defaults;
     }
 
     /**
@@ -85,7 +90,7 @@ class SettingsRouteV1
     public function get_settings(WP_REST_Request $request)
     {
         $settings = get_option(self::OPTION_KEY, []);
-        $settings = wp_parse_args($settings, $this->defaults);
+        $settings = wp_parse_args($settings, $this->get_defaults());
 
         return rest_ensure_response([
             'success' => true,
@@ -103,6 +108,14 @@ class SettingsRouteV1
         $merged   = wp_parse_args($incoming, $current);
 
         $sanitized = $this->sanitize_settings($merged);
+
+        // Keys owned by a currently inactive add-on are neither known nor
+        // sanitizable here: keep their previously stored (already sanitized)
+        // values instead of silently dropping them; incoming values are ignored.
+        if (is_array($current)) {
+            $sanitized = array_merge(array_diff_key($current, $sanitized), $sanitized);
+        }
+
         update_option(self::OPTION_KEY, $sanitized);
 
         return rest_ensure_response([
@@ -117,12 +130,13 @@ class SettingsRouteV1
      */
     public function reset_settings(WP_REST_Request $request)
     {
-        update_option(self::OPTION_KEY, $this->defaults);
+        $defaults = $this->get_defaults();
+        update_option(self::OPTION_KEY, $defaults);
 
         return rest_ensure_response([
             'success' => true,
             'message' => __('Settings have been reset to defaults.', 'website-accessibility'),
-            'data'    => $this->defaults,
+            'data'    => $defaults,
         ]);
     }
 
@@ -137,34 +151,9 @@ class SettingsRouteV1
     {
         $clean = [];
 
-        $clean['show_translations_consent'] = isset($settings['show_translations_consent'])
-            ? (bool) $settings['show_translations_consent']
-            : $this->defaults['show_translations_consent'];
-
-        $clean['force_translate_site_language'] = isset($settings['force_translate_site_language'])
-            ? (bool) $settings['force_translate_site_language']
-            : $this->defaults['force_translate_site_language'];
-            
         $clean['show_usage_statistics'] = isset($settings['show_usage_statistics'])
             ? (bool) $settings['show_usage_statistics']
             : $this->defaults['show_usage_statistics'];
-
-        $clean['enable_accessibility_checker'] = isset($settings['enable_accessibility_checker'])
-            ? (bool) $settings['enable_accessibility_checker']
-            : $this->defaults['enable_accessibility_checker'];
-
-        $clean['openai_api_key'] = isset($settings['openai_api_key'])
-            ? sanitize_text_field((string) $settings['openai_api_key'])
-            : $this->defaults['openai_api_key'];
-
-        $provider = isset($settings['ai_provider'])
-            ? sanitize_key((string) $settings['ai_provider'])
-            : $this->defaults['ai_provider'];
-        $clean['ai_provider'] = in_array($provider, ['openai', 'gemini'], true) ? $provider : 'openai';
-
-        $clean['gemini_api_key'] = isset($settings['gemini_api_key'])
-            ? sanitize_text_field((string) $settings['gemini_api_key'])
-            : $this->defaults['gemini_api_key'];
 
         $css_raw = isset($settings['frontend_custom_css'])
             ? wp_strip_all_tags((string) $settings['frontend_custom_css'])
@@ -174,22 +163,14 @@ class SettingsRouteV1
         }
         $clean['frontend_custom_css'] = $css_raw;
 
-        $wcag = isset($settings['compliance_wcag_level'])
-            ? sanitize_key((string) $settings['compliance_wcag_level'])
-            : $this->defaults['compliance_wcag_level'];
-        $clean['compliance_wcag_level'] = in_array($wcag, ['all', 'a', 'aa', 'aaa'], true)
-            ? $wcag
-            : 'all';
+        /**
+         * Let add-ons whitelist and sanitize the settings keys they own.
+         *
+         * @param array $clean    Sanitized settings so far (only keys owned by this plugin).
+         * @param array $settings Raw merged settings as submitted.
+         */
+        $clean = apply_filters('websac_sanitize_settings', $clean, $settings);
 
-        $clean['compliance_email_alerts'] = isset($settings['compliance_email_alerts'])
-            ? (bool) $settings['compliance_email_alerts']
-            : $this->defaults['compliance_email_alerts'];
-
-        $auto_days = isset($settings['compliance_auto_scan_days'])
-            ? (int) $settings['compliance_auto_scan_days']
-            : (int) $this->defaults['compliance_auto_scan_days'];
-        $clean['compliance_auto_scan_days'] = in_array($auto_days, [0, 7, 14, 30], true) ? $auto_days : 0;
-
-        return $clean;
+        return is_array($clean) ? $clean : [];
     }
 }

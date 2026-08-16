@@ -2,10 +2,8 @@ import { useEffect, useState } from '@wordpress/element';
 import apiFetch from '@wordpress/api-fetch';
 import { __, sprintf } from '@wordpress/i18n';
 import { useDashboardTour } from '../context/dashboard-tour-context';
-import { useBrandDisplayName, useWhiteLabelBrandingEnabled } from '../../utils/websacData';
-import { useProSettingsTour } from '../context/pro-settings-tour-context';
-import { useProfileTour } from '../context/profile-tour-context';
-import { useLicense } from '../context/LicenseContext';
+import { useBrandDisplayName, useWhiteLabelBrandingEnabled } from '../../utils/brand';
+import { getAdminExtensions } from '../../utils/admin-extensions';
 
 const DOCS_URL = 'https://bdthemes.com/knowledge-base/one-accessibility/';
 const SUPPORT_URL = 'https://bdthemes.com/contact/';
@@ -16,9 +14,9 @@ const AboutInfo = () => {
 	const { startTour } = useDashboardTour();
 	const brandDisplayName = useBrandDisplayName();
 	const whiteLabelBrandingEnabled = useWhiteLabelBrandingEnabled();
-	const { startProSettingsTour } = useProSettingsTour();
-	const { startProfileTour } = useProfileTour();
-	const { isProActive, isProPluginActive } = useLicense();
+	const extensionTours = getAdminExtensions().tourActions.filter(
+		(tour) => typeof tour.isVisible !== 'function' || tour.isVisible()
+	);
 	const pluginVersion = typeof window !== 'undefined' && window.websacAdmin?.version ? window.websacAdmin.version : '1.3.0';
 
 	const [systemInfo, setSystemInfo] = useState(null);
@@ -44,7 +42,9 @@ const AboutInfo = () => {
 	const stats = [
 		{ label: __('Plugin Version', 'website-accessibility'), value: info.plugin_version || pluginVersion, color: 'purple' },
 		{ label: __('Total Presets', 'website-accessibility'), value: String(info.presets_count ?? '—'), color: 'blue' },
-		{ label: __('Total Profiles', 'website-accessibility'), value: String(info.profiles_count ?? '—'), color: 'green' },
+		...(info.profiles_count !== undefined
+			? [{ label: __('Total Profiles', 'website-accessibility'), value: String(info.profiles_count), color: 'green' }]
+			: []),
 		{ label: __('Max Upload Size', 'website-accessibility'), value: info.max_upload_size || '—', color: 'orange' },
 	];
 
@@ -81,22 +81,16 @@ const AboutInfo = () => {
 					<button type="button" className="wap-about-info-header__tour" onClick={startTour}>
 						{__('Quick tour', 'website-accessibility')}
 					</button>
-					<button
-						type="button"
-						className="wap-about-info-header__tour"
-						onClick={() => startProfileTour({ force: true })}
-					>
-						{__('Custom Profiles create tour', 'website-accessibility')}
-					</button>
-					{isProPluginActive && isProActive && (
+					{extensionTours.map((tour) => (
 						<button
+							key={tour.id || tour.label}
 							type="button"
 							className="wap-about-info-header__tour wap-about-info-header__tour--pro"
-							onClick={() => startProSettingsTour({ force: true })}
+							onClick={() => tour.start({ force: true })}
 						>
-							{__('Pro settings tour', 'website-accessibility')}
+							{tour.label}
 						</button>
-					)}
+					))}
 				</div>
 			</div>
 

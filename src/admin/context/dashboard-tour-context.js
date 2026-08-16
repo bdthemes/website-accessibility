@@ -1,6 +1,6 @@
 /**
  * Guided tour: Welcome → Presets → Edit → Save → Preview (free / all users).
- * Pro settings tour is separate — see pro-settings-tour-context.js (runs on license activation).
+ * Add-on tours (e.g. Pro settings, custom profiles) register through window.websacAdminExtensions.
  */
 import {
 	createContext,

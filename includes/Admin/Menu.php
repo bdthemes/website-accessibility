@@ -7,7 +7,6 @@
 namespace Websac\Admin;
 
 use Websac\Core\Utils;
-use Websac\Core\WhiteLabel;
 use Websac\Traits\Singleton;
 
 if (!defined('ABSPATH')) {
@@ -127,11 +126,16 @@ class Menu
 
     public function register_menu()
     {
-        if (WhiteLabelAdmin::should_hide_admin_menus()) {
+        /**
+         * Add-ons can hide the plugin menu entirely (e.g. white-label "hide admin").
+         *
+         * @param bool $hide
+         */
+        if (apply_filters('websac_hide_admin_menus', false)) {
             return;
         }
 
-        $menu_title = WhiteLabel::get_display_name();
+        $menu_title = Utils::get_brand_display_name();
 
         // Add main menu
         add_menu_page(
@@ -200,27 +204,6 @@ class Menu
             [$this, 'render_menu_page']
         );
 
-        // License screen belongs to the separate Pro plugin; only link to it when that plugin is present.
-        if (Utils::is_pro_plugin_active()) {
-            add_submenu_page(
-                'website-accessibility',
-                __('License', 'website-accessibility'),
-                __('License', 'website-accessibility'),
-                'manage_options',
-                'website-accessibility-license',
-                [$this, 'render_menu_page']
-            );
-        }
-
-        add_submenu_page(
-            'website-accessibility',
-            __('White Label', 'website-accessibility'),
-            __('White Label', 'website-accessibility'),
-            'manage_options',
-            'website-accessibility-white-label',
-            [$this, 'render_menu_page']
-        );
-
         add_submenu_page(
             'website-accessibility',
             __('About & Info', 'website-accessibility'),
@@ -257,6 +240,9 @@ class Menu
             [$this, 'render_menu_page']
         );
 
+        /**
+         * Add-ons register their own screens here (they render into the same SPA root).
+         */
         do_action('websac_pro_admin_menu');
 
 

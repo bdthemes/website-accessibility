@@ -9,7 +9,6 @@
 namespace Websac\Admin;
 
 use Websac\Core\Utils;
-use Websac\Core\WhiteLabel;
 use Websac\Routes\DashboardTourRouteV1;
 use Websac\Traits\Singleton;
 
@@ -231,6 +230,15 @@ class Enqueue {
             }
         }
 
+        /**
+         * Add-ons that extend the admin SPA (page registry on window.websacAdminExtensions)
+         * must load before it; they append their script handle here.
+         *
+         * @param string[] $dependencies
+         * @param string   $hook_suffix
+         */
+        $dependencies = apply_filters('websac_admin_script_dependencies', $dependencies, $hook_suffix);
+
         wp_enqueue_script(
             'websac-admin',
             WEBSAC_URL . 'build/admin/index.js',
@@ -253,32 +261,28 @@ class Enqueue {
 
         wp_set_script_translations('websac-admin', 'website-accessibility', WEBSAC_DIR . 'languages/');
 
-        $license_page_url = admin_url('admin.php?page=website-accessibility-pro_license');
+        $localized = [
+            'version'                      => WEBSAC_VERSION,
+            'apiUrl'                       => rest_url(),
+            'homeUrl'                      => home_url('/'),
+            'nonce'                        => wp_create_nonce('wp_rest'),
+            'proUpgradeUrl'                => 'https://oneaccessibility.com#pricing',
+            /** Set false in JS after completing tour via REST (same page session). */
+            'shouldAutoStartDashboardTour' => ! DashboardTourRouteV1::is_completed(),
+            'brandDisplayName'             => Utils::get_brand_display_name(),
+            'defaultBrandDisplayName'      => __('One Accessibility', 'website-accessibility'),
+            'brandLogoUrl'                 => '',
+        ];
 
-        $wl_data = WhiteLabel::get_localized_script_data();
+        /**
+         * Filter the data localized for the admin SPA (add-ons may append keys).
+         *
+         * @param array  $localized
+         * @param string $hook_suffix
+         */
+        $localized = apply_filters('websac_admin_localized_data', $localized, $hook_suffix);
 
-        wp_localize_script(
-            'websac-admin',
-            'websacAdmin',
-            array_merge(
-                [
-                    'version'           => WEBSAC_VERSION,
-                    'apiUrl'            => rest_url(),
-                    'homeUrl'           => home_url('/'),
-                    'nonce'             => wp_create_nonce('wp_rest'),
-                    'isProPluginActive' => Utils::is_pro_plugin_active(),
-                    'hasFixedIssuesPage' => $this->has_fixed_issues_page(),
-                    'licensePageUrl'    => $license_page_url,
-                    'proUpgradeUrl'     => 'https://oneaccessibility.com#pricing',
-                    /** Set false in JS after completing tour via REST (same page session). */
-                    'shouldAutoStartDashboardTour' => ! DashboardTourRouteV1::is_completed(),
-					'isProSettingsTourCompleted'  => DashboardTourRouteV1::is_pro_settings_completed(),
-                    'isProfileTourCompleted'      => DashboardTourRouteV1::is_profile_completed(),
-                    'shouldAutoStartProfileTour'  => ! DashboardTourRouteV1::is_profile_completed(),
-                ],
-                $wl_data
-            )
-        );
+        wp_localize_script('websac-admin', 'websacAdmin', $localized);
 
         wp_enqueue_style(
             'websac-admin',
@@ -318,25 +322,5 @@ class Enqueue {
         ];
 
         return isset($page_map[$hook_suffix]) ? $page_map[$hook_suffix] : 'website-accessibility-dashboard';
-    }
-
-    /**
-     * The "Fixed Issues" screen is backed by the Pro accessibility checker;
-     * only offer it when that plugin is present and the checker is enabled.
-     */
-    private function has_fixed_issues_page() {
-        if (!Utils::is_pro_plugin_active()) {
-            return false;
-        }
-
-        $settings = get_option('websac_settings', []);
-        if (!is_array($settings)) return false;
-        $raw_enabled = $settings['enable_accessibility_checker'] ?? false;
-        $checker_enabled = is_bool($raw_enabled)
-            ? $raw_enabled
-            : in_array(strtolower(trim((string) $raw_enabled)), ['1', 'true', 'yes', 'on'], true);
-        if (!$checker_enabled) return false;
-
-        return true;
     }
 }

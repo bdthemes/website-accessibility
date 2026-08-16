@@ -39,48 +39,13 @@ export const DEFAULT_STATE = {
             offsetY: 40,
         },
     },
-    profilesFormData: {
-        name: generateUniqueTitle('New Profile'),
-        description: '',
-        features: {
-            contrast: '',
-            screenReader: '',
-            smartContrast: '',
-            highlightLinks: '',
-            biggerText: '',
-            textSpacing: '',
-            pauseAnimations: '',
-            hideImages: '',
-            dyslexiaFriendly: '',
-            cursor: '',
-            keyboardNavigation: '',
-            virtualKeyboard: '',
-            skipLinks: '',
-            focusIndicators: '',
-            tooltips: '',
-            lineHeight: '',
-            textAlign: '',
-            saturation: '',
-            dictionary: '',
-        },
-    },
 };
-
-export const getDefaultProfilesFormData = () => ({
-    ...DEFAULT_STATE.profilesFormData,
-    name: generateUniqueTitle('New Profile'),
-    features: {
-        ...DEFAULT_STATE.profilesFormData.features,
-    },
-});
 
 const store = createReduxStore(STORE_NAME, {
     reducer(state = DEFAULT_STATE, action) {
         switch (action.type) {
             case 'SET_PRESETS_FORM_DATA':
                 return { ...state, presetsFormData: action.presetsFormData };
-            case 'SET_PROFILES_FORM_DATA':
-                return { ...state, profilesFormData: action.profilesFormData };
             case 'CREATE_PRESET':
                 return { ...state, preset: action.preset };
             case 'UPDATE_PRESET':
@@ -91,14 +56,6 @@ const store = createReduxStore(STORE_NAME, {
                 return { ...state, presetFilters: action.presetFilters };
             case 'DELETE_PRESET':
                 return { ...state, preset: action.preset };
-            case 'CREATE_PROFILE':
-                return { ...state, profile: action.profile };
-            case 'UPDATE_PROFILE':
-                return { ...state, profile: action.profile };
-            case 'SAVE_EDITED_PROFILE':
-                return { ...state, profile: action.profile };
-            case 'DELETE_PROFILE':
-                return { ...state, profile: action.profile };
         }
 
         return state;
@@ -106,9 +63,6 @@ const store = createReduxStore(STORE_NAME, {
     actions: {
         setPresetsFormData: (presetsFormData) => {
             return { type: 'SET_PRESETS_FORM_DATA', presetsFormData };
-        },
-        setProfilesFormData: (profilesFormData) => {
-            return { type: 'SET_PROFILES_FORM_DATA', profilesFormData };
         },
         createPreset: (presetFormData) => {
             return async ({ dispatch, registry }) => {
@@ -282,64 +236,6 @@ const store = createReduxStore(STORE_NAME, {
                 await dispatch({ type: 'DELETE_PRESET', preset });
             };
         },
-        createProfile: (profileFormData) => {
-            return async ({ dispatch, registry }) => {
-                const { saveEntityRecord } = registry.dispatch('core');
-                const profile = await saveEntityRecord('postType', 'websac_profile', {
-                    title: profileFormData?.name,
-                    status: 'publish',
-                    content: JSON.stringify({
-                        description: profileFormData?.description,
-                        features: profileFormData?.features,
-                        icon: profileFormData?.icon,
-                    }),
-                });
-
-                await dispatch({ type: 'CREATE_PROFILE', profile });
-                registry.dispatch(coreStore).invalidateResolution('getEntityRecords', [
-                    'postType',
-                    'websac_profile',
-                ]);
-                return profile;
-            };
-        },
-        updateProfile: (id, profileFormData) => {
-            return async ({ dispatch, registry }) => {
-                const { editEntityRecord } = registry.dispatch('core');
-                const profile = await editEntityRecord('postType', 'websac_profile', id, {
-                    title: profileFormData.name,
-                    content: JSON.stringify({
-                        description: profileFormData.description,
-                        features: profileFormData.features,
-                        icon: profileFormData?.icon,
-                    }),
-                });
-                await dispatch({ type: 'UPDATE_PROFILE', profile });
-            };
-        },
-        saveEditedProfile: (id) => {
-            return async ({ dispatch, registry }) => {
-                const { saveEditedEntityRecord } = registry.dispatch('core');
-                const profile = await saveEditedEntityRecord('postType', 'websac_profile', id);
-                await dispatch({ type: 'SAVE_EDITED_PROFILE', profile });
-            };
-        },
-        deleteProfile: (id) => {
-            return async ({ dispatch, registry }) => {
-                const { deleteEntityRecord } = registry.dispatch('core');
-                const profile = await deleteEntityRecord('postType', 'websac_profile', id, { force: true });
-                await dispatch({ type: 'DELETE_PROFILE', profile });
-            };
-        },
-        refreshProfiles: () => {
-            return async ({ registry }) => {
-                registry.dispatch(coreStore).invalidateResolution('getEntityRecords', [
-                    'postType',
-                    'websac_profile',
-                ]);
-                await registry.resolveSelect(coreStore).getEntityRecords('postType', 'websac_profile');
-            };
-        },
     },
     selectors: {
         getPresets: createRegistrySelector(
@@ -359,31 +255,31 @@ const store = createReduxStore(STORE_NAME, {
                 return preset;
             }
         ),
+        /**
+         * Profiles offered in the preset editor: the built-in ones plus any
+         * provided by an add-on store that implements `getProfiles()`
+         * (registered under the name in window.websacAdminExtensions.profilesStore).
+         */
         getProfiles: createRegistrySelector(
             (select) => (state, withDefault = false) => {
-                const { getEntityRecords } = select(coreStore);
-                const profiles = getEntityRecords('postType', 'websac_profile');
-                if (withDefault && profiles) {
-                    return [...defaultProfiles, ...profiles];
+                const storeName = window?.websacAdminExtensions?.profilesStore;
+                let custom = [];
+                if (storeName) {
+                    try {
+                        custom = select(storeName)?.getProfiles?.() || [];
+                    } catch (e) {
+                        custom = [];
+                    }
                 }
-                return profiles;
-            }
-        ),
-        getProfile: createRegistrySelector(
-            (select) => (state, id) => {
-                const { getEditedEntityRecord } = select(coreStore);
-                const profile = getEditedEntityRecord('postType', 'websac_profile', id);
-                return profile;
+                if (withDefault) {
+                    return [...defaultProfiles, ...custom];
+                }
+                return custom;
             }
         ),
         getPresetsFormData: (state) => {
             return {
                 presetsFormData: state.presetsFormData,
-            }
-        },
-        getProfilesFormData: (state) => {
-            return {
-                profilesFormData: state.profilesFormData,
             }
         },
         getPresetFilters: (state) => {
