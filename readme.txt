@@ -4,7 +4,7 @@ Tags:              accessibility, a11y, wcag, ada-compliance, screen-reader
 Requires at least: 6.1
 Tested up to:      7.0
 Requires PHP:      7.4
-Stable tag:        1.4.1
+Stable tag:        1.5.0
 License:           GPL-2.0-or-later
 License URI:       https://www.gnu.org/licenses/gpl-2.0.html
 
@@ -211,7 +211,7 @@ The JavaScript and CSS shipped in `build/` are compiled with `@wordpress/scripts
 
 == Changelog ==
 
-= 1.4.1 – August 17, 2026 =
+= 1.5.0 – August 17, 2026 =
 * Removed: All Pro-only / license-gated code and placeholder screens. Pro features live in the separate One Accessibility Pro plugin; nothing here is locked or greyed out.
 * Removed: Dashboard "News & Updates" widget and every request to the plugin author's servers.
 * Added: "External services" and "Source code" sections in the readme (only external service: Free Dictionary API, used when a visitor double-clicks a word with the Dictionary tool on).
