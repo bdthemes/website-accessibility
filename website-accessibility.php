@@ -5,7 +5,7 @@
  * Description:       A comprehensive WordPress plugin to enhance website accessibility and ensure WCAG compliance.
  * Requires at least: 6.1
  * Requires PHP:      7.4
- * Version:           1.5.2
+ * Version:           1.4.1
  * Author:            bdthemes
  * Author URI:        https://oneaccessibility.com
  * License:           GPL-2.0-or-later
@@ -39,7 +39,7 @@ final class Websac_Plugin
 	 *
 	 * @var string
 	 */
-	const VERSION = '1.5.2';
+	const VERSION = '1.4.1';
 
 	/**
 	 * Private constructor for singleton pattern.
@@ -110,15 +110,8 @@ final class Websac_Plugin
 		$existing_statement = get_page_by_path('one-accessibility-statement-page', OBJECT, 'page');
 
 
-		if (empty($existing_presets) || empty($existing_statement)) {
-			Utils::get_filesystem();
-
-			global $wp_filesystem;
-		}
-
 		if (empty($existing_presets)) {
-			$json_path = WEBSAC_DIR . 'default-posts/preset.json';
-			$data = json_decode($wp_filesystem->get_contents($json_path), true);
+			$data = Utils::read_bundled_json(WEBSAC_DIR . 'default-posts/preset.json');
 
 			if (!empty($data)) {
 				$data['post_author'] = get_current_user_id();
@@ -135,8 +128,7 @@ final class Websac_Plugin
 		}
 
 		if (empty($existing_statement)) {
-			$json_path = WEBSAC_DIR . 'default-posts/statement.json';
-			$data = json_decode($wp_filesystem->get_contents($json_path), true);
+			$data = Utils::read_bundled_json(WEBSAC_DIR . 'default-posts/statement.json');
 
 			if (!empty($data)) {
 				$data['post_author']  = get_current_user_id();
@@ -223,7 +215,9 @@ final class Websac_Plugin
 			return;
 		}
 		$printed = true;
-		echo '<script>(function(){var b=document.body,c=' . wp_json_encode(array('wap', 'wap-frontend')) . ';if(!b||!c)return;c.forEach(function(cl){b.classList.add(cl);});})();</script>' . "\n";
+		wp_print_inline_script_tag(
+			'(function(){var b=document.body,c=' . wp_json_encode(array('wap', 'wap-frontend')) . ';if(!b||!c)return;c.forEach(function(cl){b.classList.add(cl);});})();'
+		);
 	}
 
 	/**

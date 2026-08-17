@@ -4,7 +4,7 @@ Tags:              accessibility, a11y, wcag, ada-compliance, screen-reader
 Requires at least: 6.1
 Tested up to:      7.0
 Requires PHP:      7.4
-Stable tag:        1.5.2
+Stable tag:        1.4.1
 License:           GPL-2.0-or-later
 License URI:       https://www.gnu.org/licenses/gpl-2.0.html
 
@@ -42,16 +42,16 @@ https://youtu.be/4w8lmkMgt9M?si=Z7gvhREYTVML7f1V
 
 **🌍 Language & Communication Tools**
 - Google Translate integration for multilingual accessibility (Pro)
-- Dictionary tooltips with pronunciation guides
-- Text-to-speech functionality
+- Dictionary tooltips (double-click a word for its definition, read aloud with your browser's speech synthesis)
+- Text-to-speech / screen-reader mode (Pro)
 - Reading guides and focus indicators
 
 **⚙️ Professional Management System**
 - Multiple preset configurations
 - Real-time preview functionality
-- User behavior analytics
-- Compliance monitoring dashboard
-- Easy backup and restore options
+- On-site usage statistics (stored only in your WordPress database)
+- Compliance monitoring dashboard (Pro)
+- Easy backup and restore options (Pro)
 
 **🎨 Customization Excellence**
 - Brand-aligned toolbar designs
@@ -117,13 +117,13 @@ The plugin supports comprehensive accessibility profiles including Motor Impairm
 The free plugin's toolbar can be translated and localized, and it works perfectly with popular translation plugins like WPML, Polylang, and TranslatePress. Integrated Google Translate functionality (100+ languages) is available in One Accessibility Pro.
 
 = How does the dictionary tooltip feature work? =
-The dictionary tooltip feature provides instant word definitions and pronunciations to help users with reading comprehension. When enabled, users can hover over or click on words to get definitions from the Free Dictionary API, making content more accessible for users with cognitive disabilities, language learners, or those with dyslexia.
+When a visitor switches the Dictionary tool on in the toolbar and double-clicks a single word, the plugin fetches that word's definition from the Free Dictionary API (see "External services" below) and shows it in a small popup. The popup can also read or spell the word aloud using the browser's built-in speech synthesis (no audio is downloaded). This helps users with cognitive disabilities, language learners, or those with dyslexia. Nothing is requested until the visitor double-clicks a word, and site owners can leave the Dictionary tool out of their preset entirely.
 
 = Will this plugin slow down my website? =
 Not at all! One Accessibility Website Accessibility is engineered for performance with optimized code, efficient loading, and minimal resource usage. The plugin loads only necessary components on-demand and uses modern caching techniques. Most users experience no noticeable impact on site speed while gaining comprehensive accessibility features.
 
 = Can I track how users interact with the accessibility features? =
-While the current version focuses on providing accessibility tools rather than detailed analytics, the plugin's architecture supports future analytics integration. You can monitor accessibility toolbar usage through your existing analytics tools, and we're working on built-in accessibility insights for future releases to help you understand user needs better.
+Yes, optionally. The "Usage statistics" setting (on by default, can be switched off under Settings) counts, per day, which toolbar tools visitors used. The counts are stored only in your own WordPress database (option `websac_usage_statistics`) and shown on the plugin dashboard; nothing is sent to us or to any third party. To tell one browser from another the toolbar sets a random first-party cookie `websac_browser_key` (1 year) — it contains no personal data and is removed again when the setting is off.
 
 = ⚡ Where do I report security bugs found in this plugin? =
 
@@ -171,7 +171,7 @@ Visit [BdThemes](https://bdthemes.com/) to learn about our services, Elementor p
 1. Accessibility toolbar on the frontend with customizable layout
 2. Preset management screen with conditional assignments
 3. Mini editor interface for toolbar customization
-4. Custom profile creation and management interface
+4. Settings screen with usage statistics and CSS overrides
 
 == Libraries and Credits ==
 
@@ -193,39 +193,47 @@ This plugin uses the following open-source libraries and third-party tools. We a
 
 == External services ==
 
-This plugin connects to one third-party service. No data is sent anywhere unless a visitor explicitly uses the feature described below. The plugin does not send usage data, telemetry, or site information to the plugin author.
+This plugin connects to exactly one third-party service, and only when a visitor explicitly uses the feature described below. The plugin never contacts the plugin author's servers and sends no usage data, telemetry, or site information anywhere. Everything else the plugin does (settings, presets, usage statistics, saved preferences) talks only to your own WordPress REST API.
 
 = Free Dictionary API (dictionaryapi.dev) =
 
-* **What it is / what it is used for:** The "Dictionary" tool of the accessibility toolbar lets a visitor select a word on the page and see its definition, phonetic spelling and, when available, pronunciation audio. Definitions are fetched from the Free Dictionary API, an open-source dictionary service.
-* **What data is sent and when:** Only when a visitor turns the Dictionary tool on and selects a word, the selected word (English letters only) is sent in the request URL to `https://api.dictionaryapi.dev/api/v2/entries/en/{word}`. As with any HTTP request, the visitor's IP address and browser user-agent are transmitted to that server. No cookies, personal data, or WordPress site information are sent, and nothing is sent while the tool is switched off.
+* **What it is / what it is used for:** The "Dictionary" tool of the accessibility toolbar lets a visitor double-click a single word on the page and see its definition in a small popup. Definitions are fetched from the Free Dictionary API, an open-source (GPL-3.0) dictionary service run by an independent developer.
+* **What data is sent and when:** A request is made only after (1) the visitor switches the Dictionary tool on in the toolbar and (2) double-clicks a single word. The word must consist of Latin letters (apostrophes/hyphens allowed, max. 64 characters); anything else is ignored client-side. The word is URL-encoded and sent in the request URL to `https://api.dictionaryapi.dev/api/v2/entries/en/{word}`. As with any HTTP request, the visitor's IP address and browser user-agent are transmitted to that server. No cookies, no personal data, no page URL and no information about your WordPress site are sent. When the tool is switched off no request is made.
 * **Service website:** https://dictionaryapi.dev/
 * **Source code and license (GPL-3.0):** https://github.com/meetDeveloper/freeDictionaryAPI (license: https://github.com/meetDeveloper/freeDictionaryAPI/blob/master/LICENSE)
-* **Terms of use / privacy:** The Free Dictionary API is a free, community-run project and does not publish a separate Terms of Service or Privacy Policy document; the pages linked above are the only policy statements the service provides. Site owners who prefer not to use this service can disable the Dictionary tool for their preset in the toolbar editor.
+* **Terms of use / privacy policy:** The Free Dictionary API is a free, community-run project. At the time of writing it does not publish a Terms of Service or a Privacy Policy document; the service website and the source repository linked above are the only public statements about the service. Because of this, site owners who need a documented data-processing agreement should not enable the Dictionary tool: it is a single toggle in the toolbar editor ("Features" → "Dictionary") and, once removed from a preset, no code path in this plugin can contact the service.
 
 Features such as Google Translate integration and the AI-based accessibility checker are provided by the separate One Accessibility Pro plugin, which documents its own external services.
 
+== Source code ==
+
+The JavaScript and CSS shipped in `build/` are compiled with `@wordpress/scripts`. The human-readable sources are included in the plugin package under `src/` and are also published at https://github.com/bdthemes/website-accessibility (run `npm install && npm run build` to reproduce `build/`).
+
 == Changelog ==
 
-= 1.5.2 – August 16, 2026 =
-* Removed: The last remaining Pro-related code paths. Placeholder ("dummy") widget entries, `isPro`-flagged panel items, the license/`isProActive` context and every PRO badge or disabled toggle that depended on it, the translation picker/consent plumbing, the fix-highlight script used by the Pro checker, Pro-only admin/front-end styles and the OpenDyslexic font (used only by a Pro widget) were moved to One Accessibility Pro. Nothing in this plugin is greyed out or locked any more.
-* Added: Extension hooks that add-ons use to plug those features back in: `wapHelpers.registerFeatureHandler(key, {apply, remove})`, `wapHelpers.announce`, `wapHelpers.featureCategoryDefinitions` (read lazily), `wapComponents.PanelHeaderActions`, `wapComponents.FrontendExtensions`, the `sidebarPromoCard` admin control slot, DOM events `websac-accessibility-reset` / `websac-extensions-changed`, and PHP filters `websac_usage_statistics_features`, `websac_feature_category_definitions`, `websac_default_preset_content`.
-* Changed: The sample Accessibility Statement page no longer links to the plugin author's website; it uses your site name, URL and admin e-mail instead.
-* Changed: Feature body classes on the front end are now tracked individually (add-on classes with the same prefix are left alone).
+= 1.4.1 – August 17, 2026 =
+WordPress.org review release (Review ID SVN website-accessibility/13Aug26). Everything below is one update over 1.4.0.
 
-= 1.5.1 – August 16, 2026 =
-* Changed: Features that belong to One Accessibility Pro (custom profiles, export/import, white label, translation & accessibility-checker settings, compliance screens, license manager, Pro tours) now live entirely in the Pro plugin. This plugin ships no dormant or license-gated code; it only offers plain informational placeholders and a small extension API (filters + `window.websacAdminExtensions`) that add-ons use to register their own screens.
-* Changed: Settings option now stores only the keys this plugin owns; add-ons register theirs via `websac_settings_defaults` / `websac_sanitize_settings`.
+**Trialware / locked features (guideline 5)**
+* Removed: Every Pro-only and license-gated code path. Custom profiles, export/import, white label, translation & accessibility-checker settings, compliance screens, the license manager and Pro tours now live entirely in the separate One Accessibility Pro plugin. The placeholder ("dummy") widget entries, `isPro`-flagged panel items, the license/`isProActive` context, every PRO badge, disabled toggle or placeholder screen ("Custom Profiles", "Tools & Backup") were removed. Nothing in this plugin is locked, greyed out, capped or dependent on a licence; toolbar layout, tooltip position and the branding toggle are honoured for everyone.
+* Added: A small extension API that add-ons use to register their own screens, controls and features (`window.websacAdminExtensions`, `wapHelpers.registerFeatureHandler`, `wapHelpers.announce`, `wapComponents.PanelHeaderActions` / `FrontendExtensions`, PHP filters `websac_settings_defaults`, `websac_sanitize_settings`, `websac_public_frontend_settings`, `websac_frontend_profiles`, `websac_usage_statistics_features`, `websac_feature_category_definitions`, `websac_default_preset_content`, action `websac_pro_admin_menu`, …). Settings option now stores only the keys this plugin owns.
 
-= 1.5.0 – August 16, 2026 =
-* Changed: No functionality in this plugin depends on a Pro license (toolbar layout/tooltip options and the branding toggle are honoured for everyone).
-* Removed: The dashboard "News & Updates" widget and every request to bdthemes.com / bdthemes.io. The plugin no longer contacts the plugin author's servers.
-* Added: "External services" section in the readme documenting the Free Dictionary API used by the Dictionary tool.
-* Changed: All plugin code now uses the `websac` prefix (PHP namespace `Websac\`, `WEBSAC_*` constants, `websac_*` options, `websac/v1` REST namespace, `websac-*` script handles). Existing option keys are migrated automatically on upgrade.
-* Removed: Generic `PLUGIN_FILE` constant.
+**Phoning home / external services (guidelines 7 & 9)**
+* Removed: The dashboard "News & Updates" widget and every request to bdthemes.com / bdthemes.io. The plugin never contacts the plugin author's servers; the sample Accessibility Statement page uses your site name, URL and admin e-mail instead of author links.
+* Added: "External services" and "Source code" sections in this readme. The only external service is the Free Dictionary API, used solely when a visitor switches the Dictionary tool on and double-clicks a word.
+* Fixed: Switching the Dictionary tool off now really stops the double-click lookup; looked-up words are validated (letters only) and URL-encoded before the request.
+* Changed: The `websac_browser_key` statistics cookie is only set while usage statistics are enabled and is removed when they are switched off; statistics never leave your site.
 
-= 1.4.1 – August 12, 2026 =
-* Updated: System improved
+**Prefixing (guideline 18)**
+* Changed: All plugin code now uses the `websac` prefix (PHP namespace `Websac\`, `WEBSAC_*` constants, `websac_*` options / meta / transients / hooks, `websac/v1` REST namespace, `websac-*` script handles). Existing option keys are migrated automatically on upgrade; the generic `PLUGIN_FILE` constant was removed.
+
+**Security & housekeeping**
+* Changed: Public statistics endpoint checks the REST nonce in its permission callback, validates the browser key and throttles writes; saved visitor preferences (`websac/v1/preference`) are validated and sanitised before being stored.
+* Changed: Admin assets are only loaded on the plugin's own screens; admin-menu icon CSS is attached with `wp_add_inline_style()`; the front-end body-class helper is printed with `wp_print_inline_script_tag()`.
+* Removed: The SVG-upload enabling filters (`upload_mimes` etc.). SVG uploads are left to dedicated, sanitising plugins.
+* Added: `uninstall.php` removing all plugin options, transients, user meta and preset posts on deletion; ABSPATH guards on every PHP file; leftover transients from the removed dashboard feed are purged on upgrade.
+* Added: The unminified `src/` folder is part of the plugin package and the public source repository is linked from the readme.
+* Changed: Feature body classes on the front end are tracked individually.
 
 = 1.4.0 – August 10, 2026 =
 * Fixed: AI API keys (OpenAI/Gemini) no longer exposed in front-end page source.

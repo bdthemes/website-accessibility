@@ -12,7 +12,6 @@ import AboutInfo from './about-info';
 import GetPro from './get-pro';
 import UsageStatistics from '../components/usage-statistics';
 import Disclaimer from '../components/disclaimer';
-import { ProfilesUpsell, ToolsUpsell } from '../components/pro-upsell-page';
 import { getAdminExtensions } from '../../utils/admin-extensions';
 
 const Pages = () => {
@@ -43,8 +42,6 @@ const Pages = () => {
         }
 
         switch (page) {
-            case 'website-accessibilityfiles':
-                return <ProfilesUpsell />;
             case 'website-accessibility-presets-edit':
                 return <EditPreset />;
             case 'website-accessibility-presets':
@@ -55,8 +52,6 @@ const Pages = () => {
                 return <CssOverrides />;
             case 'website-accessibility-settings':
                 return <Settings />;
-            case 'website-accessibility-tools':
-                return <ToolsUpsell />;
             case 'website-accessibility-about':
                 return <AboutInfo />;
             case 'website-accessibility-get-pro':

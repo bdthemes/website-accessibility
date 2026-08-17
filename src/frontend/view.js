@@ -15,7 +15,7 @@ const View = () => {
     const [isOpen, setIsOpen] = useState(false);
     const justClosedRef = useRef(false);
     const closeCooldownTimer = useRef(null);
-    const browserKey = useBrowserKey();
+    const browserKey = useBrowserKey(!!settings?.show_usage_statistics);
     const isSavingStatisticsRef = useRef(false);
     const statisticsDebounceRef = useRef(null);
 
@@ -68,7 +68,9 @@ const View = () => {
 
         const isExist = allProfiles.find((profile) => (profile.id === currentProfile?.id || profile.ID === currentProfile?.id));
 
-        return isExist ? currentProfile : null;
+        // Always restore the canonical profile definition (icon, features…), never
+        // the serialized copy that was stored with the preference.
+        return isExist || null;
     }
 
     /**
@@ -93,12 +95,10 @@ const View = () => {
         if (!currentPresetId) return null;
         const { currentProfile, currentSettings, isOverSized, selectedLanguage } = state;
 
+        // Only the identifier is persisted; the profile definition is resolved on load.
         const serializableProfile = {
             id: currentProfile?.id,
             name: currentProfile?.name,
-            icon: currentProfile?.icon?.props?.dangerouslySetInnerHTML
-                ? { __html: currentProfile.icon.props.dangerouslySetInnerHTML.__html }
-                : currentProfile?.icon,
         };
 
         let data = {};

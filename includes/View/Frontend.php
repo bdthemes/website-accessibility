@@ -4,10 +4,14 @@ namespace Websac\View;
 
 use Websac\Core\Utils;
 
+if (! defined('ABSPATH')) {
+    exit;
+}
+
 class Frontend {
     use \Websac\Traits\Singleton;
 
-    public function __construct() {
+    private function __construct() {
         add_action('wp_enqueue_scripts', [$this, 'enqueue_frontend_scripts']);
         add_action('wp_enqueue_scripts', [$this, 'enqueue_frontend_custom_css'], 99);
         add_action('wp_enqueue_scripts', [$this, 'enqueue_components_scripts'], 1);
@@ -225,10 +229,7 @@ class Frontend {
 
         if (wp_script_is('websac-frontend')) {
             echo '<div id="website-accessibility-app"></div>';
-            // Google Translate
-            echo '<div id="wap-google-translate-container"></div>';
         }
-
 
         /**
          * Add-ons can print extra root containers next to the toolbar root.
