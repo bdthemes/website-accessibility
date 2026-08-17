@@ -97,9 +97,6 @@ const PanelFooter = ({ value, accessibilityContext, accessibilityDispatch, isEdi
     const serializableProfile = {
       id: currentProfile?.id,
       name: currentProfile?.name,
-      icon: currentProfile?.icon?.props?.dangerouslySetInnerHTML
-        ? { __html: currentProfile.icon.props.dangerouslySetInnerHTML.__html }
-        : currentProfile?.icon,
     };
 
     let data = {};

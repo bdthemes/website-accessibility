@@ -1,7 +1,16 @@
+/**
+ * Only plain words are looked up: letters, apostrophes and hyphens, max 64 chars.
+ * Anything else (numbers, punctuation, non-Latin scripts) is ignored so nothing
+ * unexpected is ever sent to the dictionary service.
+ */
+const WORD_PATTERN = /^[A-Za-z][A-Za-z'’-]{0,63}$/;
+const DICTIONARY_ENDPOINT = 'https://api.dictionaryapi.dev/api/v2/entries/en/';
+
 class Dictionary {
     constructor() {
         this.popup = null;
         this.currentWord = '';
+        this.isActive = false;
         this.clickHandler = this.handleOutsideClick.bind(this);
         this.dblClickHandler = this.handleDoubleClick.bind(this);
     }
@@ -19,17 +28,20 @@ class Dictionary {
         const selection = window.getSelection();
         const selectedText = selection.toString().trim();
 
-        if (selectedText && selectedText.split(/\s+/).length === 1) {
+        if (selectedText && WORD_PATTERN.test(selectedText)) {
             this.currentWord = selectedText;
             const rect = selection.getRangeAt(0).getBoundingClientRect();
             this.showPopup(rect.left + window.scrollX, rect.top + window.scrollY - 25);
         }
     }
     apply() {
+        if (this.isActive) return;
+        this.isActive = true;
         document.addEventListener('dblclick', this.dblClickHandler);
     }
 
     remove() {
+        this.isActive = false;
         this.removePopup();
         document.removeEventListener('dblclick', this.dblClickHandler);
     }
@@ -173,8 +185,11 @@ class Dictionary {
     }
 
     async getMeaning(word) {
+        if (!WORD_PATTERN.test(word)) {
+            return { word, partOfSpeech: '', definition: 'Definition not available.' };
+        }
         try {
-            const response = await fetch(`https://api.dictionaryapi.dev/api/v2/entries/en/${word}`);
+            const response = await fetch(DICTIONARY_ENDPOINT + encodeURIComponent(word));
             const data = await response.json();
             const firstEntry = data[0];
             return {
@@ -209,5 +224,12 @@ class Dictionary {
     }
 }
 
-const dictionary = () => new Dictionary();
+// One shared instance so remove() detaches the very listener apply() attached.
+let instance = null;
+const dictionary = () => {
+    if (!instance) {
+        instance = new Dictionary();
+    }
+    return instance;
+};
 export default dictionary;

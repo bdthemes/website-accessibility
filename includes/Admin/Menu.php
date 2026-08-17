@@ -21,7 +21,7 @@ class Menu
     {
         add_action('admin_menu', [$this, 'register_menu']);
         add_action('admin_menu', [$this, 'add_toplevel_menu_li_class'], 999);
-        add_action('admin_head', [$this, 'menu_icon_styles']);
+        add_action('admin_enqueue_scripts', [$this, 'enqueue_menu_icon_styles']);
     }
 
     /**
@@ -72,14 +72,16 @@ class Menu
 
     /**
      * Custom menu SVG: core fades .wp-menu-image img — keep brand icon at full opacity.
+     * Attached to a tiny registered style handle so it is printed on every admin
+     * screen (the menu is), without echoing a raw <style> tag.
      */
-    public function menu_icon_styles()
+    public function enqueue_menu_icon_styles()
     {
         $default_icon = esc_url($this->build_menu_icon_data_uri('#a7aaad'), ['data']);
         $active_icon  = esc_url($this->build_menu_icon_data_uri('#ffffff'), ['data']);
-        ?>
-        <style id="wap-admin-menu-icon">
-            /* Match core #adminmenu div.wp-menu-image (36×34) — do not shrink the hit box or icons sit high vs label */
+
+        $css = '
+            /* Match core #adminmenu div.wp-menu-image (36x34) - do not shrink the hit box or icons sit high vs label */
             #adminmenu .wap-admin-root-menu .wp-menu-image {
                 float: left;
                 width: 36px;
@@ -93,19 +95,16 @@ class Menu
                 background-position: center center;
                 background-size: 20px 20px;
             }
-            /*
-             * Always paint the icon via background-image. Core <img data:> icons are unreliable
-             * on first paint (e.g. Dashboard) but background works once the menu is active.
-             */
+            /* Always paint the icon via background-image. Core <img data:> icons are unreliable on first paint. */
             #adminmenu li.wap-admin-root-menu .wp-menu-image:not(.websac-wl-has-custom-icon),
             #adminmenu li.toplevel_page_website-accessibility .wp-menu-image:not(.websac-wl-has-custom-icon) {
-                background-image: url(<?php echo wp_json_encode($default_icon); ?>) !important;
+                background-image: url(' . wp_json_encode($default_icon) . ') !important;
             }
             #adminmenu li.wap-admin-root-menu.current .wp-menu-image:not(.websac-wl-has-custom-icon),
             #adminmenu li.wap-admin-root-menu.wp-has-current-submenu .wp-menu-image:not(.websac-wl-has-custom-icon),
             #adminmenu li.toplevel_page_website-accessibility.current .wp-menu-image:not(.websac-wl-has-custom-icon),
             #adminmenu li.toplevel_page_website-accessibility.wp-has-current-submenu .wp-menu-image:not(.websac-wl-has-custom-icon) {
-                background-image: url(<?php echo wp_json_encode($active_icon); ?>) !important;
+                background-image: url(' . wp_json_encode($active_icon) . ') !important;
             }
             #adminmenu li.wap-admin-root-menu .wp-menu-image:not(.websac-wl-has-custom-icon) img,
             #adminmenu li.toplevel_page_website-accessibility .wp-menu-image:not(.websac-wl-has-custom-icon) img {
@@ -120,8 +119,12 @@ class Menu
                 width: 35px;
                 height: 30px;
             }
-        </style>
-        <?php
+        ';
+
+        $handle = 'websac-admin-menu-icon';
+        wp_register_style($handle, false, [], WEBSAC_VERSION);
+        wp_enqueue_style($handle);
+        wp_add_inline_style($handle, $css);
     }
 
     public function register_menu()
@@ -167,16 +170,6 @@ class Menu
             [$this, 'render_menu_page']
         );
 
-        // Add submenu for profiles
-        add_submenu_page(
-            'website-accessibility',
-            __('Preset Profiles', 'website-accessibility'),
-            __('Custom Profiles', 'website-accessibility'),
-            'manage_options',
-            'website-accessibilityfiles',
-            [$this, 'render_menu_page']
-        );
-
         add_submenu_page(
             'website-accessibility',
             __('Settings', 'website-accessibility'),
@@ -192,15 +185,6 @@ class Menu
             __('CSS Overrides', 'website-accessibility'),
             'manage_options',
             'website-accessibility-css-overrides',
-            [$this, 'render_menu_page']
-        );
-
-        add_submenu_page(
-            'website-accessibility',
-            __('Tools & Backup', 'website-accessibility'),
-            __('Tools & Backup', 'website-accessibility'),
-            'manage_options',
-            'website-accessibility-tools',
             [$this, 'render_menu_page']
         );
 
@@ -244,11 +228,6 @@ class Menu
          * Add-ons register their own screens here (they render into the same SPA root).
          */
         do_action('websac_pro_admin_menu');
-
-
-        // Remove the default post type submenus
-        remove_submenu_page('website-accessibility', 'edit.php?post_type=accessibility_preset');
-        remove_submenu_page('website-accessibility', 'edit.php?post_type=preset_profile');
     }
 
     public function render_menu_page()

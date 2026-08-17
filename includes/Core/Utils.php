@@ -4,6 +4,10 @@ namespace Websac\Core;
 
 use Websac\Routes\SettingsRouteV1;
 
+if (! defined('ABSPATH')) {
+    exit;
+}
+
 class Utils
 {
     /**
@@ -22,13 +26,49 @@ class Utils
 
     public static function get_filesystem()
     {
+        global $wp_filesystem;
+
+        if ($wp_filesystem instanceof \WP_Filesystem_Base) {
+            return $wp_filesystem;
+        }
+
         // Check if WP_Filesystem is available
         if (!function_exists('WP_Filesystem')) {
             require_once ABSPATH . 'wp-admin/includes/file.php';
         }
 
-        // Initialize WP_Filesystem
+        // Initialize WP_Filesystem (may fail when credentials are required).
         WP_Filesystem();
+
+        return $wp_filesystem instanceof \WP_Filesystem_Base ? $wp_filesystem : null;
+    }
+
+    /**
+     * Decode one of the JSON files bundled with this plugin (default-posts/*.json).
+     *
+     * @param string $path Absolute path inside the plugin directory.
+     * @return array|null Decoded array or null when unreadable/invalid.
+     */
+    public static function read_bundled_json($path)
+    {
+        $path = (string) $path;
+        if ($path === '' || strpos(wp_normalize_path($path), wp_normalize_path(WEBSAC_DIR)) !== 0 || ! file_exists($path)) {
+            return null;
+        }
+
+        $filesystem = self::get_filesystem();
+        $contents   = $filesystem ? $filesystem->get_contents($path) : false;
+        if (! is_string($contents) || $contents === '') {
+            // WP_Filesystem unavailable (e.g. FTP credentials required): the file is
+            // part of this plugin, so a plain local read is safe.
+            $contents = file_get_contents($path); // phpcs:ignore WordPress.WP.AlternativeFunctions.file_get_contents_file_get_contents -- Bundled plugin file, WP_Filesystem unavailable.
+        }
+        if (! is_string($contents) || $contents === '') {
+            return null;
+        }
+
+        $data = json_decode($contents, true);
+        return is_array($data) ? $data : null;
     }
 
     public static function get_preset_data($preset)

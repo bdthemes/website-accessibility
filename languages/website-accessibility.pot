@@ -2,22 +2,22 @@
 # This file is distributed under the GPL-2.0-or-later.
 msgid ""
 msgstr ""
-"Project-Id-Version: One Accessibility 1.5.1\n"
-"Report-Msgid-Bugs-To: https://wordpress.org/support/plugin/wporg-compliance\n"
+"Project-Id-Version: One Accessibility 1.5.3\n"
+"Report-Msgid-Bugs-To: https://wordpress.org/support/plugin/website-accessibility\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"POT-Creation-Date: 2026-08-16T07:08:51+00:00\n"
+"POT-Creation-Date: 2026-08-17T05:42:35+00:00\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "X-Generator: WP-CLI 2.12.0\n"
 "X-Domain: website-accessibility\n"
 
 #. Plugin Name of the plugin
 #: website-accessibility.php
-#: includes/Admin/Enqueue.php:273
-#: includes/Core/Utils.php:17
+#: includes/Admin/Enqueue.php:145
+#: includes/Core/Utils.php:21
 #: build/components/index.js:1
 msgid "One Accessibility"
 msgstr ""
@@ -37,67 +37,52 @@ msgstr ""
 msgid "https://oneaccessibility.com"
 msgstr ""
 
-#: includes/Admin/Menu.php:153
-#: includes/Admin/Menu.php:154
+#: includes/Admin/Menu.php:156
+#: includes/Admin/Menu.php:157
 msgid "Dashboard"
 msgstr ""
 
-#: includes/Admin/Menu.php:163
+#: includes/Admin/Menu.php:166
 msgid "Accessibility Presets"
 msgstr ""
 
-#: includes/Admin/Menu.php:164
+#: includes/Admin/Menu.php:167
 #: includes/Core/AccessibilityPreset.php:29
 #: build/admin/index.js:1
 msgid "Presets"
 msgstr ""
 
-#: includes/Admin/Menu.php:173
-msgid "Preset Profiles"
-msgstr ""
-
-#: includes/Admin/Menu.php:174
-#: build/admin/index.js:1
-msgid "Custom Profiles"
-msgstr ""
-
-#: includes/Admin/Menu.php:182
-#: includes/Admin/Menu.php:183
+#: includes/Admin/Menu.php:175
+#: includes/Admin/Menu.php:176
 #: build/admin/index.js:1
 msgid "Settings"
 msgstr ""
 
-#: includes/Admin/Menu.php:191
-#: includes/Admin/Menu.php:192
+#: includes/Admin/Menu.php:184
+#: includes/Admin/Menu.php:185
 #: build/admin/index.js:1
 msgid "CSS Overrides"
 msgstr ""
 
-#: includes/Admin/Menu.php:200
-#: includes/Admin/Menu.php:201
-#: build/admin/index.js:1
-msgid "Tools & Backup"
-msgstr ""
-
-#: includes/Admin/Menu.php:209
-#: includes/Admin/Menu.php:210
+#: includes/Admin/Menu.php:193
+#: includes/Admin/Menu.php:194
 #: build/admin/index.js:1
 msgid "About & Info"
 msgstr ""
 
-#: includes/Admin/Menu.php:218
-#: includes/Admin/Menu.php:219
+#: includes/Admin/Menu.php:202
+#: includes/Admin/Menu.php:203
 msgid "Create Preset"
 msgstr ""
 
-#: includes/Admin/Menu.php:227
-#: includes/Admin/Menu.php:228
+#: includes/Admin/Menu.php:211
+#: includes/Admin/Menu.php:212
 #: build/admin/index.js:1
 msgid "Edit Preset"
 msgstr ""
 
-#: includes/Admin/Menu.php:236
-#: includes/Admin/Menu.php:237
+#: includes/Admin/Menu.php:220
+#: includes/Admin/Menu.php:221
 msgid "Preview Preset"
 msgstr ""
 
@@ -106,8 +91,32 @@ msgstr ""
 msgid "Preset"
 msgstr ""
 
-#: includes/Routes/PreferenceRouteV1.php:104
+#: includes/Routes/PreferenceRouteV1.php:95
+msgid "Preference data must be an object."
+msgstr ""
+
+#: includes/Routes/PreferenceRouteV1.php:100
+msgid "Preference data is too large."
+msgstr ""
+
+#: includes/Routes/PreferenceRouteV1.php:176
 msgid "Sorry, you are not allowed to view statistics."
+msgstr ""
+
+#: includes/Routes/PreferenceRouteV1.php:253
+msgid "Invalid preset post ID."
+msgstr ""
+
+#: includes/Routes/PreferenceRouteV1.php:270
+msgid "Preference saved successfully."
+msgstr ""
+
+#: includes/Routes/PreferenceRouteV1.php:285
+msgid "Preference not found."
+msgstr ""
+
+#: includes/Routes/PreferenceRouteV1.php:296
+msgid "Preference deleted successfully."
 msgstr ""
 
 #: includes/Routes/SettingsRouteV1.php:123
@@ -118,27 +127,35 @@ msgstr ""
 msgid "Settings have been reset to defaults."
 msgstr ""
 
-#: includes/Routes/UsageStatisticsRouteV1.php:125
-msgid "Invalid range filter."
+#: includes/Routes/UsageStatisticsRouteV1.php:127
+msgid "Usage statistics are disabled."
 msgstr ""
 
-#: includes/Routes/UsageStatisticsRouteV1.php:193
+#: includes/Routes/UsageStatisticsRouteV1.php:136
 msgid "Invalid nonce."
 msgstr ""
 
-#: includes/Routes/UsageStatisticsRouteV1.php:203
+#: includes/Routes/UsageStatisticsRouteV1.php:193
+msgid "Invalid range filter."
+msgstr ""
+
+#: includes/Routes/UsageStatisticsRouteV1.php:261
 msgid "Missing browser key."
 msgstr ""
 
-#: includes/Routes/UsageStatisticsRouteV1.php:225
+#: includes/Routes/UsageStatisticsRouteV1.php:271
+msgid "Too many requests, please retry shortly."
+msgstr ""
+
+#: includes/Routes/UsageStatisticsRouteV1.php:294
 msgid "Statistics capacity reached."
 msgstr ""
 
-#: includes/Routes/UsageStatisticsRouteV1.php:253
+#: includes/Routes/UsageStatisticsRouteV1.php:322
 msgid "Statistics updated successfully."
 msgstr ""
 
-#: includes/Routes/UsageStatisticsRouteV1.php:278
+#: includes/Routes/UsageStatisticsRouteV1.php:347
 msgid "Usage statistics have been reset."
 msgstr ""
 
@@ -157,6 +174,10 @@ msgstr ""
 
 #: build/admin/index.js:1
 msgid "Presets help you quickly apply accessibility settings across your website."
+msgstr ""
+
+#: build/admin/index.js:1
+msgid "Custom Profiles"
 msgstr ""
 
 #: build/admin/index.js:1
@@ -754,186 +775,6 @@ msgstr ""
 #: build/admin/index.js:1
 #: build/components/index.js:1
 #: build/frontend/frontend.js:1
-msgid "Screen Reader"
-msgstr ""
-
-#: build/admin/index.js:1
-#: build/components/index.js:1
-#: build/frontend/frontend.js:1
-msgid "The screen reader setting has been disabled."
-msgstr ""
-
-#: build/admin/index.js:1
-#: build/components/index.js:1
-#: build/frontend/frontend.js:1
-msgid "Activates screen reader mode to read content aloud with Normal, Slow, and Fast modes."
-msgstr ""
-
-#: build/admin/index.js:1
-#: build/components/index.js:1
-#: build/frontend/frontend.js:1
-msgid "Smart Contrast"
-msgstr ""
-
-#: build/admin/index.js:1
-#: build/components/index.js:1
-#: build/frontend/frontend.js:1
-msgid "The smart contrast setting has been disabled."
-msgstr ""
-
-#: build/admin/index.js:1
-#: build/components/index.js:1
-#: build/frontend/frontend.js:1
-msgid "Automatically adjusts contrast based on surrounding colors for optimal readability."
-msgstr ""
-
-#: build/admin/index.js:1
-#: build/components/index.js:1
-#: build/frontend/frontend.js:1
-msgid "Dyslexia Friendly"
-msgstr ""
-
-#: build/admin/index.js:1
-#: build/components/index.js:1
-#: build/frontend/frontend.js:1
-msgid "The dyslexia friendly setting has been disabled."
-msgstr ""
-
-#: build/admin/index.js:1
-#: build/components/index.js:1
-#: build/frontend/frontend.js:1
-msgid "Adjusts text style and spacing to improve readability for users with dyslexia."
-msgstr ""
-
-#: build/admin/index.js:1
-#: build/components/index.js:1
-#: build/frontend/frontend.js:1
-msgid "Grayscale"
-msgstr ""
-
-#: build/admin/index.js:1
-#: build/components/index.js:1
-#: build/frontend/frontend.js:1
-msgid "The grayscale setting has been disabled."
-msgstr ""
-
-#: build/admin/index.js:1
-#: build/components/index.js:1
-#: build/frontend/frontend.js:1
-msgid "Converts the website to grayscale, removing all colors for simpler visual focus."
-msgstr ""
-
-#: build/admin/index.js:1
-#: build/components/index.js:1
-#: build/frontend/frontend.js:1
-msgid "Brightness"
-msgstr ""
-
-#: build/admin/index.js:1
-#: build/components/index.js:1
-#: build/frontend/frontend.js:1
-msgid "The brightness setting has been disabled."
-msgstr ""
-
-#: build/admin/index.js:1
-#: build/components/index.js:1
-#: build/frontend/frontend.js:1
-msgid "Improves visibility by changing the website’s brightness."
-msgstr ""
-
-#: build/admin/index.js:1
-#: build/components/index.js:1
-#: build/frontend/frontend.js:1
-msgid "Mute Sounds"
-msgstr ""
-
-#: build/admin/index.js:1
-#: build/components/index.js:1
-#: build/frontend/frontend.js:1
-msgid "The mute sounds setting has been disabled."
-msgstr ""
-
-#: build/admin/index.js:1
-#: build/components/index.js:1
-#: build/frontend/frontend.js:1
-msgid "Silences all website sounds and audio effects for a distraction-free experience."
-msgstr ""
-
-#: build/admin/index.js:1
-#: build/components/index.js:1
-#: build/frontend/frontend.js:1
-msgid "Keyboard Navigation"
-msgstr ""
-
-#: build/admin/index.js:1
-#: build/components/index.js:1
-#: build/frontend/frontend.js:1
-msgid "The keyboard navigation setting has been disabled."
-msgstr ""
-
-#: build/admin/index.js:1
-#: build/components/index.js:1
-#: build/frontend/frontend.js:1
-msgid "Tab: navigate elements. B/F/G/H: jump to Buttons/Forms/Graphics/Headings. Shift + any key: move backward."
-msgstr ""
-
-#: build/admin/index.js:1
-#: build/components/index.js:1
-#: build/frontend/frontend.js:1
-msgid "Virtual Keyboard"
-msgstr ""
-
-#: build/admin/index.js:1
-#: build/components/index.js:1
-#: build/frontend/frontend.js:1
-msgid "The virtual keyboard has been disabled."
-msgstr ""
-
-#: build/admin/index.js:1
-#: build/components/index.js:1
-#: build/frontend/frontend.js:1
-msgid "Shows an on-screen keyboard for typing without a physical keyboard."
-msgstr ""
-
-#: build/admin/index.js:1
-#: build/components/index.js:1
-#: build/frontend/frontend.js:1
-msgid "Skip Links"
-msgstr ""
-
-#: build/admin/index.js:1
-#: build/components/index.js:1
-#: build/frontend/frontend.js:1
-msgid "Skip links have been disabled."
-msgstr ""
-
-#: build/admin/index.js:1
-#: build/components/index.js:1
-#: build/frontend/frontend.js:1
-msgid "Adds keyboard skip links to jump past navigation to main content and footer (WCAG 2.4.1)."
-msgstr ""
-
-#: build/admin/index.js:1
-#: build/components/index.js:1
-#: build/frontend/frontend.js:1
-msgid "Focus Indicators"
-msgstr ""
-
-#: build/admin/index.js:1
-#: build/components/index.js:1
-#: build/frontend/frontend.js:1
-msgid "Focus indicators have been disabled."
-msgstr ""
-
-#: build/admin/index.js:1
-#: build/components/index.js:1
-#: build/frontend/frontend.js:1
-msgid "Shows a high-visibility focus ring on links, buttons, and form fields (WCAG 2.4.7)."
-msgstr ""
-
-#: build/admin/index.js:1
-#: build/components/index.js:1
-#: build/frontend/frontend.js:1
 msgid "Motor Impaired"
 msgstr ""
 
@@ -1210,11 +1051,6 @@ msgstr ""
 
 #: build/admin/index.js:1
 msgid "Info icon"
-msgstr ""
-
-#: build/admin/index.js:1
-#: build/components/index.js:1
-msgid "PRO"
 msgstr ""
 
 #: build/admin/index.js:1
@@ -1561,7 +1397,7 @@ msgid "Advanced customization options"
 msgstr ""
 
 #: build/admin/index.js:1
-msgid "Google Translate integration"
+msgid "Import / Export + backups"
 msgstr ""
 
 #: build/admin/index.js:1
@@ -1589,7 +1425,7 @@ msgid "Get Pro"
 msgstr ""
 
 #: build/admin/index.js:1
-msgid "Compare Free vs Pro and unlock premium widgets, translation, the accessibility checker, and priority support."
+msgid "Compare Free vs Pro and unlock custom profiles, backups, white label, translation, the accessibility checker, and priority support."
 msgstr ""
 
 #: build/admin/index.js:1
@@ -1677,46 +1513,6 @@ msgid "Disclaimer for Site Administrators"
 msgstr ""
 
 #: build/admin/index.js:1
-msgid "Included with One Accessibility Pro"
-msgstr ""
-
-#: build/admin/index.js:1
-msgid "This screen is part of the separate One Accessibility Pro plugin."
-msgstr ""
-
-#: build/admin/index.js:1
-msgid "Learn more about Pro"
-msgstr ""
-
-#: build/admin/index.js:1
-msgid "Build your own accessibility profiles that bundle several tools for specific user needs and offer them in the toolbar."
-msgstr ""
-
-#: build/admin/index.js:1
-msgid "Unlimited custom profiles with icon and description"
-msgstr ""
-
-#: build/admin/index.js:1
-msgid "Pick which tools each profile enables"
-msgstr ""
-
-#: build/admin/index.js:1
-msgid "Show custom profiles next to the built-in ones in any preset"
-msgstr ""
-
-#: build/admin/index.js:1
-msgid "Export and import your complete configuration as a JSON file."
-msgstr ""
-
-#: build/admin/index.js:1
-msgid "Download a backup that includes settings, presets and custom profiles"
-msgstr ""
-
-#: build/admin/index.js:1
-msgid "Restore configuration on another site or roll back after major changes"
-msgstr ""
-
-#: build/admin/index.js:1
 msgid "Export / Import settings"
 msgstr ""
 
@@ -1737,43 +1533,15 @@ msgid "General"
 msgstr ""
 
 #: build/admin/index.js:1
-msgid "Sign language (Libras)"
-msgstr ""
-
-#: build/admin/index.js:1
-msgid "Legal / litigation support"
-msgstr ""
-
-#: build/admin/index.js:1
-msgid "Bulk tools for multi-site workflows"
-msgstr ""
-
-#: build/admin/index.js:1
 msgid "Help & Support"
 msgstr ""
 
 #: build/admin/index.js:1
-msgid "COMING SOON"
-msgstr ""
-
-#: build/admin/index.js:1
-msgid "Coming soon features"
-msgstr ""
-
-#: build/admin/index.js:1
-msgid "Pro features"
+msgid "PRO"
 msgstr ""
 
 #: build/admin/index.js:1
 msgid "Unlock Pro features"
-msgstr ""
-
-#: build/admin/index.js:1
-msgid "Stay tuned — we will ship these in upcoming releases."
-msgstr ""
-
-#: build/admin/index.js:1
-msgid "Activate License"
 msgstr ""
 
 #: build/admin/index.js:1
@@ -1852,10 +1620,6 @@ msgstr ""
 
 #: build/components/index.js:2
 msgid "All accessibility settings have been reset to default."
-msgstr ""
-
-#: build/components/index.js:2
-msgid "Choose translation language"
 msgstr ""
 
 #: build/components/index.js:2

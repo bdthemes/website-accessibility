@@ -3,6 +3,7 @@ import { useHistory } from "../router";
 import { useSelect } from '@wordpress/data';
 import { STORE_NAME } from '../store';
 import { useEffect, useState } from '@wordpress/element';
+import { getAdminExtensions } from '../../utils/admin-extensions';
 
 // Inline SVG icons (replace dashicons) — currentColor via CSS
 const svgProps = {
@@ -125,14 +126,18 @@ const Dashboard = () => {
             icon: <IconSliders />,
             action: viewAllBtn('website-accessibility-presets'),
         },
-        {
-            cardKey: 'profiles',
-            title: __('Custom Profiles', 'website-accessibility'),
-            value: profilesCount,
-            description: __('Create profiles for different user needs and preferences.', 'website-accessibility'),
-            icon: <IconUsers />,
-            action: viewAllBtn('website-accessibilityfiles'),
-        },
+        // The custom-profiles screen is provided by an add-on; the card is only
+        // shown when one has registered its profiles store.
+        ...(getAdminExtensions().profilesStore
+            ? [{
+                cardKey: 'profiles',
+                title: __('Custom Profiles', 'website-accessibility'),
+                value: profilesCount,
+                description: __('Create profiles for different user needs and preferences.', 'website-accessibility'),
+                icon: <IconUsers />,
+                action: viewAllBtn('website-accessibilityfiles'),
+            }]
+            : []),
         {
             cardKey: 'preferences',
             title: __('Saved Preferences', 'website-accessibility'),
@@ -156,7 +161,7 @@ const Dashboard = () => {
             <div className="wap-settings wap-dashboard" data-tour="wap-tour-dashboard-home">
                 <WapRow gutter={[12, 12]} align="stretch" className="statistics-grid wap-statistics-grid">
                     {stats.map((stat) => (
-                        <WapCol xs={24} md={8} key={stat.title} className="stat-card">
+                        <WapCol xs={24} md={24 / stats.length} key={stat.title} className="stat-card">
                             <WapCard className={`wap-settings-row wap-dashboard-stat-card wap-dashboard-stat-card--${stat.cardKey || 'default'}`} size="small">
                                 <div className="stat-icon-wrapper">
                                     {stat.icon}

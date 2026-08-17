@@ -1,19 +1,26 @@
 {
 	"name": "website-accessibility",
-	"version": "1.0.0",
-	"description": "Example block scaffolded with Create Block tool.",
-	"author": "The WordPress Contributors",
+	"version": "1.5.3",
+	"description": "One Accessibility – WCAG accessibility toolbar for WordPress (free plugin).",
+	"author": "bdthemes",
 	"license": "GPL-2.0-or-later",
-	"main": "build/index.js",
+	"homepage": "https://wordpress.org/plugins/website-accessibility/",
+	"repository": {
+		"type": "git",
+		"url": "https://github.com/bdthemes/website-accessibility"
+	},
 	"files": [
 		"assets",
 		"build",
+		"src",
+		"!src/**/*.map",
 		"includes",
 		"default-posts",
 		"languages",
 		"vendor",
 		"composer.json",
-		"*.php"
+		"*.php",
+		"readme.txt"
 	],
 	"scripts": {
 		"start": "wp-scripts build --watch",

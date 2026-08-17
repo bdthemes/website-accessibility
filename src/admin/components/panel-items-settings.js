@@ -41,14 +41,10 @@ const PanelItemsSettings = ({ attributes, updateAttr, showTooltip = true, defaul
 					</WapSelect>
 				</ControlWrapper>
 
-				<ControlWrapper label={__("Layout", "website-accessibility")} inline>
-					<ExtensionControl slot="panelItemsLayout" attributes={attributes} updateAttr={updateAttr} layoutValue={layoutValue} />
-				</ControlWrapper>
+				<ExtensionControl slot="panelItemsLayout" label={__("Layout", "website-accessibility")} attributes={attributes} updateAttr={updateAttr} layoutValue={layoutValue} />
 
 				{showTooltip ? (
-					<ControlWrapper label={__("Tooltip Position", "website-accessibility")} inline>
-						<ExtensionControl slot="panelItemsTooltipPosition" attributes={attributes} updateAttr={updateAttr} />
-					</ControlWrapper>
+					<ExtensionControl slot="panelItemsTooltipPosition" label={__("Tooltip Position", "website-accessibility")} attributes={attributes} updateAttr={updateAttr} />
 				) : null}
 			</div>
 		</>
