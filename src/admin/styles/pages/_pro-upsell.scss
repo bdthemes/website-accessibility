@@ -1,46 +1,87 @@
 // Informational placeholder for screens provided by the separate Pro plugin.
+// Minimal style: clean type, subtle border, restrained accent.
 .wap-pro-upsell-page {
   .wap-pro-upsell-page__card {
-    position: relative;
-    max-width: 720px;
+    width: 100%;
+    max-width: none;
+    border: 1px solid #edeff2;
+    border-radius: 10px;
+    box-shadow: none;
 
     .ant-card-body {
-      padding: 28px 32px 32px;
+      padding: 32px 36px;
     }
   }
 
   .wap-pro-upsell-page__badge {
     display: inline-block;
-    margin-bottom: 12px;
-    padding: 2px 10px;
-    border-radius: 999px;
-    background: #f5b301;
-    color: #1f2937;
+    margin-bottom: 14px;
+    padding: 2px 9px;
+    border: 1px solid #e2e5ea;
+    border-radius: 6px;
+    background: #f7f8fa;
+    color: #6b7280;
     font-size: 11px;
     font-weight: 700;
     letter-spacing: 0.06em;
   }
 
   .wap-pro-upsell-page__title {
-    margin: 0 0 8px !important;
+    margin: 0 0 10px !important;
+    font-weight: 600 !important;
+    color: #111827 !important;
   }
 
   .wap-pro-upsell-page__description {
     display: block;
-    margin-bottom: 16px;
-    line-height: 1.55;
+    max-width: 760px;
+    // The global `.ant-typography { margin-bottom: 0 !important }` reset would
+    // otherwise collapse the gap to the feature list, so force it here.
+    margin-bottom: 24px !important;
+    color: #6b7280;
+    font-size: 14px;
+    line-height: 1.6;
   }
 
   .wap-pro-upsell-page__features {
-    margin: 0 0 16px;
-    padding-left: 20px;
-    color: #374151;
-    line-height: 1.7;
-    list-style: disc;
+    margin: 0 0 28px;
+    padding: 0;
+    list-style: none;
+    display: grid;
+    gap: 14px;
+
+    li {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      color: #374151;
+      font-size: 14px;
+      line-height: 1.5;
+    }
+  }
+
+  .wap-pro-upsell-page__check {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    flex: 0 0 16px;
+    width: 16px;
+    height: 16px;
+    color: #16a34a;
+  }
+
+  .wap-pro-upsell-page__cta {
+    display: flex;
+    align-items: center;
+    flex-wrap: wrap;
+    gap: 12px 16px;
+    margin-top: 4px;
+    padding-top: 20px;
+    border-top: 1px solid #f1f3f5;
   }
 
   .wap-pro-upsell-page__note {
-    display: block;
-    margin-bottom: 20px;
+    color: #9aa3af;
+    font-size: 12.5px;
   }
 }
