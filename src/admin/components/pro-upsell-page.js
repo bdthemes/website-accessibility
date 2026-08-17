@@ -1,9 +1,15 @@
 import { __ } from '@wordpress/i18n';
 
+const CheckIcon = () => (
+	<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" width="15" height="15" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true">
+		<path d="M20 6 9 17l-5-5" />
+	</svg>
+);
+
 /**
- * Plain placeholder shown for screens that are provided by One Accessibility Pro
- * when that plugin is not installed. Purely informational — nothing here is
- * functional, so nothing is "locked".
+ * Informational placeholder shown for screens that are provided by One
+ * Accessibility Pro when that plugin is not installed. Purely informational —
+ * nothing here is functional, so nothing is "locked".
  */
 const ProUpsellPage = ({ title, description, features = [] }) => {
 	const { WapCard, WapButton, WapTypography } = window?.wapComponents || {};
@@ -13,27 +19,32 @@ const ProUpsellPage = ({ title, description, features = [] }) => {
 	return (
 		<div className="wap-settings wap-pro-upsell-page">
 			<WapCard className="wap-settings-row wap-pro-upsell-page__card">
-				<span className="wap-pro-upsell-page__badge" aria-hidden="true">
-					{__('PRO', 'website-accessibility')}
-				</span>
+				<span className="wap-pro-upsell-page__badge">{__('PRO', 'website-accessibility')}</span>
+
 				<Title level={4} className="wap-pro-upsell-page__title">{title}</Title>
+
 				{description ? (
-					<Text type="secondary" className="wap-pro-upsell-page__description">{description}</Text>
+					<Text className="wap-pro-upsell-page__description">{description}</Text>
 				) : null}
+
 				{features.length > 0 ? (
 					<ul className="wap-pro-upsell-page__features" aria-label={__('Included with One Accessibility Pro', 'website-accessibility')}>
 						{features.map((feature) => (
-							<li key={feature}>{feature}</li>
+							<li key={feature}>
+								<span className="wap-pro-upsell-page__check" aria-hidden="true"><CheckIcon /></span>
+								<span>{feature}</span>
+							</li>
 						))}
 					</ul>
 				) : null}
-				<Text type="secondary" className="wap-pro-upsell-page__note">
-					{__('This screen is part of the separate One Accessibility Pro plugin.', 'website-accessibility')}
-				</Text>
+
 				<div className="wap-pro-upsell-page__cta">
 					<WapButton type="primary" href={upgradeUrl} target="_blank" rel="noopener noreferrer">
 						{__('Learn more about Pro', 'website-accessibility')}
 					</WapButton>
+					<span className="wap-pro-upsell-page__note">
+						{__('Part of the separate One Accessibility Pro plugin.', 'website-accessibility')}
+					</span>
 				</div>
 			</WapCard>
 		</div>
