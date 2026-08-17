@@ -4,7 +4,7 @@ Tags:              accessibility, a11y, wcag, ada-compliance, screen-reader
 Requires at least: 6.1
 Tested up to:      7.0
 Requires PHP:      7.4
-Stable tag:        1.5.3
+Stable tag:        1.4.1
 License:           GPL-2.0-or-later
 License URI:       https://www.gnu.org/licenses/gpl-2.0.html
 
@@ -211,35 +211,29 @@ The JavaScript and CSS shipped in `build/` are compiled with `@wordpress/scripts
 
 == Changelog ==
 
-= 1.5.3 – August 17, 2026 =
-* Removed: The "Custom Profiles" and "Tools & Backup" placeholder screens and every "PRO" badge shown in place of a setting. The free plugin now shows only the settings it actually provides; add-ons register their own screens and controls through the extension API. Nothing in this plugin is locked, greyed out or dependent on a licence.
-* Fixed: Switching the Dictionary tool off now really stops the double-click lookup (a fresh listener was previously left attached until reload). Looked-up words are validated (letters only) and URL-encoded before the request; the readme "External services" section was rewritten to describe exactly this behaviour.
-* Changed: The `websac_browser_key` statistics cookie is only set while usage statistics are enabled and is removed when they are switched off. Public statistics endpoint now checks the REST nonce in its permission callback, validates the browser key and throttles writes.
-* Changed: Saved visitor preferences (`websac/v1/preference`) are validated and sanitised before being stored.
-* Changed: Admin assets are only loaded on the plugin's own screens; the admin-menu icon CSS is attached with `wp_add_inline_style()` and the front-end body-class helper is printed with `wp_print_inline_script_tag()`.
+= 1.4.1 – August 17, 2026 =
+WordPress.org review release (Review ID SVN website-accessibility/13Aug26). Everything below is one update over 1.4.0.
+
+**Trialware / locked features (guideline 5)**
+* Removed: Every Pro-only and license-gated code path. Custom profiles, export/import, white label, translation & accessibility-checker settings, compliance screens, the license manager and Pro tours now live entirely in the separate One Accessibility Pro plugin. The placeholder ("dummy") widget entries, `isPro`-flagged panel items, the license/`isProActive` context, every PRO badge, disabled toggle or placeholder screen ("Custom Profiles", "Tools & Backup") were removed. Nothing in this plugin is locked, greyed out, capped or dependent on a licence; toolbar layout, tooltip position and the branding toggle are honoured for everyone.
+* Added: A small extension API that add-ons use to register their own screens, controls and features (`window.websacAdminExtensions`, `wapHelpers.registerFeatureHandler`, `wapHelpers.announce`, `wapComponents.PanelHeaderActions` / `FrontendExtensions`, PHP filters `websac_settings_defaults`, `websac_sanitize_settings`, `websac_public_frontend_settings`, `websac_frontend_profiles`, `websac_usage_statistics_features`, `websac_feature_category_definitions`, `websac_default_preset_content`, action `websac_pro_admin_menu`, …). Settings option now stores only the keys this plugin owns.
+
+**Phoning home / external services (guidelines 7 & 9)**
+* Removed: The dashboard "News & Updates" widget and every request to bdthemes.com / bdthemes.io. The plugin never contacts the plugin author's servers; the sample Accessibility Statement page uses your site name, URL and admin e-mail instead of author links.
+* Added: "External services" and "Source code" sections in this readme. The only external service is the Free Dictionary API, used solely when a visitor switches the Dictionary tool on and double-clicks a word.
+* Fixed: Switching the Dictionary tool off now really stops the double-click lookup; looked-up words are validated (letters only) and URL-encoded before the request.
+* Changed: The `websac_browser_key` statistics cookie is only set while usage statistics are enabled and is removed when they are switched off; statistics never leave your site.
+
+**Prefixing (guideline 18)**
+* Changed: All plugin code now uses the `websac` prefix (PHP namespace `Websac\`, `WEBSAC_*` constants, `websac_*` options / meta / transients / hooks, `websac/v1` REST namespace, `websac-*` script handles). Existing option keys are migrated automatically on upgrade; the generic `PLUGIN_FILE` constant was removed.
+
+**Security & housekeeping**
+* Changed: Public statistics endpoint checks the REST nonce in its permission callback, validates the browser key and throttles writes; saved visitor preferences (`websac/v1/preference`) are validated and sanitised before being stored.
+* Changed: Admin assets are only loaded on the plugin's own screens; admin-menu icon CSS is attached with `wp_add_inline_style()`; the front-end body-class helper is printed with `wp_print_inline_script_tag()`.
 * Removed: The SVG-upload enabling filters (`upload_mimes` etc.). SVG uploads are left to dedicated, sanitising plugins.
-* Added: `uninstall.php` removing all plugin options, transients, user meta and preset posts on deletion; ABSPATH guards on every PHP file; leftover transient from the removed 1.4.x dashboard feed is purged on upgrade.
-* Added: The unminified `src/` folder is now part of the plugin package and the public source repository is linked from the readme.
-
-= 1.5.2 – August 16, 2026 =
-* Removed: The last remaining Pro-related code paths. Placeholder ("dummy") widget entries, `isPro`-flagged panel items, the license/`isProActive` context and every PRO badge or disabled toggle that depended on it, the translation picker/consent plumbing, the fix-highlight script used by the Pro checker, Pro-only admin/front-end styles and the OpenDyslexic font (used only by a Pro widget) were moved to One Accessibility Pro. Nothing in this plugin is greyed out or locked any more.
-* Added: Extension hooks that add-ons use to plug those features back in: `wapHelpers.registerFeatureHandler(key, {apply, remove})`, `wapHelpers.announce`, `wapHelpers.featureCategoryDefinitions` (read lazily), `wapComponents.PanelHeaderActions`, `wapComponents.FrontendExtensions`, the `sidebarPromoCard` admin control slot, DOM events `websac-accessibility-reset` / `websac-extensions-changed`, and PHP filters `websac_usage_statistics_features`, `websac_feature_category_definitions`, `websac_default_preset_content`.
-* Changed: The sample Accessibility Statement page no longer links to the plugin author's website; it uses your site name, URL and admin e-mail instead.
-* Changed: Feature body classes on the front end are now tracked individually (add-on classes with the same prefix are left alone).
-
-= 1.5.1 – August 16, 2026 =
-* Changed: Features that belong to One Accessibility Pro (custom profiles, export/import, white label, translation & accessibility-checker settings, compliance screens, license manager, Pro tours) now live entirely in the Pro plugin. This plugin ships no dormant or license-gated code; it only offers plain informational placeholders and a small extension API (filters + `window.websacAdminExtensions`) that add-ons use to register their own screens.
-* Changed: Settings option now stores only the keys this plugin owns; add-ons register theirs via `websac_settings_defaults` / `websac_sanitize_settings`.
-
-= 1.5.0 – August 16, 2026 =
-* Changed: No functionality in this plugin depends on a Pro license (toolbar layout/tooltip options and the branding toggle are honoured for everyone).
-* Removed: The dashboard "News & Updates" widget and every request to bdthemes.com / bdthemes.io. The plugin no longer contacts the plugin author's servers.
-* Added: "External services" section in the readme documenting the Free Dictionary API used by the Dictionary tool.
-* Changed: All plugin code now uses the `websac` prefix (PHP namespace `Websac\`, `WEBSAC_*` constants, `websac_*` options, `websac/v1` REST namespace, `websac-*` script handles). Existing option keys are migrated automatically on upgrade.
-* Removed: Generic `PLUGIN_FILE` constant.
-
-= 1.4.1 – August 12, 2026 =
-* Updated: System improved
+* Added: `uninstall.php` removing all plugin options, transients, user meta and preset posts on deletion; ABSPATH guards on every PHP file; leftover transients from the removed dashboard feed are purged on upgrade.
+* Added: The unminified `src/` folder is part of the plugin package and the public source repository is linked from the readme.
+* Changed: Feature body classes on the front end are tracked individually.
 
 = 1.4.0 – August 10, 2026 =
 * Fixed: AI API keys (OpenAI/Gemini) no longer exposed in front-end page source.
