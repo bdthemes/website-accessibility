@@ -43,4 +43,6 @@ jobs:
             removeArtifacts: true
             allowUpdates: true
             makeLatest: true
+            omitBodyDuringUpdate: true
+            omitNameDuringUpdate: true
             tag: ${{ github.ref_name }}
