@@ -140,10 +140,10 @@ website-accessibility/
 ## 🔧 Architecture
 
 ### Backend (PHP)
-- **Namespace**: `bdthemes\websiteaccessibility`
+- **Namespace**: `Websac\` (PSR-4 from `includes/`), all global symbols prefixed `websac` / `WEBSAC_`
 - **Pattern**: Singleton pattern for main classes
 - **Autoloading**: PSR-4 via Composer
-- **Post Types**: Custom post types for presets and profiles
+- **Post Types**: `websac_preset` custom post type for toolbar presets (custom profiles are provided by the separate Pro plugin)
 
 ### Frontend (React)
 - **Build Tool**: WordPress Scripts (Webpack-based)

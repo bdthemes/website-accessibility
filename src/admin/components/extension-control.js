@@ -1,21 +1,38 @@
-import { __ } from "@wordpress/i18n";
 import { getAdminExtensions } from "../../utils/admin-extensions";
+import ControlWrapper from "./control-wrapper";
 
 /**
- * Renders a control contributed by an add-on for the given slot; when no add-on
- * provides one, shows a plain "PRO" badge (informational only).
+ * Whether an add-on has registered a control for the given slot.
  *
- * Slot components receive { attributes, updateAttr } (or whatever the caller passes).
+ * @param {string} slot
+ * @return {boolean}
  */
-const ExtensionControl = ({ slot, ...props }) => {
-	const { WapBadge } = window?.wapComponents || {};
+export const hasExtensionControl = (slot) => !!getAdminExtensions().controls[slot];
+
+/**
+ * Renders a setting row whose control is contributed by an add-on. When no
+ * add-on provides a control for the slot, nothing is rendered at all — the
+ * free plugin never shows placeholder/disabled controls.
+ *
+ * Slot components receive whatever extra props the caller passes
+ * (typically { attributes, updateAttr }).
+ */
+const ExtensionControl = ({ slot, label, inline = true, ...props }) => {
 	const Control = getAdminExtensions().controls[slot];
 
-	if (Control) {
-		return <Control {...props} />;
+	if (!Control) {
+		return null;
 	}
 
-	return WapBadge ? <WapBadge color="gold" count={__("PRO", "website-accessibility")} /> : null;
+	if (label) {
+		return (
+			<ControlWrapper label={label} inline={inline}>
+				<Control {...props} />
+			</ControlWrapper>
+		);
+	}
+
+	return <Control {...props} />;
 };
 
 export default ExtensionControl;

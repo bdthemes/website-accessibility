@@ -36,9 +36,7 @@ const FooterSettings = () => {
                 <ControlWrapper label={__('Show Accessibility Statement', 'website-accessibility')} inline>
                     <WapSwitch checked={attributes.showStatement !== false} onChange={(checked) => updateAttr({ showStatement: checked })} />
                 </ControlWrapper>
-                <ControlWrapper label={__('Show Branding', 'website-accessibility')} inline>
-                    <ExtensionControl slot="footerShowBranding" attributes={attributes} updateAttr={updateAttr} />
-                </ControlWrapper>
+                <ExtensionControl slot="footerShowBranding" label={__('Show Branding', 'website-accessibility')} attributes={attributes} updateAttr={updateAttr} />
             </div>
 
             {attributes.activePreference ? (

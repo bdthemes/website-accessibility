@@ -4,7 +4,7 @@ Guidance for Claude Code (claude.ai/code) working in this repo.
 
 ## What this is
 
-**One Accessibility** (`website-accessibility`) — free WordPress plugin (WP ≥ 6.1, PHP ≥ 7.4). Adds WCAG accessibility toolbar to front end, configured via React admin SPA. Separate Pro plugin (`website-accessibility-pro`, namespace `bdthemes\websiteaccessibilitypro`, `window.websacPro`) plugs in **only through extension API below**. **WordPress.org compliance rule:** this plugin ships no Pro-only or license-gated code. Custom profiles, export/import, white label, translation/checker settings, compliance screens, license manager, Pro tours all live in Pro repo; free code only renders plain upsell placeholders (`src/admin/components/pro-upsell-page.js`, `ExtensionControl` PRO badges) + honours whatever add-ons register. Never call into `websiteaccessibilitypro\...` from this plugin. Never contact bdthemes.com / bdthemes.io (only external service = Free Dictionary API, documented in `readme.txt` → “External services”).
+**One Accessibility** (`website-accessibility`) — free WordPress plugin (WP ≥ 6.1, PHP ≥ 7.4). Adds WCAG accessibility toolbar to front end, configured via React admin SPA. Separate Pro plugin (`website-accessibility-pro`, namespace `bdthemes\websiteaccessibilitypro`, `window.websacPro`) plugs in **only through extension API below**. **WordPress.org compliance rule:** this plugin ships no Pro-only or license-gated code. Custom profiles, export/import, white label, translation/checker settings, compliance screens, license manager, Pro tours all live in Pro repo; free code renders **no** placeholder screens/badges for Pro features — only the single "Get Pro" page/card (`src/admin/pages/get-pro.js`, promo card in `admin-layout.js`) + honours whatever add-ons register (`ExtensionControl` renders nothing when no add-on control is registered for a slot). Never call into `websiteaccessibilitypro\...` from this plugin. Never contact bdthemes.com / bdthemes.io (only external service = Free Dictionary API, documented in `readme.txt` → “External services”).
 
 ## Extension API (how Pro plugs in)
 
@@ -24,7 +24,7 @@ npm run start        # wp-scripts build --watch (default dev loop)
 npm run start:hot    # wp-scripts start (hot reload)
 npm run build        # production build → build/
 npm run make-pot     # regenerate languages/website-accessibility.pot (needs wp-cli)
-npm run plugin-zip   # zip using package.json "files" + .distignore
+npm run plugin-zip   # zip using package.json "files" (src/ ships too — GL4 human-readable code); .distignore kept in sync for svn tooling
 npm run publish      # build + make-pot + plugin-zip (what the release CI runs on tag push)
 npx wp-scripts lint-js src   # ESLint via @wordpress/scripts (no npm alias defined)
 phpcs --standard=phpcs.xml.dist   # WPCS security rules only (EscapeOutput, ValidatedSanitizedInput); scans includes/ + main file. Requires globally installed phpcs + WPCS.
@@ -56,10 +56,12 @@ No automated test suite; manual testing in local WP install (checkout lives insi
 - **REST:** custom routes in `includes/Routes/*RouteV1.php`, all under `websac/v1` namespace (settings, preference, usage-statistics, system-info, dashboard-tour). Pro registers `websac-pro/v1` + `one-accessibility/v1`.
 - **Preset resolution:** `Core\Utils::get_page_type()` + `get_current_preset()` choose preset to render (`entire_site` / singular / archive conditions). `Utils::is_builder_editor()` suppresses assets in Elementor/etc. editors.
 - **Front end:** `View\Frontend` enqueues assets, localizes `window.websiteAccessibility` (presets, add-on profiles via filter, whitelisted public settings, nonce, restUrl, brand…), prints `#website-accessibility-app` in `wp_footer`. `get_public_settings()` exposes free-owned keys only; add-ons opt in via `websac_public_frontend_settings`.
-- **Migrations:** `Core\Migrations` versions stored preset JSON + option keys (`websac_data_schema_version`, currently 5; category defaults filterable via `websac_feature_category_definitions`). Change preset content shape or rename stored key → add migration + bump `LATEST_DATA_SCHEMA_VERSION`.
+- **Migrations:** `Core\Migrations` versions stored preset JSON + option keys (`websac_data_schema_version`, currently 6; category defaults filterable via `websac_feature_category_definitions`). Change preset content shape or rename stored key → add migration + bump `LATEST_DATA_SCHEMA_VERSION`.
 - **Branding:** menu title / header name from `Utils::get_brand_display_name()` (filter `websac_brand_display_name`); JS reads `websacAdmin.brandDisplayName|brandLogoUrl|whiteLabelBoot` (`src/utils/brand.js`). White-label itself = Pro feature.
 - Activation seeds default preset + statement page from `default-posts/*.json`.
-- Version string duplicated: plugin header **and** `Websac_Plugin::VERSION` — bump both (plus `readme.txt` Stable tag).
+- Version string duplicated: plugin header **and** `Websac_Plugin::VERSION` — bump both (plus `readme.txt` Stable tag + `package.json` version).
+- `uninstall.php` deletes all `websac_*` options/transients, `websac_preferences` user meta, `websac_preset` posts (statement page kept — user content). Add new keys there.
+- Admin bundle enqueued only on plugin screens (`Admin\Enqueue::is_plugin_screen`); Pro's admin bundle uses the same slug heuristic. Pro registers its own "Custom Profiles"/"Tools & Backup" submenus + sidebar items and prints `#wap-google-translate-container` via `websac_frontend_after_root`.
 
 ## Admin SPA
 

@@ -11,10 +11,8 @@ import { useLocation, useHistory } from '../router';
 import {
 	IconGeneral,
 	IconPresets,
-	IconProfiles,
 	IconCssOverrides,
 	IconSettings,
-	IconTools,
 	IconPro,
 	IconInfo,
 } from './admin-menu-icons';
@@ -174,7 +172,6 @@ const AdminLayout = ({ children }) => {
 	const generalItems = [
 		{ key: 'website-accessibility', position: 10, icon: <IconGeneral />, label: __('General', 'website-accessibility') },
 		{ key: 'website-accessibility-presets', position: 20, icon: <IconPresets />, label: <span data-tour="wap-tour-presets-item">{__('Presets', 'website-accessibility')}</span> },
-		{ key: 'website-accessibilityfiles', position: 30, icon: <IconProfiles />, label: <span data-tour="wap-tour-profiles-item">{__('Custom Profiles', 'website-accessibility')}</span> },
 		{
 			key: 'website-accessibility-settings',
 			position: 40,
@@ -190,7 +187,6 @@ const AdminLayout = ({ children }) => {
 	const supportItems = useMemo(
 		() => [
 			...(!isProPluginActive ? [{ key: 'website-accessibility-get-pro', position: 10, icon: <IconPro />, label: __('Get Pro', 'website-accessibility') }] : []),
-			{ key: 'website-accessibility-tools', position: 60, icon: <IconTools />, label: __('Tools & Backup', 'website-accessibility') },
 			{ key: 'website-accessibility-about', position: 90, icon: <IconInfo />, label: __('About & Info', 'website-accessibility') },
 			...extensionItems('support'),
 		].sort(sortByPosition),

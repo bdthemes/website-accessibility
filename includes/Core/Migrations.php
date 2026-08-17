@@ -14,7 +14,7 @@ class Migrations
 
     const VERSION_OPTION_KEY = 'websac_version';
     const DATA_SCHEMA_OPTION_KEY = 'websac_data_schema_version';
-    const LATEST_DATA_SCHEMA_VERSION = 5;
+    const LATEST_DATA_SCHEMA_VERSION = 6;
 
     private function __construct(){}
 
@@ -53,6 +53,11 @@ class Migrations
             $current_schema_version = 5;
         }
 
+        if ($current_schema_version < 6) {
+            $this->cleanup_removed_feature_transients();
+            $current_schema_version = 6;
+        }
+
         update_option(self::DATA_SCHEMA_OPTION_KEY, $current_schema_version);
         update_option(self::VERSION_OPTION_KEY, WEBSAC_VERSION);
     }
@@ -82,6 +87,16 @@ class Migrations
 
         // Dashboard product-feed widget was removed in 1.5.0.
         delete_transient('websac_product_feeds');
+    }
+
+    /**
+     * 1.5.3: purge the remaining cache left behind by the removed dashboard feed
+     * widget (1.4.x stored the RSS half under a second transient).
+     */
+    private function cleanup_removed_feature_transients()
+    {
+        delete_transient('websac_product_feeds');
+        delete_transient('websac_product_feeds_rss');
     }
 
     /**

@@ -4,7 +4,7 @@ import { useSelect, useDispatch } from "@wordpress/data";
 import { STORE_NAME } from "../store";
 import ColorPicker from "../controls/color-picker";
 import SpacingInput from "../controls/spacing-input";
-import ExtensionControl from "../components/extension-control";
+import ExtensionControl, { hasExtensionControl } from "../components/extension-control";
 
 const HeaderSettings = () => {
     const { WapCard } = window?.wapComponents;
@@ -34,11 +34,11 @@ const HeaderSettings = () => {
 
     return (
         <div className="wap-header-settings">
-            <WapCard bordered={false} className="wap-panel-right-sidebar__card">
-                <ControlWrapper label={__("Show Translator", "website-accessibility")} inline>
-                    <ExtensionControl slot="headerShowTranslator" attributes={attributes} updateAttr={updateAttr} />
-                </ControlWrapper>
-            </WapCard>
+            {hasExtensionControl("headerShowTranslator") ? (
+                <WapCard bordered={false} className="wap-panel-right-sidebar__card">
+                    <ExtensionControl slot="headerShowTranslator" label={__("Show Translator", "website-accessibility")} attributes={attributes} updateAttr={updateAttr} />
+                </WapCard>
+            ) : null}
 
             <WapCard bordered={false} className="wap-panel-right-sidebar__card" title={__("Style", "website-accessibility")}>
                 <div className="wap-header-style-grid">

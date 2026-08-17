@@ -2,6 +2,7 @@
 
 namespace Websac\Routes;
 
+use Websac\Core\Utils;
 use Websac\Traits\Singleton;
 use WP_REST_Request;
 use WP_REST_Server;
@@ -82,7 +83,21 @@ class UsageStatisticsRouteV1
             [
                 'methods' => WP_REST_Server::CREATABLE,
                 'callback' => [$this, 'save_statistics'],
-                'permission_callback' => '__return_true', // Public
+                // Anonymous visitors record which toolbar tools they used on THIS
+                // site (never sent off-site). Writes are only accepted when the
+                // request carries the REST nonce printed with the toolbar and the
+                // site owner has the statistics feature switched on.
+                'permission_callback' => [$this, 'can_save_statistics'],
+                'args'                => [
+                    'browserKey' => [
+                        'type'              => 'string',
+                        'required'          => true,
+                        'sanitize_callback' => 'sanitize_text_field',
+                        'validate_callback' => static function ($value) {
+                            return is_string($value) && preg_match('/^[A-Za-z0-9_-]{1,64}$/', $value) === 1;
+                        },
+                    ],
+                ],
             ],
             [
                 'methods' => WP_REST_Server::DELETABLE,
@@ -95,6 +110,35 @@ class UsageStatisticsRouteV1
     public function can_manage_statistics()
     {
         return current_user_can('manage_options');
+    }
+
+    /**
+     * Permission check for the public counter endpoint: statistics must be
+     * enabled and the request must carry a valid REST nonce.
+     *
+     * @param WP_REST_Request $request
+     * @return bool|\WP_Error
+     */
+    public function can_save_statistics(WP_REST_Request $request)
+    {
+        if (! Utils::get_settings('show_usage_statistics')) {
+            return new \WP_Error(
+                'websac_statistics_disabled',
+                __('Usage statistics are disabled.', 'website-accessibility'),
+                ['status' => 403]
+            );
+        }
+
+        $nonce = (string) $request->get_header('X-WP-Nonce');
+        if (! wp_verify_nonce($nonce, 'wp_rest')) {
+            return new \WP_Error(
+                'websac_invalid_nonce',
+                __('Invalid nonce.', 'website-accessibility'),
+                ['status' => 403]
+            );
+        }
+
+        return true;
     }
 
     /**
@@ -209,24 +253,25 @@ class UsageStatisticsRouteV1
     {
         $incoming = (array) $request->get_json_params();
 
-        // Verify nonce
-        $nonce = $request->get_header('X-WP-Nonce');
-        if (! wp_verify_nonce($nonce, 'wp_rest')) {
-            return rest_ensure_response([
-                'success' => false,
-                'message' => __('Invalid nonce.', 'website-accessibility'),
-            ]);
-        }
-
-        // Browser key (acts like an anonymous user/session ID). Bound the length
-        // so an attacker cannot store oversized keys.
-        $browser_key = substr(sanitize_text_field($incoming['browserKey'] ?? ''), 0, 64);
-        if (! $browser_key) {
+        // Browser key (acts like an anonymous per-browser ID; validated by the route args).
+        $browser_key = (string) $request->get_param('browserKey');
+        if ($browser_key === '') {
             return rest_ensure_response([
                 'success' => false,
                 'message' => __('Missing browser key.', 'website-accessibility'),
             ]);
         }
+
+        // Throttle: at most one write per browser key every 5 seconds (the
+        // toolbar debounces to one request per second per interaction burst).
+        $throttle_key = 'websac_stats_' . md5($browser_key);
+        if (get_transient($throttle_key)) {
+            return rest_ensure_response([
+                'success' => false,
+                'message' => __('Too many requests, please retry shortly.', 'website-accessibility'),
+            ]);
+        }
+        set_transient($throttle_key, 1, 5);
 
         // Current date (for per-day stats)
         $today = current_time('Y-m-d');
