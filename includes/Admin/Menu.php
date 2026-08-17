@@ -240,18 +240,6 @@ class Menu
             [$this, 'render_menu_page']
         );
 
-        // Get Pro is a client-side SPA route; register it as a hidden page so a
-        // direct URL load / refresh of ?page=website-accessibility-get-pro works
-        // instead of hitting the "not allowed to access this page" screen.
-        add_submenu_page(
-            'website-accessibility-get-pro',
-            __('Get Pro', 'website-accessibility'),
-            __('Get Pro', 'website-accessibility'),
-            'manage_options',
-            'website-accessibility-get-pro',
-            [$this, 'render_menu_page']
-        );
-
         /**
          * Add-ons register their own screens here (they render into the same SPA root).
          */

@@ -130,39 +130,16 @@ const GetProPage = () => {
     : 'https://oneaccessibility.com#pricing';
 
   const featuresRows = useMemo(() => ([
-    // Core (available in both)
     { label: __('Accessibility widgets (35+)', 'website-accessibility'), free: true, pro: true },
     { label: __('Preset builder (panel, button, header, footer)', 'website-accessibility'), free: true, pro: true },
-    { label: __('Regular updates', 'website-accessibility'), free: true, pro: true },
-
-    // Pro accessibility widgets
-    { label: __('Screen Reader', 'website-accessibility'), free: false, pro: true },
-    { label: __('Smart Contrast', 'website-accessibility'), free: false, pro: true },
-    { label: __('Dyslexia Friendly', 'website-accessibility'), free: false, pro: true },
-    { label: __('Grayscale', 'website-accessibility'), free: false, pro: true },
-    { label: __('Brightness', 'website-accessibility'), free: false, pro: true },
-    { label: __('Mute Sounds', 'website-accessibility'), free: false, pro: true },
-    { label: __('Keyboard Navigation', 'website-accessibility'), free: false, pro: true },
-    { label: __('Virtual Keyboard', 'website-accessibility'), free: false, pro: true },
-    { label: __('Skip Links', 'website-accessibility'), free: false, pro: true },
-    { label: __('Focus Indicators', 'website-accessibility'), free: false, pro: true },
-
-    // Pro tools & advanced features
     { label: __('Custom Profiles', 'website-accessibility'), free: false, pro: true },
-    { label: __('Accessibility Checker', 'website-accessibility'), free: false, pro: true },
-    { label: __('Compliance Monitoring', 'website-accessibility'), free: false, pro: true },
-    { label: __('AI-Powered Fix Suggestions', 'website-accessibility'), free: false, pro: true },
-    { label: __('Translation & Consent Options', 'website-accessibility'), free: false, pro: true },
-    { label: __('Export / Import Settings (Tools & Backup)', 'website-accessibility'), free: false, pro: true },
+    { label: __('Export / Import settings (Tools & Backup)', 'website-accessibility'), free: false, pro: true },
     { label: __('White Label', 'website-accessibility'), free: false, pro: true },
-    { label: __('Priority Support', 'website-accessibility'), free: false, pro: true },
-  ]), []);
-
-  const presetControls = useMemo(() => ([
-    { area: __('Header', 'website-accessibility'), name: __('Show Translator', 'website-accessibility'), desc: __('Add a language / translation switcher to the panel header.', 'website-accessibility') },
-    { area: __('Footer', 'website-accessibility'), name: __('Show Branding', 'website-accessibility'), desc: __('Toggle the branding shown in the panel footer.', 'website-accessibility') },
-    { area: __('Panel', 'website-accessibility'), name: __('Items Layout', 'website-accessibility'), desc: __('Switch profiles and features between inline and column layouts.', 'website-accessibility') },
-    { area: __('Panel', 'website-accessibility'), name: __('Tooltip Position', 'website-accessibility'), desc: __('Choose where feature tooltips appear in the panel.', 'website-accessibility') },
+    { label: __('Screen reader, smart contrast & other Pro widgets', 'website-accessibility'), free: false, pro: true },
+    { label: __('Translation & consent options', 'website-accessibility'), free: false, pro: true },
+    { label: __('Accessibility checker', 'website-accessibility'), free: false, pro: true },
+    { label: __('Priority support', 'website-accessibility'), free: false, pro: true },
+    { label: __('Regular updates', 'website-accessibility'), free: true, pro: true },
   ]), []);
 
   const included = useMemo(() => ([
@@ -225,27 +202,6 @@ const GetProPage = () => {
           ))}
         </div>
       </div>
-
-      <WapCard className="wap-settings-row wap-get-pro__card" size="small">
-        <Title level={4} className="wap-get-pro__section-title">
-          {__('PRO CONTROLS IN THE PRESET BUILDER', 'website-accessibility')}
-        </Title>
-        <Text type="secondary" className="wap-get-pro__controls-note">
-          {__('These preset options unlock once One Accessibility Pro is active.', 'website-accessibility')}
-        </Text>
-        <ul className="wap-get-pro__controls">
-          {presetControls.map((control, idx) => (
-            <li className="wap-get-pro__control" key={idx}>
-              <span className="wap-get-pro__control-area">{control.area}</span>
-              <span className="wap-get-pro__control-body">
-                <span className="wap-get-pro__control-name">{control.name}</span>
-                <span className="wap-get-pro__control-desc">{control.desc}</span>
-              </span>
-              <span className="wap-get-pro__control-pro">{__('PRO', 'website-accessibility')}</span>
-            </li>
-          ))}
-        </ul>
-      </WapCard>
 
       <WapCard className="wap-settings-row wap-get-pro__card" size="small">
         <Title level={4} className="wap-get-pro__section-title">
