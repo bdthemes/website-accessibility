@@ -181,15 +181,6 @@ class Menu
 
         add_submenu_page(
             'website-accessibility',
-            __('CSS Overrides', 'website-accessibility'),
-            __('CSS Overrides', 'website-accessibility'),
-            'manage_options',
-            'website-accessibility-css-overrides',
-            [$this, 'render_menu_page']
-        );
-
-        add_submenu_page(
-            'website-accessibility',
             __('About & Info', 'website-accessibility'),
             __('About & Info', 'website-accessibility'),
             'manage_options',

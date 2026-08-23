@@ -6,7 +6,6 @@ import Dashboard from './dashboard';
 import CreatePreset from './create-preset';
 import Presets from './presets';
 import EditPreset from './edit-preset';
-import CssOverrides from './css-overrides';
 import Settings from './settings';
 import AboutInfo from './about-info';
 import GetPro from './get-pro';
@@ -48,8 +47,6 @@ const Pages = () => {
                 return <Presets />;
             case 'website-accessibility-presets-create':
                 return <CreatePreset />;
-            case 'website-accessibility-css-overrides':
-                return <CssOverrides />;
             case 'website-accessibility-settings':
                 return <Settings />;
             case 'website-accessibility-about':

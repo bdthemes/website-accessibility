@@ -4,7 +4,7 @@ Tags:              accessibility, a11y, wcag, ada-compliance, screen-reader
 Requires at least: 6.1
 Tested up to:      7.0
 Requires PHP:      7.4
-Stable tag:        1.5.0
+Stable tag:        1.5.1
 License:           GPL-2.0-or-later
 License URI:       https://www.gnu.org/licenses/gpl-2.0.html
 
@@ -210,6 +210,9 @@ Features such as Google Translate integration and the AI-based accessibility che
 The JavaScript and CSS shipped in `build/` are compiled with `@wordpress/scripts`. The human-readable sources are included in the plugin package under `src/` and are also published at https://github.com/bdthemes/website-accessibility (run `npm install && npm run build` to reproduce `build/`).
 
 == Changelog ==
+
+= 1.5.1 – August 23, 2026 =
+* Removed: The "CSS Overrides" custom-CSS feature. Use Appearance → Customize → Additional CSS instead.
 
 = 1.5.0 – August 17, 2026 =
 * Removed: All Pro-only / license-gated code and placeholder screens. Pro features live in the separate One Accessibility Pro plugin; nothing here is locked or greyed out.

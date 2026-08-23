@@ -70,7 +70,6 @@ class Enqueue {
             ? $admin_assets['dependencies']
             : [];
         $version            = $admin_assets['version'] ?? WEBSAC_VERSION;
-        $code_editor_bundle = [];
 
         /** Shared toolbar components must load before the admin SPA (sets window.wapComponents / wapHelpers). */
         if (
@@ -78,28 +77,6 @@ class Enqueue {
             ! in_array('websac-components', $dependencies, true)
         ) {
             $dependencies[] = 'websac-components';
-        }
-
-        /** WordPress CodeMirror wrapper: load core `code-editor` before the SPA bundle. */
-        if (function_exists('wp_enqueue_code_editor')) {
-            $code_editor_settings = wp_enqueue_code_editor([
-                'type'       => 'text/css',
-                'codemirror' => [
-                    'indentUnit'   => 2,
-                    'tabSize'      => 2,
-                    'lineNumbers'  => true,
-                    'lineWrapping' => true,
-                    /* Light theme: contrasts with admin card; syntax tokens stay colorful */
-                    'theme'        => 'default',
-                ],
-            ]);
-
-            if (false !== $code_editor_settings) {
-                if (! in_array('code-editor', $dependencies, true)) {
-                    $dependencies[] = 'code-editor';
-                }
-                $code_editor_bundle = $code_editor_settings;
-            }
         }
 
         /**
@@ -120,14 +97,6 @@ class Enqueue {
         );
 
         wp_enqueue_media();
-
-        if ([] !== $code_editor_bundle) {
-            wp_add_inline_script(
-                'websac-admin',
-                sprintf('window.websacCssOverridesCodeEditor=%s;', wp_json_encode($code_editor_bundle)),
-                'before'
-            );
-        }
 
         wp_set_script_translations('websac-admin', 'website-accessibility', WEBSAC_DIR . 'languages/');
 

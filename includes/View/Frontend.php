@@ -13,7 +13,6 @@ class Frontend {
 
     private function __construct() {
         add_action('wp_enqueue_scripts', [$this, 'enqueue_frontend_scripts']);
-        add_action('wp_enqueue_scripts', [$this, 'enqueue_frontend_custom_css'], 99);
         add_action('wp_enqueue_scripts', [$this, 'enqueue_components_scripts'], 1);
         add_action('admin_enqueue_scripts', [$this, 'enqueue_components_scripts'], 1);
         add_action('wp_footer', [$this, 'render_preset_root']);
@@ -113,29 +112,6 @@ class Frontend {
         }
     }
 
-    /**
-     * Output site-wide custom CSS saved from the dashboard (after theme/plugin CSS).
-     */
-    public function enqueue_frontend_custom_css() {
-        if (is_admin()) {
-            return;
-        }
-
-        if (Utils::is_builder_editor()) {
-            return;
-        }
-
-        $css = Utils::get_settings('frontend_custom_css');
-        if (! is_string($css) || trim($css) === '') {
-            return;
-        }
-
-        $handle = 'websac-frontend-custom-css';
-        wp_register_style($handle, false, [], WEBSAC_VERSION);
-        wp_enqueue_style($handle);
-        wp_add_inline_style($handle, $css);
-    }
-
     public function enqueue_frontend_scripts() {
         if (! $this->should_render_preset_assets() || Utils::is_builder_editor()) {
             return;
@@ -208,7 +184,7 @@ class Frontend {
         $public   = [];
 
         if (is_array($settings)) {
-            foreach (['show_usage_statistics', 'frontend_custom_css'] as $key) {
+            foreach (['show_usage_statistics'] as $key) {
                 if (array_key_exists($key, $settings)) {
                     $public[$key] = $settings[$key];
                 }

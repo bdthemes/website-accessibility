@@ -11,7 +11,6 @@ import { useLocation, useHistory } from '../router';
 import {
 	IconGeneral,
 	IconPresets,
-	IconCssOverrides,
 	IconSettings,
 	IconPro,
 	IconInfo,
@@ -178,7 +177,6 @@ const AdminLayout = ({ children }) => {
 			icon: <IconSettings />,
 			label: <span data-tour="wap-tour-settings-item">{__('Settings', 'website-accessibility')}</span>,
 		},
-		{ key: 'website-accessibility-css-overrides', position: 50, icon: <IconCssOverrides />, label: __('CSS Overrides', 'website-accessibility') },
 		...extensionItems('general'),
 	].sort(sortByPosition);
 
