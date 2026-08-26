@@ -27,7 +27,7 @@ function getFreshPresetsFormData() {
 }
 
 const CreatePreset = () => {
-  const { WapCard, WapButton, WapSpace, WapTypography, WapInput } = window?.wapComponents;
+  const { WapCard, WapButton, WapSpace, WapTypography, WapInput, WapMessage } = window?.wapComponents;
   const { presetsFormData } = useSelect((select) => select(STORE_NAME).getPresetsFormData());
   const { setPresetsFormData, createPreset } = useDispatch(STORE_NAME);
   const history = useHistory();
@@ -46,7 +46,17 @@ const CreatePreset = () => {
     }
     setIsSaving(true);
     try {
-      await createPreset(presetsFormData);
+      const result = await createPreset(presetsFormData);
+
+      // A failed save must not silently discard the form the user just filled in.
+      if (result && result.success === false) {
+        WapMessage.error(
+          result.error?.message ||
+          __('Could not save the preset. Check your connection and try again.', 'website-accessibility')
+        );
+        return;
+      }
+
       setPresetsFormData(getFreshPresetsFormData());
       history.push({
         page: 'website-accessibility-presets',
