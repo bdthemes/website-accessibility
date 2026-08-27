@@ -11,6 +11,15 @@
     }
   }
 
+  // The card body wraps rather than shrinks, which dropped the button onto its
+  // own line: let the copy shrink so the button can stay on the right.
+  .wap-get-pro__header-copy {
+    // Basis 0, not auto: with flex-wrap on, an `auto` basis measures the full
+    // description and wraps the button onto its own line instead of shrinking.
+    flex: 1 1 0;
+    min-width: 0;
+  }
+
   .wap-get-pro__header-actions {
     flex-shrink: 0;
   }
@@ -32,6 +41,9 @@
 }
 
 .wap-get-pro__comparison {
+  // Plain div, so it does not inherit the 20px rhythm .wap-settings-row gives
+  // the cards around it.
+  margin-top: 20px;
   border: 1px solid #eef0f2;
   border-radius: 12px;
   overflow: hidden;
@@ -286,3 +298,72 @@
   }
 }
 
+
+// "What's New in Pro" — deliberately plain: the comparison table right below
+// already carries the icons and check marks, so this stays text-only.
+.wap-get-pro__whats-new-note {
+  display: block;
+  margin: -8px 0 0 !important;
+  font-size: 12.5px;
+  color: #6b7280;
+}
+
+.wap-get-pro__whats-new-list {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 12px;
+  // The note above is an .ant-typography, and a global rule forces its
+  // margin-bottom to 0 — so the spacing has to live on the list.
+  margin: 16px 0 0;
+  padding: 0;
+  list-style: none;
+
+  @media (max-width: 900px) {
+    grid-template-columns: 1fr;
+  }
+}
+
+.wap-get-pro__whats-new-item {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+  min-width: 0;
+  padding: 12px 14px;
+  border: 1px solid #eef0f2;
+  border-radius: 10px;
+}
+
+.wap-get-pro__whats-new-title {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  font-size: 13px;
+  font-weight: 600;
+  color: #111827;
+}
+
+.wap-get-pro__whats-new-badge {
+  display: inline-flex;
+  align-items: center;
+  height: 17px;
+  padding: 0 6px;
+  border-radius: 4px;
+  background: #ecfdf5;
+  color: #047857;
+  font-size: 10px;
+  font-weight: 700;
+  letter-spacing: 0.04em;
+}
+
+.wap-get-pro__whats-new-desc {
+  font-size: 12.5px;
+  line-height: 1.55;
+  color: #6b7280;
+}
+
+// The CTA used to sit under the "What's included" grid; it now stands alone.
+.wap-get-pro__cta--standalone {
+  margin-top: 0;
+  padding-top: 0;
+  border-top: 0;
+}
