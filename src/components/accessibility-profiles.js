@@ -161,7 +161,14 @@ const AccessibilityProfiles = ({
 	}, [allProfiles]);
 
 	const selectedProfiles = useMemo(() => {
-		return processedProfiles.filter((profile) => profiles.includes(profile.id));
+		// Compare as strings. A custom profile's id arrives as a number on the
+		// front end (WP_Post.ID) but the saved list can hold either a number or
+		// a string depending on which code path enabled it, and `includes` is a
+		// strict comparison — so a profile saved as "394" would never match the
+		// number 394 and simply vanished from the panel, even though its switch
+		// still showed as on (that check already compared loosely).
+		const selectedIds = profiles.map((id) => String(id));
+		return processedProfiles.filter((profile) => selectedIds.includes(String(profile.id)));
 	}, [processedProfiles, profiles]);
 
 	const handleProfileClick = (profile) => {

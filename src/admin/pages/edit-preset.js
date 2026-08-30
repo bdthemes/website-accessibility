@@ -94,6 +94,15 @@ const EditPreset = () => {
     }
 
     notifyPresetSavedForTour();
+
+    // Announce the save so add-ons (the Pro guided tour) can react. Dispatched
+    // only on success, so nothing can treat a failed save as a completed step.
+    if (typeof window !== 'undefined') {
+      window.dispatchEvent(
+        new CustomEvent('websac-preset-saved', { detail: { presetId: id } })
+      );
+    }
+
     history.push({
       page: 'website-accessibility-presets',
     });
