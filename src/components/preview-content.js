@@ -115,6 +115,7 @@ const PreviewContent = ({
             allProfiles={allProfiles}
             accessibilityContext={accessibilityContext}
             accessibilityDispatch={accessibilityDispatch}
+            onFeatureInteraction={onFeatureInteraction}
         />,
         features: <WidgetFeatures
             value={panel}
@@ -165,6 +166,7 @@ const PreviewContent = ({
                             isEditorPreview={isEditorPreview}
                             headerDropdownOpen={headerDropdownOpen}
                             onHeaderDropdownOpenChange={setHeaderDropdownOpen}
+                            onFeatureInteraction={onFeatureInteraction}
                         />
                     )
                 }

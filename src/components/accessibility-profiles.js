@@ -99,6 +99,7 @@ const AccessibilityProfiles = ({
 	allProfiles,
 	accessibilityContext,
 	accessibilityDispatch,
+	onFeatureInteraction = () => {},
 }) => {
 	const features = window.wapHelpers?.features || [];
 	const { items } = value;
@@ -213,11 +214,15 @@ const AccessibilityProfiles = ({
 					type: "SET_CURRENT_SETTINGS",
 					payload: updatedSettings,
 				});
+				// A profile switches several features on at once; report the
+				// resulting state so those uses reach the dashboard too.
+				onFeatureInteraction(updatedSettings);
 			} else {
 				announce(`Accessibility profile reset.`, { profile: null, settings: currentSettings });
 				accessibilityDispatch({
 					type: "RESET_PROFILE_SETTINGS",
 				});
+				onFeatureInteraction({});
 			}
 		}, 200);
 	};

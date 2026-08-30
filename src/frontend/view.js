@@ -3,6 +3,7 @@ import clsx from "clsx";
 import useFrontendAccessibility from "./context/useAccessibility";
 import accessibilityManager from "../accessibilty-manager";
 import { announce } from "../utils/feature-handlers";
+import { toCssLength } from "../utils/helpers";
 import { __ } from "@wordpress/i18n";
 import apiFetch from "@wordpress/api-fetch";
 
@@ -18,6 +19,8 @@ const View = () => {
     const browserKey = useBrowserKey(!!settings?.show_usage_statistics);
     const isSavingStatisticsRef = useRef(false);
     const statisticsDebounceRef = useRef(null);
+    // Pending retry for a snapshot the server throttled away (see saveStatistics).
+    const statisticsRetryRef = useRef(null);
 
     const closeAccessibilityDrawer = useCallback(() => {
         justClosedRef.current = true;
@@ -277,7 +280,19 @@ const View = () => {
             const result = await response.json();
 
             if (!result.success) {
-                console.warn('Failed to save statistics', result.message);
+                // The endpoint accepts one write per browser every 5 seconds, and
+                // the payload is a snapshot rather than an increment — so a
+                // rejected write silently leaves the previous state on the
+                // dashboard. That is exactly what "switch a widget on, then
+                // reset" hits. Re-send the latest snapshot once the window has
+                // passed; a newer interaction replaces this pending retry.
+                if (statisticsRetryRef.current) {
+                    clearTimeout(statisticsRetryRef.current);
+                }
+                statisticsRetryRef.current = setTimeout(() => {
+                    statisticsRetryRef.current = null;
+                    saveStatistics(data);
+                }, 5500);
             }
         } catch (err) {
             console.error('Error sending statistics', err);
@@ -292,6 +307,12 @@ const View = () => {
             clearTimeout(statisticsDebounceRef.current);
         }
         
+        // A fresh interaction supersedes any snapshot waiting to be retried.
+        if (statisticsRetryRef.current) {
+            clearTimeout(statisticsRetryRef.current);
+            statisticsRetryRef.current = null;
+        }
+
         statisticsDebounceRef.current = setTimeout(() => {
             saveStatistics(nextSettings || {});
         }, 1000);
@@ -301,6 +322,9 @@ const View = () => {
         return () => {
             if (statisticsDebounceRef.current) {
                 clearTimeout(statisticsDebounceRef.current);
+            }
+            if (statisticsRetryRef.current) {
+                clearTimeout(statisticsRetryRef.current);
             }
         };
     }, []);
@@ -372,7 +396,7 @@ const View = () => {
                     '--button-color': currentPreset?.button?.color,
                     '--button-bg': currentPreset?.button?.bgColor,
                     '--button-padding': currentPreset?.button?.padding,
-                    '--button-radius': currentPreset?.button?.borderRadius,
+                    '--button-radius': toCssLength(currentPreset?.button?.borderRadius),
                     '--button-offset-x': currentPreset?.button?.offsetX ? `${currentPreset?.button?.offsetX}px` : '',
                     '--button-offset-y': currentPreset?.button?.offsetY ? `${currentPreset?.button?.offsetY}px` : '',
                 }}

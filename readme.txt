@@ -212,11 +212,15 @@ The JavaScript and CSS shipped in `build/` are compiled with `@wordpress/scripts
 == Changelog ==
 
 = 1.5.2 – ---- =
-* Fixed: Activating a preset now deactivates the previous one with the same
-  condition, so the site no longer uses an older preset.
-* Fixed: A failed preset save now shows an error instead of silently keeping
-  the old values.
-* Fixed: Data migrations no longer corrupt presets that contain quotes.
+* Fixed: Activating a preset now deactivates the previous one with the same condition.
+* Fixed: A failed preset save shows an error instead of silently keeping the old values.
+* Fixed: Migrations no longer corrupt presets containing quotes.
+* Fixed: Bigger Text and Text Spacing grew on every toggle and did not reset (e.g. Astra).
+* Fixed: Usage Statistics kept counting features that were already switched off.
+* Fixed: The panel header ignored its own top and bottom padding.
+* Added: Sticky save bar in the preset editor.
+* Changed: Border Radius takes a plain number; "px" is shown beside the input.
+* Changed: Upgrade links open the pricing page directly.
 
 = 1.5.1 – August 23, 2026 =
 * Removed: The "CSS Overrides" custom-CSS feature. Use Appearance → Customize → Additional CSS instead.

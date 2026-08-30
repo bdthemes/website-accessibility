@@ -14,7 +14,7 @@ const CheckIcon = () => (
 const ProUpsellPage = ({ title, description, features = [] }) => {
 	const { WapCard, WapButton, WapTypography } = window?.wapComponents || {};
 	const { Title, Text } = WapTypography || {};
-	const upgradeUrl = window?.websacAdmin?.proUpgradeUrl || 'https://oneaccessibility.com#pricing';
+	const upgradeUrl = window?.websacAdmin?.proUpgradeUrl || 'https://oneaccessibility.com/pricing';
 
 	return (
 		<div className="wap-settings wap-pro-upsell-page">

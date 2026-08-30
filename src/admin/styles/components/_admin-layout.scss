@@ -4,7 +4,10 @@
 	max-width: 1200px;
 	margin: 0 auto;
 	border-radius: 10px;
+	// See .wap-admin-main-column: `clip` keeps the rounded corners without
+	// creating a scroll container, so sticky descendants still work.
 	overflow: hidden;
+	overflow: clip;
 
 	.ant-layout {
 		background: transparent;
@@ -433,7 +436,11 @@
 	flex: 1;
 	background: #fff;
 	border-radius: 0 10px 10px 0;
+	// `clip` crops exactly like `hidden` but does not become a scroll container,
+	// which is what lets the sticky save bar stick to the window. `hidden` stays
+	// first as the fallback for browsers without `clip`.
 	overflow: hidden;
+	overflow: clip;
 	padding: 0 !important;
 }
 

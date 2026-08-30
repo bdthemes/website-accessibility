@@ -4,6 +4,7 @@ import { useSelect } from "@wordpress/data";
 import { STORE_NAME } from "../store";
 import PreviewContent from "../../components/preview-content";
 import { initialState } from "../../frontend/context/reducer";
+import { toCssLength } from "../../utils/helpers";
 
 const PresetEditorPreview = () => {
     const { PreviewButton, Icon, WapDrawer } = window?.wapComponents || {};
@@ -115,7 +116,7 @@ const PresetEditorPreview = () => {
                     "--button-color": button?.color,
                     "--button-bg": button?.bgColor,
                     "--button-padding": button?.padding,
-                    "--button-radius": button?.borderRadius,
+                    "--button-radius": toCssLength(button?.borderRadius),
                     "--button-offset-x": button?.offsetX ? `${button?.offsetX}px` : "",
                     "--button-offset-y": button?.offsetY ? `${button?.offsetY}px` : "",
                 }}

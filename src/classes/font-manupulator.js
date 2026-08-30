@@ -12,6 +12,16 @@ class FontManipulator {
             'word-spacing'
         ]; // ✅ validators
 
+        // element → { prop: { originalValue, inlineValue, hasInline } }
+        //
+        // Kept in memory and never dropped: remove() and apply() run in the same
+        // synchronous task, and getComputedStyle() right after removeProperty()
+        // still reports the scaled value. Re-reading it as the "original" made
+        // every toggle of any other feature multiply the size again
+        // (16 → 19.2 → 23.04 → 27.6 …). The first measurement is the only one
+        // that can be trusted, so it is the one we keep.
+        this.originals = new WeakMap();
+
         this.userPercent = options.percent || 20;
         this.userProperties = options.properties || ['font-size'];
 
@@ -33,38 +43,40 @@ class FontManipulator {
         const validProps = properties.filter(p => this.validProperties.includes(p));
 
         for (let el of textElements) {
-            if (el.hasAttribute(this.dataAttribute)) continue;
-
+            const remembered = this.originals.get(el) || {};
             const computed = window.getComputedStyle(el);
-            const stored = {};
+            const record = { ...remembered };
 
             validProps.forEach(prop => {
-                const computedValue = (computed.getPropertyValue(prop) || '').trim();
-                if (!computedValue) return;
+                const known = remembered[prop];
 
-                const match = computedValue.match(/^(-?\d*\.?\d+)([a-z%]*)$/i);
+                // Measure once; every later pass scales that same baseline.
+                const baseValue = known
+                    ? known.originalValue
+                    : (computed.getPropertyValue(prop) || '').trim();
+                if (!baseValue) return;
+
+                const match = baseValue.match(/^(-?\d*\.?\d+)([a-z%]*)$/i);
                 if (!match) return;
 
                 const numeric = parseFloat(match[1]);
                 if (!Number.isFinite(numeric)) return;
 
                 const unit = match[2] || '';
-                const newValue = numeric * (1 + percent / 100);
-                const inlineValue = el.style.getPropertyValue(prop);
-                const hasInline = inlineValue !== '';
+                const inlineValue = known ? known.inlineValue : el.style.getPropertyValue(prop);
 
-                // Store inline original so remove() can restore true baseline.
-                stored[prop] = {
+                record[prop] = {
+                    originalValue: baseValue,
                     inlineValue,
-                    hasInline
+                    hasInline: known ? known.hasInline : inlineValue !== ''
                 };
 
-                el.style.setProperty(prop, `${newValue}${unit}`);
+                el.style.setProperty(prop, `${numeric * (1 + percent / 100)}${unit}`);
             });
 
-            // Store original values as JSON
-            if (Object.keys(stored).length > 0) {
-                el.setAttribute(this.dataAttribute, JSON.stringify(stored));
+            if (Object.keys(record).length > 0) {
+                this.originals.set(el, record);
+                el.setAttribute(this.dataAttribute, JSON.stringify(record));
             }
         }
     }
@@ -76,30 +88,58 @@ class FontManipulator {
         const elements = Array.from(root.querySelectorAll(`[${this.dataAttribute}]`));
 
         for (let el of elements) {
-            const storedData = el.getAttribute(this.dataAttribute);
-            if (!storedData) continue;
+            const record = this.originals.get(el) || this.parseMarker(el);
 
-            try {
-                const original = JSON.parse(storedData);
-                Object.entries(original).forEach(([prop, value]) => {
-                    // Backward compatibility with old stored format (string value).
-                    if (typeof value === 'string') {
-                        el.style.setProperty(prop, value);
-                        return;
-                    }
+            Object.entries(record).forEach(([prop, value]) => {
+                if (value.hasInline) {
+                    el.style.setProperty(prop, value.inlineValue || '');
+                } else {
+                    el.style.removeProperty(prop);
+                }
+            });
 
-                    if (value?.hasInline) {
-                        el.style.setProperty(prop, value.inlineValue || '');
-                    } else {
-                        el.style.removeProperty(prop);
-                    }
-                });
-            } catch (e) {
-                console.warn('Invalid font-manipulator data:', e);
-            }
-
+            // The marker goes, the remembered baseline stays: an element's real
+            // font size does not change just because the feature was switched off,
+            // and keeping it is what makes a later apply() idempotent.
             el.removeAttribute(this.dataAttribute);
         }
+    }
+
+    /**
+     * Read a marker written on a previous page load, tolerating the older
+     * formats (a bare string, or an object without `originalValue`).
+     *
+     * @param {Element} el
+     * @return {Object}
+     */
+    parseMarker(el) {
+        const raw = el.getAttribute(this.dataAttribute);
+        if (!raw) return {};
+
+        let parsed;
+        try {
+            parsed = JSON.parse(raw);
+        } catch (e) {
+            return {};
+        }
+        if (!parsed || typeof parsed !== 'object') return {};
+
+        const out = {};
+        Object.entries(parsed).forEach(([prop, value]) => {
+            if (typeof value === 'string') {
+                out[prop] = { originalValue: value, inlineValue: value, hasInline: value !== '' };
+                return;
+            }
+            if (!value || typeof value !== 'object') return;
+
+            out[prop] = {
+                originalValue: value.originalValue || value.inlineValue || '',
+                inlineValue: value.inlineValue || '',
+                hasInline: !!value.hasInline
+            };
+        });
+
+        return out;
     }
 
     /**

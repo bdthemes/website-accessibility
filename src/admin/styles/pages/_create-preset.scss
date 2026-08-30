@@ -129,10 +129,18 @@
         margin: 16px 0;
     }
 
+    // Sticks to the bottom of the window so the preset can be saved from
+    // anywhere in a long form, instead of scrolling back to the footer.
     .wap-preset-form-actions {
+        position: sticky;
+        bottom: 0;
+        z-index: 100;
         text-align: right;
+        background: #fff;
+        border-top: 1px solid #eef0f2;
         // Keep the save button inset so .wap-admin-main-column overflow does not clip its bottom-right radius
-        padding: 0 20px 20px;
+        padding: 12px 20px;
+        margin-top: 0 !important;
 
         .ant-btn {
             height: 36px !important;

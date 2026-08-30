@@ -23,9 +23,7 @@ const GetProPage = () => {
   const { Title, Text } = WapTypography;
   const isProPluginActive = typeof window !== 'undefined' && !!window.websacAdmin?.isProPluginActive;
 
-  const upgradeUrl = (typeof window !== 'undefined' && window.websacAdmin?.proUpgradeUrl)
-    ? window.websacAdmin.proUpgradeUrl
-    : 'https://oneaccessibility.com#pricing';
+  const upgradeUrl = 'https://oneaccessibility.com/pricing';
 
   const featuresRows = useMemo(() => ([
     // Core (available in both)

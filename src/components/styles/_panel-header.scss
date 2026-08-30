@@ -10,7 +10,9 @@
 	align-items: center;
 	justify-content: space-between;
 	gap: 10px;
-	min-height: 60px;
+	// No min-height: it silently overrode the preset's own padding, so setting
+	// top/bottom padding to 0 still left a 60px header. The height now follows
+	// the padding and the tallest child (the 34px action buttons).
 	transition:
 		background 0.3s ease,
 		color 0.3s ease,
