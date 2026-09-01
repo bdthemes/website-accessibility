@@ -212,13 +212,13 @@ The JavaScript and CSS shipped in `build/` are compiled with `@wordpress/scripts
 == Changelog ==
 
 = 1.6.0 – September 01, 2026 =
+* Added: Sticky save bar in the preset editor.
 * Fixed: Activating a preset now deactivates the previous one with the same condition.
 * Fixed: A failed preset save shows an error instead of silently keeping the old values.
 * Fixed: Migrations no longer corrupt presets containing quotes.
 * Fixed: Bigger Text and Text Spacing grew on every toggle and did not reset (e.g. Astra).
 * Fixed: Usage Statistics kept counting features that were already switched off.
 * Fixed: The panel header ignored its own top and bottom padding.
-* Added: Sticky save bar in the preset editor.
 * Changed: Border Radius takes a plain number; "px" is shown beside the input.
 * Changed: Upgrade links open the pricing page directly.
 
