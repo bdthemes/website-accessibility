@@ -1,6 +1,6 @@
-=== One Accessibility – Making Your Site Accessible to Everyone ===
+=== One Accessibility - WordPress Accessibility Plugin & ADA Compliance Widget ===
 Contributors:      bdthemes, selimmw, abutalib, muhammadasik, mohammaadfarid, maudud
-Tags:              accessibility, a11y, wcag, ada-compliance, screen-reader
+Tags:              accessibility, web-accessibility, accessibility-plugin, ada-compliance, wcag
 Requires at least: 6.1
 Tested up to:      7.1
 Requires PHP:      7.4
@@ -8,206 +8,177 @@ Stable tag:        1.6.0
 License:           GPL-2.0-or-later
 License URI:       https://www.gnu.org/licenses/gpl-2.0.html
 
-Make your site accessible to everyone with advanced tools, WCAG compliance, and customization for a truly inclusive experience.
+Boost web accessibility and ADA compliance on your site with an advanced accessibility widget, customizable toolbar and compliance tools.
 
 == Description ==
 
-**Make Your Website Accessible to Everyone with One Accessibility Website Accessibility Plugin**
+**Make Your Website Accessible to Everyone with the One Accessibility WordPress Accessibility Plugin**
 
-In today's digital world, creating inclusive web experiences isn't just good practice—it's essential. **One Accessibility Website Accessibility** is a comprehensive WordPress plugin designed to help website owners, developers, and businesses effortlessly achieve WCAG 2.1, ADA, and Section 508 compliance while providing an exceptional user experience for visitors with diverse accessibility needs.
+In today's digital world, web accessibility is not just good practice: it is essential. When it comes to digital accessibility, WordPress websites need robust and reliable tools to serve every user equally. **One Accessibility** is a comprehensive **accessibility plugin** designed to help website owners, developers and businesses effortlessly improve **accessibility compliance** (WCAG 2.1, ADA, Section 508 and the European **Accessibility Act**) while providing an exceptional browsing experience for visitors with diverse accessibility needs.
+
+Whether you need a versatile **Accessibility widget**, custom profiles for motor or visual impairments or automated tools for continuous **accessibility testing**, One Accessibility provides an all-in-one **accessibility tool** built with modern React technology.
 
 **[Try Live Demo](https://try.bdthemes.com/)** | **[Get One Accessibility Pro](https://oneaccessibility.com/)** | **[Read Documentation](https://bdthemes.com/all-knowledge-base-of-one-accessibility/)**
 
 https://youtu.be/4w8lmkMgt9M?si=Z7gvhREYTVML7f1V
 
-### ✨ Why Choose One Accessibility Website Accessibility?
+### Why Choose One Accessibility for Web Accessibility?
 
-**Smart Conditional System**: Create unlimited accessibility presets and deploy them strategically across your entire site, specific pages, posts, or archive pages. Whether you're running a corporate website, e-commerce store, or personal blog, our intelligent conditional assignment system ensures the right accessibility tools appear exactly where they're needed.
+* **Smart Conditional System**: Create unlimited accessibility presets and deploy them strategically across your entire site, specific pages, posts or archive pages. Ensure the right accessibility tool appears exactly where it is needed.
+* **Visual Drag-and-Drop Editor**: Customize your frontend **accessibility widget** and toolbar layout, appearance and styling with simple drag-and-drop controls without writing complex code.
+* **Specialized User Profiles**: Support visitors with pre-configured profiles including Motor Impairment, Blindness & Low Vision, Color Blindness, Dyslexia, Cognitive Disabilities, Seizure & Epilepsy Safety and ADHD accommodations.
+* **Accessibility ADA & WCAG Alignment**: Enhance your site's readiness for **accessibility ADA** standards, WCAG 2.1 AA benchmarks, Section 508 and European **Accessibility Act** requirements.
+* **Universal Compatibility**: Built with React to work flawlessly alongside any WordPress theme and major page builder (Elementor, Gutenberg, Beaver Builder, Divi etc.) with zero script conflicts.
 
-**Visual Drag-and-Drop Editor**: Say goodbye to complex coding! Our intuitive mini-editor allows you to customize your accessibility toolbar's appearance, layout, and functionality with simple drag-and-drop controls. Design beautiful, user-friendly accessibility interfaces that match your brand aesthetic.
+### 🛠️ Powerful Website Accessibility Features That Make a Difference
 
-**Specialized User Profiles**: Support visitors with specific accessibility needs through our pre-configured user profiles including Motor Impairment, Blindness & Low Vision, Color Blindness, Dyslexia, Cognitive Disabilities, Seizure & Epilepsy Safety, and ADHD accommodations.
-
-**Universal Compatibility**: Built with modern React technology and designed to work flawlessly with any WordPress theme, page builder (Elementor, Gutenberg, Beaver Builder, etc.), or custom development setup. No conflicts, no compatibility issues—just seamless integration.
-
-### 🛠️ Powerful Features That Make a Difference
-
-**🎛️ Advanced Accessibility Toolbar**
-- Screen reader optimization and navigation
-- High contrast mode and color adjustments
-- Font size scaling and readability enhancements
-- Animation and motion reduction controls
-- Keyboard navigation improvements
-- Focus indicators and skip links
+**🎛️ Advanced Accessibility Widget & Toolbar**
+- Screen reader navigation and optimization (supports WCAG 4.1.2 Name, Role, Value)
+- High contrast modes, monochrome and color adjustments (supports WCAG 1.4.3 Contrast Minimum and 1.4.6 Contrast Enhanced)
+- Font size scaling, line spacing and text readability enhancements (supports WCAG 1.4.4 Resize Text and 1.4.12 Text Spacing)
+- Animation and motion pause or reduction controls (supports WCAG 2.2.2 Pause, Stop, Hide)
+- Keyboard navigation improvements, focus indicators and skip links (supports WCAG 2.1.1 Keyboard and 2.4.7 Focus Visible)
 
 **🌍 Language & Communication Tools**
-- Google Translate integration for multilingual accessibility (Pro)
-- Dictionary tooltips (double-click a word for its definition, read aloud with your browser's speech synthesis)
+- Dictionary tooltips (double-click a word for its definition and read aloud using browser speech synthesis)
+- Reading guides and focus highlighters for better website accessibility
+- Google Translate multilingual integration (Pro)
 - Text-to-speech / screen-reader mode (Pro)
-- Reading guides and focus indicators
 
-**⚙️ Professional Management System**
-- Multiple preset configurations
-- Real-time preview functionality
-- On-site usage statistics (stored only in your WordPress database)
-- Compliance monitoring dashboard (Pro)
-- Easy backup and restore options (Pro)
+**⚙️ Professional Management & Website Accessibility Compliance Tools**
+- Multiple preset configurations with granular condition rules
+- Real-time toolbar preview
+- On-site usage statistics stored locally in your WordPress database
+- Statement page generator and status helper
+- Compliance monitoring dashboard and AI-driven **WordPress accessibility checker** (Pro)
+- Easy preset backup and restore options (Pro)
 
 **🎨 Customization Excellence**
-- Brand-aligned toolbar designs
-- Custom color schemes and themes
-- Flexible positioning options
-- Mobile-responsive accessibility controls
-- Icon and text customization
+- Fully customizable **website accessibility widget** button (icons, size, position and colors)
+- Responsive layout adapting to mobile phones, tablets and desktops
+- Custom color schemes matching your brand design
 
-### 🏆 Perfect for Every Website Type
+### 🏆 Perfect for Every WordPress Website Type
 
-Whether you're managing a government website requiring Section 508 compliance, an e-commerce platform serving diverse customers, educational institutions, healthcare providers, or any business committed to digital inclusion, One Accessibility Website Accessibility provides enterprise-level features with user-friendly simplicity.
-
-The plugin automatically creates a default accessibility preset upon activation, so you're instantly compliant and ready to serve all users. Advanced users can create sophisticated, multi-layered accessibility experiences, while beginners can rely on our expertly crafted defaults.
-
-**🚀 Start building a more inclusive web today** – because accessibility isn't just about compliance, it's about creating digital experiences that welcome everyone.
+Whether managing a government portal requiring strict **accessibility compliance**, an eCommerce store expanding its customer reach, an educational site or a personal blog, One Accessibility provides enterprise-level tools with beginner-friendly simplicity. The plugin generates a default preset upon activation, giving your site an instant boost in digital inclusion.
 
 == Installation ==
 
-### 🚀 Quick Start (Recommended)
+### 🚀 Quick Start for the WordPress Accessibility Plugin(Recommended)
 
-1. **Automatic Installation**: Go to your WordPress admin dashboard → Plugins → Add New → Search for "One Accessibility Website Accessibility" → Install Now → Activate
-2. **Manual Upload**: Download the plugin → Upload to `/wp-content/plugins/website-accessibility/` → Activate via Plugins screen
-3. **Auto-Configuration**: The plugin automatically creates a default accessibility preset upon activation - you're instantly ready!
-4. **Access Settings**: Navigate to **Accessibility** in your WordPress admin menu to customize further
+1. **Automatic Installation**: Go to your WordPress admin dashboard → **Plugins** → **Add New** → Search for "One Accessibility" → Click **Install Now** → **Activate**.
+2. **Manual Upload**: Download the plugin ZIP file → Upload to `/wp-content/plugins/website-accessibility/` → Activate via the Plugins screen.
+3. **Auto-Configuration**: A default accessibility preset is automatically created upon activation so your **accessibility widget** is ready immediately.
+4. **Access Settings**: Navigate to **Accessibility** in your WordPress admin menu to configure presets and styles.
 
 ### ⚙️ Advanced Configuration
 
-1. **Create Custom Presets**: Go to Accessibility → Presets → Create new preset with specific conditions
-2. **Customize Toolbar**: Use the drag-and-drop mini editor to design your accessibility interface
-3. **Set Up Profiles**: Configure specialized user profiles for different accessibility needs
-4. **Conditional Assignment**: Assign different presets to Entire Site, Singular pages, or Archive pages
-5. **Preview & Test**: Use the built-in preview functionality to test your accessibility toolbar
+1. **Create Custom Presets**: Go to **Accessibility** → **Presets** → Create a preset and configure display conditions.
+2. **Customize Toolbar**: Use the drag-and-drop editor to style the toolbar and adjust the **Accessibility widget** icon and colors.
+3. **Set Up Profiles**: Enable or adjust user profiles for various accessibility needs.
+4. **Conditional Assignment**: Assign distinct presets to Entire Site, Singular pages or Archive pages.
+5. **Preview & Test**: Use the live preview to verify your changes.
 
-### 🔧 Post-Installation Checklist
+### 🔧 Post-Installation Accessibility Checklist
 
-- ✅ Verify the accessibility toolbar appears on your frontend
-- ✅ Test keyboard navigation (CTRL+U to open accessibility menu)
-- ✅ Confirm the Dictionary tool and profiles behave as expected
-- ✅ Check mobile responsiveness of accessibility controls
-- ✅ Review preset conditions match your website structure
+- ✅ Verify that the frontend **WordPress accessibility widget** displays correctly on desktop and mobile.
+- ✅ Test keyboard navigation (press CTRL+U or tab navigation to open the menu).
+- ✅ Confirm the Dictionary tool and profile filters respond as expected.
+- ✅ Perform routine **accessibility testing** for your WordPress website across different templates and pages.
+- ✅ Check that preset conditional rules match your site structure.
 
 == Frequently Asked Questions ==
 
-= How do I know if my website meets accessibility standards? =
-The plugin automatically implements WCAG 2.1 AA guidelines through its default preset. Upon activation, your site immediately gains essential accessibility features like keyboard navigation, screen reader optimization, and focus indicators. For comprehensive compliance, we recommend using the plugin alongside accessibility testing tools and potentially consulting with accessibility experts for complex sites.
+= How does this WordPress accessibility plugin help with ADA compliance and WCAG? =
+The plugin helps improve your website **ada compliance** and WCAG 2.1 AA alignment by adding crucial accessibility enhancements such as high-contrast modes, text sizing controls, keyboard navigation highlights and screen reader-friendly markup. For complete **accessibility compliance**, we recommend pairing this tool with manual site audits and regular **accessibility testing**.
 
-= Can I customize the appearance of the accessibility toolbar to match my brand? =
-Absolutely! The plugin includes a powerful drag-and-drop mini editor that allows you to customize colors, fonts, positioning, button styles, icons, and layout. You can create brand-aligned accessibility toolbars that seamlessly integrate with your website design while maintaining full functionality.
+= Is One Accessibility GDPR compliant and privacy friendly? =
+Yes. The plugin stores feature usage statistics only in your own local WordPress database (option `websac_usage_statistics`). It transmits no tracking data, no personal data cookies and no telemetry to external servers.
 
-= Does the accessibility toolbar work on mobile devices and tablets? =
-Yes! The plugin is fully responsive and optimized for all devices including smartphones, tablets, and desktops. The accessibility controls automatically adapt to different screen sizes, ensuring users can access all features regardless of their device. Touch-friendly interfaces make mobile accessibility seamless.
+= Does this WordPress accessibility plugin make a site completely compliant on its own? =
+The plugin provides visitors with instant accessibility controls and assistive profiles to overcome visual, motor or cognitive barriers. For complete accessibility compliance, site owners should combine the frontend accessibility tool with periodic accessibility testing and proper semantic content structure.
 
-= Can I use multiple accessibility presets on different pages of my website? =
-Definitely! You can create unlimited accessibility presets and assign them conditionally to different areas of your site. For example, use one preset for your homepage (Entire Site), a different preset for blog posts (Singular), and another for category pages (Archives). This allows targeted accessibility experiences for different content types.
+= How do visitors activate the accessibility toolbar using only a keyboard? =
+Visitors can press CTRL+U or navigate through interactive elements using the Tab key to open and operate the accessibility widget without a mouse.
+
+= Can I customize the appearance of the accessibility widget? =
+Yes! You can completely customize the **Accessibility widget** button, position (left, right, bottom), color palette, typography and layout using the built-in visual editor so that it seamlessly matches your website branding.
+
+= Does the plugin include an accessibility checker? =
+The free version includes a Statement Page helper and preset condition controls while the advanced AI-powered **accessibility checker** and compliance monitoring dashboard are available in One Accessibility Pro.
+
+= Does the accessibility tool work on mobile devices and tablets? =
+Yes! The toolbar and **accessibility widget** are fully mobile-responsive and adapt automatically to touchscreens and smaller viewports.
+
+= Can I use this for international regulations like the European Accessibility Act? =
+Yes. By providing comprehensive tools for contrast, navigation, readability and assistive user profiles, the plugin supports web inclusion initiatives that align with international frameworks like WCAG 2.1, Section 508, ADA and the European **Accessibility Act**.
 
 = Will this plugin conflict with my existing theme or page builder? =
-No conflicts guaranteed! One Accessibility Website Accessibility is built with modern React technology and designed to work seamlessly with all WordPress themes, page builders (Elementor, Gutenberg, Beaver Builder, Divi, etc.), and custom development setups. The plugin operates independently without interfering with your existing design or functionality.
+No conflicts. One Accessibility is built with modular React components and standard WordPress APIs to run smoothly with Elementor, Gutenberg, Beaver Builder, Divi, Bricks and all modern themes.
 
-= What accessibility conditions and user profiles are supported? =
-The plugin supports comprehensive accessibility profiles including Motor Impairment, Blindness & Low Vision, Color Blindness, Dyslexia, Cognitive Disabilities, Seizure & Epilepsy Safety, and ADHD accommodations. Each profile automatically configures appropriate tools like high contrast modes, font adjustments, animation controls, and navigation enhancements.
-
-= Does the plugin support multilingual websites and translation? =
-The free plugin's toolbar can be translated and localized, and it works perfectly with popular translation plugins like WPML, Polylang, and TranslatePress. Integrated Google Translate functionality (100+ languages) is available in One Accessibility Pro.
+= What user profiles are included in the accessibility tool? =
+The plugin includes pre-configured profiles for Motor Impairment, Blindness & Low Vision, Color Blindness, Dyslexia, Cognitive Disabilities, Seizure & Epilepsy Safety and ADHD accommodations.
 
 = How does the dictionary tooltip feature work? =
-When a visitor switches the Dictionary tool on in the toolbar and double-clicks a single word, the plugin fetches that word's definition from the Free Dictionary API (see "External services" below) and shows it in a small popup. The popup can also read or spell the word aloud using the browser's built-in speech synthesis (no audio is downloaded). This helps users with cognitive disabilities, language learners, or those with dyslexia. Nothing is requested until the visitor double-clicks a word, and site owners can leave the Dictionary tool out of their preset entirely.
+When a visitor switches on the Dictionary tool in the toolbar and double-clicks a single word, the plugin fetches that word definition via the Free Dictionary API and displays it in a clean tooltip. The definition can also be read aloud via the browser native speech synthesis without sending personal tracking data.
 
 = Will this plugin slow down my website? =
-Not at all! One Accessibility Website Accessibility is engineered for performance with optimized code, efficient loading, and minimal resource usage. The plugin loads only necessary components on-demand and uses modern caching techniques. Most users experience no noticeable impact on site speed while gaining comprehensive accessibility features.
+No. The plugin is engineered for high performance with lightweight scripts, on-demand component loading and zero bloat.
 
-= Can I track how users interact with the accessibility features? =
-Yes, optionally. The "Usage statistics" setting (on by default, can be switched off under Settings) counts, per day, which toolbar tools visitors used. The counts are stored only in your own WordPress database (option `websac_usage_statistics`) and shown on the plugin dashboard; nothing is sent to us or to any third party. To tell one browser from another the toolbar sets a random first-party cookie `websac_browser_key` (1 year) — it contains no personal data and is removed again when the setting is off.
-
-= ⚡ Where do I report security bugs found in this plugin? =
-
-Please report security bugs found in the source code of the One Accessibility plugin through the [Patchstack Vulnerability Disclosure  Program](https://patchstack.com/database/vdp/e9ff4b57-776a-4327-88d4-030a5a33d186). The Patchstack team will assist you with verification, CVE assignment, and notify the developers of this plugin.
+= Where do I report security vulnerabilities found in this plugin? =
+Please report security vulnerabilities found in the source code of the One Accessibility plugin through the [Patchstack Vulnerability Disclosure Program](https://patchstack.com/database/vdp/e9ff4b57-776a-4327-88d4-030a5a33d186). The Patchstack team will assist you with verification, CVE assignment and notify the developers of this plugin.
 
 == Checkout our other Plugins 👑 ==
 
 Explore the best free addons for Elementor and Gutenberg to boost your site with advanced blocks, sliders and eCommerce tools.
 
-* **[Element Pack](https://wordpress.org/plugins/bdthemes-element-pack-lite/)** - Build responsive websites from scratch with an all-rounder package of 300+ widgets and 2700+ ready-to-use assets for Elementor.
-
-* **[Prime Slider](https://wordpress.org/plugins/bdthemes-prime-slider-lite/)** - The revolutionary slider builder addon for Elementor with a next-gen superb interface and 50+ unique slider designs.
-
-* **[Ultimate Post Kit](https://wordpress.org/plugins/ultimate-post-kit/)** - Best blogging addon for building a quality blogging website with fine-tuned post layouts, carousels, sliders and lists.
-
-* **[Ultimate Store Kit](https://wordpress.org/plugins/ultimate-store-kit/)** - The only eCommerce addon for answering all your online store design problems in one package for WooCommerce and EDD.
-
-* **[Pixel Gallery](https://wordpress.org/plugins/pixel-gallery/)** - The first Elementor-based WordPress gallery addon offering 60+ flexible and customizable gallery builder widgets.
-
-* **[ZoloBlocks](https://wordpress.org/plugins/zoloblocks/)** - Mind-blowing dynamic block plugin for Gutenberg with powerful and advanced features offering a greater web design experience.
-
-* **[Augmented Reality Viewer](https://wordpress.org/plugins/ar-viewer/)** - Bring your products to life with immersive 3D and AR experiences directly inside your WordPress website.
-
-* **[Dark Reader](https://wordpress.org/plugins/dark-reader/)** - Instantly transform your website into a sleek, eye-friendly dark mode experience with smooth and elegant styling.
-
-* **[Instant Image Generator](https://wordpress.org/plugins/ai-image/)** - Generate AI-powered images or import visuals instantly from popular platforms like Unsplash, Openverse, Pixabay, Pexels and Giphy — all from one place.
-
-* **[Live Copy Paste](https://wordpress.org/plugins/live-copy-paste/)** - Seamlessly copy and paste sections, widgets and entire pages across domains with zero hassle.
-
-* **[One Accessibility](https://wordpress.org/plugins/website-accessibility/)** - Make your website inclusive and accessible to everyone with essential accessibility enhancements and compliance-ready tools.
-
-* **[QR Code Generator & Scanner](https://wordpress.org/plugins/zolo-qr-code/)** - Create and manage dynamic QR codes directly from your WordPress dashboard for smarter engagement and tracking.
-
-* **[Smart Admin Assistant](https://wordpress.org/plugins/smart-admin-assistant/)** - Enhance your WordPress dashboard with productivity-focused tools and smart site management features.
-
-* **[Spin Wheel](https://wordpress.org/plugins/spin-wheel/)** - Engage visitors with an interactive spinning wheel that offers discounts, coupons and promotional rewards.
-
-* **[Swift Checkout for WooCommerce](https://wordpress.org/plugins/swift-checkout/)** - Simplify the WooCommerce checkout process to improve user experience and boost conversion rates.
-
-
-Visit [BdThemes](https://bdthemes.com/) to learn about our services, Elementor page builder based products, informative blogs and documentations.
+* **[Element Pack](https://wordpress.org/plugins/bdthemes-element-pack-lite/)** - Build responsive websites from scratch with 300+ widgets and 2700+ ready-to-use assets for Elementor.
+* **[Prime Slider](https://wordpress.org/plugins/bdthemes-prime-slider-lite/)** - The revolutionary slider builder addon for Elementor with 50+ unique slider designs.
+* **[Ultimate Post Kit](https://wordpress.org/plugins/ultimate-post-kit/)** - Best blogging addon for building quality blog post layouts, carousels and lists.
+* **[Ultimate Store Kit](https://wordpress.org/plugins/ultimate-store-kit/)** - Complete eCommerce addon for WooCommerce and EDD store layouts.
+* **[Pixel Gallery](https://wordpress.org/plugins/pixel-gallery/)** - First Elementor-based gallery addon offering 60+ flexible gallery builder widgets.
+* **[ZoloBlocks](https://wordpress.org/plugins/zoloblocks/)** - Dynamic block plugin for Gutenberg with next-generation web design features.
+* **[Dark Reader](https://wordpress.org/plugins/dark-reader/)** - Instantly transform your website into an eye-friendly dark mode experience.
+* **[Live Copy Paste](https://wordpress.org/plugins/live-copy-paste/)** - Seamlessly copy and paste sections, widgets and pages across domains.
 
 == Screenshots ==
 
 1. Accessibility toolbar on the frontend with customizable layout
 2. Preset management screen with conditional assignments
 3. Mini editor interface for toolbar customization
-4. Settings screen with usage statistics and CSS overrides
+4. Settings screen with usage statistics and statement generator
 
 == Libraries and Credits ==
 
-This plugin uses the following open-source libraries and third-party tools. We are thankful to their developers and communities:
+This plugin uses the following open-source libraries and third-party tools:
 
 **JavaScript Libraries:**
-
-- [React](https://reactjs.org/) – A JavaScript library for building user interfaces (MIT License)
-- [Ant Design (antd)](https://ant.design/) – A modern React UI framework used for plugin interfaces (MIT License)
-- [clsx](https://github.com/lukeed/clsx) – A utility for constructing conditional className strings (MIT License)
-- [history](https://github.com/remix-run/history) – JavaScript library for managing session history (MIT License)
-- [SortableJS](https://sortablejs.github.io/Sortable/) – Touch-friendly drag-and-drop sorting library (MIT License)
-- [React SortableJS](https://github.com/SortableJS/react-sortablejs) – React bindings for SortableJS (MIT License)
+- [React](https://reactjs.org/) - A JavaScript library for building user interfaces (MIT License)
+- [Ant Design (antd)](https://ant.design/) - UI framework for plugin interfaces (MIT License)
+- [clsx](https://github.com/lukeed/clsx) - Utility for conditional className strings (MIT License)
+- [history](https://github.com/remix-run/history) - Library for managing session history (MIT License)
+- [SortableJS](https://sortablejs.github.io/Sortable/) - Drag-and-drop sorting library (MIT License)
+- [React SortableJS](https://github.com/SortableJS/react-sortablejs) - React bindings for SortableJS (MIT License)
 
 **WordPress Packages:**
-
-- [@wordpress/scripts](https://developer.wordpress.org/block-editor/reference-guides/packages/packages-scripts/) – Official WordPress build toolchain (GPL-2.0-or-later)
-- [@wordpress/icons](https://developer.wordpress.org/block-editor/reference-guides/packages/packages-icons/) – WordPress icon set used in admin UI (GPL-2.0-or-later)
+- [@wordpress/scripts](https://developer.wordpress.org/block-editor/reference-guides/packages/packages-scripts/) - Official WordPress build toolchain (GPL-2.0-or-later)
+- [@wordpress/icons](https://developer.wordpress.org/block-editor/reference-guides/packages/packages-icons/) - WordPress icon set (GPL-2.0-or-later)
 
 == External services ==
 
-This plugin connects to exactly one third-party service, and only when a visitor explicitly uses the feature described below. The plugin never contacts the plugin author's servers and sends no usage data, telemetry, or site information anywhere. Everything else the plugin does (settings, presets, usage statistics, saved preferences) talks only to your own WordPress REST API.
+This plugin connects to exactly one third-party service and only when a visitor explicitly uses the feature described below:
 
 = Free Dictionary API (dictionaryapi.dev) =
-
-* **What it is / what it is used for:** The "Dictionary" tool of the accessibility toolbar lets a visitor double-click a single word on the page and see its definition in a small popup. Definitions are fetched from the Free Dictionary API, an open-source (GPL-3.0) dictionary service run by an independent developer.
-* **What data is sent and when:** A request is made only after (1) the visitor switches the Dictionary tool on in the toolbar and (2) double-clicks a single word. The word must consist of Latin letters (apostrophes/hyphens allowed, max. 64 characters); anything else is ignored client-side. The word is URL-encoded and sent in the request URL to `https://api.dictionaryapi.dev/api/v2/entries/en/{word}`. As with any HTTP request, the visitor's IP address and browser user-agent are transmitted to that server. No cookies, no personal data, no page URL and no information about your WordPress site are sent. When the tool is switched off no request is made.
+* **What it is / what it is used for:** The Dictionary tool lets a visitor double-click a word to view its definition in a popup. Definitions are fetched from the open-source Free Dictionary API.
+* **What data is sent and when:** A request is sent only when the Dictionary tool is active and a visitor double-clicks a single Latin-character word (max 64 chars). The word is sent in the URL (`https://api.dictionaryapi.dev/api/v2/entries/en/{word}`). No personal information, cookies or site URLs are transmitted.
 * **Service website:** https://dictionaryapi.dev/
-* **Source code and license (GPL-3.0):** https://github.com/meetDeveloper/freeDictionaryAPI (license: https://github.com/meetDeveloper/freeDictionaryAPI/blob/master/LICENSE)
-* **Terms of use / privacy policy:** The Free Dictionary API is a free, community-run project. At the time of writing it does not publish a Terms of Service or a Privacy Policy document; the service website and the source repository linked above are the only public statements about the service. Because of this, site owners who need a documented data-processing agreement should not enable the Dictionary tool: it is a single toggle in the toolbar editor ("Features" → "Dictionary") and, once removed from a preset, no code path in this plugin can contact the service.
+* **Source code and license (GPL-3.0):** https://github.com/meetDeveloper/freeDictionaryAPI
 
-Features such as Google Translate integration and the AI-based accessibility checker are provided by the separate One Accessibility Pro plugin, which documents its own external services.
+Features such as Google Translate integration and the AI-based accessibility checker are provided by the separate One Accessibility Pro plugin.
 
 == Source code ==
 
-The JavaScript and CSS shipped in `build/` are compiled with `@wordpress/scripts`. The human-readable sources are included in the plugin package under `src/` and are also published at https://github.com/bdthemes/website-accessibility (run `npm install && npm run build` to reproduce `build/`).
+The JavaScript and CSS shipped in `build/` are compiled with `@wordpress/scripts`. Human-readable source files are included under `src/` and at https://github.com/bdthemes/website-accessibility.
 
 == Changelog ==
 
@@ -222,210 +193,15 @@ The JavaScript and CSS shipped in `build/` are compiled with `@wordpress/scripts
 * Changed: Border Radius takes a plain number; "px" is shown beside the input.
 * Changed: Upgrade links open the pricing page directly.
 
-= 1.5.1 – August 23, 2026 =
+= 1.5.1 - August 23, 2026 =
 * Removed: The "CSS Overrides" custom-CSS feature. Use Appearance → Customize → Additional CSS instead.
 
-= 1.5.0 – August 17, 2026 =
-* Removed: All Pro-only / license-gated code and placeholder screens. Pro features live in the separate One Accessibility Pro plugin; nothing here is locked or greyed out.
-* Removed: Dashboard "News & Updates" widget and every request to the plugin author's servers.
-* Added: "External services" and "Source code" sections in the readme (only external service: Free Dictionary API, used when a visitor double-clicks a word with the Dictionary tool on).
-* Changed: Consistent `websac` prefix for all functions, classes, options, hooks, REST routes and handles; old option keys migrated automatically; generic `PLUGIN_FILE` constant removed.
-* Fixed: Dictionary tool stops lookups when switched off; words validated and URL-encoded.
-* Security: Nonce/permission checks and input sanitisation on the statistics and preference endpoints; ABSPATH guards; admin assets loaded only on plugin screens; SVG-upload filters removed.
-* Added: `uninstall.php` cleanup and unminified `src/` in the package.
+= 1.5.0 - August 17, 2026 =
+* Removed: All Pro-only / license-gated code and placeholder screens.
+* Removed: Dashboard "News & Updates" widget and every external tracking request.
+* Added: "External services" and "Source code" sections in readme.
+* Changed: Standardized `websac` prefix across functions, classes and REST routes.
+* Security: Nonce/permission checks and input sanitization on all endpoints.
 
-= 1.4.0 – August 10, 2026 =
-* Fixed: AI API keys (OpenAI/Gemini) no longer exposed in front-end page source.
-* Fixed: Preset/Profile post types are now admin-only (were creatable by
-  Author/Editor via REST, letting them control the site-wide widget).
-* Fixed: SVG uploads restricted to administrators.
-* Fixed: Usage-statistics endpoint bounded to prevent unbounded option growth.
-* Fixed: Settings import is now sanitized; preference-statistics now admin-only.
-* Fixed: Dictionary feature renders text safely (prevents DOM XSS).
-* Hardened: Output escaping and input sanitization across admin and front-end.
-* Added "apiVersion": 3 to block.json (WordPress 7.0 compatibility).
-* Fixed i18n text-domain issues, prefixed globals, corrected readme, cleaned dev files.
-* Removed the admin promotional ("Biggopti") system that called a third-party API.
-
-= 1.3.20 – August 08, 2026 =
-* Fix: Security issue where data returned by the promotions API could be injected as script into the WordPress admin area
-* Fix: Promotion links and images are now restricted to http(s) and mailto addresses
-* Improvement: Security improved
-
-= 1.3.19 – August 02, 2026 =
-* Improvement: Enhanced system performance and stability.
-
-= 1.3.18 – July 26, 2026 =
-* Improvement: Improved the dashboard UI and responsiveness for a better user experience on mobile devices.
-
-= 1.3.17 – July 13, 2026 =
-* Improvement: Tour Auto-starts on first visit with manual launch from About & Info.
-* Improvement: Tour Flow: Automated profile creation and preset saving.
-* Improvement: About & Info Added a dedicated Guided Tours section.
-* Improvement: Improved mobile responsiveness.
-
-
-= 1.3.16 – July 08, 2026 =
-* Fixed: Resolved Quick Tour overlay/shadow layering issue in preset customization preview.
-* Improvement: Added unit-based padding controls (px) for Header and Panel settings with improved input behavior and labels.
-* Improvement: Refined preset editor UI consistency (field alignment, select arrow alignment, control heights, helper text spacing, and switch alignment).
-* New: Added Profiles Items controls to match Features (Hide Item Icons, Hide Item Labels, Columns, and Layout) with live preview support.
-* Improvement: Updated Items layout naming from Default/Inline to Block/Inline with backward-compatible value handling.
-
-= 1.3.15 – July 06, 2026 =
-* Improvement: Updated the plugin info link.
-
-= 1.3.14 – June 28, 2026 =
-* Improvement: Enhanced system performance and stability.
-
-= 1.3.13 – June 21, 2026 =
-* Improvement: Dashboard search field design issue fixed and UI improved for a better user experience.
-
-= 1.3.12 – June 10, 2026 =
-* Improvement: Enhanced system performance and stability.
-
-= 1.3.11 – June 02, 2026 =
-* Improvement: Unify admin button and control styling across the plugin
-
-= 1.3.10 – May 25, 2026 =
-
-* Improvement: Enhanced Quick Start Card Design for a cleaner, more modern, and user-friendly onboarding experience.
-* Improvement: Refined overall dashboard UI with improved alignment, spacing, and button height consistency for a cleaner user experience.
-* Fixed: Resolved WordPress sidebar menu icon visibility issue for improved dashboard compatibility and UI consistency.
-
-
-= 1.3.9 – May 23, 2026 =
-
-* Improvement: Enhanced overall system architecture and optimized dashboard functionality for a smoother and more efficient user experience. 
-
-= 1.3.7 – May 18, 2026 =
-
-* New: Added frontend Custom CSS support for accessibility widget and toolbar customization.
-* New: Added a “Quick Tour” feature for guided onboarding and accessibility setup.
-* Added: Tools & Backup Page Information, Guide & UI Enhancement
-
-
-= 1.3.6 – May 11, 2026 =
-* Improvement: Enhanced system performance and stability.
-* Improvement : Improved save and error messages for better clarity.
-
-= 1.3.5 – May 10, 2026 =
-* Fixed: Theme & Kirki – Freeform Page Builder Compatibility issue has been fixed
-
-= 1.3.4 – May 03, 2026 =
-* Added: More panel/footer styling (card, section, header icons, feature info icon; save/delete preference buttons when preference is on).
-* Improvement: Cleaner footer settings when Active Preference is off; color picker and preset data handling fixes.
-
-= 1.3.3 – April 26, 2026 =
-* Improvement: Improved overall dashboard UI and user experience
-* Improvement: Enhanced settings panel design for better usability and clarity
-* Improvement: Optimized performance and internal code structure
-* Improvement: Minor UI refinements and consistency improvements across the plugin
-
-= 3 - April 15, 2026 =
-* Fixed: Tools & Backup Page License Check Issue Fixed
-* Fixed: One Accessibility Theme Compatibility Issues Fixed
-* Fixed: Custom Profiles Edit Page — Resolved Customization Panel Scrolling and Spacing Issues
-* Improvement: Custom Profile Fallback Page UI Redesign
-
-= 1.3.1 - April 12, 2026 =
-* Fixed: Fixed mobile device issues in the One Accessibility customization panel.
-* Added: Added max-height control to the preset panel wrapper to prevent overflow and improve usability.
-* Improvement: Enhanced overall mobile design and responsiveness of the One Accessibility dashboard for better user experience.
-
-= 1.3.0 - April 07, 2026 =
-* Improvement: Enhanced dashboard interface for better user experience
-* Improvement: Refined accessibility features UI for improved usability and clarity
-* Improvement: Optimized overall performance and code structure
-
-= 1.2.7 - March 10, 2026 =
-* Update: System Improved
-
-= 1.2.6 - March 02, 2026 =
-* Update: System Improved
-
-= 1.2.5 - February 18, 2026 =
-* Update: System Improved
-
-= 1.2.4 - January 21, 2026 =
-* Fix: WP Plugin Conflict Issue
-
-= 1.2.3 - January 12, 2026 =
-* Improvement : System Update
-
-= 1.2.2 - December 24, 2025 =
-* Fix: Biggopti Banner Style Conflict Fixed
-
-= 1.2.1 – December 09, 2025 =
-* Fix: Preview Button offset is not working correctly.
-* Improvement: Optimized app UI/UX.
-
-= 1.2.0 – December 04, 2025 =
-* New: Added font and icon size controls for accessibility button.
-* Fix: Accessibility toolbar panel footer is not visible on mobile devices.
-* Fix: Resolved an issue where antdesign reset css conflicts with bricks sticky header.
-* Improvement: Optimized overall UI/UX.
-
-= 1.1.9 – December 03, 2025 =
-* Fix: Accessibility toolbar panel header is not visible on mobile devices.
-
-= 1.1.8 – December 02, 2025 =
-* Improvement: Compatibility with WordPress 6.9.
-
-= 1.1.7 – November 27, 2025 =
-* Fix: Resolved an issue where the footer mask shadow visible on widgets.
-* Fix: Resolved an issue where the updated preset name did not appear in edit mode.
-* Fix: Resolved issues with archive search results and 404 page conditions not working correctly.
-* Improvement: Enhanced the Saturation widget.
-* Improvement: Improved the default profiles.
-* Improvement: Enhanced the Contrast widget.
-* Improvement: Optimized overall UI/UX, performance, and code structure.
-
-= 1.1.6 – November 20, 2025 =
-* Fix: Resolved "Contrast+" and “Bigger Text” not working with Nested elements.
-* Improvement: Refined UI/UX.
-
-= 1.1.5 – November 20, 2025 =
-* New: Added body classes to identify applied features.
-* Fix: Nested elements now correctly change color in the "Contrast+" widget.
-* Fix: Original text size is restored correctly in the “Bigger Text” widget.
-* Fix: Footer reset button style controls are now working properly.
-* Fix: Resolved scroll conflict between body and preset panel.
-* Improvement: Enhanced control over footer branding and statement visibility controls.
-
-= 1.1.4 – November 11, 2025 =
-* Fix: Resolved reset button styling issue.
-* Improvement: Optimized overall UI/UX, performance, and code structure.
-
-= 1.1.3 – November 10, 2025 =
-* Improvement: Refined UI/UX
-
-= 1.1.2 – November 9, 2025 =
-* Fix: Resolved issue with the Accessibility edit profile name.
-* Improvement: Optimized overall UI/UX, performance, and code structure.
-
-= 1.1.1 – October 27, 2025 =
-* New: Usage Analytics feature to track accessibility widget interactions.
-* New: Panel placement option for the Accessibility Preset panel.
-* Fix: Resolved translation compatibility issues with multilingual plugins.
-* Improvement: Refined UI/UX and updated code to meet higher development standards.
-
-= 1.1.0 – October 20, 2025 =
-* New: Save Preference feature to retain user accessibility settings for logged-in users.
-* New: Widget Activation/Deactivation option within presets.
-* New: Settings page with integrated Statement Page Checker and Generator.
-* New: Page/Post and Archive-specific conditions for presets.
-* New: Admin Disclaimer for better guidance and transparency.
-* Improvement: Enhanced Font Size widget functionality.
-* Improvement: Removed Blind and Dyslexic profiles for better clarity and
-  user experience.
-* Improvement: Optimized overall UI/UX and improved code structure.
-* Fix: Resolved issue where enabling the "Hide Flag" switch caused the app
-  to break.
-
-= 1.0.0 – Initial Release =
-* Initial release.
-* Multiple presets with conditional display (Entire Site, Singular, Archives).
-* Customizable mini editor for toolbar layout.
-* Custom accessibility profiles.
-* Theme-independent and compatible with all page builders.
+= 1.0.0 - Initial Release =
+* Initial release with presets, conditional assignments, customizable toolbar and profile configurations.
