@@ -1,4 +1,4 @@
-import { useMemo } from '@wordpress/element';
+import { useEffect, useMemo } from '@wordpress/element';
 import { useSelect, useDispatch } from '@wordpress/data';
 import { STORE_NAME } from '../store';
 import ControlWrapper from '../components/control-wrapper';
@@ -8,7 +8,7 @@ import { __ } from '@wordpress/i18n';
 
 
 const ProfilesSettings = () => {
-    const { WapSwitch } = window?.wapComponents;
+    const { WapSwitch, WapMessage } = window?.wapComponents;
     const location = useLocation();
     const presetId =
         location?.params?.page === 'website-accessibility-presets-edit'
@@ -79,10 +79,15 @@ const ProfilesSettings = () => {
     const isProfileSelected = (profileId) => selectedProfiles.some((id) => String(id) === String(profileId));
 
     const toggleProfile = async (profileId) => {
-        const isSelected = isProfileSelected(profileId);
+        // Store custom-profile ids as numbers, the way the profile cards supply
+        // them. Add-ons calling in through the enable event may pass a string,
+        // and a mixed list makes strict lookups elsewhere miss. Built-in
+        // profiles keep their slug ("motor", "low-vision", …).
+        const normalizedId = /^\d+$/.test(String(profileId)) ? Number(profileId) : profileId;
+        const isSelected = isProfileSelected(normalizedId);
         const nextProfiles = isSelected
-            ? selectedProfiles.filter((id) => String(id) !== String(profileId))
-            : [...selectedProfiles, profileId];
+            ? selectedProfiles.filter((id) => String(id) !== String(normalizedId))
+            : [...selectedProfiles, normalizedId];
 
         const nextFormData = buildNextFormData(nextProfiles);
         setPresetsFormData(nextFormData);
@@ -91,7 +96,7 @@ const ProfilesSettings = () => {
         if (typeof window !== 'undefined') {
             window.dispatchEvent(new CustomEvent('websac-preset-profile-toggled', {
                 detail: {
-                    profileId,
+                    profileId: normalizedId,
                     enabled: !isSelected,
                     presetId,
                     save: async () => {
@@ -100,13 +105,44 @@ const ProfilesSettings = () => {
                             title: nextFormData.title,
                             content: JSON.stringify(nextFormData),
                         });
-                        await saveEditedPreset(presetId);
+                        // saveEditedPreset resolves { success, error }. core-data
+                        // returns undefined instead of throwing when the REST call
+                        // fails, so an unchecked await reports a failed save as a
+                        // successful one — the tour would then finish over a preset
+                        // that never persisted, with nothing shown to the user.
+                        const result = await saveEditedPreset(presetId);
+                        if (!result || result.success !== true) {
+                            WapMessage?.error(
+                                result?.error?.message ||
+                                __('Could not save the preset. Check your connection and try again.', 'website-accessibility')
+                            );
+                            return false;
+                        }
                         return true;
                     },
                 },
             }));
         }
     };
+
+    // Add-ons (the Pro guided tour) can ask for a profile to be switched on —
+    // pressing "Done" on the final tour step should do what the step describes
+    // instead of just closing. Enable-only by design: it never switches one off,
+    // and does nothing when the profile is already on.
+    // No dependency array: selectedProfiles and toggleProfile are rebuilt every
+    // render, and the listener must close over the current ones.
+    useEffect(() => {
+        if (typeof window === 'undefined') return undefined;
+        const onRequestEnable = (event) => {
+            const profileId = event?.detail?.profileId;
+            if (!profileId || isProfileSelected(profileId)) {
+                return;
+            }
+            toggleProfile(profileId);
+        };
+        window.addEventListener('websac-request-profile-enable', onRequestEnable);
+        return () => window.removeEventListener('websac-request-profile-enable', onRequestEnable);
+    });
 
     return (
         <>

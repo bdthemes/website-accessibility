@@ -121,7 +121,18 @@ const store = createReduxStore(STORE_NAME, {
                     }),
                 });
 
+                // core-data resolves to undefined on failure rather than throwing,
+                // so a dead REST call would otherwise look like a successful save.
+                if (!newPreset) {
+                    const error = registry
+                        .select(coreStore)
+                        .getLastEntitySaveError('postType', 'websac_preset');
+                    return { success: false, error };
+                }
+
                 await dispatch({ type: 'CREATE_PRESET', preset: newPreset });
+
+                return { success: true };
             };
         },
         updatePreset: (id, presetFormData) => {
@@ -221,8 +232,21 @@ const store = createReduxStore(STORE_NAME, {
                 // Step 3: Save the current edited preset
                 const savedPreset = await saveEditedEntityRecord('postType', 'websac_preset', id);
 
+                // core-data resolves to undefined on failure rather than throwing,
+                // so a dead REST call would otherwise look like a successful save.
+                if (!savedPreset) {
+                    const error = select('core').getLastEntitySaveError(
+                        'postType',
+                        'websac_preset',
+                        id
+                    );
+                    return { success: false, error };
+                }
+
                 // Step 4: Dispatch custom action if needed
                 await dispatch({ type: 'SAVE_EDITED_PRESET', preset: savedPreset });
+
+                return { success: true };
             };
         },
 

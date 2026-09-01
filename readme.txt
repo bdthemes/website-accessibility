@@ -1,10 +1,10 @@
-=== One Accessibility ===
+=== One Accessibility – Making Your Site Accessible to Everyone ===
 Contributors:      bdthemes, selimmw, abutalib, muhammadasik, mohammaadfarid, maudud
 Tags:              accessibility, a11y, wcag, ada-compliance, screen-reader
 Requires at least: 6.1
 Tested up to:      7.1
 Requires PHP:      7.4
-Stable tag:        1.5.1
+Stable tag:        1.6.0
 License:           GPL-2.0-or-later
 License URI:       https://www.gnu.org/licenses/gpl-2.0.html
 
@@ -210,6 +210,17 @@ Features such as Google Translate integration and the AI-based accessibility che
 The JavaScript and CSS shipped in `build/` are compiled with `@wordpress/scripts`. The human-readable sources are included in the plugin package under `src/` and are also published at https://github.com/bdthemes/website-accessibility (run `npm install && npm run build` to reproduce `build/`).
 
 == Changelog ==
+
+= 1.6.0 – September 01, 2026 =
+* Fixed: Activating a preset now deactivates the previous one with the same condition.
+* Fixed: A failed preset save shows an error instead of silently keeping the old values.
+* Fixed: Migrations no longer corrupt presets containing quotes.
+* Fixed: Bigger Text and Text Spacing grew on every toggle and did not reset (e.g. Astra).
+* Fixed: Usage Statistics kept counting features that were already switched off.
+* Fixed: The panel header ignored its own top and bottom padding.
+* Added: Sticky save bar in the preset editor.
+* Changed: Border Radius takes a plain number; "px" is shown beside the input.
+* Changed: Upgrade links open the pricing page directly.
 
 = 1.5.1 – August 23, 2026 =
 * Removed: The "CSS Overrides" custom-CSS feature. Use Appearance → Customize → Additional CSS instead.

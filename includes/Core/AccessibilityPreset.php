@@ -66,7 +66,9 @@ class AccessibilityPreset
         }
         
         // decode content
-        $content = json_decode($data['post_content'], true);
+        // `wp_insert_post_data` runs before core unslashes $data, so post_content
+        // still carries slashes here and would fail to decode as JSON.
+        $content = json_decode(wp_unslash($data['post_content']), true);
         if (! is_array($content)) {
             return $data;
         }

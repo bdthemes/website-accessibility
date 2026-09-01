@@ -99,6 +99,7 @@ const AccessibilityProfiles = ({
 	allProfiles,
 	accessibilityContext,
 	accessibilityDispatch,
+	onFeatureInteraction = () => {},
 }) => {
 	const features = window.wapHelpers?.features || [];
 	const { items } = value;
@@ -160,7 +161,14 @@ const AccessibilityProfiles = ({
 	}, [allProfiles]);
 
 	const selectedProfiles = useMemo(() => {
-		return processedProfiles.filter((profile) => profiles.includes(profile.id));
+		// Compare as strings. A custom profile's id arrives as a number on the
+		// front end (WP_Post.ID) but the saved list can hold either a number or
+		// a string depending on which code path enabled it, and `includes` is a
+		// strict comparison — so a profile saved as "394" would never match the
+		// number 394 and simply vanished from the panel, even though its switch
+		// still showed as on (that check already compared loosely).
+		const selectedIds = profiles.map((id) => String(id));
+		return processedProfiles.filter((profile) => selectedIds.includes(String(profile.id)));
 	}, [processedProfiles, profiles]);
 
 	const handleProfileClick = (profile) => {
@@ -213,11 +221,15 @@ const AccessibilityProfiles = ({
 					type: "SET_CURRENT_SETTINGS",
 					payload: updatedSettings,
 				});
+				// A profile switches several features on at once; report the
+				// resulting state so those uses reach the dashboard too.
+				onFeatureInteraction(updatedSettings);
 			} else {
 				announce(`Accessibility profile reset.`, { profile: null, settings: currentSettings });
 				accessibilityDispatch({
 					type: "RESET_PROFILE_SETTINGS",
 				});
+				onFeatureInteraction({});
 			}
 		}, 200);
 	};

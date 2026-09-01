@@ -103,9 +103,12 @@ const ButtonStylePreset = () => {
 					</ControlWrapper> */}
 					<ControlWrapper label={__("Border Radius", "website-accessibility")}>
 						<WapInput
-							value={button.borderRadius || ""}
+							type="number"
+							min={0}
+							value={String(button.borderRadius ?? "").replace(/px$/i, "")}
 							onChange={(e) => handleButtonChange("borderRadius", e.target.value)}
-							placeholder="e.g., 6px"
+							placeholder="e.g., 6"
+							addonAfter="px"
 						/>
 					</ControlWrapper>
 				</div>

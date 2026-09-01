@@ -8,6 +8,7 @@ const PanelHeader = ({
     accessibilityContext,
     accessibilityDispatch,
     isEditorPreview = false,
+    onFeatureInteraction = () => {},
     headerDropdownOpen: headerDropdownOpenProp,
     onHeaderDropdownOpenChange,
 }) => {
@@ -65,6 +66,12 @@ const PanelHeader = ({
 
         // Reset accessibility features/profiles.
         accessibilityDispatch({ type: "RESET_ACCESSIBILITY" });
+
+        // Usage statistics are a snapshot of what is currently on, and they are
+        // only reported when a feature tile is toggled. Without this the last
+        // snapshot (e.g. "Bigger Text: 1") stayed on the dashboard even though
+        // everything had just been switched off.
+        onFeatureInteraction({});
 
         // Let add-ons reset whatever state they keep alongside the toolbar.
         if (typeof document !== "undefined") {

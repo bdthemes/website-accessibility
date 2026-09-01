@@ -9,7 +9,7 @@ import PanelCustomizationPreset from '../components/preset-panel-customization';
 
 
 const EditPreset = () => {
-  const { WapCard, WapButton, WapSpace, WapTypography, WapInput } = window?.wapComponents;
+  const { WapCard, WapButton, WapSpace, WapTypography, WapInput, WapMessage } = window?.wapComponents;
   const { updatePreset, saveEditedPreset, setPresetsFormData } = useDispatch(STORE_NAME);
   const history = useHistory();
   const location = useLocation();
@@ -81,8 +81,28 @@ const EditPreset = () => {
       title: presetsFormData.title,
       content: JSON.stringify(presetsFormData),
     });
-    await saveEditedPreset(id);
+    const result = await saveEditedPreset(id);
+
+    // Leaving the editor on a failed save would show the old values again and
+    // read as "my change reverted itself" — keep the user here and say why.
+    if (result && result.success === false) {
+      WapMessage.error(
+        result.error?.message ||
+        __('Could not save the preset. Check your connection and try again.', 'website-accessibility')
+      );
+      return;
+    }
+
     notifyPresetSavedForTour();
+
+    // Announce the save so add-ons (the Pro guided tour) can react. Dispatched
+    // only on success, so nothing can treat a failed save as a completed step.
+    if (typeof window !== 'undefined') {
+      window.dispatchEvent(
+        new CustomEvent('websac-preset-saved', { detail: { presetId: id } })
+      );
+    }
+
     history.push({
       page: 'website-accessibility-presets',
     });
