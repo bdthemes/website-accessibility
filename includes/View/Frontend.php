@@ -37,10 +37,16 @@ class Frontend {
      * @return string|null URL of the page or null if not found.
      */
     private function get_statement_page_link() {
+        // Visitors must only ever be handed a published page. A draft permalink takes
+        // the ?page_id=<ID> form, so putting it in the public payload discloses the ID
+        // of an unpublished page and hands every visitor a link that 404s. Editors keep
+        // the draft link so the toolbar can be previewed while the page is written.
+        $statuses = current_user_can('edit_pages') ? ['publish', 'draft'] : ['publish'];
+
         $pages = get_posts([
             'post_type'      => 'page',
             'name'           => 'one-accessibility-statement-page', // slug of the page
-            'post_status'    => ['publish', 'draft'],                   // include draft & published
+            'post_status'    => $statuses,
             'numberposts'    => 1,
             'fields'         => 'ids',                                   // only need ID
         ]);

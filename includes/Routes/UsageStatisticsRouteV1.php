@@ -16,6 +16,13 @@ class UsageStatisticsRouteV1
     const OPTION_KEY = 'websac_usage_statistics';
 
     /**
+     * Reserved slot inside OPTION_KEY. It holds a string, while every other
+     * top-level key holds a per-browser array, so a client-supplied browser key
+     * must never be allowed to address it.
+     */
+    const METADATA_KEY = 'last_updated';
+
+    /**
      * Feature keys tracked by this plugin. Add-ons register the keys of the
      * features they ship through the `websac_usage_statistics_features` filter.
      */
@@ -154,8 +161,15 @@ class UsageStatisticsRouteV1
         $target = $this->empty_counts();
         $previous = $this->empty_counts();
 
+        // Read the timestamp before dropping it: everything below treats each
+        // remaining top-level key as a browser key, and reporting it afterwards
+        // would always fall through to "now" instead of when data last arrived.
+        $last_updated = isset($stats[self::METADATA_KEY]) && is_string($stats[self::METADATA_KEY])
+            ? $stats[self::METADATA_KEY]
+            : current_time('mysql');
+
         // Remove metadata
-        unset($stats['last_updated']);
+        unset($stats[self::METADATA_KEY]);
 
         switch ($range) {
             case 'daily':
@@ -198,7 +212,7 @@ class UsageStatisticsRouteV1
             'success' => true,
             'data' => $target,
             'previous_data' => $previous,
-            'last_updated' => $stats['last_updated'] ?? current_time('mysql'),
+            'last_updated' => $last_updated,
         ]);
     }
 
@@ -253,25 +267,18 @@ class UsageStatisticsRouteV1
     {
         $incoming = (array) $request->get_json_params();
 
-        // Browser key (acts like an anonymous per-browser ID; validated by the route args).
+        // Browser key (acts like an anonymous per-browser ID). Character set and length
+        // are enforced by the route args; what they cannot express is that METADATA_KEY
+        // is reserved. It holds a string rather than a per-browser array, so accepting it
+        // here made the writes below index into that string, raising an uncaught Error
+        // ("Cannot use string offset as an array") on a route anonymous visitors reach.
         $browser_key = (string) $request->get_param('browserKey');
-        if ($browser_key === '') {
+        if ($browser_key === '' || $browser_key === self::METADATA_KEY) {
             return rest_ensure_response([
                 'success' => false,
                 'message' => __('Missing browser key.', 'website-accessibility'),
             ]);
         }
-
-        // Throttle: at most one write per browser key every 5 seconds (the
-        // toolbar debounces to one request per second per interaction burst).
-        $throttle_key = 'websac_stats_' . md5($browser_key);
-        if (get_transient($throttle_key)) {
-            return rest_ensure_response([
-                'success' => false,
-                'message' => __('Too many requests, please retry shortly.', 'website-accessibility'),
-            ]);
-        }
-        set_transient($throttle_key, 1, 5);
 
         // Current date (for per-day stats)
         $today = current_time('Y-m-d');
@@ -287,16 +294,33 @@ class UsageStatisticsRouteV1
         // pages), so an unbounded key space would let an attacker grow this
         // option indefinitely (storage exhaustion / write amplification). Once the
         // cap is reached, only updates to already-known keys are accepted.
+        //
+        // This runs BEFORE the throttle below: set_transient() itself allocates two
+        // wp_options rows per distinct key on installs without a persistent object
+        // cache, so throttling first would let rejected requests keep growing the
+        // options table long after this cap had stopped the statistics option itself.
         $max_keys = (int) apply_filters('websac_usage_statistics_max_keys', 5000);
-        if (! isset($stats[$browser_key]) && (count($stats) - (isset($stats['last_updated']) ? 1 : 0)) >= $max_keys) {
+        if (! isset($stats[$browser_key]) && (count($stats) - (isset($stats[self::METADATA_KEY]) ? 1 : 0)) >= $max_keys) {
             return rest_ensure_response([
                 'success' => false,
                 'message' => __('Statistics capacity reached.', 'website-accessibility'),
             ]);
         }
 
-        // Make sure this browser key exists
-        if (! isset($stats[$browser_key])) {
+        // Throttle: at most one write per browser key every 5 seconds (the
+        // toolbar debounces to one request per second per interaction burst).
+        $throttle_key = 'websac_stats_' . md5($browser_key);
+        if (get_transient($throttle_key)) {
+            return rest_ensure_response([
+                'success' => false,
+                'message' => __('Too many requests, please retry shortly.', 'website-accessibility'),
+            ]);
+        }
+        set_transient($throttle_key, 1, 5);
+
+        // Make sure this browser key exists and holds an array. The is_array() arm also
+        // repairs any non-array slot written by an older version.
+        if (! isset($stats[$browser_key]) || ! is_array($stats[$browser_key])) {
             $stats[$browser_key] = [];
         }
 
@@ -312,7 +336,7 @@ class UsageStatisticsRouteV1
         }
 
         // Add last updated timestamp
-        $stats['last_updated'] = current_time('mysql');
+        $stats[self::METADATA_KEY] = current_time('mysql');
 
         // Save back to options
         update_option(self::OPTION_KEY, $stats, false);
@@ -321,7 +345,7 @@ class UsageStatisticsRouteV1
             'success' => true,
             'message' => __('Statistics updated successfully.', 'website-accessibility'),
             'data' => $stats[$browser_key][$today],
-            'last_updated' => $stats['last_updated'],
+            'last_updated' => $stats[self::METADATA_KEY],
         ]);
     }
 
@@ -331,21 +355,21 @@ class UsageStatisticsRouteV1
      */
     public function reset_statistics(WP_REST_Request $request)
     {
-        $empty = $this->empty_counts();
+        // Every top-level key other than METADATA_KEY is read back as a browser key
+        // whose value is a map of dates. Seeding 'daily'/'last7days'/'last30days'/
+        // 'totals' here wrote range names into that same space, so four fake browser
+        // keys survived every reset and counted against the key cap for good. A reset
+        // means no browsers recorded yet.
         $stats = [
-            'daily' => $empty,
-            'last7days' => $empty,
-            'last30days' => $empty,
-            'totals' => $empty,
-            'last_updated' => current_time('mysql'),
+            self::METADATA_KEY => current_time('mysql'),
         ];
 
-        update_option(self::OPTION_KEY, $stats);
+        update_option(self::OPTION_KEY, $stats, false);
 
         return rest_ensure_response([
             'success' => true,
             'message' => __('Usage statistics have been reset.', 'website-accessibility'),
-            'data' => $stats,
+            'data' => $this->empty_counts(),
         ]);
     }
 

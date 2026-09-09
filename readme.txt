@@ -182,6 +182,13 @@ The JavaScript and CSS shipped in `build/` are compiled with `@wordpress/scripts
 
 == Changelog ==
 
+= 1.6.1 – September 09, 2026 =
+* Security: Fixed an admin data disclosure and hardened the usage statistics endpoint.
+* Fixed: Theme styles overrode toolbar features — Bigger Text left headings and paragraphs unchanged.
+* Fixed: Pause Animations and Hide Images missed carousels, background photos and late-loading content.
+* Fixed: The accessibility statement link returned 404.
+* Fixed: Usage Statistics showed the wrong "last updated" time.
+
 = 1.6.0 – September 01, 2026 =
 * Added: Sticky save bar in the preset editor.
 * Fixed: Activating a preset now deactivates the previous one with the same condition.

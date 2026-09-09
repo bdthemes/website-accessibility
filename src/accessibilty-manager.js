@@ -10,6 +10,7 @@ class AccessibilityManager {
         if (AccessibilityManager.instance) return AccessibilityManager.instance;
         this.props = {}; // { contrast: [ { element, property, originalValue } ] }
         this.previousFeatureValues = {}; // Track previous values
+        this.backgroundObservers = {}; // feature key → MutationObserver watching for new CSS background photos
 
         AccessibilityManager.instance = this;
     }
@@ -194,10 +195,27 @@ class AccessibilityManager {
     applyCSSFeature(key, attr) {
         if (!attr?.css || attr.css.length === 0) return;
 
+        // `img { display: none }` cannot touch a photo painted as a CSS background,
+        // so a feature that hides images has to ask for those separately.
+        if (attr.hideBackgroundImages) {
+            this.applyBackgroundImageHiding(key);
+        }
+
         const previewButton = document.querySelector('.wap-preset__preview-button');
         let skipOriginal = false;
 
         attr.css.forEach(css => {
+            // A universal selector becomes one stylesheet rule instead of an inline
+            // style on every element. Inline styles cannot reach ::before/::after at
+            // all, and they only ever cover the elements that existed and were visible
+            // at the moment the feature was switched on — so a paused page would still
+            // animate its pseudo-elements, its carousel slides and anything rendered
+            // afterwards. A rule has none of those blind spots.
+            if (this.shouldUseStyleRule(css)) {
+                this.applyStyleRule(key, css.properties, css.selector);
+                return;
+            }
+
             const elements = document.querySelectorAll(css.selector);
 
             elements.forEach(element => {
@@ -219,6 +237,7 @@ class AccessibilityManager {
 
                 for (const property in css.properties) {
                     let inlineOriginal = element.style.getPropertyValue(property);
+                    const originalPriority = element.style.getPropertyPriority(property);
 
                     // 🔥 Check if original already stored
                     const alreadyStored = this.props[key].some(
@@ -229,29 +248,178 @@ class AccessibilityManager {
                         this.props[key].push({
                             element,
                             property,
+                            originalPriority: skipOriginal ? '' : originalPriority,
                             originalValue: skipOriginal
                                 ? null
                                 : (inlineOriginal ? inlineOriginal : null)
                         });
                     }
 
-                    // Apply new CSS
-                    element.style[property] = css.properties[property];
+                    // Apply new CSS. `important` is deliberate: the toolbar states a
+                    // user's accessibility choice, so it has to beat theme rules that
+                    // ship their own !important — WordPress core does exactly that for
+                    // block font-size presets, and themes commonly do it for `img`.
+                    // Without it the feature silently no-ops on those elements.
+                    element.style.setProperty(
+                        this.toCssProperty(property),
+                        css.properties[property],
+                        'important'
+                    );
                 }
             });
         });
     }
 
 
+
+    /**
+     * True for selectors that target the whole document, where a per-element pass
+     * is both incomplete (no pseudo-elements, no late or hidden nodes) and wasteful.
+     */
+    isUniversalSelector(selector) {
+        return String(selector).trim() === '*';
+    }
+
+    /**
+     * Whether a css entry should become a stylesheet rule rather than inline styles.
+     * A definition opts in with `rule: true`; the universal selector always does.
+     */
+    shouldUseStyleRule(css) {
+        return css?.rule === true || this.isUniversalSelector(css?.selector);
+    }
+
+    /** DOM id of the stylesheet backing a rule-based feature. */
+    styleRuleId(key) {
+        return `websac-feature-${key}`;
+    }
+
+    /**
+     * Back a feature with a single stylesheet rule covering every element and its
+     * ::before/::after. The plugin's own preview drawer is excluded so the admin
+     * preview keeps behaving normally, matching the per-element path.
+     */
+    applyStyleRule(key, properties, selector = '*') {
+        this.removeStyleRule(key);
+
+        const body = Object.entries(properties)
+            .map(([prop, value]) => `${this.toCssProperty(prop)}: ${value} !important;`)
+            .join(' ');
+        if (!body) return;
+
+        const scope = ':not(.wap-preset__preview-drawer-root):not(.wap-preset__preview-drawer-root *)';
+        const parts = String(selector).split(',').map(part => part.trim()).filter(Boolean);
+        if (parts.length === 0) return;
+
+        // ::before/::after only matter for the whole-document case (pausing motion);
+        // for a concrete element list like `img, video` they carry no content to hide.
+        const universal = parts.length === 1 && this.isUniversalSelector(parts[0]);
+        const selectors = parts.flatMap(part => universal
+            ? [`${part}${scope}`, `${part}${scope}::before`, `${part}${scope}::after`]
+            : [`${part}${scope}`]);
+
+        const el = document.createElement('style');
+        el.id = this.styleRuleId(key);
+        el.textContent = `${selectors.join(', ')} { ${body} }`;
+        document.head.appendChild(el);
+    }
+
+    removeStyleRule(key) {
+        document.getElementById(this.styleRuleId(key))?.remove();
+    }
+
+    /** Attribute marking an element whose CSS background photo is being hidden. */
+    static get HIDDEN_BG_ATTR() {
+        return 'data-websac-hidden-bg';
+    }
+
+    backgroundRuleId(key) {
+        return `websac-feature-${key}-backgrounds`;
+    }
+
+    /**
+     * Hide photos painted as CSS backgrounds.
+     *
+     * A stylesheet rule alone cannot do this: CSS has no way to ask whether a
+     * background is a photo or a gradient, and blanking every background-image would
+     * strip the gradients themselves — those are colour, not content, and removing
+     * them flattens sections and wrecks their contrast. So JS marks the elements that
+     * actually carry a url() and one rule hides those, which keeps the hiding alive
+     * across re-renders and lets a MutationObserver pick up whatever loads later.
+     */
+    applyBackgroundImageHiding(key) {
+        this.removeBackgroundImageHiding(key);
+
+        const el = document.createElement('style');
+        el.id = this.backgroundRuleId(key);
+        el.textContent = `[${AccessibilityManager.HIDDEN_BG_ATTR}] { background-image: none !important; }`;
+        document.head.appendChild(el);
+
+        this.markBackgroundImages(document.body);
+
+        this.backgroundObservers[key]?.disconnect();
+        const observer = new MutationObserver(mutations => {
+            for (const mutation of mutations) {
+                for (const node of mutation.addedNodes) {
+                    if (node.nodeType === 1) this.markBackgroundImages(node);
+                }
+            }
+        });
+        observer.observe(document.documentElement, { childList: true, subtree: true });
+        this.backgroundObservers[key] = observer;
+    }
+
+    markBackgroundImages(root) {
+        const mark = (element) => {
+            if (this.isInsidePreviewDrawer(element)) return;
+            const value = window.getComputedStyle(element).backgroundImage;
+            if (value && value.includes('url(')) {
+                element.setAttribute(AccessibilityManager.HIDDEN_BG_ATTR, '');
+            }
+        };
+
+        if (root.nodeType === 1 && root !== document.body) mark(root);
+        root.querySelectorAll?.('*').forEach(mark);
+    }
+
+    removeBackgroundImageHiding(key) {
+        this.backgroundObservers[key]?.disconnect();
+        delete this.backgroundObservers[key];
+
+        document.getElementById(this.backgroundRuleId(key))?.remove();
+        document
+            .querySelectorAll(`[${AccessibilityManager.HIDDEN_BG_ATTR}]`)
+            .forEach(element => element.removeAttribute(AccessibilityManager.HIDDEN_BG_ATTR));
+    }
+
     removeCSSFeature(key) {
+        this.removeStyleRule(key);
+        this.removeBackgroundImageHiding(key);
+
         const cssProps = this.props[key];
         if (!cssProps) return;
 
         cssProps.forEach(item => {
-            item.element.style[item.property] = item.originalValue;
+            const property = this.toCssProperty(item.property);
+            if (item.originalValue) {
+                // Replay the author's own priority, not ours: apply() forces
+                // `important`, so restoring without it would downgrade a declaration
+                // the page had marked important.
+                item.element.style.setProperty(property, item.originalValue, item.originalPriority || '');
+            } else {
+                item.element.style.removeProperty(property);
+            }
         });
 
         delete this.props[key];
+    }
+
+    /**
+     * Feature definitions may name a property in either CSS (`background-color`)
+     * or camelCase (`backgroundColor`) form. setProperty()/removeProperty() only
+     * accept the CSS form, so normalise before either is called.
+     */
+    toCssProperty(property) {
+        return String(property).replace(/[A-Z]/g, (c) => '-' + c.toLowerCase());
     }
 
     applyBiggerText(key, attr) {
