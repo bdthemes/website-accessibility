@@ -55,6 +55,16 @@ class Enqueue {
      * @param string $hook_suffix The current admin page.
      */
     public function enqueue_scripts($hook_suffix) {
+        // Capability first. is_plugin_screen() matches on $_GET['page'], which any
+        // logged-in user controls, so it can identify a screen but must never be the
+        // thing that authorizes one: without this check a Subscriber loading
+        // profile.php?page=website-accessibility-x receives the payload below, admin
+        // e-mail included. Every plugin and add-on screen is registered with
+        // manage_options (Admin\Menu), so that is the capability this payload belongs to.
+        if (! current_user_can('manage_options')) {
+            return;
+        }
+
         // The admin SPA (and its localized data) is only needed on this plugin's screens.
         if (! self::is_plugin_screen($hook_suffix)) {
             return;

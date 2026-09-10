@@ -4,7 +4,7 @@ Tags:              accessibility, web-accessibility, accessibility-plugin, ada-c
 Requires at least: 6.1
 Tested up to:      7.1
 Requires PHP:      7.4
-Stable tag:        1.6.0
+Stable tag:        1.6.1
 License:           GPL-2.0-or-later
 License URI:       https://www.gnu.org/licenses/gpl-2.0.html
 
@@ -181,6 +181,13 @@ Features such as Google Translate integration and the AI-based accessibility che
 The JavaScript and CSS shipped in `build/` are compiled with `@wordpress/scripts`. Human-readable source files are included under `src/` and at https://github.com/bdthemes/website-accessibility.
 
 == Changelog ==
+
+= 1.6.1 – September 10, 2026 =
+* Security: Fixed an admin data disclosure and hardened the usage statistics endpoint.
+* Fixed: Theme styles overrode toolbar features — Bigger Text left headings and paragraphs unchanged.
+* Fixed: Pause Animations and Hide Images missed carousels, background photos and late-loading content.
+* Fixed: The accessibility statement link returned 404.
+* Fixed: Usage Statistics showed the wrong "last updated" time.
 
 = 1.6.0 – September 01, 2026 =
 * Added: Sticky save bar in the preset editor.

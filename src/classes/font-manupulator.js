@@ -64,14 +64,23 @@ class FontManipulator {
 
                 const unit = match[2] || '';
                 const inlineValue = known ? known.inlineValue : el.style.getPropertyValue(prop);
+                const inlinePriority = known
+                    ? known.inlinePriority
+                    : el.style.getPropertyPriority(prop);
 
                 record[prop] = {
                     originalValue: baseValue,
                     inlineValue,
+                    inlinePriority,
                     hasInline: known ? known.hasInline : inlineValue !== ''
                 };
 
-                el.style.setProperty(prop, `${numeric * (1 + percent / 100)}${unit}`);
+                // `important` is required, not stylistic. WordPress prints
+                // `.has-small-font-size { font-size: var(--wp--preset--font-size--small)
+                // !important }` (and one rule per size preset) for every block theme, so a
+                // plain inline value loses to it and the text simply never resizes — which
+                // is most headings and many paragraphs on a stock block theme.
+                el.style.setProperty(prop, `${numeric * (1 + percent / 100)}${unit}`, 'important');
             });
 
             if (Object.keys(record).length > 0) {
@@ -92,7 +101,10 @@ class FontManipulator {
 
             Object.entries(record).forEach(([prop, value]) => {
                 if (value.hasInline) {
-                    el.style.setProperty(prop, value.inlineValue || '');
+                    // Restore the author's own priority too, not just the value:
+                    // apply() forces `important`, so replaying without it would
+                    // silently downgrade a declaration the page had marked important.
+                    el.style.setProperty(prop, value.inlineValue || '', value.inlinePriority || '');
                 } else {
                     el.style.removeProperty(prop);
                 }
@@ -127,7 +139,7 @@ class FontManipulator {
         const out = {};
         Object.entries(parsed).forEach(([prop, value]) => {
             if (typeof value === 'string') {
-                out[prop] = { originalValue: value, inlineValue: value, hasInline: value !== '' };
+                out[prop] = { originalValue: value, inlineValue: value, inlinePriority: '', hasInline: value !== '' };
                 return;
             }
             if (!value || typeof value !== 'object') return;
@@ -135,6 +147,7 @@ class FontManipulator {
             out[prop] = {
                 originalValue: value.originalValue || value.inlineValue || '',
                 inlineValue: value.inlineValue || '',
+                inlinePriority: value.inlinePriority || '',
                 hasInline: !!value.hasInline
             };
         });

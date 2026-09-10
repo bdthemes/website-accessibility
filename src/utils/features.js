@@ -381,14 +381,20 @@ const features = [
             {
                 name: __("Enable", "website-accessibility"),
                 value: "enable",
+                // `rule: true` makes this one stylesheet rule instead of an inline style
+                // per element. Inline styles only ever reached the images that existed
+                // and were already visible, so anything inside an inactive carousel
+                // slide, a closed accordion, or loaded later stayed on screen.
                 css: [
                     {
-                        selector: "img",
+                        selector: "img, picture, video, canvas",
+                        rule: true,
                         properties: {
                             display: "none",
                         },
                     },
                 ],
+                hideBackgroundImages: true,
                 enableAnnouncement: __("Hide Images Enable.", "website-accessibility"),
             },
             {
