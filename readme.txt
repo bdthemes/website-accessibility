@@ -4,7 +4,7 @@ Tags:              accessibility, web-accessibility, accessibility-plugin, ada-c
 Requires at least: 6.1
 Tested up to:      7.1
 Requires PHP:      7.4
-Stable tag:        1.6.1
+Stable tag:        1.6.2
 License:           GPL-2.0-or-later
 License URI:       https://www.gnu.org/licenses/gpl-2.0.html
 
@@ -166,13 +166,20 @@ This plugin uses the following open-source libraries and third-party tools:
 
 == External services ==
 
-This plugin connects to exactly one third-party service and only when a visitor explicitly uses the feature described below:
+This plugin connects to the third-party services below, and only when a visitor explicitly uses the feature described:
 
 = Free Dictionary API (dictionaryapi.dev) =
 * **What it is / what it is used for:** The Dictionary tool lets a visitor double-click a word to view its definition in a popup. Definitions are fetched from the open-source Free Dictionary API.
 * **What data is sent and when:** A request is sent only when the Dictionary tool is active and a visitor double-clicks a single Latin-character word (max 64 chars). The word is sent in the URL (`https://api.dictionaryapi.dev/api/v2/entries/en/{word}`). No personal information, cookies or site URLs are transmitted.
 * **Service website:** https://dictionaryapi.dev/
 * **Source code and license (GPL-3.0):** https://github.com/meetDeveloper/freeDictionaryAPI
+
+= Wiktionary REST API (en.wiktionary.org) =
+* **What it is / what it is used for:** A fallback for the Dictionary tool. The Free Dictionary API above is a small community project and does go offline, which left the tool unable to show any definition at all. When it does not answer, the same word is looked up on Wiktionary, run by the Wikimedia Foundation.
+* **What data is sent and when:** Only if the first service fails to answer. The same single word is sent in the URL (`https://en.wiktionary.org/api/rest_v1/page/definition/{word}`). No personal information, cookies or site URLs are transmitted. A working first service means this one is never contacted.
+* **Service website:** https://www.mediawiki.org/wiki/Wikimedia_REST_API
+* **Terms of use:** https://wikimediafoundation.org/wp/wp-content/uploads/2023/07/Wikimedia-Foundation-Terms-of-Use-English.html
+* **Privacy policy:** https://foundation.wikimedia.org/wiki/Policy:Privacy_policy
 
 Features such as Google Translate integration and the AI-based accessibility checker are provided by the separate One Accessibility Pro plugin.
 
@@ -181,6 +188,12 @@ Features such as Google Translate integration and the AI-based accessibility che
 The JavaScript and CSS shipped in `build/` are compiled with `@wordpress/scripts`. Human-readable source files are included under `src/` and at https://github.com/bdthemes/website-accessibility.
 
 == Changelog ==
+
+= 1.6.2 – September 21, 2026 =
+* Added: Dictionary — search any word and page through its definitions.
+* Fixed: Dictionary showed nothing when its service was down; "Read" spoke only the word, not the definition.
+* Changed: Dictionary popup redesigned.
+* Fixed: "Accessibility Statement" showed as unclickable text when no page was published.
 
 = 1.6.1 – September 10, 2026 =
 * Security: Fixed an admin data disclosure and hardened the usage statistics endpoint.

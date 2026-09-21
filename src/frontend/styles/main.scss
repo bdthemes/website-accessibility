@@ -137,28 +137,224 @@ html {
   text-align: left !important;
 }
 
-.wap-dictionary-popup p {
-  margin: 5px 0 0;
-}
-.wap-dictionary-popup button {
-    background: none;
-    border: 1px solid #fff;
-    border-radius: 4px;
-    padding: 4px 6px;
+// Dictionary popup.
+//
+// Everything inside states its own colours and sizing rather than inheriting:
+// the popup sits in the page, so a theme's form or button rules would otherwise
+// reach into it. (The search field once rendered white-on-white this way and
+// looked empty even though it held the word.)
+.wap-dictionary-popup {
+  position: absolute;
+  z-index: 999999;
+  box-sizing: border-box;
+  width: max-content;
+  max-width: min(400px, calc(100vw - 24px));
+  font-family: system-ui, -apple-system, "Segoe UI", Roboto, sans-serif;
+  text-align: left !important;
+  letter-spacing: normal !important;
+  word-spacing: normal !important;
+
+  *,
+  *::before,
+  *::after {
+    box-sizing: inherit;
+  }
+
+  svg {
+    display: block;
+    width: 100%;
+    height: 100%;
+    fill: none;
+    stroke: currentColor;
+    stroke-width: 2;
+    stroke-linecap: round;
+    stroke-linejoin: round;
+  }
+
+  // The whole feature is driven by double-click, so the popup's own chrome must
+  // not be selectable: double-clicking near the pager highlighted "1 of" instead
+  // of doing anything useful. The definition itself stays selectable so it can
+  // still be copied.
+  user-select: none;
+
+  .wap-dictionary-body {
+    user-select: text;
+  }
+
+  .wap-dictionary-card {
+    padding: 20px;
+    border-radius: 16px;
+    background: #fff;
+    box-shadow: 0 12px 34px rgba(16, 24, 40, 0.18);
+    color: #1c2434;
+  }
+
+  // Floats over the card's top-right corner, the way a dismiss control on a
+  // card usually does.
+  .wap-dictionary-close {
+    position: absolute;
+    top: -14px;
+    right: -14px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 34px;
+    height: 34px;
+    padding: 9px;
+    border: none;
+    border-radius: 50%;
+    background: #1c2434;
     color: #fff;
     cursor: pointer;
+
+    &:hover {
+      background: #000;
+    }
+  }
+
+  .wap-dictionary-search {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    margin: 0 0 14px;
+    padding: 4px 6px 4px 14px;
+    border: 1px solid #d9dfea;
+    border-radius: 12px;
+    background: #fff;
+
+    &:focus-within {
+      border-color: #7b8cff;
+    }
+  }
+
+  .wap-dictionary-input {
+    flex: 1 1 auto;
+    min-width: 0;
+    padding: 8px 0;
+    border: none;
+    background: none;
+    color: #1c2434; // stated, not inherited
+    font-size: 16px;
+    line-height: 1.4;
+
+    &:focus {
+      outline: none;
+    }
+  }
+
+  .wap-dictionary-search-btn {
+    flex: 0 0 auto;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 38px;
+    height: 38px;
+    padding: 9px;
+    border: none;
+    border-radius: 10px;
+    background: none;
+    color: #1c2434;
+    cursor: pointer;
+
+    &:hover {
+      background: #f1f3f9;
+    }
+  }
+
+  .wap-dictionary-body {
+    margin: 0 0 16px;
+    color: #1c2434;
+    font-size: 15px;
+    line-height: 1.55;
+  }
+
+  .wap-dictionary-term {
+    font-weight: 700;
+  }
+
+  .wap-dictionary-actions {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+  }
+
+  .wap-dictionary-action {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    padding: 7px 14px 7px 7px;
+    border: none;
+    border-radius: 999px;
+    color: #1c2434;
     font-size: 14px;
-}
+    font-weight: 500;
+    line-height: 1;
+    cursor: pointer;
+  }
 
-.wap-dictionary-popup button.speak-btn {
-  background: none;
-  border: none;
-  color: #fff;
-  cursor: pointer;
-  font-size: 16px;
-  margin-top: 5px;
-}
+  .wap-dictionary-action-icon {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 26px;
+    height: 26px;
+    padding: 6px;
+    border-radius: 50%;
+    background: #fff;
+  }
 
+  .wap-dictionary-read {
+    background: #dfe3ff;
+
+    &:hover { background: #cfd5ff; }
+    .wap-dictionary-action-icon { color: #4557d6; }
+  }
+
+  .wap-dictionary-spell {
+    background: #cdf2e6;
+
+    &:hover { background: #b7ead9; }
+    .wap-dictionary-action-icon { color: #12866a; }
+  }
+
+  .wap-dictionary-pager {
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    margin-left: auto;
+    color: #5b6478;
+    font-size: 14px;
+    white-space: nowrap;
+  }
+
+  .wap-dictionary-prev,
+  .wap-dictionary-next {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 26px;
+    height: 26px;
+    padding: 6px;
+    border: none;
+    border-radius: 50%;
+    background: none;
+    color: #1c2434;
+    cursor: pointer;
+
+    &:hover:not(:disabled) { background: #f1f3f9; }
+
+    &:disabled {
+      opacity: 0.35;
+      cursor: default;
+    }
+  }
+
+  button:focus-visible,
+  .wap-dictionary-input:focus-visible {
+    outline: 2px solid #4557d6;
+    outline-offset: 2px;
+  }
+}
 
 // Theme compatibility css overrides go here  
 

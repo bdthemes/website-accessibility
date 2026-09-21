@@ -193,22 +193,13 @@ const PanelFooter = ({ value, accessibilityContext, accessibilityDispatch, isEdi
     [isFrontend, currentPresetId, isUserLoggedIn]
   );
 
-  let statementLinkAttr = {};
-  if (statementLink) {
-    statementLinkAttr = {
-      target: '_blank',
-      rel: 'noopener noreferrer',
-      href: statementLink,
-      className: 'wap-panel-footer__statement-link'
-    };
-  } else {
-    statementLinkAttr = {
-      className: 'wap-panel-footer__statement-link',
-      onClick: (e) => {
-        e.preventDefault();
-      },
-    };
-  }
+  // The seeded statement page ships as a draft, and visitors are only ever given
+  // a published one — so this link is genuinely absent on a fresh install. An <a>
+  // with no href is not keyboard focusable and carries no link role, so it reads
+  // as plain text to a screen-reader user while still looking like a link to
+  // everyone else. That mismatch is the kind of thing this plugin exists to
+  // prevent, so the front end drops the element entirely instead.
+  const hasStatementLink = typeof statementLink === 'string' && statementLink !== '';
 
 
 
@@ -260,12 +251,23 @@ const PanelFooter = ({ value, accessibilityContext, accessibilityDispatch, isEdi
             </div>
           )}
 
-          {showStatement && (
+          {showStatement && hasStatementLink && (
             <a
-              {...statementLinkAttr}
+              className="wap-panel-footer__statement-link"
+              href={statementLink}
+              target="_blank"
+              rel="noopener noreferrer"
             >
               {statementText}
             </a>
+          )}
+
+          {showStatement && !hasStatementLink && isEditorPreview && (
+            // Preview only, so the preset editor still shows what the toggle
+            // controls. It is never rendered on the front end.
+            <span className="wap-panel-footer__statement-link">
+              {statementText}
+            </span>
           )}
         </div>
       )}
