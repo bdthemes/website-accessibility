@@ -189,7 +189,7 @@ The JavaScript and CSS shipped in `build/` are compiled with `@wordpress/scripts
 
 == Changelog ==
 
-= 1.6.2 – September 21, 2026 =
+= 1.6.2 – September 22, 2026 =
 * Added: Dictionary — search any word and page through its definitions.
 * Fixed: Dictionary showed nothing when its service was down; "Read" spoke only the word, not the definition.
 * Changed: Dictionary popup redesigned.
