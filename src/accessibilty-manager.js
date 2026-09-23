@@ -204,17 +204,21 @@ class AccessibilityManager {
         const previewButton = document.querySelector('.wap-preset__preview-button');
         let skipOriginal = false;
 
+        // A rule-backed entry becomes a stylesheet rule instead of an inline style on
+        // every element. Inline styles cannot reach ::before/::after at all, and they
+        // only ever cover the elements that existed and were visible at the moment the
+        // feature was switched on — so a paused page would still animate its
+        // pseudo-elements, its carousel slides and anything rendered afterwards, and a
+        // recoloured page would leave every late section in the theme's own colours.
+        // A rule has none of those blind spots. They are emitted together, in order,
+        // because a feature usually needs several of them.
+        const ruleEntries = attr.css.filter(css => this.shouldUseStyleRule(css));
+        if (ruleEntries.length > 0) {
+            this.applyStyleRules(key, ruleEntries);
+        }
+
         attr.css.forEach(css => {
-            // A universal selector becomes one stylesheet rule instead of an inline
-            // style on every element. Inline styles cannot reach ::before/::after at
-            // all, and they only ever cover the elements that existed and were visible
-            // at the moment the feature was switched on — so a paused page would still
-            // animate its pseudo-elements, its carousel slides and anything rendered
-            // afterwards. A rule has none of those blind spots.
-            if (this.shouldUseStyleRule(css)) {
-                this.applyStyleRule(key, css.properties, css.selector);
-                return;
-            }
+            if (this.shouldUseStyleRule(css)) return;
 
             const elements = document.querySelectorAll(css.selector);
 
@@ -298,28 +302,58 @@ class AccessibilityManager {
      * ::before/::after. The plugin's own preview drawer is excluded so the admin
      * preview keeps behaving normally, matching the per-element path.
      */
+    /**
+     * The plugin's own UI is never part of the page being adjusted: the toolbar has
+     * to stay readable while a feature repaints everything behind it, and the admin
+     * preview drawer has to keep showing the site as it really looks.
+     */
+    static get RULE_SCOPE() {
+        return [
+            '.wap-preset__preview-drawer-root',
+            '.wap-accessibility-view',
+            '.wap-preview-button',
+        ].map(sel => `:not(${sel}):not(${sel} *)`).join('');
+    }
+
     applyStyleRule(key, properties, selector = '*') {
+        this.applyStyleRules(key, [{ properties, selector }]);
+    }
+
+    /**
+     * Back a feature with one stylesheet holding every rule it asked for, in the
+     * order given, so later entries can override earlier ones the way any
+     * stylesheet does.
+     */
+    applyStyleRules(key, entries) {
         this.removeStyleRule(key);
 
-        const body = Object.entries(properties)
-            .map(([prop, value]) => `${this.toCssProperty(prop)}: ${value} !important;`)
-            .join(' ');
-        if (!body) return;
+        const scope = AccessibilityManager.RULE_SCOPE;
+        const rules = [];
 
-        const scope = ':not(.wap-preset__preview-drawer-root):not(.wap-preset__preview-drawer-root *)';
-        const parts = String(selector).split(',').map(part => part.trim()).filter(Boolean);
-        if (parts.length === 0) return;
+        entries.forEach(({ properties, selector = '*' }) => {
+            const body = Object.entries(properties || {})
+                .map(([prop, value]) => `${this.toCssProperty(prop)}: ${value} !important;`)
+                .join(' ');
+            if (!body) return;
 
-        // ::before/::after only matter for the whole-document case (pausing motion);
-        // for a concrete element list like `img, video` they carry no content to hide.
-        const universal = parts.length === 1 && this.isUniversalSelector(parts[0]);
-        const selectors = parts.flatMap(part => universal
-            ? [`${part}${scope}`, `${part}${scope}::before`, `${part}${scope}::after`]
-            : [`${part}${scope}`]);
+            const parts = String(selector).split(',').map(part => part.trim()).filter(Boolean);
+            if (parts.length === 0) return;
+
+            // ::before/::after only matter for the whole-document case (pausing motion);
+            // for a concrete element list like `img, video` they carry no content to hide.
+            const universal = parts.length === 1 && this.isUniversalSelector(parts[0]);
+            const selectors = parts.flatMap(part => universal
+                ? [`${part}${scope}`, `${part}${scope}::before`, `${part}${scope}::after`]
+                : [`${part}${scope}`]);
+
+            rules.push(`${selectors.join(', ')} { ${body} }`);
+        });
+
+        if (rules.length === 0) return;
 
         const el = document.createElement('style');
         el.id = this.styleRuleId(key);
-        el.textContent = `${selectors.join(', ')} { ${body} }`;
+        el.textContent = rules.join('\n');
         document.head.appendChild(el);
     }
 

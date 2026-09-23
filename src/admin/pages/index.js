@@ -17,6 +17,12 @@ const Pages = () => {
     const location = useLocation();
     const page = location?.params?.page;
     const [settings, setSettings] = useState();
+    // Fall back to the fetched value only where the flag was not localized
+    // (an older build of the plugin's PHP side).
+    const localizedUsageStats = window?.websacAdmin?.showUsageStatistics;
+    const showUsageStatistics = typeof localizedUsageStats === 'boolean'
+        ? localizedUsageStats
+        : !!settings?.show_usage_statistics;
     const API_NAMESPACE = "/websac/v1/settings";
     const extensions = getAdminExtensions();
 
@@ -79,13 +85,10 @@ const Pages = () => {
         <>
             <div className="wap-admin-pages">
 
-                {page === 'website-accessibility' && settings && settings?.show_usage_statistics && (
-                    <>
-                        <div className="wap-admin-usage-statistics" style={{ marginBottom: '20px' }}>
-                            <UsageStatistics />
-                        </div>
-                      
-                    </>
+                {page === 'website-accessibility' && showUsageStatistics && (
+                    <div className="wap-admin-usage-statistics" style={{ marginBottom: '20px' }}>
+                        <UsageStatistics />
+                    </div>
                 )}
                  <div className={clsx('wap-admin-page', { [page]: page })}>
                     {RouteElement}

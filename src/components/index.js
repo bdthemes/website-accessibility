@@ -18,6 +18,7 @@ import WapRadio from './wap-radio';
 import WapSelect from './wap-select';
 import WapSpace from './wap-space';
 import WapSkeleton from './wap-skeleton';
+import WapPageSkeleton from './wap-page-skeleton';
 import WapBadge from './wap-badge';
 import WapAvatar from './wap-avatar';
 import WapSpin from './wap-spin';
@@ -66,6 +67,7 @@ window.wapComponents = {
     WapSelect,
     WapSpace,
     WapSkeleton,
+    WapPageSkeleton,
     WapAvatar,
     WapSpin,
     WapBadge,

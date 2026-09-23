@@ -65,7 +65,7 @@ const IconPlus = () => (
 );
 
 const Dashboard = () => {
-    const { WapCard, WapButton, WapRow, WapCol, WapSpace, WapTypography, WapProgress } = window?.wapComponents;
+    const { WapCard, WapButton, WapRow, WapCol, WapSpace, WapTypography, WapProgress, WapPageSkeleton } = window?.wapComponents;
     const { Title, Text } = WapTypography;
     const history = useHistory();
     const [statsData, setStatsData] = useState({ average_percent: 0 });
@@ -93,7 +93,7 @@ const Dashboard = () => {
         fetchStats();
     }, []);
 
-    const { activePresetsCount, profilesCount } = useSelect((select) => {
+    const { activePresetsCount, profilesCount, presetsReady } = useSelect((select) => {
         const { getPresets, getProfiles } = select(STORE_NAME);
         const presets = getPresets();
         const activePresets = presets?.filter(preset => {
@@ -105,6 +105,8 @@ const Dashboard = () => {
         return {
             activePresetsCount: activePresets?.length || 0,
             profilesCount: getProfiles()?.length || 0,
+            // null until the query resolves; an array -- even empty -- is an answer.
+            presetsReady: Array.isArray(presets),
         };
     }, []);
 
@@ -149,12 +151,25 @@ const Dashboard = () => {
                     percent={statsData.average_percent || 0}
                     size="small"
                     showInfo={false}
-                    status={loading ? 'active' : 'normal'}
                 />
             ),
-            extra: <Text type="secondary">{loading ? 'Loading...' : `${statsData.average_percent || 0}%`}</Text>,
+            extra: <Text type="secondary">{`${statsData.average_percent || 0}%`}</Text>,
         },
     ];
+
+    if (loading || !presetsReady) {
+        return (
+            <div className="wap-settings wap-dashboard" data-tour="wap-tour-dashboard-home">
+                <WapPageSkeleton
+                    variant="stats"
+                    header={false}
+                    tiles={stats.length}
+                    rows={0}
+                    className="wap-page-skeleton--bare"
+                />
+            </div>
+        );
+    }
 
     return (
         <>

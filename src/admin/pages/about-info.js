@@ -9,7 +9,7 @@ const DOCS_URL = 'https://bdthemes.com/knowledge-base/one-accessibility/';
 const SUPPORT_URL = 'https://bdthemes.com/contact/';
 
 const AboutInfo = () => {
-	const { WapCard, WapButton, WapTypography } = window?.wapComponents;
+	const { WapCard, WapButton, WapTypography, WapPageSkeleton } = window?.wapComponents;
 	const { Title, Text } = WapTypography;
 	const { startTour } = useDashboardTour();
 	const brandDisplayName = useBrandDisplayName();
@@ -104,7 +104,13 @@ const AboutInfo = () => {
 				</Text>
 
 				{loading ? (
-					<div className="wap-about-info__loading">{__('Loading…', 'website-accessibility')}</div>
+					<WapPageSkeleton
+						variant="stats"
+						header={false}
+						tiles={4}
+						rows={4}
+						className="wap-page-skeleton--bare"
+					/>
 				) : (
 					<>
 						<div className="wap-about-info__stats">

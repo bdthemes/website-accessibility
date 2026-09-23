@@ -444,13 +444,19 @@
 	padding: 0 !important;
 }
 
-.wap-admin-footer.ant-layout-footer {
-	margin: 0;
-	padding: 20px !important;
-	text-align: center;
-	background: #fff;
-	border-top: 1px solid #e8eaed;
-	flex-shrink: 0;
+// Block is `.wap-admin-footer`; `.ant-layout-footer` is nested only to out-weigh
+// antd's own footer rule. Written the other way round, `&__text` expanded to
+// `.wap-admin-footer.ant-layout-footer__text` -- two classes on one element -- so
+// none of the element rules below ever matched anything.
+.wap-admin-footer {
+	&.ant-layout-footer {
+		margin: 0;
+		padding: 20px !important;
+		text-align: center;
+		background: #fff;
+		border-top: 1px solid #e8eaed;
+		flex-shrink: 0;
+	}
 
 	&__text {
 		font-size: 13px;
@@ -463,7 +469,11 @@
 	}
 
 	&__heart {
-		display: inline;
+		display: inline-flex;
+		align-items: center;
+		// The emoji carried its own colour; an SVG inherits, so state it here.
+		color: #e0245e;
+		vertical-align: -2px;
 	}
 
 	&__link {

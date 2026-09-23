@@ -31,9 +31,9 @@ const Presets = () => {
 
   const filters = useMemo(() => rawFilters, [JSON.stringify(rawFilters)]);
 
-  const isResolving = useSelect((select) => {
-    return select('core').isResolving('getEntityRecords', ['postType', 'websac_preset', filters || {}]);
-  }, [filters]);
+  // core-data hands back null (not undefined) until the query resolves; an
+  // array -- even an empty one -- is a real answer.
+  const isResolving = !Array.isArray(presets);
 
   const isDeleting = useSelect((select) => {
     return select('core').isResolving('deleteEntityRecord', ['postType', 'websac_preset', filters || {}]);
