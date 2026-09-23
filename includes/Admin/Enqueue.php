@@ -123,6 +123,9 @@ class Enqueue {
             'brandDisplayName'             => Utils::get_brand_display_name(),
             'defaultBrandDisplayName'      => __('One Accessibility', 'website-accessibility'),
             'brandLogoUrl'                 => '',
+            /** Known at first paint so the dashboard can reserve the statistics
+                card instead of popping it in once /settings answers. */
+            'showUsageStatistics'          => (bool) Utils::get_settings('show_usage_statistics'),
         ];
 
         /**

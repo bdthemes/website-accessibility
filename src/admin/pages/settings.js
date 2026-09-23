@@ -7,7 +7,7 @@ import { getAdminExtensions } from "../../utils/admin-extensions";
 
 
 const Settings = () => {
-    const { WapSpin, WapMessage, WapCard, WapSpace, WapTypography, WapButton } = window?.wapComponents;
+    const { WapPageSkeleton, WapMessage, WapCard, WapSpace, WapTypography, WapButton } = window?.wapComponents;
     const { Title, Text } = WapTypography;
     const extensionSections = getAdminExtensions().settingsSections;
     const [settings, setSettings] = useState({});
@@ -103,8 +103,8 @@ const Settings = () => {
 
     if (loading) {
         return (
-            <div className="wap-settings-loading">
-                <WapSpin size="large" />
+            <div className="wap-settings">
+                <WapPageSkeleton rows={4} />
             </div>
         );
     }

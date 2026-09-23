@@ -4,7 +4,7 @@ Tags:              accessibility, web-accessibility, accessibility-plugin, ada-c
 Requires at least: 6.1
 Tested up to:      7.1
 Requires PHP:      7.4
-Stable tag:        1.6.2
+Stable tag:        1.6.3
 License:           GPL-2.0-or-later
 License URI:       https://www.gnu.org/licenses/gpl-2.0.html
 
@@ -187,7 +187,19 @@ Features such as Google Translate integration and the AI-based accessibility che
 
 The JavaScript and CSS shipped in `build/` are compiled with `@wordpress/scripts`. Human-readable source files are included under `src/` and at https://github.com/bdthemes/website-accessibility.
 
+== Upgrade Notice ==
+
+= 1.6.3 =
+Fixes Contrast + Dark and Light leaving whole sections blank, and the toolbar recolouring itself. Admin screens now share one loading skeleton. Recommended for all users.
+
 == Changelog ==
+
+= 1.6.3 – September 23, 2026 =
+* Fixed: Contrast + Dark and Light could leave whole sections blank — text kept the theme's own colour and vanished into the new background.
+* Fixed: Contrast + also recoloured the accessibility toolbar itself.
+* Fixed: The Presets list showed "No data" while it was still loading.
+* Fixed: The heart in the admin footer did not render reliably; it is an icon now.
+* Changed: Every admin screen now loads with the same skeleton instead of its own spinner, and Widget Usage Statistics holds its place instead of appearing mid-load.
 
 = 1.6.2 – September 22, 2026 =
 * Added: Dictionary — search any word and page through its definitions.

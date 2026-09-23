@@ -30,7 +30,7 @@ const PostTable = ({
   rowActions = null,
   firstRowEditDataTour = null,
 }) => {
-  const { WapInput, WapTable, WapButton, WapDropdown, WapSpace } = window?.wapComponents;
+  const { WapInput, WapTable, WapButton, WapDropdown, WapSpace, WapPageSkeleton } = window?.wapComponents;
   const [selectedRowKeys, setSelectedRowKeys] = useState([]);
   const [searchText, setSearchText] = useState('');
 
@@ -100,6 +100,21 @@ const PostTable = ({
       },
     ];
 
+
+  const showSkeleton = loading && (!data || data.length === 0);
+
+  if (showSkeleton && WapPageSkeleton) {
+    return (
+      // Both callers already wrap the table in a card.
+      <WapPageSkeleton
+        variant="table"
+        header={false}
+        rows={5}
+        columns={columns.length + 1}
+        className="wap-page-skeleton--bare"
+      />
+    );
+  }
 
   return (
     <div>

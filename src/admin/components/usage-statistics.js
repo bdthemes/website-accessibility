@@ -4,7 +4,7 @@ import apiFetch from "@wordpress/api-fetch";
 const HIGHLIGHT_COUNT = 4;
 
 const UsageStatistics = () => {
-    const { WapCard, WapSelect, WapTypography, WapSkeleton, WapEmpty, WapRow, WapCol } = window?.wapComponents;
+    const { WapCard, WapSelect, WapTypography, WapPageSkeleton, WapEmpty, WapRow, WapCol } = window?.wapComponents;
     const { Title } = WapTypography;
     const { Option } = WapSelect;
     const [stats, setStats] = useState([]);
@@ -97,9 +97,13 @@ const UsageStatistics = () => {
                 }
             >
                 {loading ? (
-                    <div style={{ textAlign: "center", padding: "24px 0" }}>
-                        <WapSkeleton />
-                    </div>
+                    <WapPageSkeleton
+                        variant="stats"
+                        header={false}
+                        tiles={HIGHLIGHT_COUNT}
+                        rows={6}
+                        className="wap-page-skeleton--bare"
+                    />
                 ) : stats?.length === 0 ? (
                     <WapEmpty
                         description={__("No statistics available yet.", "website-accessibility")}

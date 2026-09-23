@@ -49,38 +49,60 @@ const features = [
                     "Contrast Mode, set to Dark.",
                     "website-accessibility",
                 ),
+                // Stylesheet rules, not inline styles. Repainting the page element by
+                // element left every tag outside the list below on the theme's own
+                // colour, so a section designed with dark text went invisible against
+                // the new dark background — the page simply looked blank. It also
+                // skipped anything hidden at the moment of the switch, which is why a
+                // reload behaved differently from a toggle. Order matters: the later,
+                // more specific rules override the catch-all above them.
                 css: [
                     {
-                        selector: "body, main, section, article, nav, aside, div",
+                        rule: true,
+                        selector: "html, body",
                         properties: {
                             backgroundColor: "#111",
+                        },
+                    },
+                    {
+                        // Themes set colour straight on p, span, li and td, so
+                        // inheriting from body never reaches the text that matters.
+                        rule: true,
+                        selector: "body *",
+                        properties: {
                             color: "#e0e0e0",
                         },
                     },
                     {
-                        selector: "h1, h2, h3, h4, h5, h6, h1 span, h2 span, h3 span, h4 span, h5 span, h6 span",
+                        rule: true,
+                        // `a` is in the list because a link styled as a button keeps its own
+                        // background, and recolouring only its text left it unreadable.
+                        selector: "body div, body main, body section, body article, body nav, body aside, body header, body footer, body form, body fieldset, body table, body li, body td, body th, body a",
+                        properties: {
+                            backgroundColor: "#111",
+                        },
+                    },
+                    {
+                        rule: true,
+                        selector: "body h1, body h2, body h3, body h4, body h5, body h6, body h1 *, body h2 *, body h3 *, body h4 *, body h5 *, body h6 *",
                         properties: {
                             color: "#fff",
                         },
                     },
                     {
-                        selector: "a, a span",
+                        rule: true,
+                        selector: "body a, body a *",
                         properties: {
                             color: "#4fd1c5",
                         },
                     },
                     {
-                        selector: "input, textarea, select, button",
+                        rule: true,
+                        selector: "body input, body textarea, body select, body button, body button *",
                         properties: {
-                            background: "#222",
+                            backgroundColor: "#222",
                             color: "#e0e0e0",
                             borderColor: "#444",
-                        },
-                    },
-                    {
-                        selector: "button span",
-                        properties: {
-                            color: "#e0e0e0",
                         },
                     },
                 ],
@@ -92,30 +114,52 @@ const features = [
                     "Contrast Mode, set to Light.",
                     "website-accessibility",
                 ),
+                // Same rule-based approach as Dark above, and for the same reason: a
+                // section designed with white text kept it and vanished against the
+                // new white background.
                 css: [
                     {
-                        selector: "body, main, section, article, nav, aside, div",
+                        rule: true,
+                        selector: "html, body",
                         properties: {
                             backgroundColor: "#fff",
+                        },
+                    },
+                    {
+                        rule: true,
+                        selector: "body *",
+                        properties: {
                             color: "#222",
                         },
                     },
                     {
-                        selector: "h1, h2, h3, h4, h5, h6, h1 *, h2 *, h3 *, h4 *, h5 *, h6 *",
+                        rule: true,
+                        // `a` is in the list because a link styled as a button keeps its own
+                        // background, and recolouring only its text left it unreadable.
+                        selector: "body div, body main, body section, body article, body nav, body aside, body header, body footer, body form, body fieldset, body table, body li, body td, body th, body a",
+                        properties: {
+                            backgroundColor: "#fff",
+                        },
+                    },
+                    {
+                        rule: true,
+                        selector: "body h1, body h2, body h3, body h4, body h5, body h6, body h1 *, body h2 *, body h3 *, body h4 *, body h5 *, body h6 *",
                         properties: {
                             color: "#111",
                         },
                     },
                     {
-                        selector: "a, a *",
+                        rule: true,
+                        selector: "body a, body a *",
                         properties: {
                             color: "#1a4cd8",
                         },
                     },
                     {
-                        selector: "input, textarea, select, button, button *",
+                        rule: true,
+                        selector: "body input, body textarea, body select, body button, body button *",
                         properties: {
-                            background: "#f5f7fa",
+                            backgroundColor: "#f5f7fa",
                             color: "#222",
                             borderColor: "#ccc",
                         },
