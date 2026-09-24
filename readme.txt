@@ -194,7 +194,7 @@ Fixes Contrast + Dark and Light leaving whole sections blank, and the toolbar re
 
 == Changelog ==
 
-= 1.6.3 – September 23, 2026 =
+= 1.6.3 – September 24, 2026 =
 * Fixed: Contrast + Dark and Light could leave whole sections blank — text kept the theme's own colour and vanished into the new background.
 * Fixed: Contrast + also recoloured the accessibility toolbar itself.
 * Fixed: The Presets list showed "No data" while it was still loading.
