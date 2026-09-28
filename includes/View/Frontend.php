@@ -11,10 +11,19 @@ if (! defined('ABSPATH')) {
 class Frontend {
     use \Websac\Traits\Singleton;
 
+    /**
+     * Preset the toolbar runs with on this request (0 when none), set while enqueuing.
+     *
+     * @var int
+     */
+    private $current_preset_id = 0;
+
     private function __construct() {
         add_action('wp_enqueue_scripts', [$this, 'enqueue_frontend_scripts']);
         add_action('wp_enqueue_scripts', [$this, 'enqueue_components_scripts'], 1);
         add_action('admin_enqueue_scripts', [$this, 'enqueue_components_scripts'], 1);
+        // After wp_enqueue_scripts (priority 1), which decides whether the toolbar loads.
+        add_action('wp_head', [$this, 'print_pause_animations_boot'], 2);
         add_action('wp_footer', [$this, 'render_preset_root']);
     }
 
@@ -145,6 +154,7 @@ class Frontend {
                 $frontend_assets['version']
             );
             $current_preset = Utils::get_current_preset($presets_data, $page_type);
+            $this->current_preset_id = !empty($current_preset['ID']) ? (int) $current_preset['ID'] : 0;
             $localized = [
                 'presets'            => $presets_data,
                 'profiles'           => $profiles,
@@ -173,6 +183,32 @@ class Frontend {
 
             wp_localize_script('websac-frontend', 'websiteAccessibility', $localized);
         }
+    }
+
+    /**
+     * Put Pause Animations in force before the first paint.
+     *
+     * The toolbar loads in the footer, so without this a visitor who switched motion
+     * off would still see every entrance animation start on each page load. Their
+     * choice lives in this browser's localStorage, so a tiny inline script reads it
+     * and sets the class the stylesheet keys on; the toolbar takes over once it loads.
+     *
+     * @return void
+     */
+    public function print_pause_animations_boot() {
+        if (!$this->current_preset_id || !wp_script_is('websac-frontend')) {
+            return;
+        }
+
+        // Must match `localStorageKeyPrefix` in src/frontend/context/reducer.js.
+        $storage_key = 'websiteAccessibilityLocalPreferences-' . $this->current_preset_id;
+
+        $script = sprintf(
+            '(function(k){try{var p=JSON.parse(window.localStorage.getItem(k)||"null"),s=p&&p.settings&&p.settings.pauseAnimations;if(s&&s.currentStep){document.documentElement.classList.add("wap-animations-paused");}}catch(e){}})(%s);',
+            wp_json_encode($storage_key)
+        );
+
+        wp_print_inline_script_tag($script, ['id' => 'websac-pause-animations-boot']);
     }
 
     /**

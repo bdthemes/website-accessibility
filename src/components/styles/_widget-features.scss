@@ -221,6 +221,13 @@
 		}
 	}
 
+	/* Pause Animations ends the scroll at once, which would leave the text spilling out. */
+	html.wap-animations-paused &__feature-btn:hover &__feature-label--can-scroll &__feature-label-text {
+		overflow: hidden;
+		text-overflow: ellipsis;
+		transform: none;
+	}
+
 	&__item-wrap {
 		.wap-widget-features__feature-btn {
 			width: 100%;

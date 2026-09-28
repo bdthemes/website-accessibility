@@ -1,6 +1,7 @@
 import cursor from "./classes/cursor";
 import dictionary from "./classes/dictionary";
 import fontManipulator from "./classes/font-manupulator";
+import pauseAnimations from "./classes/pause-animations";
 import tooltips from "./classes/tooltips";
 import { getFeatureHandler } from "./utils/feature-handlers";
 
@@ -65,12 +66,23 @@ class AccessibilityManager {
                 case 'saturation':
                     this.applySaturation(key, attributes);
                     break;
+                case 'pauseAnimations':
+                    pauseAnimations().apply();
+                    break;
                 default:
                     this.applyExtensionFeature(key, attributes);
                     break;
             }
 
         }
+    }
+
+    /**
+     * The visitor's saved settings are now in force. Until then Pause Animations keeps
+     * the early pause the page head may have applied from them (see pause-animations.js).
+     */
+    settleSavedPreferences() {
+        pauseAnimations().releaseBoot();
     }
 
     /**
@@ -485,6 +497,10 @@ class AccessibilityManager {
                 break;
             case 'saturation':
                 this.removeSaturation();
+                break;
+            case 'pauseAnimations':
+                pauseAnimations().remove();
+                delete this.props[key];
                 break;
             default:
                 this.removeExtensionFeature(key);

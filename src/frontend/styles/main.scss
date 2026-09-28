@@ -384,3 +384,39 @@ html {
 .wap-frontend .ant-btn-sm {
   border-radius: 4px !important;
 }
+
+// Pause Animations (classes/pause-animations.js). Durations are cut to 1ms instead of
+// removing the animations, so each one ends in its resting state: content that fades in
+// stays visible, an overlay that fades out is gone, and the animationend/transitionend
+// events that scripts wait for still fire. Delays are left as they are, so something
+// timed to appear or leave later still does, only without the motion.
+html.wap-animations-paused,
+html.wap-animations-paused *,
+html.wap-animations-paused *::before,
+html.wap-animations-paused *::after {
+  animation-duration: 1ms !important;
+  animation-iteration-count: 1 !important;
+  // Scroll-driven animations (animation-timeline: scroll()/view()) back onto the clock.
+  animation-timeline: auto !important;
+  transition-duration: 1ms !important;
+  scroll-behavior: auto !important;
+}
+
+// Separate rules: a browser that does not know one of these pseudo-elements drops
+// the whole rule it appears in.
+html.wap-animations-paused ::backdrop {
+  animation-duration: 1ms !important;
+  animation-iteration-count: 1 !important;
+  transition-duration: 1ms !important;
+}
+
+html.wap-animations-paused::view-transition-group(*),
+html.wap-animations-paused::view-transition-old(*),
+html.wap-animations-paused::view-transition-new(*) {
+  animation-duration: 1ms !important;
+}
+
+// Fixed backgrounds make the page scroll over a still picture, which reads as parallax.
+html.wap-animations-paused [data-websac-fixed-bg] {
+  background-attachment: scroll !important;
+}
