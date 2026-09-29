@@ -190,16 +190,16 @@ The JavaScript and CSS shipped in `build/` are compiled with `@wordpress/scripts
 == Upgrade Notice ==
 
 = 1.6.4 =
-Pause Animations now also stops JavaScript animations, sliders, videos and GIFs, and no longer hides content that fades in. Recommended for all users.
+Pause Animations now also stops JavaScript animations, page-builder effects, sliders, videos and GIFs, and no longer hides content. Recommended for all users.
 
 = 1.6.3 =
 Fixes Contrast + Dark and Light leaving whole sections blank, and the toolbar recolouring itself. Admin screens now share one loading skeleton. Recommended for all users.
 
 == Changelog ==
 
-= 1.6.4 – September 28, 2026 =
-* Fixed: Pause Animations now also stops JavaScript animations, sliders, videos and GIFs.
-* Fixed: Pause Animations no longer hides fade-in content or leaves its notification stuck.
+= 1.6.4 – September 29, 2026 =
+* Fixed: Pause Animations now also stops JavaScript animations, page-builder effects (Elementor, Divi and more), sliders, videos and GIFs.
+* Fixed: Pause Animations no longer hides content, makes it flicker on first scroll, or leaves its notification stuck.
 * Changed: While on, the tile shows "Play Animations".
 
 = 1.6.3 – September 24, 2026 =

@@ -1,26 +1,48 @@
 /**
  * Pause Animations.
  *
- * Stops motion without hiding anything. CSS animations and transitions are cut to
- * 1ms by the stylesheet under `html.wap-animations-paused` (frontend/styles/main.scss)
- * rather than removed, so every one of them ends in its resting state: content that
- * fades in stays visible, a preloader that fades out is gone, and the
+ * Stops motion without hiding anything. The stylesheet under `html.wap-animations-paused`
+ * (frontend/styles/main.scss) makes CSS animations end at once and cuts transitions to
+ * 1ms rather than removing them, so every one of them ends in its resting state:
+ * content that fades in stays visible, a preloader that fades out is gone, and the
  * animationend/transitionend events that scripts wait for still fire.
  *
- * What CSS cannot reach is stopped here — JavaScript animation (GSAP, jQuery, the
- * Web Animations API), video, GIFs, SVG animation, marquees, Lottie, particles,
- * autoplaying sliders and scripted smooth scrolling — and all of it is handed back
- * as it was when the feature is switched off.
+ * What CSS cannot reach is stopped here — JavaScript animation (GSAP, anime.js,
+ * jQuery, UIkit parallax, the Web Animations API), video, GIFs, SVG animation,
+ * marquees, Lottie, particles, autoplaying sliders and scripted smooth scrolling —
+ * and all of it is handed back as it was when the feature is switched off.
  */
 
 const PAUSED_CLASS = "wap-animations-paused";
 const FIXED_BACKGROUND_ATTR = "data-websac-fixed-bg";
-const OWN_UI = ".wap-accessibility-view, .wap-preset__preview-drawer-root, .wap-preview-button";
+const HOLD_ATTR = "data-websac-hold";
+const OWN_UI = ".wap-accessibility-view, .wap-preset__preview-drawer-root, .wap-preview-button, [class*='oachecker']";
 const MEDIA_SELECTOR = "img, video, iframe, svg, marquee, lottie-player, dotlottie-player, dotlottie-wc";
-const GESTURE_EVENTS = ["pointerdown", "keydown", "touchstart"];
+const GESTURE_EVENTS = ["pointerdown", "pointerup", "pointercancel", "keydown", "touchstart"];
+
+// The safety net for motion no hook below knows (a builder's own parallax or mouse
+// effects, a library without an API): whatever drives it, a script has to rewrite the
+// element's look over and over. An element whose look is rewritten this often…
+const MOTION_REWRITES = 4;
+const MOTION_WINDOW_MS = 1000;
+// …is held on its own look by a stylesheet rule, which outranks whatever inline style
+// the script goes on writing. What counts as its look:
+const MOTION_PROPS = ["transform", "translate", "rotate", "scale", "opacity", "filter", "background-position"];
+// Motion that answers the visitor is theirs: a slider arrow they pressed, a thumb they
+// drag. It is left alone this long after a click, tap or key press, unless the page
+// scrolled meanwhile (scroll-driven effects are exactly what the net is for).
+const INTERACTION_GRACE_MS = 800;
+// Positioned by script on purpose, to follow what they point at.
+const POPUP_SELECTOR = "[role='tooltip'], [role='dialog'], [role='menu'], [role='listbox'], [data-popper-placement], [data-tippy-root], .tippy-box, .tooltip, .popover, .dropdown-menu";
 
 // Library instances created after the feature was switched on are picked up on this beat.
 const SWEEP_INTERVAL_MS = 1000;
+// Effects libraries mostly start while the page loads (Elementor runs its handlers then);
+// for this long after switching on they are looked for on every frame instead.
+const LOAD_WATCH_MS = 3000;
+// UIkit components, as used by Element Pack (bdtUIkit) or on their own (UIkit).
+const UIKIT_PARALLAX = "[class*='parallax'], [bdt-parallax], [data-bdt-parallax], [uk-parallax], [data-uk-parallax]";
+const UIKIT_SLIDERS = "[bdt-slideshow], [data-bdt-slideshow], [bdt-slider], [data-bdt-slider], [uk-slideshow], [data-uk-slideshow], [uk-slider], [data-uk-slider]";
 // GSAP reports an endlessly repeating animation with a total duration of about 1e10s.
 const ENDLESS_SECONDS = 1e9;
 // A tap or key press this recent means a video that starts playing was started by the visitor.
@@ -46,6 +68,28 @@ const attempt = (step) => {
 };
 
 const isGif = (url) => /^data:image\/gif/i.test(url) || /\.gif(?:$|[?#])/i.test(url);
+
+const customPropertyNames = (style) => {
+    const names = [];
+    for (let index = 0; index < style.length; index += 1) {
+        if (style[index].startsWith("--")) names.push(style[index]);
+    }
+    return names;
+};
+
+/**
+ * The inline declarations that decide how an element looks rather than where it sits
+ * in the layout, plus its custom properties — builders often move an element by
+ * updating a variable the stylesheet feeds into its transform.
+ */
+const lookOf = (style) => {
+    const look = {};
+    MOTION_PROPS.forEach((name) => {
+        look[name] = style.getPropertyValue(name);
+    });
+    look.custom = customPropertyNames(style).map((name) => `${name}:${style.getPropertyValue(name)}`).join(";");
+    return look;
+};
 
 // Background and decorative clips. A video the visitor controls is left alone.
 const isAmbientVideo = (video) => video.autoplay || video.loop || (video.muted && !video.controls);
@@ -228,10 +272,13 @@ class PauseAnimations {
         // (see View/Frontend.php). Hold it until the toolbar has loaded that choice itself.
         this._bootHold = document.documentElement.classList.contains(PAUSED_CLASS);
         this._lastGesture = 0;
+        this._gestureScroll = 0;
+        this._pointerDown = false;
 
         this._sweep = this._sweep.bind(this);
         this._gsapTick = this._gsapTick.bind(this);
         this._onMutations = this._onMutations.bind(this);
+        this._onStyleMutations = this._onStyleMutations.bind(this);
         this._flushQueue = this._flushQueue.bind(this);
         this._onPlay = this._onPlay.bind(this);
         this._onGesture = this._onGesture.bind(this);
@@ -273,6 +320,7 @@ class PauseAnimations {
         attempt(() => this._patchWebAnimations());
         attempt(() => this._markFixedBackgrounds(document.documentElement));
         this._sweep();
+        this._watchLoad();
 
         this._observer = new window.MutationObserver(this._onMutations);
         this._observer.observe(document.documentElement, {
@@ -280,6 +328,12 @@ class PauseAnimations {
             subtree: true,
             attributes: true,
             attributeFilter: ["src", "srcset"],
+        });
+        this._styleObserver = new window.MutationObserver(this._onStyleMutations);
+        this._styleObserver.observe(document.documentElement, {
+            subtree: true,
+            attributes: true,
+            attributeFilter: ["style"],
         });
         this._interval = window.setInterval(this._sweep, SWEEP_INTERVAL_MS);
         // Animation libraries typically build their effects on DOMContentLoaded.
@@ -322,10 +376,18 @@ class PauseAnimations {
         this._waitingImages = new WeakSet();
         this._corsTried = new WeakSet();
         this._pausedVideos = new Set();
+        this._animePaused = new Set();
+        this._watchFrame = null;
         this._finishes = new WeakMap();
         this._queue = new Set();
         this._queueTimer = null;
         this._observer = null;
+        this._styleObserver = null;
+        this._motion = new WeakMap();
+        this._motionIgnored = new WeakSet();
+        this._held = new Map();
+        this._holdSheet = null;
+        this._holdCount = 0;
         this._interval = null;
         this._gsap = null;
         this._webAnimations = { paused: new Set(), timelines: new Map() };
@@ -341,8 +403,11 @@ class PauseAnimations {
         this._active = false;
 
         this._observer?.disconnect();
+        this._styleObserver?.disconnect();
+        this._releaseHolds();
         window.clearInterval(this._interval);
         window.clearTimeout(this._queueTimer);
+        window.cancelAnimationFrame(this._watchFrame);
         document.removeEventListener("DOMContentLoaded", this._sweep);
         window.removeEventListener("load", this._sweep);
         window.removeEventListener("scroll", this._gsapTick);
@@ -358,6 +423,7 @@ class PauseAnimations {
         this._pausedVideos.forEach((video) => {
             if (video.paused) video.play()?.catch?.(() => {});
         });
+        this._animePaused.forEach((instance) => attempt(() => instance.play()));
         this._resumers.forEach((resume) => {
             try {
                 resume();
@@ -378,8 +444,11 @@ class PauseAnimations {
         document.dispatchEvent(new CustomEvent("websac-pause-animations", { detail: { paused } }));
     }
 
-    _onGesture() {
+    _onGesture(event) {
         this._lastGesture = performance.now();
+        this._gestureScroll = window.scrollY;
+        if (event?.type === "pointerdown") this._pointerDown = true;
+        else if (event?.type === "pointerup" || event?.type === "pointercancel") this._pointerDown = false;
     }
 
     _sweep() {
@@ -388,9 +457,74 @@ class PauseAnimations {
         attempt(() => this._settleGsap());
         attempt(() => this._settleWebAnimations());
         attempt(() => this._patchJquery());
-        attempt(() => this._stopSliders());
+        this._stopScriptedEffects();
         attempt(() => this._stopCanvasAnimations());
         document.querySelectorAll(MEDIA_SELECTOR).forEach((node) => this._stopMedia(node));
+    }
+
+    /** The effects libraries typically start as the page loads (see _watchLoad). */
+    _stopScriptedEffects() {
+        attempt(() => this._settleAnime());
+        attempt(() => this._stopUikit());
+        attempt(() => this._stopSliders());
+        attempt(() => this._settleOtherLibraries());
+        // Settling rewrites styles; that is not a script animating them.
+        this._styleObserver?.takeRecords();
+    }
+
+    /** Libraries with their own switch for this. */
+    _settleOtherLibraries() {
+        // Velocity: `mock` makes every animation land on its end at once.
+        [window.Velocity, window.jQuery?.Velocity].forEach((velocity) => {
+            if (!velocity || velocity.mock || this._handled.has(velocity)) return;
+            this._handled.add(velocity);
+            velocity.mock = true;
+            this._resumers.push(() => {
+                velocity.mock = false;
+            });
+        });
+
+        // jarallax (background parallax in many themes) pins its picture to the screen;
+        // destroying the instance puts the element's own background back.
+        if (typeof window.jarallax === "function") {
+            document.querySelectorAll("[data-jarallax-original-styles]").forEach((element) => {
+                const instance = element.jarallax;
+                if (!instance || this._handled.has(element)) return;
+                this._handled.add(element);
+                const options = { ...instance.options };
+                window.jarallax(element, "destroy");
+                this._resumers.push(() => window.jarallax(element, options));
+            });
+        }
+
+        // Lenis smooth scrolling, when the site exposes its instance.
+        const lenis = window.lenis;
+        if (lenis?.options && !this._handled.has(lenis)) {
+            this._handled.add(lenis);
+            const { smoothWheel, syncTouch } = lenis.options;
+            lenis.options.smoothWheel = false;
+            lenis.options.syncTouch = false;
+            this._resumers.push(() => {
+                lenis.options.smoothWheel = smoothWheel;
+                lenis.options.syncTouch = syncTouch;
+            });
+        }
+    }
+
+    /**
+     * Look for newly started effects on every frame while the page is loading, so an
+     * effect a builder starts on DOMContentLoaded or load stops before it visibly moves
+     * instead of up to a second later.
+     */
+    _watchLoad() {
+        const until = performance.now() + LOAD_WATCH_MS;
+        const frame = () => {
+            this._watchFrame = null;
+            if (!this._active) return;
+            this._stopScriptedEffects();
+            if (performance.now() < until) this._watchFrame = window.requestAnimationFrame(frame);
+        };
+        this._watchFrame = window.requestAnimationFrame(frame);
     }
 
     _onMutations(records) {
@@ -421,6 +555,135 @@ class PauseAnimations {
             root.querySelectorAll(MEDIA_SELECTOR).forEach((node) => this._stopMedia(node));
             this._markFixedBackgrounds(root);
         });
+    }
+
+    // The motion safety net (see MOTION_* above).
+
+    _onStyleMutations(records) {
+        if (!this._active) return;
+
+        const now = performance.now();
+        const interacting =
+            (this._pointerDown || now - this._lastGesture < INTERACTION_GRACE_MS) &&
+            Math.abs(window.scrollY - this._gestureScroll) < 20;
+
+        records.forEach((record) => {
+            const element = record.target;
+            if (this._held.has(element) || this._motionIgnored.has(element)) return;
+            attempt(() => this._noteRewrite(element, now, interacting));
+        });
+    }
+
+    _noteRewrite(element, now, interacting) {
+        const look = lookOf(element.style);
+        const entry = this._motion.get(element);
+        if (!entry) {
+            this._motion.set(element, { look, changed: new Set(), times: [] });
+            return;
+        }
+
+        const changed = Object.keys(look).filter((name) => look[name] !== entry.look[name]);
+        entry.look = look;
+        // Width, height, position and the like: layout, not motion.
+        if (!changed.length) return;
+        if (interacting) {
+            entry.times = [];
+            return;
+        }
+
+        changed.forEach((name) => entry.changed.add(name));
+        entry.times = entry.times.filter((time) => now - time < MOTION_WINDOW_MS);
+        entry.times.push(now);
+        if (entry.times.length >= MOTION_REWRITES) this._hold(element, entry);
+    }
+
+    /**
+     * Some elements are moved by script as part of how the page works: popups that
+     * follow what they point at, a smooth-scroll wrapper carrying the whole page, a
+     * slider track far wider than its frame, and anything fixed — a cursor follower
+     * (often hiding the real cursor), a bar, a picture a parallax library pins to the
+     * screen (its own look would be stuck to the viewport). Holding those would break
+     * the page; the libraries that pin pictures are stopped through their own API.
+     */
+    _canHold(element) {
+        if (element === document.documentElement || element === document.body) return false;
+        if (isOwnUi(element) || element.closest(POPUP_SELECTOR)) return false;
+        if (window.getComputedStyle(element).position === "fixed") return false;
+
+        // Layout size, not the transformed box: a zoom effect is still motion to hold.
+        const width = element.offsetWidth || 0;
+        const height = element.offsetHeight || 0;
+        if (height > window.innerHeight * 3 || width > window.innerWidth * 1.5) return false;
+        const frame = element.parentElement?.clientWidth || 0;
+        return !(frame > 0 && width > frame * 1.4);
+    }
+
+    /** Hold an element on its own look — what the stylesheet gives it — while paused. */
+    _hold(element, entry) {
+        this._motion.delete(element);
+        if (!this._canHold(element)) {
+            this._motionIgnored.add(element);
+            return;
+        }
+
+        const names = entry.changed.has("custom") ? MOTION_PROPS : MOTION_PROPS.filter((name) => entry.changed.has(name));
+        const computed = window.getComputedStyle(element);
+        const currentOpacity = parseFloat(computed.opacity) || 0;
+
+        // Set the script's inline motion aside for a moment and read the element's own
+        // look — with transitions off: paused, every element transitions for 1ms, and
+        // getComputedStyle would still report the value from before the change.
+        const saved = element.getAttribute("style");
+        element.style.setProperty("transition", "none", "important");
+        names.forEach((name) => element.style.removeProperty(name));
+        if (entry.changed.has("custom")) customPropertyNames(element.style).forEach((name) => element.style.removeProperty(name));
+        const look = {};
+        names.forEach((name) => {
+            look[name] = computed.getPropertyValue(name);
+        });
+        if (saved === null) element.removeAttribute("style");
+        else element.setAttribute("style", saved);
+        this._styleObserver?.takeRecords();
+
+        // A script raising the opacity above the element's own is revealing it: hold it
+        // fully shown. One lowering it is fading or blinking it: hold its own value.
+        if ("opacity" in look) {
+            const own = parseFloat(look.opacity) || 0;
+            look.opacity = String(currentOpacity > own ? 1 : own);
+        }
+
+        const declarations = Object.entries(look)
+            .filter(([, value]) => value !== "")
+            .map(([name, value]) => `${name}: ${value} !important;`)
+            .join(" ");
+        if (!declarations) return;
+
+        this._holdCount += 1;
+        const id = String(this._holdCount);
+        element.setAttribute(HOLD_ATTR, id);
+        this._held.set(element, id);
+
+        const sheet = this._holdStylesheet();
+        sheet.insertRule(`html.${PAUSED_CLASS} [${HOLD_ATTR}="${id}"] { ${declarations} }`, sheet.cssRules.length);
+    }
+
+    /** A stylesheet of its own: it outranks inline styles, and goes when the feature does. */
+    _holdStylesheet() {
+        if (!this._holdSheet?.isConnected) {
+            this._holdSheet = document.createElement("style");
+            this._holdSheet.id = "websac-pause-animations-holds";
+            document.head.appendChild(this._holdSheet);
+        }
+        return this._holdSheet.sheet;
+    }
+
+    _releaseHolds() {
+        this._held.forEach((id, element) => {
+            if (element.getAttribute(HOLD_ATTR) === id) element.removeAttribute(HOLD_ATTR);
+        });
+        this._held.clear();
+        this._holdSheet?.remove();
+        this._holdSheet = null;
     }
 
     // Chain detection (see CHAIN_* above), shared by GSAP and the Web Animations API.
@@ -500,6 +763,8 @@ class PauseAnimations {
         }
 
         state.gsap.globalTimeline.getChildren(false, true, true).forEach((animation) => attempt(() => this._settleTimed(animation)));
+        // Settling rewrites styles; that is not a script animating them.
+        this._styleObserver?.takeRecords();
     }
 
     _settleTrigger(trigger) {
@@ -756,6 +1021,68 @@ class PauseAnimations {
             } catch (error) {
                 // Selector or .finish() unavailable in a very old jQuery.
             }
+        });
+    }
+
+    // anime.js (e.g. Element Pack's floating effects) runs on its own frame loop.
+
+    _settleAnime() {
+        const running = window.anime?.running;
+        if (!Array.isArray(running)) return;
+        [...running].forEach((instance) => attempt(() => this._settleAnimeInstance(instance)));
+    }
+
+    _settleAnimeInstance(instance) {
+        if (instance.paused) return;
+        const targets = (instance.animatables || []).map((animatable) => animatable.target);
+        if (targets.some((target) => isOwnUi(target))) return;
+
+        const keys = chainKeys(targets);
+        const endless = instance.loop === true || instance.loop === Infinity;
+        if (endless || this._isChained(keys)) {
+            instance.pause();
+            // A loop rests on the start of its cycle, like the GSAP loops.
+            if (endless) instance.seek(0);
+            this._animePaused.add(instance);
+            return;
+        }
+
+        // Land where it was heading.
+        instance.seek(instance.duration);
+        instance.pause();
+        this._noteFinished(keys);
+    }
+
+    // UIkit components: Element Pack's parallax effects run on its bundled copy (bdtUIkit).
+
+    _stopUikit() {
+        const kits = [window.bdtUIkit, window.UIkit].filter(
+            (kit, index, all) => typeof kit?.getComponent === "function" && all.indexOf(kit) === index
+        );
+
+        kits.forEach((kit) => {
+            document.querySelectorAll(UIKIT_PARALLAX).forEach((element) => {
+                const parallax = kit.getComponent(element, "parallax");
+                // Checked on every sweep: UIkit turns it back on when a media query flips.
+                if (!parallax?.matchMedia) return;
+                // UIkit's own "media query does not match" state: it clears the styles it
+                // set and stops following the scroll.
+                parallax.matchMedia = false;
+                parallax.$emit?.("resize");
+                this._resumeOnce(parallax, () => {
+                    parallax.matchMedia = parallax.mediaObj ? parallax.mediaObj.matches : true;
+                    parallax.$emit?.("resize");
+                });
+            });
+
+            document.querySelectorAll(UIKIT_SLIDERS).forEach((element) => {
+                ["slideshow", "slider"].forEach((name) => {
+                    const slider = kit.getComponent(element, name);
+                    if (!slider?.autoplay || typeof slider.stopAutoplay !== "function") return;
+                    slider.stopAutoplay();
+                    this._resumeOnce(slider, () => slider.startAutoplay?.());
+                });
+            });
         });
     }
 
