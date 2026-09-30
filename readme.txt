@@ -197,7 +197,7 @@ Fixes Contrast + Dark and Light leaving whole sections blank, and the toolbar re
 
 == Changelog ==
 
-= 1.6.4 – September 29, 2026 =
+= 1.6.4 – September 30, 2026 =
 * Fixed: Pause Animations now also stops JavaScript animations, page-builder effects (Elementor, Divi and more), sliders, videos and GIFs.
 * Fixed: Pause Animations no longer hides content, makes it flicker on first scroll, or leaves its notification stuck.
 * Changed: While on, the tile shows "Play Animations".
