@@ -384,3 +384,80 @@ html {
 .wap-frontend .ant-btn-sm {
   border-radius: 4px !important;
 }
+
+// Pause Animations (classes/pause-animations.js). Animations are not removed but end
+// at once, so each one lands in its resting state: content that fades in stays
+// visible, an overlay that fades out is gone, and the animationend/transitionend
+// events that scripts wait for still fire. Delays are left as they are, so something
+// timed to appear or leave later still does, only without the motion.
+// Animations get 0s: an animation that has to run, however briefly, is first drawn
+// at its starting frame — for an entrance effect triggered on scroll that is one
+// frame of the content blinking out and jumping aside. A zero-length one starts
+// already finished. Transitions keep 1ms: at 0s they would not run at all and never
+// send the transitionend that sliders and menus wait for.
+html.wap-animations-paused,
+html.wap-animations-paused *,
+html.wap-animations-paused *::before,
+html.wap-animations-paused *::after {
+  animation-duration: 0s !important;
+  animation-iteration-count: 1 !important;
+  // Scroll-driven animations (animation-timeline: scroll()/view()) back onto the clock.
+  animation-timeline: auto !important;
+  transition-duration: 1ms !important;
+  scroll-behavior: auto !important;
+}
+
+// Separate rules: a browser that does not know one of these pseudo-elements drops
+// the whole rule it appears in.
+html.wap-animations-paused ::backdrop {
+  animation-duration: 0s !important;
+  animation-iteration-count: 1 !important;
+  transition-duration: 1ms !important;
+}
+
+html.wap-animations-paused::view-transition-group(*),
+html.wap-animations-paused::view-transition-old(*),
+html.wap-animations-paused::view-transition-new(*) {
+  animation-duration: 0s !important;
+}
+
+// Fixed backgrounds make the page scroll over a still picture, which reads as parallax.
+html.wap-animations-paused [data-websac-fixed-bg] {
+  background-attachment: scroll !important;
+}
+
+// Content page builders keep hidden until its entrance animation starts is shown
+// straight away: with motion paused, waiting for a delay or for the visitor to scroll
+// near it would only hold the content back. Elementor, WOW.js, Avada:
+html.wap-animations-paused .elementor-invisible,
+html.wap-animations-paused .wow,
+html.wap-animations-paused [data-animationtype] {
+  visibility: visible !important;
+}
+
+// Divi (current and older modules), WPBakery, Beaver Builder, Avada, and ZoloBlocks
+// blocks left marked for an entrance with no animation to run (their script, which
+// would clear the mark, only loads for blocks that have one):
+html.wap-animations-paused .et_animated,
+html.wap-animations-paused .et-waypoint:not(.et_pb_counters),
+html.wap-animations-paused .wpb_animate_when_almost_visible,
+html.wap-animations-paused .fl-animation,
+html.wap-animations-paused [data-animationtype],
+html.wap-animations-paused .zolo-entrance-animation:not(.animation-initialized):not([data-animation]) {
+  opacity: 1 !important;
+}
+
+// AOS (also bundled by Kadence, Spectra and others):
+html.wap-animations-paused [data-aos]:not(.aos-animate) {
+  opacity: 1 !important;
+  transform: none !important;
+}
+
+// Elementor's hover animations (grow, shrink, push, float, sink, …) move the element
+// under the pointer. Paused, it stays put — which also stops a button that shrinks
+// away from a cursor resting near its edge from flickering on and off hover.
+html.wap-animations-paused [class*="elementor-animation-"]:hover,
+html.wap-animations-paused [class*="elementor-animation-"]:focus,
+html.wap-animations-paused [class*="elementor-animation-"]:active {
+  transform: none !important;
+}

@@ -1,6 +1,7 @@
 import { useState, useMemo, useEffect, useRef, useCallback } from "@wordpress/element";
 import clsx from "clsx";
 import useFrontendAccessibility from "./context/useAccessibility";
+import { initialState } from "./context/reducer";
 import accessibilityManager from "../accessibilty-manager";
 import { announce } from "../utils/feature-handlers";
 import { toCssLength } from "../utils/helpers";
@@ -189,6 +190,12 @@ const View = () => {
      */
     useEffect(() => {
         accessibilityManager().init(state?.currentSettings);
+
+        // The first run still has the blank initial settings: the saved ones are applied
+        // (or found missing) by the effect above and arrive on a later run.
+        if (state?.currentSettings !== initialState.currentSettings) {
+            accessibilityManager().settleSavedPreferences();
+        }
 
         removeBodyClasses(ownBodyClassesRef.current);
 

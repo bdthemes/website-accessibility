@@ -29,10 +29,14 @@ function WidgetFeatureItem({
 	const labelWrapRef = useRef(null);
 	const [labelShift, setLabelShift] = useState("0px");
 
+	// A toggle may describe its switched-on state separately (e.g. Pause Animations
+	// becomes "Play Animations"): the tile then offers what a click does next.
 	const displayLabel =
 		isActive && showSteps && currentAttribute
 			? currentAttribute?.name ?? ""
-			: feature?.label ?? "";
+			: (isActive && feature?.activeLabel) || (feature?.label ?? "");
+	const displayIcon = (isActive && feature?.activeIcon) || feature.icon;
+	const displayDescription = (isActive && feature?.activeDescription) || feature?.description;
 
 	useLayoutEffect(() => {
 		setLabelShift("0px");
@@ -67,9 +71,9 @@ function WidgetFeatureItem({
 			flex={`0 0 ${featureColumnWidth}`}
 			style={{ maxWidth: featureColumnWidth }}
 		>
-			{feature?.description && (
+			{displayDescription && (
 				<WapTooltip
-					title={feature?.description}
+					title={displayDescription}
 					placement="top"
 					autoAdjustOverflow={false}
 					getPopupContainer={() => document.body}
@@ -95,7 +99,7 @@ function WidgetFeatureItem({
 				onMouseEnter={measureLabelOverflow}
 				onMouseLeave={clearLabelOverflow}
 				style={{ cursor: "pointer" }}
-				aria-label={currentAttribute?.description || feature?.description}
+				aria-label={(isActive && feature?.activeDescription) || currentAttribute?.description || feature?.description}
 				role="button"
 				tabIndex={0}
 				onKeyDown={(e) => {
@@ -105,7 +109,7 @@ function WidgetFeatureItem({
 				}}
 			>
 				{!attributes?.hideItemIcons && (
-					<span className="wap-widget-features__feature-icon">{feature.icon}</span>
+					<span className="wap-widget-features__feature-icon">{displayIcon}</span>
 				)}
 				{!attributes?.hideItemLabels && displayLabel !== "" && (
 					<div

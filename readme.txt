@@ -4,7 +4,7 @@ Tags:              accessibility, web-accessibility, accessibility-plugin, ada-c
 Requires at least: 6.1
 Tested up to:      7.1
 Requires PHP:      7.4
-Stable tag:        1.6.3
+Stable tag:        1.6.4
 License:           GPL-2.0-or-later
 License URI:       https://www.gnu.org/licenses/gpl-2.0.html
 
@@ -189,10 +189,18 @@ The JavaScript and CSS shipped in `build/` are compiled with `@wordpress/scripts
 
 == Upgrade Notice ==
 
+= 1.6.4 =
+Pause Animations now also stops JavaScript animations, page-builder effects, sliders, videos and GIFs, and no longer hides content. Recommended for all users.
+
 = 1.6.3 =
 Fixes Contrast + Dark and Light leaving whole sections blank, and the toolbar recolouring itself. Admin screens now share one loading skeleton. Recommended for all users.
 
 == Changelog ==
+
+= 1.6.4 – September 30, 2026 =
+* Fixed: Pause Animations now also stops JavaScript animations, page-builder effects (Elementor, Divi and more), sliders, videos and GIFs.
+* Fixed: Pause Animations no longer hides content, makes it flicker on first scroll, or leaves its notification stuck.
+* Changed: While on, the tile shows "Play Animations".
 
 = 1.6.3 – September 24, 2026 =
 * Fixed: Contrast + Dark and Light could leave whole sections blank — text kept the theme's own colour and vanished into the new background.
