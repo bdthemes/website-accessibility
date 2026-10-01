@@ -22,7 +22,10 @@ function WidgetFeatureItem({
 	const currentStep = setting.currentStep || 0;
 	const currentAttribute = setting.currentAttribute;
 	const allAttributes = feature.attributes || [];
-	const isActive = currentStep > 0;
+	// A feature an add-on marks unavailable (it cannot work in this browser or on
+	// this page) is listed but cannot be switched on; the reason is its tooltip.
+	const unavailable = typeof feature?.unavailable === "string" ? feature.unavailable : "";
+	const isActive = !unavailable && currentStep > 0;
 	const showSteps = currentStep > 0 && allAttributes[0]?.value !== "enable";
 	const totalSteps = allAttributes.length;
 
@@ -36,7 +39,7 @@ function WidgetFeatureItem({
 			? currentAttribute?.name ?? ""
 			: (isActive && feature?.activeLabel) || (feature?.label ?? "");
 	const displayIcon = (isActive && feature?.activeIcon) || feature.icon;
-	const displayDescription = (isActive && feature?.activeDescription) || feature?.description;
+	const displayDescription = unavailable || (isActive && feature?.activeDescription) || feature?.description;
 
 	useLayoutEffect(() => {
 		setLabelShift("0px");
@@ -94,12 +97,16 @@ function WidgetFeatureItem({
 			<div
 				className={clsx("wap-widget-features__feature-btn", {
 					"wap-widget-features__feature-btn--active": isActive,
+					"wap-widget-features__feature-btn--unavailable": !!unavailable,
 				})}
 				onClick={() => handleFeatureClick(feature)}
 				onMouseEnter={measureLabelOverflow}
 				onMouseLeave={clearLabelOverflow}
-				style={{ cursor: "pointer" }}
-				aria-label={(isActive && feature?.activeDescription) || currentAttribute?.description || feature?.description}
+				style={{ cursor: unavailable ? "not-allowed" : "pointer" }}
+				aria-label={unavailable
+					? `${feature?.label || ""}: ${unavailable}`
+					: (isActive && feature?.activeDescription) || currentAttribute?.description || feature?.description}
+				aria-disabled={unavailable ? "true" : undefined}
 				role="button"
 				tabIndex={0}
 				onKeyDown={(e) => {
@@ -202,6 +209,12 @@ const WidgetFeatures = ({
 				...(previewRoot ? { getContainer: () => previewRoot } : {}),
 			});
 		};
+
+		// Not switchable here: say why instead.
+		if (feature?.unavailable) {
+			notify(feature.unavailable);
+			return;
+		}
 
 		const prevState = currentSettings[key] || {};
 		const prevStep = prevState?.currentStep || 0;

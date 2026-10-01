@@ -92,4 +92,7 @@ window.wapComponents = {
 window.wapHelpers = {
     ...(window.wapHelpers || {}),
     ...helpers,
+    // The toolbar understands `unavailable` on a feature definition (a reason the
+    // feature cannot work here): the tile stays listed but cannot be switched on.
+    supportsUnavailableFeatures: true,
 }
