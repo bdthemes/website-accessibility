@@ -120,6 +120,11 @@
 		box-shadow: 0 0 0 2px var(--wap-card-bg, #f1f3f8);
 	}
 
+	// Listed but cannot work in this browser / on this page (see `unavailable`).
+	&__feature-btn--unavailable {
+		opacity: 0.5;
+	}
+
 	&__feature-btn:not(.wap-widget-features__feature-btn--active) .wap-widget-features__feature-icon svg path[fill]:not([fill="none"]):not([fill="transparent"]) {
 		fill: var(--wap-card-icon, #111111);
 	}

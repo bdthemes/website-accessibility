@@ -14,7 +14,12 @@ const View = () => {
     const { PreviewButton, PreviewContent, Icon, WapDrawer, FrontendExtensions = null } = window?.wapComponents;
     const { profiles, currentPreset, currentPresetId, settings, nonce, restUrl, isUserLoggedIn } = window?.websiteAccessibility;
     const { dispatch, ...state } = useFrontendAccessibility();
-    const [isOpen, setIsOpen] = useState(false);
+    // Opened from the launcher before the toolbar had loaded (src/launcher): start open.
+    const [isOpen, setIsOpen] = useState(() => {
+        const openNow = !!window.websacOpenOnStart;
+        window.websacOpenOnStart = false;
+        return openNow;
+    });
     const justClosedRef = useRef(false);
     const closeCooldownTimer = useRef(null);
     const browserKey = useBrowserKey(!!settings?.show_usage_statistics);
