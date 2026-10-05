@@ -161,7 +161,7 @@ class FontManipulator {
     collectTextElements(root = document.body) {
         const allElements = Array.from(root.querySelectorAll('*'));
         const textElements = [];
-        const skipSelectors = ['#wpadminbar', '.ant-drawer-content-wrapper', 'link', 'script', 'style'];
+        const skipSelectors = ['#wpadminbar', '.ant-drawer-content-wrapper', '.wap-swatch-dialog', 'link', 'script', 'style'];
 
         const skippedRoots = skipSelectors
             .map(sel => Array.from(document.querySelectorAll(sel)))

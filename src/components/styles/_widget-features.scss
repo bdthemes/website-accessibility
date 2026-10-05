@@ -375,3 +375,386 @@
 		}
 	}
 }
+
+// A feature with `display: "swatches"`: its steps are colours picked straight from the
+// tile (see widget-features.js). Same grid cell as any other tile.
+.wap-widget-features {
+	.wap-widget-features__feature-btn--swatches {
+		cursor: default !important;
+		gap: 8px;
+		padding: 10px 8px 6px !important;
+
+		.wap-widget-features__feature-label {
+			// Clear of the info icon in the tile's top corner.
+			padding: 0 16px !important;
+		}
+	}
+
+	.wap-widget-features__item-wrap--inline .wap-widget-features__feature-btn--swatches {
+		flex-direction: column;
+		align-items: center;
+		justify-content: center;
+		text-align: center;
+		gap: 8px;
+		padding: 10px 8px 6px !important;
+		min-height: 100px !important;
+	}
+
+	.wap-widget-features__swatches {
+		display: flex !important;
+		flex-wrap: wrap;
+		justify-content: center;
+		gap: 6px;
+	}
+
+	.wap-widget-features__swatch {
+		width: 22px !important;
+		height: 22px !important;
+		padding: 0 !important;
+		margin: 0 !important;
+		border-radius: 50% !important;
+		border: 1px solid rgba(0, 0, 0, 0.18) !important;
+		background: var(--wap-swatch) !important;
+		box-shadow: none !important;
+		cursor: pointer !important;
+		transition: transform 0.15s ease, box-shadow 0.15s ease;
+
+		&:hover {
+			transform: scale(1.12) !important;
+		}
+
+		&:focus-visible {
+			outline: 2px solid #1677ff !important;
+			outline-offset: 2px !important;
+		}
+
+		&--active {
+			box-shadow: 0 0 0 2px var(--wap-card-bg, #f1f3f8), 0 0 0 4px #1677ff !important;
+		}
+
+		&--more {
+			display: inline-flex !important;
+			align-items: center;
+			justify-content: center;
+			background: #fff !important;
+			color: var(--wap-card-text, #111) !important;
+			line-height: 0 !important;
+
+			svg {
+				display: block;
+				width: 12px !important;
+				height: 12px !important;
+				fill: none !important;
+			}
+		}
+
+		@media (prefers-reduced-motion: reduce) {
+			transition: none;
+
+			&:hover {
+				transform: none !important;
+			}
+		}
+	}
+
+	.wap-widget-features__swatch-reset {
+		width: auto !important;
+		height: auto !important;
+		box-shadow: none !important;
+		margin: 0 !important;
+		padding: 0 6px !important;
+		border: 0 !important;
+		border-radius: 6px !important;
+		background: transparent !important;
+		color: var(--wap-card-text, #111) !important;
+		font: inherit !important;
+		font-size: 12px !important;
+		font-weight: 500 !important;
+		line-height: 1.5 !important;
+		text-decoration: none !important;
+		display: inline-flex !important;
+		align-items: center;
+		gap: 4px;
+		cursor: pointer !important;
+
+		svg {
+			display: block;
+			width: 11px !important;
+			height: 11px !important;
+			fill: none !important;
+		}
+
+		&:hover:not(:disabled) {
+			color: #1677ff !important;
+		}
+
+		&:disabled {
+			opacity: 0.45;
+			cursor: default !important;
+		}
+
+		&:focus-visible {
+			outline: 2px solid #1677ff !important;
+			outline-offset: 2px !important;
+		}
+	}
+}
+
+// "+" on a swatch tile: every colour, and a custom one when the feature allows it.
+// A floating panel on <body>: no backdrop, so a pick shows on the page at once; it is
+// dragged by its header (feature-swatches.js sets left/top/z-index). Several can be
+// open: each new one opens a step down-right of the front one, which is highlighted.
+.wap-swatch-dialog {
+	position: fixed;
+	left: 50%;
+	top: 30%;
+	box-sizing: border-box;
+	width: min(340px, calc(100vw - 16px)) !important;
+	margin: 0 !important;
+	padding: 0 !important;
+	overflow: hidden;
+	border: 1px solid #dcdfe6 !important;
+	border-radius: 14px !important;
+	background: #fff !important;
+	color: #1f2329 !important;
+	box-shadow: 0 8px 24px rgba(15, 23, 42, 0.14) !important;
+	font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+	font-size: 14px !important;
+	line-height: 1.4 !important;
+	text-align: left;
+	transition: box-shadow 0.15s ease, border-color 0.15s ease;
+
+	*,
+	*::before,
+	*::after {
+		box-sizing: border-box;
+	}
+
+	// The one in front (last opened or touched).
+	&--front {
+		border-color: #1677ff;
+		box-shadow: 0 0 0 3px rgba(22, 119, 255, 0.18), 0 16px 40px rgba(15, 23, 42, 0.24) !important;
+
+		.wap-swatch-dialog__header {
+			background: #eef4ff !important;
+		}
+	}
+
+	@media (prefers-reduced-motion: reduce) {
+		transition: none;
+	}
+
+	.wap-swatch-dialog__header {
+		display: flex !important;
+		align-items: center;
+		gap: 8px;
+		padding: 10px 10px 10px 12px !important;
+		border-bottom: 1px solid #e5e7eb;
+		background: #f6f7f9 !important;
+		cursor: move !important;
+		user-select: none;
+		touch-action: none;
+	}
+
+	.wap-swatch-dialog__grip {
+		display: inline-flex !important;
+		color: #9aa1ad !important;
+	}
+
+	.wap-swatch-dialog__title {
+		flex: 1;
+		font-size: 15px !important;
+		font-weight: 700 !important;
+	}
+
+	.wap-swatch-dialog__close {
+		box-shadow: none !important;
+		font-size: 14px !important;
+		line-height: 1 !important;
+		display: inline-flex !important;
+		align-items: center;
+		justify-content: center;
+		width: 30px !important;
+		height: 30px !important;
+		margin: 0 !important;
+		padding: 0 !important;
+		border: 1px solid transparent !important;
+		border-radius: 8px !important;
+		background: transparent !important;
+		color: #4b5563 !important;
+		cursor: pointer !important;
+
+		&:hover {
+			border-color: #dcdfe6;
+			background: #fff !important;
+			color: #111 !important;
+		}
+	}
+
+	.wap-swatch-dialog__body {
+		display: flex !important;
+		flex-direction: column;
+		gap: 16px;
+		padding: 16px 16px 14px !important;
+	}
+
+	.wap-swatch-dialog__swatches {
+		display: grid !important;
+		grid-template-columns: repeat(4, 1fr);
+		gap: 14px 8px;
+	}
+
+	.wap-swatch-dialog__choice {
+		display: flex !important;
+		flex-direction: column;
+		align-items: center;
+		gap: 6px;
+	}
+
+	.wap-swatch-dialog__choice-name {
+		font-size: 12px !important;
+		color: #4b5563 !important;
+		text-align: center;
+	}
+
+	.wap-widget-features__swatch {
+		display: inline-flex !important;
+		align-items: center;
+		justify-content: center;
+		width: 36px !important;
+		height: 36px !important;
+		padding: 0 !important;
+		margin: 0 !important;
+		border-radius: 50% !important;
+		border: 1px solid rgba(0, 0, 0, 0.18) !important;
+		background: var(--wap-swatch) !important;
+		box-shadow: none !important;
+		cursor: pointer !important;
+		transition: transform 0.15s ease;
+
+		&:hover {
+			transform: scale(1.08) !important;
+		}
+
+		@media (prefers-reduced-motion: reduce) {
+			transition: none;
+
+			&:hover {
+				transform: none !important;
+			}
+		}
+	}
+
+	.wap-widget-features__swatch--active {
+		box-shadow: 0 0 0 2px #fff, 0 0 0 4px #1677ff !important;
+	}
+
+	.wap-swatch-dialog__custom {
+		display: flex !important;
+		align-items: center;
+		gap: 10px;
+		padding: 10px 12px !important;
+		border: 1px solid #e5e7eb !important;
+		border-radius: 10px !important;
+		background: #f9fafb !important;
+
+		label {
+			flex: 1;
+			font-size: 13px !important;
+			font-weight: 600 !important;
+		}
+
+		input[type="color"] {
+			width: 44px !important;
+			height: 32px !important;
+			margin: 0 !important;
+			padding: 2px !important;
+			border: 1px solid #d1d5db !important;
+			border-radius: 8px !important;
+			background: #fff !important;
+			cursor: pointer !important;
+		}
+	}
+
+	.wap-swatch-dialog__custom-code {
+		font-family: ui-monospace, SFMono-Regular, Menlo, monospace;
+		font-size: 12px !important;
+		color: #4b5563 !important;
+		text-transform: uppercase;
+	}
+
+	.wap-swatch-dialog__footer {
+		display: flex !important;
+		align-items: center;
+		justify-content: space-between;
+		gap: 10px;
+		padding: 10px 16px !important;
+		border-top: 1px solid #e5e7eb;
+		background: #fafafa !important;
+	}
+
+	.wap-swatch-dialog__current {
+		display: inline-flex !important;
+		align-items: center;
+		gap: 8px;
+		font-size: 13px !important;
+		color: #4b5563 !important;
+	}
+
+	.wap-swatch-dialog__current-dot {
+		width: 14px !important;
+		height: 14px !important;
+		border-radius: 50% !important;
+		border: 1px solid rgba(0, 0, 0, 0.18) !important;
+		background: var(--wap-swatch) !important;
+	}
+
+	.wap-swatch-dialog__reset {
+		width: auto !important;
+		height: auto !important;
+		box-shadow: none !important;
+		margin: 0 !important;
+		padding: 5px 12px !important;
+		border: 1px solid #d1d5db !important;
+		border-radius: 8px !important;
+		background: #fff !important;
+		color: #1f2329 !important;
+		font: inherit !important;
+		font-size: 13px !important;
+		font-weight: 500 !important;
+		display: inline-flex !important;
+		align-items: center;
+		gap: 6px;
+		cursor: pointer !important;
+
+		svg {
+			display: block;
+			width: 12px !important;
+			height: 12px !important;
+			fill: none !important;
+		}
+
+		&:hover:not(:disabled) {
+			border-color: #1677ff !important;
+			color: #1677ff !important;
+		}
+
+		&:disabled {
+			opacity: 0.5;
+			cursor: default !important;
+		}
+	}
+
+	button:focus-visible,
+	input:focus-visible {
+		outline: 2px solid #1677ff !important;
+		outline-offset: 2px !important;
+	}
+}
+
+// Icon sizes inside the panel's buttons, which themes resize (`button svg`).
+.wap-swatch-dialog .wap-swatch-dialog__close svg,
+.wap-swatch-dialog .wap-widget-features__swatch svg {
+	width: 16px !important;
+	height: 16px !important;
+}

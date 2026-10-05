@@ -5,6 +5,7 @@ import { InfoCircleOutlined } from "@ant-design/icons";
 import { getFeatureCategories, getFeatureStateIndex } from "../utils/feature-categories";
 import { normalizeItemLayout } from "../utils/item-layout";
 import { announce } from "../utils/feature-handlers";
+import FeatureSwatches from "./feature-swatches";
 
 /** Single-line label + ellipsis; full text scrolls on hover when overflow (see _accessibility-profiles.scss pattern) */
 function WidgetFeatureItem({
@@ -26,7 +27,10 @@ function WidgetFeatureItem({
 	// this page) is listed but cannot be switched on; the reason is its tooltip.
 	const unavailable = typeof feature?.unavailable === "string" ? feature.unavailable : "";
 	const isActive = !unavailable && currentStep > 0;
-	const showSteps = currentStep > 0 && allAttributes[0]?.value !== "enable";
+	// `display: "swatches"`: the steps are offered as colours to pick, with a reset,
+	// instead of one button that steps through them.
+	const isSwatches = feature?.display === "swatches" && allAttributes.length > 0;
+	const showSteps = !isSwatches && currentStep > 0 && allAttributes[0]?.value !== "enable";
 	const totalSteps = allAttributes.length;
 
 	const labelWrapRef = useRef(null);
@@ -64,6 +68,7 @@ function WidgetFeatureItem({
 				`wap-widget-features__item-wrap--${layout}`,
 				{
 					"wap-feature--active": isActive,
+					"wap-widget-features__item-wrap--swatches": isSwatches,
 				}
 			)}
 			xs={24}
@@ -94,48 +99,72 @@ function WidgetFeatureItem({
 				</WapTooltip>
 			)}
 
-			<div
-				className={clsx("wap-widget-features__feature-btn", {
-					"wap-widget-features__feature-btn--active": isActive,
-					"wap-widget-features__feature-btn--unavailable": !!unavailable,
-				})}
-				onClick={() => handleFeatureClick(feature)}
-				onMouseEnter={measureLabelOverflow}
-				onMouseLeave={clearLabelOverflow}
-				style={{ cursor: unavailable ? "not-allowed" : "pointer" }}
-				aria-label={unavailable
-					? `${feature?.label || ""}: ${unavailable}`
-					: (isActive && feature?.activeDescription) || currentAttribute?.description || feature?.description}
-				aria-disabled={unavailable ? "true" : undefined}
-				role="button"
-				tabIndex={0}
-				onKeyDown={(e) => {
-					if (e.key === "Enter" || e.key === " ") {
-						handleFeatureClick(feature);
-					}
-				}}
-			>
-				{!attributes?.hideItemIcons && (
-					<span className="wap-widget-features__feature-icon">{displayIcon}</span>
-				)}
-				{!attributes?.hideItemLabels && displayLabel !== "" && (
-					<div
-						ref={labelWrapRef}
-						className={clsx(
-							"wap-widget-features__feature-label",
-							`wap-widget-features__feature-label--${layout}`,
-							{
-								"wap-widget-features__feature-label--can-scroll": labelShift !== "0px",
-							}
-						)}
-						style={{ "--wap-label-shift": labelShift }}
-					>
-						<span className="wap-widget-features__feature-label-text" title={displayLabel}>
-							{displayLabel}
+			{isSwatches ? (
+				<div
+					className={clsx("wap-widget-features__feature-btn", "wap-widget-features__feature-btn--swatches", {
+						"wap-widget-features__feature-btn--active": isActive,
+						"wap-widget-features__feature-btn--unavailable": !!unavailable,
+					})}
+					role="group"
+					aria-label={feature?.label || ""}
+				>
+					<div className="wap-widget-features__feature-label wap-widget-features__feature-label--block">
+						<span className="wap-widget-features__feature-label-text" title={feature?.label || ""}>
+							{feature?.label || ""}
 						</span>
 					</div>
-				)}
-			</div>
+					<FeatureSwatches
+						feature={feature}
+						isActive={isActive}
+						currentStep={currentStep}
+						currentAttribute={currentAttribute}
+						onPick={(step, customAttribute) => handleFeatureClick(feature, step, customAttribute)}
+					/>
+				</div>
+			) : (
+				<div
+					className={clsx("wap-widget-features__feature-btn", {
+						"wap-widget-features__feature-btn--active": isActive,
+						"wap-widget-features__feature-btn--unavailable": !!unavailable,
+					})}
+					onClick={() => handleFeatureClick(feature)}
+					onMouseEnter={measureLabelOverflow}
+					onMouseLeave={clearLabelOverflow}
+					style={{ cursor: unavailable ? "not-allowed" : "pointer" }}
+					aria-label={unavailable
+						? `${feature?.label || ""}: ${unavailable}`
+						: (isActive && feature?.activeDescription) || currentAttribute?.description || feature?.description}
+					aria-disabled={unavailable ? "true" : undefined}
+					role="button"
+					tabIndex={0}
+					onKeyDown={(e) => {
+						if (e.key === "Enter" || e.key === " ") {
+							handleFeatureClick(feature);
+						}
+					}}
+				>
+					{!attributes?.hideItemIcons && (
+						<span className="wap-widget-features__feature-icon">{displayIcon}</span>
+					)}
+					{!attributes?.hideItemLabels && displayLabel !== "" && (
+						<div
+							ref={labelWrapRef}
+							className={clsx(
+								"wap-widget-features__feature-label",
+								`wap-widget-features__feature-label--${layout}`,
+								{
+									"wap-widget-features__feature-label--can-scroll": labelShift !== "0px",
+								}
+							)}
+							style={{ "--wap-label-shift": labelShift }}
+						>
+							<span className="wap-widget-features__feature-label-text" title={displayLabel}>
+								{displayLabel}
+							</span>
+						</div>
+					)}
+				</div>
+			)}
 
 			{showSteps && isActive && currentAttribute && (
 				<span className="wap-widget-features-bottom-indicator wap-widget-features-bottom-indicator--active">
@@ -186,8 +215,10 @@ const WidgetFeatures = ({
 		return getFeatureCategories(attributes, features);
 	}, [attributes?.widgets, attributes?.widgetCategories, features]);
 
-	// Handle feature click
-	const handleFeatureClick = (feature) => {
+	// Handle feature click. `targetStep` picks a step directly (a swatch, or 0 to
+	// reset); without it a click moves to the next step as before. A swatch feature's
+	// custom colour comes as `customAttribute`, on the step after its last colour.
+	const handleFeatureClick = (feature, targetStep, customAttribute = null) => {
 		if (!isFrontend) return;
 		const allAttributes = feature.attributes || [];
 		const key = feature?.key;
@@ -224,8 +255,10 @@ const WidgetFeatures = ({
 			payload: null, // Reset current profile on feature click
 		});
 
+		const hasTarget = Number.isInteger(targetStep);
+
 		// For toggle-like features (enable/disable)
-		if (allAttributes.length === 2 && allAttributes[0]?.value === "enable") {
+		if (!hasTarget && allAttributes.length === 2 && allAttributes[0]?.value === "enable") {
 			const nextStep = prevStep === 1 ? 0 : 1;
 			const currentAttribute = allAttributes[nextStep - 1] || null;
 			const nextSettings = {
@@ -253,12 +286,16 @@ const WidgetFeatures = ({
 		}
 
 		// For multi-step attributes
-		const nextStep = prevStep >= allAttributes.length ? 0 : prevStep + 1;
+		const custom = hasTarget && targetStep > allAttributes.length ? customAttribute : null;
+		const nextStep = hasTarget
+			? Math.max(0, Math.min(targetStep, allAttributes.length + (custom ? 1 : 0)))
+			: prevStep >= allAttributes.length ? 0 : prevStep + 1;
+		const nextAttribute = nextStep === 0 ? null : custom || allAttributes[nextStep - 1] || null;
 		const nextSettings = {
 			...currentSettings,
 			[key]: {
 				currentStep: nextStep,
-				currentAttribute: nextStep === 0 ? null : allAttributes[nextStep - 1],
+				currentAttribute: nextAttribute,
 				isMultiStep: allAttributes.length > 1,
 			},
 		};
@@ -269,7 +306,6 @@ const WidgetFeatures = ({
 		});
 		onFeatureInteraction(nextSettings);
 
-		const nextAttribute = allAttributes[nextStep - 1] || null;
 		const stepAnnouncement = nextAttribute
 			? nextAttribute?.enableAnnouncement
 			: feature?.disableAnnouncement;

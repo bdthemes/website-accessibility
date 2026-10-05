@@ -324,6 +324,7 @@ class AccessibilityManager {
             '.wap-preset__preview-drawer-root',
             '.wap-accessibility-view',
             '.wap-preview-button',
+            '.wap-swatch-dialog',
         ].map(sel => `:not(${sel}):not(${sel} *)`).join('');
     }
 
