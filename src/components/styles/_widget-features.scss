@@ -438,10 +438,14 @@
 			justify-content: center;
 			background: #fff !important;
 			color: var(--wap-card-text, #111) !important;
-			font: inherit !important;
-			font-size: 16px !important;
-			font-weight: 600 !important;
-			line-height: 1 !important;
+			line-height: 0 !important;
+
+			svg {
+				display: block;
+				width: 12px !important;
+				height: 12px !important;
+				fill: none !important;
+			}
 		}
 
 		@media (prefers-reduced-motion: reduce) {
@@ -467,13 +471,26 @@
 		font-size: 12px !important;
 		font-weight: 500 !important;
 		line-height: 1.5 !important;
-		text-decoration: underline !important;
+		text-decoration: none !important;
+		display: inline-flex !important;
+		align-items: center;
+		gap: 4px;
 		cursor: pointer !important;
+
+		svg {
+			display: block;
+			width: 11px !important;
+			height: 11px !important;
+			fill: none !important;
+		}
+
+		&:hover:not(:disabled) {
+			color: #1677ff !important;
+		}
 
 		&:disabled {
 			opacity: 0.45;
 			cursor: default !important;
-			text-decoration: none !important;
 		}
 
 		&:focus-visible {
@@ -705,10 +722,20 @@
 		font: inherit !important;
 		font-size: 13px !important;
 		font-weight: 500 !important;
+		display: inline-flex !important;
+		align-items: center;
+		gap: 6px;
 		cursor: pointer !important;
 
+		svg {
+			display: block;
+			width: 12px !important;
+			height: 12px !important;
+			fill: none !important;
+		}
+
 		&:hover:not(:disabled) {
-			border-color: #1677ff;
+			border-color: #1677ff !important;
 			color: #1677ff !important;
 		}
 

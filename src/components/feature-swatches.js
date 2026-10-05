@@ -54,6 +54,21 @@ const clampPosition = ({ x, y }, panel) => {
 	};
 };
 
+// An icon, not a "+" character: a glyph sits off-centre in a circle, by a different
+// amount in every font.
+const PlusIcon = () => (
+	<svg width="12" height="12" viewBox="0 0 24 24" fill="none" aria-hidden="true" focusable="false">
+		<path d="M12 5v14M5 12h14" stroke="currentColor" strokeWidth="2.8" strokeLinecap="round" />
+	</svg>
+);
+
+const ResetIcon = () => (
+	<svg width="12" height="12" viewBox="0 0 24 24" fill="none" aria-hidden="true" focusable="false">
+		<path d="M3 12a9 9 0 1 0 9-9 9.75 9.75 0 0 0-6.74 2.74L3 8" stroke="currentColor" strokeWidth="2.4" strokeLinecap="round" strokeLinejoin="round" />
+		<path d="M3 3v5h5" stroke="currentColor" strokeWidth="2.4" strokeLinecap="round" strokeLinejoin="round" />
+	</svg>
+);
+
 const Swatch = ({ attribute, active, onClick, showTick = false }) => (
 	<button
 		type="button"
@@ -234,7 +249,7 @@ export default function FeatureSwatches({ feature, isActive, currentStep, curren
 						title={__("More colors", "website-accessibility")}
 						onClick={openDialog}
 					>
-						+
+						<PlusIcon />
 					</button>
 				)}
 			</div>
@@ -245,6 +260,7 @@ export default function FeatureSwatches({ feature, isActive, currentStep, curren
 				onClick={() => onPick(0)}
 			>
 				{__("Reset", "website-accessibility")}
+				<ResetIcon />
 			</button>
 
 			{hasMore && open && createPortal(
@@ -360,6 +376,7 @@ export default function FeatureSwatches({ feature, isActive, currentStep, curren
 							onClick={() => onPick(0)}
 						>
 							{__("Reset", "website-accessibility")}
+							<ResetIcon />
 						</button>
 					</div>
 				</div>,
