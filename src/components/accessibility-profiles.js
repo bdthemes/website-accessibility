@@ -1,6 +1,6 @@
 import { useMemo, useRef, useState } from "@wordpress/element";
 import clsx from "clsx";
-import { __ } from "@wordpress/i18n";
+import { __, sprintf } from "@wordpress/i18n";
 import { normalizeItemLayout } from "../utils/item-layout";
 import { announce } from "../utils/feature-handlers";
 
@@ -179,6 +179,22 @@ const AccessibilityProfiles = ({
 		for (const key in profileSettings) {
 			const setting = profileSettings[key];
 			const feature = features.find((f) => f.key === key);
+			// A swatch feature that allows a custom colour may carry a #rrggbb instead
+			// of a step value (see feature-swatches.js).
+			if (feature?.allowCustomColor && /^#[0-9a-f]{6}$/i.test(String(setting))) {
+				updatedSettings[key] = {
+					currentStep: feature.attributes.length + 1,
+					currentAttribute: {
+						/* translators: %s: colour code, e.g. #1677ff. */
+						name: sprintf(__("Custom color %s", "website-accessibility"), setting),
+						value: "custom",
+						swatch: setting,
+						css: [],
+					},
+					isMultiStep: true,
+				};
+				continue;
+			}
 			if (feature) {
 				const currentIndex = feature.attributes.findIndex(
 					(attr) => attr.value == setting,

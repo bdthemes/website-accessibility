@@ -1,0 +1,46 @@
+// Themes style every <button> on the page: minimum sizes, uppercase, letter spacing,
+// text and box shadows, gradients, margins, their own font. None of that belongs on
+// the toolbar's own buttons (header actions, launcher, colour swatches, dictionary),
+// so it is stripped here. Both :where() make this rule weigh nothing, so any rule of
+// ours marked !important still wins over it, while theme rules (not !important) lose.
+:where(
+	.wap-preset__preview-drawer-root,
+	#website-accessibility-app,
+	.wap-swatch-dialog,
+	.wap-dictionary-popup,
+	.wap-panel-header-dropdown
+) :where(button, [type="button"], [type="submit"], [type="reset"]) {
+	margin: 0 !important;
+	min-width: 0 !important;
+	min-height: 0 !important;
+	float: none !important;
+	font-family: inherit !important;
+	text-transform: none !important;
+	letter-spacing: normal !important;
+	text-indent: 0 !important;
+	text-decoration: none !important;
+	text-shadow: none !important;
+	background-image: none !important;
+}
+
+// Themes also paint and size the icons inside buttons (`button svg { fill; width }`).
+// Our icons say how they are painted in their own fill attribute; keep to it.
+:where(
+	.wap-preset__preview-drawer-root,
+	#website-accessibility-app,
+	.wap-swatch-dialog,
+	.wap-dictionary-popup,
+	.wap-panel-header-dropdown
+) :where(button) svg[fill="none"] {
+	fill: none !important;
+}
+
+:where(
+	.wap-preset__preview-drawer-root,
+	#website-accessibility-app,
+	.wap-swatch-dialog,
+	.wap-dictionary-popup,
+	.wap-panel-header-dropdown
+) :where(button) svg[fill="currentColor"] {
+	fill: currentColor !important;
+}
