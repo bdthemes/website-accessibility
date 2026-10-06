@@ -4,7 +4,7 @@ Tags:              accessibility, web-accessibility, accessibility-plugin, ada-c
 Requires at least: 6.1
 Tested up to:      7.1
 Requires PHP:      7.4
-Stable tag:        1.6.6
+Stable tag:        1.6.7
 License:           GPL-2.0-or-later
 License URI:       https://www.gnu.org/licenses/gpl-2.0.html
 
@@ -189,6 +189,9 @@ The JavaScript and CSS shipped in `build/` are compiled with `@wordpress/scripts
 
 == Upgrade Notice ==
 
+= 1.6.7 =
+Profiles and tools apply in a moment on large pages. Recommended for all users.
+
 = 1.6.6 =
 Toolbar support for color picker tools.
 
@@ -202,6 +205,11 @@ Pause Animations now also stops JavaScript animations, page-builder effects, sli
 Fixes Contrast + Dark and Light leaving whole sections blank, and the toolbar recolouring itself. Admin screens now share one loading skeleton. Recommended for all users.
 
 == Changelog ==
+
+= 1.6.7 – October 6, 2026 =
+* Fixed: Profiles and tools apply in a moment instead of freezing large pages.
+* Fixed: A profile switched off in the preset no longer leaves its tools on for visitors who had picked it.
+* Security: Security hardening.
 
 = 1.6.6 – October 5, 2026 =
 * Improved: Toolbar support for color picker tools.

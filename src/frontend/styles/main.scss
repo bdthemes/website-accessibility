@@ -18,8 +18,10 @@
 }
 
 // Page-level filter chain. --wap-invert / --wap-saturation are set by this plugin's
-// features; --wap-brightness / --wap-grayscale are extension slots add-on features may set.
-html {
+// features; --wap-brightness / --wap-grayscale are extension slots add-on features may set
+// (always on <html>'s own style). Only while one of them is set: a filter on <html>, even a
+// no-op one, makes the browser paint the whole page through a filter on every visit.
+html:is([style*="--wap-invert"], [style*="--wap-brightness"], [style*="--wap-grayscale"], [style*="--wap-saturation"]) {
   filter: 
     invert(var(--wap-invert, 0)) 
     brightness(var(--wap-brightness, 1)) 
