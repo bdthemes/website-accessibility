@@ -56,13 +56,13 @@ const View = () => {
     const drawerContentWrapperMaxHeightVh = useMemo(() => {
         const raw = currentPreset?.panel?.wrapper?.maxHeight;
         if (raw === undefined || raw === null || raw === '') {
-            return 80;
+            return 90;
         }
         const n = Number(raw);
         if (!Number.isFinite(n) || n <= 0) {
-            return 80;
+            return 90;
         }
-        if (n > 100) return 80;
+        if (n > 100) return 90;
         return n;
     }, [currentPreset?.panel?.wrapper?.maxHeight]);
 
@@ -447,7 +447,7 @@ const View = () => {
                 placement={currentPreset?.panel?.wrapper?.position || "right"}
                 className={`wap-preset__preview-drawer notranslate wap-preset__preview-drawer--${currentPreset?.panel?.wrapper?.position || 'right'}`}
                 rootClassName={`wap-preset__preview-drawer-root notranslate wap-preset__preview-drawer-root--${currentPreset?.panel?.wrapper?.position || 'right'}`}
-                width={Number(currentPreset?.panel?.wrapper?.width) || 400}
+                width={Number(currentPreset?.panel?.wrapper?.width) || 450}
                 styles={{
                     wrapper: { maxHeight: `${drawerContentWrapperMaxHeightVh}vh` },
                 }}

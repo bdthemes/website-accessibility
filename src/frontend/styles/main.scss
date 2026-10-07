@@ -361,19 +361,19 @@ html:is([style*="--wap-invert"], [style*="--wap-brightness"], [style*="--wap-gra
 // Theme compatibility css overrides go here  
 
 .wap-frontend .ant-btn-variant-solid {
-  color: #fff !important;
-  background: #1677ff !important;
+  color: var(--wap-on-primary, #fff) !important;
+  background: var(--wap-primary, #1677ff) !important;
   border: none !important;
   display: inline-flex !important;
 
   span {
-    color: #fff !important;
+    color: var(--wap-on-primary, #fff) !important;
   }
 
   &:hover,
   &:focus {
-    background: #4096ff !important;
-    color: #fff !important;
+    background: var(--wap-primary-hover, #4096ff) !important;
+    color: var(--wap-on-primary, #fff) !important;
   }
 }
 
@@ -462,4 +462,14 @@ html.wap-animations-paused [class*="elementor-animation-"]:hover,
 html.wap-animations-paused [class*="elementor-animation-"]:focus,
 html.wap-animations-paused [class*="elementor-animation-"]:active {
   transform: none !important;
+}
+
+// The toolbar's toasts and notifications ("All accessibility settings have been
+// reset…"): info icons take the preset's Color Theme. Success, warning and error
+// keep their own colours, which carry meaning.
+.wap-frontend {
+  .ant-message .ant-message-info .anticon,
+  .ant-notification .ant-notification-notice-icon-info {
+    color: var(--wap-primary, #1677ff) !important;
+  }
 }

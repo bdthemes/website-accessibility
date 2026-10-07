@@ -7,7 +7,7 @@
         border: none !important;
         border-radius: var(--button-radius, 8px) !important;
         padding: var(--button-padding, 12px 20px) !important;
-        background: var(--button-bg, #0073ea) !important;
+        background: var(--button-bg, var(--wap-primary, #0073ea)) !important;
         color: var(--button-color, #ffffff) !important;
         font-size: var(--button-font-size, 14px) !important;
         font-weight: 600 !important;
@@ -98,17 +98,17 @@
     @keyframes wap-pulse {
         0% {
             transform: scale(1);
-            box-shadow: 0 0 0 0 rgba(var(--button-bg-rgb, 22, 119, 255), 0.7);
+            box-shadow: 0 0 0 0 rgba(var(--button-bg-rgb, var(--wap-primary-rgb, 22, 119, 255)), 0.7);
         }
 
         70% {
             transform: scale(1.05);
-            box-shadow: 0 0 0 10px rgba(var(--button-bg-rgb, 22, 119, 255), 0);
+            box-shadow: 0 0 0 10px rgba(var(--button-bg-rgb, var(--wap-primary-rgb, 22, 119, 255)), 0);
         }
 
         100% {
             transform: scale(1);
-            box-shadow: 0 0 0 0 rgba(var(--button-bg-rgb, 22, 119, 255), 0);
+            box-shadow: 0 0 0 0 rgba(var(--button-bg-rgb, var(--wap-primary-rgb, 22, 119, 255)), 0);
         }
     }
 }

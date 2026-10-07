@@ -10,11 +10,11 @@
 
 	.wap-feature--active {
 		.wap-widget-features__feature-btn {
-			box-shadow: 0 0 0 2px #1677ff, 0 2px 8px rgba(22, 119, 255, 0.25);
+			box-shadow: 0 0 0 2px var(--wap-primary, #1677ff), 0 2px 8px rgba(var(--wap-primary-rgb, 22, 119, 255), 0.25);
 		}
 		.wap-widget-features__feature-icon,
 		.wap-widget-features__feature-label {
-			color: #1677ff;
+			color: var(--wap-primary, #1677ff);
 		}
 
 		/* Move icon/label up only when bottom step indicator exists */
@@ -29,7 +29,7 @@
 			svg {
 				/* Fill-based icons only — keep stroke icons (e.g. keyboard) as outlines */
 				path[fill]:not([fill="none"]):not([fill="transparent"]) {
-					fill: #1677ff;
+					fill: var(--wap-primary, #1677ff);
 				}
 			}
 		}
@@ -50,7 +50,7 @@
 
 			&.ant-switch-checked {
 				.ant-switch-inner {
-					background-color: #1677ff;
+					background-color: var(--wap-primary, #1677ff);
 				}
 			}
 		}
@@ -60,7 +60,7 @@
 		margin-right: 12px;
 		font-size: 14px;
 		font-weight: 700;
-		color: #1677ff;
+		color: var(--wap-primary, #1677ff);
 		vertical-align: middle;
 	}
 
@@ -326,7 +326,7 @@
 				border-radius: 30px;
 				transition: all 0.2s ease;
 				&--active {
-					background: #1677ff;
+					background: var(--wap-primary, #1677ff);
 				}
 			}
 		}
@@ -424,12 +424,12 @@
 		}
 
 		&:focus-visible {
-			outline: 2px solid #1677ff !important;
+			outline: 2px solid var(--wap-primary, #1677ff) !important;
 			outline-offset: 2px !important;
 		}
 
 		&--active {
-			box-shadow: 0 0 0 2px var(--wap-card-bg, #f1f3f8), 0 0 0 4px #1677ff !important;
+			box-shadow: 0 0 0 2px var(--wap-card-bg, #f1f3f8), 0 0 0 4px var(--wap-primary, #1677ff) !important;
 		}
 
 		&--more {
@@ -485,7 +485,7 @@
 		}
 
 		&:hover:not(:disabled) {
-			color: #1677ff !important;
+			color: var(--wap-primary, #1677ff) !important;
 		}
 
 		&:disabled {
@@ -494,7 +494,7 @@
 		}
 
 		&:focus-visible {
-			outline: 2px solid #1677ff !important;
+			outline: 2px solid var(--wap-primary, #1677ff) !important;
 			outline-offset: 2px !important;
 		}
 	}
@@ -532,8 +532,8 @@
 
 	// The one in front (last opened or touched).
 	&--front {
-		border-color: #1677ff;
-		box-shadow: 0 0 0 3px rgba(22, 119, 255, 0.18), 0 16px 40px rgba(15, 23, 42, 0.24) !important;
+		border-color: var(--wap-primary, #1677ff);
+		box-shadow: 0 0 0 3px rgba(var(--wap-primary-rgb, 22, 119, 255), 0.18), 0 16px 40px rgba(15, 23, 42, 0.24) !important;
 
 		.wap-swatch-dialog__header {
 			background: #eef4ff !important;
@@ -646,7 +646,7 @@
 	}
 
 	.wap-widget-features__swatch--active {
-		box-shadow: 0 0 0 2px #fff, 0 0 0 4px #1677ff !important;
+		box-shadow: 0 0 0 2px #fff, 0 0 0 4px var(--wap-primary, #1677ff) !important;
 	}
 
 	.wap-swatch-dialog__custom {
@@ -735,8 +735,8 @@
 		}
 
 		&:hover:not(:disabled) {
-			border-color: #1677ff !important;
-			color: #1677ff !important;
+			border-color: var(--wap-primary, #1677ff) !important;
+			color: var(--wap-primary, #1677ff) !important;
 		}
 
 		&:disabled {
@@ -747,7 +747,7 @@
 
 	button:focus-visible,
 	input:focus-visible {
-		outline: 2px solid #1677ff !important;
+		outline: 2px solid var(--wap-primary, #1677ff) !important;
 		outline-offset: 2px !important;
 	}
 }

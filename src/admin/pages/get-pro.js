@@ -42,10 +42,15 @@ const GetProPage = () => {
     { label: __('Virtual Keyboard', 'website-accessibility'), free: false, pro: true },
     { label: __('Skip Links', 'website-accessibility'), free: false, pro: true },
     { label: __('Focus Indicators', 'website-accessibility'), free: false, pro: true },
+    { label: __('Voice Navigation', 'website-accessibility'), free: false, pro: true },
+    { label: __('Text, Title & Background Color', 'website-accessibility'), free: false, pro: true },
+    { label: __('Text Magnifier', 'website-accessibility'), free: false, pro: true },
+    { label: __('Highlight Hover', 'website-accessibility'), free: false, pro: true },
 
     // Pro tools & advanced features
     { label: __('Custom Profiles', 'website-accessibility'), free: false, pro: true },
     { label: __('Accessibility Checker', 'website-accessibility'), free: false, pro: true },
+    { label: __('Team Permissions for the Checker', 'website-accessibility'), free: false, pro: true },
     { label: __('Custom Code (CSS, header, body, footer)', 'website-accessibility'), free: false, pro: true },
     { label: __('Compliance Monitoring', 'website-accessibility'), free: false, pro: true },
     { label: __('AI-Powered Fix Suggestions', 'website-accessibility'), free: false, pro: true },
@@ -56,28 +61,34 @@ const GetProPage = () => {
   ]), []);
 
   // Highlights the most recent Pro additions. Update this list when Pro ships a
-  // notable feature; `isNew` drives the badge, so only the newest should carry it.
+  // notable feature; `isNew` drives the badge, so only the latest release's carry it.
   const whatsNew = useMemo(() => ([
     {
       isNew: true,
+      title: __('Highlight Hover', 'website-accessibility'),
+      desc: __('A bold frame follows the pointer around the paragraph, link or image under it, so readers never lose their place.', 'website-accessibility'),
+    },
+    {
+      isNew: true,
+      title: __('Text Magnifier', 'website-accessibility'),
+      desc: __('The text under the pointer, or in keyboard focus, shows enlarged in a box beside it — in three sizes.', 'website-accessibility'),
+    },
+    {
+      isNew: true,
+      title: __('Text, Title & Background Color', 'website-accessibility'),
+      desc: __('Visitors pick a color for the page text, headings or background from the toolbar, or any custom color; custom profiles can set one too.', 'website-accessibility'),
+    },
+    {
+      title: __('Voice Navigation', 'website-accessibility'),
+      desc: __('Browse the page and switch toolbar tools by voice, in about 90 languages.', 'website-accessibility'),
+    },
+    {
+      title: __('Team Permissions', 'website-accessibility'),
+      desc: __('Choose which roles can run accessibility scans and which can apply fixes — not only administrators.', 'website-accessibility'),
+    },
+    {
       title: __('Custom Code', 'website-accessibility'),
       desc: __('Add CSS, header, body or footer snippets from one table — run each on the whole site, only on chosen pages, or everywhere except them.', 'website-accessibility'),
-    },
-    {
-      title: __('Compliance Monitoring', 'website-accessibility'),
-      desc: __('A site-wide accessibility score with issue severity, WCAG filtering, trends over time and CSV / JSON export.', 'website-accessibility'),
-    },
-    {
-      title: __('AI-Powered Fix Suggestions', 'website-accessibility'),
-      desc: __('Connect OpenAI or Google Gemini and get a suggested fix for each issue the Accessibility Checker finds.', 'website-accessibility'),
-    },
-    {
-      title: __('Virtual Keyboard', 'website-accessibility'),
-      desc: __('An on-screen keyboard for motor and touch accessibility — draggable, resizable and aware of the focused field.', 'website-accessibility'),
-    },
-    {
-      title: __('Skip Links & Focus Indicators', 'website-accessibility'),
-      desc: __('Jump past navigation to main content, and give every interactive element a high-visibility focus ring.', 'website-accessibility'),
     },
   ]), []);
 
