@@ -105,7 +105,7 @@ class Migrations
     }
 
     /**
-     * 1.6.7: the toolbar panel's default width went from 420px to 450px. A preset
+     * 1.7.0: the toolbar panel's default width went from 420px to 450px. A preset
      * still holding the old default (every new preset and the activation seed saved
      * it) takes the new one; any other width was chosen and stays.
      */
