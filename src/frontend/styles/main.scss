@@ -18,8 +18,10 @@
 }
 
 // Page-level filter chain. --wap-invert / --wap-saturation are set by this plugin's
-// features; --wap-brightness / --wap-grayscale are extension slots add-on features may set.
-html {
+// features; --wap-brightness / --wap-grayscale are extension slots add-on features may set
+// (always on <html>'s own style). Only while one of them is set: a filter on <html>, even a
+// no-op one, makes the browser paint the whole page through a filter on every visit.
+html:is([style*="--wap-invert"], [style*="--wap-brightness"], [style*="--wap-grayscale"], [style*="--wap-saturation"]) {
   filter: 
     invert(var(--wap-invert, 0)) 
     brightness(var(--wap-brightness, 1)) 
@@ -359,19 +361,19 @@ html {
 // Theme compatibility css overrides go here  
 
 .wap-frontend .ant-btn-variant-solid {
-  color: #fff !important;
-  background: #1677ff !important;
+  color: var(--wap-on-primary, #fff) !important;
+  background: var(--wap-primary, #1677ff) !important;
   border: none !important;
   display: inline-flex !important;
 
   span {
-    color: #fff !important;
+    color: var(--wap-on-primary, #fff) !important;
   }
 
   &:hover,
   &:focus {
-    background: #4096ff !important;
-    color: #fff !important;
+    background: var(--wap-primary-hover, #4096ff) !important;
+    color: var(--wap-on-primary, #fff) !important;
   }
 }
 
@@ -460,4 +462,14 @@ html.wap-animations-paused [class*="elementor-animation-"]:hover,
 html.wap-animations-paused [class*="elementor-animation-"]:focus,
 html.wap-animations-paused [class*="elementor-animation-"]:active {
   transform: none !important;
+}
+
+// The toolbar's toasts and notifications ("All accessibility settings have been
+// reset…"): info icons take the preset's Color Theme. Success, warning and error
+// keep their own colours, which carry meaning.
+.wap-frontend {
+  .ant-message .ant-message-info .anticon,
+  .ant-notification .ant-notification-notice-icon-info {
+    color: var(--wap-primary, #1677ff) !important;
+  }
 }

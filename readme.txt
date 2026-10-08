@@ -4,7 +4,7 @@ Tags:              accessibility, web-accessibility, accessibility-plugin, ada-c
 Requires at least: 6.1
 Tested up to:      7.1
 Requires PHP:      7.4
-Stable tag:        1.6.6
+Stable tag:        1.7.0
 License:           GPL-2.0-or-later
 License URI:       https://www.gnu.org/licenses/gpl-2.0.html
 
@@ -189,6 +189,9 @@ The JavaScript and CSS shipped in `build/` are compiled with `@wordpress/scripts
 
 == Upgrade Notice ==
 
+= 1.7.0 =
+New Color Theme to recolor the toolbar in one click, and profiles and tools apply in a moment on large pages. Recommended for all users.
+
 = 1.6.6 =
 Toolbar support for color picker tools.
 
@@ -202,6 +205,15 @@ Pause Animations now also stops JavaScript animations, page-builder effects, sli
 Fixes Contrast + Dark and Light leaving whole sections blank, and the toolbar recolouring itself. Admin screens now share one loading skeleton. Recommended for all users.
 
 == Changelog ==
+
+= 1.7.0 – October 8, 2026 =
+* Added: Color Theme in the preset editor — one click recolors the toolbar's button, header, logo, active tools, notices and footer buttons.
+* Improved: The toolbar panel opens larger by default — 450px wide and 90% of the window high.
+* Improved: Get Pro page lists the latest Pro features.
+* Fixed: Profiles and tools apply in a moment instead of freezing large pages.
+* Fixed: Updating a preset without changes now says "No changes to save" instead of a save error.
+* Fixed: A profile switched off in the preset no longer leaves its tools on for visitors who had picked it.
+* Security: Usage statistics accept one count per tool per visitor a day and no longer grow without limit.
 
 = 1.6.6 – October 5, 2026 =
 * Improved: Toolbar support for color picker tools.

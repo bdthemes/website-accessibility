@@ -23,6 +23,17 @@ class UsageStatisticsRouteV1
     const METADATA_KEY = 'last_updated';
 
     /**
+     * Reserved slot holding past days for the whole site, shaped like a browser
+     * slot (date => feature => count) so every reader sums it the same way. Only
+     * today is kept per browser: older days fold in here once a day, which keeps
+     * the option's size bounded however many browser keys post.
+     */
+    const HISTORY_KEY = '_history';
+
+    /** Reserved slot: the date past days were last folded into HISTORY_KEY. */
+    const FOLDED_KEY = '_folded';
+
+    /**
      * Feature keys tracked by this plugin. Add-ons register the keys of the
      * features they ship through the `websac_usage_statistics_features` filter.
      */
@@ -169,7 +180,7 @@ class UsageStatisticsRouteV1
             : current_time('mysql');
 
         // Remove metadata
-        unset($stats[self::METADATA_KEY]);
+        unset($stats[self::METADATA_KEY], $stats[self::FOLDED_KEY]);
 
         switch ($range) {
             case 'daily':
@@ -273,7 +284,7 @@ class UsageStatisticsRouteV1
         // here made the writes below index into that string, raising an uncaught Error
         // ("Cannot use string offset as an array") on a route anonymous visitors reach.
         $browser_key = (string) $request->get_param('browserKey');
-        if ($browser_key === '' || $browser_key === self::METADATA_KEY) {
+        if ($browser_key === '' || in_array($browser_key, self::reserved_keys(), true)) {
             return rest_ensure_response([
                 'success' => false,
                 'message' => __('Missing browser key.', 'website-accessibility'),
@@ -289,6 +300,8 @@ class UsageStatisticsRouteV1
             $stats = [];
         }
 
+        $stats = $this->fold_past_days($stats, $today);
+
         // Cap the number of distinct browser keys retained. This endpoint is
         // reachable by anonymous visitors (the wp_rest nonce is printed on public
         // pages), so an unbounded key space would let an attacker grow this
@@ -300,7 +313,8 @@ class UsageStatisticsRouteV1
         // cache, so throttling first would let rejected requests keep growing the
         // options table long after this cap had stopped the statistics option itself.
         $max_keys = (int) apply_filters('websac_usage_statistics_max_keys', 5000);
-        if (! isset($stats[$browser_key]) && (count($stats) - (isset($stats[self::METADATA_KEY]) ? 1 : 0)) >= $max_keys) {
+        $browser_count = count(array_diff_key($stats, array_flip(self::reserved_keys())));
+        if (! isset($stats[$browser_key]) && $browser_count >= $max_keys) {
             return rest_ensure_response([
                 'success' => false,
                 'message' => __('Statistics capacity reached.', 'website-accessibility'),
@@ -324,16 +338,16 @@ class UsageStatisticsRouteV1
             $stats[$browser_key] = [];
         }
 
-        // Reset today's state for this browser, then apply incoming values.
-        $stats[$browser_key][$today] = $this->empty_counts();
-
-        // Loop through features and set today's values from current request
+        // Replace today's state for this browser. The toolbar sends 1 per tool in
+        // use, so a browser counts at most once per tool per day: larger numbers
+        // are forged. Tools not in use are not stored.
+        $today_counts = [];
         foreach ($this->get_features() as $feature) {
-            $count = isset($incoming[$feature]) ? absint($incoming[$feature]) : 0;
-            if ($count > 0) {
-                $stats[$browser_key][$today][$feature] = $count;
+            if (! empty($incoming[$feature]) && absint($incoming[$feature]) > 0) {
+                $today_counts[$feature] = 1;
             }
         }
+        $stats[$browser_key] = [$today => $today_counts];
 
         // Add last updated timestamp
         $stats[self::METADATA_KEY] = current_time('mysql');
@@ -371,6 +385,66 @@ class UsageStatisticsRouteV1
             'message' => __('Usage statistics have been reset.', 'website-accessibility'),
             'data' => $this->empty_counts(),
         ]);
+    }
+
+    /**
+     * Top-level keys of OPTION_KEY that are not browser keys.
+     *
+     * @return string[]
+     */
+    private static function reserved_keys()
+    {
+        return [self::METADATA_KEY, self::HISTORY_KEY, self::FOLDED_KEY];
+    }
+
+    /**
+     * Once a day, fold every browser's past days into HISTORY_KEY and drop the
+     * browsers left with nothing, so only today stays per browser.
+     *
+     * @param array  $stats Saved statistics.
+     * @param string $today Today's date (Y-m-d).
+     * @return array
+     */
+    private function fold_past_days(array $stats, $today)
+    {
+        if (($stats[self::FOLDED_KEY] ?? '') === $today) {
+            return $stats;
+        }
+
+        $history  = isset($stats[self::HISTORY_KEY]) && is_array($stats[self::HISTORY_KEY]) ? $stats[self::HISTORY_KEY] : [];
+        $features = array_flip($this->get_features());
+
+        foreach ($stats as $key => $dates) {
+            if (in_array($key, self::reserved_keys(), true)) {
+                continue;
+            }
+            if (! is_array($dates)) {
+                unset($stats[$key]);
+                continue;
+            }
+            foreach ($dates as $date => $counts) {
+                if ($date === $today) {
+                    continue;
+                }
+                if (is_array($counts) && preg_match('/^\d{4}-\d{2}-\d{2}$/', (string) $date)) {
+                    foreach (array_intersect_key($counts, $features) as $feature => $count) {
+                        $count = absint($count);
+                        if ($count > 0) {
+                            $history[$date][$feature] = ($history[$date][$feature] ?? 0) + $count;
+                        }
+                    }
+                }
+                unset($stats[$key][$date]);
+            }
+            if (empty($stats[$key])) {
+                unset($stats[$key]);
+            }
+        }
+
+        $stats[self::HISTORY_KEY] = $history;
+        $stats[self::FOLDED_KEY]  = $today;
+
+        return $stats;
     }
 
     /**

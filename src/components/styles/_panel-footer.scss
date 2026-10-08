@@ -25,11 +25,11 @@
 
 	/* Save / update preference (primary) — colors from preset footer attributes */
 	&__preference-save.ant-btn.ant-btn-primary {
-		background: var(--wap-footer-preference-save-bg, #1677ff) !important;
+		background: var(--wap-footer-preference-save-bg, var(--wap-primary, #1677ff)) !important;
 		color: var(--wap-footer-preference-save-color, #ffffff) !important;
 		border-color: var(
 			--wap-footer-preference-save-border-color,
-			var(--wap-footer-preference-save-bg, #1677ff)
+			var(--wap-footer-preference-save-bg, var(--wap-primary, #1677ff))
 		) !important;
 		box-shadow: none;
 
@@ -68,7 +68,7 @@
 		overflow: hidden;
 		font-size: var(--wap-footer-reset-btn-font-size, 14px) !important;
 		font-weight: var(--wap-footer-reset-btn-font-weight, 500) !important;
-		background: var(--wap-footer-reset-btn-bg, #1677ff) !important;
+		background: var(--wap-footer-reset-btn-bg, var(--wap-primary, #1677ff)) !important;
 		color: var(--wap-footer-reset-btn-color, #ffffff) !important;
 		border-radius: var(--wap-footer-reset-btn-radius, 8px) !important;
 		border: 0 !important;

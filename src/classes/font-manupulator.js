@@ -42,10 +42,16 @@ class FontManipulator {
         const textElements = this.collectTextElements(root);
         const validProps = properties.filter(p => this.validProperties.includes(p));
 
+        // Read every element's sizes before writing any. Writing one element and then
+        // reading the next made the browser recompute the page's styles each time
+        // (seconds on a big page), and a child read its size after its parent had
+        // already grown, so text nested in other text was enlarged twice.
+        const writes = [];
         for (let el of textElements) {
             const remembered = this.originals.get(el) || {};
             const computed = window.getComputedStyle(el);
             const record = { ...remembered };
+            const values = [];
 
             validProps.forEach(prop => {
                 const known = remembered[prop];
@@ -80,14 +86,19 @@ class FontManipulator {
                 // !important }` (and one rule per size preset) for every block theme, so a
                 // plain inline value loses to it and the text simply never resizes — which
                 // is most headings and many paragraphs on a stock block theme.
-                el.style.setProperty(prop, `${numeric * (1 + percent / 100)}${unit}`, 'important');
+                values.push([prop, `${numeric * (1 + percent / 100)}${unit}`]);
             });
 
+            writes.push({ el, record, values });
+        }
+
+        writes.forEach(({ el, record, values }) => {
+            values.forEach(([prop, value]) => el.style.setProperty(prop, value, 'important'));
             if (Object.keys(record).length > 0) {
                 this.originals.set(el, record);
                 el.setAttribute(this.dataAttribute, JSON.stringify(record));
             }
-        }
+        });
     }
 
     /**

@@ -14,7 +14,7 @@ class Migrations
 
     const VERSION_OPTION_KEY = 'websac_version';
     const DATA_SCHEMA_OPTION_KEY = 'websac_data_schema_version';
-    const LATEST_DATA_SCHEMA_VERSION = 6;
+    const LATEST_DATA_SCHEMA_VERSION = 7;
 
     private function __construct(){}
 
@@ -58,6 +58,11 @@ class Migrations
             $current_schema_version = 6;
         }
 
+        if ($current_schema_version < 7) {
+            $this->migrate_default_panel_width();
+            $current_schema_version = 7;
+        }
+
         update_option(self::DATA_SCHEMA_OPTION_KEY, $current_schema_version);
         update_option(self::VERSION_OPTION_KEY, WEBSAC_VERSION);
     }
@@ -97,6 +102,43 @@ class Migrations
     {
         delete_transient('websac_product_feeds');
         delete_transient('websac_product_feeds_rss');
+    }
+
+    /**
+     * 1.7.0: the toolbar panel's default width went from 420px to 450px. A preset
+     * still holding the old default (every new preset and the activation seed saved
+     * it) takes the new one; any other width was chosen and stays.
+     */
+    private function migrate_default_panel_width()
+    {
+        $presets = get_posts([
+            'post_type'      => 'websac_preset',
+            'post_status'    => 'any',
+            'posts_per_page' => -1,
+            'fields'         => 'ids',
+            'no_found_rows'  => true,
+        ]);
+
+        foreach ($presets as $preset_id) {
+            $post = get_post($preset_id);
+            if (! $post || empty($post->post_content)) {
+                continue;
+            }
+
+            $preset_content = json_decode($post->post_content, true);
+            if (json_last_error() !== JSON_ERROR_NONE || ! is_array($preset_content)) {
+                continue;
+            }
+            if ('420' !== (string) ($preset_content['panel']['wrapper']['width'] ?? '')) {
+                continue;
+            }
+
+            $preset_content['panel']['wrapper']['width'] = '450';
+            wp_update_post([
+                'ID'           => $preset_id,
+                'post_content' => wp_slash(wp_json_encode($preset_content, JSON_UNESCAPED_UNICODE | JSON_UNESCAPED_SLASHES)),
+            ]);
+        }
     }
 
     /**
