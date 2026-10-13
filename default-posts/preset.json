@@ -7,8 +7,8 @@
         },
         "panel": {
             "wrapper": {
-                "width": "420",
-                "maxHeight": "80"
+                "width": "450",
+                "maxHeight": "90"
             },
             "items": [
                 {

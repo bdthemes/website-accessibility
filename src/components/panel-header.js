@@ -23,7 +23,7 @@ const PanelHeader = ({
     // Find the header item from value.items
     const headerItem = value?.items?.find(item => item.slug === 'header') || {};
     const attributes = headerItem.attributes || {};
-    const panelWidth = value?.wrapper?.width || 420;
+    const panelWidth = value?.wrapper?.width || 450;
     // Optional extra header actions contributed by an add-on (rendered between "Reset all" and the close button).
     const { PanelHeaderActions, WapTooltip } = window?.wapComponents || {};
     const [messageApi, contextHolder] = (window?.wapComponents?.WapMessage || {}).useMessage?.() || [];

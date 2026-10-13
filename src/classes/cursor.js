@@ -150,8 +150,14 @@ class Cursor {
         const bar = document.getElementById('wap-cursor-guideline');
         if (!bar) return;
 
-        const barWidth = bar.offsetWidth;
         const viewportWidth = window.innerWidth;
+        // The bar's width only changes with the window's (it is in vw): read it once per
+        // window size, not on every move, which made the browser lay the page out again.
+        if (this.guidelineWidthFor !== viewportWidth) {
+            this.guidelineWidth = bar.offsetWidth;
+            this.guidelineWidthFor = viewportWidth;
+        }
+        const barWidth = this.guidelineWidth;
 
         // Calculate the ideal left position to center the bar
         let left = e.clientX - barWidth / 2;

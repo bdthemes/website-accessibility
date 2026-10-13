@@ -111,6 +111,13 @@ class Tooltips {
         this._tooltip.appendChild(this._arrow);
 
         this._tooltip.classList.add("visible");
+
+        // Measured once per label, not on every mouse move: moving the tooltip away and
+        // reading its size made the browser lay the page out again on each move.
+        this._tooltip.style.left = "-9999px";
+        this._tooltip.style.top = "-9999px";
+        const { width, height } = this._tooltip.getBoundingClientRect();
+        this._size = { width, height };
     }
 
     _handleMouseOut() {
@@ -123,13 +130,7 @@ class Tooltips {
         if (!this._enabled || (!this._tooltip.classList.contains("visible"))) return;
 
         const tooltip = this._tooltip;
-        const arrow = this._arrow;
-
-        // Reset to measure
-        tooltip.style.left = "-9999px";
-        tooltip.style.top = "-9999px";
-
-        const rect = tooltip.getBoundingClientRect();
+        const rect = this._size || tooltip.getBoundingClientRect();
         const mx = ev.clientX;
         const my = ev.clientY;
 

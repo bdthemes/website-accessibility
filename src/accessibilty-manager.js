@@ -11,6 +11,7 @@ class AccessibilityManager {
         if (AccessibilityManager.instance) return AccessibilityManager.instance;
         this.props = {}; // { contrast: [ { element, property, originalValue } ] }
         this.previousFeatureValues = {}; // Track previous values
+        this.appliedSignatures = {}; // feature key → the setting it was applied with (see init)
         this.backgroundObservers = {}; // feature key → MutationObserver watching for new CSS background photos
 
         AccessibilityManager.instance = this;
@@ -25,6 +26,21 @@ class AccessibilityManager {
 
     init(settings) {
         if (!settings || Object.keys(settings).length === 0) return;
+
+        // A feature whose setting is what it was last applied with is left as it is.
+        // Removing and applying every active feature again on each change made one
+        // tile click cost a style recalculation per active feature (half a second with
+        // seven on). Smart Contrast reads the colours the others leave on the page, so
+        // it still runs again whenever anything else changed.
+        const signatures = {};
+        let othersChanged = false;
+        for (const key in settings) {
+            signatures[key] = settings[key]?.currentStep ? this.signatureOf(settings[key]) : null;
+            if (key !== 'smartContrast' && signatures[key] !== (this.appliedSignatures[key] ?? null)) {
+                othersChanged = true;
+            }
+        }
+
         for (const key in settings) {
             const setting = settings[key];
             const attributes = setting.currentAttribute || {};
@@ -34,6 +50,14 @@ class AccessibilityManager {
                 this.removeFeature(key);
                 continue;
             }
+
+            if (
+                signatures[key] === this.appliedSignatures[key] &&
+                !(key === 'smartContrast' && othersChanged)
+            ) {
+                continue;
+            }
+            this.appliedSignatures[key] = signatures[key];
 
             // If the feature is already applied, remove it
             if (this.previousFeatureValues[key]) {
@@ -75,6 +99,12 @@ class AccessibilityManager {
             }
 
         }
+    }
+
+    /** What a feature is applied with: its step and the step's value (or custom colour). */
+    signatureOf(setting) {
+        const attribute = setting?.currentAttribute || {};
+        return `${setting?.currentStep}|${attribute.value ?? ''}|${attribute.swatch ?? ''}`;
     }
 
     /**
@@ -192,18 +222,6 @@ class AccessibilityManager {
         dictionary().remove();
     }
 
-    isActuallyVisible(el) {
-        let node = el;
-        while (node && node.nodeType === 1) {
-            const style = window.getComputedStyle(node);
-            if (style.display === "none" || style.visibility === "hidden" || parseFloat(style.opacity) === 0) {
-                return false;
-            }
-            node = node.parentElement;
-        }
-        return true;
-    }
-
     applyCSSFeature(key, attr) {
         if (!attr?.css || attr.css.length === 0) return;
 
@@ -229,61 +247,103 @@ class AccessibilityManager {
             this.applyStyleRules(key, ruleEntries);
         }
 
+        // Inline entries: first read which elements get the style (visible ones,
+        // outside the toolbar), then write them all. Reading a computed style right
+        // after writing an inline one makes the browser recompute the page's styles,
+        // so reading and writing element by element cost one recalculation per
+        // element — seconds on a big page with a lot of CSS (logged in, with the admin
+        // bar and the checker loaded, Text Spacing alone took 12 s).
+        const drawer = document.querySelector('.wap-preset__preview-drawer-root');
+        const isVisible = this.visibilityChecker();
+        const writes = [];
         attr.css.forEach(css => {
             if (this.shouldUseStyleRule(css)) return;
 
-            const elements = document.querySelectorAll(css.selector);
-
-            elements.forEach(element => {
+            document.querySelectorAll(css.selector).forEach(element => {
                 if (
-                    this.isInsidePreviewDrawer(element) ||
+                    drawer?.contains(element) ||
                     element === previewButton ||
-                    previewButton?.contains(element)
+                    previewButton?.contains(element) ||
+                    !isVisible(element)
                 ) {
                     return;
                 }
-
-                if (!this.isActuallyVisible(element)) {
-                    return;
-                }
-
-                if (key === 'highlightLinks' && this.props['contrast']?.length > 0) {
-                    skipOriginal = true;
-                }
-
-                for (const property in css.properties) {
-                    let inlineOriginal = element.style.getPropertyValue(property);
-                    const originalPriority = element.style.getPropertyPriority(property);
-
-                    // 🔥 Check if original already stored
-                    const alreadyStored = this.props[key].some(
-                        item => item.element === element && item.property === property
-                    );
-
-                    if (!alreadyStored) {
-                        this.props[key].push({
-                            element,
-                            property,
-                            originalPriority: skipOriginal ? '' : originalPriority,
-                            originalValue: skipOriginal
-                                ? null
-                                : (inlineOriginal ? inlineOriginal : null)
-                        });
-                    }
-
-                    // Apply new CSS. `important` is deliberate: the toolbar states a
-                    // user's accessibility choice, so it has to beat theme rules that
-                    // ship their own !important — WordPress core does exactly that for
-                    // block font-size presets, and themes commonly do it for `img`.
-                    // Without it the feature silently no-ops on those elements.
-                    element.style.setProperty(
-                        this.toCssProperty(property),
-                        css.properties[property],
-                        'important'
-                    );
-                }
+                writes.push([element, css.properties]);
             });
         });
+
+        if (key === 'highlightLinks' && this.props['contrast']?.length > 0 && writes.length > 0) {
+            skipOriginal = true;
+        }
+
+        this.props[key] = this.props[key] || [];
+        const stored = new Map();
+        this.props[key].forEach(item => {
+            if (!stored.has(item.element)) stored.set(item.element, new Set());
+            stored.get(item.element).add(item.property);
+        });
+
+        writes.forEach(([element, properties]) => {
+            for (const property in properties) {
+                const cssProperty = this.toCssProperty(property);
+                const known = stored.get(element);
+
+                // Recorded once per element and property for remove(). Read under the
+                // definition's own (camelCase) name, as it always has been: that finds
+                // no inline value, so remove() clears the property. Reading it properly
+                // would record another feature's value as the page's own when two of
+                // them set the same property (Text Spacing and Dyslexia Friendly both
+                // set letter-spacing), and "Reset all" would then put that back.
+                if (!known?.has(property)) {
+                    const inlineOriginal = element.style.getPropertyValue(property);
+                    const originalPriority = element.style.getPropertyPriority(property);
+                    this.props[key].push({
+                        element,
+                        property,
+                        originalPriority: skipOriginal ? '' : originalPriority,
+                        originalValue: skipOriginal
+                            ? null
+                            : (inlineOriginal ? inlineOriginal : null)
+                    });
+                    if (!known) stored.set(element, new Set([property]));
+                    else known.add(property);
+                }
+
+                // Apply new CSS. `important` is deliberate: the toolbar states a
+                // user's accessibility choice, so it has to beat theme rules that
+                // ship their own !important — WordPress core does exactly that for
+                // block font-size presets, and themes commonly do it for `img`.
+                // Without it the feature silently no-ops on those elements.
+                element.style.setProperty(cssProperty, properties[property], 'important');
+            }
+        });
+    }
+
+    /**
+     * Whether an element shows at all: neither it nor an ancestor is display:none,
+     * visibility:hidden or fully transparent. Each element's answer is kept, so an
+     * ancestor shared by many elements is looked at once. Use the checker only while
+     * nothing is being written to the page.
+     */
+    visibilityChecker() {
+        const known = new Map();
+        return (element) => {
+            const chain = [];
+            let node = element;
+            while (node && node.nodeType === 1 && !known.has(node)) {
+                chain.push(node);
+                node = node.parentElement;
+            }
+            let visible = node && node.nodeType === 1 ? known.get(node) : true;
+            for (let i = chain.length - 1; i >= 0; i--) {
+                if (visible) {
+                    const style = window.getComputedStyle(chain[i]);
+                    visible = !(style.display === "none" || style.visibility === "hidden" || parseFloat(style.opacity) === 0);
+                }
+                known.set(chain[i], visible);
+            }
+            return known.get(element);
+        };
     }
 
 
@@ -510,6 +570,7 @@ class AccessibilityManager {
 
         // Remove from previous values
         delete this.previousFeatureValues[key];
+        delete this.appliedSignatures[key];
     }
 
     removeAllFeatures() {
@@ -521,6 +582,7 @@ class AccessibilityManager {
         // Clear all stored data
         this.props = {};
         this.previousFeatureValues = {};
+        this.appliedSignatures = {};
     }
 
     getActiveFeatures() {

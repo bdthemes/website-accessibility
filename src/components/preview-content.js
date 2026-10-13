@@ -1,5 +1,6 @@
 import { useRef, cloneElement, useState, useEffect, useLayoutEffect } from "@wordpress/element";
 import clsx from "clsx";
+import { themeVariables } from "../utils/theme-variables";
 
 
 const PreviewContent = ({
@@ -153,6 +154,8 @@ const PreviewContent = ({
                 ...(panel?.wrapper?.sectionBackground ? { '--wap-section-bg': panel.wrapper.sectionBackground } : {}),
                 ...(panel?.wrapper?.sectionBorderColor ? { '--wap-section-border-color': panel.wrapper.sectionBorderColor } : {}),
                 ...(panel?.wrapper?.sectionTitleColor ? { '--wap-section-title-color': panel.wrapper.sectionTitleColor } : {}),
+                // Also on :root from PHP; set here so the preset editor's preview follows it.
+                ...themeVariables(panel?.wrapper?.theme),
             }}
         >
             <div className="wap-panel-customization__header-info">

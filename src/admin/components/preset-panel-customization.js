@@ -9,6 +9,7 @@ import HeaderSettings from "../settings/header-settings";
 import ProfilesSettings from "../settings/profiles-settings";
 import FeatureSettings from "../settings/feature-settings";
 import FooterSettings from "../settings/footer-settings";
+import PresetColorTheme from "./preset-color-theme";
 
 const PanelSectionTab = ({ item, component, hideExpandIcon }) => {
     const { WapCollapse, WapSwitch } = window?.wapComponents;
@@ -138,6 +139,26 @@ const PanelCustomizationPreset = () => {
                         items={[collapseItem]}
                     />
                 ))}
+
+                {/* One click recolours the toolbar; the sections below fine-tune it. */}
+                <WapCollapse
+                    style={{ marginTop: "20px" }}
+                    key="color-theme"
+                    defaultActiveKey={["color-theme"]}
+                    bordered={false}
+                    className="wap-panel-customization__collapse"
+                    items={[
+                        {
+                            key: "color-theme",
+                            label: __("Color Theme", "website-accessibility"),
+                            children: (
+                                <div data-control-category={__("Color Theme", "website-accessibility")}>
+                                    <PresetColorTheme />
+                                </div>
+                            ),
+                        },
+                    ]}
+                />
 
                 {/* Header should be above Panel Wrapper */}
                 {headerItem && (

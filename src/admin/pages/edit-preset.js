@@ -93,6 +93,11 @@ const EditPreset = () => {
       return;
     }
 
+    if (result?.unchanged) {
+      WapMessage.info(__('No changes to save.', 'website-accessibility'));
+      return;
+    }
+
     notifyPresetSavedForTour();
 
     // Announce the save so add-ons (the Pro guided tour) can react. Dispatched

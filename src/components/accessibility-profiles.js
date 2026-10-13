@@ -225,6 +225,8 @@ const AccessibilityProfiles = ({
 			type: "RESET_PROFILE_SETTINGS",
 		});
 
+		// Next task, not a fixed delay: the reset renders first, and the profile's
+		// tools then apply at once (a 200 ms wait here only made picking feel slow).
 		setTimeout(() => {
 			accessibilityDispatch({
 				type: "SET_CURRENT_PROFILE",
@@ -247,7 +249,7 @@ const AccessibilityProfiles = ({
 				});
 				onFeatureInteraction({});
 			}
-		}, 200);
+		}, 0);
 	};
 
 	return (

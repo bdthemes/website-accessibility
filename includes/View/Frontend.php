@@ -440,6 +440,8 @@ class Frontend {
     public function render_preset_root() {
         if (Utils::is_builder_editor()) return;
 
+        $this->print_theme_colors($this->current_preset);
+
         if (wp_script_is('websac-frontend')) {
             echo '<div id="website-accessibility-app">';
             if ($this->lazy) {
@@ -452,6 +454,42 @@ class Frontend {
          * Add-ons can print extra root containers next to the toolbar root.
          */
         do_action('websac_frontend_after_root');
+    }
+
+    /**
+     * The preset's colour theme (panel.wrapper.theme, picked in the preset editor)
+     * as page-wide CSS variables. The toolbar's accents (active tiles and profiles,
+     * focus rings, buttons) read them, and so can anything an add-on draws on the
+     * page. Nothing is printed without a theme, so every colour keeps its default.
+     *
+     * @param array|null $preset Preset the toolbar runs with.
+     * @return void
+     */
+    private function print_theme_colors($preset) {
+        $theme = isset($preset['panel']['wrapper']['theme']) && is_array($preset['panel']['wrapper']['theme'])
+            ? $preset['panel']['wrapper']['theme']
+            : [];
+        $hex = static function ($value) {
+            return is_string($value) && preg_match('/^#[0-9a-f]{6}$/i', $value) ? strtolower($value) : '';
+        };
+
+        $primary = $hex($theme['primary'] ?? '');
+        if ('' === $primary) {
+            return;
+        }
+        $variables = [
+            '--wap-primary'        => $primary,
+            '--wap-primary-rgb'    => implode(', ', array_map('hexdec', str_split(substr($primary, 1), 2))),
+            '--wap-primary-hover'  => $hex($theme['hover'] ?? '') ?: $primary,
+            '--wap-primary-active' => $hex($theme['active'] ?? '') ?: $primary,
+            '--wap-on-primary'     => $hex($theme['onPrimary'] ?? '') ?: '#ffffff',
+        ];
+        $css = '';
+        foreach ($variables as $name => $value) {
+            $css .= $name . ':' . $value . ';';
+        }
+        // Every value is a validated #rrggbb or a list of numbers.
+        echo '<style id="websac-theme-colors">:root{' . esc_html($css) . '}</style>';
     }
 
     /**

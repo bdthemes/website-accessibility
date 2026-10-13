@@ -26,7 +26,7 @@ const PresetPanelRightSidebar = () => {
 							type="number"
 							min={200}
 							max={1000}
-							value={wrapper.width || 420}
+							value={wrapper.width || 450}
 							onChange={(e) => handleWrapperChange("width", e.target.value)}
 							addonAfter="px"
 						/>
@@ -36,7 +36,7 @@ const PresetPanelRightSidebar = () => {
 							type="number"
 							min={10}
 							max={100}
-							value={wrapper.maxHeight > 100 ? 80 : (wrapper.maxHeight ?? 80)}
+							value={wrapper.maxHeight > 100 ? 90 : (wrapper.maxHeight ?? 90)}
 							onChange={(e) => handleWrapperChange("maxHeight", e.target.value)}
 							addonAfter="vh"
 						/>

@@ -56,13 +56,13 @@ const View = () => {
     const drawerContentWrapperMaxHeightVh = useMemo(() => {
         const raw = currentPreset?.panel?.wrapper?.maxHeight;
         if (raw === undefined || raw === null || raw === '') {
-            return 80;
+            return 90;
         }
         const n = Number(raw);
         if (!Number.isFinite(n) || n <= 0) {
-            return 80;
+            return 90;
         }
-        if (n > 100) return 80;
+        if (n > 100) return 90;
         return n;
     }, [currentPreset?.panel?.wrapper?.maxHeight]);
 
@@ -72,8 +72,24 @@ const View = () => {
         return footerAttribiutes?.activePreference || false;
     }, [currentPreset]);
 
+    // Profiles this preset offers: the panel shows only these (see AccessibilityProfiles).
+    const offeredProfileIds = useMemo(() => {
+        const item = currentPreset?.panel?.items?.find((entry) => entry.slug === 'profiles');
+        if (!item?.active) return [];
+        return (item.attributes?.profiles || []).map((id) => String(id));
+    }, [currentPreset]);
+
+    // Whether the preset still offers a profile (by id).
+    const isOffered = (id) => offeredProfileIds.includes(String(id));
+
     function validProfile(currentProfile) {
         if (!currentProfile?.id) return null;
+
+        // A saved profile the preset no longer offers (switched off in the dashboard)
+        // is not restored, and neither are the tools it switched on (see
+        // applyPreferenceData): they left the panel with it, so there would be no way
+        // to tell why they were on.
+        if (!isOffered(currentProfile.id)) return null;
 
         const isExist = allProfiles.find((profile) => (profile.id === currentProfile?.id || profile.ID === currentProfile?.id));
 
@@ -88,11 +104,17 @@ const View = () => {
     function applyPreferenceData(preferenceData) {
         if (!preferenceData) return;
         const validCurrentProfile = validProfile(preferenceData.profile);
+        // Tools that came from a profile go with it, even after a tile was changed
+        // (which detaches the profile but keeps its tools).
+        const origin = preferenceData.profile?.id ?? preferenceData.profileOrigin ?? null;
+        const originGone = origin !== null && !isOffered(origin);
 
-        if (validCurrentProfile?.id !== preferenceData?.profile?.id) {
+        if (validCurrentProfile?.id !== preferenceData?.profile?.id || originGone) {
             dispatch({ type: 'SET_CURRENT_SETTINGS', payload: {} });
+            dispatch({ type: 'SET_PROFILE_ORIGIN', payload: null });
         } else {
             dispatch({ type: 'SET_CURRENT_SETTINGS', payload: preferenceData.settings || {} });
+            dispatch({ type: 'SET_PROFILE_ORIGIN', payload: origin });
         }
         dispatch({ type: 'SET_CURRENT_PROFILE', payload: validCurrentProfile });
         dispatch({ type: 'SET_OVERSIZED', payload: preferenceData.oversized || false });
@@ -102,7 +124,7 @@ const View = () => {
 
     const saveablePreference = useMemo(() => {
         if (!currentPresetId) return null;
-        const { currentProfile, currentSettings, isOverSized, selectedLanguage } = state;
+        const { currentProfile, profileOrigin, currentSettings, isOverSized, selectedLanguage } = state;
 
         // Only the identifier is persisted; the profile definition is resolved on load.
         const serializableProfile = {
@@ -121,13 +143,16 @@ const View = () => {
             if (Object.keys(settings).length > 0) data.settings = settings;
         }
 
+        // Tools changed after picking a profile still came from it (see applyPreferenceData).
+        if (data.settings && !data.profile && profileOrigin != null) data.profileOrigin = profileOrigin;
+
         if (isOverSized) data.oversized = isOverSized;
         if (selectedLanguage) {
             data.selectedLanguage = selectedLanguage;
         }
 
         return { post_id: currentPresetId, data };
-    }, [state?.currentProfile, state?.currentSettings, state?.isOverSized, state?.selectedLanguage, state?.siteLanguage]);
+    }, [state?.currentProfile, state?.profileOrigin, state?.currentSettings, state?.isOverSized, state?.selectedLanguage, state?.siteLanguage]);
 
     useEffect(() => {
         if (!currentPresetId) return;
@@ -422,7 +447,7 @@ const View = () => {
                 placement={currentPreset?.panel?.wrapper?.position || "right"}
                 className={`wap-preset__preview-drawer notranslate wap-preset__preview-drawer--${currentPreset?.panel?.wrapper?.position || 'right'}`}
                 rootClassName={`wap-preset__preview-drawer-root notranslate wap-preset__preview-drawer-root--${currentPreset?.panel?.wrapper?.position || 'right'}`}
-                width={Number(currentPreset?.panel?.wrapper?.width) || 400}
+                width={Number(currentPreset?.panel?.wrapper?.width) || 450}
                 styles={{
                     wrapper: { maxHeight: `${drawerContentWrapperMaxHeightVh}vh` },
                 }}

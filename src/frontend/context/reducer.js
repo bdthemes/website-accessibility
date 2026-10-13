@@ -3,6 +3,9 @@ import { getSiteLanguage } from "../../utils/helpers";
 
 export const initialState = {
     currentProfile: null,
+    // The profile the current tools came from. It outlives currentProfile: changing a
+    // tile detaches the profile (currentProfile → null) but the tools still came from it.
+    profileOrigin: null,
     currentSettings: {
         contrast: {
             currentStep: 0,
@@ -73,6 +76,12 @@ export const accessibilityReducer = (state, action) => {
             return {
                 ...state,
                 currentProfile: action.payload,
+                profileOrigin: action.payload?.id ?? state.profileOrigin,
+            };
+        case 'SET_PROFILE_ORIGIN':
+            return {
+                ...state,
+                profileOrigin: action.payload ?? null,
             };
         case 'SET_CURRENT_SETTINGS':
             return {
@@ -99,6 +108,7 @@ export const accessibilityReducer = (state, action) => {
             return {
                 ...state,
                 currentProfile: null,
+                profileOrigin: null,
                 currentSettings: initialState.currentSettings,
             };
         case 'SET_SELECTED_LANGUAGE':

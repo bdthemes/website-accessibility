@@ -20,18 +20,18 @@ const PresetEditorPreview = () => {
     const button = presetsFormData?.button;
     const panel = presetsFormData?.panel;
     const panelPosition = panel?.wrapper?.position || "right";
-    const panelWidth = Number(panel?.wrapper?.width) || 400;
+    const panelWidth = Number(panel?.wrapper?.width) || 450;
 
     const drawerContentWrapperMaxHeightVh = useMemo(() => {
         const raw = panel?.wrapper?.maxHeight;
         if (raw === undefined || raw === null || raw === "") {
-            return 80;
+            return 90;
         }
         const n = Number(raw);
         if (!Number.isFinite(n) || n <= 0) {
-            return 80;
+            return 90;
         }
-        if (n > 100) return 80;
+        if (n > 100) return 90;
         return n;
     }, [panel?.wrapper?.maxHeight]);
 

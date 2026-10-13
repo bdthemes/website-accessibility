@@ -22,8 +22,8 @@ export const DEFAULT_STATE = {
         },
         panel: {
             wrapper: {
-                width: '420',
-                maxHeight: '605',
+                width: '450',
+                maxHeight: '90',
             },
             items: panelItems,
         },
@@ -149,12 +149,18 @@ const store = createReduxStore(STORE_NAME, {
         saveEditedPreset: (id) => {
             return async ({ dispatch, registry }) => {
                 const { select, dispatch: coreDispatch } = registry;
-                const { getEditedEntityRecord, getEntityRecord } = select('core');
+                const { getEditedEntityRecord, getEntityRecord, hasEditsForEntityRecord } = select('core');
                 const { editEntityRecord, saveEditedEntityRecord } = coreDispatch('core');
 
                 // Step 1: Get the edited version of the preset (unsaved)
                 const currentPreset = getEditedEntityRecord('postType', 'websac_preset', id);
                 if (!currentPreset) return;
+
+                // Nothing changed: core-data saves nothing and resolves undefined, which
+                // read as a failed save ("Could not save the preset…"). Say so instead.
+                if (!hasEditsForEntityRecord('postType', 'websac_preset', id)) {
+                    return { success: true, unchanged: true };
+                }
 
                 let currentContent = {};
                 try {
