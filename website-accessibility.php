@@ -5,7 +5,7 @@
  * Description:       A comprehensive WordPress plugin to enhance website accessibility and ensure WCAG compliance.
  * Requires at least: 6.1
  * Requires PHP:      7.4
- * Version:           1.7.0
+ * Version:           1.7.1
  * Author:            bdthemes
  * Author URI:        https://oneaccessibility.com
  * License:           GPL-2.0-or-later
@@ -44,7 +44,7 @@ final class Websac_Plugin
 	 *
 	 * @var string
 	 */
-	const VERSION = '1.7.0';
+	const VERSION = '1.7.1';
 
 	/**
 	 * Private constructor for singleton pattern.

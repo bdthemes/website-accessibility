@@ -4,7 +4,7 @@ Tags:              accessibility, web-accessibility, accessibility-plugin, ada-c
 Requires at least: 6.1
 Tested up to:      7.1
 Requires PHP:      7.4
-Stable tag:        1.7.0
+Stable tag:        1.7.1
 License:           GPL-2.0-or-later
 License URI:       https://www.gnu.org/licenses/gpl-2.0.html
 
@@ -205,6 +205,9 @@ Pause Animations now also stops JavaScript animations, page-builder effects, sli
 Fixes Contrast + Dark and Light leaving whole sections blank, and the toolbar recolouring itself. Admin screens now share one loading skeleton. Recommended for all users.
 
 == Changelog ==
+
+= 1.7.1 – October 20, 2026 =
+* Added: BdThemes deals notice on the Dashboard, Plugins screen and plugin dashboard; “Don’t Show Again” hides it in every BdThemes plugin
 
 = 1.7.0 – October 13, 2026 =
 * Added: Color Theme in the preset editor — one click recolors the toolbar's button, header, logo, active tools, notices and footer buttons.
