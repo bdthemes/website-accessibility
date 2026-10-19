@@ -20,6 +20,11 @@ use Websac\Traits\Singleton;
 // Exit if accessed directly.
 if (! defined('ABSPATH')) exit;
 
+// BdThemes deals biggopti, shared by all BdThemes plugins (shown once).
+if ( is_admin() ) {
+	require_once __DIR__ . '/includes/bdthemes-deals-biggopti.php';
+}
+
 // Check if vendor directory and autoload.php exist
 $websac_autoload_file = __DIR__ . '/vendor/autoload.php';
 if (file_exists($websac_autoload_file)) {
