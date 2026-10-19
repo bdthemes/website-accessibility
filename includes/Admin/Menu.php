@@ -17,9 +17,21 @@ class Menu
 {
     use Singleton;
 
+    /**
+     * Slug of the "Up To 86% Off" submenu entry (free version only).
+     */
+    const DEALS_MENU_SLUG = 'website-accessibility_deals';
+
+    /**
+     * Deals page the "Up To 86% Off" menu entry opens.
+     */
+    const DEALS_URL = 'https://bdthemes.com/deals/?utm_source=OneAccessibility&utm_medium=plugin_menu&utm_campaign=OneAccessibility';
+
     private function __construct()
     {
         add_action('admin_menu', [$this, 'register_menu']);
+        add_action('admin_menu', [$this, 'register_deals_menu'], 99);
+        add_action('admin_init', [$this, 'redirect_to_deals']);
         add_action('admin_menu', [$this, 'add_toplevel_menu_li_class'], 999);
         add_action('admin_enqueue_scripts', [$this, 'enqueue_menu_icon_styles']);
     }
@@ -231,6 +243,70 @@ class Menu
          * Add-ons register their own screens here (they render into the same SPA root).
          */
         do_action('websac_pro_admin_menu');
+    }
+
+    /**
+     * "Up To 86% Off" submenu: last entry, only while the Pro add-on is not active.
+     */
+    public function register_deals_menu()
+    {
+        if (defined('WEBSAC_PRO_VERSION')) {
+            return;
+        }
+
+        add_submenu_page(
+            'website-accessibility',
+            esc_html__('Up To 86% Off', 'website-accessibility'),
+            esc_html__('Up To 86% Off', 'website-accessibility'),
+            'manage_options',
+            self::DEALS_MENU_SLUG,
+            [$this, 'render_menu_page']
+        );
+
+        add_action('admin_head', [$this, 'deals_menu_assets']);
+    }
+
+    /**
+     * Send the "Up To 86% Off" menu entry to the BdThemes deals page.
+     */
+    public function redirect_to_deals()
+    {
+        // phpcs:ignore WordPress.Security.NonceVerification.Recommended -- read-only check of the current admin page slug, no form data processed.
+        if (!isset($_GET['page']) || self::DEALS_MENU_SLUG !== $_GET['page'] || !current_user_can('manage_options')) {
+            return;
+        }
+
+        // phpcs:ignore WordPress.Security.SafeRedirect.wp_redirect_wp_redirect -- Intentional redirect to the external BdThemes deals page; wp_safe_redirect() would block this off-site host.
+        wp_redirect(self::DEALS_URL);
+        exit;
+    }
+
+    /**
+     * Highlight the deals entry and open it in a new tab.
+     */
+    public function deals_menu_assets()
+    {
+        ?>
+        <style>
+            #adminmenu #toplevel_page_website-accessibility a[href$="page=website-accessibility_deals"] {
+                color: #ffc107;
+                font-weight: 600;
+            }
+            #adminmenu #toplevel_page_website-accessibility a[href$="page=website-accessibility_deals"]:hover,
+            #adminmenu #toplevel_page_website-accessibility a[href$="page=website-accessibility_deals"]:focus {
+                color: #ffffff;
+            }
+        </style>
+        <script>
+            document.addEventListener('DOMContentLoaded', function () {
+                var link = document.querySelector('#toplevel_page_website-accessibility a[href$="page=website-accessibility_deals"]');
+                if (link) {
+                    link.setAttribute('target', '_blank');
+                    link.setAttribute('rel', 'noopener noreferrer');
+                }
+            });
+        </script>
+        <?php
     }
 
     public function render_menu_page()
