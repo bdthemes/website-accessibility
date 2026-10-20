@@ -5,7 +5,7 @@
  * Description:       A comprehensive WordPress plugin to enhance website accessibility and ensure WCAG compliance.
  * Requires at least: 6.1
  * Requires PHP:      7.4
- * Version:           1.7.0
+ * Version:           1.7.1
  * Author:            bdthemes
  * Author URI:        https://oneaccessibility.com
  * License:           GPL-2.0-or-later
@@ -19,6 +19,11 @@ use Websac\Traits\Singleton;
 
 // Exit if accessed directly.
 if (! defined('ABSPATH')) exit;
+
+// BdThemes deals biggopti, shared by all BdThemes plugins (shown once).
+if ( is_admin() ) {
+	require_once __DIR__ . '/includes/bdthemes-deals-biggopti.php';
+}
 
 // Check if vendor directory and autoload.php exist
 $websac_autoload_file = __DIR__ . '/vendor/autoload.php';
@@ -39,7 +44,7 @@ final class Websac_Plugin
 	 *
 	 * @var string
 	 */
-	const VERSION = '1.7.0';
+	const VERSION = '1.7.1';
 
 	/**
 	 * Private constructor for singleton pattern.
