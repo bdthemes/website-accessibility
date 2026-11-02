@@ -228,6 +228,11 @@
 		display: none;
 	}
 
+	/* Focus moves here when the panel opens (view.js); the ring belongs on controls. */
+	.ant-drawer-content[role="dialog"]:focus {
+		outline: none;
+	}
+
 	/* Flex column + min-height:0 so wrapper max-height constrains children; desktop scrolls .wap-panel-customization__main */
 	.ant-drawer-content {
 		flex: 1 1 auto;
@@ -396,3 +401,29 @@ body.wp-admin {
 	}
 }
 
+
+/* Read by screen readers, not shown (tile descriptions, the live region). */
+.wap-sr-only {
+	position: absolute !important;
+	width: 1px !important;
+	height: 1px !important;
+	padding: 0 !important;
+	margin: -1px !important;
+	overflow: hidden !important;
+	clip: rect(0, 0, 0, 0) !important;
+	white-space: nowrap !important;
+	border: 0 !important;
+}
+
+/* Keyboard focus stays visible even on themes that remove outlines. */
+.wap-widget-features__feature-btn:focus-visible,
+.wap-accessibility-profiles__item:focus-visible {
+	outline: 2px solid var(--wap-primary, #1677ff) !important;
+	outline-offset: 2px !important;
+}
+
+.wap-panel-customization__header-close:focus-visible {
+	outline: 2px solid var(--wap-header-color, var(--wap-on-primary, #fff)) !important;
+	outline-offset: 2px !important;
+	border-radius: 4px;
+}

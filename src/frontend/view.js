@@ -269,6 +269,40 @@ const View = () => {
     }, [isOpen, closeAccessibilityDrawer, openAccessibilityDrawer]);
 
     /**
+     * Opening the panel moves focus into it, so keyboard and screen-reader users
+     * land in the dialog (it is aria-modal) instead of behind it. antd's own
+     * autoFocus stays off: it scrolled some pages; this one does not scroll.
+     * Closing returns focus to the launcher (antd does that).
+     */
+    const wasOpenRef = useRef(false);
+    useEffect(() => {
+        if (!isOpen) {
+            // antd hands focus back to whatever had it before opening. For visitors
+            // that was the PHP placeholder launcher, gone once the toolbar mounted,
+            // so focus fell to <body>: send it to the real launcher instead.
+            if (!wasOpenRef.current) return undefined;
+            wasOpenRef.current = false;
+            const timer = setTimeout(() => {
+                const active = document.activeElement;
+                if (!active || active === document.body || !active.isConnected) {
+                    document.querySelector('#website-accessibility-app .wap-preview-button')?.focus({ preventScroll: true });
+                }
+            }, 350);
+            return () => clearTimeout(timer);
+        }
+        wasOpenRef.current = true;
+        let frame = requestAnimationFrame(() => {
+            frame = requestAnimationFrame(() => {
+                const dialog = document.querySelector('.wap-preset__preview-drawer-root .ant-drawer-content[role="dialog"]');
+                if (!dialog || dialog.contains(document.activeElement)) return;
+                if (!dialog.hasAttribute('tabindex')) dialog.setAttribute('tabindex', '-1');
+                dialog.focus({ preventScroll: true });
+            });
+        });
+        return () => cancelAnimationFrame(frame);
+    }, [isOpen]);
+
+    /**
      * Announce drawer open/close to add-ons (e.g. a text-to-speech feature).
      */
     useEffect(() => {
@@ -440,6 +474,8 @@ const View = () => {
                 onClick={() => openAccessibilityDrawer()}
                 onFocus={(e) => e.preventDefault()}
                 aria-label={__('Accessibility Menu', 'website-accessibility')}
+                aria-haspopup="dialog"
+                aria-expanded={isOpen}
             />
             <WapDrawer
                 open={isOpen}
@@ -455,6 +491,7 @@ const View = () => {
                 keyboard
                 maskClosable={false}
                 autoFocus={false}
+                aria-label={__('Accessibility Menu', 'website-accessibility')}
             >
                 <PreviewContent
                     panel={currentPreset?.panel}

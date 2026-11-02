@@ -26,8 +26,19 @@ const ProfileItem = ({ profile, isActive, handleClick, hideItemIcons, hideItemLa
 				"wap-accessibility-profiles__item--active": isActive,
 			})}
 			onClick={() => handleClick(profile)}
+			onKeyDown={(e) => {
+				if (e.key === "Enter" || e.key === " ") {
+					e.preventDefault();
+					handleClick(profile);
+				}
+			}}
 			onMouseEnter={measureLabelOverflow}
 			onMouseLeave={clearLabelOverflow}
+			// A div styled as a button: it needs the role, a tab stop, keys and its state.
+			role="button"
+			tabIndex={0}
+			aria-pressed={!!isActive}
+			aria-label={profile.name}
 			style={{ cursor: "pointer", position: "relative" }}
 		>
 			{!hideItemIcons && profile.icon && (
@@ -234,7 +245,11 @@ const AccessibilityProfiles = ({
 			});
 
 			if (currentProfile?.id !== profile.id) {
-				announce(`Switched to ${profile.name} accessibility profile.`, { profile, settings: currentSettings });
+				announce(
+					/* translators: %s: accessibility profile name, e.g. "Dyslexia". */
+					sprintf(__("Switched to %s accessibility profile.", "website-accessibility"), profile.name),
+					{ profile, settings: currentSettings },
+				);
 				accessibilityDispatch({
 					type: "SET_CURRENT_SETTINGS",
 					payload: updatedSettings,
@@ -243,7 +258,7 @@ const AccessibilityProfiles = ({
 				// resulting state so those uses reach the dashboard too.
 				onFeatureInteraction(updatedSettings);
 			} else {
-				announce(`Accessibility profile reset.`, { profile: null, settings: currentSettings });
+				announce(__("Accessibility profile reset.", "website-accessibility"), { profile: null, settings: currentSettings });
 				accessibilityDispatch({
 					type: "RESET_PROFILE_SETTINGS",
 				});

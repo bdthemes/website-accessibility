@@ -149,6 +149,18 @@ const PanelHeader = ({
                 <span className="wap-panel-customization__header-close-separator"></span>
                 <span
                     className="wap-panel-customization__header-close"
+                    // A span for its pointer-capture behaviour; keyboard and screen
+                    // readers need it to be a named button too.
+                    role="button"
+                    tabIndex={0}
+                    aria-label={__('Close accessibility menu', 'website-accessibility')}
+                    onKeyDown={(e) => {
+                        if (e.key === 'Enter' || e.key === ' ') {
+                            e.preventDefault();
+                            e.stopPropagation();
+                            setIsOpen(false);
+                        }
+                    }}
                     onPointerDown={(e) => {
                         if (e.pointerType === 'mouse' && e.button !== 0) {
                             return;
@@ -186,6 +198,8 @@ const PanelHeader = ({
                         viewBox="0 0 24 24"
                         fill="none"
                         xmlns="http://www.w3.org/2000/svg"
+                        aria-hidden="true"
+                        focusable="false"
                     >
                         <path
                             fillRule="evenodd"

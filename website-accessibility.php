@@ -3,7 +3,7 @@
 /**
  * Plugin Name:       One Accessibility
  * Description:       A comprehensive WordPress plugin to enhance website accessibility and ensure WCAG compliance.
- * Requires at least: 6.1
+ * Requires at least: 6.6
  * Requires PHP:      7.4
  * Version:           1.7.2
  * Author:            bdthemes
