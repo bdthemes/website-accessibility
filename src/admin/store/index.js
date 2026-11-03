@@ -66,51 +66,12 @@ const store = createReduxStore(STORE_NAME, {
         },
         createPreset: (presetFormData) => {
             return async ({ dispatch, registry }) => {
-                const { editEntityRecord, saveEditedEntityRecord, saveEntityRecord } = registry.dispatch('core');
+                const { saveEntityRecord, invalidateResolutionForStoreSelector } = registry.dispatch('core');
 
-                // Wait until presets are resolved — synchronous getEntityRecords can be undefined on first load,
-                // which made sameTypePresets undefined and crashed `for...of` on the first Save click.
-                const prevPresets =
-                    (await registry.resolveSelect(coreStore).getEntityRecords('postType', 'websac_preset', {
-                        per_page: -1,
-                    })) ?? [];
-
-                // Step 2: If new preset is active, deactivate others of same type
-                if (presetFormData?.preset?.active) {
-                    const sameTypePresets = prevPresets.filter((preset) => {
-                        let presetData = {};
-                        try {
-                            presetData = JSON.parse(preset?.content?.raw);
-                        } catch (error) {
-                            console.error(error);
-                        }
-
-                        const isSameType = presetData?.preset?.condition === presetFormData?.preset?.condition;
-                        const isActive = presetData?.preset?.active;
-
-                        return isSameType && isActive;
-                    });
-
-                    for (const oldPreset of sameTypePresets) {
-                        let oldContent = {};
-                        try {
-                            oldContent = JSON.parse(oldPreset.content.raw);
-                        } catch (error) {
-                            console.error(error);
-                        }
-
-                        // Deactivate it
-                        oldContent.preset.active = false;
-
-                        editEntityRecord('postType', 'websac_preset', oldPreset.id, {
-                            content: JSON.stringify(oldContent),
-                        });
-
-                        await saveEditedEntityRecord('postType', 'websac_preset', oldPreset.id);
-                    }
-                }
-
-                // Step 3: Save new preset
+                // Other active presets covering the same pages are switched off on the
+                // server while this one saves (Core\AccessibilityPreset::save_preset).
+                // Doing it here first left the site with no active preset whenever
+                // the save then failed, and it ignored the selected pages/archives.
                 const newPreset = await saveEntityRecord('postType', 'websac_preset', {
                     title: presetFormData.title,
                     status: 'publish',
@@ -130,6 +91,8 @@ const store = createReduxStore(STORE_NAME, {
                     return { success: false, error };
                 }
 
+                // Reload the list: the server may have switched other presets off.
+                invalidateResolutionForStoreSelector('getEntityRecords');
                 await dispatch({ type: 'CREATE_PRESET', preset: newPreset });
 
                 return { success: true };
@@ -149,10 +112,9 @@ const store = createReduxStore(STORE_NAME, {
         saveEditedPreset: (id) => {
             return async ({ dispatch, registry }) => {
                 const { select, dispatch: coreDispatch } = registry;
-                const { getEditedEntityRecord, getEntityRecord, hasEditsForEntityRecord } = select('core');
-                const { editEntityRecord, saveEditedEntityRecord } = coreDispatch('core');
+                const { getEditedEntityRecord, hasEditsForEntityRecord } = select('core');
+                const { saveEditedEntityRecord, invalidateResolutionForStoreSelector } = coreDispatch('core');
 
-                // Step 1: Get the edited version of the preset (unsaved)
                 const currentPreset = getEditedEntityRecord('postType', 'websac_preset', id);
                 if (!currentPreset) return;
 
@@ -162,80 +124,8 @@ const store = createReduxStore(STORE_NAME, {
                     return { success: true, unchanged: true };
                 }
 
-                let currentContent = {};
-                try {
-                    currentContent = JSON.parse(currentPreset.content?.raw || currentPreset.content);
-                } catch (error) {
-                    console.error('Failed to parse current preset content', error);
-                }
-
-                const isActive = currentContent?.preset?.active;
-                const currentCondition = currentContent?.preset?.condition;
-
-                // Step 1.5: Get the original (saved) version of the preset
-                const originalPreset = getEntityRecord('postType', 'websac_preset', id);
-                let originalContent = {};
-                try {
-                    originalContent = JSON.parse(originalPreset?.content?.raw || originalPreset?.content);
-                } catch (error) {
-                    // It's ok if not found (new preset), just fallback to empty
-                }
-                const wasActive = originalContent?.preset?.active;
-                const wasCondition = originalContent?.preset?.condition;
-
-                // Only deactivate others if:
-                // - The preset is now active, and
-                // - It was previously inactive, or the condition changed
-                const shouldDeactivateOthers = (
-                    isActive &&
-                    (
-                        wasActive !== true ||
-                        wasCondition !== currentCondition
-                    )
-                );
-
-                if (shouldDeactivateOthers && currentCondition) {
-                    const allPresets =
-                        (await registry.resolveSelect(coreStore).getEntityRecords('postType', 'websac_preset', {
-                            per_page: -1,
-                        })) ?? [];
-
-                    const sameTypePresets = allPresets.filter((preset) => {
-                        if (preset.id === id) return false; // Skip current
-
-                        let content = {};
-                        try {
-                            content = JSON.parse(preset.content?.raw || preset.content);
-                        } catch (error) {
-                            console.error('Failed to parse other preset content', error);
-                        }
-
-                        const sameType = content?.preset?.condition === currentCondition;
-                        const isActive = content?.preset?.active === true;
-
-                        return sameType && isActive;
-                    });
-
-                    for (const preset of sameTypePresets) {
-                        let content = {};
-                        try {
-                            content = JSON.parse(preset.content?.raw || preset.content);
-                        } catch (error) {
-                            console.error('Failed to parse same-type preset', error);
-                        }
-
-                        // Deactivate it
-                        content.preset.active = false;
-
-                        editEntityRecord('postType', 'websac_preset', preset.id, {
-                            content: JSON.stringify(content),
-                        });
-
-                        await saveEditedEntityRecord('postType', 'websac_preset', preset.id);
-                    }
-                }
-
-                // Step 3: Save the current edited preset
+                // Other active presets covering the same pages are switched off on the
+                // server while this one saves (Core\AccessibilityPreset::save_preset).
                 const savedPreset = await saveEditedEntityRecord('postType', 'websac_preset', id);
 
                 // core-data resolves to undefined on failure rather than throwing,
@@ -249,7 +139,8 @@ const store = createReduxStore(STORE_NAME, {
                     return { success: false, error };
                 }
 
-                // Step 4: Dispatch custom action if needed
+                // Reload the list: the server may have switched other presets off.
+                invalidateResolutionForStoreSelector('getEntityRecords');
                 await dispatch({ type: 'SAVE_EDITED_PRESET', preset: savedPreset });
 
                 return { success: true };

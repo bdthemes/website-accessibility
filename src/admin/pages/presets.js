@@ -1,4 +1,4 @@
-import { __ } from '@wordpress/i18n';
+import { __, sprintf } from '@wordpress/i18n';
 import PostTable from '../components/post-table';
 import { useHistory } from '../router';
 import { useDashboardTour } from '../context/dashboard-tour-context';
@@ -45,8 +45,38 @@ const Presets = () => {
     });
   };
 
+  const parseContent = (preset) => {
+    try {
+      return JSON.parse(preset?.content?.raw) || {};
+    } catch (e) {
+      return {};
+    }
+  };
+
+  // Deleting removes the preset for good (no trash): ask first, and say so when
+  // it is an active "Entire Site" preset, since the toolbar then leaves the site.
+  const confirmDelete = (ids) => {
+    const chosen = (presets || []).filter((preset) => ids.includes(preset.id));
+    const removesSiteToolbar = chosen.some((preset) => {
+      const data = parseContent(preset)?.preset;
+      return data?.active && (data?.condition || 'entire_site') === 'entire_site';
+    });
+    const message = ids.length > 1
+      ? sprintf(
+        /* translators: %d: number of presets. */
+        __('Delete %d presets permanently? This cannot be undone.', 'website-accessibility'),
+        ids.length
+      )
+      : __('Delete this preset permanently? This cannot be undone.', 'website-accessibility');
+    const warning = removesSiteToolbar
+      ? '\n\n' + __('It is the active "Entire Site" preset: the accessibility toolbar will disappear from your site until another preset is active.', 'website-accessibility')
+      : '';
+    // eslint-disable-next-line no-alert
+    return window.confirm(message + warning);
+  };
+
   const data = presets?.map((preset) => {
-    const content = JSON.parse(preset?.content?.raw);
+    const content = parseContent(preset);
     const presetData = content?.preset;
 
     let conditionText = '';
@@ -131,16 +161,22 @@ const Presets = () => {
               },
               {
                 key: 'trash',
-                label: 'Trash',
-                onClick: (record) => deletePreset(record.id),
+                label: __('Delete', 'website-accessibility'),
+                onClick: (record) => {
+                  if (confirmDelete([record.id])) {
+                    deletePreset(record.id);
+                  }
+                },
               },
             ]}
             onBulkAction={(action, selectedRowKeys) => {
               switch (action) {
                 case 'trash':
-                  selectedRowKeys.forEach((id) => {
-                    deletePreset(id);
-                  });
+                  if (selectedRowKeys.length && confirmDelete(selectedRowKeys)) {
+                    selectedRowKeys.forEach((id) => {
+                      deletePreset(id);
+                    });
+                  }
                   break;
               }
             }}

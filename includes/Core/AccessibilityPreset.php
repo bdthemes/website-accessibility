@@ -59,6 +59,40 @@ class AccessibilityPreset
         ]);
     }
 
+    /**
+     * Whether two presets compete for the same pages, so only one may stay active.
+     * Same condition is not enough: "Singular: page A" and "Singular: page B" (or two
+     * archive presets on different archives) can both be live. An empty target list
+     * means every page of that kind, so it overlaps any other of the same condition.
+     *
+     * @param array $a Preset settings (`preset` key of the stored JSON).
+     * @param array $b Preset settings.
+     * @return bool
+     */
+    private static function presets_overlap(array $a, array $b)
+    {
+        $condition = $a['condition'] ?? null;
+        if ($condition === null || $condition !== ($b['condition'] ?? null)) {
+            return false;
+        }
+
+        $key = $condition === 'singular' ? 'specificPosts' : ($condition === 'archive' ? 'specificArchive' : null);
+        if ($key === null) {
+            return true; // entire_site
+        }
+
+        $normalize = static function ($list) {
+            return array_map('strval', array_filter((array) $list, 'is_scalar'));
+        };
+        $targets_a = $normalize($a[$key] ?? []);
+        $targets_b = $normalize($b[$key] ?? []);
+        if (! $targets_a || ! $targets_b) {
+            return true;
+        }
+
+        return (bool) array_intersect($targets_a, $targets_b);
+    }
+
     public function save_preset($data, $postarr)
     {
         if ($data['post_type'] !== 'websac_preset') {
@@ -92,8 +126,8 @@ class AccessibilityPreset
 
                 if (
                     is_array($item_content)
-                    && ($item_content['preset']['condition'] ?? null) === $currentCondition
                     && ($item_content['preset']['active'] ?? false) === true
+                    && self::presets_overlap($content['preset'], $item_content['preset'] ?? [])
                 ) {
                     $item_content['preset']['active'] = false;
 

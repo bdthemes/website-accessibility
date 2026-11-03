@@ -568,7 +568,7 @@ class Frontend {
             return;
         }
         printf(
-            '<div class="wap-accessibility-view notranslate" translate="no"><button type="button" class="%1$s" style="%2$s" aria-label="%3$s" translate="no">%4$s%5$s</button></div>',
+            '<div class="wap-accessibility-view notranslate" translate="no"><button type="button" class="%1$s" style="%2$s" aria-label="%3$s" aria-haspopup="dialog" aria-expanded="false" translate="no">%4$s%5$s</button></div>',
             esc_attr($parts['classes']),
             esc_attr($parts['style']),
             esc_attr__('Accessibility Menu', 'website-accessibility'),

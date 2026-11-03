@@ -44,6 +44,7 @@ function WidgetFeatureItem({
 			: (isActive && feature?.activeLabel) || (feature?.label ?? "");
 	const displayIcon = (isActive && feature?.activeIcon) || feature.icon;
 	const displayDescription = unavailable || (isActive && feature?.activeDescription) || feature?.description;
+	const tileDescription = (isActive && feature?.activeDescription) || currentAttribute?.description || feature?.description;
 
 	useLayoutEffect(() => {
 		setLabelShift("0px");
@@ -91,6 +92,8 @@ function WidgetFeatureItem({
 					}}
 				>
 					<InfoCircleOutlined
+						// The tile reads its description itself (aria-describedby).
+						aria-hidden="true"
 						className={clsx(
 							"wap-widget-features__feature-tooltip",
 							`wap-widget-features__feature-tooltip--${tooltipPosition}`
@@ -131,18 +134,29 @@ function WidgetFeatureItem({
 					onMouseEnter={measureLabelOverflow}
 					onMouseLeave={clearLabelOverflow}
 					style={{ cursor: unavailable ? "not-allowed" : "pointer" }}
+					// Name: the tool and, while on, its step ("Bigger Text, Medium"); the
+					// description is read after it; the on/off state is aria-pressed.
 					aria-label={unavailable
 						? `${feature?.label || ""}: ${unavailable}`
-						: (isActive && feature?.activeDescription) || currentAttribute?.description || feature?.description}
+						: [feature?.label, isActive && totalSteps > 1 ? currentAttribute?.name : ""].filter(Boolean).join(", ")}
+					aria-describedby={!unavailable && tileDescription ? `wap-feature-desc-${key}` : undefined}
+					aria-pressed={unavailable ? undefined : isActive}
 					aria-disabled={unavailable ? "true" : undefined}
 					role="button"
 					tabIndex={0}
 					onKeyDown={(e) => {
 						if (e.key === "Enter" || e.key === " ") {
+							// Space would also scroll the panel.
+							e.preventDefault();
 							handleFeatureClick(feature);
 						}
 					}}
 				>
+					{!unavailable && tileDescription && (
+						<span id={`wap-feature-desc-${key}`} className="wap-sr-only">
+							{tileDescription}
+						</span>
+					)}
 					{!attributes?.hideItemIcons && (
 						<span className="wap-widget-features__feature-icon">{displayIcon}</span>
 					)}
