@@ -206,7 +206,7 @@ Fixes Contrast + Dark and Light leaving whole sections blank, and the toolbar re
 
 == Changelog ==
 
-= 1.7.2 – November 2, 2026 =
+= 1.7.2 – November 3, 2026 =
 * Updated: System improved
 * Improved: Toolbar works fully with keyboard and screen readers.
 * Fixed: Deleting a preset now asks for confirmation.
