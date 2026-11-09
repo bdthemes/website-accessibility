@@ -5,6 +5,7 @@ import { STORE_NAME } from "../store";
 import PreviewContent from "../../components/preview-content";
 import { initialState } from "../../frontend/context/reducer";
 import { toCssLength } from "../../utils/helpers";
+import { clampPanelWidth, clampPanelMaxHeight, buttonOffsetCss } from "../../utils/preset-dimensions";
 
 const PresetEditorPreview = () => {
     const { PreviewButton, Icon, WapDrawer } = window?.wapComponents || {};
@@ -20,20 +21,12 @@ const PresetEditorPreview = () => {
     const button = presetsFormData?.button;
     const panel = presetsFormData?.panel;
     const panelPosition = panel?.wrapper?.position || "right";
-    const panelWidth = Number(panel?.wrapper?.width) || 450;
+    const panelWidth = clampPanelWidth(panel?.wrapper?.width);
 
-    const drawerContentWrapperMaxHeightVh = useMemo(() => {
-        const raw = panel?.wrapper?.maxHeight;
-        if (raw === undefined || raw === null || raw === "") {
-            return 90;
-        }
-        const n = Number(raw);
-        if (!Number.isFinite(n) || n <= 0) {
-            return 90;
-        }
-        if (n > 100) return 90;
-        return n;
-    }, [panel?.wrapper?.maxHeight]);
+    const drawerContentWrapperMaxHeightVh = useMemo(
+        () => clampPanelMaxHeight(panel?.wrapper?.maxHeight),
+        [panel?.wrapper?.maxHeight]
+    );
 
     useEffect(() => {
         const editor = document.querySelector(".wap-preset-editor");
@@ -117,8 +110,8 @@ const PresetEditorPreview = () => {
                     "--button-bg": button?.bgColor,
                     "--button-padding": button?.padding,
                     "--button-radius": toCssLength(button?.borderRadius),
-                    "--button-offset-x": button?.offsetX ? `${button?.offsetX}px` : "",
-                    "--button-offset-y": button?.offsetY ? `${button?.offsetY}px` : "",
+                    "--button-offset-x": buttonOffsetCss(button?.offsetX),
+                    "--button-offset-y": buttonOffsetCss(button?.offsetY),
                 }}
                 onClick={() => setIsOpen(!isOpen)}
                 aria-expanded={isOpen}

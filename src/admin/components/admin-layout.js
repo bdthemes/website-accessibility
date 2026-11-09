@@ -8,6 +8,7 @@ import { getBrandDisplayName, useWhiteLabelBrandingEnabled } from '../../utils/b
 import { getAdminExtensions } from '../../utils/admin-extensions';
 import { Layout, Menu, Drawer, Button } from 'antd';
 import { useLocation, useHistory } from '../router';
+import { confirmDiscardUnsavedChanges } from '../utils/unsaved-changes';
 import {
 	IconGeneral,
 	IconPresets,
@@ -147,6 +148,10 @@ const AdminLayout = ({ children }) => {
 		// Add-on tours may intercept sidebar navigation.
 		if (extensions.sidebarMenuInterceptors.some((intercept) => intercept(key))) {
 			setDrawerOpen(false);
+			return;
+		}
+		// Unsaved preset edits: ask first (user clicks only; tours navigate directly).
+		if (!confirmDiscardUnsavedChanges()) {
 			return;
 		}
 		history.push({ page: key });

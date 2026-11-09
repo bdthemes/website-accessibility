@@ -94,19 +94,33 @@ class Frontend {
         return null;
     }
 
+    /**
+     * Active presets for this request, built once: decoding every preset is the
+     * costly part and several hooks ask for it per page load.
+     *
+     * @var array|null
+     */
+    private $preset_data_cache = null;
+
     public function get_preset_data() {
+        if (null !== $this->preset_data_cache) {
+            return $this->preset_data_cache;
+        }
+
         $presets = get_posts([
             'post_type' => 'websac_preset',
             'posts_per_page' => -1,
         ]);
 
-        return array_map(function ($preset) {
+        $this->preset_data_cache = array_map(function ($preset) {
             $data = Utils::get_preset_data($preset);
             if (!empty($data['preset']['active'])) {
                 return $data;
             }
             return null;
         }, $presets);
+
+        return $this->preset_data_cache;
     }
 
     public function should_render_preset_assets() {
@@ -152,6 +166,10 @@ class Frontend {
                 [],
                 $components_assets['version']
             );
+            // RTL sites get the mirrored build (wp-scripts writes index-rtl.css next to it).
+            if (file_exists(WEBSAC_BUILD_DIR . $bundle . '/index-rtl.css')) {
+                wp_style_add_data('websac-components', 'rtl', 'replace');
+            }
         }
     }
 
@@ -198,11 +216,16 @@ class Frontend {
                 [],
                 $frontend_assets['version']
             );
+            if (file_exists(WEBSAC_BUILD_DIR . 'frontend/frontend-rtl.css')) {
+                wp_style_add_data('websac-frontend', 'rtl', 'replace');
+            }
             $current_preset = Utils::get_current_preset($presets_data, $page_type);
             $this->current_preset_id = !empty($current_preset['ID']) ? (int) $current_preset['ID'] : 0;
             $this->current_preset = is_array($current_preset) ? $current_preset : [];
             $localized = [
-                'presets'            => $presets_data,
+                // Neither this toolbar nor the add-on reads the full list (only
+                // currentPreset); the key stays, empty, for any third-party script.
+                'presets'            => [],
                 'profiles'           => $profiles,
                 'pageType'           => $page_type,
                 'currentPreset'      => $current_preset,
@@ -529,6 +552,15 @@ class Frontend {
             $raw = trim((string) $value);
             return preg_match('/^-?\d*\.?\d+$/', $raw) ? $raw . 'px' : $raw;
         };
+        // Same rule as the toolbar (src/utils/preset-dimensions.js): a set
+        // offset, 0 included, is clamped to 0–200px; blank keeps the CSS default.
+        // Dropping "0" here made the button jump when the toolbar took over.
+        $offset = static function ($value) {
+            if (! is_numeric($value)) {
+                return '';
+            }
+            return (int) round(min(200, max(0, (float) $value))) . 'px';
+        };
         $variables = [
             '--button-font-size' => isset($button['fontSize']) ? (string) $button['fontSize'] : '',
             '--button-icon-size' => isset($button['iconSize']) ? (string) $button['iconSize'] : '',
@@ -536,8 +568,8 @@ class Frontend {
             '--button-bg'        => isset($button['bgColor']) ? (string) $button['bgColor'] : '',
             '--button-padding'   => isset($button['padding']) ? (string) $button['padding'] : '',
             '--button-radius'    => isset($button['borderRadius']) ? $length($button['borderRadius']) : '',
-            '--button-offset-x'  => ! empty($button['offsetX']) ? (float) $button['offsetX'] . 'px' : '',
-            '--button-offset-y'  => ! empty($button['offsetY']) ? (float) $button['offsetY'] . 'px' : '',
+            '--button-offset-x'  => isset($button['offsetX']) ? $offset($button['offsetX']) : '',
+            '--button-offset-y'  => isset($button['offsetY']) ? $offset($button['offsetY']) : '',
         ];
         $style = '';
         foreach ($variables as $name => $value) {

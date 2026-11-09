@@ -1,6 +1,7 @@
 import { useRef, cloneElement, useState, useEffect, useLayoutEffect } from "@wordpress/element";
 import clsx from "clsx";
 import { themeVariables } from "../utils/theme-variables";
+import { clampPanelWidth } from "../utils/preset-dimensions";
 
 
 const PreviewContent = ({
@@ -141,7 +142,7 @@ const PreviewContent = ({
             }
             translate="no"
             style={{
-                '--panel-width': panel?.wrapper?.width && `${panel.wrapper.width}px`,
+                '--panel-width': panel?.wrapper?.width ? `${clampPanelWidth(panel.wrapper.width)}px` : undefined,
                 '--panel-background': panel?.wrapper?.background,
                 '--panel-border': panel?.wrapper?.border,
                 '--panel-padding': panel?.wrapper?.padding,

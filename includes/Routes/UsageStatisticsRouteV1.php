@@ -317,6 +317,7 @@ class UsageStatisticsRouteV1
         if (! isset($stats[$browser_key]) && $browser_count >= $max_keys) {
             return rest_ensure_response([
                 'success' => false,
+                'code'    => 'capacity_reached', // machine-readable: the toolbar retries only "throttled"
                 'message' => __('Statistics capacity reached.', 'website-accessibility'),
             ]);
         }
@@ -327,6 +328,7 @@ class UsageStatisticsRouteV1
         if (get_transient($throttle_key)) {
             return rest_ensure_response([
                 'success' => false,
+                'code'    => 'throttled', // machine-readable: the toolbar retries only "throttled"
                 'message' => __('Too many requests, please retry shortly.', 'website-accessibility'),
             ]);
         }

@@ -191,11 +191,24 @@ const features = [
             {
                 name: __("Enable", "website-accessibility"),
                 value: "enable",
+                // Stylesheet rules (like every text feature below): inline styles only
+                // reached links that existed and were visible at switch-on, missing
+                // collapsed menus, dropdowns and anything loaded later. `html body`
+                // outranks Contrast's `body a` rule, so the highlight still shows on a
+                // dark/light page; link children get the dark text too.
                 css: [
                     {
-                        selector: "a",
+                        rule: true,
+                        selector: "html body a",
                         properties: {
                             backgroundColor: "#ffff00",
+                            color: "#000",
+                        },
+                    },
+                    {
+                        rule: true,
+                        selector: "html body a *",
+                        properties: {
                             color: "#000",
                         },
                     },
@@ -297,6 +310,7 @@ const features = [
                 value: "medium",
                 css: [
                     {
+                        rule: true,
                         selector: "body, p, div, span, li, td, th, h1, h2, h3, h4, h5, h6",
                         properties: {
                             letterSpacing: "0.5px",
@@ -314,6 +328,7 @@ const features = [
                 value: "large",
                 css: [
                     {
+                        rule: true,
                         selector: "body, p, div, span, li, td, th, h1, h2, h3, h4, h5, h6",
                         properties: {
                             letterSpacing: "1px",
@@ -331,6 +346,7 @@ const features = [
                 value: "extra-large",
                 css: [
                     {
+                        rule: true,
                         selector: "body, p, div, span, li, td, th, h1, h2, h3, h4, h5, h6",
                         properties: {
                             letterSpacing: "2px",
@@ -488,6 +504,7 @@ const features = [
                 value: "big-cursor",
                 css: [
                     {
+                        rule: true,
                         selector: "body, a, button, input, select, textarea, div",
                         properties: {
                             cursor:
@@ -571,6 +588,7 @@ const features = [
                 value: "medium",
                 css: [
                     {
+                        rule: true,
                         selector: "p, div, li, td, th",
                         properties: {
                             lineHeight: "1.6",
@@ -587,6 +605,7 @@ const features = [
                 value: "large",
                 css: [
                     {
+                        rule: true,
                         selector: "p, div, li, td, th",
                         properties: {
                             lineHeight: "1.8",
@@ -603,6 +622,7 @@ const features = [
                 value: "extra-large",
                 css: [
                     {
+                        rule: true,
                         selector: "p, div, li, td, th",
                         properties: {
                             lineHeight: "2.2",
@@ -639,6 +659,7 @@ const features = [
                 value: "left",
                 css: [
                     {
+                        rule: true,
                         selector: "body, p, div, h1, h2, h3, h4, h5, h6",
                         properties: {
                             textAlign: "left",
@@ -655,6 +676,7 @@ const features = [
                 value: "center",
                 css: [
                     {
+                        rule: true,
                         selector: "body, p, div, h1, h2, h3, h4, h5, h6",
                         properties: {
                             textAlign: "center",
@@ -671,6 +693,7 @@ const features = [
                 value: "right",
                 css: [
                     {
+                        rule: true,
                         selector: "body, p, div, h1, h2, h3, h4, h5, h6",
                         properties: {
                             textAlign: "right",
@@ -687,6 +710,7 @@ const features = [
                 value: "justify",
                 css: [
                     {
+                        rule: true,
                         selector: "body, p, div, h1, h2, h3, h4, h5, h6",
                         properties: {
                             textAlign: "justify",

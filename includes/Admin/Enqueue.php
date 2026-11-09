@@ -144,5 +144,9 @@ class Enqueue {
             ['wp-components'],
             $version
         );
+        // RTL sites get the mirrored build (wp-scripts writes index-rtl.css next to it).
+        if (file_exists(WEBSAC_BUILD_DIR . 'admin/index-rtl.css')) {
+            wp_style_add_data('websac-admin', 'rtl', 'replace');
+        }
     }
 }

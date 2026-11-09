@@ -4,7 +4,7 @@ Tags:              accessibility, web-accessibility, accessibility-plugin, ada-c
 Requires at least: 6.6
 Tested up to:      7.1
 Requires PHP:      7.4
-Stable tag:        1.7.2
+Stable tag:        1.7.3
 License:           GPL-2.0-or-later
 License URI:       https://www.gnu.org/licenses/gpl-2.0.html
 
@@ -33,15 +33,15 @@ https://youtu.be/4w8lmkMgt9M?si=Z7gvhREYTVML7f1V
 ### 🛠️ Powerful Website Accessibility Features That Make a Difference
 
 **🎛️ Advanced Accessibility Widget & Toolbar**
-- Screen reader navigation and optimization (supports WCAG 4.1.2 Name, Role, Value)
+- Highlight Links, tooltips and text alignment controls to make links and content easier to find and read
 - High contrast modes, monochrome and color adjustments (supports WCAG 1.4.3 Contrast Minimum and 1.4.6 Contrast Enhanced)
 - Font size scaling, line spacing and text readability enhancements (supports WCAG 1.4.4 Resize Text and 1.4.12 Text Spacing)
 - Animation and motion pause or reduction controls (supports WCAG 2.2.2 Pause, Stop, Hide)
-- Keyboard navigation improvements, focus indicators and skip links (supports WCAG 2.1.1 Keyboard and 2.4.7 Focus Visible)
+- Keyboard-operable toolbar with visible focus rings, opened with CTRL+U or the Tab key (supports WCAG 2.1.1 Keyboard and 2.4.7 Focus Visible)
 
 **🌍 Language & Communication Tools**
 - Dictionary tooltips (double-click a word for its definition and read aloud using browser speech synthesis)
-- Reading guides and focus highlighters for better website accessibility
+- Big cursor, reading mask and reading guideline for easier reading and pointing
 - Google Translate multilingual integration (Pro)
 - Text-to-speech / screen-reader mode (Pro)
 
@@ -69,11 +69,11 @@ Whether managing a government portal requiring strict **accessibility compliance
 1. **Automatic Installation**: Go to your WordPress admin dashboard → **Plugins** → **Add New** → Search for "One Accessibility" → Click **Install Now** → **Activate**.
 2. **Manual Upload**: Download the plugin ZIP file → Upload to `/wp-content/plugins/website-accessibility/` → Activate via the Plugins screen.
 3. **Auto-Configuration**: A default accessibility preset is automatically created upon activation so your **accessibility widget** is ready immediately.
-4. **Access Settings**: Navigate to **Accessibility** in your WordPress admin menu to configure presets and styles.
+4. **Access Settings**: Navigate to **One Accessibility** in your WordPress admin menu to configure presets and styles.
 
 ### ⚙️ Advanced Configuration
 
-1. **Create Custom Presets**: Go to **Accessibility** → **Presets** → Create a preset and configure display conditions.
+1. **Create Custom Presets**: Go to **One Accessibility** → **Presets** → Create a preset and configure display conditions.
 2. **Customize Toolbar**: Use the drag-and-drop editor to style the toolbar and adjust the **Accessibility widget** icon and colors.
 3. **Set Up Profiles**: Enable or adjust user profiles for various accessibility needs.
 4. **Conditional Assignment**: Assign distinct presets to Entire Site, Singular pages or Archive pages.
@@ -90,7 +90,7 @@ Whether managing a government portal requiring strict **accessibility compliance
 == Frequently Asked Questions ==
 
 = How does this WordPress accessibility plugin help with ADA compliance and WCAG? =
-The plugin helps improve your website **ada compliance** and WCAG 2.1 AA alignment by adding crucial accessibility enhancements such as high-contrast modes, text sizing controls, keyboard navigation highlights and screen reader-friendly markup. For complete **accessibility compliance**, we recommend pairing this tool with manual site audits and regular **accessibility testing**.
+The plugin helps improve your website **ada compliance** and WCAG 2.1 AA alignment by adding visitor-side accessibility enhancements such as contrast modes, text sizing and spacing controls, link highlighting and a keyboard-operable toolbar. For complete **accessibility compliance**, we recommend pairing this tool with manual site audits and regular **accessibility testing**.
 
 = Is One Accessibility GDPR compliant and privacy friendly? =
 Yes. The plugin stores feature usage statistics only in your own local WordPress database (option `websac_usage_statistics`). It transmits no tracking data, no personal data cookies and no telemetry to external servers.
@@ -189,6 +189,9 @@ The JavaScript and CSS shipped in `build/` are compiled with `@wordpress/scripts
 
 == Upgrade Notice ==
 
+= 1.7.3 =
+Tools reach late-loading content, safer preset editor, stability fixes.
+
 = 1.7.0 =
 New Color Theme to recolor the toolbar in one click, and profiles and tools apply in a moment on large pages. Recommended for all users.
 
@@ -205,6 +208,15 @@ Pause Animations now also stops JavaScript animations, page-builder effects, sli
 Fixes Contrast + Dark and Light leaving whole sections blank, and the toolbar recolouring itself. Admin screens now share one loading skeleton. Recommended for all users.
 
 == Changelog ==
+
+= 1.7.3 – November 9, 2026 =
+* Improved: Text tools and Highlight Links also apply to content that loads later.
+* Improved: RTL support and faster page loads.
+* Fixed: Preset editor warns about unsaved changes and stays open on reload.
+* Fixed: Panel size and button offset limits.
+* Fixed: Toolbar no longer breaks when browser storage is blocked.
+* Fixed: Archive presets for the home and attachment pages.
+* Fixed: "&" in category names.
 
 = 1.7.2 – November 3, 2026 =
 * Updated: System improved

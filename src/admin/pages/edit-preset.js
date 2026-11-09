@@ -1,11 +1,34 @@
-import { useEffect, useState } from '@wordpress/element';
+import { useEffect, useMemo, useState } from '@wordpress/element';
 import { __ } from '@wordpress/i18n';
 import { useDispatch, useSelect } from "@wordpress/data";
+import { store as coreStore } from '@wordpress/core-data';
 import { STORE_NAME } from "../store";
+import { useUnsavedChangesGuard } from '../utils/unsaved-changes';
 import { useHistory, useLocation } from '../router';
 import { useDashboardTour } from '../context/dashboard-tour-context';
 import PresetEditorPreview from '../components/preset-editor-preview';
 import PanelCustomizationPreset from '../components/preset-panel-customization';
+
+/**
+ * Form data for a stored preset: its title plus the decoded JSON content.
+ * Returns null when the content is not valid JSON (hand-edited or damaged post).
+ */
+const toFormData = (title, content) => {
+  let decoded;
+  try {
+    decoded = typeof content === 'string' ? JSON.parse(content) : content;
+  } catch (e) {
+    return null;
+  }
+  if (!decoded || typeof decoded !== 'object' || Array.isArray(decoded)) {
+    return null;
+  }
+  const rest = { ...decoded };
+  delete rest.title;
+  return { title, ...rest };
+};
+
+const rawValue = (field) => (field && typeof field === 'object' ? field.raw : field);
 
 
 const EditPreset = () => {
@@ -27,26 +50,53 @@ const EditPreset = () => {
     }
   }, [location]);
 
-  const preset = useSelect((select) => select(STORE_NAME).getPreset(id), [id]);
+  // getEditedEntityRecord is false until the record has loaded, so "no preset"
+  // only means missing once core-data has finished resolving it (404 / no access).
+  const { preset, savedRecord, isResolved } = useSelect((select) => {
+    const core = select(coreStore);
+    const args = ['postType', 'websac_preset', id];
+    return {
+      preset: select(STORE_NAME).getPreset(id),
+      savedRecord: core.getEntityRecord(...args),
+      isResolved: !id || core.hasFinishedResolution('getEntityRecord', args),
+    };
+  }, [id]);
   const { presetsFormData } = useSelect((select) => select(STORE_NAME).getPresetsFormData());
+  const [isSaving, setIsSaving] = useState(false);
+  const [loadedId, setLoadedId] = useState(null);
+  const hasPreset = !!preset && Object.keys(preset).length > 0;
 
   // Load preset data into global state when preset is available
   useEffect(() => {
-    if (preset && Object.keys(preset).length > 0) {
-      const content = JSON.parse(preset?.content);
-      delete content.title;
-      const presetData = {
-        title: preset?.title,
-        ...content
-      };
-      
+    if (hasPreset) {
+      const presetData = toFormData(preset?.title, preset?.content);
+      if (!presetData) {
+        WapMessage.error(__('This preset\'s settings could not be read.', 'website-accessibility'));
+        history.push({ page: 'website-accessibility-presets' });
+        return;
+      }
       setPresetsFormData(presetData);
-    } else {
+      setLoadedId(id);
+    } else if (isResolved) {
       history.push({
         page: 'website-accessibility-presets',
       });
     }
-  }, [preset]);
+  }, [preset, isResolved]);
+
+  // Unsaved changes: compare the form with what is stored on the server. Using
+  // the saved record (not a snapshot) keeps it right after an add-on (the Pro
+  // tour) saves the preset on its own.
+  const savedSnapshot = useMemo(() => {
+    if (!savedRecord) return null;
+    const data = toFormData(rawValue(savedRecord.title), rawValue(savedRecord.content));
+    return data ? JSON.stringify(data) : null;
+  }, [savedRecord]);
+  const isDirty = loadedId === id
+    && savedSnapshot !== null
+    && !!presetsFormData
+    && JSON.stringify(presetsFormData) !== savedSnapshot;
+  useUnsavedChangesGuard(isDirty && !isSaving);
 
   useEffect(() => {
     const keyword = searchTerm.trim().toLowerCase();
@@ -74,14 +124,23 @@ const EditPreset = () => {
     });
   }, [searchTerm, presetsFormData]);
 
-  if (!preset) return null;
+  if (!hasPreset) return null;
 
   const handleSave = async () => {
-    await updatePreset(id, {
-      title: presetsFormData.title,
-      content: JSON.stringify(presetsFormData),
-    });
-    const result = await saveEditedPreset(id);
+    if (!presetsFormData?.title || isSaving) {
+      return;
+    }
+    setIsSaving(true);
+    let result;
+    try {
+      await updatePreset(id, {
+        title: presetsFormData.title,
+        content: JSON.stringify(presetsFormData),
+      });
+      result = await saveEditedPreset(id);
+    } finally {
+      setIsSaving(false);
+    }
 
     // Leaving the editor on a failed save would show the old values again and
     // read as "my change reverted itself" — keep the user here and say why.
@@ -145,7 +204,8 @@ const EditPreset = () => {
               type="primary"
               onClick={handleSave}
               size='large'
-              disabled={!presetsFormData?.title}
+              disabled={!presetsFormData?.title || isSaving}
+              loading={isSaving}
             >
               <WapSpace>
                 {__('Update Preset', 'website-accessibility')}

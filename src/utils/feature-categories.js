@@ -34,6 +34,42 @@ export const getFeatureCategoryDefinitions = () => {
     return Array.isArray(published) && published.length > 0 ? published : DEFAULT_FEATURE_CATEGORY_DEFINITIONS;
 };
 
+/**
+ * Decode the few HTML entities kses leaves in stored titles ("Color &amp;
+ * Contrast", sometimes twice over). Text only — React escapes it again.
+ */
+const decodeTitleEntities = (title) => {
+    let text = String(title ?? "");
+    for (let i = 0; i < 3 && /&(?:amp|lt|gt|quot|#0?39|apos);/.test(text); i++) {
+        text = text
+            .replace(/&lt;/g, "<")
+            .replace(/&gt;/g, ">")
+            .replace(/&quot;/g, '"')
+            .replace(/&(?:#0?39|apos);/g, "'")
+            .replace(/&amp;/g, "&");
+    }
+    return text;
+};
+
+/**
+ * Title shown for a category. Built-in categories (and add-on ones from the
+ * published definitions) use their current, translated title: the stored one
+ * was written in English by a migration and may carry kses entities. Other
+ * titles are shown as stored, entities decoded.
+ */
+const categoryDisplayTitle = (category) => {
+    const slug = category?.slug;
+    if (slug === "other") {
+        return __("Other", "website-accessibility");
+    }
+    const known = getFeatureCategoryDefinitions().find((definition) => definition?.slug === slug)
+        || DEFAULT_FEATURE_CATEGORY_DEFINITIONS.find((definition) => definition.slug === slug);
+    if (known?.title) {
+        return decodeTitleEntities(known.title);
+    }
+    return decodeTitleEntities(category?.title || __("Category", "website-accessibility"));
+};
+
 const normalizeWidgetConfig = (value) => {
     if (value && typeof value === "object") {
         return {
@@ -194,7 +230,7 @@ export const getFeatureCategories = (attributes = {}, features = []) => {
         if (categoryFeatures.length) {
             categories.push({
                 slug: category.slug,
-                title: category.title,
+                title: categoryDisplayTitle(category),
                 features: categoryFeatures,
             });
         }
