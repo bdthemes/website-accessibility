@@ -93,6 +93,42 @@ class AccessibilityPreset
         return (bool) array_intersect($targets_a, $targets_b);
     }
 
+    /**
+     * Store preset JSON written by the plugin itself (migrations, switching
+     * overlapping presets off).
+     *
+     * For a user without `unfiltered_html` WordPress runs kses on post_content,
+     * which treats the JSON as HTML and turns every "&" into "&amp;" (a category
+     * titled "Color & Contrast" came back as "Color &amp; Contrast"). This
+     * content is the plugin's own, already-validated data, so kses is off for
+     * the write and restored right after.
+     *
+     * @param int   $post_id
+     * @param array $content Decoded preset content.
+     * @param int   $flags   wp_json_encode() flags.
+     * @return int|\WP_Error
+     */
+    public static function write_content($post_id, array $content, $flags = JSON_UNESCAPED_UNICODE | JSON_UNESCAPED_SLASHES)
+    {
+        $kses_active = false !== has_filter('content_save_pre', 'wp_filter_post_kses');
+        if ($kses_active) {
+            kses_remove_filters();
+        }
+
+        // wp_update_post() unslashes what it is given, so JSON must be slashed
+        // first or the backslashes in \" are stripped and it stops being valid JSON.
+        $result = wp_update_post([
+            'ID'           => (int) $post_id,
+            'post_content' => wp_slash(wp_json_encode($content, $flags)),
+        ]);
+
+        if ($kses_active) {
+            kses_init_filters();
+        }
+
+        return $result;
+    }
+
     public function save_preset($data, $postarr)
     {
         if ($data['post_type'] !== 'websac_preset') {
@@ -131,10 +167,7 @@ class AccessibilityPreset
                 ) {
                     $item_content['preset']['active'] = false;
 
-                    wp_update_post([
-                        'ID'          => $item->ID,
-                        'post_content' => wp_slash(wp_json_encode($item_content)) // important: wp_slash
-                    ]);
+                    self::write_content($item->ID, $item_content, 0);
                 }
             }
         }

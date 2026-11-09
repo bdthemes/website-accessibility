@@ -4,6 +4,7 @@ import { STORE_NAME } from "../store";
 import IconPicker from "./icon-picker";
 import ControlWrapper from "./control-wrapper";
 import ColorPicker from "../controls/color-picker";
+import { BUTTON_OFFSET_MIN, BUTTON_OFFSET_MAX, clampButtonOffset } from "../../utils/preset-dimensions";
 
 const ButtonStylePreset = () => {
 	const { WapSelect, WapInput, WapCard, WapRadio } = window?.wapComponents;
@@ -20,6 +21,12 @@ const ButtonStylePreset = () => {
 				[key]: value,
 			},
 		});
+	};
+
+	// Clamp when the field loses focus (not per keystroke, so typing "150" works).
+	const clampOffsetField = (value) => {
+		const n = clampButtonOffset(value);
+		return n === null ? "" : n;
 	};
 
 	const button = presetsFormData?.button || {};
@@ -143,8 +150,12 @@ const ButtonStylePreset = () => {
 					<ControlWrapper label={__("Horizontal Offset", "website-accessibility")}>
 						<WapInput
 							type="number"
-							value={button.offsetX || ""}
+							min={BUTTON_OFFSET_MIN}
+							max={BUTTON_OFFSET_MAX}
+							value={button.offsetX ?? ""}
 							onChange={(e) => handleButtonChange("offsetX", e.target.value)}
+							onFocus={(e) => { e.target.dataset.focusValue = e.target.value; }}
+							onBlur={(e) => { if (e.target.value !== e.target.dataset.focusValue) handleButtonChange("offsetX", clampOffsetField(e.target.value)); }}
 							placeholder="e.g., 20"
 							addonAfter="px"
 						/>
@@ -152,8 +163,12 @@ const ButtonStylePreset = () => {
 					<ControlWrapper label={__("Vertical Offset", "website-accessibility")}>
 						<WapInput
 							type="number"
-							value={button.offsetY || ""}
+							min={BUTTON_OFFSET_MIN}
+							max={BUTTON_OFFSET_MAX}
+							value={button.offsetY ?? ""}
 							onChange={(e) => handleButtonChange("offsetY", e.target.value)}
+							onFocus={(e) => { e.target.dataset.focusValue = e.target.value; }}
+							onBlur={(e) => { if (e.target.value !== e.target.dataset.focusValue) handleButtonChange("offsetY", clampOffsetField(e.target.value)); }}
 							placeholder="e.g., 20"
 							addonAfter="px"
 						/>

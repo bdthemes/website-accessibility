@@ -188,16 +188,34 @@ class PreferenceRouteV1
                 ]);
             }
 
-            $users = get_users(['fields' => ['ID']]);
-            $total_users = count($users);
-            $users_with_data = 0;
+            global $wpdb;
 
-            foreach ($users as $user) {
-                $pref = get_user_meta($user->ID, self::META_KEY, true);
-                if (!empty($pref) && is_array($pref) && count($pref) > 0) {
-                    $users_with_data++;
-                }
+            // Users of this site (what get_users() returns), counted rather than loaded.
+            $user_query  = new \WP_User_Query([
+                'fields'      => 'ID',
+                'number'      => 1,
+                'count_total' => true,
+            ]);
+            $total_users = (int) $user_query->get_total();
+
+            // Users whose saved preference is a non-empty array, in one query instead
+            // of one get_user_meta() per user. A serialized non-empty array starts
+            // "a:<count ≥ 1>:"; an empty one is "a:0:{}" and a scalar is not "a:".
+            // On multisite only members of this site count, as with get_users().
+            $site_join  = '';
+            $site_where = '';
+            if (is_multisite()) {
+                $site_join  = " INNER JOIN {$wpdb->usermeta} cap ON cap.user_id = um.user_id";
+                $site_where = $wpdb->prepare(' AND cap.meta_key = %s', $wpdb->get_blog_prefix() . 'capabilities');
             }
+            // phpcs:ignore WordPress.DB.PreparedSQL.InterpolatedNotPrepared -- table names and the prepared site clause only.
+            $users_with_data = (int) $wpdb->get_var($wpdb->prepare(
+                "SELECT COUNT(DISTINCT um.user_id) FROM {$wpdb->usermeta} um
+                INNER JOIN {$wpdb->users} u ON u.ID = um.user_id{$site_join}
+                WHERE um.meta_key = %s AND um.meta_value REGEXP %s{$site_where}",
+                self::META_KEY,
+                '^a:[1-9]'
+            ));
 
             $average_percent = $total_users > 0 ? round(($users_with_data / $total_users) * 100, 2) : 0;
 

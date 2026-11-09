@@ -270,10 +270,46 @@ class Utils
     {
         $entire_site_preset = null;
 
+        // A static front page and an attachment page are singular, so the archive
+        // targets "Home" and "Attachment Page" could never match them. Here an
+        // archive preset that names one of those targets applies: ahead of a
+        // singular preset for every singular page, behind one that picked this
+        // very post. Only explicit targets count — "all archive pages" (blank)
+        // still leaves singular pages alone. Other pages resolve as before.
+        $singular_target = null;
+        if ('singular' === $page_type) {
+            if (is_attachment()) {
+                $singular_target = 'attachment';
+            } elseif (is_front_page()) {
+                $singular_target = 'home';
+            }
+        }
+        $target_preset       = null;
+        $any_singular_preset = null;
+
         foreach ($presets as $preset) {
             $data = $preset['preset'] ?? null;
 
             if (!$data || empty($data['active'])) continue; // skip inactive presets
+
+            if ($singular_target) {
+                if ($data['condition'] === 'archive') {
+                    if (null === $target_preset && in_array($singular_target, (array) ($data['specificArchive'] ?? []), true)) {
+                        $target_preset = $preset;
+                    }
+                    continue;
+                }
+                if ($data['condition'] === 'singular') {
+                    if (empty($data['specificPosts'])) {
+                        if (null === $any_singular_preset) {
+                            $any_singular_preset = $preset;
+                        }
+                    } elseif (self::check_singular_pages($data['specificPosts'])) {
+                        return $preset;
+                    }
+                    continue;
+                }
+            }
 
             if ($data['condition'] === $page_type) {
 
@@ -295,7 +331,7 @@ class Utils
             }
         }
 
-        return $entire_site_preset ?? null;
+        return $target_preset ?? $any_singular_preset ?? $entire_site_preset ?? null;
     }
 
     public static function get_settings($key = null)

@@ -1,6 +1,7 @@
 import { useState } from "@wordpress/element";
 import { __ } from "@wordpress/i18n";
 import PanelBrandIcon from "./panel-brand-icon";
+import { clampPanelWidth } from "../utils/preset-dimensions";
 
 const PanelHeader = ({
     value,
@@ -23,7 +24,7 @@ const PanelHeader = ({
     // Find the header item from value.items
     const headerItem = value?.items?.find(item => item.slug === 'header') || {};
     const attributes = headerItem.attributes || {};
-    const panelWidth = value?.wrapper?.width || 450;
+    const panelWidth = clampPanelWidth(value?.wrapper?.width);
     // Optional extra header actions contributed by an add-on (rendered between "Reset all" and the close button).
     const { PanelHeaderActions, WapTooltip } = window?.wapComponents || {};
     const [messageApi, contextHolder] = (window?.wapComponents?.WapMessage || {}).useMessage?.() || [];

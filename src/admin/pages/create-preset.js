@@ -1,8 +1,9 @@
-import { useEffect, useState } from '@wordpress/element';
+import { useEffect, useRef, useState } from '@wordpress/element';
 import { __ } from '@wordpress/i18n';
 import { useDispatch, useSelect } from "@wordpress/data";
 import { DEFAULT_STATE, STORE_NAME } from "../store";
 import { useHistory } from '../router';
+import { useUnsavedChangesGuard } from '../utils/unsaved-changes';
 import { useDashboardTour } from '../context/dashboard-tour-context';
 import PresetEditorPreview from '../components/preset-editor-preview';
 import PanelCustomizationPreset from '../components/preset-panel-customization';
@@ -35,10 +36,19 @@ const CreatePreset = () => {
   const { Title } = WapTypography;
   const [searchTerm, setSearchTerm] = useState('');
   const [isSaving, setIsSaving] = useState(false);
+  // What the form started as; anything else counts as unsaved changes.
+  const initialSnapshotRef = useRef(null);
 
   useEffect(() => {
-    setPresetsFormData(getFreshPresetsFormData());
+    const fresh = getFreshPresetsFormData();
+    initialSnapshotRef.current = JSON.stringify(fresh);
+    setPresetsFormData(fresh);
   }, []);
+
+  const isDirty = initialSnapshotRef.current !== null
+    && !!presetsFormData
+    && JSON.stringify(presetsFormData) !== initialSnapshotRef.current;
+  useUnsavedChangesGuard(isDirty && !isSaving);
 
   const handleSavePreset = async () => {
     if (!presetsFormData?.title || isSaving) {
@@ -57,7 +67,9 @@ const CreatePreset = () => {
         return;
       }
 
-      setPresetsFormData(getFreshPresetsFormData());
+      const fresh = getFreshPresetsFormData();
+      initialSnapshotRef.current = JSON.stringify(fresh);
+      setPresetsFormData(fresh);
       history.push({
         page: 'website-accessibility-presets',
       });

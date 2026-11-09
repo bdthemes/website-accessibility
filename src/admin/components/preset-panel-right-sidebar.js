@@ -3,6 +3,16 @@ import ControlWrapper from "./control-wrapper";
 import ColorPicker from "../controls/color-picker";
 import SpacingInput from "../controls/spacing-input";
 import { usePresetPanelWrapper } from "./preset-panel-wrapper-utils";
+import {
+	PANEL_WIDTH_MIN,
+	PANEL_WIDTH_MAX,
+	PANEL_WIDTH_DEFAULT,
+	PANEL_MAX_HEIGHT_MIN,
+	PANEL_MAX_HEIGHT_MAX,
+	PANEL_MAX_HEIGHT_DEFAULT,
+	clampPanelWidth,
+	clampPanelMaxHeight,
+} from "../../utils/preset-dimensions";
 
 const PresetPanelRightSidebar = () => {
 	const { WapSelect, WapInput, WapCard } = window?.wapComponents;
@@ -24,20 +34,26 @@ const PresetPanelRightSidebar = () => {
 					<ControlWrapper label={__("Width", "website-accessibility")}>
 						<WapInput
 							type="number"
-							min={200}
-							max={1000}
-							value={wrapper.width || 450}
+							min={PANEL_WIDTH_MIN}
+							max={PANEL_WIDTH_MAX}
+							value={wrapper.width ?? PANEL_WIDTH_DEFAULT}
 							onChange={(e) => handleWrapperChange("width", e.target.value)}
+							// Clamp only a value the user edited: tabbing through must not rewrite a
+							// stored legacy value (e.g. max height 605) and flag the form as changed.
+							onFocus={(e) => { e.target.dataset.focusValue = e.target.value; }}
+							onBlur={(e) => { if (e.target.value !== e.target.dataset.focusValue) handleWrapperChange("width", String(clampPanelWidth(e.target.value))); }}
 							addonAfter="px"
 						/>
 					</ControlWrapper>
 					<ControlWrapper label={__("Max height", "website-accessibility")}>
 						<WapInput
 							type="number"
-							min={10}
-							max={100}
-							value={wrapper.maxHeight > 100 ? 90 : (wrapper.maxHeight ?? 90)}
+							min={PANEL_MAX_HEIGHT_MIN}
+							max={PANEL_MAX_HEIGHT_MAX}
+							value={wrapper.maxHeight > PANEL_MAX_HEIGHT_MAX ? PANEL_MAX_HEIGHT_DEFAULT : (wrapper.maxHeight ?? PANEL_MAX_HEIGHT_DEFAULT)}
 							onChange={(e) => handleWrapperChange("maxHeight", e.target.value)}
+							onFocus={(e) => { e.target.dataset.focusValue = e.target.value; }}
+							onBlur={(e) => { if (e.target.value !== e.target.dataset.focusValue) handleWrapperChange("maxHeight", String(clampPanelMaxHeight(e.target.value))); }}
 							addonAfter="vh"
 						/>
 					</ControlWrapper>

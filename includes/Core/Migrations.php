@@ -134,10 +134,7 @@ class Migrations
             }
 
             $preset_content['panel']['wrapper']['width'] = '450';
-            wp_update_post([
-                'ID'           => $preset_id,
-                'post_content' => wp_slash(wp_json_encode($preset_content, JSON_UNESCAPED_UNICODE | JSON_UNESCAPED_SLASHES)),
-            ]);
+            AccessibilityPreset::write_content($preset_id, $preset_content);
         }
     }
 
@@ -175,13 +172,7 @@ class Migrations
                 continue;
             }
 
-            wp_update_post([
-                'ID'           => $preset_id,
-                // wp_update_post() unslashes what it is given, so JSON must be
-                // slashed first or the backslashes in \" are stripped and the
-                // stored preset stops being valid JSON.
-                'post_content' => wp_slash(wp_json_encode($migrated_content, JSON_UNESCAPED_UNICODE | JSON_UNESCAPED_SLASHES)),
-            ]);
+            AccessibilityPreset::write_content($preset_id, $migrated_content);
         }
     }
 
@@ -219,10 +210,7 @@ class Migrations
                 continue;
             }
 
-            wp_update_post([
-                'ID'           => $preset_id,
-                'post_content' => wp_slash(wp_json_encode($preset_content, JSON_UNESCAPED_UNICODE | JSON_UNESCAPED_SLASHES)),
-            ]);
+            AccessibilityPreset::write_content($preset_id, $preset_content);
         }
     }
 
@@ -259,10 +247,7 @@ class Migrations
                 continue;
             }
 
-            wp_update_post([
-                'ID'           => $preset_id,
-                'post_content' => wp_slash(wp_json_encode($preset_content, JSON_UNESCAPED_UNICODE | JSON_UNESCAPED_SLASHES)),
-            ]);
+            AccessibilityPreset::write_content($preset_id, $preset_content);
         }
     }
 

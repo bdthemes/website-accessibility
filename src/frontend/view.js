@@ -5,8 +5,56 @@ import { initialState } from "./context/reducer";
 import accessibilityManager from "../accessibilty-manager";
 import { announce } from "../utils/feature-handlers";
 import { toCssLength } from "../utils/helpers";
+import { clampPanelWidth, clampPanelMaxHeight, buttonOffsetCss } from "../utils/preset-dimensions";
 import { __ } from "@wordpress/i18n";
 import apiFetch from "@wordpress/api-fetch";
+
+/*
+ * localStorage can throw (Safari private mode, storage disabled, sandboxed
+ * iframe) and a saved entry can be corrupt. Either must not unmount the
+ * toolbar: a failed read counts as "nothing saved", a failed write is skipped.
+ */
+const readStoredPreference = (key) => {
+    try {
+        const raw = window.localStorage.getItem(key);
+        if (!raw) return null;
+        const parsed = JSON.parse(raw);
+        return parsed && typeof parsed === 'object' && !Array.isArray(parsed) ? parsed : null;
+    } catch (e) {
+        return null;
+    }
+};
+
+const writeStoredPreference = (key, data) => {
+    try {
+        window.localStorage.setItem(key, JSON.stringify(data));
+    } catch (e) {
+        // Storage unavailable or full: the preference just is not kept locally.
+    }
+};
+
+/**
+ * Saved settings carry a copy of each step's definition (css list and all).
+ * Swap it for the current definition of the same step, so a restored tool
+ * behaves like one switched on now (e.g. after a feature moved from inline
+ * styles to stylesheet rules). Steps not in the list (a custom colour) stay.
+ */
+const withCurrentDefinitions = (settings) => {
+    if (!settings || typeof settings !== 'object') return {};
+    const features = window.wapHelpers?.features || [];
+    const out = {};
+    Object.keys(settings).forEach((key) => {
+        const saved = settings[key];
+        if (!saved || typeof saved !== 'object') return;
+        const value = saved.currentAttribute?.value;
+        const feature = features.find((item) => item?.key === key);
+        const current = value !== undefined && value !== 'custom'
+            ? feature?.attributes?.find((attribute) => attribute?.value === value)
+            : null;
+        out[key] = current ? { ...saved, currentAttribute: current } : saved;
+    });
+    return out;
+};
 
 const View = () => {
     const { defaultProfiles = [], useBrowserKey } = window.wapHelpers || {};
@@ -53,18 +101,10 @@ const View = () => {
         ...(profiles || []),
     ], [profiles]);
 
-    const drawerContentWrapperMaxHeightVh = useMemo(() => {
-        const raw = currentPreset?.panel?.wrapper?.maxHeight;
-        if (raw === undefined || raw === null || raw === '') {
-            return 90;
-        }
-        const n = Number(raw);
-        if (!Number.isFinite(n) || n <= 0) {
-            return 90;
-        }
-        if (n > 100) return 90;
-        return n;
-    }, [currentPreset?.panel?.wrapper?.maxHeight]);
+    const drawerContentWrapperMaxHeightVh = useMemo(
+        () => clampPanelMaxHeight(currentPreset?.panel?.wrapper?.maxHeight),
+        [currentPreset?.panel?.wrapper?.maxHeight]
+    );
 
     const isPreferenceActive = useMemo(() => {
         const footerAttribiutes = currentPreset?.panel?.items?.find((item) => item.slug === 'footer')?.attributes;
@@ -113,7 +153,7 @@ const View = () => {
             dispatch({ type: 'SET_CURRENT_SETTINGS', payload: {} });
             dispatch({ type: 'SET_PROFILE_ORIGIN', payload: null });
         } else {
-            dispatch({ type: 'SET_CURRENT_SETTINGS', payload: preferenceData.settings || {} });
+            dispatch({ type: 'SET_CURRENT_SETTINGS', payload: withCurrentDefinitions(preferenceData.settings) });
             dispatch({ type: 'SET_PROFILE_ORIGIN', payload: origin });
         }
         dispatch({ type: 'SET_CURRENT_PROFILE', payload: validCurrentProfile });
@@ -158,7 +198,7 @@ const View = () => {
         if (!currentPresetId) return;
 
         const localKey = `${state?.localStorageKeyPrefix}-${currentPresetId}`;
-        const localData = localStorage.getItem(localKey);
+        const localData = readStoredPreference(localKey);
 
         // ✅ Use API only if activePreference is true and user is logged in
         if (isPreferenceActive && isUserLoggedIn) {
@@ -168,21 +208,21 @@ const View = () => {
                         applyPreferenceData(response.data);
 
                         // Optional: sync localStorage for offline support
-                        localStorage.setItem(localKey, JSON.stringify(response.data));
+                        writeStoredPreference(localKey, response.data);
                     } else if (localData) {
-                        applyPreferenceData(JSON.parse(localData));
+                        applyPreferenceData(localData);
                     }
                 })
                 .catch((error) => {
                     console.error('Error fetching preference:', error);
                     if (localData) {
-                        applyPreferenceData(JSON.parse(localData));
+                        applyPreferenceData(localData);
                     }
                 });
         } else {
             // 🧩 Local mode (no API call)
             if (localData) {
-                applyPreferenceData(JSON.parse(localData));
+                applyPreferenceData(localData);
             }
         }
     }, [currentPresetId, isPreferenceActive, isUserLoggedIn]);
@@ -192,7 +232,7 @@ const View = () => {
      */
     useEffect(() => {
         if (!currentPresetId || !saveablePreference?.data) return;
-        localStorage.setItem(`${state.localStorageKeyPrefix}-${currentPresetId}`, JSON.stringify(saveablePreference?.data));
+        writeStoredPreference(`${state.localStorageKeyPrefix}-${currentPresetId}`, saveablePreference?.data);
     }, [saveablePreference?.data, currentPresetId]);
 
     const addBodyClasses = (classNames = []) => {
@@ -312,7 +352,7 @@ const View = () => {
         );
     }, [isOpen]);
 
-    const saveStatistics = async (data) => {
+    const saveStatistics = async (data, isRetry = false) => {
         if (isSavingStatisticsRef.current) return;
 
         // Check if browserKey exists
@@ -350,19 +390,23 @@ const View = () => {
 
             const result = await response.json();
 
-            if (!result.success) {
-                // The endpoint accepts one write per browser every 5 seconds, and
-                // the payload is a snapshot rather than an increment — so a
-                // rejected write silently leaves the previous state on the
-                // dashboard. That is exactly what "switch a widget on, then
-                // reset" hits. Re-send the latest snapshot once the window has
-                // passed; a newer interaction replaces this pending retry.
+            // The endpoint accepts one write per browser every 5 seconds, and
+            // the payload is a snapshot rather than an increment — so a
+            // throttled write silently leaves the previous state on the
+            // dashboard. That is exactly what "switch a widget on, then
+            // reset" hits. Re-send the latest snapshot once, after the window
+            // has passed; a newer interaction replaces this pending retry.
+            // Other refusals (capacity reached, stale nonce → 403) would fail
+            // the same way again, so they are not retried.
+            const throttled = result?.code === 'throttled'
+                || /too many requests|throttl/i.test(String(result?.message || ''));
+            if (result && !result.success && throttled && !isRetry) {
                 if (statisticsRetryRef.current) {
                     clearTimeout(statisticsRetryRef.current);
                 }
                 statisticsRetryRef.current = setTimeout(() => {
                     statisticsRetryRef.current = null;
-                    saveStatistics(data);
+                    saveStatistics(data, true);
                 }, 5500);
             }
         } catch (err) {
@@ -468,8 +512,8 @@ const View = () => {
                     '--button-bg': currentPreset?.button?.bgColor,
                     '--button-padding': currentPreset?.button?.padding,
                     '--button-radius': toCssLength(currentPreset?.button?.borderRadius),
-                    '--button-offset-x': currentPreset?.button?.offsetX ? `${currentPreset?.button?.offsetX}px` : '',
-                    '--button-offset-y': currentPreset?.button?.offsetY ? `${currentPreset?.button?.offsetY}px` : '',
+                    '--button-offset-x': buttonOffsetCss(currentPreset?.button?.offsetX),
+                    '--button-offset-y': buttonOffsetCss(currentPreset?.button?.offsetY),
                 }}
                 onClick={() => openAccessibilityDrawer()}
                 onFocus={(e) => e.preventDefault()}
@@ -483,7 +527,7 @@ const View = () => {
                 placement={currentPreset?.panel?.wrapper?.position || "right"}
                 className={`wap-preset__preview-drawer notranslate wap-preset__preview-drawer--${currentPreset?.panel?.wrapper?.position || 'right'}`}
                 rootClassName={`wap-preset__preview-drawer-root notranslate wap-preset__preview-drawer-root--${currentPreset?.panel?.wrapper?.position || 'right'}`}
-                width={Number(currentPreset?.panel?.wrapper?.width) || 450}
+                width={clampPanelWidth(currentPreset?.panel?.wrapper?.width)}
                 styles={{
                     wrapper: { maxHeight: `${drawerContentWrapperMaxHeightVh}vh` },
                 }}

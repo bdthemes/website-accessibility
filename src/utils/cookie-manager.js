@@ -1,7 +1,13 @@
 export const getCookie = (name) => {
     return document.cookie.split("; ").reduce((r, v) => {
         const parts = v.split("=");
-        return parts[0] === name ? decodeURIComponent(parts[1]) : r;
+        if (parts[0] !== name) return r;
+        // A malformed value (stray "%") must not throw out of the toolbar.
+        try {
+            return decodeURIComponent(parts[1]);
+        } catch (e) {
+            return "";
+        }
     }, "");
 };
 
