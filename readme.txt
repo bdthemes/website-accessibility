@@ -1,5 +1,5 @@
 === One Accessibility - WordPress Accessibility Plugin & ADA Compliance Widget ===
-Contributors:      bdthemes, selimmw, abutalib, muhammadasik, mohammaadfarid, maudud
+Contributors:      bdthemes, selimmw, maudud, abutalib, arafatakashakku, shamim496, sohanurrahman
 Tags:              accessibility, web-accessibility, accessibility-plugin, ada-compliance, wcag
 Requires at least: 6.6
 Tested up to:      7.1
