@@ -1,10 +1,10 @@
 === One Accessibility - WordPress Accessibility Plugin & ADA Compliance Widget ===
-Contributors:      bdthemes, selimmw, abutalib, muhammadasik, mohammaadfarid, maudud
+Contributors:      bdthemes, selimmw, maudud, abutalib, arafatakashakku, shamim496, sohanurrahman
 Tags:              accessibility, web-accessibility, accessibility-plugin, ada-compliance, wcag
 Requires at least: 6.6
 Tested up to:      7.1
 Requires PHP:      7.4
-Stable tag:        1.7.2
+Stable tag:        1.7.3
 License:           GPL-2.0-or-later
 License URI:       https://www.gnu.org/licenses/gpl-2.0.html
 
@@ -205,6 +205,9 @@ Pause Animations now also stops JavaScript animations, page-builder effects, sli
 Fixes Contrast + Dark and Light leaving whole sections blank, and the toolbar recolouring itself. Admin screens now share one loading skeleton. Recommended for all users.
 
 == Changelog ==
+
+= 1.7.3 – November 19, 2026 =
+* Updated: System improved
 
 = 1.7.2 – November 3, 2026 =
 * Updated: System improved
