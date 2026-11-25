@@ -2,16 +2,16 @@ import { __ } from "@wordpress/i18n";
 const features = [
     {
         key: "contrast",
-        label: __("Contrast +", "website-accessibility"),
+        get label() { return __("Contrast +", "website-accessibility"); },
         styleMethod: "inline",
-        disableAnnouncement: __(
+        get disableAnnouncement() { return __(
             "The contrast setting has been disabled.",
             "website-accessibility",
-        ),
-        description: __(
+        ); },
+        get description() { return __(
             "Improves visibility by changing the website’s contrast with invert, dark, and light modes.",
             "website-accessibility",
-        ),
+        ); },
         icon: (
             <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
                 <path d="M20.25 12C20.25 7.44365 16.5563 3.75 12 3.75C7.44365 3.75 3.75 7.44365 3.75 12C3.75 16.5563 7.44365 20.25 12 20.25C16.5563 20.25 20.25 16.5563 20.25 12ZM21.75 12C21.75 17.3848 17.3848 21.75 12 21.75C6.61522 21.75 2.25 17.3848 2.25 12C2.25 6.61522 6.61522 2.25 12 2.25C17.3848 2.25 21.75 6.61522 21.75 12Z" fill="black" />
@@ -21,12 +21,12 @@ const features = [
         ),
         attributes: [
             {
-                name: __("Invert", "website-accessibility"),
+                get name() { return __("Invert", "website-accessibility"); },
                 value: "invert",
-                enableAnnouncement: __(
+                get enableAnnouncement() { return __(
                     "Enable Contrast Mode, set to Invert.",
                     "website-accessibility",
-                ),
+                ); },
                 css: [
                     {
                         selector: "html",
@@ -43,12 +43,12 @@ const features = [
                 ],
             },
             {
-                name: __("Dark", "website-accessibility"),
+                get name() { return __("Dark", "website-accessibility"); },
                 value: "dark",
-                enableAnnouncement: __(
+                get enableAnnouncement() { return __(
                     "Contrast Mode, set to Dark.",
                     "website-accessibility",
-                ),
+                ); },
                 // Stylesheet rules, not inline styles. Repainting the page element by
                 // element left every tag outside the list below on the theme's own
                 // colour, so a section designed with dark text went invisible against
@@ -108,12 +108,12 @@ const features = [
                 ],
             },
             {
-                name: __("Light", "website-accessibility"),
+                get name() { return __("Light", "website-accessibility"); },
                 value: "light",
-                enableAnnouncement: __(
+                get enableAnnouncement() { return __(
                     "Contrast Mode, set to Light.",
                     "website-accessibility",
-                ),
+                ); },
                 // Same rule-based approach as Dark above, and for the same reason: a
                 // section designed with white text kept it and vanished against the
                 // new white background.
@@ -170,16 +170,16 @@ const features = [
     },
     {
         key: "highlightLinks",
-        label: __("Highlight Links", "website-accessibility"),
+        get label() { return __("Highlight Links", "website-accessibility"); },
         styleMethod: "inline",
-        disableAnnouncement: __(
+        get disableAnnouncement() { return __(
             "The highlight links setting has been disabled.",
             "website-accessibility",
-        ),
-        description: __(
+        ); },
+        get description() { return __(
             "Helps users find clickable links by clearly highlighting them.",
             "website-accessibility",
-        ),
+        ); },
         icon: (
             <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
                 <path d="M1.25 12C1.25 9.37665 3.37665 7.25 6 7.25H10.333C10.7472 7.25 11.083 7.58579 11.083 8C11.083 8.41421 10.7472 8.75 10.333 8.75H6C4.20507 8.75 2.75 10.2051 2.75 12C2.75 13.7949 4.20508 15.25 6 15.25H10.333C10.7472 15.25 11.083 15.5858 11.083 16C11.083 16.4142 10.7472 16.75 10.333 16.75H6C3.37665 16.75 1.25 14.6234 1.25 12Z" fill="black" />
@@ -189,7 +189,7 @@ const features = [
         ),
         attributes: [
             {
-                name: __("Enable", "website-accessibility"),
+                get name() { return __("Enable", "website-accessibility"); },
                 value: "enable",
                 css: [
                     {
@@ -200,13 +200,13 @@ const features = [
                         },
                     },
                 ],
-                enableAnnouncement: __(
+                get enableAnnouncement() { return __(
                     "Highlight Links Enable.",
                     "website-accessibility",
-                ),
+                ); },
             },
             {
-                name: __("Disable", "website-accessibility"),
+                get name() { return __("Disable", "website-accessibility"); },
                 value: "disable",
                 css: [],
             },
@@ -214,16 +214,16 @@ const features = [
     },
     {
         key: "biggerText",
-        label: __("Bigger Text", "website-accessibility"),
+        get label() { return __("Bigger Text", "website-accessibility"); },
         styleMethod: "styleTag",
-        disableAnnouncement: __(
+        get disableAnnouncement() { return __(
             "The bigger text setting has been disabled.",
             "website-accessibility",
-        ),
-        description: __(
+        ); },
+        get description() { return __(
             "Increases text size to improve readability across the website.",
             "website-accessibility",
-        ),
+        ); },
         icon: (
             <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
                 <path d="M21.2503 7.31055V4.75H17.1946V19.25H19.7776C20.1919 19.25 20.5276 19.5858 20.5276 20C20.5276 20.4142 20.1919 20.75 19.7776 20.75H13.1107C12.6966 20.7498 12.3607 20.4141 12.3607 20C12.3607 19.5859 12.6966 19.2502 13.1107 19.25H15.6946V4.75H11.0833V7.31055C11.0832 7.72467 10.7475 8.06055 10.3333 8.06055C9.91917 8.06055 9.58342 7.72467 9.58331 7.31055V4C9.58331 3.58579 9.9191 3.25 10.3333 3.25H22.0003C22.4144 3.25018 22.7503 3.58589 22.7503 4V7.31055C22.7502 7.72456 22.4143 8.06037 22.0003 8.06055C21.5862 8.06055 21.2504 7.72467 21.2503 7.31055Z" fill="black" />
@@ -232,68 +232,68 @@ const features = [
         ),
         attributes: [
             {
-                name: __("Medium", "website-accessibility"),
+                get name() { return __("Medium", "website-accessibility"); },
                 value: "medium",
                 properties: ['font-size'],
                 percent: 20,
-                enableAnnouncement: __(
+                get enableAnnouncement() { return __(
                     "Bigger Text, set to Medium.",
                     "website-accessibility",
-                ),
+                ); },
             },
             {
-                name: __("Large", "website-accessibility"),
+                get name() { return __("Large", "website-accessibility"); },
                 value: "large",
                 properties: ['font-size'],
                 percent: 40,
-                enableAnnouncement: __(
+                get enableAnnouncement() { return __(
                     "Bigger Text, set to Large.",
                     "website-accessibility",
-                ),
+                ); },
             },
             {
-                name: __("Extra Large", "website-accessibility"),
+                get name() { return __("Extra Large", "website-accessibility"); },
                 value: "extra-large",
                 properties: ['font-size'],
                 percent: 60,
-                enableAnnouncement: __(
+                get enableAnnouncement() { return __(
                     "Bigger Text, set to Extra Large.",
                     "website-accessibility",
-                ),
+                ); },
             },
             {
-                name: __("Huge", "website-accessibility"),
+                get name() { return __("Huge", "website-accessibility"); },
                 value: "huge",
                 properties: ['font-size'],
                 percent: 80,
-                enableAnnouncement: __(
+                get enableAnnouncement() { return __(
                     "Bigger Text, set to Huge.",
                     "website-accessibility",
-                ),
+                ); },
             },
         ],
     },
     {
         key: "textSpacing",
-        label: __("Text Spacing", "website-accessibility"),
+        get label() { return __("Text Spacing", "website-accessibility"); },
         styleMethod: "styleTag",
-        disableAnnouncement: __(
+        get disableAnnouncement() { return __(
             "The text spacing setting has been disabled.",
             "website-accessibility",
-        ),
+        ); },
         icon: (
             <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
                 <path d="M5.54199 6.50194C5.81714 6.1924 6.29099 6.16438 6.60058 6.43944C6.91013 6.7146 6.93817 7.18845 6.66308 7.49803L3.66992 10.8652H5.07715C5.49121 10.8653 5.82706 11.2012 5.82715 11.6152C5.82715 12.0294 5.49125 12.3651 5.07715 12.3652H3.66992L6.66308 15.7324C6.93827 16.042 6.91016 16.5158 6.60058 16.791C6.29108 17.0661 5.81721 17.0388 5.54199 16.7295L1.43945 12.1133C1.18705 11.8291 1.18695 11.4013 1.43945 11.1172L5.54199 6.50194ZM13.7949 10.8652C14.2091 10.8652 14.5448 11.2011 14.5449 11.6152C14.5449 12.0294 14.2091 12.3652 13.7949 12.3652H9.69238C9.27817 12.3652 8.94238 12.0294 8.94238 11.6152C8.94246 11.2011 9.27822 10.8652 9.69238 10.8652H13.7949Z" fill="black" />
                 <path d="M18.458 6.50194C18.1829 6.1924 17.709 6.16438 17.3994 6.43944C17.0899 6.7146 17.0618 7.18845 17.3369 7.49803L20.3301 10.8652H18.9228C18.5088 10.8653 18.1729 11.2012 18.1728 11.6152C18.1728 12.0294 18.5087 12.3651 18.9228 12.3652H20.3301L17.3369 15.7324C17.0617 16.042 17.0898 16.5158 17.3994 16.791C17.7089 17.0661 18.1828 17.0388 18.458 16.7295L22.5605 12.1133C22.8129 11.8291 22.813 11.4013 22.5605 11.1172L18.458 6.50194Z" fill="black" />
             </svg>
         ),
-        description: __(
+        get description() { return __(
             "Improves readability by adding space between text elements.",
             "website-accessibility",
-        ),
+        ); },
         attributes: [
             {
-                name: __("Medium", "website-accessibility"),
+                get name() { return __("Medium", "website-accessibility"); },
                 value: "medium",
                 css: [
                     {
@@ -304,13 +304,13 @@ const features = [
                         },
                     },
                 ],
-                enableAnnouncement: __(
+                get enableAnnouncement() { return __(
                     "Text Spacing, set to Medium.",
                     "website-accessibility",
-                ),
+                ); },
             },
             {
-                name: __("Large", "website-accessibility"),
+                get name() { return __("Large", "website-accessibility"); },
                 value: "large",
                 css: [
                     {
@@ -321,13 +321,13 @@ const features = [
                         },
                     },
                 ],
-                enableAnnouncement: __(
+                get enableAnnouncement() { return __(
                     "Text Spacing, set to Large.",
                     "website-accessibility",
-                ),
+                ); },
             },
             {
-                name: __("Extra Large", "website-accessibility"),
+                get name() { return __("Extra Large", "website-accessibility"); },
                 value: "extra-large",
                 css: [
                     {
@@ -338,31 +338,31 @@ const features = [
                         },
                     },
                 ],
-                enableAnnouncement: __(
+                get enableAnnouncement() { return __(
                     "Text Spacing, set to Extra Large.",
                     "website-accessibility",
-                ),
+                ); },
             },
         ],
     },
     {
         key: "pauseAnimations",
-        label: __("Pause Animations", "website-accessibility"),
+        get label() { return __("Pause Animations", "website-accessibility"); },
         styleMethod: "styleTag",
-        disableAnnouncement: __(
+        get disableAnnouncement() { return __(
             "The pause animations setting has been disabled.",
             "website-accessibility",
-        ),
-        description: __(
+        ); },
+        get description() { return __(
             "Pauses animations to reduce distractions and motion.",
             "website-accessibility",
-        ),
+        ); },
         // While on, the tile offers the way back: "Play Animations" with a play icon.
-        activeLabel: __("Play Animations", "website-accessibility"),
-        activeDescription: __(
+        get activeLabel() { return __("Play Animations", "website-accessibility"); },
+        get activeDescription() { return __(
             "Animations are paused. Select to play them again.",
             "website-accessibility",
-        ),
+        ); },
         activeIcon: (
             <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
                 <path d="M4.66699 12.75L3 12.75C2.58579 12.75 2.25 12.4142 2.25 12C2.25 11.5858 2.58579 11.25 3 11.25L4.66699 11.25C5.08106 11.2502 5.41699 11.5859 5.41699 12C5.41699 12.4141 5.08106 12.7498 4.66699 12.75Z" fill="black" />
@@ -404,18 +404,18 @@ const features = [
         ),
         attributes: [
             {
-                name: __("Enable", "website-accessibility"),
+                get name() { return __("Enable", "website-accessibility"); },
                 value: "enable",
                 // Handled by classes/pause-animations.js; plain CSS cannot stop JavaScript
                 // animation, video or GIFs, and `animation: none` would hide content that fades in.
                 css: [],
-                enableAnnouncement: __(
+                get enableAnnouncement() { return __(
                     "Pause Animations Enable.",
                     "website-accessibility",
-                ),
+                ); },
             },
             {
-                name: __("Disable", "website-accessibility"),
+                get name() { return __("Disable", "website-accessibility"); },
                 value: "disable",
                 css: [],
             },
@@ -423,24 +423,24 @@ const features = [
     },
     {
         key: "hideImages",
-        label: __("Hide Images", "website-accessibility"),
+        get label() { return __("Hide Images", "website-accessibility"); },
         styleMethod: "inline",
-        disableAnnouncement: __(
+        get disableAnnouncement() { return __(
             "The hide images setting has been disabled.",
             "website-accessibility",
-        ),
+        ); },
         icon: (
             <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
                 <path d="M20.1973 15.5303C20.0881 15.4961 19.9839 15.44 19.8965 15.3545L18.3154 13.8066L15.4404 16.6201L19.1328 20.2344C19.7351 20.1447 20.1973 19.6272 20.1973 19V15.5303ZM21.4697 3.46973C21.7626 3.17684 22.2374 3.17684 22.5303 3.46973C22.8232 3.76262 22.8232 4.23738 22.5303 4.53028L20.5605 6.5L22.5303 8.46973C22.8232 8.76262 22.8232 9.23738 22.5303 9.53028C22.2374 9.82317 21.7626 9.82317 21.4697 9.53028L19.5 7.56055L17.5303 9.53028C17.2374 9.82317 16.7626 9.82317 16.4697 9.53028C16.1768 9.23738 16.1768 8.76262 16.4697 8.46973L18.4395 6.5L16.4697 4.53028C16.1768 4.23738 16.1768 3.76262 16.4697 3.46973C16.7626 3.17684 17.2374 3.17684 17.5303 3.46973L19.5 5.43946L21.4697 3.46973ZM2.75 19C2.75 19.6904 3.30964 20.25 4 20.25H17.0029L7.2627 10.7168L2.75 15.1328V19ZM21.6973 19C21.6973 20.5188 20.466 21.75 18.9473 21.75H4C2.48122 21.75 1.25 20.5188 1.25 19V6.51563C1.25 4.99685 2.48122 3.76563 4 3.76563H14.6318C15.0459 3.76577 15.3818 4.1015 15.3818 4.51563C15.3816 4.92954 15.0458 5.26549 14.6318 5.26563H4C3.30964 5.26563 2.75 5.82527 2.75 6.51563V13.0342L6.73828 9.13086L6.85547 9.03711C7.14398 8.84988 7.533 8.88119 7.78809 9.13086L14.3682 15.5713L17.791 12.2217L17.9082 12.1279C18.1967 11.9408 18.5858 11.972 18.8408 12.2217L20.1973 13.5488V10.6973C20.1973 10.2831 20.5331 9.94733 20.9473 9.94727C21.3615 9.94727 21.6973 10.2831 21.6973 10.6973V19Z" fill="black" />
             </svg>
         ),
-        description: __(
+        get description() { return __(
             "Hides images to reduce distractions and improve focus on text content.",
             "website-accessibility",
-        ),
+        ); },
         attributes: [
             {
-                name: __("Enable", "website-accessibility"),
+                get name() { return __("Enable", "website-accessibility"); },
                 value: "enable",
                 // `rule: true` makes this one stylesheet rule instead of an inline style
                 // per element. Inline styles only ever reached the images that existed
@@ -456,10 +456,10 @@ const features = [
                     },
                 ],
                 hideBackgroundImages: true,
-                enableAnnouncement: __("Hide Images Enable.", "website-accessibility"),
+                get enableAnnouncement() { return __("Hide Images Enable.", "website-accessibility"); },
             },
             {
-                name: __("Disable", "website-accessibility"),
+                get name() { return __("Disable", "website-accessibility"); },
                 value: "disable",
                 css: [],
             },
@@ -467,24 +467,24 @@ const features = [
     },
     {
         key: "cursor",
-        label: __("Cursor", "website-accessibility"),
+        get label() { return __("Cursor", "website-accessibility"); },
         styleMethod: "styleTag",
-        disableAnnouncement: __(
+        get disableAnnouncement() { return __(
             "The cursor setting has been disabled.",
             "website-accessibility",
-        ),
+        ); },
         icon: (
             <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
                 <path d="M3.55566 5.31348C3.29033 4.25165 4.25165 3.29034 5.31348 3.55566L17.9922 6.72461C19.2639 7.04268 19.4937 8.75105 18.3516 9.39453L15.0059 11.2793L20.0137 16.2861C20.5972 16.8698 20.5761 17.8221 19.9678 18.3799L18.1016 20.0908C17.5211 20.6229 16.6218 20.5941 16.0762 20.0264L11.2686 15.0244L9.39453 18.3516C8.75105 19.4938 7.04268 19.2639 6.72461 17.9922L3.55566 5.31348ZM8.14941 17.5068L9.99512 14.2295C10.4424 13.4359 11.4891 13.2573 12.1729 13.8154L12.3047 13.9365L17.124 18.9512L18.915 17.3086L13.8994 12.2939C13.2208 11.6153 13.3769 10.476 14.2129 10.0049L17.5068 8.14941L5.03027 5.03027L8.14941 17.5068Z" fill="black" />
             </svg>
         ),
-        description: __(
+        get description() { return __(
             "Changes the cursor to a big cursor, mask, or guideline.",
             "website-accessibility",
-        ),
+        ); },
         attributes: [
             {
-                name: __("Big Cursor", "website-accessibility"),
+                get name() { return __("Big Cursor", "website-accessibility"); },
                 value: "big-cursor",
                 css: [
                     {
@@ -495,37 +495,37 @@ const features = [
                         },
                     },
                 ],
-                enableAnnouncement: __("Big Cursor Enable.", "website-accessibility"),
+                get enableAnnouncement() { return __("Big Cursor Enable.", "website-accessibility"); },
             },
             {
-                name: __("Mask", "website-accessibility"),
+                get name() { return __("Mask", "website-accessibility"); },
                 value: "mask",
                 css: [],
-                enableAnnouncement: __("Cursor Mask Enable.", "website-accessibility"),
+                get enableAnnouncement() { return __("Cursor Mask Enable.", "website-accessibility"); },
             },
             {
-                name: __("Guideline", "website-accessibility"),
+                get name() { return __("Guideline", "website-accessibility"); },
                 value: "guideline",
                 css: [],
-                enableAnnouncement: __(
+                get enableAnnouncement() { return __(
                     "Cursor Guideline Enable.",
                     "website-accessibility",
-                ),
+                ); },
             },
         ],
     },
     {
         key: "tooltips",
-        label: __("Tooltips", "website-accessibility"),
+        get label() { return __("Tooltips", "website-accessibility"); },
         styleMethod: "rootClass",
-        disableAnnouncement: __(
+        get disableAnnouncement() { return __(
             "The tooltips setting has been disabled.",
             "website-accessibility",
-        ),
-        description: __(
+        ); },
+        get description() { return __(
             "Enables tooltips to provide additional context for elements on the page.",
             "website-accessibility",
-        ),
+        ); },
         icon: (
             <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
                 <path d="M20.25 5C20.25 3.75736 19.2426 2.75 18 2.75H6C4.75736 2.75 3.75 3.75736 3.75 5V20.1924L6.2207 17.7295C6.92365 17.0285 7.87643 16.6348 8.86914 16.6348H18C19.2426 16.6348 20.2499 15.6273 20.25 14.3848V5ZM11.5068 14V8.5C11.5068 8.08589 11.8428 7.75017 12.2568 7.75C12.671 7.75 13.0068 8.08579 13.0068 8.5V14C13.0068 14.4142 12.671 14.75 12.2568 14.75C11.8428 14.7498 11.5068 14.4141 11.5068 14ZM11.5068 6V5.5C11.5068 5.08589 11.8428 4.75017 12.2568 4.75C12.671 4.75 13.0068 5.08579 13.0068 5.5V6C13.0068 6.41421 12.671 6.75 12.2568 6.75C11.8428 6.74983 11.5068 6.41411 11.5068 6ZM21.75 14.3848C21.7499 16.4558 20.071 18.1348 18 18.1348H8.86914C8.27366 18.1348 7.70201 18.3706 7.28027 18.791L3.5293 22.5312C3.31469 22.7451 2.99273 22.8084 2.71289 22.6924C2.4329 22.5762 2.25 22.3031 2.25 22V5C2.25 2.92893 3.92893 1.25 6 1.25H18C20.0711 1.25 21.75 2.92893 21.75 5V14.3848Z" fill="black" />
@@ -533,13 +533,13 @@ const features = [
         ),
         attributes: [
             {
-                name: __("Enable", "website-accessibility"),
+                get name() { return __("Enable", "website-accessibility"); },
                 value: "enable",
                 css: [],
-                enableAnnouncement: __("Tooltips Enable.", "website-accessibility"),
+                get enableAnnouncement() { return __("Tooltips Enable.", "website-accessibility"); },
             },
             {
-                name: __("Disable", "website-accessibility"),
+                get name() { return __("Disable", "website-accessibility"); },
                 value: "disable",
                 css: [],
             },
@@ -547,16 +547,16 @@ const features = [
     },
     {
         key: "lineHeight",
-        label: __("Line Height", "website-accessibility"),
+        get label() { return __("Line Height", "website-accessibility"); },
         styleMethod: "styleTag",
-        disableAnnouncement: __(
+        get disableAnnouncement() { return __(
             "The line height setting has been disabled.",
             "website-accessibility",
-        ),
-        description: __(
+        ); },
+        get description() { return __(
             "Increases the space between lines of text for better readability.",
             "website-accessibility",
-        ),
+        ); },
         icon: (
             <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
                 <path d="M18.2726 16.4167C18.6868 16.4167 19.0226 16.7525 19.0226 17.1667C19.0226 17.5809 18.6868 17.9167 18.2726 17.9167H10.0909C9.6767 17.9167 9.34091 17.5809 9.34091 17.1667C9.34091 16.7525 9.6767 16.4167 10.0909 16.4167H18.2726ZM21.0001 12.7497C21.4142 12.7497 21.7499 13.0857 21.7501 13.4997C21.7501 13.9139 21.4143 14.2496 21.0001 14.2497H10.0909C9.6767 14.2497 9.34091 13.9139 9.34091 13.4997C9.34109 13.0856 9.67681 12.7497 10.0909 12.7497H21.0001ZM21.0001 9.08368C21.4143 9.08373 21.7501 9.4195 21.7501 9.83368C21.7499 10.2477 21.4142 10.5836 21.0001 10.5837H10.0909C9.67681 10.5837 9.34109 10.2477 9.34091 9.83368C9.34091 9.41947 9.6767 9.08368 10.0909 9.08368H21.0001ZM21.0001 5.41669C21.4143 5.41673 21.7501 5.7525 21.7501 6.16669C21.7501 6.58087 21.4143 6.91664 21.0001 6.91669H10.0909C9.6767 6.91669 9.34091 6.5809 9.34091 6.16669C9.34091 5.75247 9.6767 5.41669 10.0909 5.41669H21.0001Z" fill="black" />
@@ -567,7 +567,7 @@ const features = [
         ),
         attributes: [
             {
-                name: __("Medium", "website-accessibility"),
+                get name() { return __("Medium", "website-accessibility"); },
                 value: "medium",
                 css: [
                     {
@@ -577,13 +577,13 @@ const features = [
                         },
                     },
                 ],
-                enableAnnouncement: __(
+                get enableAnnouncement() { return __(
                     "Line Height, set to Medium.",
                     "website-accessibility",
-                ),
+                ); },
             },
             {
-                name: __("Large", "website-accessibility"),
+                get name() { return __("Large", "website-accessibility"); },
                 value: "large",
                 css: [
                     {
@@ -593,13 +593,13 @@ const features = [
                         },
                     },
                 ],
-                enableAnnouncement: __(
+                get enableAnnouncement() { return __(
                     "Line Height, set to Large.",
                     "website-accessibility",
-                ),
+                ); },
             },
             {
-                name: __("Extra Large", "website-accessibility"),
+                get name() { return __("Extra Large", "website-accessibility"); },
                 value: "extra-large",
                 css: [
                     {
@@ -609,25 +609,25 @@ const features = [
                         },
                     },
                 ],
-                enableAnnouncement: __(
+                get enableAnnouncement() { return __(
                     "Line Height, set to Extra Large.",
                     "website-accessibility",
-                ),
+                ); },
             },
         ],
     },
     {
         key: "textAlign",
-        label: __("Text Alignment", "website-accessibility"),
+        get label() { return __("Text Alignment", "website-accessibility"); },
         styleMethod: "styleTag",
-        disableAnnouncement: __(
+        get disableAnnouncement() { return __(
             "The text alignment setting has been disabled.",
             "website-accessibility",
-        ),
-        description: __(
+        ); },
+        get description() { return __(
             "Aligns text to the left, center, or right.",
             "website-accessibility",
-        ),
+        ); },
         icon: (
             <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
                 <path d="M16.5 18.25C16.9142 18.25 17.25 18.5858 17.25 19C17.25 19.4142 16.9142 19.75 16.5 19.75H3C2.58579 19.75 2.25 19.4142 2.25 19C2.25 18.5858 2.58579 18.25 3 18.25H16.5ZM21 13.583C21.4141 13.583 21.7498 13.9189 21.75 14.333C21.75 14.7472 21.4142 15.083 21 15.083H3C2.58579 15.083 2.25 14.7472 2.25 14.333C2.25018 13.9189 2.58589 13.583 3 13.583H21ZM16.5 8.91699C16.9142 8.91699 17.25 9.25278 17.25 9.66699C17.2498 10.0811 16.9141 10.417 16.5 10.417H3C2.5859 10.417 2.25018 10.0811 2.25 9.66699C2.25 9.25278 2.58579 8.91699 3 8.91699H16.5ZM21 4.25C21.4142 4.25 21.75 4.58579 21.75 5C21.75 5.41421 21.4142 5.75 21 5.75H3C2.58579 5.75 2.25 5.41421 2.25 5C2.25 4.58579 2.58579 4.25 3 4.25H21Z" fill="black" />
@@ -635,7 +635,7 @@ const features = [
         ),
         attributes: [
             {
-                name: __("Left", "website-accessibility"),
+                get name() { return __("Left", "website-accessibility"); },
                 value: "left",
                 css: [
                     {
@@ -645,13 +645,13 @@ const features = [
                         },
                     },
                 ],
-                enableAnnouncement: __(
+                get enableAnnouncement() { return __(
                     "Text Alignment, set to Left.",
                     "website-accessibility",
-                ),
+                ); },
             },
             {
-                name: __("Center", "website-accessibility"),
+                get name() { return __("Center", "website-accessibility"); },
                 value: "center",
                 css: [
                     {
@@ -661,13 +661,13 @@ const features = [
                         },
                     },
                 ],
-                enableAnnouncement: __(
+                get enableAnnouncement() { return __(
                     "Text Alignment, set to Center.",
                     "website-accessibility",
-                ),
+                ); },
             },
             {
-                name: __("Right", "website-accessibility"),
+                get name() { return __("Right", "website-accessibility"); },
                 value: "right",
                 css: [
                     {
@@ -677,13 +677,13 @@ const features = [
                         },
                     },
                 ],
-                enableAnnouncement: __(
+                get enableAnnouncement() { return __(
                     "Text Alignment, set to Right.",
                     "website-accessibility",
-                ),
+                ); },
             },
             {
-                name: __("Justify", "website-accessibility"),
+                get name() { return __("Justify", "website-accessibility"); },
                 value: "justify",
                 css: [
                     {
@@ -693,25 +693,25 @@ const features = [
                         },
                     },
                 ],
-                enableAnnouncement: __(
+                get enableAnnouncement() { return __(
                     "Text Alignment, set to Justify.",
                     "website-accessibility",
-                ),
+                ); },
             },
         ],
     },
     {
         key: "saturation",
-        label: __("Saturation", "website-accessibility"),
+        get label() { return __("Saturation", "website-accessibility"); },
         styleMethod: "inline",
-        disableAnnouncement: __(
+        get disableAnnouncement() { return __(
             "The saturation setting has been disabled.",
             "website-accessibility",
-        ),
-        description: __(
+        ); },
+        get description() { return __(
             "Adjusts the saturation of colors to improve readability.",
             "website-accessibility",
-        ),
+        ); },
         icon: (
             <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
                 <path d="M10.9121 2.39746C11.361 1.60559 12.4592 1.55626 12.9893 2.24903L13.0879 2.39746L18.0928 11.2305C19.1381 13.0752 20.0147 15.463 19.1006 17.7227C17.9156 20.6513 15.2061 22.75 12 22.75C8.79393 22.75 6.08436 20.6513 4.89941 17.7227C3.98526 15.463 4.86187 13.0752 5.90723 11.2305L10.9121 2.39746ZM7.21191 11.9707C6.21274 13.7341 5.64793 15.5753 6.28906 17.1602C7.27675 19.6015 9.48617 21.25 12 21.25C14.5138 21.25 16.7232 19.6015 17.7109 17.1602C18.3521 15.5753 17.7873 13.7341 16.7881 11.9707L12 3.52149L7.21191 11.9707Z" fill="black" />
@@ -723,46 +723,46 @@ const features = [
         ),
         attributes: [
             {
-                name: __("Low", "website-accessibility"),
+                get name() { return __("Low", "website-accessibility"); },
                 value: "low",
                 css: [],
-                enableAnnouncement: __(
+                get enableAnnouncement() { return __(
                     "Saturation, set to Low.",
                     "website-accessibility",
-                ),
+                ); },
             },
             {
-                name: __("High", "website-accessibility"),
+                get name() { return __("High", "website-accessibility"); },
                 value: "high",
                 css: [],
-                enableAnnouncement: __(
+                get enableAnnouncement() { return __(
                     "Saturation, set to High.",
                     "website-accessibility",
-                ),
+                ); },
             },
             {
-                name: __("Desaturate", "website-accessibility"),
+                get name() { return __("Desaturate", "website-accessibility"); },
                 value: "desaturate",
                 css: [],
-                enableAnnouncement: __(
+                get enableAnnouncement() { return __(
                     "Saturation, set to Desaturate.",
                     "website-accessibility",
-                ),
+                ); },
             },
         ],
     },
     {
         key: "dictionary",
-        label: __("Dictionary", "website-accessibility"),
+        get label() { return __("Dictionary", "website-accessibility"); },
         styleMethod: "rootClass",
-        disableAnnouncement: __(
+        get disableAnnouncement() { return __(
             "The dictionary setting has been disabled.",
             "website-accessibility",
-        ),
-        description: __(
+        ); },
+        get description() { return __(
             "Enables a dictionary to provide additional context for words on the page.",
             "website-accessibility",
-        ),
+        ); },
         icon: (
             <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
                 <g clipPath="url(#clip0_366_186)">
@@ -780,16 +780,16 @@ const features = [
         ),
         attributes: [
             {
-                name: __("Enable", "website-accessibility"),
+                get name() { return __("Enable", "website-accessibility"); },
                 value: "enable",
                 css: [],
-                enableAnnouncement: __("Dictionary Enable.", "website-accessibility"),
+                get enableAnnouncement() { return __("Dictionary Enable.", "website-accessibility"); },
             },
             {
-                name: __("Disable", "website-accessibility"),
+                get name() { return __("Disable", "website-accessibility"); },
                 value: "disable",
                 css: [],
-                enableAnnouncement: __("Dictionary Disable.", "website-accessibility"),
+                get enableAnnouncement() { return __("Dictionary Disable.", "website-accessibility"); },
             },
         ],
     },

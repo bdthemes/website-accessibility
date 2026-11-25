@@ -3,6 +3,7 @@ import clsx from "clsx";
 import { __, sprintf } from "@wordpress/i18n";
 import { normalizeItemLayout } from "../utils/item-layout";
 import { announce } from "../utils/feature-handlers";
+import { useI18nVersion } from "../utils/i18n-version";
 
 /* -------------------- 🔹 ProfileItem Component -------------------- */
 const ProfileItem = ({ profile, isActive, handleClick, hideItemIcons, hideItemLabels, layout }) => {
@@ -126,6 +127,8 @@ const AccessibilityProfiles = ({
 
 	const isFrontend = !!accessibilityContext && !!accessibilityDispatch;
 	const { currentProfile, currentSettings } = accessibilityContext || {};
+	// Built-in profile names are read live: rebuild when the toolbar's language changes.
+	const i18nVersion = useI18nVersion();
 
 	const processedProfiles = useMemo(() => {
 		if (!allProfiles || allProfiles.length === 0) return [];
@@ -169,7 +172,7 @@ const AccessibilityProfiles = ({
 				settings: content?.features || profile?.features || {},
 			};
 		});
-	}, [allProfiles]);
+	}, [allProfiles, i18nVersion]);
 
 	const selectedProfiles = useMemo(() => {
 		// Compare as strings. A custom profile's id arrives as a number on the
