@@ -11,7 +11,7 @@ import { __ } from "@wordpress/i18n";
 const defaultProfiles = [
     {
         id: "motor",
-        title: { rendered: __("Motor Impaired", "website-accessibility"), raw: __("Motor Impaired", "website-accessibility") },
+        title: { get rendered() { return __("Motor Impaired", "website-accessibility"); }, get raw() { return __("Motor Impaired", "website-accessibility"); } },
         slug: "motor",
         icon: <MotorIcon />,
         features: {
@@ -22,7 +22,7 @@ const defaultProfiles = [
     },
     {
         id: "color-blind",
-        title: { rendered: __("Color Blind", "website-accessibility"), raw: __("Color Blind", "website-accessibility") },
+        title: { get rendered() { return __("Color Blind", "website-accessibility"); }, get raw() { return __("Color Blind", "website-accessibility"); } },
         slug: "color-blind",
         icon: <ColorBlindIcon />,
         features: {
@@ -31,7 +31,7 @@ const defaultProfiles = [
     },
     {
         id: "low-vision",
-        title: { rendered: __("Low Vision", "website-accessibility"), raw: __("Low Vision", "website-accessibility") },
+        title: { get rendered() { return __("Low Vision", "website-accessibility"); }, get raw() { return __("Low Vision", "website-accessibility"); } },
         slug: "low-vision",
         icon: <LowVisionIcon />,
         features: {
@@ -44,7 +44,7 @@ const defaultProfiles = [
     },
     {
         id: "cognitive",
-        title: { rendered: __("Cognitive & Learning", "website-accessibility"), raw: __("Cognitive & Learning", "website-accessibility") },
+        title: { get rendered() { return __("Cognitive & Learning", "website-accessibility"); }, get raw() { return __("Cognitive & Learning", "website-accessibility"); } },
         slug: "cognitive",
         icon: <CognitiveIcon />,
         features: {
@@ -56,7 +56,7 @@ const defaultProfiles = [
     },
     {
         id: "seizure",
-        title: { rendered: __("Seizure & Epileptic", "website-accessibility"), raw: __("Seizure & Epileptic", "website-accessibility") },
+        title: { get rendered() { return __("Seizure & Epileptic", "website-accessibility"); }, get raw() { return __("Seizure & Epileptic", "website-accessibility"); } },
         slug: "seizure",
         icon: <SeizureIcon />,
         features: {
@@ -67,7 +67,7 @@ const defaultProfiles = [
     },
     {
         id: "adhd",
-        title: { rendered: __("ADHD", "website-accessibility"), raw: __("ADHD", "website-accessibility") },
+        title: { get rendered() { return __("ADHD", "website-accessibility"); }, get raw() { return __("ADHD", "website-accessibility"); } },
         slug: "adhd",
         icon: <ADHDIcon />,
         features: {

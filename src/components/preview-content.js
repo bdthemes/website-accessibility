@@ -1,6 +1,7 @@
 import { useRef, cloneElement, useState, useEffect, useLayoutEffect } from "@wordpress/element";
 import clsx from "clsx";
 import { themeVariables } from "../utils/theme-variables";
+import { useI18nVersion, getToolbarDirection } from "../utils/i18n-version";
 
 
 const PreviewContent = ({
@@ -13,11 +14,15 @@ const PreviewContent = ({
     isOpen,
     isEditorPreview = false,
 }) => {
-    const { AccessibilityProfiles, WidgetFeatures, PanelHeader, PanelFooter } = window?.wapComponents;
+    // PanelBodyStart: optional add-on component rendered at the top of the panel body.
+    const { AccessibilityProfiles, WidgetFeatures, PanelHeader, PanelFooter, PanelBodyStart = null } = window?.wapComponents;
     const { useDrawerScrollControl } = window.wapHelpers;
     const { isOverSized } = accessibilityContext || {};
 
     const panelRef = useRef(null);
+    // Render again when the toolbar's language changes (strings are read live).
+    useI18nVersion();
+    const direction = getToolbarDirection();
     const [headerDropdownOpen, setHeaderDropdownOpen] = useState(false);
     const lockedPanelScrollTopRef = useRef(0);
 
@@ -140,6 +145,7 @@ const PreviewContent = ({
                 )
             }
             translate="no"
+            dir={direction}
             style={{
                 '--panel-width': panel?.wrapper?.width && `${panel.wrapper.width}px`,
                 '--panel-background': panel?.wrapper?.background,
@@ -176,6 +182,15 @@ const PreviewContent = ({
                 <div className="wap-panel-customization__body">
                     <div className="wap-panel-customization__main">
                         <div className="wap-panel-customization__info">
+                            {PanelBodyStart ? (
+                                <PanelBodyStart
+                                    panel={panel}
+                                    accessibilityContext={accessibilityContext}
+                                    accessibilityDispatch={accessibilityDispatch}
+                                    isEditorPreview={isEditorPreview}
+                                    isOpen={isOpen}
+                                />
+                            ) : null}
                             {
                                 panel?.items?.map((item) => {
                                     const Component = itemComponents?.[item?.slug];

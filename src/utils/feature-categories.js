@@ -1,24 +1,56 @@
 import { __ } from "@wordpress/i18n";
 
+/**
+ * Built-in category titles: English source (what migrations store in presets)
+ * and a lookup in the language currently loaded.
+ */
+const DEFAULT_CATEGORY_TITLES = {
+    text: { source: "Text", translate: () => __("Text", "website-accessibility") },
+    color: { source: "Color & Contrast", translate: () => __("Color & Contrast", "website-accessibility") },
+    orientation: { source: "Orientation", translate: () => __("Orientation", "website-accessibility") },
+    behavior: { source: "Behavior", translate: () => __("Behavior", "website-accessibility") },
+};
+
+// The titles as they read when the page loaded (site language): a preset saved
+// from the editor holds these.
+const INITIAL_CATEGORY_TITLES = Object.keys(DEFAULT_CATEGORY_TITLES).reduce((acc, slug) => {
+    acc[slug] = DEFAULT_CATEGORY_TITLES[slug].translate();
+    return acc;
+}, {});
+
+/**
+ * Title to show for a category. A built-in category whose saved title is still
+ * the default one (English, or the site language's) follows the language now
+ * loaded; a title the site owner typed is shown as typed.
+ */
+export const localizeCategoryTitle = (slug, title) => {
+    const known = DEFAULT_CATEGORY_TITLES[slug];
+    if (!known) return title;
+    if (!title || title === known.source || title === INITIAL_CATEGORY_TITLES[slug]) {
+        return known.translate();
+    }
+    return title;
+};
+
 export const DEFAULT_FEATURE_CATEGORY_DEFINITIONS = [
     {
         slug: "text",
-        title: __("Text", "website-accessibility"),
+        get title() { return DEFAULT_CATEGORY_TITLES.text.translate(); },
         keys: ["biggerText", "textSpacing", "lineHeight", "textAlign", "dictionary"],
     },
     {
         slug: "color",
-        title: __("Color & Contrast", "website-accessibility"),
+        get title() { return DEFAULT_CATEGORY_TITLES.color.translate(); },
         keys: ["contrast", "saturation", "highlightLinks", "hideImages"],
     },
     {
         slug: "orientation",
-        title: __("Orientation", "website-accessibility"),
+        get title() { return DEFAULT_CATEGORY_TITLES.orientation.translate(); },
         keys: ["cursor", "tooltips"],
     },
     {
         slug: "behavior",
-        title: __("Behavior", "website-accessibility"),
+        get title() { return DEFAULT_CATEGORY_TITLES.behavior.translate(); },
         keys: ["pauseAnimations"],
     },
 ];

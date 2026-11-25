@@ -5,6 +5,7 @@ import { initialState } from "./context/reducer";
 import accessibilityManager from "../accessibilty-manager";
 import { announce } from "../utils/feature-handlers";
 import { toCssLength } from "../utils/helpers";
+import { useI18nVersion } from "../utils/i18n-version";
 import { __ } from "@wordpress/i18n";
 import apiFetch from "@wordpress/api-fetch";
 
@@ -14,6 +15,8 @@ const View = () => {
     const { PreviewButton, PreviewContent, Icon, WapDrawer, FrontendExtensions = null } = window?.wapComponents;
     const { profiles, currentPreset, currentPresetId, settings, nonce, restUrl, isUserLoggedIn } = window?.websiteAccessibility;
     const { dispatch, ...state } = useFrontendAccessibility();
+    // Render again when the toolbar's language changes (strings are read live).
+    useI18nVersion();
     // Opened from the launcher before the toolbar had loaded (src/launcher): start open.
     const [isOpen, setIsOpen] = useState(() => {
         const openNow = !!window.websacOpenOnStart;

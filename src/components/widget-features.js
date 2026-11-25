@@ -2,7 +2,8 @@ import clsx from "clsx";
 import { useMemo, useRef, useState, useCallback, useLayoutEffect } from "@wordpress/element";
 import { __ } from "@wordpress/i18n";
 import { InfoCircleOutlined } from "@ant-design/icons";
-import { getFeatureCategories, getFeatureStateIndex } from "../utils/feature-categories";
+import { getFeatureCategories, getFeatureStateIndex, localizeCategoryTitle } from "../utils/feature-categories";
+import { useI18nVersion } from "../utils/i18n-version";
 import { normalizeItemLayout } from "../utils/item-layout";
 import { announce } from "../utils/feature-handlers";
 import FeatureSwatches from "./feature-swatches";
@@ -215,6 +216,8 @@ const WidgetFeatures = ({
 	// Check if we're in frontend context
 	const isFrontend = !!accessibilityContext && !!accessibilityDispatch;
 	const { currentSettings } = accessibilityContext || {};
+	// Feature labels are read live: render again when the toolbar's language changes.
+	useI18nVersion();
 
 	const features = useMemo(() => {
 		const allFeatures = window.wapHelpers?.features || [];
@@ -332,7 +335,7 @@ const WidgetFeatures = ({
 			{categorizedFeatures.map((category) => (
 				<div className="wap-widget-features__category" key={category.slug}>
 					<div className="wap-widget-features__category-header">
-						<span className="wap-widget-features__category-title">{category.title}</span>
+						<span className="wap-widget-features__category-title">{localizeCategoryTitle(category.slug, category.title)}</span>
 					</div>
 					<WapRow gutter={[10, 10]} className="wap-widget-features__grid">
 						{category.features.map((feature) => (
