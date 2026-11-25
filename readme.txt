@@ -4,7 +4,7 @@ Tags:              accessibility, web-accessibility, accessibility-plugin, ada-c
 Requires at least: 6.6
 Tested up to:      7.1
 Requires PHP:      7.4
-Stable tag:        1.7.3
+Stable tag:        1.8.0
 License:           GPL-2.0-or-later
 License URI:       https://www.gnu.org/licenses/gpl-2.0.html
 
@@ -205,6 +205,9 @@ Pause Animations now also stops JavaScript animations, page-builder effects, sli
 Fixes Contrast + Dark and Light leaving whole sections blank, and the toolbar recolouring itself. Admin screens now share one loading skeleton. Recommended for all users.
 
 == Changelog ==
+
+= 1.8.0 – November 25, 2026 =
+* Improved: The toolbar's text and reading direction update at once when its language changes, without a page reload.
 
 = 1.7.3 – November 19, 2026 =
 * Updated: System improved
