@@ -11,6 +11,7 @@ return array(
     'Websac\\Admin\\Menu' => $baseDir . '/includes/Admin/Menu.php',
     'Websac\\Core\\AccessibilityPreset' => $baseDir . '/includes/Core/AccessibilityPreset.php',
     'Websac\\Core\\Migrations' => $baseDir . '/includes/Core/Migrations.php',
+    'Websac\\Core\\PresetRestController' => $baseDir . '/includes/Core/PresetRestController.php',
     'Websac\\Core\\Utils' => $baseDir . '/includes/Core/Utils.php',
     'Websac\\Routes\\DashboardTourRouteV1' => $baseDir . '/includes/Routes/DashboardTourRouteV1.php',
     'Websac\\Routes\\PreferenceRouteV1' => $baseDir . '/includes/Routes/PreferenceRouteV1.php',

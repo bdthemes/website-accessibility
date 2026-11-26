@@ -26,6 +26,7 @@ class ComposerStaticInitcdd1d7ba98a05cbefe17d0fbe567e4b4
         'Websac\\Admin\\Menu' => __DIR__ . '/../..' . '/includes/Admin/Menu.php',
         'Websac\\Core\\AccessibilityPreset' => __DIR__ . '/../..' . '/includes/Core/AccessibilityPreset.php',
         'Websac\\Core\\Migrations' => __DIR__ . '/../..' . '/includes/Core/Migrations.php',
+        'Websac\\Core\\PresetRestController' => __DIR__ . '/../..' . '/includes/Core/PresetRestController.php',
         'Websac\\Core\\Utils' => __DIR__ . '/../..' . '/includes/Core/Utils.php',
         'Websac\\Routes\\DashboardTourRouteV1' => __DIR__ . '/../..' . '/includes/Routes/DashboardTourRouteV1.php',
         'Websac\\Routes\\PreferenceRouteV1' => __DIR__ . '/../..' . '/includes/Routes/PreferenceRouteV1.php',

@@ -6,7 +6,7 @@ import useBrowserKey from "./use-browser-key";
 import useDrawerScrollControl from "./use-drawer-scroll-control";
 import { DEFAULT_FEATURE_CATEGORY_DEFINITIONS } from "./feature-categories";
 import { registerFeatureHandler, getFeatureHandler } from "./feature-handlers";
-import { isSvgFile, readSvgFileAsMarkup, svgMarkupToDataUri, extractSvgMarkupFromText, isSvgAssetUrl } from "./svgUpload";
+import { isSvgFile, readSvgFileAsMarkup, svgMarkupToDataUri, extractSvgMarkupFromText, isSvgAssetUrl, sanitizeSvgMarkup } from "./svgUpload";
 
 /**
  * Turn a stored length into a usable CSS value.
@@ -45,5 +45,7 @@ export const helpers = {
     useBrowserKey,
     useDrawerScrollControl,
     featureCategoryDefinitions: DEFAULT_FEATURE_CATEGORY_DEFINITIONS,
-    svgUpload: { isSvgFile, readSvgFileAsMarkup, svgMarkupToDataUri, extractSvgMarkupFromText, isSvgAssetUrl },
+    svgUpload: { isSvgFile, readSvgFileAsMarkup, svgMarkupToDataUri, extractSvgMarkupFromText, isSvgAssetUrl, sanitizeSvgMarkup },
+    // For add-ons that put stored SVG markup on the page.
+    sanitizeSvg: sanitizeSvgMarkup,
 };

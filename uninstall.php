@@ -35,6 +35,7 @@ function websac_uninstall_site()
 	delete_transient('websac_preference_stats');
 	delete_transient('websac_product_feeds');
 	delete_transient('websac_product_feeds_rss');
+	delete_transient('websac_stats_budget');
 
 	// Short-lived usage-statistics throttle transients (websac_stats_<hash>).
 	$wpdb->query( // phpcs:ignore WordPress.DB.DirectDatabaseQuery.DirectQuery,WordPress.DB.DirectDatabaseQuery.NoCaching -- Uninstall cleanup of this plugin's own transients.
@@ -48,10 +49,10 @@ function websac_uninstall_site()
 	// Visitor/user toolbar preferences.
 	delete_metadata('user', 0, 'websac_preferences', '', true);
 
-	// Preset posts.
+	// Preset posts, in every status: 'any' leaves out trashed and auto-draft ones.
 	$presets = get_posts([
 		'post_type'      => 'websac_preset',
-		'post_status'    => 'any',
+		'post_status'    => array_keys(get_post_stati()),
 		'posts_per_page' => -1,
 		'fields'         => 'ids',
 		'no_found_rows'  => true,

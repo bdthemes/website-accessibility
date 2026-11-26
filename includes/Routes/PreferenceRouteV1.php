@@ -2,6 +2,7 @@
 
 namespace Websac\Routes;
 
+use Websac\Core\Utils;
 use Websac\Traits\Singleton;
 
 if (! defined('ABSPATH')) exit;
@@ -112,44 +113,15 @@ class PreferenceRouteV1
      */
     public function sanitize_preference_data($value)
     {
-        return $this->sanitize_preference_value($value, 0);
-    }
-
-    /**
-     * @param mixed $value
-     * @param int   $depth
-     * @return mixed
-     */
-    private function sanitize_preference_value($value, $depth)
-    {
-        if ($depth > 8) {
-            return null;
-        }
-
-        if (is_array($value)) {
-            $clean = [];
-            foreach ($value as $key => $item) {
-                // Keys are camelCase feature/profile identifiers: keep case, strip anything odd.
-                $key = is_int($key) ? $key : substr(preg_replace('/[^A-Za-z0-9_\-]/', '', (string) $key), 0, 64);
-                if ($key === '') {
-                    continue;
-                }
-                $clean[$key] = $this->sanitize_preference_value($item, $depth + 1);
-            }
-            return $clean;
-        }
-
-        if (is_bool($value) || is_int($value) || is_float($value) || $value === null) {
-            return $value;
-        }
-
-        // Leaves are feature values / CSS fragments / labels: strip markup and
-        // control characters but keep punctuation such as %, (), # intact.
-        $text = wp_check_invalid_utf8((string) $value);
-        $text = wp_strip_all_tags($text, false);
-        $text = preg_replace('/[\x00-\x08\x0B\x0C\x0E-\x1F\x7F]/', '', $text);
-
-        return substr((string) $text, 0, 2048);
+        // Keys are camelCase feature/profile identifiers; leaves are feature
+        // values and labels: markup and control characters go, punctuation such
+        // as %, (), # stays.
+        return Utils::sanitize_json_value($value, [
+            'strip_tags' => true,
+            'clean_keys' => true,
+            'max_depth'  => 8,
+            'max_length' => 2048,
+        ]);
     }
 
     /**
@@ -188,16 +160,28 @@ class PreferenceRouteV1
                 ]);
             }
 
-            $users = get_users(['fields' => ['ID']]);
-            $total_users = count($users);
-            $users_with_data = 0;
+            // Counted in the database: loading every user and then their meta one by
+            // one cost a query per user, which large sites cannot afford.
+            $total_users = (int) (new \WP_User_Query([
+                'fields'      => 'ID',
+                'number'      => 1,
+                'count_total' => true,
+            ]))->get_total();
 
-            foreach ($users as $user) {
-                $pref = get_user_meta($user->ID, self::META_KEY, true);
-                if (!empty($pref) && is_array($pref) && count($pref) > 0) {
-                    $users_with_data++;
-                }
-            }
+            // Users with at least one saved preference (an emptied list is stored
+            // as a serialized empty array).
+            $users_with_data = (int) (new \WP_User_Query([
+                'fields'      => 'ID',
+                'number'      => 1,
+                'count_total' => true,
+                'meta_query'  => [ // phpcs:ignore WordPress.DB.SlowDBQuery.slow_db_query_meta_query -- Admin-only, cached for a minute.
+                    [
+                        'key'     => self::META_KEY,
+                        'value'   => ['', 'a:0:{}'], // 'a:0:{}': an empty array as update_user_meta() stores it.
+                        'compare' => 'NOT IN',
+                    ],
+                ],
+            ]))->get_total();
 
             $average_percent = $total_users > 0 ? round(($users_with_data / $total_users) * 100, 2) : 0;
 

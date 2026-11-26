@@ -201,11 +201,14 @@ class Frontend {
             $current_preset = Utils::get_current_preset($presets_data, $page_type);
             $this->current_preset_id = !empty($current_preset['ID']) ? (int) $current_preset['ID'] : 0;
             $this->current_preset = is_array($current_preset) ? $current_preset : [];
+            $public_preset = $this->public_preset($current_preset);
             $localized = [
-                'presets'            => $presets_data,
+                // Only the preset this page runs with: the others (their names and the
+                // posts they target) are none of a visitor's business.
+                'presets'            => $public_preset ? [$public_preset] : [],
                 'profiles'           => $profiles,
                 'pageType'           => $page_type,
-                'currentPreset'      => $current_preset,
+                'currentPreset'      => $public_preset,
                 'currentPresetId'    => !empty($current_preset['ID']) ? $current_preset['ID'] : null,
                 'siteLanguage'       => get_bloginfo('language'),
                 'isUserLoggedIn'     => is_user_logged_in(),
@@ -242,6 +245,24 @@ class Frontend {
                 $this->lazy = true;
             }
         }
+    }
+
+    /**
+     * The preset as the page gets it. Which posts or archives it targets was
+     * decided here (Utils::get_current_preset()); the list itself, which may name
+     * unpublished posts, stays on the server.
+     *
+     * @param array|null $preset Preset the toolbar runs with.
+     * @return array|null
+     */
+    private function public_preset($preset) {
+        if (! is_array($preset)) {
+            return null;
+        }
+        if (isset($preset['preset']) && is_array($preset['preset'])) {
+            unset($preset['preset']['specificPosts'], $preset['preset']['specificArchive']);
+        }
+        return $preset;
     }
 
     /**
@@ -529,20 +550,21 @@ class Frontend {
             $raw = trim((string) $value);
             return preg_match('/^-?\d*\.?\d+$/', $raw) ? $raw . 'px' : $raw;
         };
+        $field = static function ($key) use ($button) {
+            return isset($button[$key]) && is_scalar($button[$key]) ? (string) $button[$key] : '';
+        };
         $variables = [
-            '--button-font-size' => isset($button['fontSize']) ? (string) $button['fontSize'] : '',
-            '--button-icon-size' => isset($button['iconSize']) ? (string) $button['iconSize'] : '',
-            '--button-color'     => isset($button['color']) ? (string) $button['color'] : '',
-            '--button-bg'        => isset($button['bgColor']) ? (string) $button['bgColor'] : '',
-            '--button-padding'   => isset($button['padding']) ? (string) $button['padding'] : '',
-            '--button-radius'    => isset($button['borderRadius']) ? $length($button['borderRadius']) : '',
-            '--button-offset-x'  => ! empty($button['offsetX']) ? (float) $button['offsetX'] . 'px' : '',
-            '--button-offset-y'  => ! empty($button['offsetY']) ? (float) $button['offsetY'] . 'px' : '',
+            '--button-font-size' => self::css_value($field('fontSize'), 'length'),
+            '--button-icon-size' => self::css_value($field('iconSize'), 'length'),
+            '--button-color'     => self::css_value($field('color'), 'color'),
+            '--button-bg'        => self::css_value($field('bgColor'), 'color'),
+            '--button-padding'   => self::css_value($field('padding'), 'length'),
+            '--button-radius'    => self::css_value($length($field('borderRadius')), 'length'),
+            '--button-offset-x'  => ! empty($button['offsetX']) && is_numeric($button['offsetX']) ? (float) $button['offsetX'] . 'px' : '',
+            '--button-offset-y'  => ! empty($button['offsetY']) && is_numeric($button['offsetY']) ? (float) $button['offsetY'] . 'px' : '',
         ];
         $style = '';
         foreach ($variables as $name => $value) {
-            // Keep only what a CSS value needs: no way out of the declaration.
-            $value = trim((string) preg_replace('/[^#%\w\s.,()+\-\/]/', '', $value));
             if ('' !== $value) {
                 $style .= $name . ': ' . $value . ';';
             }
@@ -554,6 +576,41 @@ class Frontend {
             'icon'    => $icon,
             'text'    => $text,
         ];
+    }
+
+    /**
+     * A launcher style value in one of the plain forms the preset editor writes,
+     * or '' for anything else. Nothing else gets through: no url() (a request to
+     * another host from every page), no way out of the declaration.
+     *
+     * @param string $value Stored value.
+     * @param string $type  'color' or 'length'.
+     * @return string
+     */
+    private static function css_value($value, $type) {
+        $value = trim((string) $value);
+        if ('' === $value || strlen($value) > 64) {
+            return '';
+        }
+
+        if ('color' === $type) {
+            $patterns = [
+                '/^#(?:[0-9a-f]{3,4}|[0-9a-f]{6}|[0-9a-f]{8})$/i',     // #rgb, #rgba, #rrggbb, #rrggbbaa
+                '/^(?:rgba?|hsla?)\(\s*[0-9.%\s,\/+\-]+\)$/i',          // rgb(…), rgba(…), hsl(…), hsla(…)
+                '/^[a-z]{3,20}$/i',                                       // named colours, transparent, currentColor
+            ];
+        } else {
+            // One to four numbers, each with an optional unit (e.g. "10px 20px", "50%").
+            $number   = '-?(?:\d+|\d*\.\d+)(?:px|em|rem|%|vw|vh|vmin|vmax|ch|pt)?';
+            $patterns = ['/^' . $number . '(?:\s+' . $number . '){0,3}$/i'];
+        }
+
+        foreach ($patterns as $pattern) {
+            if (preg_match($pattern, $value)) {
+                return $value;
+            }
+        }
+        return '';
     }
 
     /**

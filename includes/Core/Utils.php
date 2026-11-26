@@ -71,6 +71,92 @@ class Utils
         return is_array($data) ? $data : null;
     }
 
+    /**
+     * Clean a decoded JSON value (arrays, objects from json_decode() without
+     * $associative, scalars) before it is stored and later handed to the page.
+     *
+     * Strings lose invalid UTF-8 and control characters and, unless
+     * `strip_tags` is false, every HTML tag. Objects stay objects, so an empty
+     * `{}` is not turned into `[]` on the way back to JSON.
+     *
+     * @param mixed $value Decoded JSON value.
+     * @param array $args {
+     *     @type bool $strip_tags Remove HTML from strings and keys. Default true.
+     *     @type bool $clean_keys Keep only [A-Za-z0-9_-] in keys (identifiers). Default true.
+     *     @type int  $max_depth  Deeper values become null. Default 8.
+     *     @type int  $max_length Longest string kept, in bytes. Default 2048.
+     * }
+     * @param int   $depth Current depth (internal).
+     * @return mixed
+     */
+    public static function sanitize_json_value($value, array $args = [], $depth = 0)
+    {
+        $args = array_merge(
+            [
+                'strip_tags' => true,
+                'clean_keys' => true,
+                'max_depth'  => 8,
+                'max_length' => 2048,
+            ],
+            $args
+        );
+
+        if ($depth > $args['max_depth']) {
+            return null;
+        }
+
+        if (is_array($value) || $value instanceof \stdClass) {
+            $is_object = $value instanceof \stdClass;
+            $clean     = [];
+            foreach ((array) $value as $key => $item) {
+                if (! is_int($key)) {
+                    $key = self::sanitize_json_key((string) $key, $args);
+                    if ($key === '') {
+                        continue;
+                    }
+                }
+                $clean[$key] = self::sanitize_json_value($item, $args, $depth + 1);
+            }
+            return $is_object ? (object) $clean : $clean;
+        }
+
+        if (is_bool($value) || is_int($value) || is_float($value) || $value === null) {
+            return $value;
+        }
+
+        if (! is_string($value)) {
+            return null;
+        }
+
+        $text = wp_check_invalid_utf8($value);
+        if ($args['strip_tags']) {
+            $text = wp_strip_all_tags($text, false);
+        }
+        $text = preg_replace('/[\x00-\x08\x0B\x0C\x0E-\x1F\x7F]/', '', (string) $text);
+
+        return substr((string) $text, 0, (int) $args['max_length']);
+    }
+
+    /**
+     * @param string $key  Object key.
+     * @param array  $args See sanitize_json_value().
+     * @return string Empty when nothing usable is left.
+     */
+    private static function sanitize_json_key($key, array $args)
+    {
+        if ($args['clean_keys']) {
+            // Feature, profile and setting keys are camelCase identifiers.
+            return substr((string) preg_replace('/[^A-Za-z0-9_\-]/', '', $key), 0, 64);
+        }
+
+        $key = wp_check_invalid_utf8($key);
+        if ($args['strip_tags']) {
+            $key = wp_strip_all_tags($key, false);
+        }
+
+        return substr((string) preg_replace('/[\x00-\x1F\x7F]/', '', (string) $key), 0, 191);
+    }
+
     public static function get_preset_data($preset)
     {
         if (is_object($preset) && !empty($preset->ID) && !empty($preset->post_content)) {
