@@ -160,16 +160,28 @@ class PreferenceRouteV1
                 ]);
             }
 
-            $users = get_users(['fields' => ['ID']]);
-            $total_users = count($users);
-            $users_with_data = 0;
+            // Counted in the database: loading every user and then their meta one by
+            // one cost a query per user, which large sites cannot afford.
+            $total_users = (int) (new \WP_User_Query([
+                'fields'      => 'ID',
+                'number'      => 1,
+                'count_total' => true,
+            ]))->get_total();
 
-            foreach ($users as $user) {
-                $pref = get_user_meta($user->ID, self::META_KEY, true);
-                if (!empty($pref) && is_array($pref) && count($pref) > 0) {
-                    $users_with_data++;
-                }
-            }
+            // Users with at least one saved preference (an emptied list is stored
+            // as a serialized empty array).
+            $users_with_data = (int) (new \WP_User_Query([
+                'fields'      => 'ID',
+                'number'      => 1,
+                'count_total' => true,
+                'meta_query'  => [ // phpcs:ignore WordPress.DB.SlowDBQuery.slow_db_query_meta_query -- Admin-only, cached for a minute.
+                    [
+                        'key'     => self::META_KEY,
+                        'value'   => ['', 'a:0:{}'], // 'a:0:{}': an empty array as update_user_meta() stores it.
+                        'compare' => 'NOT IN',
+                    ],
+                ],
+            ]))->get_total();
 
             $average_percent = $total_users > 0 ? round(($users_with_data / $total_users) * 100, 2) : 0;
 

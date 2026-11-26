@@ -49,10 +49,10 @@ function websac_uninstall_site()
 	// Visitor/user toolbar preferences.
 	delete_metadata('user', 0, 'websac_preferences', '', true);
 
-	// Preset posts.
+	// Preset posts, in every status: 'any' leaves out trashed and auto-draft ones.
 	$presets = get_posts([
 		'post_type'      => 'websac_preset',
-		'post_status'    => 'any',
+		'post_status'    => array_keys(get_post_stati()),
 		'posts_per_page' => -1,
 		'fields'         => 'ids',
 		'no_found_rows'  => true,
