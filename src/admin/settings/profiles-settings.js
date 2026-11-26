@@ -5,6 +5,7 @@ import ControlWrapper from '../components/control-wrapper';
 import PanelItemsSettings from '../components/panel-items-settings';
 import { useLocation } from '../router';
 import { __ } from '@wordpress/i18n';
+import { sanitizeSvgMarkup } from '../../utils/svgUpload';
 
 
 const ProfilesSettings = () => {
@@ -22,18 +23,27 @@ const ProfilesSettings = () => {
         profilesRaw && profilesRaw.length > 0
             ? profilesRaw.map(profile => {
                 const { raw } = profile?.content || {};
-                const content = raw ? JSON.parse(raw) : {};
+                let content = {};
+                if (raw) {
+                    // One broken profile must not take the whole screen down.
+                    try {
+                        content = JSON.parse(raw) || {};
+                    } catch {
+                        content = {};
+                    }
+                }
 
                 // Handle different icon formats
                 let iconElement = null;
                 if (profile?.icon) {
                     iconElement = profile.icon;
                 } else if (content?.icon) {
-                    // If content.icon is a string, render it as HTML
-                    if (typeof content.icon === 'string' && content.icon.trim()) {
+                    // A stored icon string: render only a clean SVG, never the raw markup.
+                    const iconMarkup = typeof content.icon === 'string' ? sanitizeSvgMarkup(content.icon) : '';
+                    if (iconMarkup) {
                         iconElement = (
                             <span
-                                dangerouslySetInnerHTML={{ __html: content.icon }}
+                                dangerouslySetInnerHTML={{ __html: iconMarkup }}
                                 style={{
                                     display: 'inline-flex',
                                     width: '20px',

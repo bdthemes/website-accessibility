@@ -4,6 +4,7 @@ import { __, sprintf } from "@wordpress/i18n";
 import { normalizeItemLayout } from "../utils/item-layout";
 import { announce } from "../utils/feature-handlers";
 import { useI18nVersion } from "../utils/i18n-version";
+import { sanitizeSvgMarkup } from "../utils/svgUpload";
 
 /* -------------------- 🔹 ProfileItem Component -------------------- */
 const ProfileItem = ({ profile, isActive, handleClick, hideItemIcons, hideItemLabels, layout }) => {
@@ -151,16 +152,19 @@ const AccessibilityProfiles = ({
 				typeof content.icon === "string" &&
 				content.icon.trim()
 			) {
-				iconElement = (
+				// Stored markup from an add-on's profile: only a clean SVG goes on the
+				// page (it is shown to every visitor), never the raw string.
+				const iconMarkup = sanitizeSvgMarkup(content.icon);
+				iconElement = iconMarkup ? (
 					<span
-						dangerouslySetInnerHTML={{ __html: content.icon }}
+						dangerouslySetInnerHTML={{ __html: iconMarkup }}
 						style={{
 							display: "inline-flex",
 							width: "20px",
 							height: "20px",
 						}}
 					/>
-				);
+				) : null;
 			} else {
 				iconElement = null;
 			}
