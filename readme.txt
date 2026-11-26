@@ -206,6 +206,18 @@ Fixes Contrast + Dark and Light leaving whole sections blank, and the toolbar re
 
 == Changelog ==
 
+= 1.8.1 – Unreleased =
+* Security: Profile icons stored as markup are cleaned to plain SVG before they are shown.
+* Security: Preset settings are checked field by field when saved.
+* Security: Saved toolbar choices restore only the tool steps; the styles come from the plugin.
+* Security: The usage statistics endpoint accepts a limited number of writes per site at a time.
+* Security: Visitors' pages get only the preset they use, without the list of posts it targets.
+* Security: Presets can no longer be read through the REST API without the rights to manage them.
+* Fixed: A broken saved preference in the browser no longer stops the toolbar from loading.
+* Fixed: Deleting the plugin also removes trashed presets.
+* Fixed: Presets saved by a site admin without unfiltered HTML (multisite) no longer end up as broken JSON.
+* Fixed: Big Cursor restores correctly from preferences saved to an account.
+
 = 1.8.0 – November 25, 2026 =
 * Improved: The toolbar's text and reading direction update at once when its language changes, without a page reload.
 
