@@ -34,6 +34,15 @@ class UsageStatisticsRouteV1
     const FOLDED_KEY = '_folded';
 
     /**
+     * Site-wide write budget (transient): how many statistics writes the whole site
+     * accepts per BUDGET_WINDOW seconds, whatever the browser key. The per-key
+     * throttle alone let anyone rotate keys and rewrite the option hundreds of
+     * times a second.
+     */
+    const BUDGET_KEY = 'websac_stats_budget';
+    const BUDGET_WINDOW = 10;
+
+    /**
      * Feature keys tracked by this plugin. Add-ons register the keys of the
      * features they ship through the `websac_usage_statistics_features` filter.
      */
@@ -97,6 +106,17 @@ class UsageStatisticsRouteV1
                 'methods' => WP_REST_Server::READABLE,
                 'callback' => [$this, 'get_statistics'],
                 'permission_callback' => [$this, 'can_manage_statistics'],
+                'args'                => [
+                    'range' => [
+                        'type'    => 'string',
+                        'enum'    => ['daily', 'last7days', 'last30days', 'totals'],
+                        'default' => 'daily',
+                    ],
+                    'date'  => [
+                        'type'    => 'string',
+                        'pattern' => '^\d{4}-\d{2}-\d{2}$',
+                    ],
+                ],
             ],
             [
                 'methods' => WP_REST_Server::CREATABLE,
@@ -287,7 +307,18 @@ class UsageStatisticsRouteV1
         if ($browser_key === '' || in_array($browser_key, self::reserved_keys(), true)) {
             return rest_ensure_response([
                 'success' => false,
+                'retry'   => false,
                 'message' => __('Missing browser key.', 'website-accessibility'),
+            ]);
+        }
+
+        // Checked before anything is read or written, so a flood costs one
+        // transient read per request.
+        if (! $this->budget_left()) {
+            return rest_ensure_response([
+                'success' => false,
+                'retry'   => true,
+                'message' => __('Too many requests, please retry shortly.', 'website-accessibility'),
             ]);
         }
 
@@ -317,6 +348,7 @@ class UsageStatisticsRouteV1
         if (! isset($stats[$browser_key]) && $browser_count >= $max_keys) {
             return rest_ensure_response([
                 'success' => false,
+                'retry'   => false,
                 'message' => __('Statistics capacity reached.', 'website-accessibility'),
             ]);
         }
@@ -327,10 +359,12 @@ class UsageStatisticsRouteV1
         if (get_transient($throttle_key)) {
             return rest_ensure_response([
                 'success' => false,
+                'retry'   => true,
                 'message' => __('Too many requests, please retry shortly.', 'website-accessibility'),
             ]);
         }
         set_transient($throttle_key, 1, 5);
+        $this->spend_budget();
 
         // Make sure this browser key exists and holds an array. The is_array() arm also
         // repairs any non-array slot written by an older version.
@@ -385,6 +419,64 @@ class UsageStatisticsRouteV1
             'message' => __('Usage statistics have been reset.', 'website-accessibility'),
             'data' => $this->empty_counts(),
         ]);
+    }
+
+    /**
+     * Writes the whole site accepts per BUDGET_WINDOW seconds; 0 or less turns
+     * the budget off.
+     *
+     * @return int
+     */
+    private function budget_limit()
+    {
+        /**
+         * Filter how many usage-statistics writes the site accepts every 10 seconds
+         * (all visitors together). Raise it on very busy sites; 0 turns the limit off.
+         *
+         * @param int $limit Default 60.
+         */
+        return (int) apply_filters('websac_usage_statistics_rate', 60);
+    }
+
+    /**
+     * Whether the site-wide write budget has room for one more write.
+     *
+     * @return bool
+     */
+    private function budget_left()
+    {
+        $limit = $this->budget_limit();
+        if ($limit <= 0) {
+            return true;
+        }
+
+        $budget = get_transient(self::BUDGET_KEY);
+        if (! is_array($budget) || (int) ($budget['until'] ?? 0) <= time()) {
+            return true;
+        }
+
+        return (int) ($budget['count'] ?? 0) < $limit;
+    }
+
+    /**
+     * Count one write against the site-wide budget.
+     *
+     * @return void
+     */
+    private function spend_budget()
+    {
+        if ($this->budget_limit() <= 0) {
+            return;
+        }
+
+        $now    = time();
+        $budget = get_transient(self::BUDGET_KEY);
+        if (! is_array($budget) || (int) ($budget['until'] ?? 0) <= $now) {
+            $budget = ['count' => 0, 'until' => $now + self::BUDGET_WINDOW];
+        }
+        $budget['count'] = (int) $budget['count'] + 1;
+
+        set_transient(self::BUDGET_KEY, $budget, max(1, (int) $budget['until'] - $now));
     }
 
     /**

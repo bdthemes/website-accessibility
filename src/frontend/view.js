@@ -202,6 +202,8 @@ const View = () => {
     const statisticsDebounceRef = useRef(null);
     // Pending retry for a snapshot the server throttled away (see saveStatistics).
     const statisticsRetryRef = useRef(null);
+    // Retries in a row for the current snapshot.
+    const statisticsRetryCountRef = useRef(0);
 
     const closeAccessibilityDrawer = useCallback(() => {
         justClosedRef.current = true;
@@ -525,13 +527,18 @@ const View = () => {
 
             const result = await response.json();
 
-            if (!result.success) {
+            if (result?.success) {
+                statisticsRetryCountRef.current = 0;
+            } else if (result?.retry !== false && statisticsRetryCountRef.current < 3) {
                 // The endpoint accepts one write per browser every 5 seconds, and
                 // the payload is a snapshot rather than an increment — so a
                 // rejected write silently leaves the previous state on the
                 // dashboard. That is exactly what "switch a widget on, then
                 // reset" hits. Re-send the latest snapshot once the window has
-                // passed; a newer interaction replaces this pending retry.
+                // passed; a newer interaction replaces this pending retry. Not
+                // when the server says retrying cannot help (statistics full),
+                // and not endlessly while the site is busy.
+                statisticsRetryCountRef.current += 1;
                 if (statisticsRetryRef.current) {
                     clearTimeout(statisticsRetryRef.current);
                 }
@@ -558,6 +565,7 @@ const View = () => {
             clearTimeout(statisticsRetryRef.current);
             statisticsRetryRef.current = null;
         }
+        statisticsRetryCountRef.current = 0;
 
         statisticsDebounceRef.current = setTimeout(() => {
             saveStatistics(nextSettings || {});
