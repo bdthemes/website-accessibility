@@ -35,6 +35,8 @@ class AccessibilityPreset
             'menu_icon' => 'dashicons-universal-access',
             'supports' => ['title', 'editor'],
             'show_in_rest' => true,
+            // Reading presets over REST needs the editing capability too (see the class).
+            'rest_controller_class' => PresetRestController::class,
             // Presets drive the site-wide widget and must only be managed by
             // administrators. Without an explicit map, create_posts defaults to
             // the primitive edit_posts cap, letting Authors create/publish
