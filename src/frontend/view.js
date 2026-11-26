@@ -6,8 +6,180 @@ import accessibilityManager from "../accessibilty-manager";
 import { announce } from "../utils/feature-handlers";
 import { toCssLength } from "../utils/helpers";
 import { useI18nVersion } from "../utils/i18n-version";
-import { __ } from "@wordpress/i18n";
+import { __, sprintf } from "@wordpress/i18n";
 import apiFetch from "@wordpress/api-fetch";
+
+/**
+ * The saved preference in this browser, or null. A broken entry (edited by hand,
+ * cut short by a full storage) is removed instead of stopping the toolbar on
+ * every page from then on. Storage itself may be blocked (private windows).
+ *
+ * @param {string} key Storage key.
+ * @return {Object|null} The saved preference, or null when there is none.
+ */
+const readLocalPreference = (key) => {
+    try {
+        const raw = window.localStorage.getItem(key);
+        if (!raw) {
+            return null;
+        }
+        const data = JSON.parse(raw);
+        if (data && typeof data === 'object' && !Array.isArray(data)) {
+            return data;
+        }
+    } catch {
+        // Fall through: drop what cannot be read.
+    }
+    try {
+        window.localStorage.removeItem(key);
+    } catch {
+        // Storage unavailable.
+    }
+    return null;
+};
+
+/**
+ * @param {string} key  Storage key.
+ * @param {Object} data Preference to keep in this browser.
+ */
+const writeLocalPreference = (key, data) => {
+    try {
+        window.localStorage.setItem(key, JSON.stringify(data));
+    } catch {
+        // Storage full or blocked: the preference simply is not kept.
+    }
+};
+
+/** A CSS value part that may not come back from storage: rule breakouts, script, loading. */
+const UNSAFE_SAVED_CSS = /[{}\\\n\r]|expression\s*\(|@import|javascript:|behavior\s*:|-moz-binding|image-set\s*\(|\bsrc\s*\(/i;
+
+/**
+ * Whether a saved CSS value is a plain declaration value: nothing that leaves its
+ * rule or loads from another host. url() is allowed for inline images only
+ * (data:image/…, e.g. a cursor), whose quoted text may hold ; and <svg> markup.
+ *
+ * @param {*} value Saved CSS value.
+ * @return {boolean} Whether the value may be applied.
+ */
+const isSafeSavedCssValue = (value) => {
+    if (typeof value === 'number') {
+        return Number.isFinite(value);
+    }
+    if (typeof value !== 'string' || value.length > 2048) {
+        return false;
+    }
+    // Take out the inline images first, then nothing else may load or break out.
+    const rest = value
+        .replace(/url\(\s*(["'])data:image\/(?:(?!\1)[^\n\r\\])*\1\s*\)/gi, '')
+        .replace(/url\(\s*data:image\/[^)'"\s\\]*\)/gi, '');
+    return !/url\s*\(/i.test(rest) && !UNSAFE_SAVED_CSS.test(rest);
+};
+
+/**
+ * CSS entries saved with a setting the toolbar cannot rebuild yet (see below),
+ * reduced to the plain ones.
+ *
+ * @param {*} css Saved `css` list of a feature attribute.
+ * @return {Array} Entries safe to apply.
+ */
+const keepPlainCssEntries = (css) => {
+    if (!Array.isArray(css)) {
+        return [];
+    }
+    return css.filter((entry) => {
+        if (!entry || typeof entry !== 'object' || !entry.properties || typeof entry.properties !== 'object') {
+            return false;
+        }
+        const selector = entry.selector === undefined ? '*' : entry.selector;
+        if (typeof selector !== 'string' || /[{}@;\\<\n\r]/.test(selector)) {
+            return false;
+        }
+        return Object.entries(entry.properties).every(([property, value]) =>
+            /^-?[a-zA-Z][a-zA-Z0-9-]*$/.test(property) && isSafeSavedCssValue(value)
+        );
+    });
+};
+
+/**
+ * Saved tool settings, rebuilt from the feature definitions.
+ *
+ * A saved setting holds the CSS that was in force when it was saved. Only its
+ * step is trusted now: the CSS comes from the current feature definition, so a
+ * preference cannot bring CSS of its own onto the page, and an update to a
+ * feature reaches visitors who saved it before. A custom colour is kept only as
+ * a valid #rrggbb. A feature not defined yet (an add-on that loads after the
+ * toolbar) keeps its saved setting, its CSS reduced to plain declarations
+ * (keepPlainCssEntries()); out-of-range steps are dropped.
+ *
+ * @param {Object} saved Saved settings, by feature key.
+ * @return {Object} Settings to apply, by feature key.
+ */
+const rebuildSavedSettings = (saved) => {
+    if (!saved || typeof saved !== 'object' || Array.isArray(saved)) {
+        return {};
+    }
+
+    const features = Array.isArray(window.wapHelpers?.features) ? window.wapHelpers.features : [];
+    const rebuilt = {};
+
+    Object.keys(saved).forEach((key) => {
+        const setting = saved[key];
+        if (!setting || typeof setting !== 'object') {
+            return;
+        }
+
+        const step = Number(setting.currentStep || 0);
+        if (!Number.isInteger(step) || step < 0) {
+            return;
+        }
+
+        const feature = features.find((entry) => entry?.key === key);
+        if (!feature) {
+            const attribute = setting.currentAttribute;
+            rebuilt[key] = {
+                ...setting,
+                currentStep: step,
+                currentAttribute: attribute && typeof attribute === 'object'
+                    ? { ...attribute, css: keepPlainCssEntries(attribute.css) }
+                    : null,
+            };
+            return;
+        }
+
+        const attributes = Array.isArray(feature.attributes) ? feature.attributes : [];
+        const isMultiStep = !!setting.isMultiStep;
+
+        if (step === 0) {
+            rebuilt[key] = { currentStep: 0, currentAttribute: null, isMultiStep };
+            return;
+        }
+
+        if (step <= attributes.length) {
+            rebuilt[key] = { currentStep: step, currentAttribute: attributes[step - 1], isMultiStep };
+            return;
+        }
+
+        // The step after the last one: a custom colour (see feature-swatches.js).
+        const swatch = String(setting.currentAttribute?.swatch || '');
+        if (feature.allowCustomColor && step === attributes.length + 1 && /^#[0-9a-f]{6}$/i.test(swatch)) {
+            rebuilt[key] = {
+                currentStep: step,
+                currentAttribute: {
+                    /* translators: %s: colour code, e.g. #1677ff. */
+                    name: sprintf(__("Custom color %s", "website-accessibility"), swatch),
+                    value: 'custom',
+                    swatch,
+                    css: [],
+                    /* translators: %s: feature name, e.g. "Text Color". */
+                    enableAnnouncement: sprintf(__("%s set to a custom color.", "website-accessibility"), feature.label || ''),
+                },
+                isMultiStep,
+            };
+        }
+    });
+
+    return rebuilt;
+};
 
 const View = () => {
     const { defaultProfiles = [], useBrowserKey } = window.wapHelpers || {};
@@ -116,7 +288,7 @@ const View = () => {
             dispatch({ type: 'SET_CURRENT_SETTINGS', payload: {} });
             dispatch({ type: 'SET_PROFILE_ORIGIN', payload: null });
         } else {
-            dispatch({ type: 'SET_CURRENT_SETTINGS', payload: preferenceData.settings || {} });
+            dispatch({ type: 'SET_CURRENT_SETTINGS', payload: rebuildSavedSettings(preferenceData.settings) });
             dispatch({ type: 'SET_PROFILE_ORIGIN', payload: origin });
         }
         dispatch({ type: 'SET_CURRENT_PROFILE', payload: validCurrentProfile });
@@ -161,7 +333,7 @@ const View = () => {
         if (!currentPresetId) return;
 
         const localKey = `${state?.localStorageKeyPrefix}-${currentPresetId}`;
-        const localData = localStorage.getItem(localKey);
+        const localData = readLocalPreference(localKey);
 
         // ✅ Use API only if activePreference is true and user is logged in
         if (isPreferenceActive && isUserLoggedIn) {
@@ -171,21 +343,21 @@ const View = () => {
                         applyPreferenceData(response.data);
 
                         // Optional: sync localStorage for offline support
-                        localStorage.setItem(localKey, JSON.stringify(response.data));
+                        writeLocalPreference(localKey, response.data);
                     } else if (localData) {
-                        applyPreferenceData(JSON.parse(localData));
+                        applyPreferenceData(localData);
                     }
                 })
                 .catch((error) => {
                     console.error('Error fetching preference:', error);
                     if (localData) {
-                        applyPreferenceData(JSON.parse(localData));
+                        applyPreferenceData(localData);
                     }
                 });
         } else {
             // 🧩 Local mode (no API call)
             if (localData) {
-                applyPreferenceData(JSON.parse(localData));
+                applyPreferenceData(localData);
             }
         }
     }, [currentPresetId, isPreferenceActive, isUserLoggedIn]);
@@ -195,7 +367,7 @@ const View = () => {
      */
     useEffect(() => {
         if (!currentPresetId || !saveablePreference?.data) return;
-        localStorage.setItem(`${state.localStorageKeyPrefix}-${currentPresetId}`, JSON.stringify(saveablePreference?.data));
+        writeLocalPreference(`${state.localStorageKeyPrefix}-${currentPresetId}`, saveablePreference?.data);
     }, [saveablePreference?.data, currentPresetId]);
 
     const addBodyClasses = (classNames = []) => {
