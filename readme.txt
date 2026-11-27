@@ -217,6 +217,8 @@ Fixes Contrast + Dark and Light leaving whole sections blank, and the toolbar re
 * Fixed: Deleting the plugin also removes trashed presets.
 * Fixed: Presets saved by a site admin without unfiltered HTML (multisite) no longer end up as broken JSON.
 * Fixed: Big Cursor restores correctly from preferences saved to an account.
+* Improved: The plugin's admin screens open with their data already in place and switch between screens instantly.
+* Improved: The admin app's own script is about a third of its former size, and the admin screens no longer load the media library.
 
 = 1.8.0 – November 25, 2026 =
 * Improved: The toolbar's text and reading direction update at once when its language changes, without a page reload.
