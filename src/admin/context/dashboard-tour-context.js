@@ -4,6 +4,8 @@
  */
 import {
 	createContext,
+	lazy,
+	Suspense,
 	useCallback,
 	useContext,
 	useEffect,
@@ -13,8 +15,21 @@ import {
 } from '@wordpress/element';
 import { __ } from '@wordpress/i18n';
 import { addQueryArgs, getQueryArgs } from '@wordpress/url';
-import { Joyride, EVENTS, STATUS } from 'react-joyride';
 import { useHistory } from '../router';
+
+/**
+ * react-joyride (and the positioning code it needs) loads the first time a
+ * tour starts, as its own file: most visits to these screens run no tour, and
+ * it was a large part of the admin bundle. Its EVENTS and STATUS constants are
+ * read from the loaded module.
+ */
+let joyrideModule = null;
+const Joyride = lazy(() =>
+	import(/* webpackChunkName: "admin-tour" */ 'react-joyride').then((module) => {
+		joyrideModule = module;
+		return { default: module.Joyride };
+	})
+);
 
 async function persistDashboardTourComplete() {
 	const admin = typeof window !== 'undefined' ? window.websacAdmin : null;
@@ -87,6 +102,13 @@ export function DashboardTourProvider({ children }) {
 	const history = useHistory();
 	const [run, setRun] = useState(false);
 	const [tourNonce, setTourNonce] = useState(0);
+	// Joyride (loaded on demand) mounts with the first tour and then stays mounted.
+	const [tourRequested, setTourRequested] = useState(false);
+	useEffect(() => {
+		if (run) {
+			setTourRequested(true);
+		}
+	}, [run]);
 	const runRef = useRef(false);
 	const tourIndexRef = useRef(-1);
 	const joyrideControlsRef = useRef(null);
@@ -368,7 +390,8 @@ export function DashboardTourProvider({ children }) {
 			if (typeof data.index === 'number') {
 				tourIndexRef.current = data.index;
 			}
-			if (data.type === EVENTS.TOUR_END) {
+			const { EVENTS, STATUS } = joyrideModule || {};
+			if (EVENTS && STATUS && data.type === EVENTS.TOUR_END) {
 				if (data.status === STATUS.FINISHED || data.status === STATUS.SKIPPED) {
 					markDone();
 				}
@@ -409,6 +432,8 @@ export function DashboardTourProvider({ children }) {
 	return (
 		<DashboardTourContext.Provider value={contextValue}>
 			{children}
+			{tourRequested ? (
+			<Suspense fallback={null}>
 			<Joyride
 				key={tourNonce}
 				steps={steps}
@@ -493,6 +518,8 @@ export function DashboardTourProvider({ children }) {
 					targetWaitTimeout: 125000,
 				}}
 			/>
+			</Suspense>
+			) : null}
 		</DashboardTourContext.Provider>
 	);
 }

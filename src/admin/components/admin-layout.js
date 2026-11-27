@@ -6,7 +6,6 @@ import { useEffect, useState, useMemo, useCallback } from '@wordpress/element';
 import { useDashboardTour } from '../context/dashboard-tour-context';
 import { getBrandDisplayName, useWhiteLabelBrandingEnabled } from '../../utils/brand';
 import { getAdminExtensions } from '../../utils/admin-extensions';
-import { Layout, Menu, Drawer, Button } from 'antd';
 import { useLocation, useHistory } from '../router';
 import {
 	IconGeneral,
@@ -15,8 +14,6 @@ import {
 	IconPro,
 	IconInfo,
 } from './admin-menu-icons';
-
-const { Header, Sider, Content, Footer } = Layout;
 
 const BDTHEMES_URL = 'https://bdthemes.com';
 /** Sticky sider above 1240px; off-canvas drawer at 1240px and below */
@@ -58,6 +55,10 @@ const ProFeaturesListItems = () => (
 );
 
 const AdminLayout = ({ children }) => {
+	// antd comes from the shared components bundle (mounted before this app):
+	// importing it here put a second copy of antd into the admin bundle.
+	const { WapLayout: Layout, WapMenu: Menu, WapDrawer: Drawer, WapButton: Button } = window.wapComponents;
+	const { Header, Sider, Content, Footer } = Layout;
 	const location = useLocation();
 	const history = useHistory();
 	const currentPage = location?.params?.page || 'website-accessibility';

@@ -25,6 +25,8 @@ import WapInputNumber from './wap-input-number';
 import WapSwitch from './wap-switch';
 import WapTabs from './wap-tabs';
 import WapUpload from './wap-upload';
+import WapLayout from './wap-layout';
+import WapMenu from './wap-menu';
 
 publishComponents({
     ...toolbarComponents,
@@ -49,4 +51,7 @@ publishComponents({
     WapSwitch,
     WapTabs,
     WapUpload,
+    // The admin layout's own antd parts (src/admin/components/admin-layout.js).
+    WapLayout,
+    WapMenu,
 });
