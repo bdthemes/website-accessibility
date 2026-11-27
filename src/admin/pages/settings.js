@@ -1,21 +1,42 @@
-import { useEffect, useState } from "react";
+import { useCallback, useEffect, useState } from "react";
 import apiFetch from "@wordpress/api-fetch";
 import { __ } from "@wordpress/i18n";
+import { useQuery } from "@tanstack/react-query";
 import SettingsItem from "../components/settings-item";
 import StatementSetting from "../components/statement-setting";
 import { getAdminExtensions } from "../../utils/admin-extensions";
+import { queryClient, REST_PATHS, restQuery, restQueryKey, invalidateRestPrefix } from "../data/queries";
 
+const EMPTY_SETTINGS = {};
 
 const Settings = () => {
     const { WapPageSkeleton, WapMessage, WapCard, WapSpace, WapTypography, WapButton } = window?.wapComponents;
     const { Title, Text } = WapTypography;
     const extensionSections = getAdminExtensions().settingsSections;
-    const [settings, setSettings] = useState({});
-    const [loading, setLoading] = useState(true);
     const [saving, setSaving] = useState(false);
     const [resettingStats, setResettingStats] = useState(false);
 
-    const API_NAMESPACE = "/websac/v1/settings";
+    const API_NAMESPACE = REST_PATHS.settings;
+    // Kept across screens; the first answer comes with the page.
+    const settingsQuery = useQuery(restQuery(API_NAMESPACE, { staleTime: 5 * 60 * 1000 }));
+    const settings = settingsQuery.data?.data || EMPTY_SETTINGS;
+    const loading = settingsQuery.isPending;
+
+    // Same contract as before for add-on sections: a value or an updater function.
+    const setSettings = useCallback((next) => {
+        queryClient.setQueryData(restQueryKey(REST_PATHS.settings), (previous) => {
+            const current = previous?.data || {};
+            return { ...(previous || { success: true }), data: typeof next === "function" ? next(current) : next };
+        });
+    }, []);
+
+    const settingsError = settingsQuery.error;
+    useEffect(() => {
+        if (settingsError) {
+            console.error("Failed to load settings:", settingsError);
+            WapMessage.error(__("Failed to load settings.", "website-accessibility"));
+        }
+    }, [settingsError, WapMessage]);
     const clearUsageStatisticsTimestamp = () => {
         const { removeCookie = null } = window?.wapHelpers || {};
         if (typeof removeCookie === "function") {
@@ -30,19 +51,8 @@ const Settings = () => {
         }
     };
 
-    // Fetch all settings from REST API
-    const fetchSettings = async () => {
-        setLoading(true);
-        try {
-            const res = await apiFetch({ path: API_NAMESPACE });
-            setSettings(res?.data || {});
-        } catch (error) {
-            console.error("Failed to load settings:", error);
-            WapMessage.error(__("Failed to load settings.", "website-accessibility"));
-        } finally {
-            setLoading(false);
-        }
-    };
+    // Fetch all settings from the server again (add-on sections call this).
+    const fetchSettings = () => settingsQuery.refetch();
 
     // Update a single setting
     const updateSetting = async (key, value) => {
@@ -53,7 +63,8 @@ const Settings = () => {
                 method: "POST",
                 data: { [key]: value },
             });
-            setSettings((prev) => ({ ...prev, [key]: value }));
+            // The server answers with the stored (sanitized) settings.
+            setSettings((prev) => (res?.data && typeof res.data === "object" ? res.data : { ...prev, [key]: value }));
             WapMessage.success({
                 content: __("Settings saved successfully.", "website-accessibility"),
                 style: { marginBlockStart: 20 },
@@ -80,6 +91,8 @@ const Settings = () => {
                 method: "DELETE",
             });
             clearUsageStatisticsTimestamp();
+            // Every cached range is out of date now.
+            invalidateRestPrefix("/websac/v1/usage-statistics");
 
             WapMessage.success({
                 content: __("Usage statistics cleared successfully.", "website-accessibility"),
@@ -95,11 +108,6 @@ const Settings = () => {
             setResettingStats(false);
         }
     };
-
-    useEffect(() => {
-        fetchSettings();
-    }, []);
-
 
     if (loading) {
         return (

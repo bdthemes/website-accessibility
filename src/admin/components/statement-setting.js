@@ -7,8 +7,9 @@ import {
     EditOutlined,
 } from "@ant-design/icons";
 import { __ } from "@wordpress/i18n";
-import { addQueryArgs } from "@wordpress/url";
+import { useQuery } from "@tanstack/react-query";
 import statementJson from "../../../default-posts/statement.json";
+import { queryClient, REST_PATHS, restQuery, restQueryKey } from "../data/queries";
 
 /** Replace the {{site_name}} / {{site_url}} / {{admin_email}} / {{date}} placeholders of the sample statement. */
 const fillStatementPlaceholders = (content = "") => {
@@ -27,37 +28,23 @@ const StatementSetting = () => {
     const { WapCard, WapSpace, WapButton, WapAlert, WapTooltip, WapTypography } = window?.wapComponents;
 
     const { Title, Text } = WapTypography;
-    const [page, setPage] = useState(null);
-    const [loading, setLoading] = useState(true);
     const [creating, setCreating] = useState(false);
 
-    // Check if the Accessibility Statement page exists
+    // Whether the Accessibility Statement page exists (draft or published). Kept
+    // across screens; the first answer comes with the page.
+    const pageQuery = useQuery(restQuery(REST_PATHS.statementPage, { staleTime: 5 * 60 * 1000 }));
+    const page = Array.isArray(pageQuery.data) && pageQuery.data.length > 0 ? pageQuery.data[0] : null;
+    const loading = pageQuery.isPending;
+    const setPage = (newPage) => {
+        queryClient.setQueryData(restQueryKey(REST_PATHS.statementPage), newPage ? [newPage] : []);
+    };
+
+    const pageError = pageQuery.error;
     useEffect(() => {
-        const fetchPage = async () => {
-            setLoading(true);
-            try {
-                const url = addQueryArgs("/wp/v2/pages", {
-                    slug: "one-accessibility-statement-page",
-                    status: "any",          // get draft & published
-                    _fields: "id,title,link,status,slug",
-                    per_page: 1,            // correct param instead of limit
-                });
-
-                const response = await apiFetch({
-                    path: url,
-                });
-
-                if (response?.length > 0) {
-                    setPage(response[0]);
-                }
-            } catch (err) {
-                console.error("Error checking statement page:", err);
-            } finally {
-                setLoading(false);
-            }
-        };
-        fetchPage();
-    }, []);
+        if (pageError) {
+            console.error("Error checking statement page:", pageError);
+        }
+    }, [pageError]);
 
     // Generate new statement page
     const handleGenerate = async () => {

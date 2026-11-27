@@ -2,8 +2,12 @@ import { __ } from "@wordpress/i18n";
 import { useHistory } from "../router";
 import { useSelect } from '@wordpress/data';
 import { STORE_NAME } from '../store';
-import { useEffect, useState } from '@wordpress/element';
+import { useEffect } from '@wordpress/element';
+import { useQuery } from '@tanstack/react-query';
 import { getAdminExtensions } from '../../utils/admin-extensions';
+import { REST_PATHS, restQuery } from '../data/queries';
+
+const DEFAULT_PREFERENCE_STATS = { average_percent: 0 };
 
 // Inline SVG icons (replace dashicons) — currentColor via CSS
 const svgProps = {
@@ -68,30 +72,21 @@ const Dashboard = () => {
     const { WapCard, WapButton, WapRow, WapCol, WapSpace, WapTypography, WapProgress, WapPageSkeleton } = window?.wapComponents;
     const { Title, Text } = WapTypography;
     const history = useHistory();
-    const [statsData, setStatsData] = useState({ average_percent: 0 });
-    const [loading, setLoading] = useState(true);
+    // Kept across screens; the first answer comes with the page.
+    const preferenceStats = useQuery(restQuery(REST_PATHS.preferenceStats));
+    const statsData = preferenceStats.data?.success ? preferenceStats.data.data : DEFAULT_PREFERENCE_STATS;
+    const loading = preferenceStats.isPending;
 
     const navigateTo = (path) => {
         history.push({ page: path });
     };
 
+    const preferenceStatsError = preferenceStats.error;
     useEffect(() => {
-        const fetchStats = async () => {
-            try {
-                const response = await wp.apiFetch({
-                    path: '/websac/v1/preference?stats=true',
-                });
-                if (response?.success) {
-                    setStatsData(response.data);
-                }
-            } catch (error) {
-                console.error('Failed to fetch stats:', error);
-            } finally {
-                setLoading(false);
-            }
-        };
-        fetchStats();
-    }, []);
+        if (preferenceStatsError) {
+            console.error('Failed to fetch stats:', preferenceStatsError);
+        }
+    }, [preferenceStatsError]);
 
     const { activePresetsCount, profilesCount, presetsReady } = useSelect((select) => {
         const { getPresets, getProfiles } = select(STORE_NAME);

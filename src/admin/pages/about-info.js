@@ -1,6 +1,7 @@
-import { useEffect, useState } from '@wordpress/element';
-import apiFetch from '@wordpress/api-fetch';
+import { useEffect } from '@wordpress/element';
+import { useQuery } from '@tanstack/react-query';
 import { __, sprintf } from '@wordpress/i18n';
+import { REST_PATHS, restQuery } from '../data/queries';
 import { useDashboardTour } from '../context/dashboard-tour-context';
 import { useBrandDisplayName, useWhiteLabelBrandingEnabled } from '../../utils/brand';
 import { getAdminExtensions } from '../../utils/admin-extensions';
@@ -19,24 +20,17 @@ const AboutInfo = () => {
 	);
 	const pluginVersion = typeof window !== 'undefined' && window.websacAdmin?.version ? window.websacAdmin.version : '1.3.0';
 
-	const [systemInfo, setSystemInfo] = useState(null);
-	const [loading, setLoading] = useState(true);
+	// Kept across screens (it barely changes); the first answer comes with the page.
+	const systemInfoQuery = useQuery(restQuery(REST_PATHS.systemInfo, { staleTime: 5 * 60 * 1000 }));
+	const systemInfo = systemInfoQuery.data && systemInfoQuery.data.success !== false ? systemInfoQuery.data : null;
+	const loading = systemInfoQuery.isPending;
 
+	const systemInfoError = systemInfoQuery.error;
 	useEffect(() => {
-		const fetchInfo = async () => {
-			try {
-				const res = await apiFetch({ path: '/websac/v1/system-info' });
-				if (res?.success !== false) {
-					setSystemInfo(res);
-				}
-			} catch (err) {
-				console.error('Failed to load system info:', err);
-			} finally {
-				setLoading(false);
-			}
-		};
-		fetchInfo();
-	}, []);
+		if (systemInfoError) {
+			console.error('Failed to load system info:', systemInfoError);
+		}
+	}, [systemInfoError]);
 
 	const info = systemInfo || {};
 	const stats = [

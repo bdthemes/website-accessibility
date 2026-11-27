@@ -17,6 +17,8 @@ import IconPicker from './components/icon-picker';
 import ColorPicker from './controls/color-picker';
 import * as adminMenuIcons from './components/admin-menu-icons';
 import { getBrandDisplayName, useBrandDisplayName, useWhiteLabelBrandingEnabled } from '../utils/brand';
+import { QueryClientProvider } from '@tanstack/react-query';
+import { queryClient, REST_PATHS, restQuery, restQueryKey, invalidateRestPrefix } from './data/queries';
 
 register(store);
 
@@ -40,6 +42,13 @@ window.wapAdmin = {
     getBrandDisplayName,
     useBrandDisplayName,
     useWhiteLabelBrandingEnabled,
+    // The screens' REST cache (src/admin/data/queries.js): add-on screens can read
+    // or update it, e.g. after changing a setting (restQueryKey(REST_PATHS.settings)).
+    queryClient,
+    REST_PATHS,
+    restQuery,
+    restQueryKey,
+    invalidateRestPrefix,
 };
 
 /**
@@ -59,11 +68,13 @@ const Admin = () => {
     });
 
     return (
-        <RouterProvider>
-            <DashboardTourProvider>
-                {content}
-            </DashboardTourProvider>
-        </RouterProvider>
+        <QueryClientProvider client={queryClient}>
+            <RouterProvider>
+                <DashboardTourProvider>
+                    {content}
+                </DashboardTourProvider>
+            </RouterProvider>
+        </QueryClientProvider>
     );
 };
 

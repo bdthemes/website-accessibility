@@ -1,7 +1,8 @@
 import { useLocation } from '../router';
-import { useMemo, useEffect, useState } from '@wordpress/element';
-import apiFetch from '@wordpress/api-fetch';
+import { useMemo, useEffect } from '@wordpress/element';
+import { useQuery } from '@tanstack/react-query';
 import clsx from 'clsx';
+import { REST_PATHS, restQuery } from '../data/queries';
 import Dashboard from './dashboard';
 import CreatePreset from './create-preset';
 import Presets from './presets';
@@ -16,28 +17,22 @@ import { getAdminExtensions } from '../../utils/admin-extensions';
 const Pages = () => {
     const location = useLocation();
     const page = location?.params?.page;
-    const [settings, setSettings] = useState();
-    // Fall back to the fetched value only where the flag was not localized
-    // (an older build of the plugin's PHP side).
+    // The page comes with the flag, so the settings are only fetched where it was
+    // not localized (an older build of the plugin's PHP side). wp_localize_script()
+    // turns top-level booleans into strings ("1" / ""), so it is never a boolean
+    // here: checking for one made every screen fetch the settings, and the
+    // statistics card appear only once they arrived. Once the Settings screen has
+    // loaded or changed them in this visit, its cached copy is newer.
     const localizedUsageStats = window?.websacAdmin?.showUsageStatistics;
-    const showUsageStatistics = typeof localizedUsageStats === 'boolean'
-        ? localizedUsageStats
-        : !!settings?.show_usage_statistics;
-    const API_NAMESPACE = "/websac/v1/settings";
+    const hasLocalizedFlag = localizedUsageStats !== undefined && localizedUsageStats !== null;
+    const { data: settingsResponse } = useQuery(
+        restQuery(REST_PATHS.settings, { enabled: !hasLocalizedFlag })
+    );
+    const cachedSettings = settingsResponse?.data;
+    const showUsageStatistics = cachedSettings && 'show_usage_statistics' in cachedSettings
+        ? !!cachedSettings.show_usage_statistics
+        : !!localizedUsageStats && localizedUsageStats !== '0';
     const extensions = getAdminExtensions();
-
-    const fetchSettings = async () => {
-        try {
-            const res = await apiFetch({ path: API_NAMESPACE });
-            setSettings(res?.data || {});
-        } catch (error) {
-            console.error("Failed to load settings:", error);
-        }
-    };
-
-    useEffect(() => {
-        fetchSettings();
-    }, []);
 
     const RouteElement = useMemo(() => {
         // Screens contributed by add-ons (registered before this bundle loads).

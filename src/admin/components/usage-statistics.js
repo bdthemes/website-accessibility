@@ -1,48 +1,41 @@
 import { useState, useEffect, useMemo } from "@wordpress/element";
 import { __ } from "@wordpress/i18n";
-import apiFetch from "@wordpress/api-fetch";
+import { useQuery } from "@tanstack/react-query";
+import { REST_PATHS, restQuery } from "../data/queries";
 const HIGHLIGHT_COUNT = 4;
 
 const UsageStatistics = () => {
     const { WapCard, WapSelect, WapTypography, WapPageSkeleton, WapEmpty, WapRow, WapCol } = window?.wapComponents;
     const { Title } = WapTypography;
     const { Option } = WapSelect;
-    const [stats, setStats] = useState([]);
-    const [loading, setLoading] = useState(false);
     const [filter, setFilter] = useState("daily");
     const { features } = window?.wapHelpers || {};
 
-    const fetchStats = async (range) => {
-        setLoading(true);
-        try {
-            const res = await apiFetch({
-                path: `/websac/v1/usage-statistics?range=${range}`,
-            });
-            if (res?.data) {
-                const response = [];
-                features &&
-                    features.forEach((feature) => {
-                        response.push({
-                            key: feature.key,
-                            title: feature.label,
-                            value: res.data[feature.key],
-                            previousValue: res?.previous_data?.[feature.key] ?? 0,
-                            icon: feature?.icon,
-                        });
-                    });
-                setStats(response);
-            }
-        } catch (err) {
-            console.error("Failed to fetch statistics:", err);
-            setStats([]);
-        } finally {
-            setLoading(false);
-        }
-    };
-    
+    // Each range is kept once loaded: switching back to it, or back to the
+    // dashboard, shows it at once and refreshes it when it is a minute old.
+    const statsQuery = useQuery(restQuery(REST_PATHS.usageStatistics(filter)));
+    const loading = statsQuery.isPending;
+
+    const statsError = statsQuery.error;
     useEffect(() => {
-        fetchStats(filter);
-    }, [filter]);
+        if (statsError) {
+            console.error("Failed to fetch statistics:", statsError);
+        }
+    }, [statsError]);
+
+    const stats = useMemo(() => {
+        const res = statsQuery.data;
+        if (!res?.data || !Array.isArray(features)) {
+            return [];
+        }
+        return features.map((feature) => ({
+            key: feature.key,
+            title: feature.label,
+            value: res.data[feature.key],
+            previousValue: res?.previous_data?.[feature.key] ?? 0,
+            icon: feature?.icon,
+        }));
+    }, [statsQuery.data, features]);
 
     const { topHighlights, listRest } = useMemo(() => {
         const withNum = stats.map((s) => ({
